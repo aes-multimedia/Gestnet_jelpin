@@ -1,7 +1,9 @@
-package com.multimedia.aes.gestnet_sgsv2;
+package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.multimedia.aes.gestnet_sgsv2.R;
 
 public class Login extends AppCompatActivity {
 
