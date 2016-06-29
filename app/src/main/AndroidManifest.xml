@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".nucleo.index"
+            android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
