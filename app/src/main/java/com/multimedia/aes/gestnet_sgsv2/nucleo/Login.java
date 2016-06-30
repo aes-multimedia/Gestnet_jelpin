@@ -5,8 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+
+import org.json.JSONException;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,6 +21,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.login);
         btnLogin = (Button)findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
+
     }
 
     @Override

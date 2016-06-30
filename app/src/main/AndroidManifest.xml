@@ -7,18 +7,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".nucleo.Login">
+        android:theme="@style/AppTheme.NoActionBar.FullScreen">
+        <activity android:name=".nucleo.Login"/>
+        <activity
+            android:name=".nucleo.Index"
+            android:label="@string/title_activity_index"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+        <activity android:name=".nucleo.PreLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".nucleo.Index"
-            android:label="@string/title_activity_index"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

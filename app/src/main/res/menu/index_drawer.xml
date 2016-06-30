@@ -3,33 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/documentos"
+            android:icon="@drawable/ic_documentos"
+            android:title="@string/documentos" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/averias"
+            android:icon="@drawable/ic_averias"
+            android:title="@string/averias" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/mantenimientos"
+            android:icon="@drawable/ic_mantenimiento"
+            android:title="@string/mantenimientos" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/almacen"
+            android:icon="@drawable/ic_almacen"
+            android:title="@string/almacen" />
+        <item
+            android:id="@+id/buscar_parte"
+            android:icon="@drawable/ic_buscar_parte"
+            android:title="@string/buscar_parte" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/opciones">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/ajustes"
+                android:icon="@drawable/ic_ajustes"
+                android:title="@string/ajustes" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/cerrar_sesion"
+                android:icon="@drawable/ic_cerrar_sesion"
+                android:title="@string/cerrar_sesion" />
         </menu>
     </item>
 

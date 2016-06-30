@@ -3,10 +3,16 @@
     <string name="login">LOGIN</string>
     <string name="contraseña">CONTRASEÑA</string>
     <string name="usuario">USUARIO</string>
+    <string name="documentos">DOCUMENTOS</string>
+    <string name="averias">AVERIAS</string>
+    <string name="mantenimientos">MANTENIMIENTOS</string>
+    <string name="almacen">ALMACEN</string>
+    <string name="buscar_parte">BUSCAR PARTE</string>
+    <string name="ajustes">AJUSTES</string>
+    <string name="cerrar_sesion">CERRAR SESION</string>
+    <string name="opciones">OPCIONES</string>
     <string name="title_activity_index">Gestnet_SGS</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
 </resources>
