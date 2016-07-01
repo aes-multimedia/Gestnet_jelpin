@@ -1,14 +1,14 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.widget.Toast;
 
-import com.multimedia.aes.gestnet_sgsv2.R;
-import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+        import com.multimedia.aes.gestnet_sgsv2.R;
+        import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 
-import org.json.JSONException;
+        import org.json.JSONException;
 
 public class PreLogin extends AppCompatActivity {
 
@@ -22,9 +22,10 @@ public class PreLogin extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (tecnico.equals("{ ghf }")){
+        if (tecnico.equals("{}")){
             Intent i = new Intent(this,Login.class);
             startActivity(i);
+            finish();
         }
     }
 }
