@@ -28,13 +28,13 @@ public class Tecnico {
     @DatabaseField(columnName = NUM_TECNICO)
     private String num_tecnico;
     @DatabaseField(columnName = FK_EMPRESA)
-    private String fk_empresa;
+    private int fk_empresa;
     @DatabaseField(columnName = FK_ALMACEN)
-    private String fk_almacen;
+    private int fk_almacen;
     @DatabaseField(columnName = FK_COMPAÑIA)
-    private String fk_compañia;
+    private int fk_compañia;
     @DatabaseField(columnName = FK_DEPARTAMENTO)
-    private String fk_departamento;
+    private int fk_departamento;
     @DatabaseField(columnName = APAIKEY)
     private String apikey;
 
@@ -43,7 +43,7 @@ public class Tecnico {
     }
 
     public Tecnico(int id_tecnico, String nombre_usuario, String login_usuario, String email, String num_tecnico,
-                   String fk_empresa, String fk_almacen, String fk_compañia, String fk_departamento, String apikey) {
+                   int fk_empresa, int fk_almacen, int fk_compañia, int fk_departamento, String apikey) {
         this.id_tecnico = id_tecnico;
         this.nombre_usuario = nombre_usuario;
         this.login_usuario = login_usuario;
@@ -86,28 +86,28 @@ public class Tecnico {
     public void setNum_tecnico(String num_tecnico) {
         this.num_tecnico = num_tecnico;
     }
-    public String getFk_empresa() {
+    public int getFk_empresa() {
         return fk_empresa;
     }
-    public void setFk_empresa(String fk_empresa) {
+    public void setFk_empresa(int fk_empresa) {
         this.fk_empresa = fk_empresa;
     }
-    public String getFk_almacen() {
+    public int getFk_almacen() {
         return fk_almacen;
     }
-    public void setFk_almacen(String fk_almacen) {
+    public void setFk_almacen(int fk_almacen) {
         this.fk_almacen = fk_almacen;
     }
-    public String getFk_compañia() {
+    public int getFk_compañia() {
         return fk_compañia;
     }
-    public void setFk_compañia(String fk_compañia) {
+    public void setFk_compañia(int fk_compañia) {
         this.fk_compañia = fk_compañia;
     }
-    public String getFk_departamento() {
+    public int getFk_departamento() {
         return fk_departamento;
     }
-    public void setFk_departamento(String fk_departamento) {
+    public void setFk_departamento(int fk_departamento) {
         this.fk_departamento = fk_departamento;
     }
     public String getApikey() {

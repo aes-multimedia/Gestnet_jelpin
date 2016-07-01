@@ -19,7 +19,7 @@ public class AveriaDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newAveria(Context context,int id_averia, String identificador_carga, String id_solicitud, String fk_tecnico,
+	public static boolean newAveria(Context context,int id_averia, String identificador_carga, String id_solicitud, int fk_tecnico,
 									String cod_contrato, String tipo_solicitud, String des_tipo_solicitud, String subtipo_solicitud,
 									String des_subtipo_solicitud, String fecha_creacion, String fecha_cierre, String estado_solicitud,
 									String des_estado_solicitud, String subestado_solicitud, String telefono_contacto,
@@ -55,7 +55,7 @@ public class AveriaDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Averia montarAveria(int id_averia, String identificador_carga, String id_solicitud, String fk_tecnico,
+	public static Averia montarAveria(int id_averia, String identificador_carga, String id_solicitud, int fk_tecnico,
 									  String cod_contrato, String tipo_solicitud, String des_tipo_solicitud, String subtipo_solicitud,
 									  String des_subtipo_solicitud, String fecha_creacion, String fecha_cierre, String estado_solicitud,
 									  String des_estado_solicitud, String subestado_solicitud, String telefono_contacto,

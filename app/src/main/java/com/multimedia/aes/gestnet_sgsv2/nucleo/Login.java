@@ -46,19 +46,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         Toast.makeText(Login.this, mensaje, Toast.LENGTH_SHORT).show();
     }
     public void loginOk(String mensaje){
-        try {
-            GuardarTecnico.guardarJsonTecnico(mensaje,this);
-            Intent i = new Intent(this,Index.class);
-            startActivity(i);
-            finish();
-        } catch (JSONException e) {
-            Toast.makeText(Login.this, "error al recoger datos del servidor", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        } catch (SQLException e) {
-            Toast.makeText(Login.this, "error al guardar los datos", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-
+        new GuardarTecnico(this,mensaje);
+        /*Intent i = new Intent(this,Index.class);
+        startActivity(i);
+        finish();*/
     }
 
     @Override
@@ -80,5 +71,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+    public void sacarMensaje(String msg){
+        Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
     }
 }

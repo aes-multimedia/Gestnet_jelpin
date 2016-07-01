@@ -62,7 +62,7 @@ public class Averia {
     @DatabaseField(columnName = ID_SOLICITUD)
     private String id_solicitud;
     @DatabaseField(columnName = FK_TECNICO)
-    private String fk_tecnico;
+    private int fk_tecnico;
     @DatabaseField(columnName = COD_CONTRATO)
     private String cod_contrato;
     @DatabaseField(columnName = TIPO_SOLICITUD)
@@ -155,7 +155,7 @@ public class Averia {
     public Averia(){
     }
 
-    public Averia(int id_averia, String identificador_carga, String id_solicitud, String fk_tecnico,
+    public Averia(int id_averia, String identificador_carga, String id_solicitud, int fk_tecnico,
                   String cod_contrato, String tipo_solicitud, String des_tipo_solicitud, String subtipo_solicitud,
                   String des_subtipo_solicitud, String fecha_creacion, String fecha_cierre, String estado_solicitud,
                   String des_estado_solicitud, String subestado_solicitud, String telefono_contacto,
@@ -235,10 +235,10 @@ public class Averia {
     public void setId_solicitud(String id_solicitud) {
         this.id_solicitud = id_solicitud;
     }
-    public String getFk_tecnico() {
+    public int getFk_tecnico() {
         return fk_tecnico;
     }
-    public void setFk_tecnico(String fk_tecnico) {
+    public void setFk_tecnico(int fk_tecnico) {
         this.fk_tecnico = fk_tecnico;
     }
     public String getCod_contrato() {

@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 
 import java.sql.SQLException;
@@ -40,10 +41,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		onCreate(db, connectionSource);
 	}
 
-	/**
-	 * Este metodo libera los recursos
-	 */
-
 	@Override
 	public void close() {
 		BBDDConstantes.cerrarDao();
@@ -61,6 +58,11 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return BBDDConstantes.averiaDao;
 	}
-
+	public Dao<Mantenimiento, Integer> getMantenimientoDAO() throws SQLException {
+		if (BBDDConstantes.mantenimientoDao == null) {
+			BBDDConstantes.mantenimientoDao = getDao(Mantenimiento.class);
+		}
+		return BBDDConstantes.mantenimientoDao;
+	}
 
 }

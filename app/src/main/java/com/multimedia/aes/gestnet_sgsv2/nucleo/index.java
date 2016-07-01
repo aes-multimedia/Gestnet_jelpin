@@ -12,12 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 
-public class Index extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.sql.SQLException;
 
+public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView txtTecnico,txtMantenimiento,txtAveria;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,17 @@ public class Index extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        txtMantenimiento = (TextView)findViewById(R.id.txtMantenimiento);
+        txtAveria = (TextView)findViewById(R.id.txtAveria);
+        txtTecnico = (TextView)findViewById(R.id.txtTecnico);
+        try {
+            txtMantenimiento.setText(MantenimientoDAO.buscarTodosLosMantenimientos(this).toString());
+            txtAveria.setText(AveriaDAO.buscarTodasLasAverias(this).toString());
+            txtTecnico.setText(TecnicoDAO.buscarTodosLosTecnicos(this).toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

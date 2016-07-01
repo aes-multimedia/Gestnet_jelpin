@@ -84,15 +84,15 @@ public class Mantenimiento {
     @DatabaseField(id = true, columnName = ID_MANTENIMIENTO)
     private int id_mantenimiento;
     @DatabaseField(columnName = FK_USER_CREADOR)
-    private String fk_user_creador;
+    private int fk_user_creador;
     @DatabaseField(columnName = FK_TECNICO)
-    private String fk_tecnico;
+    private int fk_tecnico;
     @DatabaseField(columnName = FK_USUARIO)
-    private String fk_usuario;
+    private int fk_usuario;
     @DatabaseField(columnName = FK_DIRECCION)
-    private String fk_direccion;
+    private int fk_direccion;
     @DatabaseField(columnName = FK_MAQUINA)
-    private String fk_maquina;
+    private int fk_maquina;
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -106,17 +106,17 @@ public class Mantenimiento {
     @DatabaseField(columnName = NUM_PARTE)
     private String num_parte;
     @DatabaseField(columnName = FK_TIPO)
-    private String fk_tipo;
+    private int fk_tipo;
     @DatabaseField(columnName = FK_USER_ASIGNACION)
-    private String fk_user_asignacion;
+    private int fk_user_asignacion;
     @DatabaseField(columnName = FK_HORARIO)
-    private String fk_horario;
+    private int fk_horario;
     @DatabaseField(columnName = FRANJA_HORARIA)
     private String franja_horaria;
     @DatabaseField(columnName = FK_FRANJA_IP)
-    private String fk_franja_ip;
+    private int fk_franja_ip;
     @DatabaseField(columnName = FK_ESTADO)
-    private String fk_estado;
+    private int fk_estado;
     @DatabaseField(columnName = OBSERVACIONES)
     private String observaciones;
     @DatabaseField(columnName = OBSERVACIONESASIGNACION)
@@ -134,13 +134,13 @@ public class Mantenimiento {
     @DatabaseField(columnName = NUM_FACTURA_RECTIFICATIVA)
     private String num_factura_rectificativa;
     @DatabaseField(columnName = FK_PEND_FACT)
-    private String fk_pend_fact;
+    private int fk_pend_fact;
     @DatabaseField(columnName = NUM_ORDEN_ENDESA)
     private String num_orden_endesa;
     @DatabaseField(columnName = FECHA_MAXIMA_ENDESA)
     private String fecha_maxima_endesa;
     @DatabaseField(columnName = FK_ESTADO_ENDESA)
-    private String fk_estado_endesa;
+    private int fk_estado_endesa;
     @DatabaseField(columnName = INSISTENCIA_ENDESA)
     private String insistencia_endesa;
     @DatabaseField(columnName = CONTRATO_ENDESA)
@@ -148,9 +148,9 @@ public class Mantenimiento {
     @DatabaseField(columnName = PRODUCTO_ENDESA)
     private String producto_endesa;
     @DatabaseField(columnName = FK_TIPO_OS)
-    private String fk_tipo_os;
+    private int fk_tipo_os;
     @DatabaseField(columnName = FK_TIPO_PRODUCTO)
-    private String fk_tipo_producto;
+    private int fk_tipo_producto;
     @DatabaseField(columnName = PAGADO_ENDESA)
     private String pagado_endesa;
     @DatabaseField(columnName = CICLO_LIQ_ENDESA)
@@ -166,7 +166,7 @@ public class Mantenimiento {
     @DatabaseField(columnName = FECHA_MODIFICACION_TECNICO)
     private String fecha_modificacion_tecnico;
     @DatabaseField(columnName = FK_REMOTO_CENTRAL)
-    private String fk_remoto_central;
+    private int fk_remoto_central;
     @DatabaseField(columnName = FAC_NOMBRE)
     private String fac_nombre;
     @DatabaseField(columnName = FAC_DIRECCION)
@@ -192,7 +192,7 @@ public class Mantenimiento {
     @DatabaseField(columnName = ESTADO_ANDROID)
     private String estado_android;
     @DatabaseField(columnName = FK_TIPO_URGENCIA)
-    private String fk_tipo_urgencia;
+    private int fk_tipo_urgencia;
     @DatabaseField(columnName = FECHA_CIERRE)
     private String fecha_cierre;
     @DatabaseField(columnName = NUM_LOTE)
@@ -210,51 +210,50 @@ public class Mantenimiento {
     @DatabaseField(columnName = FECHA_AUSENTE_LIMITE)
     private String fecha_ausente_limite;
     @DatabaseField(columnName = FK_CARGA_ARCHIVO)
-    private String fk_carga_archivo;
+    private int fk_carga_archivo;
     @DatabaseField(columnName = ORDEN)
     private String orden;
     @DatabaseField(columnName = HISTORICO)
     private String historico;
     @DatabaseField(columnName = FK_TIPO_URGENCIA_FACTURA)
-    private String fk_tipo_urgencia_factura;
+    private int fk_tipo_urgencia_factura;
     @DatabaseField(columnName = ERROR_BATCH)
     private String error_batch;
     @DatabaseField(columnName = FK_BATCH_ACTUAL)
-    private String fk_batch_actual;
+    private int fk_batch_actual;
     @DatabaseField(columnName = FK_EFV)
-    private String fk_efv;
+    private int fk_efv;
     @DatabaseField(columnName = SCORING)
     private String scoring;
     @DatabaseField(columnName = FK_CATEGORIA_VISITA)
-    private String fk_categoria_visita;
+    private int fk_categoria_visita;
     @DatabaseField(columnName = CONTADOR_AVERIAS)
     private String contador_averias;
 
     public Mantenimiento(){
     }
-
-    public Mantenimiento(int id_mantenimiento, String fk_user_creador, String fk_tecnico, String fk_usuario,
-                         String fk_direccion, String fk_maquina, String fecha_creacion, String fecha_aviso,
+    public Mantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
+                         int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
-                         String num_parte, String fk_tipo, String fk_user_asignacion, String fk_horario,
-                         String franja_horaria, String fk_franja_ip, String fk_estado, String observaciones,
+                         String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
+                         String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
                          String observacionesAsignacion, String confirmado, String imprimir,
                          String fecha_factura, String num_factura, String fecha_factura_rectificativa,
-                         String num_factura_rectificativa, String fk_pend_fact, String num_orden_endesa,
-                         String fecha_maxima_endesa, String fk_estado_endesa, String insistencia_endesa,
-                         String contrato_endesa, String producto_endesa, String fk_tipo_os,
-                         String fk_tipo_producto, String pagado_endesa, String ciclo_liq_endesa,
+                         String num_factura_rectificativa, int fk_pend_fact, String num_orden_endesa,
+                         String fecha_maxima_endesa, int fk_estado_endesa, String insistencia_endesa,
+                         String contrato_endesa, String producto_endesa, int fk_tipo_os,
+                         int fk_tipo_producto, String pagado_endesa, String ciclo_liq_endesa,
                          String importe_pago_endesa, String fecha_pagado_endesa, String pagado_operario,
-                         String fecha_anulado, String fecha_modificacion_tecnico, String fk_remoto_central,
+                         String fecha_anulado, String fecha_modificacion_tecnico, int fk_remoto_central,
                          String fac_nombre, String fac_direccion, String fac_cp, String fac_poblacion,
                          String fac_provincia, String fac_DNI, String fac_email, String fac_telefonos,
                          String otros_sintomas, String fecha_baja, String fac_baja_stock, String estado_android,
-                         String fk_tipo_urgencia, String fecha_cierre, String num_lote, String bEnBatch,
+                         int fk_tipo_urgencia, String fecha_cierre, String num_lote, String bEnBatch,
                          String cod_visita, String fecha_envio_carta, String bCartaEnviada,
-                         String fecha_otro_dia, String fecha_ausente_limite, String fk_carga_archivo,
-                         String orden, String historico, String fk_tipo_urgencia_factura,
-                         String error_batch, String fk_batch_actual, String fk_efv, String scoring,
-                         String fk_categoria_visita, String contador_averias) {
+                         String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo,
+                         String orden, String historico, int fk_tipo_urgencia_factura,
+                         String error_batch, int fk_batch_actual, int fk_efv, String scoring,
+                         int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
@@ -337,34 +336,34 @@ public class Mantenimiento {
     public void setId_mantenimiento(int id_mantenimiento) {
         this.id_mantenimiento = id_mantenimiento;
     }
-    public String getFk_user_creador() {
+    public int getFk_user_creador() {
         return fk_user_creador;
     }
-    public void setFk_user_creador(String fk_user_creador) {
+    public void setFk_user_creador(int fk_user_creador) {
         this.fk_user_creador = fk_user_creador;
     }
-    public String getFk_tecnico() {
+    public int getFk_tecnico() {
         return fk_tecnico;
     }
-    public void setFk_tecnico(String fk_tecnico) {
+    public void setFk_tecnico(int fk_tecnico) {
         this.fk_tecnico = fk_tecnico;
     }
-    public String getFk_usuario() {
+    public int getFk_usuario() {
         return fk_usuario;
     }
-    public void setFk_usuario(String fk_usuario) {
+    public void setFk_usuario(int fk_usuario) {
         this.fk_usuario = fk_usuario;
     }
-    public String getFk_direccion() {
+    public int getFk_direccion() {
         return fk_direccion;
     }
-    public void setFk_direccion(String fk_direccion) {
+    public void setFk_direccion(int fk_direccion) {
         this.fk_direccion = fk_direccion;
     }
-    public String getFk_maquina() {
+    public int getFk_maquina() {
         return fk_maquina;
     }
-    public void setFk_maquina(String fk_maquina) {
+    public void setFk_maquina(int fk_maquina) {
         this.fk_maquina = fk_maquina;
     }
     public String getFecha_creacion() {
@@ -403,22 +402,22 @@ public class Mantenimiento {
     public void setNum_parte(String num_parte) {
         this.num_parte = num_parte;
     }
-    public String getFk_tipo() {
+    public int getFk_tipo() {
         return fk_tipo;
     }
-    public void setFk_tipo(String fk_tipo) {
+    public void setFk_tipo(int fk_tipo) {
         this.fk_tipo = fk_tipo;
     }
-    public String getFk_user_asignacion() {
+    public int getFk_user_asignacion() {
         return fk_user_asignacion;
     }
-    public void setFk_user_asignacion(String fk_user_asignacion) {
+    public void setFk_user_asignacion(int fk_user_asignacion) {
         this.fk_user_asignacion = fk_user_asignacion;
     }
-    public String getFk_horario() {
+    public int getFk_horario() {
         return fk_horario;
     }
-    public void setFk_horario(String fk_horario) {
+    public void setFk_horario(int fk_horario) {
         this.fk_horario = fk_horario;
     }
     public String getFranja_horaria() {
@@ -427,16 +426,16 @@ public class Mantenimiento {
     public void setFranja_horaria(String franja_horaria) {
         this.franja_horaria = franja_horaria;
     }
-    public String getFk_franja_ip() {
+    public int getFk_franja_ip() {
         return fk_franja_ip;
     }
-    public void setFk_franja_ip(String fk_franja_ip) {
+    public void setFk_franja_ip(int fk_franja_ip) {
         this.fk_franja_ip = fk_franja_ip;
     }
-    public String getFk_estado() {
+    public int getFk_estado() {
         return fk_estado;
     }
-    public void setFk_estado(String fk_estado) {
+    public void setFk_estado(int fk_estado) {
         this.fk_estado = fk_estado;
     }
     public String getObservaciones() {
@@ -487,10 +486,10 @@ public class Mantenimiento {
     public void setNum_factura_rectificativa(String num_factura_rectificativa) {
         this.num_factura_rectificativa = num_factura_rectificativa;
     }
-    public String getFk_pend_fact() {
+    public int getFk_pend_fact() {
         return fk_pend_fact;
     }
-    public void setFk_pend_fact(String fk_pend_fact) {
+    public void setFk_pend_fact(int fk_pend_fact) {
         this.fk_pend_fact = fk_pend_fact;
     }
     public String getNum_orden_endesa() {
@@ -505,10 +504,10 @@ public class Mantenimiento {
     public void setFecha_maxima_endesa(String fecha_maxima_endesa) {
         this.fecha_maxima_endesa = fecha_maxima_endesa;
     }
-    public String getFk_estado_endesa() {
+    public int getFk_estado_endesa() {
         return fk_estado_endesa;
     }
-    public void setFk_estado_endesa(String fk_estado_endesa) {
+    public void setFk_estado_endesa(int fk_estado_endesa) {
         this.fk_estado_endesa = fk_estado_endesa;
     }
     public String getInsistencia_endesa() {
@@ -529,16 +528,16 @@ public class Mantenimiento {
     public void setProducto_endesa(String producto_endesa) {
         this.producto_endesa = producto_endesa;
     }
-    public String getFk_tipo_os() {
+    public int getFk_tipo_os() {
         return fk_tipo_os;
     }
-    public void setFk_tipo_os(String fk_tipo_os) {
+    public void setFk_tipo_os(int fk_tipo_os) {
         this.fk_tipo_os = fk_tipo_os;
     }
-    public String getFk_tipo_producto() {
+    public int getFk_tipo_producto() {
         return fk_tipo_producto;
     }
-    public void setFk_tipo_producto(String fk_tipo_producto) {
+    public void setFk_tipo_producto(int fk_tipo_producto) {
         this.fk_tipo_producto = fk_tipo_producto;
     }
     public String getPagado_endesa() {
@@ -583,10 +582,10 @@ public class Mantenimiento {
     public void setFecha_modificacion_tecnico(String fecha_modificacion_tecnico) {
         this.fecha_modificacion_tecnico = fecha_modificacion_tecnico;
     }
-    public String getFk_remoto_central() {
+    public int getFk_remoto_central() {
         return fk_remoto_central;
     }
-    public void setFk_remoto_central(String fk_remoto_central) {
+    public void setFk_remoto_central(int fk_remoto_central) {
         this.fk_remoto_central = fk_remoto_central;
     }
     public String getFac_nombre() {
@@ -661,10 +660,10 @@ public class Mantenimiento {
     public void setEstado_android(String estado_android) {
         this.estado_android = estado_android;
     }
-    public String getFk_tipo_urgencia() {
+    public int getFk_tipo_urgencia() {
         return fk_tipo_urgencia;
     }
-    public void setFk_tipo_urgencia(String fk_tipo_urgencia) {
+    public void setFk_tipo_urgencia(int fk_tipo_urgencia) {
         this.fk_tipo_urgencia = fk_tipo_urgencia;
     }
     public String getFecha_cierre() {
@@ -715,10 +714,10 @@ public class Mantenimiento {
     public void setFecha_ausente_limite(String fecha_ausente_limite) {
         this.fecha_ausente_limite = fecha_ausente_limite;
     }
-    public String getFk_carga_archivo() {
+    public int getFk_carga_archivo() {
         return fk_carga_archivo;
     }
-    public void setFk_carga_archivo(String fk_carga_archivo) {
+    public void setFk_carga_archivo(int fk_carga_archivo) {
         this.fk_carga_archivo = fk_carga_archivo;
     }
     public String getOrden() {
@@ -733,10 +732,10 @@ public class Mantenimiento {
     public void setHistorico(String historico) {
         this.historico = historico;
     }
-    public String getFk_tipo_urgencia_factura() {
+    public int getFk_tipo_urgencia_factura() {
         return fk_tipo_urgencia_factura;
     }
-    public void setFk_tipo_urgencia_factura(String fk_tipo_urgencia_factura) {
+    public void setFk_tipo_urgencia_factura(int fk_tipo_urgencia_factura) {
         this.fk_tipo_urgencia_factura = fk_tipo_urgencia_factura;
     }
     public String getError_batch() {
@@ -745,16 +744,16 @@ public class Mantenimiento {
     public void setError_batch(String error_batch) {
         this.error_batch = error_batch;
     }
-    public String getFk_batch_actual() {
+    public int getFk_batch_actual() {
         return fk_batch_actual;
     }
-    public void setFk_batch_actual(String fk_batch_actual) {
+    public void setFk_batch_actual(int fk_batch_actual) {
         this.fk_batch_actual = fk_batch_actual;
     }
-    public String getFk_efv() {
+    public int getFk_efv() {
         return fk_efv;
     }
-    public void setFk_efv(String fk_efv) {
+    public void setFk_efv(int fk_efv) {
         this.fk_efv = fk_efv;
     }
     public String getScoring() {
@@ -763,10 +762,10 @@ public class Mantenimiento {
     public void setScoring(String scoring) {
         this.scoring = scoring;
     }
-    public String getFk_categoria_visita() {
+    public int getFk_categoria_visita() {
         return fk_categoria_visita;
     }
-    public void setFk_categoria_visita(String fk_categoria_visita) {
+    public void setFk_categoria_visita(int fk_categoria_visita) {
         this.fk_categoria_visita = fk_categoria_visita;
     }
     public String getContador_averias() {

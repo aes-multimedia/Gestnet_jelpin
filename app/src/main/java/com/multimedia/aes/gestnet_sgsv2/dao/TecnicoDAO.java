@@ -20,21 +20,25 @@ public class TecnicoDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newTecnico(Context context, int id_tecnico, String nombre_usuario, String login_usuario, String email, String num_tecnico, String fk_empresa, String fk_almacen, String fk_compañia, String fk_departamento, String apikey) {
+	public static boolean newTecnico(Context context, int id_tecnico, String nombre_usuario,
+									 String login_usuario, String email, String num_tecnico, int fk_empresa,
+									 int fk_almacen, int fk_compañia, int fk_departamento, String apikey) {
 		Tecnico t = montarTecnico(id_tecnico, nombre_usuario, login_usuario, email, num_tecnico, fk_empresa, fk_almacen, fk_compañia, fk_departamento, apikey);
 		return crearTecnico(t,context);
 	}
-	public static boolean crearTecnico(Tecnico u,Context context) {
+	public static boolean crearTecnico(Tecnico t,Context context) {
 		try {
 			cargarDao(context);
-			dao.create(u);
+			dao.create(t);
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	public static Tecnico montarTecnico(int id_tecnico, String nombre_usuario, String login_usuario, String email, String num_tecnico, String fk_empresa, String fk_almacen, String fk_compañia, String fk_departamento, String apikey) {
+	public static Tecnico montarTecnico(int id_tecnico, String nombre_usuario, String login_usuario,
+										String email, String num_tecnico, int fk_empresa, int fk_almacen,
+										int fk_compañia, int fk_departamento, String apikey) {
 		Tecnico t =new Tecnico(id_tecnico, nombre_usuario, login_usuario, email, num_tecnico, fk_empresa, fk_almacen, fk_compañia, fk_departamento, apikey);
 		return t;
 	}
