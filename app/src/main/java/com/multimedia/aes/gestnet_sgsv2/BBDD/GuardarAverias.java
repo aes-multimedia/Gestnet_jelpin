@@ -41,12 +41,12 @@ public class GuardarAverias {
             }
             String identificador_carga = jsonObject.getString("identificador_carga");
             String id_solicitud = jsonObject.getString("id_solicitud");
-            /*SEGUIR AQUI if (jsonObject.getString("id_averia").equals("null")){
-            id_averia = -1;
-        }else{
-            id_averia = jsonObject.getInt("id_averia");
-        }*/
-            int fk_tecnico = jsonObject.getInt("fk_tecnico");
+            int fk_tecnico;
+            if (jsonObject.getString("fk_tecnico").equals("null")){
+                fk_tecnico = -1;
+            }else{
+                fk_tecnico = jsonObject.getInt("id_averia");
+            }
             String cod_contrato = jsonObject.getString("cod_contrato");
             String tipo_solicitud = jsonObject.getString("tipo_solicitud");
             String des_tipo_solicitud = jsonObject.getString("des_tipo_solicitud");
