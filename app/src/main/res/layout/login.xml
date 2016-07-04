@@ -19,21 +19,23 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/ivLogo"
-                android:src="@drawable/ic_menu_slideshow"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="30dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:layout_gravity="left"
+                android:background="@android:drawable/ic_menu_info_details"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/usuario"
+                android:text="@string/acceso"
                 android:id="@+id/textView"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="50dp"
+                android:textColor="#F47435" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -43,16 +45,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:textAlignment="center"
-                android:text="tec1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/contraseña"
-                android:id="@+id/textView2"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="15dp" />
+                android:text="tec1"
+                android:background="@drawable/edit_texts"
+                android:hint="@string/usuario"
+                android:textColor="#555"
+                android:layout_marginTop="10dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -62,17 +59,33 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="20dp"
                 android:textAlignment="center"
-                android:text="test" />
+                android:text="test"
+                android:background="@drawable/edit_texts"
+                android:layout_marginTop="20dp"
+                android:hint="@string/contraseña"
+                android:textColor="#555" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/contraseña_olvidada"
+                android:id="@+id/textView2"
+                android:textSize="16dp"
+                android:textColor="#F47435"
+                android:layout_marginTop="30dp" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
+                android:text="@string/entrar"
                 android:id="@+id/btnLogin"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="30dp" />
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/botones"
+                android:textColor="#FFF" />
 
         </LinearLayout>
     </ScrollView>

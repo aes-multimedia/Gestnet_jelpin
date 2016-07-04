@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
@@ -37,189 +38,189 @@ public class GuardarMantenimientos {
         JSONArray jsonArray = jsonObject.getJSONArray("mantenimientos");
         for (int i = 0; i < jsonArray.length(); i++) {
             int id_mantenimiento;
-            if (jsonObject.getString("id_parte").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("id_parte").equals("null")){
                 id_mantenimiento = -1;
             }else{
-                id_mantenimiento = jsonObject.getInt("id_parte");
+                id_mantenimiento = jsonArray.getJSONObject(i).getInt("id_parte");
             }
             int fk_user_creador;
-            if (jsonObject.getString("fk_user_creador").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_user_creador").equals("null")){
                 fk_user_creador = -1;
             }else{
-                fk_user_creador = jsonObject.getInt("fk_user_creador");
+                fk_user_creador = jsonArray.getJSONObject(i).getInt("fk_user_creador");
             }
             int fk_tecnico;
-            if (jsonObject.getString("fk_tecnico").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tecnico").equals("null")){
                 fk_tecnico = -1;
             }else{
-                fk_tecnico = jsonObject.getInt("fk_tecnico");
+                fk_tecnico = jsonArray.getJSONObject(i).getInt("fk_tecnico");
             }
             int fk_usuario;
-            if (jsonObject.getString("fk_usuario").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_usuario").equals("null")){
                 fk_usuario = -1;
             }else{
-                fk_usuario = jsonObject.getInt("fk_usuario");
+                fk_usuario = jsonArray.getJSONObject(i).getInt("fk_usuario");
             }
             int fk_direccion;
-            if (jsonObject.getString("fk_direccion").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_direccion").equals("null")){
                 fk_direccion = -1;
             }else{
-                fk_direccion = jsonObject.getInt("fk_direccion");
+                fk_direccion = jsonArray.getJSONObject(i).getInt("fk_direccion");
             }
             int fk_maquina;
-            if (jsonObject.getString("fk_maquina").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_maquina").equals("null")){
                 fk_maquina = -1;
             }else{
-                fk_maquina = jsonObject.getInt("fk_maquina");
+                fk_maquina = jsonArray.getJSONObject(i).getInt("fk_maquina");
             }
-            String fecha_creacion = jsonObject.getString("fecha_creacion");
-            String fecha_aviso = jsonObject.getString("fecha_aviso");
-            String fecha_visita = jsonObject.getString("fecha_visita");
-            String visita_duplicada = jsonObject.getString("visita_duplicada");
-            String fecha_reparacion = jsonObject.getString("fecha_reparacion");
-            String num_parte = jsonObject.getString("num_parte");
+            String fecha_creacion = jsonArray.getJSONObject(i).getString("fecha_creacion");
+            String fecha_aviso = jsonArray.getJSONObject(i).getString("fecha_aviso");
+            String fecha_visita = jsonArray.getJSONObject(i).getString("fecha_visita");
+            String visita_duplicada = jsonArray.getJSONObject(i).getString("visita_duplicada");
+            String fecha_reparacion = jsonArray.getJSONObject(i).getString("fecha_reparacion");
+            String num_parte = jsonArray.getJSONObject(i).getString("num_parte");
             int fk_tipo;
-            if (jsonObject.getString("fk_tipo").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tipo").equals("null")){
                 fk_tipo = -1;
             }else{
-                fk_tipo = jsonObject.getInt("fk_tipo");
+                fk_tipo = jsonArray.getJSONObject(i).getInt("fk_tipo");
             }
             int fk_user_asignacion;
-            if (jsonObject.getString("fk_user_asignacion").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_user_asignacion").equals("null")){
                 fk_user_asignacion = -1;
             }else{
-                fk_user_asignacion = jsonObject.getInt("fk_user_asignacion");
+                fk_user_asignacion = jsonArray.getJSONObject(i).getInt("fk_user_asignacion");
             }
             int fk_horario;
-            if (jsonObject.getString("fk_horario").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_horario").equals("null")){
                 fk_horario = -1;
             }else{
-                fk_horario = jsonObject.getInt("fk_horario");
+                fk_horario = jsonArray.getJSONObject(i).getInt("fk_horario");
             }
-            String franja_horaria = jsonObject.getString("franja_horaria");
+            String franja_horaria = jsonArray.getJSONObject(i).getString("franja_horaria");
             int fk_franja_ip;
-            if (jsonObject.getString("fk_franja_ip").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_franja_ip").equals("null")){
                 fk_franja_ip = -1;
             }else{
-                fk_franja_ip = jsonObject.getInt("fk_franja_ip");
+                fk_franja_ip = jsonArray.getJSONObject(i).getInt("fk_franja_ip");
             }
             int fk_estado;
-            if (jsonObject.getString("fk_estado").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_estado").equals("null")){
                 fk_estado = -1;
             }else{
-                fk_estado = jsonObject.getInt("fk_estado");
+                fk_estado = jsonArray.getJSONObject(i).getInt("fk_estado");
             }
-            String observaciones = jsonObject.getString("observaciones");
-            String observacionesAsignacion = jsonObject.getString("observacionesAsignacion");
-            String confirmado = jsonObject.getString("confirmado");
-            String imprimir = jsonObject.getString("imprimir");
-            String fecha_factura = jsonObject.getString("fecha_factura");
-            String num_factura = jsonObject.getString("num_factura");
-            String fecha_factura_rectificativa = jsonObject.getString("fecha_factura_rectificativa");
-            String num_factura_rectificativa = jsonObject.getString("num_factura_rectificativa");
+            String observaciones = jsonArray.getJSONObject(i).getString("observaciones");
+            String observacionesAsignacion = jsonArray.getJSONObject(i).getString("observacionesAsignacion");
+            String confirmado = jsonArray.getJSONObject(i).getString("confirmado");
+            String imprimir = jsonArray.getJSONObject(i).getString("imprimir");
+            String fecha_factura = jsonArray.getJSONObject(i).getString("fecha_factura");
+            String num_factura = jsonArray.getJSONObject(i).getString("num_factura");
+            String fecha_factura_rectificativa = jsonArray.getJSONObject(i).getString("fecha_factura_rectificativa");
+            String num_factura_rectificativa = jsonArray.getJSONObject(i).getString("num_factura_rectificativa");
             int fk_pend_fact;
-            if (jsonObject.getString("fk_pend_fact").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_pend_fact").equals("null")){
                 fk_pend_fact = -1;
             }else{
-                fk_pend_fact = jsonObject.getInt("fk_pend_fact");
+                fk_pend_fact = jsonArray.getJSONObject(i).getInt("fk_pend_fact");
             }
-            String num_orden_endesa = jsonObject.getString("num_orden_endesa");
-            String fecha_maxima_endesa = jsonObject.getString("fecha_maxima_endesa");
+            String num_orden_endesa = jsonArray.getJSONObject(i).getString("num_orden_endesa");
+            String fecha_maxima_endesa = jsonArray.getJSONObject(i).getString("fecha_maxima_endesa");
             int fk_estado_endesa;
-            if (jsonObject.getString("fk_estado_endesa").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_estado_endesa").equals("null")){
                 fk_estado_endesa = -1;
             }else{
-                fk_estado_endesa = jsonObject.getInt("fk_estado_endesa");
+                fk_estado_endesa = jsonArray.getJSONObject(i).getInt("fk_estado_endesa");
             }
-            String insistencia_endesa = jsonObject.getString("insistencia_endesa");
-            String contrato_endesa = jsonObject.getString("contrato_endesa");
-            String producto_endesa = jsonObject.getString("producto_endesa");
+            String insistencia_endesa = jsonArray.getJSONObject(i).getString("insistencia_endesa");
+            String contrato_endesa = jsonArray.getJSONObject(i).getString("contrato_endesa");
+            String producto_endesa = jsonArray.getJSONObject(i).getString("producto_endesa");
             int fk_tipo_os;
-            if (jsonObject.getString("fk_tipo_os").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tipo_os").equals("null")){
                 fk_tipo_os = -1;
             }else{
-                fk_tipo_os = jsonObject.getInt("fk_tipo_os");
+                fk_tipo_os = jsonArray.getJSONObject(i).getInt("fk_tipo_os");
             }
             int fk_tipo_producto;
-            if (jsonObject.getString("fk_tipo_producto").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tipo_producto").equals("null")){
                 fk_tipo_producto = -1;
             }else{
-                fk_tipo_producto = jsonObject.getInt("fk_tipo_producto");
+                fk_tipo_producto = jsonArray.getJSONObject(i).getInt("fk_tipo_producto");
             }
-            String pagado_endesa = jsonObject.getString("pagado_endesa");
-            String ciclo_liq_endesa = jsonObject.getString("ciclo_liq_endesa");
-            String importe_pago_endesa = jsonObject.getString("importe_pago_endesa");
-            String fecha_pagado_endesa = jsonObject.getString("fecha_pagado_endesa");
-            String pagado_operario = jsonObject.getString("pagado_operario");
-            String fecha_anulado = jsonObject.getString("fecha_anulado");
-            String fecha_modificacion_tecnico = jsonObject.getString("fecha_modificacion_tecnico");
+            String pagado_endesa = jsonArray.getJSONObject(i).getString("pagado_endesa");
+            String ciclo_liq_endesa = jsonArray.getJSONObject(i).getString("ciclo_liq_endesa");
+            String importe_pago_endesa = jsonArray.getJSONObject(i).getString("importe_pago_endesa");
+            String fecha_pagado_endesa = jsonArray.getJSONObject(i).getString("fecha_pagado_endesa");
+            String pagado_operario = jsonArray.getJSONObject(i).getString("pagado_operario");
+            String fecha_anulado = jsonArray.getJSONObject(i).getString("fecha_anulado");
+            String fecha_modificacion_tecnico = jsonArray.getJSONObject(i).getString("fecha_modificacion_tecnico");
             int fk_remoto_central;
-            if (jsonObject.getString("fk_remoto_central").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_remoto_central").equals("null")){
                 fk_remoto_central = -1;
             }else{
-                fk_remoto_central = jsonObject.getInt("fk_remoto_central");
+                fk_remoto_central = jsonArray.getJSONObject(i).getInt("fk_remoto_central");
             }
-            String fac_nombre = jsonObject.getString("fac_nombre");
-            String fac_direccion = jsonObject.getString("fac_direccion");
-            String fac_cp = jsonObject.getString("fac_cp");
-            String fac_poblacion = jsonObject.getString("fac_poblacion");
-            String fac_provincia = jsonObject.getString("fac_provincia");
-            String fac_DNI = jsonObject.getString("fac_DNI");
-            String fac_email = jsonObject.getString("fac_email");
-            String fac_telefonos = jsonObject.getString("fac_telefonos");
-            String otros_sintomas = jsonObject.getString("otros_sintomas");
-            String fecha_baja = jsonObject.getString("fecha_baja");
-            String fac_baja_stock = jsonObject.getString("fac_baja_stock");
-            String estado_android = jsonObject.getString("estado_android");
+            String fac_nombre = jsonArray.getJSONObject(i).getString("fac_nombre");
+            String fac_direccion = jsonArray.getJSONObject(i).getString("fac_direccion");
+            String fac_cp = jsonArray.getJSONObject(i).getString("fac_cp");
+            String fac_poblacion = jsonArray.getJSONObject(i).getString("fac_poblacion");
+            String fac_provincia = jsonArray.getJSONObject(i).getString("fac_provincia");
+            String fac_DNI = jsonArray.getJSONObject(i).getString("fac_DNI");
+            String fac_email = jsonArray.getJSONObject(i).getString("fac_email");
+            String fac_telefonos = jsonArray.getJSONObject(i).getString("fac_telefonos");
+            String otros_sintomas = jsonArray.getJSONObject(i).getString("otros_sintomas");
+            String fecha_baja = jsonArray.getJSONObject(i).getString("fecha_baja");
+            String fac_baja_stock = jsonArray.getJSONObject(i).getString("fac_baja_stock");
+            String estado_android = jsonArray.getJSONObject(i).getString("estado_android");
             int fk_tipo_urgencia;
-            if (jsonObject.getString("fk_tipo_urgencia").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tipo_urgencia").equals("null")){
                 fk_tipo_urgencia = -1;
             }else{
-                fk_tipo_urgencia = jsonObject.getInt("fk_tipo_urgencia");
+                fk_tipo_urgencia = jsonArray.getJSONObject(i).getInt("fk_tipo_urgencia");
             }
-            String fecha_cierre = jsonObject.getString("fecha_cierre");
-            String num_lote = jsonObject.getString("num_lote");
-            String bEnBatch = jsonObject.getString("bEnBatch");
-            String cod_visita = jsonObject.getString("cod_visita");
-            String fecha_envio_carta = jsonObject.getString("fecha_envio_carta");
-            String bCartaEnviada = jsonObject.getString("bCartaEnviada");
-            String fecha_otro_dia = jsonObject.getString("fecha_otro_dia");
-            String fecha_ausente_limite = jsonObject.getString("fecha_ausente_limite");
+            String fecha_cierre = jsonArray.getJSONObject(i).getString("fecha_cierre");
+            String num_lote = jsonArray.getJSONObject(i).getString("num_lote");
+            String bEnBatch = jsonArray.getJSONObject(i).getString("bEnBatch");
+            String cod_visita = jsonArray.getJSONObject(i).getString("cod_visita");
+            String fecha_envio_carta = jsonArray.getJSONObject(i).getString("fecha_envio_carta");
+            String bCartaEnviada = jsonArray.getJSONObject(i).getString("bCartaEnviada");
+            String fecha_otro_dia = jsonArray.getJSONObject(i).getString("fecha_otro_dia");
+            String fecha_ausente_limite = jsonArray.getJSONObject(i).getString("fecha_ausente_limite");
             int fk_carga_archivo;
-            if (jsonObject.getString("fk_carga_archivo").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_carga_archivo").equals("null")){
                 fk_carga_archivo = -1;
             }else{
-                fk_carga_archivo = jsonObject.getInt("fk_carga_archivo");
+                fk_carga_archivo = jsonArray.getJSONObject(i).getInt("fk_carga_archivo");
             }
-            String orden = jsonObject.getString("orden");
-            String historico = jsonObject.getString("historico");
+            String orden = jsonArray.getJSONObject(i).getString("orden");
+            String historico = jsonArray.getJSONObject(i).getString("historico");
             int fk_tipo_urgencia_factura;
-            if (jsonObject.getString("fk_tipo_urgencia_factura").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_tipo_urgencia_factura").equals("null")){
                 fk_tipo_urgencia_factura = -1;
             }else{
-                fk_tipo_urgencia_factura = jsonObject.getInt("fk_tipo_urgencia_factura");
+                fk_tipo_urgencia_factura = jsonArray.getJSONObject(i).getInt("fk_tipo_urgencia_factura");
             }
-            String error_batch = jsonObject.getString("error_batch");
+            String error_batch = jsonArray.getJSONObject(i).getString("error_batch");
             int fk_batch_actual;
-            if (jsonObject.getString("fk_batch_actual").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_batch_actual").equals("null")){
                 fk_batch_actual = -1;
             }else{
-                fk_batch_actual = jsonObject.getInt("fk_batch_actual");
+                fk_batch_actual = jsonArray.getJSONObject(i).getInt("fk_batch_actual");
             }
             int fk_efv;
-            if (jsonObject.getString("fk_efv").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_efv").equals("null")){
                 fk_efv = -1;
             }else{
-                fk_efv = jsonObject.getInt("fk_efv");
+                fk_efv = jsonArray.getJSONObject(i).getInt("fk_efv");
             }
-            String scoring = jsonObject.getString("scoring");
+            String scoring = jsonArray.getJSONObject(i).getString("scoring");
             int fk_categoria_visita;
-            if (jsonObject.getString("fk_categoria_visita").equals("null")){
+            if (jsonArray.getJSONObject(i).getString("fk_categoria_visita").equals("null")){
                 fk_categoria_visita = -1;
             }else{
-                fk_categoria_visita = jsonObject.getInt("fk_categoria_visita");
+                fk_categoria_visita = jsonArray.getJSONObject(i).getInt("fk_categoria_visita");
             }
-            String contador_averias = jsonObject.getString("contador_averias");
+            String contador_averias = jsonArray.getJSONObject(i).getString("contador_averias");
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
@@ -248,7 +249,7 @@ public class GuardarMantenimientos {
             }
         }
         if (bien){
-            ((Login)context).sacarMensaje("mantenimiento creado");
+            ((Login)context).siguienteActivity();
         }else{
             ((Login)context).sacarMensaje("error mantenimiento");
         }

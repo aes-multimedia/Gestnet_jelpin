@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONException;
@@ -64,7 +65,7 @@ public class GuardarTecnico {
         }
         String apikey = jsonObject.getString("apikey");
         if (TecnicoDAO.newTecnico(context, id_tecnico, nombre_usuario, login_usuario, email, num_tecnico, fk_empresa, fk_almacen, fk_compañia, fk_departamento, apikey)){
-            ((Login)context).sacarMensaje("tecnico creado");
+            ManagerProgressDialog.guardarDatosAveria(context);
             new GuardarAverias(context,Json);
         }else{
             ((Login)context).sacarMensaje("error en tecnico");

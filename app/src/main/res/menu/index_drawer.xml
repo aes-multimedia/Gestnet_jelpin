@@ -22,14 +22,14 @@
             android:id="@+id/buscar_parte"
             android:icon="@drawable/ic_buscar_parte"
             android:title="@string/buscar_parte" />
+        <item
+            android:id="@+id/ajustes"
+            android:icon="@drawable/ic_ajustes"
+            android:title="@string/ajustes" />
     </group>
 
     <item android:title="@string/opciones">
         <menu>
-            <item
-                android:id="@+id/ajustes"
-                android:icon="@drawable/ic_ajustes"
-                android:title="@string/ajustes" />
             <item
                 android:id="@+id/cerrar_sesion"
                 android:icon="@drawable/ic_cerrar_sesion"

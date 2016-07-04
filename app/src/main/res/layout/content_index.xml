@@ -8,25 +8,14 @@
     tools:context="com.multimedia.aes.gestnet_sgsv2.nucleo.Index"
     tools:showIn="@layout/index"
     android:orientation="vertical">
-
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lllistview">
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/txtTecnico" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/txtMantenimiento" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/txtAveria" />
+        android:id="@+id/lvIndex" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnico;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloLogin;
 
 import org.json.JSONException;
@@ -39,17 +40,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     @Override
     public void onClick(View view) {
+        ManagerProgressDialog.abrirDialog(this);
+        ManagerProgressDialog.cogerDatosServidor(this);
         new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
     }
 
     public void errorDeLogin(String mensaje) {
+        ManagerProgressDialog.cerrarDialog();
         Toast.makeText(Login.this, mensaje, Toast.LENGTH_SHORT).show();
     }
     public void loginOk(String mensaje){
+        ManagerProgressDialog.guardarDatosTecnico(this);
         new GuardarTecnico(this,mensaje);
-        /*Intent i = new Intent(this,Index.class);
-        startActivity(i);
-        finish();*/
+
     }
 
     @Override
@@ -73,6 +76,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     }
     public void sacarMensaje(String msg){
+        ManagerProgressDialog.cerrarDialog();
         Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
+    }
+    public void siguienteActivity(){
+        ManagerProgressDialog.cerrarDialog();
+        Intent i = new Intent(this,Index.class);
+        startActivity(i);
+        finish();
     }
 }
