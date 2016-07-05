@@ -12,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -25,6 +29,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            Toast.makeText(getContext(), jsonObject.toString(), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         txtNumOrdenIberdrola = (TextView)vista.findViewById(R.id.txtNumOrdenIberdrola);
         txtTipoIntervencion = (TextView)vista.findViewById(R.id.txtTipoIntervencion);
         txtVenta = (TextView)vista.findViewById(R.id.txtVenta);

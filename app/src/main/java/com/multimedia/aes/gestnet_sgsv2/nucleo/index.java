@@ -2,6 +2,8 @@ package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -13,14 +15,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
+import com.multimedia.aes.gestnet_sgsv2.adapter.PageAdapter;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,6 +41,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private ArrayList<Mantenimiento> arrayList=new ArrayList();
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias,ivLlamarAes;
+    private LinearLayout cuerpo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +74,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivLlamarAes.setOnClickListener(this);
         lvIndex.setAdapter(adaptadorMantenimientos);
         lvIndex.setOnItemClickListener(this);
+        cuerpo = (LinearLayout)findViewById(R.id.cuerpo);
     }
 
     @Override
@@ -73,16 +84,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        try {
-            BBDDConstantes.borrarDatosTablas(this);
-            super.onStop();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -104,6 +105,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.cerrar_sesion) {
             try {
                 BBDDConstantes.borrarDatosTablas(this);
+                Intent i = new Intent(this,Login.class);
+                startActivity(i);
+                finish();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -116,9 +120,26 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Toast.makeText(Index.this, "entra"+(String) view.getTag(), Toast.LENGTH_SHORT).show();
-        Intent a = new Intent(this,Mantenimiento.class);
-        startActivity(a);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",(String) view.getTag());
+            GestorSharedPreferences.setJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this),jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        cuerpo.removeAllViews();
+        Class fragmentClass = FragmentMantenimiento.class;
+        Fragment fragment;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

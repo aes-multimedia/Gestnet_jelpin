@@ -6,6 +6,9 @@ android:shape="rectangle">
     android:width="2dp"
     android:color="#444">
 </stroke>
+<solid
+    android:color="#fff">
+</solid>
 <padding
     android:left="4dp"
     android:top="4dp"

@@ -1,10 +1,8 @@
 package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
@@ -12,14 +10,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLException;
-
-public class GuardarAverias {
+public class GuardarAveriasLogin {
     private static String Json;
     private static Context context;
     private static boolean bien=true;
 
-    public GuardarAverias(Context context, String json) {
+    public GuardarAveriasLogin(Context context, String json) {
         this.context = context;
         Json = json;
         try {
@@ -111,7 +107,7 @@ public class GuardarAverias {
         }
         if (bien){
             ManagerProgressDialog.guardarDatosMantenimiento(context);
-            new GuardarMantenimientos(context,Json);
+            new GuardarMantenimientosLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error en averia");
 

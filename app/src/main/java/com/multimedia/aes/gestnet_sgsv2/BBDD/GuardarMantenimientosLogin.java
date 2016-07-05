@@ -15,12 +15,12 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarMantenimientos {
+public class GuardarMantenimientosLogin {
     private static String Json;
     private static Context context;
     private static boolean bien;
 
-    public GuardarMantenimientos(Context context, String json) {
+    public GuardarMantenimientosLogin(Context context, String json) {
         this.context = context;
         Json = json;
         try {

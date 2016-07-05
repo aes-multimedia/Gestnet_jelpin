@@ -11,16 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnico;
+import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnicoLogin;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
-import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloLogin;
 
 import org.json.JSONException;
-
-import java.sql.SQLException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -60,8 +58,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         Toast.makeText(Login.this, mensaje, Toast.LENGTH_SHORT).show();
     }
     public void loginOk(String mensaje){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("nombre",etUsuario.getText().toString());
+            jsonObject.put("contraseña",etContraseña.getText().toString());
+            GestorSharedPreferences.setJsonTecnico(GestorSharedPreferences.getSharedPreferencesTecnico(this),jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         ManagerProgressDialog.guardarDatosTecnico(this);
-        new GuardarTecnico(this,mensaje);
+        new GuardarTecnicoLogin(this,mensaje);
 
     }
 
