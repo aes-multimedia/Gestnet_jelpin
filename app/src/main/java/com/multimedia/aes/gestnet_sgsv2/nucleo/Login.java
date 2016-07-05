@@ -48,11 +48,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         if (view.getId()==R.id.ivIncidencia){
             Intent i = new Intent(this,Incidencias.class);
             startActivity(i);
-            try {
-                BBDDConstantes.borrarDatosTablas(this);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }else if (view.getId()==R.id.btnLogin) {
             ManagerProgressDialog.abrirDialog(this);
             ManagerProgressDialog.cogerDatosServidor(this);
