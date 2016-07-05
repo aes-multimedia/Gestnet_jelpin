@@ -7,7 +7,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.multimedia.aes.gestnet_sgsv2.nucleo.Index"
     tools:showIn="@layout/index"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FABB9C">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -16,6 +18,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:dividerHeight="3dp"
         android:id="@+id/lvIndex" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

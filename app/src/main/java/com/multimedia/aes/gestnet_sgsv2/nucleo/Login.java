@@ -8,11 +8,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnico;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloLogin;
 
@@ -24,6 +26,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     private Button btnLogin;
     private EditText etUsuario,etContraseña;
+    private ImageView ivIncidencia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +34,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         etUsuario = (EditText)findViewById(R.id.etUsuario);
         etContraseña = (EditText)findViewById(R.id.etContraseña);
         btnLogin = (Button)findViewById(R.id.btnLogin);
+        ivIncidencia = (ImageView) findViewById(R.id.ivIncidencia);
         etUsuario.addTextChangedListener(this);
         etContraseña.addTextChangedListener(this);
         btnLogin.setOnClickListener(this);
+        ivIncidencia.setOnClickListener(this);
         btnLogin.setClickable(false);
         btnLogin.setAlpha(0.5f);
     }
 
     @Override
     public void onClick(View view) {
-        ManagerProgressDialog.abrirDialog(this);
-        ManagerProgressDialog.cogerDatosServidor(this);
-        new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
+        if (view.getId()==R.id.ivIncidencia){
+            Intent i = new Intent(this,Incidencias.class);
+            startActivity(i);
+            try {
+                BBDDConstantes.borrarDatosTablas(this);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else if (view.getId()==R.id.btnLogin) {
+            ManagerProgressDialog.abrirDialog(this);
+            ManagerProgressDialog.cogerDatosServidor(this);
+            new HiloLogin(etUsuario.getText().toString().trim(), etContraseña.getText().toString().trim(), this).execute();
+        }
     }
 
     public void errorDeLogin(String mensaje) {

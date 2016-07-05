@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
@@ -32,8 +34,30 @@ public class AdaptadorMantenimientos extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        TextView empresa = (TextView) item.findViewById(R.id.txtEmpresa);
-        empresa.setText(String.valueOf(arrayList.get(position).getFk_direccion()));
+        TextView direccion = (TextView) item.findViewById(R.id.txtDireccion);
+        TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
+        TextView cp = (TextView) item.findViewById(R.id.txtCP);
+        LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
+        ImageView ivEstado = (ImageView)item.findViewById(R.id.ivEstado);
+        cambiarColorEstado(position,ivEstado);
+        direccion.setText(String.valueOf(arrayList.get(position).getDireccion()));
+        cp.setText("C.P.:  "+String.valueOf(arrayList.get(position).getCod_postal()));
+        provincia.setText("("+String.valueOf(arrayList.get(position).getProvincia())+"-"+String.valueOf(arrayList.get(position).getMunicipio())+")");
+        global.setTag(String.valueOf(arrayList.get(position).getId_mantenimiento()));
         return item;
+    }
+    public void cambiarColorEstado(int position,ImageView ivEstado){
+        int estado = Integer.parseInt(arrayList.get(position).getEstado_android());
+        if (estado==0){
+            ivEstado.setImageResource(R.drawable.circle);
+        }else if (estado==1){
+            ivEstado.setImageResource(R.drawable.circle);
+        }else if (estado==2){
+            ivEstado.setImageResource(R.drawable.circle);
+        }else if (estado==3){
+            ivEstado.setImageResource(R.drawable.circle);
+        }else if (estado==4){
+
+        }
     }
 }

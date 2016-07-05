@@ -35,14 +35,6 @@ public class AdaptadorAvisos extends ArrayAdapter {
             item = inflater.inflate(view, null);
         }
         JSONObject jsonObject = arrayList.get(position);
-        TextView empresa = (TextView) item.findViewById(R.id.txtEmpresa);
-        TextView id = (TextView)item.findViewById(R.id.txtId);
-        try {
-            empresa.setText(jsonObject.getString("nombre_entidad"));
-            id.setText(jsonObject.getString("id_entidad"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         return item;
     }
 }

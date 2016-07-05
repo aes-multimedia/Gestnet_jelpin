@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
@@ -22,12 +25,13 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private ListView lvIndex;
     private AdaptadorMantenimientos adaptadorMantenimientos;
     private ArrayList<Mantenimiento> arrayList=new ArrayList();
     private SwipeRefreshLayout srl;
+    private ImageView ivIncidencias,ivLlamarAes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         srl.setOnRefreshListener(this);
         adaptadorMantenimientos = new AdaptadorMantenimientos(this,R.layout.camp_adapter_list_view_mantenimiento,arrayList);
         lvIndex = (ListView)findViewById(R.id.lvIndex);
+
+        ivIncidencias = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
+        ivLlamarAes = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivLlamarAes);
+        ivIncidencias.setOnClickListener(this);
+        ivLlamarAes.setOnClickListener(this);
         lvIndex.setAdapter(adaptadorMantenimientos);
         lvIndex.setOnItemClickListener(this);
     }
@@ -107,7 +116,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        Toast.makeText(Index.this, "entra"+(String) view.getTag(), Toast.LENGTH_SHORT).show();
+        Intent a = new Intent(this,Mantenimiento.class);
+        startActivity(a);
     }
 
     @Override
@@ -117,4 +128,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         lvIndex.setAdapter(adaptadorMantenimientos);
         srl.setRefreshing(false);
     }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.ivIncidencias){
+            Intent i = new Intent(this,Incidencias.class);
+            startActivity(i);
+        }else if (view.getId()==R.id.ivLlamarAes){
+            Toast.makeText(Index.this, "llamar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

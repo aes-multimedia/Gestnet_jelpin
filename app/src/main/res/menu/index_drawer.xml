@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/documentos"
             android:icon="@drawable/ic_documentos"
-            android:title="@string/documentos" />
+            android:title="@string/documentos"
+            />
         <item
             android:id="@+id/averias"
             android:icon="@drawable/ic_averias"
@@ -28,7 +28,7 @@
             android:title="@string/ajustes" />
     </group>
 
-    <item android:title="@string/opciones">
+    <item android:title="">
         <menu>
             <item
                 android:id="@+id/cerrar_sesion"

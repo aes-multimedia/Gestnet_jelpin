@@ -21,5 +21,8 @@
     <string name="acceso">ACCESO</string>
     <string name="entrar">ENTRAR</string>
     <string name="contraseña_olvidada">¿Has olvidado tu contraseña?</string>
+    <string name="nueva_incidencia">NUEVA INCIDENCIA</string>
+    <string name="incidencias_resueltas_en_periodo">Las incidencias seran resueltas en un periodo de 48 - 72h.</string>
+    <string name="enviar">ENVIAR</string>
 
 </resources>

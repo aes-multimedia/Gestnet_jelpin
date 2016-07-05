@@ -11,6 +11,10 @@ public class Mantenimiento {
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
     public static final String FK_DIRECCION = "fk_direccion";
+    public static final String DIRECCION = "direccion";
+    public static final String COD_POSTAL = "codigo_postal";
+    public static final String PROVINCIA = "provincia";
+    public static final String MUNICIPIO = "municipio";
     public static final String FK_MAQUINA = "fk_maquina";
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
@@ -91,6 +95,14 @@ public class Mantenimiento {
     private int fk_usuario;
     @DatabaseField(columnName = FK_DIRECCION)
     private int fk_direccion;
+    @DatabaseField(columnName = DIRECCION)
+    private String direccion;
+    @DatabaseField(columnName = COD_POSTAL)
+    private String cod_postal;
+    @DatabaseField(columnName = PROVINCIA)
+    private String provincia;
+    @DatabaseField(columnName = MUNICIPIO)
+    private String municipio;
     @DatabaseField(columnName = FK_MAQUINA)
     private int fk_maquina;
     @DatabaseField(columnName = FECHA_CREACION)
@@ -233,7 +245,8 @@ public class Mantenimiento {
     public Mantenimiento(){
     }
     public Mantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
-                         int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
+                         int fk_direccion, String direccion, String cod_postal, String provincia, String municipio,
+                         int fk_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
                          String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
                          String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -259,6 +272,10 @@ public class Mantenimiento {
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
         this.fk_direccion = fk_direccion;
+        this.direccion = direccion;
+        this.cod_postal = cod_postal;
+        this.provincia = provincia;
+        this.municipio = municipio;
         this.fk_maquina = fk_maquina;
         this.fecha_creacion = fecha_creacion;
         this.fecha_aviso = fecha_aviso;
@@ -359,6 +376,33 @@ public class Mantenimiento {
     }
     public void setFk_direccion(int fk_direccion) {
         this.fk_direccion = fk_direccion;
+    }
+    public String getDireccion() {
+        return direccion;
+    }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+    public static String getIdMantenimiento() {
+        return ID_MANTENIMIENTO;
+    }
+    public String getCod_postal() {
+        return cod_postal;
+    }
+    public void setCod_postal(String cod_postal) {
+        this.cod_postal = cod_postal;
+    }
+    public String getProvincia() {
+        return provincia;
+    }
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+    public String getMunicipio() {
+        return municipio;
+    }
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
     }
     public int getFk_maquina() {
         return fk_maquina;

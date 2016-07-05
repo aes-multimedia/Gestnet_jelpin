@@ -67,6 +67,10 @@ public class GuardarMantenimientos {
             }else{
                 fk_direccion = jsonArray.getJSONObject(i).getInt("fk_direccion");
             }
+            String direccion = jsonArray.getJSONObject(i).getString("direccion");
+            String cod_postal = jsonArray.getJSONObject(i).getString("codigo_postal");
+            String provincia = jsonArray.getJSONObject(i).getString("provincia");
+            String municipio = jsonArray.getJSONObject(i).getString("municipio");
             int fk_maquina;
             if (jsonArray.getJSONObject(i).getString("fk_maquina").equals("null")){
                 fk_maquina = -1;
@@ -222,7 +226,7 @@ public class GuardarMantenimientos {
             }
             String contador_averias = jsonArray.getJSONObject(i).getString("contador_averias");
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
-                    fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
+                    fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,
