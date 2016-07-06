@@ -26,7 +26,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtNumParte,txtMaquina,txtFechaLlamada,
             txtFranjaHoraria,txtTipoUrgencia;
-    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4;
+    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5;
     private Button btnIniciarParte,btnConfirmarObsTel;
 
 
@@ -61,6 +61,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         etTelefono2 = (EditText)vista.findViewById(R.id.etTelefono2);
         etTelefono3 = (EditText)vista.findViewById(R.id.etTelefono3);
         etTelefono4 = (EditText)vista.findViewById(R.id.etTelefono4);
+        etTelefono5 = (EditText)vista.findViewById(R.id.etTelefono5);
 
         btnIniciarParte = (Button)vista.findViewById(R.id.btnIniciarParte);
         btnConfirmarObsTel = (Button)vista.findViewById(R.id.btnConfirmarObsTel);
@@ -134,7 +135,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else if (mantenimiento.getFk_tipo_urgencia()==5){
             txtTipoUrgencia.setText("PENALIZABLE");
         }
-
+        etObservaciones.setText(mantenimiento.getObservaciones_usuario());
+        etTelefono1.setText(mantenimiento.getTelefono1_usuario());
+        etTelefono2.setText(mantenimiento.getTelefono2_usuario());
+        etTelefono3.setText(mantenimiento.getTelefono3_usuario());
+        etTelefono4.setText(mantenimiento.getTelefono4_usuario());
+        etTelefono5.setText(mantenimiento.getTelefono5_usuario());
 
         return vista;
     }

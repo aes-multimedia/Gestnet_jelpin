@@ -222,7 +222,24 @@ public class GuardarMantenimientosPreLogin {
                 fk_categoria_visita = jsonArray.getJSONObject(i).getInt("fk_categoria_visita");
             }
             String contador_averias = jsonArray.getJSONObject(i).getString("contador_averias");
+            JSONObject jsonObject1 = jsonObject.getJSONArray("cliente").getJSONObject(0);
+            int fk_empresa_usuario = jsonObject1.getInt("fk_empresa");
+            String numero_usuario = jsonObject1.getString("numero_usuario");
+            String nombre_usuario = jsonObject1.getString("nombre_usuario");
+            String dni_usuario = jsonObject1.getString("DNI");
+            String telefono1_usuario = jsonObject1.getString("telefono1");
+            String telefono2_usuario = jsonObject1.getString("telefono2");
+            String telefono3_usuario = jsonObject1.getString("telefono3");
+            String telefono4_usuario = jsonObject1.getString("telefono4");
+            String telefono5_usuario = jsonObject1.getString("otros_telefonos");
+            String email_usuario = jsonObject1.getString("email");
+            String moroso_usuario = jsonObject1.getString("moroso");
+            String observaciones_usuario = jsonObject1.getString("observaciones");
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
+                    fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
+                    telefono1_usuario, telefono2_usuario, telefono3_usuario,
+                    telefono4_usuario, telefono5_usuario, email_usuario,
+                    moroso_usuario, observaciones_usuario,
                     fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,

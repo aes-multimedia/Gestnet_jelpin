@@ -315,6 +315,20 @@ public class Mantenimiento {
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
+
+        this.fk_empresa_usuario = fk_empresa_usuario;
+        this.numero_usuario = numero_usuario;
+        this.nombre_usuario = nombre_usuario;
+        this.dni_usuario = dni_usuario;
+        this.telefono1_usuario = telefono1_usuario;
+        this.telefono2_usuario = telefono2_usuario;
+        this.telefono3_usuario = telefono3_usuario;
+        this.telefono4_usuario = telefono4_usuario;
+        this.telefono5_usuario = telefono5_usuario;
+        this.email_usuario = email_usuario;
+        this.moroso_usuario = moroso_usuario;
+        this.observaciones_usuario = observaciones_usuario;
+
         this.fk_direccion = fk_direccion;
         this.direccion = direccion;
         this.cod_postal = cod_postal;
@@ -414,6 +428,81 @@ public class Mantenimiento {
     }
     public void setFk_usuario(int fk_usuario) {
         this.fk_usuario = fk_usuario;
+    }
+    public static String getFkUserCreador() {
+        return FK_USER_CREADOR;
+    }
+    public int getFk_empresa_usuario() {
+        return fk_empresa_usuario;
+    }
+    public void setFk_empresa_usuario(int fk_empresa_usuario) {
+        this.fk_empresa_usuario = fk_empresa_usuario;
+    }
+    public String getNumero_usuario() {
+        return numero_usuario;
+    }
+    public void setNumero_usuario(String numero_usuario) {
+        this.numero_usuario = numero_usuario;
+    }
+    public String getNombre_usuario() {
+        return nombre_usuario;
+    }
+    public void setNombre_usuario(String nombre_usuario) {
+        this.nombre_usuario = nombre_usuario;
+    }
+    public String getDni_usuario() {
+        return dni_usuario;
+    }
+    public void setDni_usuario(String dni_usuario) {
+        this.dni_usuario = dni_usuario;
+    }
+    public String getTelefono1_usuario() {
+        return telefono1_usuario;
+    }
+    public void setTelefono1_usuario(String telefono1_usuario) {
+        this.telefono1_usuario = telefono1_usuario;
+    }
+    public String getTelefono2_usuario() {
+        return telefono2_usuario;
+    }
+    public void setTelefono2_usuario(String telefono2_usuario) {
+        this.telefono2_usuario = telefono2_usuario;
+    }
+    public String getTelefono3_usuario() {
+        return telefono3_usuario;
+    }
+    public void setTelefono3_usuario(String telefono3_usuario) {
+        this.telefono3_usuario = telefono3_usuario;
+    }
+    public String getTelefono4_usuario() {
+        return telefono4_usuario;
+    }
+    public void setTelefono4_usuario(String telefono4_usuario) {
+        this.telefono4_usuario = telefono4_usuario;
+    }
+    public String getTelefono5_usuario() {
+        return telefono5_usuario;
+    }
+    public void setTelefono5_usuario(String telefono5_usuario) {
+        this.telefono5_usuario = telefono5_usuario;
+    }
+    public String getEmail_usuario() {
+        return email_usuario;
+    }
+    public void setEmail_usuario(String email_usuario) {
+        this.email_usuario = email_usuario;
+    }
+    public String getMoroso_usuario() {
+        return moroso_usuario;
+    }
+    public void setMoroso_usuario(String moroso_usuario) {
+        this.moroso_usuario = moroso_usuario;
+    }
+    public String getObservaciones_usuario() {
+        return observaciones_usuario;
+    }
+    public void setObservaciones_usuario(String observaciones_usuario) {
+        this.observaciones_usuario = observaciones_usuario;
     }
     public int getFk_direccion() {
         return fk_direccion;

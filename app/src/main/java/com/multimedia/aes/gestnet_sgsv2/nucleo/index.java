@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
-import com.multimedia.aes.gestnet_sgsv2.adapter.PageAdapter;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -42,6 +41,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias,ivLlamarAes;
     private LinearLayout cuerpo;
+    private boolean entra = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +83,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (entra){
+                recreate();
+            }else{
+                super.onBackPressed();
+            }
+
         }
     }
 
@@ -139,7 +144,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
+        entra=true;
     }
 
     @Override

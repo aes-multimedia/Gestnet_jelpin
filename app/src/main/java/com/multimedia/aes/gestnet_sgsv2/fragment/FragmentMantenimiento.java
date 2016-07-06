@@ -16,14 +16,17 @@ import com.multimedia.aes.gestnet_sgsv2.adapter.PageAdapter;
 
 public class FragmentMantenimiento extends Fragment {
     private View vista;
+    private boolean activo = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Usuario"));
-        tabLayout.addTab(tabLayout.newTab().setText("Caldera"));
-        tabLayout.addTab(tabLayout.newTab().setText("Equipamiento"));
+        if (activo) {
+            tabLayout.addTab(tabLayout.newTab().setText("Caldera"));
+            tabLayout.addTab(tabLayout.newTab().setText("Equipamiento"));
+        }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
