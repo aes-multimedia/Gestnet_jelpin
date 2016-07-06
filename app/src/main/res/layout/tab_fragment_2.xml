@@ -25,19 +25,20 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+       >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="TIPO CALDERA"
             android:id="@+id/textView20"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:id="@+id/spinner2"
             android:spinnerMode="dropdown"
@@ -47,7 +48,9 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,18 +58,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="MARCA CALDERA"
             android:id="@+id/textView21"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner3" />
+            android:layout_height="40dp"
+            android:id="@+id/spinner3"
+            android:background="@drawable/caldera_spiners"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,18 +79,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="USO CALDERA"
             android:id="@+id/textView22"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner4" />
+            android:layout_height="40dp"
+            android:id="@+id/spinner4"
+            android:background="@drawable/caldera_spiners"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,18 +100,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="POTENCIA CALDERA"
             android:id="@+id/textView24"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner5" />
+            android:layout_height="40dp"
+            android:id="@+id/spinner5"
+            android:background="@drawable/caldera_spiners"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,19 +121,21 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="PUESTA EN MARCHA"
             android:id="@+id/textView25"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/spinner6"
-            android:spinnerMode="dropdown" />
+            android:spinnerMode="dropdown"
+            android:background="@drawable/caldera_spiners"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,10 +143,22 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="MODELO"
             android:id="@+id/textView19"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:background="@drawable/caldera_spiners"/>
 
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button" />
 
 </LinearLayout>
