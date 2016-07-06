@@ -143,7 +143,6 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="MODELO"
             android:id="@+id/textView19"
-            android:layout_marginTop="11dp"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_child"/>
 
         <EditText
