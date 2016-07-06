@@ -164,15 +164,4 @@ class Index extends AppCompatActivity implements NavigationView.OnNavigationItem
             Toast.makeText(Index.this, "llamar", Toast.LENGTH_SHORT).show();
         }
     }
-
-    @Override
-    protected void onStop() {
-        try {
-            BBDDConstantes.borrarDatosTablas(this);
-            super.onStop();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
 }
