@@ -7,11 +7,14 @@ import android.content.Intent;
 import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnicoPreLogin;
 import com.multimedia.aes.gestnet_sgsv2.R;
         import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloPreLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class PreLogin extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class PreLogin extends AppCompatActivity {
             finish();
         }else{
             try {
+                ManagerProgressDialog.abrirDialog(this);
+                ManagerProgressDialog.cogerDatosServidor(this);
                 new HiloPreLogin(tecnico.getString("nombre"), tecnico.getString("contraseña"), this).execute();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -39,7 +44,15 @@ public class PreLogin extends AppCompatActivity {
     }
     public void errorDeLogin(String mensaje) {
         ManagerProgressDialog.cerrarDialog();
-        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        try {
+            BBDDConstantes.borrarDatosTablas(this);
+            GestorSharedPreferences.clearSharedPreferencesTecnico(this);
+            Intent i = new Intent(this,Login.class);
+            startActivity(i);
+            finish();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void loginOk(String mensaje){
         ManagerProgressDialog.guardarDatosTecnico(this);

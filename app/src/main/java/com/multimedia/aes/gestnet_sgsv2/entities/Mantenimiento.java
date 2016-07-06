@@ -10,6 +10,18 @@ public class Mantenimiento {
     public static final String FK_USER_CREADOR = "fk_user_creador";
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
+    public static final String FK_EMPRESA_USUARIO = "fk_empresa_usuario";
+    public static final String NUMERO_USUARIO = "numero_usuario";
+    public static final String NOMBRE_USUARIO = "nombre_usuario";
+    public static final String DNI_USUARIO = "dni_usuario";
+    public static final String TELEFONO1_USUARIO = "telefono1_usuario";
+    public static final String TELEFONO2_USUARIO = "telefono2_usuario";
+    public static final String TELEFONO3_USUARIO = "telefono3_usuario";
+    public static final String TELEFONO4_USUARIO = "telefono4_usuario";
+    public static final String TELEFONO5_USUARIO = "telefono5_usuario";
+    public static final String EMAIL_USUARIO = "email_usuario";
+    public static final String MOROSO_USUARIO = "moroso_usuario";
+    public static final String OBSERVACIONES_USUARIO = "observaciones_usuario";
     public static final String FK_DIRECCION = "fk_direccion";
     public static final String DIRECCION = "direccion";
     public static final String COD_POSTAL = "codigo_postal";
@@ -93,6 +105,32 @@ public class Mantenimiento {
     private int fk_tecnico;
     @DatabaseField(columnName = FK_USUARIO)
     private int fk_usuario;
+
+    @DatabaseField(columnName = FK_EMPRESA_USUARIO)
+    private int fk_empresa_usuario;
+    @DatabaseField(columnName = NUMERO_USUARIO)
+    private String numero_usuario;
+    @DatabaseField(columnName = NOMBRE_USUARIO)
+    private String nombre_usuario;
+    @DatabaseField(columnName = DNI_USUARIO)
+    private String dni_usuario;
+    @DatabaseField(columnName = TELEFONO1_USUARIO)
+    private String telefono1_usuario;
+    @DatabaseField(columnName = TELEFONO2_USUARIO)
+    private String telefono2_usuario;
+    @DatabaseField(columnName = TELEFONO3_USUARIO)
+    private String telefono3_usuario;
+    @DatabaseField(columnName = TELEFONO4_USUARIO)
+    private String telefono4_usuario;
+    @DatabaseField(columnName = TELEFONO5_USUARIO)
+    private String telefono5_usuario;
+    @DatabaseField(columnName = EMAIL_USUARIO)
+    private String email_usuario;
+    @DatabaseField(columnName = MOROSO_USUARIO)
+    private String moroso_usuario;
+    @DatabaseField(columnName = OBSERVACIONES_USUARIO)
+    private String observaciones_usuario;
+
     @DatabaseField(columnName = FK_DIRECCION)
     private int fk_direccion;
     @DatabaseField(columnName = DIRECCION)
@@ -244,8 +282,14 @@ public class Mantenimiento {
 
     public Mantenimiento(){
     }
+
+
     public Mantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
-                         int fk_direccion, String direccion, String cod_postal, String provincia, String municipio,
+                         int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
+                         String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
+                         String telefono4_usuario, String telefono5_usuario, String email_usuario,
+                         String moroso_usuario, String observaciones_usuario,int fk_direccion,
+                         String direccion, String cod_postal, String provincia, String municipio,
                          int fk_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
                          String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
