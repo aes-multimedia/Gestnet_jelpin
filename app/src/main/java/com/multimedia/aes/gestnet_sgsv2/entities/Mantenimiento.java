@@ -105,7 +105,6 @@ public class Mantenimiento {
     private int fk_tecnico;
     @DatabaseField(columnName = FK_USUARIO)
     private int fk_usuario;
-
     @DatabaseField(columnName = FK_EMPRESA_USUARIO)
     private int fk_empresa_usuario;
     @DatabaseField(columnName = NUMERO_USUARIO)
@@ -130,7 +129,6 @@ public class Mantenimiento {
     private String moroso_usuario;
     @DatabaseField(columnName = OBSERVACIONES_USUARIO)
     private String observaciones_usuario;
-
     @DatabaseField(columnName = FK_DIRECCION)
     private int fk_direccion;
     @DatabaseField(columnName = DIRECCION)

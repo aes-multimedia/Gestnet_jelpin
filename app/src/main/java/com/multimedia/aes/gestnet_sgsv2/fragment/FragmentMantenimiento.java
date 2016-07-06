@@ -12,18 +12,37 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.PageAdapter;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class FragmentMantenimiento extends Fragment {
     private View vista;
-    private boolean activo = false;
+    private boolean activo;
+    private Mantenimiento mantenimiento;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Usuario"));
-        if (activo) {
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            int id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (!mantenimiento.getEstado_android().equals("0")) {
             tabLayout.addTab(tabLayout.newTab().setText("Caldera"));
             tabLayout.addTab(tabLayout.newTab().setText("Equipamiento"));
         }

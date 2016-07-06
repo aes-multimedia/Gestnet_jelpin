@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
@@ -181,12 +182,12 @@ public class MantenimientoDAO extends DBHelperMOS {
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-	/*public void actualizarCif (Context context, String dni, int id_usuario ) throws SQLException
+	public static void actualizarEstadoAndroid (Context context, int estado, int id_mantenimiento ) throws SQLException
 	{
 		cargarDao(context);
-		UpdateBuilder<Tecnico, Integer> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq(Tecnico.ID_TECNICO,id_usuario);
-		updateBuilder.updateColumnValue(Tecnico.DNI_CIF, dni);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.ESTADO_ANDROID, estado);
 		updateBuilder.update();
-	}*/
+	}
 }
