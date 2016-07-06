@@ -238,12 +238,19 @@ public class GuardarMantenimientosLogin {
             String email_usuario = jsonObject1.getString("email");
             String moroso_usuario = jsonObject1.getString("moroso");
             String observaciones_usuario = jsonObject1.getString("observaciones");
+
+            jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
+            String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
+            String modelo_maquina = jsonObject1.getString("modelo");
+            String marca_maquina = jsonObject1.getString("nombre");
+
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
                     telefono4_usuario, telefono5_usuario, email_usuario,
                     moroso_usuario, observaciones_usuario,
-                    fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina, fecha_creacion, fecha_aviso,
+                    fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina,
+                    tipo_maquina, modelo_maquina, marca_maquina,fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,

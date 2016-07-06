@@ -28,8 +28,8 @@ import java.text.SimpleDateFormat;
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
-            txtTipoMantenimiento,txtContadorAverias,txtContrato,txtNumParte,txtMaquina,txtFechaLlamada,
-            txtFranjaHoraria,txtTipoUrgencia;
+            txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
+            txtTipo,txtMarca,txtModelo,txtNombre,txtDireccion;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5;
     private Button btnIniciarParte,btnConfirmarObsTel;
     private Mantenimiento mantenimiento = null;
@@ -55,6 +55,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtContrato = (TextView)vista.findViewById(R.id.txtContrato);
         txtFechaLlamada = (TextView)vista.findViewById(R.id.txtFechaLlamada);
         txtTipoUrgencia = (TextView)vista.findViewById(R.id.txtTipoUrgencia);
+        txtTipo = (TextView)vista.findViewById(R.id.txtTipo);
+        txtMarca = (TextView)vista.findViewById(R.id.txtMarca);
+        txtModelo = (TextView)vista.findViewById(R.id.txtModelo);
+        txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
+        txtDireccion = (TextView)vista.findViewById(R.id.txtDireccion);
+
 
         etObservaciones = (EditText)vista.findViewById(R.id.etObservaciones);
         etTelefono1 = (EditText)vista.findViewById(R.id.etTelefono1);
@@ -139,6 +145,25 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else{
             txtTipoUrgencia.setText("BONIFICABLE");
         }
+        if (mantenimiento.getTipo_maquina().equals("1")){
+            txtTipo.setText("Estanca");
+        }else if (mantenimiento.getTipo_maquina().equals("2")){
+            txtTipo.setText("Atmosferica");
+        }else if (mantenimiento.getTipo_maquina().equals("6")){
+            txtTipo.setText("Condensacion");
+        }else if (mantenimiento.getTipo_maquina().equals("7")){
+            txtTipo.setText("Estilo Mixto");
+        }else if (mantenimiento.getTipo_maquina().equals("8")){
+            txtTipo.setText("Calentador Gas");
+        }else{
+            txtTipo.setText("Otras");
+        }
+
+        txtModelo.setText(mantenimiento.getModelo_maquina());
+        txtMarca.setText(" - "+mantenimiento.getMarca_maquina()+" - ");
+        txtNombre.setText(mantenimiento.getNombre_usuario());
+        txtDireccion.setText(mantenimiento.getDireccion()+" - ("+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+" - "+mantenimiento.getMunicipio()+")");
+
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
         etTelefono1.setText(mantenimiento.getTelefono1_usuario());
         etTelefono2.setText(mantenimiento.getTelefono2_usuario());
