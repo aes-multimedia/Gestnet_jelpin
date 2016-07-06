@@ -20,7 +20,10 @@ import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -50,10 +53,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtTipoMantenimiento = (TextView)vista.findViewById(R.id.txtTipoMantenimiento);
         txtContadorAverias = (TextView)vista.findViewById(R.id.txtContadorAverias);
         txtContrato = (TextView)vista.findViewById(R.id.txtContrato);
-        txtNumParte = (TextView)vista.findViewById(R.id.txtNumParte);
-        txtMaquina = (TextView)vista.findViewById(R.id.txtMaquina);
         txtFechaLlamada = (TextView)vista.findViewById(R.id.txtFechaLlamada);
-        txtFranjaHoraria = (TextView)vista.findViewById(R.id.txtFranjaHoraria);
         txtTipoUrgencia = (TextView)vista.findViewById(R.id.txtTipoUrgencia);
 
         etObservaciones = (EditText)vista.findViewById(R.id.etObservaciones);
@@ -87,9 +87,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
 
         if (mantenimiento.getPagado_endesa().equals("0")){
-            txtVenta.setText("no");
+            txtVenta.setText("No");
         }else{
-            txtVenta.setText("si");
+            txtVenta.setText("Si");
         }
         if (mantenimiento.getFk_categoria_visita()==1){
             txtTipoVisita.setText("Visita reducida");
@@ -111,29 +111,33 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
         txtContadorAverias.setText(mantenimiento.getContador_averias());
         txtContrato.setText(mantenimiento.getContrato_endesa());
-        txtNumParte.setText(mantenimiento.getNum_parte());
 
-        txtMaquina.setText("APARICI");
-        txtFechaLlamada.setText(mantenimiento.getFecha_aviso());
+        String dateSample = mantenimiento.getFecha_aviso();
 
-        if (mantenimiento.getFranja_horaria().equals("0")){
-            txtFranjaHoraria.setText("Todo el dia");
-        }else if (mantenimiento.getFranja_horaria().equals("1")){
-            txtFranjaHoraria.setText("Mañana");
-        }else {
-            txtFranjaHoraria.setText("Tarde");
+        String oldFormat = "dd-MM-yyyy HH:mm:ss";
+        String newFormat = "dd/MM/yyyy";
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat(oldFormat);
+        SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
+        String fecha = "";
+        try {
+            fecha = sdf2.format(sdf1.parse(dateSample));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        txtFechaLlamada.setText(fecha);
 
         if (mantenimiento.getFk_tipo_urgencia()==1){
             txtTipoUrgencia.setText("MUY URGENTE");
         }else if (mantenimiento.getFk_tipo_urgencia()==2){
             txtTipoUrgencia.setText("URGENTE");
-        }else if (mantenimiento.getFk_tipo_urgencia()==3){
-            txtTipoUrgencia.setText("BONIFICABLE");
         }else if (mantenimiento.getFk_tipo_urgencia()==4){
             txtTipoUrgencia.setText("NORMAL");
         }else if (mantenimiento.getFk_tipo_urgencia()==5){
             txtTipoUrgencia.setText("PENALIZABLE");
+        }else{
+            txtTipoUrgencia.setText("BONIFICABLE");
         }
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
         etTelefono1.setText(mantenimiento.getTelefono1_usuario());
