@@ -405,6 +405,8 @@ public class Mantenimiento {
         this.contador_averias = contador_averias;
     }
 
+
+
     public int getId_mantenimiento() {
         return id_mantenimiento;
     }
