@@ -15,6 +15,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,12 +29,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             txtFranjaHoraria,txtTipoUrgencia;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5;
     private Button btnIniciarParte,btnConfirmarObsTel;
-
+    private Mantenimiento mantenimiento = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
-        Mantenimiento mantenimiento = null;
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
@@ -147,6 +147,13 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId()==R.id.btnIniciarParte){
+            try {
+                MantenimientoDAO.actualizarEstadoAndroid(getContext(),1,mantenimiento.getId_mantenimiento());
+                ((Index)getContext()).activar();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

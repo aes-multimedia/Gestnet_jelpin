@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private ListView lvIndex;
     private AdaptadorMantenimientos adaptadorMantenimientos;
@@ -113,6 +113,7 @@ class Index extends AppCompatActivity implements NavigationView.OnNavigationItem
                 Intent i = new Intent(this,Login.class);
                 startActivity(i);
                 finish();
+                GestorSharedPreferences.clearSharedPreferencesTecnico(this);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -164,15 +165,19 @@ class Index extends AppCompatActivity implements NavigationView.OnNavigationItem
             Toast.makeText(Index.this, "llamar", Toast.LENGTH_SHORT).show();
         }
     }
-
-    @Override
-    protected void onStop() {
+    public void activar(){
+        cuerpo.removeAllViews();
+        Class fragmentClass = FragmentMantenimiento.class;
+        Fragment fragment;
         try {
-            BBDDConstantes.borrarDatosTablas(this);
-            super.onStop();
-        } catch (SQLException e) {
+            fragment = (Fragment) fragmentClass.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
+        entra=true;
     }
 }
