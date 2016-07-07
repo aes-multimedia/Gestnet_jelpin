@@ -52,10 +52,9 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner2"
+                        android:id="@+id/spTipo"
                         android:spinnerMode="dropdown"
                         android:background="@drawable/caldera_spiners"
-                        android:entries="@array/tipo_caldera"
                         android:gravity="right" />
                 </LinearLayout>
 
@@ -77,10 +76,10 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner3"
-                        android:entries="@array/marca_caldera"
+                        android:id="@+id/spMarca"
                         android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -100,10 +99,10 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner4"
-                        android:entries="@array/uso_caldera"
+                        android:id="@+id/spUso"
                         android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -123,10 +122,10 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner5"
-                        android:entries="@array/potencia_caldera"
+                        android:id="@+id/spPotencia"
                         android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,8 +145,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner6"
-                        android:entries="@array/puesta_marcha"
+                        android:id="@+id/spPuestaMarcha"
                         android:spinnerMode="dropdown"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
@@ -170,7 +168,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText2"
+                        android:id="@+id/etModelo"
                         android:minHeight="30dp"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />

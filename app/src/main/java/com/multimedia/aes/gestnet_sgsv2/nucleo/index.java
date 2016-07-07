@@ -47,7 +47,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        toolbar.setLogo(R.drawable.ic_ajustes);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -67,13 +70,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         srl.setOnRefreshListener(this);
         adaptadorMantenimientos = new AdaptadorMantenimientos(this,R.layout.camp_adapter_list_view_mantenimiento,arrayList);
         lvIndex = (ListView)findViewById(R.id.lvIndex);
-
+        lvIndex.setAdapter(adaptadorMantenimientos);
+        lvIndex.setOnItemClickListener(this);
         ivIncidencias = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivLlamarAes = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivLlamarAes);
         ivIncidencias.setOnClickListener(this);
         ivLlamarAes.setOnClickListener(this);
-        lvIndex.setAdapter(adaptadorMantenimientos);
-        lvIndex.setOnItemClickListener(this);
+
         cuerpo = (LinearLayout)findViewById(R.id.cuerpo);
     }
 
@@ -84,7 +87,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (entra){
-                recreate();
+                srl.setVisibility(View.VISIBLE);
             }else{
                 super.onBackPressed();
             }
@@ -133,7 +136,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        cuerpo.removeAllViews();
+        srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentMantenimiento.class;
         Fragment fragment;
         try {
@@ -184,6 +187,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     protected void onStop() {
         super.onStop();
+        try {
+            BBDDConstantes.borrarDatosTablas(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         try {
             BBDDConstantes.borrarDatosTablas(this);
         } catch (SQLException e) {

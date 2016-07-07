@@ -14,11 +14,14 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.BBDD.GuardarTecnicoLogin;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 

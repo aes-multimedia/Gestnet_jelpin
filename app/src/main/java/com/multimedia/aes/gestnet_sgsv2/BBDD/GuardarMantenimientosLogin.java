@@ -238,7 +238,6 @@ public class GuardarMantenimientosLogin {
             String email_usuario = jsonObject1.getString("email");
             String moroso_usuario = jsonObject1.getString("moroso");
             String observaciones_usuario = jsonObject1.getString("observaciones");
-
             jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
             String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
             String modelo_maquina = jsonObject1.getString("modelo");
