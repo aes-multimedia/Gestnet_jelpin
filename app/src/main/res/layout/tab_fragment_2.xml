@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Datos de la Caldera"
+                android:text="Datos de la Equipo"
                 android:id="@+id/textView8"
                 android:textSize="20dp"
                 android:textStyle="bold"

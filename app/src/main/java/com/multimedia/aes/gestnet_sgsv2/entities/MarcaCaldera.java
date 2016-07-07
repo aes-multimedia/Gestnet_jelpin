@@ -3,7 +3,7 @@ package com.multimedia.aes.gestnet_sgsv2.entities;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "mos_marca_caldera")
+@DatabaseTable(tableName = "mos_marca_calderas")
 public class MarcaCaldera {
 
     public static final String ID_MARCA_CALDERA = "_id_marca_caldera";

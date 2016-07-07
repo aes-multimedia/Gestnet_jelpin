@@ -21,8 +21,8 @@ public class UsoCalderaDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newUsoCaldera(Context context,int id_tipo_caldera, String nombre_tipo_caldera) {
-		UsoCaldera t = montarUsoCaldera(id_tipo_caldera, nombre_tipo_caldera);
+	public static boolean newUsoCaldera(Context context,int id_uso_caldera, String nombre_uso_caldera) {
+		UsoCaldera t = montarUsoCaldera(id_uso_caldera, nombre_uso_caldera);
 		return crearUsoCaldera(t,context);
 	}
 	public static boolean crearUsoCaldera(UsoCaldera t,Context context) {
@@ -35,8 +35,8 @@ public class UsoCalderaDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static UsoCaldera montarUsoCaldera(int id_tipo_caldera, String nombre_tipo_caldera) {
-		UsoCaldera t =new UsoCaldera(id_tipo_caldera, nombre_tipo_caldera);
+	public static UsoCaldera montarUsoCaldera(int id_uso_caldera, String nombre_uso_caldera) {
+		UsoCaldera t =new UsoCaldera(id_uso_caldera, nombre_uso_caldera);
 		return t;
 	}
 
