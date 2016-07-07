@@ -222,7 +222,7 @@ public class GuardarMantenimientosPreLogin {
                 fk_categoria_visita = jsonArray.getJSONObject(i).getInt("fk_categoria_visita");
             }
             String contador_averias = jsonArray.getJSONObject(i).getString("contador_averias");
-            JSONObject jsonObject1 = jsonObject.getJSONArray("cliente").getJSONObject(0);
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("cliente").getJSONObject(0);
             int fk_empresa_usuario = jsonObject1.getInt("fk_empresa");
             String numero_usuario = jsonObject1.getString("numero_usuario");
             String nombre_usuario = jsonObject1.getString("nombre_usuario");
@@ -235,7 +235,7 @@ public class GuardarMantenimientosPreLogin {
             String email_usuario = jsonObject1.getString("email");
             String moroso_usuario = jsonObject1.getString("moroso");
             String observaciones_usuario = jsonObject1.getString("observaciones");
-            jsonObject1 = jsonObject.getJSONArray("maquina").getJSONObject(0);
+            jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
             String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
             String modelo_maquina = jsonObject1.getString("modelo");
             String marca_maquina = jsonObject1.getString("nombre");

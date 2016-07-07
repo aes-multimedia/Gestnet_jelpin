@@ -58,7 +58,6 @@
                         android:id="@+id/spinner"
                         android:spinnerMode="dropdown"
                         android:background="@drawable/caldera_spiners"
-                        android:entries="@array/tipo_caldera"
                         android:gravity="right"
                         android:layout_marginBottom="10dp" />
 
@@ -176,7 +175,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:id="@+id/spinner7"
-                        android:entries="@array/marca_caldera"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
                 </LinearLayout>
@@ -244,7 +242,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:id="@+id/spinner8"
-                        android:entries="@array/marca_caldera"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
                 </LinearLayout>
@@ -288,7 +285,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:id="@+id/spinner9"
-                        android:entries="@array/marca_caldera"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
                 </LinearLayout>
