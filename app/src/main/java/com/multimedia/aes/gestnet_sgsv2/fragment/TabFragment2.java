@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
@@ -34,9 +35,9 @@ public class TabFragment2 extends Fragment {
     private EditText etModelo;
     private Button btnDespiece;
     private List<TipoCaldera> listaTipos;
-    private List<MarcaCaldera> listaMarcas;
-    private List<UsoCaldera> listaUso;
-    private List<Potencia> listaPotencia;
+    private List<MarcaCaldera> listaMarcas=null;
+    private List<UsoCaldera> listaUso=null;
+    private List<Potencia> listaPotencia=null;
     private String[] tipos;
     private String[] marcas;
     private String[] usos;
@@ -53,15 +54,16 @@ public class TabFragment2 extends Fragment {
         spUso = (Spinner)vista.findViewById(R.id.spUso);
         spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
-        /*try {
+
+        try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
-            for (int i = 0; i < listaTipos.size(); i++) {
+            for (int i = 0; i < listaTipos.size()-1; i++) {
                 tipos[i]=listaTipos.get(i).getNombre_tipo_caldera();
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
-            for (int i = 0; i < listaMarcas.size(); i++) {
+            for (int i = 0; i < listaMarcas.size()-1; i++) {
                 marcas[i]=listaMarcas.get(i).getNombre_marca_caldera();
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
@@ -88,7 +90,7 @@ public class TabFragment2 extends Fragment {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 
         return vista;
     }
