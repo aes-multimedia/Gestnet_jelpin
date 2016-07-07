@@ -44,7 +44,7 @@ public class FragmentMantenimiento extends Fragment {
 
         if (!mantenimiento.getEstado_android().equals("0")) {
             tabLayout.addTab(tabLayout.newTab().setText("Caldera"));
-            tabLayout.addTab(tabLayout.newTab().setText("Equipamiento"));
+            tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);

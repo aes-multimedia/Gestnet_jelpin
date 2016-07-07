@@ -64,7 +64,8 @@
                 android:background="@drawable/edit_texts"
                 android:layout_marginTop="20dp"
                 android:hint="@string/contraseña"
-                android:textColor="#555" />
+                android:textColor="#555"
+                android:inputType="textPassword" />
 
             <TextView
                 android:layout_width="wrap_content"

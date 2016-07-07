@@ -8,7 +8,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
 
@@ -63,6 +66,24 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.mantenimientoDao = getDao(Mantenimiento.class);
 		}
 		return BBDDConstantes.mantenimientoDao;
+	}
+	public Dao<TipoCaldera, Integer> getTipoCalderaDAO() throws SQLException {
+		if (BBDDConstantes.tipoCalderaDao == null) {
+			BBDDConstantes.tipoCalderaDao = getDao(TipoCaldera.class);
+		}
+		return BBDDConstantes.tipoCalderaDao;
+	}
+	public Dao<MarcaCaldera, Integer> getMarcaCalderaDAO() throws SQLException {
+		if (BBDDConstantes.marcaCalderaDao == null) {
+			BBDDConstantes.marcaCalderaDao = getDao(MarcaCaldera.class);
+		}
+		return BBDDConstantes.marcaCalderaDao;
+	}
+	public Dao<UsoCaldera, Integer> getUsoCalderaDAO() throws SQLException {
+		if (BBDDConstantes.usoCalderaDao == null) {
+			BBDDConstantes.usoCalderaDao = getDao(UsoCaldera.class);
+		}
+		return BBDDConstantes.usoCalderaDao;
 	}
 
 }
