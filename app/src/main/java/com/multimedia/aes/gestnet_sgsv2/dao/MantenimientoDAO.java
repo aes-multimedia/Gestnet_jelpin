@@ -19,6 +19,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 		dao = getHelper(context).getMantenimientoDAO();
 	}
 
+
 	//__________FUNCIONES DE CREACIÓN________________________//
 
 	public static boolean newMantenimiento(Context context,int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
@@ -27,7 +28,8 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   String telefono4_usuario, String telefono5_usuario, String email_usuario,
 										   String moroso_usuario, String observaciones_usuario,
 										   int fk_direccion,String direccion, String cod_postal, String provincia, String municipio,
-										   int fk_maquina, String fecha_creacion, String fecha_aviso,
+										   int fk_maquina, String tipo_maquina, String modelo_maquina,String marca_maquina,
+										   String fecha_creacion, String fecha_aviso,
 										   String fecha_visita, String visita_duplicada, String fecha_reparacion,
 										   String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
 										   String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -53,7 +55,8 @@ public class MantenimientoDAO extends DBHelperMOS {
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,
 				moroso_usuario, observaciones_usuario,
-				fk_direccion,direccion, cod_postal, provincia, municipio, fk_maquina, fecha_creacion, fecha_aviso,
+				fk_direccion,direccion, cod_postal, provincia, municipio, fk_maquina,
+				tipo_maquina, modelo_maquina, marca_maquina,fecha_creacion, fecha_aviso,
 				fecha_visita, visita_duplicada, fecha_reparacion,
 				num_parte, fk_tipo, fk_user_asignacion, fk_horario,
 				franja_horaria, fk_franja_ip, fk_estado, observaciones,
@@ -92,7 +95,8 @@ public class MantenimientoDAO extends DBHelperMOS {
 													String telefono4_usuario, String telefono5_usuario, String email_usuario,
 													String moroso_usuario, String observaciones_usuario,
 													int fk_direccion, String direccion, String cod_postal, String provincia, String municipio,
-													int fk_maquina, String fecha_creacion, String fecha_aviso,
+													int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
+													String fecha_creacion, String fecha_aviso,
 													String fecha_visita, String visita_duplicada, String fecha_reparacion,
 													String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
 													String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -118,7 +122,8 @@ public class MantenimientoDAO extends DBHelperMOS {
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,
 				moroso_usuario, observaciones_usuario,
-				fk_direccion,direccion, cod_postal, provincia, municipio, fk_maquina, fecha_creacion, fecha_aviso,
+				fk_direccion,direccion, cod_postal, provincia, municipio, fk_maquina,
+				tipo_maquina, modelo_maquina, marca_maquina,fecha_creacion, fecha_aviso,
 				fecha_visita, visita_duplicada, fecha_reparacion,
 				num_parte, fk_tipo, fk_user_asignacion, fk_horario,
 				franja_horaria, fk_franja_ip, fk_estado, observaciones,

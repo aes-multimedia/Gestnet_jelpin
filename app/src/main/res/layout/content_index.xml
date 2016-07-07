@@ -8,8 +8,8 @@
     tools:context="com.multimedia.aes.gestnet_sgsv2.nucleo.Index"
     tools:showIn="@layout/index"
     android:orientation="vertical"
-    android:background="#FABB9C"
-    android:id="@+id/cuerpo">
+    android:id="@+id/cuerpo"
+    android:background="#fff">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:orientation="vertical"

@@ -20,13 +20,16 @@ import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
-            txtTipoMantenimiento,txtContadorAverias,txtContrato,txtNumParte,txtMaquina,txtFechaLlamada,
-            txtFranjaHoraria,txtTipoUrgencia;
+            txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
+            txtTipo,txtMarca,txtModelo,txtNombre,txtDireccion;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5;
     private Button btnIniciarParte,btnConfirmarObsTel;
     private Mantenimiento mantenimiento = null;
@@ -50,11 +53,14 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtTipoMantenimiento = (TextView)vista.findViewById(R.id.txtTipoMantenimiento);
         txtContadorAverias = (TextView)vista.findViewById(R.id.txtContadorAverias);
         txtContrato = (TextView)vista.findViewById(R.id.txtContrato);
-        txtNumParte = (TextView)vista.findViewById(R.id.txtNumParte);
-        txtMaquina = (TextView)vista.findViewById(R.id.txtMaquina);
         txtFechaLlamada = (TextView)vista.findViewById(R.id.txtFechaLlamada);
-        txtFranjaHoraria = (TextView)vista.findViewById(R.id.txtFranjaHoraria);
         txtTipoUrgencia = (TextView)vista.findViewById(R.id.txtTipoUrgencia);
+        txtTipo = (TextView)vista.findViewById(R.id.txtTipo);
+        txtMarca = (TextView)vista.findViewById(R.id.txtMarca);
+        txtModelo = (TextView)vista.findViewById(R.id.txtModelo);
+        txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
+        txtDireccion = (TextView)vista.findViewById(R.id.txtDireccion);
+
 
         etObservaciones = (EditText)vista.findViewById(R.id.etObservaciones);
         etTelefono1 = (EditText)vista.findViewById(R.id.etTelefono1);
@@ -87,9 +93,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
 
         if (mantenimiento.getPagado_endesa().equals("0")){
-            txtVenta.setText("no");
+            txtVenta.setText("No");
         }else{
-            txtVenta.setText("si");
+            txtVenta.setText("Si");
         }
         if (mantenimiento.getFk_categoria_visita()==1){
             txtTipoVisita.setText("Visita reducida");
@@ -111,30 +117,53 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
         txtContadorAverias.setText(mantenimiento.getContador_averias());
         txtContrato.setText(mantenimiento.getContrato_endesa());
-        txtNumParte.setText(mantenimiento.getNum_parte());
 
-        txtMaquina.setText("APARICI");
-        txtFechaLlamada.setText(mantenimiento.getFecha_aviso());
+        String dateSample = mantenimiento.getFecha_aviso();
 
-        if (mantenimiento.getFranja_horaria().equals("0")){
-            txtFranjaHoraria.setText("Todo el dia");
-        }else if (mantenimiento.getFranja_horaria().equals("1")){
-            txtFranjaHoraria.setText("Mañana");
-        }else {
-            txtFranjaHoraria.setText("Tarde");
+        String oldFormat = "dd-MM-yyyy HH:mm:ss";
+        String newFormat = "dd/MM/yyyy";
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat(oldFormat);
+        SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
+        String fecha = "";
+        try {
+            fecha = sdf2.format(sdf1.parse(dateSample));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        txtFechaLlamada.setText(fecha);
 
         if (mantenimiento.getFk_tipo_urgencia()==1){
             txtTipoUrgencia.setText("MUY URGENTE");
         }else if (mantenimiento.getFk_tipo_urgencia()==2){
             txtTipoUrgencia.setText("URGENTE");
-        }else if (mantenimiento.getFk_tipo_urgencia()==3){
-            txtTipoUrgencia.setText("BONIFICABLE");
         }else if (mantenimiento.getFk_tipo_urgencia()==4){
             txtTipoUrgencia.setText("NORMAL");
         }else if (mantenimiento.getFk_tipo_urgencia()==5){
             txtTipoUrgencia.setText("PENALIZABLE");
+        }else{
+            txtTipoUrgencia.setText("BONIFICABLE");
         }
+        if (mantenimiento.getTipo_maquina().equals("1")){
+            txtTipo.setText("Estanca");
+        }else if (mantenimiento.getTipo_maquina().equals("2")){
+            txtTipo.setText("Atmosferica");
+        }else if (mantenimiento.getTipo_maquina().equals("6")){
+            txtTipo.setText("Condensacion");
+        }else if (mantenimiento.getTipo_maquina().equals("7")){
+            txtTipo.setText("Estilo Mixto");
+        }else if (mantenimiento.getTipo_maquina().equals("8")){
+            txtTipo.setText("Calentador Gas");
+        }else{
+            txtTipo.setText("Otras");
+        }
+
+        txtModelo.setText(mantenimiento.getModelo_maquina());
+        txtMarca.setText(" - "+mantenimiento.getMarca_maquina()+" - ");
+        txtNombre.setText(mantenimiento.getNombre_usuario());
+        txtDireccion.setText(mantenimiento.getDireccion()+" - ("+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+" - "+mantenimiento.getMunicipio()+")");
+
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
         etTelefono1.setText(mantenimiento.getTelefono1_usuario());
         etTelefono2.setText(mantenimiento.getTelefono2_usuario());

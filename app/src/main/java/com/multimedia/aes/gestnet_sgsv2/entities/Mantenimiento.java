@@ -28,6 +28,11 @@ public class Mantenimiento {
     public static final String PROVINCIA = "provincia";
     public static final String MUNICIPIO = "municipio";
     public static final String FK_MAQUINA = "fk_maquina";
+
+    public static final String TIPO_MAQUINA = "tipo_maquina";
+    public static final String MODELO_MAQUINA = "modelo_maquina";
+    public static final String MARCA_MAQUINA = "marca_maquina";
+
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -141,6 +146,12 @@ public class Mantenimiento {
     private String municipio;
     @DatabaseField(columnName = FK_MAQUINA)
     private int fk_maquina;
+    @DatabaseField(columnName = TIPO_MAQUINA)
+    private String tipo_maquina;
+    @DatabaseField(columnName = MODELO_MAQUINA)
+    private String modelo_maquina;
+    @DatabaseField(columnName = MARCA_MAQUINA)
+    private String marca_maquina;
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -288,7 +299,8 @@ public class Mantenimiento {
                          String telefono4_usuario, String telefono5_usuario, String email_usuario,
                          String moroso_usuario, String observaciones_usuario,int fk_direccion,
                          String direccion, String cod_postal, String provincia, String municipio,
-                         int fk_maquina, String fecha_creacion, String fecha_aviso,
+                         int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
+                         String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
                          String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
                          String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -313,7 +325,6 @@ public class Mantenimiento {
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
-
         this.fk_empresa_usuario = fk_empresa_usuario;
         this.numero_usuario = numero_usuario;
         this.nombre_usuario = nombre_usuario;
@@ -326,13 +337,15 @@ public class Mantenimiento {
         this.email_usuario = email_usuario;
         this.moroso_usuario = moroso_usuario;
         this.observaciones_usuario = observaciones_usuario;
-
         this.fk_direccion = fk_direccion;
         this.direccion = direccion;
         this.cod_postal = cod_postal;
         this.provincia = provincia;
         this.municipio = municipio;
         this.fk_maquina = fk_maquina;
+        this.tipo_maquina =tipo_maquina;
+        this.modelo_maquina = modelo_maquina;
+        this.marca_maquina = marca_maquina;
         this.fecha_creacion = fecha_creacion;
         this.fecha_aviso = fecha_aviso;
         this.fecha_visita = fecha_visita;
@@ -542,6 +555,27 @@ public class Mantenimiento {
     }
     public void setFk_maquina(int fk_maquina) {
         this.fk_maquina = fk_maquina;
+    }
+    public static String getFkTecnico() {
+        return FK_TECNICO;
+    }
+    public String getTipo_maquina() {
+        return tipo_maquina;
+    }
+    public void setTipo_maquina(String tipo_maquina) {
+        this.tipo_maquina = tipo_maquina;
+    }
+    public String getModelo_maquina() {
+        return modelo_maquina;
+    }
+    public void setModelo_maquina(String modelo_maquina) {
+        this.modelo_maquina = modelo_maquina;
+    }
+    public String getMarca_maquina() {
+        return marca_maquina;
+    }
+    public void setMarca_maquina(String marca_maquina) {
+        this.marca_maquina = marca_maquina;
     }
     public String getFecha_creacion() {
         return fecha_creacion;
