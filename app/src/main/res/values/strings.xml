@@ -18,6 +18,7 @@
     <string name="datos_tipo_caldera">Guardando datos de los tipos de caldera</string>
     <string name="datos_marca_caldera">Guardando datos de las marcas de caldera</string>
     <string name="datos_uso_caldera">Guardando datos de los usos de caldera</string>
+    <string name="datos_potencia">Guardando potencias de la caldera</string>
     <string name="title_activity_index">Gestnet_SGS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

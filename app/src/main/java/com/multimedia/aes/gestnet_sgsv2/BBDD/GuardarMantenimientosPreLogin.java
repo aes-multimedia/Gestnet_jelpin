@@ -3,7 +3,6 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
-import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin;
 
@@ -274,8 +273,7 @@ public class GuardarMantenimientosPreLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosTipoCaldera(context);
-            new GuardarTipoCalderaPreLogin(context,Json);
+            ((PreLogin)context).siguienteActivity();
         }else{
             ((PreLogin)context).sacarMensaje("error mantenimiento");
         }

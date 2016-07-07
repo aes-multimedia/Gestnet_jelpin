@@ -3,6 +3,8 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin;
 
 import org.json.JSONArray;
@@ -36,16 +38,17 @@ public class GuardarUsoCalderaPreLogin {
         for (int i = 0; i < jsonArray.length(); i++) {
             int id = jsonArray.getJSONObject(i).getInt("id_uso");
             String nombre = jsonArray.getJSONObject(i).getString("descripcion");
-            if (TipoCalderaDAO.newTipoCaldera(context,id,nombre)){
+            if (UsoCalderaDAO.newUsoCaldera(context,id,nombre)){
                 bien=true;
             }else{
                 bien=false;
             }
         }
         if (bien){
-            ((PreLogin)context).siguienteActivity();
+            ManagerProgressDialog.guardarDatosPotencia(context);
+            new GuardarPotenciaPreLogin(context,Json);
         }else{
-            ((PreLogin)context).sacarMensaje("error marca caldera");
+            ((PreLogin)context).sacarMensaje("error uso caldera");
         }
     }
 }

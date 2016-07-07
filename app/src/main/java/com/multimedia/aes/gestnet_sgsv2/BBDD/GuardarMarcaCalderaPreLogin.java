@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
 
+import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin;
@@ -37,7 +38,7 @@ public class GuardarMarcaCalderaPreLogin {
         for (int i = 0; i < jsonArray.length(); i++) {
             int id = jsonArray.getJSONObject(i).getInt("id_marca");
             String nombre = jsonArray.getJSONObject(i).getString("nombre_marca");
-            if (TipoCalderaDAO.newTipoCaldera(context,id,nombre)){
+            if (MarcaCalderaDAO.newMarcaCaldera(context,id,nombre)){
                 bien=true;
             }else{
                 bien=false;
