@@ -15,6 +15,9 @@
     <string name="datos_tecnico">Guardando datos del técnico</string>
     <string name="datos_averia">Guardando datos de las averias</string>
     <string name="datos_mantenimiento">Guardando datos de los mantenimientos</string>
+    <string name="datos_tipo_caldera">Guardando datos de los tipos de caldera</string>
+    <string name="datos_marca_caldera">Guardando datos de las marcas de caldera</string>
+    <string name="datos_uso_caldera">Guardando datos de los usos de caldera</string>
     <string name="title_activity_index">Gestnet_SGS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -43,6 +46,26 @@
     <string name="confirmar_telefono">CONFIRMAR TELEFONOS Y OBSERVACIONES</string>
 
     <string-array name="tipo_caldera">
+        <item>Array Item One</item>
+        <item>Array Item Two</item>
+        <item>Array Item Three</item>
+    </string-array>
+    <string-array name="marca_caldera">
+        <item>Array Item One</item>
+        <item>Array Item Two</item>
+        <item>Array Item Three</item>
+    </string-array>
+    <string-array name="uso_caldera">
+        <item>Array Item One</item>
+        <item>Array Item Two</item>
+        <item>Array Item Three</item>
+    </string-array>
+    <string-array name="potencia_caldera">
+        <item>Array Item One</item>
+        <item>Array Item Two</item>
+        <item>Array Item Three</item>
+    </string-array>
+    <string-array name="puesta_marcha">
         <item>Array Item One</item>
         <item>Array Item Two</item>
         <item>Array Item Three</item>

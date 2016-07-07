@@ -23,8 +23,18 @@ public abstract class ManagerProgressDialog {
     public static void guardarDatosMantenimiento(Context context){
         p.setMessage(context.getResources().getString(R.string.datos_mantenimiento));
     }
+    public static void guardarDatosTipoCaldera(Context context){
+        p.setMessage(context.getResources().getString(R.string.datos_tipo_caldera));
+    }
+    public static void guardarDatosMarcaCaldera(Context context){
+        p.setMessage(context.getResources().getString(R.string.datos_marca_caldera));
+    }
+    public static void guardarDatosUsoCaldera(Context context) {
+        p.setMessage(context.getResources().getString(R.string.datos_marca_caldera));
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }
+
 
 }

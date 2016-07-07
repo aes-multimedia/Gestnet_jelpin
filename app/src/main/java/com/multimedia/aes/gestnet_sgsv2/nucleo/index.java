@@ -181,4 +181,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         entra=true;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            BBDDConstantes.borrarDatosTablas(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
