@@ -26,7 +26,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_sgs.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 
 	public static Dao<Tecnico, Integer> tecnicoDao;
 	public static Dao<Averia, Integer> averiaDao;

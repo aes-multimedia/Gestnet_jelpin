@@ -96,8 +96,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     }
     public void sacarMensaje(String msg){
-        ManagerProgressDialog.cerrarDialog();
         Toast.makeText(Login.this, msg, Toast.LENGTH_SHORT).show();
+        ManagerProgressDialog.cerrarDialog();
+        try {
+            BBDDConstantes.borrarDatosTablas(this);
+            GestorSharedPreferences.clearSharedPreferencesTecnico(this);
+            Intent i = new Intent(this,Login.class);
+            startActivity(i);
+            finish();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void siguienteActivity(){
         ManagerProgressDialog.cerrarDialog();

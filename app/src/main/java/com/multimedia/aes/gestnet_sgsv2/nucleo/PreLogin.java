@@ -61,6 +61,16 @@ public class PreLogin extends AppCompatActivity {
 
     public void sacarMensaje(String s) {
         Toast.makeText(PreLogin.this, s, Toast.LENGTH_SHORT).show();
+        ManagerProgressDialog.cerrarDialog();
+        try {
+            BBDDConstantes.borrarDatosTablas(this);
+            GestorSharedPreferences.clearSharedPreferencesTecnico(this);
+            Intent i = new Intent(this,Login.class);
+            startActivity(i);
+            finish();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void siguienteActivity() {
