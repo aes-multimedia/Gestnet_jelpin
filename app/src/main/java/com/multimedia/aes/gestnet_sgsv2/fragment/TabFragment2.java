@@ -34,7 +34,7 @@ public class TabFragment2 extends Fragment {
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha;
     private EditText etModelo;
     private Button btnDespiece;
-    private List<TipoCaldera> listaTipos;
+    private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
     private List<UsoCaldera> listaUso=null;
     private List<Potencia> listaPotencia=null;
@@ -54,14 +54,14 @@ public class TabFragment2 extends Fragment {
         spUso = (Spinner)vista.findViewById(R.id.spUso);
         spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
-
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
-            for (int i = 0; i < listaTipos.size()-1; i++) {
+            tipos = new String[listaTipos.size()];
+            for (int i = 0; i < listaTipos.size(); i++) {
                 tipos[i]=listaTipos.get(i).getNombre_tipo_caldera();
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
-
+/*
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
             for (int i = 0; i < listaMarcas.size()-1; i++) {
                 marcas[i]=listaMarcas.get(i).getNombre_marca_caldera();
@@ -86,12 +86,11 @@ public class TabFragment2 extends Fragment {
             for (int i = 1950; i < año; i++) {
                 puestaMarcha[i]=String.valueOf(i);
             }
-            spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
+            spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));*/
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return vista;
     }
 
