@@ -171,6 +171,25 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         etTelefono4.setText(mantenimiento.getTelefono4_usuario());
         etTelefono5.setText(mantenimiento.getTelefono5_usuario());
 
+        int estado = Integer.parseInt(mantenimiento.getEstado_android());
+        if (estado==0){
+
+        }else if (estado==1){
+            btnIniciarParte.setText("PARTE INICIADO");
+            btnIniciarParte.setClickable(false);
+        }else if (estado==2){
+            btnIniciarParte.setText("PARTE PENDIENTE");
+            btnIniciarParte.setClickable(false);
+        }else if (estado==3){
+            btnIniciarParte.setText("PARTE CERRADO");
+            btnIniciarParte.setClickable(false);
+            etObservaciones.setEnabled(false);
+            etTelefono1.setEnabled(false);
+            etTelefono2.setEnabled(false);
+            etTelefono3.setEnabled(false);
+            etTelefono4.setEnabled(false);
+            etTelefono5.setEnabled(false);
+        }
         return vista;
     }
 
