@@ -13,6 +13,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -100,6 +101,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.tipoEstadoDao = getDao(TipoEstado.class);
 		}
 		return BBDDConstantes.tipoEstadoDao;
+	}
+	public Dao<TiposReparaciones, Integer> getTiposReparacionesDAO() throws SQLException {
+		if (BBDDConstantes.tipoReparacionesDao == null) {
+			BBDDConstantes.tipoReparacionesDao = getDao(TiposReparaciones.class);
+		}
+		return BBDDConstantes.tipoReparacionesDao;
 	}
 
 }

@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoEstadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -19,6 +20,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -36,6 +38,7 @@ public class BBDDConstantes {
 	public static Dao<UsoCaldera, Integer> usoCalderaDao;
 	public static Dao<Potencia, Integer> potenciaDao;
 	public static Dao<TipoEstado, Integer> tipoEstadoDao;
+	public static Dao<TiposReparaciones, Integer> tipoReparacionesDao;
 
 	public static void cerrarDao() {
 		tecnicoDao = null;
@@ -46,6 +49,7 @@ public class BBDDConstantes {
 		usoCalderaDao = null;
 		potenciaDao = null;
 		tipoEstadoDao = null;
+		tipoReparacionesDao = null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -57,6 +61,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, UsoCaldera.class);
 		TableUtils.createTable(connectionSource, Potencia.class);
 		TableUtils.createTable(connectionSource, TipoEstado.class);
+		TableUtils.createTable(connectionSource, TiposReparaciones.class);
 
 	}
 
@@ -69,6 +74,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, UsoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, Potencia.class, true);
 		TableUtils.dropTable(connectionSource, TipoEstado.class, true);
+		TableUtils.dropTable(connectionSource, TiposReparaciones.class, true);
 
 	}
 
@@ -81,6 +87,7 @@ public class BBDDConstantes {
 		UsoCalderaDAO.borrarTodosLosUsoCaldera(context);
 		PotenciaDAO.borrarTodosLosPotencia(context);
 		TipoEstadoDAO.borrarTodosLosTipoEstado(context);
+		TiposReparacionesDAO.borrarTodosLosTiposReparaciones(context);
 
 	}
 }
