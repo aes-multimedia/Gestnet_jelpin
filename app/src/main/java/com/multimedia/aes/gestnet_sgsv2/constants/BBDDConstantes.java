@@ -10,6 +10,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoEstadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -17,6 +18,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -33,6 +35,7 @@ public class BBDDConstantes {
 	public static Dao<MarcaCaldera, Integer> marcaCalderaDao;
 	public static Dao<UsoCaldera, Integer> usoCalderaDao;
 	public static Dao<Potencia, Integer> potenciaDao;
+	public static Dao<TipoEstado, Integer> tipoEstadoDao;
 
 	public static void cerrarDao() {
 		tecnicoDao = null;
@@ -42,6 +45,7 @@ public class BBDDConstantes {
 		marcaCalderaDao = null;
 		usoCalderaDao = null;
 		potenciaDao = null;
+		tipoEstadoDao = null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -52,6 +56,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, MarcaCaldera.class);
 		TableUtils.createTable(connectionSource, UsoCaldera.class);
 		TableUtils.createTable(connectionSource, Potencia.class);
+		TableUtils.createTable(connectionSource, TipoEstado.class);
 
 	}
 
@@ -63,6 +68,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, MarcaCaldera.class, true);
 		TableUtils.dropTable(connectionSource, UsoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, Potencia.class, true);
+		TableUtils.dropTable(connectionSource, TipoEstado.class, true);
 
 	}
 
@@ -74,6 +80,7 @@ public class BBDDConstantes {
 		MarcaCalderaDAO.borrarTodosLosMarcaCaldera(context);
 		UsoCalderaDAO.borrarTodosLosUsoCaldera(context);
 		PotenciaDAO.borrarTodosLosPotencia(context);
+		TipoEstadoDAO.borrarTodosLosTipoEstado(context);
 
 	}
 }

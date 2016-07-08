@@ -12,6 +12,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -91,6 +92,14 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.potenciaDao = getDao(Potencia.class);
 		}
 		return BBDDConstantes.potenciaDao;
+	}
+
+
+	public Dao<TipoEstado, Integer> getTipoEstadoDAO() throws SQLException {
+		if (BBDDConstantes.tipoEstadoDao == null) {
+			BBDDConstantes.tipoEstadoDao = getDao(TipoEstado.class);
+		}
+		return BBDDConstantes.tipoEstadoDao;
 	}
 
 }

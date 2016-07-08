@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin;
 
 import org.json.JSONArray;
@@ -44,9 +46,10 @@ public class GuardarPotenciaPreLogin {
             }
         }
         if (bien){
-            ((PreLogin)context).siguienteActivity();
+            ManagerProgressDialog.guardarTiposEstado(context);
+            new GuardarEstadosLogin(context,Json);
         }else{
-            ((PreLogin)context).sacarMensaje("error potencia");
+            ((PreLogin)context).sacarMensaje("error tipo estados");
         }
     }
 }

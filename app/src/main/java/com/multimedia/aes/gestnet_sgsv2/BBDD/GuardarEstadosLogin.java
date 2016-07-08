@@ -2,9 +2,10 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
 
-import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoEstadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -13,16 +14,20 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarPotenciaLogin {
+
+public class GuardarEstadosLogin {
+
+
+
     private static String Json;
     private static Context context;
     private static boolean bien;
 
-    public GuardarPotenciaLogin(Context context, String json) {
+    public GuardarEstadosLogin(Context context, String json) {
         this.context = context;
         Json = json;
         try {
-            guardarJsonMarcaCaldera();
+            guardarJsonTipoEstado();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -30,25 +35,25 @@ public class GuardarPotenciaLogin {
         }
     }
 
-    public static void guardarJsonMarcaCaldera() throws JSONException, SQLException {
+    public static void guardarJsonTipoEstado() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(Json);
         jsonObject = jsonObject.getJSONObject("usuario");
-        JSONArray jsonArray = jsonObject.getJSONArray("potencias");
+        JSONArray jsonArray = jsonObject.getJSONArray("tipo_estados");
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            int id = jsonArray.getJSONObject(i).getInt("id_potencia");
-            String nombre = jsonArray.getJSONObject(i).getString("potencia");
-            if (PotenciaDAO.newPotencia(context,id,nombre)){
+            int id = jsonArray.getJSONObject(i).getInt("id_estado");
+            String nombre = jsonArray.getJSONObject(i).getString("nombre_estado");
+            if (TipoEstadoDAO.newTipoEstado(context,id,nombre)){
                 bien=true;
             }else{
                 bien=false;
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarTiposEstado(context);
-            new GuardarEstadosLogin(context,Json);
+            ((Login)context).siguienteActivity();
         }else{
-            ((Login)context).sacarMensaje("error tipo estados");
+            ((Login)context).sacarMensaje("error potencia");
         }
+
     }
 }

@@ -45,6 +45,7 @@
     <string name="telefonos">Telefonos: </string>
     <string name="iniciar_parte">INICIAR PARTE</string>
     <string name="confirmar_telefono">CONFIRMAR TELEFONOS Y OBSERVACIONES</string>
+    <string name="datos_tipo_estado">guardando estados</string>
 
 
 </resources>

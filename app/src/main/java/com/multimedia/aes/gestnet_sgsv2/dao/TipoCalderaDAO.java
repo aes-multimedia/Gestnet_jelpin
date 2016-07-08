@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class TipoCalderaDAO extends DBHelperMOS {
+
+
 	static Dao<TipoCaldera, Integer> dao;
 
 	public static void cargarDao(Context context) throws SQLException {
