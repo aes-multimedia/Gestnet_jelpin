@@ -59,6 +59,7 @@ public class TabFragment2 extends Fragment {
             tipos = new String[listaTipos.size()];
             for (int i = 0; i < listaTipos.size(); i++) {
                 tipos[i]=listaTipos.get(i).getNombre_tipo_caldera();
+                Toast.makeText(getContext(), tipos[i], Toast.LENGTH_SHORT).show();
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 /*
