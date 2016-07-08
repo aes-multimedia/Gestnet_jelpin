@@ -59,23 +59,25 @@ public class TabFragment2 extends Fragment {
             tipos = new String[listaTipos.size()];
             for (int i = 0; i < listaTipos.size(); i++) {
                 tipos[i]=listaTipos.get(i).getNombre_tipo_caldera();
-                Toast.makeText(getContext(), tipos[i], Toast.LENGTH_SHORT).show();
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
-/*
+
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
-            for (int i = 0; i < listaMarcas.size()-1; i++) {
+            marcas = new String[listaMarcas.size()];
+            for (int i = 0; i < listaMarcas.size(); i++) {
                 marcas[i]=listaMarcas.get(i).getNombre_marca_caldera();
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
             listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
+            usos=new String[listaUso.size()];
             for (int i = 0; i < listaUso.size(); i++) {
                 usos[i]=listaUso.get(i).getNombre_uso_caldera();
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
             listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
+            potencias=new String[listaPotencia.size()];
             for (int i = 0; i < listaPotencia.size(); i++) {
                 potencias[i]=listaPotencia.get(i).getPotencia();
             }
@@ -84,11 +86,13 @@ public class TabFragment2 extends Fragment {
             Date d = new Date();
             String s  = String.valueOf(DateFormat.format("yyyy", d.getTime()));
             int año = Integer.parseInt(s);
-            for (int i = 1950; i < año; i++) {
-                puestaMarcha[i]=String.valueOf(i);
+            puestaMarcha=new String[66];
+            int a = 0;
+            for (int i = año-65; i <= año; i++) {
+                puestaMarcha[a]=String.valueOf(i);
+                a++;
             }
-            spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));*/
-
+            spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
         } catch (SQLException e) {
             e.printStackTrace();
         }
