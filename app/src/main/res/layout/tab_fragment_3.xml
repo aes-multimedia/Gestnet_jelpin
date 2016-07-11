@@ -58,7 +58,9 @@
                         android:spinnerMode="dropdown"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:entries="@array-estadosVisita"/>
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -175,7 +177,8 @@
                         android:id="@+id/spTipo_visita"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:entries="@array-tipoVisita"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -239,7 +242,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner8"
+                        android:id="@+id/spTipo_reparacion"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
                 </LinearLayout>
@@ -261,7 +264,7 @@
                     <DatePicker
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/datePicker" />
+                        android:id="@+id/dpFechaReparacion" />
 
                 </LinearLayout>
 
@@ -282,9 +285,10 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spinner9"
+                        android:id="@+id/spTiempo_reparacion"
                         android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -304,7 +308,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText6"
+                        android:id="@+id/etCosteMateriales"
                         android:minHeight="30dp"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
@@ -328,55 +332,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText5"
-                        android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:layout_marginTop="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Coste Materiales"
-                        android:id="@+id/textView38"
-                        android:textSize="18dp"
-                        android:layout_marginTop="10dp" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editText7"
-                        android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:layout_marginTop="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Codigo de Barras"
-                        android:id="@+id/textView39"
-                        android:textSize="18dp"
-                        android:layout_marginTop="10dp" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editText8"
+                        android:id="@+id/etCosteManoDeObra"
                         android:minHeight="30dp"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
@@ -387,7 +343,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Finalizar"
-                    android:id="@+id/button2"
+                    android:id="@+id/btnFinalizar"
                     android:background="@drawable/botones"
                     android:gravity="center"
                     android:layout_margin="20dp"
