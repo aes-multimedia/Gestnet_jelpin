@@ -22,7 +22,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newMantenimiento(Context context,int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
+	public static boolean newMantenimiento(Context context,int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
 										   int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
 										   String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
 										   String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -50,7 +50,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   String orden, String historico, int fk_tipo_urgencia_factura,
 										   String error_batch, int fk_batch_actual, int fk_efv, String scoring,
 										   int fk_categoria_visita, String contador_averias) {
-		Mantenimiento m = montarMantenimiento(id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
+		Mantenimiento m = montarMantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
 				fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,
@@ -90,7 +90,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Mantenimiento montarMantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
+	public static Mantenimiento montarMantenimiento(int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
 													int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
 													String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
 													String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -118,7 +118,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 													String orden, String historico, int fk_tipo_urgencia_factura,
 													String error_batch, int fk_batch_actual, int fk_efv, String scoring,
 													int fk_categoria_visita, String contador_averias) {
-		Mantenimiento m =new Mantenimiento(id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
+		Mantenimiento m =new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
 				fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,
@@ -189,12 +189,208 @@ public class MantenimientoDAO extends DBHelperMOS {
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-	public static void actualizarEstadoAndroid (Context context, int estado, int id_mantenimiento ) throws SQLException
+	public static void actualizarMantenimiento(Context context, Mantenimiento mantenimiento ) throws SQLException
 	{
+		int id = mantenimiento.getId_mantenimiento();
+		String hash = mantenimiento.getHash();
+		int fk_user_creador = mantenimiento.getFk_user_creador();
+		int fk_tecnico = mantenimiento.getFk_tecnico();
+		int fk_usuario = mantenimiento.getFk_usuario();
+		int fk_empresa_usuario = mantenimiento.getFk_empresa_usuario();
+		String numero_usuario = mantenimiento.getNumero_usuario();
+		String nombre_usuario = mantenimiento.getNombre_usuario();
+		String dni_usuario = mantenimiento.getDni_usuario();
+		String telefono1_usuario = mantenimiento.getTelefono1_usuario();
+		String telefono2_usuario = mantenimiento.getTelefono2_usuario();
+		String telefono3_usuario = mantenimiento.getTelefono3_usuario();
+		String telefono4_usuario = mantenimiento.getTelefono4_usuario();
+		String telefono5_usuario = mantenimiento.getTelefono5_usuario();
+		String email_usuario = mantenimiento.getEmail_usuario();
+		String moroso_usuario = mantenimiento.getMoroso_usuario();
+		String observaciones_usuario = mantenimiento.getObservaciones_usuario();
+		int fk_direccion = mantenimiento.getFk_direccion();
+		String direccion = mantenimiento.getDireccion();
+		String cod_postal = mantenimiento.getCod_postal();
+		String provincia = mantenimiento.getProvincia();
+		String municipio = mantenimiento.getMunicipio();
+		int fk_maquina = mantenimiento.getFk_maquina();
+		String tipo_maquina = mantenimiento.getTipo_maquina();
+		String modelo_maquina = mantenimiento.getModelo_maquina();
+		String marca_maquina = mantenimiento.getMarca_maquina();
+		int uso_maquina = mantenimiento.getUso_maquina();
+		String fecha_creacion = mantenimiento.getFecha_creacion();
+		String fecha_aviso = mantenimiento.getFecha_aviso();
+		String fecha_visita = mantenimiento.getFecha_visita();
+		String visita_duplicada = mantenimiento.getVisita_duplicada();
+		String fecha_reparacion = mantenimiento.getFecha_reparacion();
+		String num_parte = mantenimiento.getNum_parte();
+		int fk_tipo = mantenimiento.getFk_tipo();
+		int fk_user_asignacion = mantenimiento.getFk_user_asignacion();
+		int fk_horario = mantenimiento.getFk_horario();
+		String franja_horaria = mantenimiento.getFranja_horaria();
+		int fk_franja_ip = mantenimiento.getFk_franja_ip();
+		int fk_estado = mantenimiento.getFk_estado();
+		String observaciones = mantenimiento.getObservaciones();
+		String observacionesAsignacion = mantenimiento.getObservacionesAsignacion();
+		String confirmado = mantenimiento.getConfirmado();
+		String imprimir = mantenimiento.getImprimir();
+		String fecha_factura = mantenimiento.getFecha_factura();
+		String num_factura = mantenimiento.getNum_factura();
+		String fecha_factura_rectificativa = mantenimiento.getFecha_factura_rectificativa();
+		String num_factura_rectificativa = mantenimiento.getNum_factura_rectificativa();
+		int fk_pend_fact = mantenimiento.getFk_pend_fact();
+		String num_orden_endesa = mantenimiento.getNum_orden_endesa();
+		String fecha_maxima_endesa = mantenimiento.getFecha_maxima_endesa();
+		int fk_estado_endesa = mantenimiento.getFk_estado_endesa();
+		String insistencia_endesa = mantenimiento.getInsistencia_endesa();
+		String contrato_endesa = mantenimiento.getContrato_endesa();
+		String producto_endesa = mantenimiento.getProducto_endesa();
+		int fk_tipo_os = mantenimiento.getFk_tipo_os();
+		int fk_tipo_producto = mantenimiento.getFk_tipo_producto();
+		String pagado_endesa = mantenimiento.getPagado_endesa();
+		String ciclo_liq_endesa = mantenimiento.getCiclo_liq_endesa();
+		String importe_pago_endesa = mantenimiento.getImporte_pago_endesa();
+		String fecha_pagado_endesa = mantenimiento.getFecha_pagado_endesa();
+		String pagado_operario = mantenimiento.getPagado_operario();
+		String fecha_anulado = mantenimiento.getFecha_anulado();
+		String fecha_modificacion_tecnico = mantenimiento.getFecha_modificacion_tecnico();
+		int fk_remoto_central = mantenimiento.getFk_remoto_central();
+		String fac_nombre = mantenimiento.getFac_nombre();
+		String fac_direccion = mantenimiento.getFac_direccion();
+		String fac_cp = mantenimiento.getFac_cp();
+		String fac_poblacion = mantenimiento.getFac_poblacion();
+		String fac_provincia = mantenimiento.getFac_provincia();
+		String fac_DNI = mantenimiento.getFac_DNI();
+		String fac_email = mantenimiento.getFac_email();
+		String fac_telefonos = mantenimiento.getFac_telefonos();
+		String otros_sintomas = mantenimiento.getOtros_sintomas();
+		String fecha_baja = mantenimiento.getFecha_baja();
+		String fac_baja_stock = mantenimiento.getFac_baja_stock();
+		String estado_android = mantenimiento.getEstado_android();
+		int fk_tipo_urgencia = mantenimiento.getFk_tipo_urgencia();
+		String fecha_cierre = mantenimiento.getFecha_cierre();
+		String num_lote = mantenimiento.getNum_lote();
+		String bEnBatch = mantenimiento.getbEnBatch();
+		String cod_visita = mantenimiento.getCod_visita();
+		String fecha_envio_carta = mantenimiento.getFecha_envio_carta();
+		String bCartaEnviada = mantenimiento.getbCartaEnviada();
+		String fecha_otro_dia = mantenimiento.getFecha_otro_dia();
+		String fecha_ausente_limite = mantenimiento.getHash();
+		int fk_carga_archivo = mantenimiento.getFk_carga_archivo();
+		String orden = mantenimiento.getOrden();
+		String historico = mantenimiento.getHistorico();
+		int fk_tipo_urgencia_factura = mantenimiento.getFk_tipo_urgencia_factura();
+		String error_batch = mantenimiento.getError_batch();
+		int fk_batch_actual = mantenimiento.getFk_batch_actual();
+		int fk_efv = mantenimiento.getFk_efv();
+		String scoring = mantenimiento.getScoring();
+		int fk_categoria_visita = mantenimiento.getFk_categoria_visita();
+		String contador_averias = mantenimiento.getContador_averias();
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id);
+		updateBuilder.updateColumnValue(Mantenimiento.HASH,hash );
+		updateBuilder.updateColumnValue(Mantenimiento.FK_USER_CREADOR, fk_user_creador);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TECNICO, fk_tecnico);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_USUARIO, fk_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_EMPRESA_USUARIO, fk_empresa_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.NUMERO_USUARIO, numero_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.NOMBRE_USUARIO, nombre_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.DNI_USUARIO, dni_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO1_USUARIO, telefono1_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO2_USUARIO, telefono2_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO3_USUARIO, telefono3_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO4_USUARIO, telefono4_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO5_USUARIO, telefono5_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.EMAIL_USUARIO, email_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.MOROSO_USUARIO, moroso_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.OBSERVACIONES_USUARIO, observaciones_usuario);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_DIRECCION, fk_direccion);
+		updateBuilder.updateColumnValue(Mantenimiento.DIRECCION, direccion);
+		updateBuilder.updateColumnValue(Mantenimiento.COD_POSTAL, cod_postal);
+		updateBuilder.updateColumnValue(Mantenimiento.PROVINCIA, provincia);
+		updateBuilder.updateColumnValue(Mantenimiento.MUNICIPIO, municipio);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_MAQUINA, fk_maquina);
+		updateBuilder.updateColumnValue(Mantenimiento.TIPO_MAQUINA, tipo_maquina);
+		updateBuilder.updateColumnValue(Mantenimiento.MODELO_MAQUINA, modelo_maquina);
+		updateBuilder.updateColumnValue(Mantenimiento.MARCA_MAQUINA, marca_maquina);
+		updateBuilder.updateColumnValue(Mantenimiento.USO_MAQUINA,uso_maquina );
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_CREACION, fecha_creacion);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_AVISO, fecha_aviso);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_VISITA, fecha_visita);
+		updateBuilder.updateColumnValue(Mantenimiento.VISITA_DUPLICADA, visita_duplicada);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_REPARACION, fecha_reparacion);
+		updateBuilder.updateColumnValue(Mantenimiento.NUM_PARTE, num_parte);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TIPO, fk_tipo);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_USER_ASIGNACION, fk_user_asignacion);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_HORARIO, fk_horario);
+		updateBuilder.updateColumnValue(Mantenimiento.FRANJA_HORARIA, franja_horaria);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_FRANJA_IP, fk_franja_ip);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_ESTADO, fk_estado);
+		updateBuilder.updateColumnValue(Mantenimiento.OBSERVACIONES, observaciones);
+		updateBuilder.updateColumnValue(Mantenimiento.OBSERVACIONESASIGNACION, observacionesAsignacion);
+		updateBuilder.updateColumnValue(Mantenimiento.CONFIRMADO, confirmado);
+		updateBuilder.updateColumnValue(Mantenimiento.IMPRIMIR, imprimir);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_FACTURA, fecha_factura);
+		updateBuilder.updateColumnValue(Mantenimiento.NUM_FACTURA, num_factura);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_FACTURA_RECTIFICATIVA, fecha_factura_rectificativa);
+		updateBuilder.updateColumnValue(Mantenimiento.NUM_FACTURA_RECTIFICATIVA, num_factura_rectificativa);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_PEND_FACT, fk_pend_fact);
+		updateBuilder.updateColumnValue(Mantenimiento.NUM_ORDEN_ENDESA, num_orden_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_MAXIMA_ENDESA, fecha_maxima_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_ESTADO_ENDESA, fk_estado_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.INSISTENCIA_ENDESA, insistencia_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.CONTRATO_ENDESA, contrato_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.PRODUCTO_ENDESA, producto_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TIPO_OS, fk_tipo_os);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TIPO_PRODUCTO, fk_tipo_producto);
+		updateBuilder.updateColumnValue(Mantenimiento.PAGADO_ENDESA, pagado_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.CICLO_LIQ_ENDESA, ciclo_liq_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.IMPORTE_PAGO_ENDESA, importe_pago_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_PAGADO_ENDESA, fecha_pagado_endesa);
+		updateBuilder.updateColumnValue(Mantenimiento.PAGADO_OPERARIO, pagado_operario);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_ANULADO, fecha_anulado);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_MODIFICACION_TECNICO, fecha_modificacion_tecnico);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_REMOTO_CENTRAL, fk_remoto_central);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_NOMBRE, fac_nombre);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_DIRECCION, fac_direccion);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_CP, fac_cp);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_POBLACION, fac_poblacion);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_PROVINCIA, fac_provincia);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_DNI, fac_DNI);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_EMAIL, fac_email);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_TELEFONOS, fac_telefonos);
+		updateBuilder.updateColumnValue(Mantenimiento.OTROS_SINTOMAS, otros_sintomas);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_BAJA, fecha_baja);
+		updateBuilder.updateColumnValue(Mantenimiento.FAC_BAJA_STOCK, fac_baja_stock);
+		updateBuilder.updateColumnValue(Mantenimiento.ESTADO_ANDROID, estado_android);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TIPO_URGENCIA, fk_tipo_urgencia);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_CIERRE, fecha_cierre);
+		updateBuilder.updateColumnValue(Mantenimiento.NUM_LOTE, num_lote);
+		updateBuilder.updateColumnValue(Mantenimiento.BENBATCH, bEnBatch);
+		updateBuilder.updateColumnValue(Mantenimiento.COD_VISITA, cod_visita);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_ENVIO_CARTA, fecha_envio_carta);
+		updateBuilder.updateColumnValue(Mantenimiento.BCARTAENVIADA, bCartaEnviada);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_OTRO_DIA, fecha_otro_dia);
+		updateBuilder.updateColumnValue(Mantenimiento.FECHA_AUSENTE_LIMITE, fecha_ausente_limite);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_CARGA_ARCHIVO, fk_carga_archivo);
+		updateBuilder.updateColumnValue(Mantenimiento.ORDEN, orden);
+		updateBuilder.updateColumnValue(Mantenimiento.HISTORICO, historico);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_TIPO_URGENCIA_FACTURA, fk_tipo_urgencia_factura);
+		updateBuilder.updateColumnValue(Mantenimiento.ERROR_BATCH, error_batch);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_BATCH_ACTUAL, fk_batch_actual);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_EFV, fk_efv);
+		updateBuilder.updateColumnValue(Mantenimiento.SCORING, scoring);
+		updateBuilder.updateColumnValue(Mantenimiento.FK_CATEGORIA_VISITA, fk_categoria_visita);
+		updateBuilder.updateColumnValue(Mantenimiento.CONTADOR_AVERIAS, contador_averias);
+		updateBuilder.update();
+	}
+
+	public static void actualizarEstadoAndroid(Context context, int i, int id_mantenimiento) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
-		updateBuilder.updateColumnValue(Mantenimiento.ESTADO_ANDROID, estado);
+		updateBuilder.updateColumnValue(Mantenimiento.ESTADO_ANDROID,i);
 		updateBuilder.update();
 	}
 }

@@ -1,10 +1,8 @@
 package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
@@ -15,16 +13,16 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarMantenimientosLogin {
+public class ModificarMantenimientos {
     private static String Json;
     private static Context context;
     private static boolean bien;
 
-    public GuardarMantenimientosLogin(Context context, String json) {
+    public ModificarMantenimientos(Context context, String json) {
         this.context = context;
         Json = json;
         try {
-            guardarJsonMantenimiento();
+            modificarJsonMantenimiento();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -32,7 +30,7 @@ public class GuardarMantenimientosLogin {
         }
     }
 
-    public static void guardarJsonMantenimiento() throws JSONException, SQLException {
+    public static void modificarJsonMantenimiento() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(Json);
         jsonObject = jsonObject.getJSONObject("usuario");
         JSONArray jsonArray = jsonObject.getJSONArray("mantenimientos");
@@ -249,8 +247,7 @@ public class GuardarMantenimientosLogin {
             }else{
                 uso_maquina = jsonObject1.getInt("fk_uso");
             }
-
-            if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
+            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
                     telefono4_usuario, telefono5_usuario, email_usuario,
@@ -277,17 +274,9 @@ public class GuardarMantenimientosLogin {
                     fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo,
                     orden, historico, fk_tipo_urgencia_factura,
                     error_batch, fk_batch_actual, fk_efv, scoring,
-                    fk_categoria_visita, contador_averias)){
-                bien=true;
-            }else{
-                bien=false;
-            }
+                    fk_categoria_visita, contador_averias);
+            MantenimientoDAO.actualizarMantenimiento(context,m);
         }
-        if (bien){
-            ManagerProgressDialog.guardarDatosTipoCaldera(context);
-            new GuardarTipoCalderaLogin(context,Json);
-        }else{
-            ((Login)context).sacarMensaje("error mantenimiento");
-        }
+
     }
 }

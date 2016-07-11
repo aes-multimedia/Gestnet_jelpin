@@ -38,4 +38,11 @@ public class PreLogin extends AppCompatActivity {
             //AQUI HAY QUE HACER LA COMPROBACION DE SI HAY CAMBIOS EN LA BASE DE DATOS
         }
     }
+
+    public void loginOk(String mensaje) {
+    }
+
+    public void errorDeLogin(String mensaje) {
+        Toast.makeText(PreLogin.this, mensaje, Toast.LENGTH_SHORT).show();
+    }
 }

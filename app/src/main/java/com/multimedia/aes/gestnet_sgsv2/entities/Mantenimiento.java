@@ -7,6 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Mantenimiento {
 
     public static final String ID_MANTENIMIENTO = "_id_mantenimiento";
+    public static final String HASH = "hash";
     public static final String FK_USER_CREADOR = "fk_user_creador";
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
@@ -28,12 +29,10 @@ public class Mantenimiento {
     public static final String PROVINCIA = "provincia";
     public static final String MUNICIPIO = "municipio";
     public static final String FK_MAQUINA = "fk_maquina";
-
     public static final String TIPO_MAQUINA = "tipo_maquina";
     public static final String MODELO_MAQUINA = "modelo_maquina";
     public static final String MARCA_MAQUINA = "marca_maquina";
     public static final String USO_MAQUINA = "uso_maquina";
-
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -105,6 +104,8 @@ public class Mantenimiento {
 
     @DatabaseField(id = true, columnName = ID_MANTENIMIENTO)
     private int id_mantenimiento;
+    @DatabaseField(columnName = HASH)
+    private String hash;
     @DatabaseField(columnName = FK_USER_CREADOR)
     private int fk_user_creador;
     @DatabaseField(columnName = FK_TECNICO)
@@ -296,7 +297,7 @@ public class Mantenimiento {
     }
 
 
-    public Mantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
+    public Mantenimiento(int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
                          int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
                          String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
                          String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -325,6 +326,7 @@ public class Mantenimiento {
                          String error_batch, int fk_batch_actual, int fk_efv, String scoring,
                          int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
+        this.hash = hash;
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
@@ -427,6 +429,12 @@ public class Mantenimiento {
     }
     public void setId_mantenimiento(int id_mantenimiento) {
         this.id_mantenimiento = id_mantenimiento;
+    }
+    public String getHash() {
+        return hash;
+    }
+    public void setHash(String hash) {
+        this.hash = hash;
     }
     public int getFk_user_creador() {
         return fk_user_creador;
