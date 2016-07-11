@@ -58,11 +58,6 @@ public class TabFragment3 extends Fragment {
         manoObra= (EditText) vista.findViewById(R.id.etCosteManoDeObra);
         fechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
         botonFinalizar=(Button) vista.findViewById(R.id.btnFinalizar);
-
-
-
-
-
         try {
 
             tiposReparacion = TiposReparacionesDAO.buscarTodosLosTiposReparaciones(getContext());
@@ -74,8 +69,6 @@ public class TabFragment3 extends Fragment {
                   } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
 
         return vista;
     }
