@@ -48,5 +48,18 @@
     <string name="datos_tipo_estado">guardando estados</string>
 
 
+    <string-array name="tipoVisita">
+        <item>Visita reducida</item>
+        <item>Visita RITE</item>
+    </string-array>
+    <string-array name="estadosVisita">
+        <item>Muy urgente</item>
+        <item>Urgente</item>
+        <item>Normal</item>
+        <item>Penalizable</item>
+        <item>Bonificable</item>
+    </string-array>
+
+
 </resources>
 
