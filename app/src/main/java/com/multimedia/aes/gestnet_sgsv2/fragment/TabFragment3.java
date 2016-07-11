@@ -31,9 +31,6 @@ public class TabFragment3 extends Fragment {
         reparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
 
 
-
-
-
         return vista;
     }
 

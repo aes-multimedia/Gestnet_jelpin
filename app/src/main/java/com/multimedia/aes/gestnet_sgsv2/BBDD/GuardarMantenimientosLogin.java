@@ -242,6 +242,12 @@ public class GuardarMantenimientosLogin {
             String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
             String modelo_maquina = jsonObject1.getString("modelo");
             String marca_maquina = jsonObject1.getString("nombre");
+            int uso_maquina;
+            if (jsonObject1.getString("fk_uso").equals("null")){
+                uso_maquina = 3;
+            }else{
+                uso_maquina = jsonObject1.getInt("fk_uso");
+            }
 
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
@@ -249,7 +255,8 @@ public class GuardarMantenimientosLogin {
                     telefono4_usuario, telefono5_usuario, email_usuario,
                     moroso_usuario, observaciones_usuario,
                     fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina,
-                    tipo_maquina, modelo_maquina, marca_maquina,fecha_creacion, fecha_aviso,
+                    tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
+                    fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,
