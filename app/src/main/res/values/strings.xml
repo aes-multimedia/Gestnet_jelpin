@@ -46,6 +46,7 @@
     <string name="iniciar_parte">INICIAR PARTE</string>
     <string name="confirmar_telefono">CONFIRMAR TELEFONOS Y OBSERVACIONES</string>
     <string name="datos_tipo_estado">guardando estados</string>
+    <string name="datos_tipo_rparacion">Guardando tipo de reparacion</string>
 
 
     <string-array name="tipoVisita">

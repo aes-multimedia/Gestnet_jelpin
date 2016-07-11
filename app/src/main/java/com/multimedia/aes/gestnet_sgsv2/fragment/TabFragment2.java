@@ -14,14 +14,20 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -43,12 +49,23 @@ public class TabFragment2 extends Fragment {
     private String[] usos;
     private String[] potencias;
     private String[] puestaMarcha;
+    private Mantenimiento mantenimiento = null;
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            int id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         spTipo = (Spinner)vista.findViewById(R.id.spTipo);
         spMarca = (Spinner)vista.findViewById(R.id.spMarca);
         spUso = (Spinner)vista.findViewById(R.id.spUso);
@@ -62,6 +79,22 @@ public class TabFragment2 extends Fragment {
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
+            String tipo = null;
+            if (!mantenimiento.getTipo_maquina().equals("null")) {
+                tipo= mantenimiento.getTipo_maquina();
+                try {
+                    tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),Integer.parseInt(tipo)).getNombre_tipo_caldera();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (tipo!=null) {
+                String myString = tipo;
+                ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spTipo.setSelection(spinnerPosition);
+            }
+
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
             marcas = new String[listaMarcas.size()];
             for (int i = 0; i < listaMarcas.size(); i++) {
@@ -69,12 +102,24 @@ public class TabFragment2 extends Fragment {
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
+            String marca= mantenimiento.getMarca_maquina();
+            ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
+            int spinnerPosition = myAdap.getPosition(marca);
+            spMarca.setSelection(spinnerPosition);
+
+
             listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
             usos=new String[listaUso.size()];
             for (int i = 0; i < listaUso.size(); i++) {
                 usos[i]=listaUso.get(i).getNombre_uso_caldera();
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
+
+            String uso= UsoCalderaDAO.buscarUsoCalderaPorId(getContext(),mantenimiento.getUso_maquina()).getNombre_uso_caldera();
+            myAdap = (ArrayAdapter) spUso.getAdapter();
+            spinnerPosition = myAdap.getPosition(uso);
+            spUso.setSelection(spinnerPosition);
+
 
             listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
             potencias=new String[listaPotencia.size()];

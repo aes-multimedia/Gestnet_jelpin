@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,16 +13,16 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarMantenimientosPreLogin {
+public class ModificarMantenimientos {
     private static String Json;
     private static Context context;
     private static boolean bien;
 
-    public GuardarMantenimientosPreLogin(Context context, String json) {
+    public ModificarMantenimientos(Context context, String json) {
         this.context = context;
         Json = json;
         try {
-            guardarJsonMantenimiento();
+            modificarJsonMantenimiento();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -30,7 +30,7 @@ public class GuardarMantenimientosPreLogin {
         }
     }
 
-    public static void guardarJsonMantenimiento() throws JSONException, SQLException {
+    public static void modificarJsonMantenimiento() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(Json);
         jsonObject = jsonObject.getJSONObject("usuario");
         JSONArray jsonArray = jsonObject.getJSONArray("mantenimientos");
@@ -41,6 +41,7 @@ public class GuardarMantenimientosPreLogin {
             }else{
                 id_mantenimiento = jsonArray.getJSONObject(i).getInt("id_parte");
             }
+            String hash = jsonArray.getJSONObject(i).getString("hash");
             int fk_user_creador;
             if (jsonArray.getJSONObject(i).getString("fk_user_creador").equals("null")){
                 fk_user_creador = -1;
@@ -240,14 +241,20 @@ public class GuardarMantenimientosPreLogin {
             String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
             String modelo_maquina = jsonObject1.getString("modelo");
             String marca_maquina = jsonObject1.getString("nombre");
-
-            if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, fk_user_creador, fk_tecnico, fk_usuario,
+            int uso_maquina;
+            if (jsonObject1.getString("fk_uso").equals("null")){
+                uso_maquina = 3;
+            }else{
+                uso_maquina = jsonObject1.getInt("fk_uso");
+            }
+            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
                     telefono4_usuario, telefono5_usuario, email_usuario,
                     moroso_usuario, observaciones_usuario,
                     fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina,
-                    tipo_maquina, modelo_maquina, marca_maquina,fecha_creacion, fecha_aviso,
+                    tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
+                    fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,
@@ -267,17 +274,9 @@ public class GuardarMantenimientosPreLogin {
                     fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo,
                     orden, historico, fk_tipo_urgencia_factura,
                     error_batch, fk_batch_actual, fk_efv, scoring,
-                    fk_categoria_visita, contador_averias)){
-                bien=true;
-            }else{
-                bien=false;
-            }
+                    fk_categoria_visita, contador_averias);
+            MantenimientoDAO.actualizarMantenimiento(context,m);
         }
-        if (bien){
-            ManagerProgressDialog.guardarDatosTipoCaldera(context);
-            new GuardarTipoCalderaPreLogin(context,Json);
-        }else{
-            ((PreLogin)context).sacarMensaje("error mantenimiento");
-        }
+
     }
 }

@@ -41,14 +41,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias,ivLlamarAes;
     private LinearLayout cuerpo;
-    private boolean entra = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        toolbar.setLogo(R.drawable.ic_ajustes);
         setSupportActionBar(toolbar);
 
 
@@ -86,12 +83,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (entra){
-                srl.setVisibility(View.VISIBLE);
-            }else{
-                super.onBackPressed();
-            }
-
+            recreate();
         }
     }
 
@@ -104,7 +96,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (id == R.id.documentos) {
         } else if (id == R.id.averias) {
 
-        } else if (id == R.id.almacen) {
+        } else if (id == R.id.mantenimientos) {
+            recreate();
+        }else if (id == R.id.almacen) {
 
         } else if (id == R.id.buscar_parte) {
 
@@ -148,7 +142,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        entra=true;
     }
 
     @Override
@@ -179,27 +172,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        entra=true;
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        try {
-            BBDDConstantes.borrarDatosTablas(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            BBDDConstantes.borrarDatosTablas(this);
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

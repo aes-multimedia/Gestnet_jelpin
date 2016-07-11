@@ -59,7 +59,7 @@
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:layout_marginBottom="10dp"
-                        android:entries="@array-estadosVisita"/>
+                        android:entries="@array/estadosVisita"/>
 
 
                     <LinearLayout
@@ -178,7 +178,7 @@
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:spinnerMode="dropdown"
-                        android:entries="@array-tipoVisita"/>
+                        android:entries="@array/tipoVisita"/>
                 </LinearLayout>
 
                 <LinearLayout

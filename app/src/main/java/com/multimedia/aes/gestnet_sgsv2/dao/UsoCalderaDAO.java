@@ -68,7 +68,7 @@ public class UsoCalderaDAO extends DBHelperMOS {
 	}
 	public static UsoCaldera buscarUsoCalderaPorId(Context context, int id) throws SQLException {
 		cargarDao(context);
-		List<UsoCaldera> listadoUsoCaldera= dao.queryForEq(Tecnico.ID_TECNICO, id);
+		List<UsoCaldera> listadoUsoCaldera= dao.queryForEq(UsoCaldera.ID_USO_CALDERA, id);
 		if(listadoUsoCaldera.isEmpty()) {
 			return null;
 		}else{

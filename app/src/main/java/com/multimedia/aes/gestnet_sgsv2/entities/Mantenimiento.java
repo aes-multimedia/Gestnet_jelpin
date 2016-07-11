@@ -7,6 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Mantenimiento {
 
     public static final String ID_MANTENIMIENTO = "_id_mantenimiento";
+    public static final String HASH = "hash";
     public static final String FK_USER_CREADOR = "fk_user_creador";
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
@@ -28,11 +29,10 @@ public class Mantenimiento {
     public static final String PROVINCIA = "provincia";
     public static final String MUNICIPIO = "municipio";
     public static final String FK_MAQUINA = "fk_maquina";
-
     public static final String TIPO_MAQUINA = "tipo_maquina";
     public static final String MODELO_MAQUINA = "modelo_maquina";
     public static final String MARCA_MAQUINA = "marca_maquina";
-
+    public static final String USO_MAQUINA = "uso_maquina";
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -104,6 +104,8 @@ public class Mantenimiento {
 
     @DatabaseField(id = true, columnName = ID_MANTENIMIENTO)
     private int id_mantenimiento;
+    @DatabaseField(columnName = HASH)
+    private String hash;
     @DatabaseField(columnName = FK_USER_CREADOR)
     private int fk_user_creador;
     @DatabaseField(columnName = FK_TECNICO)
@@ -152,6 +154,8 @@ public class Mantenimiento {
     private String modelo_maquina;
     @DatabaseField(columnName = MARCA_MAQUINA)
     private String marca_maquina;
+    @DatabaseField(columnName = USO_MAQUINA)
+    private int uso_maquina;
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -293,14 +297,14 @@ public class Mantenimiento {
     }
 
 
-    public Mantenimiento(int id_mantenimiento, int fk_user_creador, int fk_tecnico, int fk_usuario,
+    public Mantenimiento(int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
                          int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
                          String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
                          String telefono4_usuario, String telefono5_usuario, String email_usuario,
                          String moroso_usuario, String observaciones_usuario,int fk_direccion,
                          String direccion, String cod_postal, String provincia, String municipio,
                          int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
-                         String fecha_creacion, String fecha_aviso,
+                         int uso_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
                          String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
                          String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -322,6 +326,7 @@ public class Mantenimiento {
                          String error_batch, int fk_batch_actual, int fk_efv, String scoring,
                          int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
+        this.hash = hash;
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
@@ -346,6 +351,7 @@ public class Mantenimiento {
         this.tipo_maquina =tipo_maquina;
         this.modelo_maquina = modelo_maquina;
         this.marca_maquina = marca_maquina;
+        this.uso_maquina = uso_maquina;
         this.fecha_creacion = fecha_creacion;
         this.fecha_aviso = fecha_aviso;
         this.fecha_visita = fecha_visita;
@@ -423,6 +429,12 @@ public class Mantenimiento {
     }
     public void setId_mantenimiento(int id_mantenimiento) {
         this.id_mantenimiento = id_mantenimiento;
+    }
+    public String getHash() {
+        return hash;
+    }
+    public void setHash(String hash) {
+        this.hash = hash;
     }
     public int getFk_user_creador() {
         return fk_user_creador;
@@ -576,6 +588,12 @@ public class Mantenimiento {
     }
     public void setMarca_maquina(String marca_maquina) {
         this.marca_maquina = marca_maquina;
+    }
+    public int getUso_maquina() {
+        return uso_maquina;
+    }
+    public void setUso_maquina(int uso_maquina) {
+        this.uso_maquina = uso_maquina;
     }
     public String getFecha_creacion() {
         return fecha_creacion;

@@ -12,9 +12,7 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-/**
- * Created by Sergio on 08/07/2016.
- */
+
 public class GuardarTipoReparacionesLogin {
 
 
@@ -38,7 +36,7 @@ public class GuardarTipoReparacionesLogin {
     public static void guardarJsonTipoReparaciones() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(Json);
         jsonObject = jsonObject.getJSONObject("usuario");
-        JSONArray jsonArray = jsonObject.getJSONArray("tipo_estados");
+        JSONArray jsonArray = jsonObject.getJSONArray("tipos_reparaciones");
 
         for (int i = 0; i < jsonArray.length(); i++) {
             int id = jsonArray.getJSONObject(i).getInt("id_tipo_reparacion");

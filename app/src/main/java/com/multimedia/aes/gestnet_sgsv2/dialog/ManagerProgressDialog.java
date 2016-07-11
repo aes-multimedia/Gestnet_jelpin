@@ -36,12 +36,15 @@ public abstract class ManagerProgressDialog {
         p.setMessage(context.getResources().getString(R.string.datos_marca_caldera));
     }
     public static void guardarTiposEstado(Context context) {
-        p.setMessage(context.getResources().getString(R.string.datos_tipo_estado));
-    }
 
+    }
+    public static void guardarDatosTipoReparacion(Context context) {
+        p.setMessage(context.getResources().getString(R.string.datos_tipo_rparacion));
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }
+
 
 
 }
