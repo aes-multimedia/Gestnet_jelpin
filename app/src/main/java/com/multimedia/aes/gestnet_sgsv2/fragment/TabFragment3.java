@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class TabFragment3 extends Fragment {
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,tvUrgencia;
-
+    private Mantenimiento mantenimiento = null;
 
 
     @Override
@@ -70,6 +71,11 @@ public class TabFragment3 extends Fragment {
             for (int i = 0; i < tiposReparacion.size(); i++) {
                 tipos[i]=tiposReparacion.get(i).getAbreviatura();
             }
+
+            tvFechaVisita.setText(mantenimiento.getFecha_visita());
+            tvFechaLimite.setText(mantenimiento.getFecha_maxima_endesa());
+            tvUrgencia.setText(mantenimiento.getFecha_aviso());
+
 
                   } catch (SQLException e) {
             e.printStackTrace();

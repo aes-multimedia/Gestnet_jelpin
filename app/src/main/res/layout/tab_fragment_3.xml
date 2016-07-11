@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="fecha llamada"
-                            android:id="@+id/textView30"
+                            android:id="@+id/tvFecha_visita"
                             android:textSize="18dp"
                             android:layout_marginLeft="10dp" />
                     </LinearLayout>
