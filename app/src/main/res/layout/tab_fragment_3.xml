@@ -54,7 +54,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spEstado_visita"
+                        android:id="@+id/spEstadoVisita"
                         android:spinnerMode="dropdown"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
@@ -80,7 +80,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="fecha llamada"
-                            android:id="@+id/tvFecha_visita"
+                            android:id="@+id/tvFechaVisita"
                             android:textSize="18dp"
                             android:layout_marginLeft="10dp" />
                     </LinearLayout>
@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="fecha llamada"
-                            android:id="@+id/textView32"
+                            android:id="@+id/tvFechaLimite"
                             android:textSize="18dp"
                             android:layout_marginLeft="10dp" />
                     </LinearLayout>
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="fecha llamada"
-                            android:id="@+id/textView34"
+                            android:id="@+id/tvUrgencia"
                             android:textSize="18dp"
                             android:layout_marginLeft="10dp" />
                     </LinearLayout>
@@ -150,7 +150,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etCodigo_barras"
+                        android:id="@+id/etCodigoBarras"
                         android:minHeight="30dp"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
@@ -174,7 +174,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spTipo_visita"
+                        android:id="@+id/spTipoVisita"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:spinnerMode="dropdown"
@@ -205,7 +205,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/observaciones"
+                        android:id="@+id/etObservaciones"
                         android:minHeight="100dp"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right" />
@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Contador Interno"
-                    android:id="@+id/cbContador_interno"
+                    android:id="@+id/cbContadorInterno"
                     android:checked="false" />
 
                 <CheckBox
@@ -242,9 +242,10 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spTipo_reparacion"
+                        android:id="@+id/spTipoReparacion"
                         android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -285,7 +286,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/spTiempo_reparacion"
+                        android:id="@+id/spTiempoReparacion"
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:spinnerMode="dropdown" />
