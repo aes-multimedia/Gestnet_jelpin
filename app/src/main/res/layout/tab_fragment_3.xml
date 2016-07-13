@@ -59,7 +59,7 @@
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:layout_marginBottom="10dp"
-                        android:entries="@array/estadosVisita"/>
+                        android:entries="@array/estadosVisita" />
 
 
                     <LinearLayout
@@ -117,29 +117,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Urgencia"
-                            android:id="@+id/textView33"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="fecha llamada"
-                            android:id="@+id/tvUrgencia"
-                            android:textSize="18dp"
-                            android:layout_marginLeft="10dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="Codigo de Barras"
                             android:id="@+id/textView35"
                             android:textSize="18dp"
@@ -152,8 +129,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/etCodigoBarras"
                         android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:background="@drawable/edit_texts_naranja" />
 
                 </LinearLayout>
 
@@ -178,7 +154,7 @@
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:spinnerMode="dropdown"
-                        android:entries="@array/tipoVisita"/>
+                        android:entries="@array/tipoVisita" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -207,8 +183,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/etObservaciones"
                         android:minHeight="100dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right" />
+                        android:background="@drawable/edit_texts_naranja" />
                 </LinearLayout>
 
                 <CheckBox
@@ -229,115 +204,121 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+                    android:id="@+id/llReparacion">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Tipo Reparación"
-                        android:id="@+id/textView26"
-                        android:textSize="18dp" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:id="@+id/spTipoReparacion"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:spinnerMode="dropdown" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Fecha Reparación"
-                        android:id="@+id/textView27"
-                        android:textSize="18dp" />
-
-                    <DatePicker
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/dpFechaReparacion" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Tiempo de mano de obra"
-                        android:id="@+id/textView28"
-                        android:textSize="18dp" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:id="@+id/spTiempoReparacion"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:spinnerMode="dropdown" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Coste Materiales"
-                        android:id="@+id/textView37"
-                        android:textSize="18dp"
-                        android:layout_marginTop="10dp" />
-
-                    <EditText
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etCosteMateriales"
-                        android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:layout_marginTop="10dp" />
-                </LinearLayout>
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Tipo Reparación"
+                            android:id="@+id/textView26"
+                            android:textSize="18dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Importe Mano de Obra"
-                        android:id="@+id/textView36"
-                        android:textSize="18dp"
-                        android:layout_marginTop="10dp" />
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spTipoReparacion"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
 
-                    <EditText
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etCosteManoDeObra"
-                        android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
-                        android:gravity="right"
-                        android:layout_marginTop="10dp" />
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Fecha Reparación"
+                            android:id="@+id/textView27"
+                            android:textSize="18dp" />
+
+                        <DatePicker
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dpFechaReparacion" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Tiempo de mano de obra"
+                            android:id="@+id/textView28"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spTiempoReparacion"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/tiempoReparacion" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Coste Materiales"
+                            android:id="@+id/textView37"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etCosteMateriales"
+                            android:minHeight="30dp"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:layout_marginTop="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Importe Mano de Obra"
+                            android:id="@+id/textView36"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etCosteManoDeObra"
+                            android:minHeight="30dp"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:layout_marginTop="10dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <Button

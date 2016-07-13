@@ -5,10 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TabFragment3 extends Fragment {
+public class TabFragment3 extends Fragment implements View.OnClickListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion;
     private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
@@ -37,8 +39,9 @@ public class TabFragment3 extends Fragment {
     private Button btnFinalizar;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
-    private TextView tvFechaVisita,tvFechaLimite,tvUrgencia;
+    private TextView tvFechaVisita,tvFechaLimite;
     private Mantenimiento mantenimiento = null;
+    private LinearLayout llReparacion;
 
 
     @Override
@@ -67,7 +70,9 @@ public class TabFragment3 extends Fragment {
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         tvFechaVisita = (TextView)vista.findViewById(R.id.tvFechaVisita);
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
-        tvUrgencia = (TextView)vista.findViewById(R.id.tvUrgencia);
+        llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
+        llReparacion.setVisibility(View.GONE);
+        cbReparacion.setOnClickListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
         String oldFormat = "dd-MM-yyyy HH:mm:ss";
@@ -90,20 +95,15 @@ public class TabFragment3 extends Fragment {
         }
         tvFechaLimite.setText(fecha);
 
-        dateSample = mantenimiento.getFecha_aviso();
-        try {
-            fecha = sdf2.format(sdf1.parse(dateSample));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        tvUrgencia.setText(fecha);
-        try {
 
+        try {
             tiposReparacion = TiposReparacionesDAO.buscarTodosLosTiposReparaciones(getContext());
             tipos = new String[tiposReparacion.size()];
             for (int i = 0; i < tiposReparacion.size(); i++) {
                 tipos[i]=tiposReparacion.get(i).getAbreviatura();
             }
+            spTipoReparacion.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,6 +112,14 @@ public class TabFragment3 extends Fragment {
     }
 
 
-
-
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.cbReparacion){
+            if (cbReparacion.isChecked()){
+                llReparacion.setVisibility(View.VISIBLE);
+            }else{
+                llReparacion.setVisibility(View.GONE);
+            }
+        }
+    }
 }

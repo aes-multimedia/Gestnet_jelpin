@@ -33,6 +33,9 @@ public class Mantenimiento {
     public static final String MODELO_MAQUINA = "modelo_maquina";
     public static final String MARCA_MAQUINA = "marca_maquina";
     public static final String USO_MAQUINA = "uso_maquina";
+
+    public static final String PUESTA_MARCHA_MAQUINA = "puesta_marcha_maquina";
+
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -156,6 +159,10 @@ public class Mantenimiento {
     private String marca_maquina;
     @DatabaseField(columnName = USO_MAQUINA)
     private int uso_maquina;
+
+    @DatabaseField(columnName = PUESTA_MARCHA_MAQUINA)
+    private String puesta_marcha_maquina;
+
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -304,7 +311,7 @@ public class Mantenimiento {
                          String moroso_usuario, String observaciones_usuario,int fk_direccion,
                          String direccion, String cod_postal, String provincia, String municipio,
                          int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
-                         int uso_maquina, String fecha_creacion, String fecha_aviso,
+                         int uso_maquina, String puesta_marcha_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
                          String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
                          String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
@@ -352,6 +359,7 @@ public class Mantenimiento {
         this.modelo_maquina = modelo_maquina;
         this.marca_maquina = marca_maquina;
         this.uso_maquina = uso_maquina;
+        this.puesta_marcha_maquina = puesta_marcha_maquina;
         this.fecha_creacion = fecha_creacion;
         this.fecha_aviso = fecha_aviso;
         this.fecha_visita = fecha_visita;
@@ -594,6 +602,12 @@ public class Mantenimiento {
     }
     public void setUso_maquina(int uso_maquina) {
         this.uso_maquina = uso_maquina;
+    }
+    public String getPuesta_marcha_maquina() {
+        return puesta_marcha_maquina;
+    }
+    public void setPuesta_marcha_maquina(String puesta_marcha_maquina) {
+        this.puesta_marcha_maquina = puesta_marcha_maquina;
     }
     public String getFecha_creacion() {
         return fecha_creacion;

@@ -60,7 +60,6 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginBottom="20dp"
                 android:textAlignment="center"
-                android:text="test"
                 android:background="@drawable/edit_texts"
                 android:layout_marginTop="20dp"
                 android:hint="@string/contraseña"

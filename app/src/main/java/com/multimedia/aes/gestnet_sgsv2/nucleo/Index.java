@@ -126,6 +126,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id",(String) view.getTag());
+            GestorSharedPreferences.clearSharedPreferencesMantenimiento(this);
             GestorSharedPreferences.setJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this),jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -50,17 +50,25 @@
 
 
     <string-array name="tipoVisita">
-        <item>Visita reducida</item>
-        <item>Visita RITE</item>
+        <item>Sin defectos</item>
+        <item>Precintado de instalación</item>
+        <item>Anomalia secundaria</item>
+        <item>Defectos menores</item>
     </string-array>
     <string-array name="estadosVisita">
-        <item>Muy urgente</item>
-        <item>Urgente</item>
-        <item>Normal</item>
-        <item>Penalizable</item>
-        <item>Bonificable</item>
+        <item>Cancelada - Ausente por segunda vez</item>
+        <item>Cancelada - Cliente no desea visita</item>
+        <item>Cancelada - Cliente no localizable</item>
+        <item>Cancelada - Quiere darse de baja</item>
+        <item>Cerrada</item>
+        <item>Cerrada - Pendiente realizar reparación</item>
+        <item>En Ejecución</item>
     </string-array>
-
+    <string-array name="tiempoReparacion">
+        <item>2 horas o mas</item>
+        <item>De 1 a 2 horas</item>
+        <item>Menos de 1 hora</item>
+    </string-array>
 
 </resources>
 
