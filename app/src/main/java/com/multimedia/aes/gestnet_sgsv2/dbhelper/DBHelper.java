@@ -10,10 +10,12 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
+import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -107,6 +109,21 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.tipoReparacionesDao = getDao(TiposReparaciones.class);
 		}
 		return BBDDConstantes.tipoReparacionesDao;
+	}
+
+	public Dao<TiposVisita, Integer> getTiposVisitaDAO() throws SQLException {
+		if (BBDDConstantes.tiposVisitasDao == null) {
+			BBDDConstantes.tiposVisitasDao = getDao(TiposVisita.class);
+		}
+		return BBDDConstantes.tiposVisitasDao;
+	}
+
+
+	public Dao<SubTiposVisita, Integer> getSubTiposVisitaDAO() throws SQLException {
+		if (BBDDConstantes.subTiposVisitasDao == null) {
+			BBDDConstantes.subTiposVisitasDao = getDao(SubTiposVisita.class);
+		}
+		return BBDDConstantes.subTiposVisitasDao;
 	}
 
 }

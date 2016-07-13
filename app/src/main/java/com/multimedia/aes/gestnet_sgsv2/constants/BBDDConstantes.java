@@ -8,19 +8,23 @@ import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoEstadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
+import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -39,6 +43,8 @@ public class BBDDConstantes {
 	public static Dao<Potencia, Integer> potenciaDao;
 	public static Dao<TipoEstado, Integer> tipoEstadoDao;
 	public static Dao<TiposReparaciones, Integer> tipoReparacionesDao;
+	public static Dao<TiposVisita, Integer> tiposVisitasDao;
+	public static Dao<SubTiposVisita, Integer> subTiposVisitasDao;
 
 	public static void cerrarDao() {
 		tecnicoDao = null;
@@ -50,6 +56,8 @@ public class BBDDConstantes {
 		potenciaDao = null;
 		tipoEstadoDao = null;
 		tipoReparacionesDao = null;
+		tiposVisitasDao = null;
+		subTiposVisitasDao = null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -62,6 +70,8 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, Potencia.class);
 		TableUtils.createTable(connectionSource, TipoEstado.class);
 		TableUtils.createTable(connectionSource, TiposReparaciones.class);
+		TableUtils.createTable(connectionSource, TiposVisita.class);
+		TableUtils.createTable(connectionSource, SubTiposVisita.class);
 
 	}
 
@@ -75,6 +85,8 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Potencia.class, true);
 		TableUtils.dropTable(connectionSource, TipoEstado.class, true);
 		TableUtils.dropTable(connectionSource, TiposReparaciones.class, true);
+		TableUtils.dropTable(connectionSource, TiposVisita.class, true);
+		TableUtils.dropTable(connectionSource, SubTiposVisita.class, true);
 
 	}
 
@@ -88,6 +100,8 @@ public class BBDDConstantes {
 		PotenciaDAO.borrarTodosLosPotencia(context);
 		TipoEstadoDAO.borrarTodosLosTipoEstado(context);
 		TiposReparacionesDAO.borrarTodosLosTiposReparaciones(context);
+		TiposVisitaDAO.borrarTodosLosTiposVisita(context);
+		SubTiposVisitaDAO.borrarTodosLosSubTiposVisita(context);
 
 	}
 }
