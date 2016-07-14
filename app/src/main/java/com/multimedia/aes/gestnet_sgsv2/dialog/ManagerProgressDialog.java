@@ -41,6 +41,12 @@ public abstract class ManagerProgressDialog {
     public static void guardarDatosTipoReparacion(Context context) {
         p.setMessage(context.getResources().getString(R.string.datos_tipo_rparacion));
     }
+    public static void guardarDatosTipoVisita(Context context) {
+        p.setMessage(context.getResources().getString(R.string.datos_tipo_visita));
+    }
+    public static void guardarDatoSubTipoVisita(Context context) {
+        p.setMessage(context.getResources().getString(R.string.datos_subtipo_visita));
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }

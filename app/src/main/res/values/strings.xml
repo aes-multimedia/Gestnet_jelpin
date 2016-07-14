@@ -47,6 +47,8 @@
     <string name="confirmar_telefono">CONFIRMAR TELEFONOS Y OBSERVACIONES</string>
     <string name="datos_tipo_estado">guardando estados</string>
     <string name="datos_tipo_rparacion">Guardando tipo de reparacion</string>
+    <string name="datos_tipo_visita">guardando tipos de visita</string>
+    <string name="datos_subtipo_visita">guardando subtipos de visita</string>
 
 
     <string-array name="tipoVisita">

@@ -4,16 +4,16 @@ package com.multimedia.aes.gestnet_sgsv2.dao;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 
 
-        import android.content.Context;
+import android.content.Context;
 
-        import com.j256.ormlite.dao.Dao;
-        import com.j256.ormlite.stmt.DeleteBuilder;
-        import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
-        import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
-        import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 
-        import java.sql.SQLException;
-        import java.util.List;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Sergio on 13/07/2016.
@@ -29,11 +29,11 @@ public class TiposVisitaDAO extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newTipoEstado(Context context,int id_tipo_visita, String descripcion, int subtipo) {
+    public static boolean newTipoVisita(Context context,int id_tipo_visita, String descripcion, int subtipo) {
         TiposVisita t = montarTipoVisita(id_tipo_visita, descripcion, subtipo);
-        return crearTipoEstado(t,context);
+        return crearTipoVisita(t,context);
     }
-    public static boolean crearTipoEstado(TiposVisita t,Context context) {
+    public static boolean crearTipoVisita(TiposVisita t,Context context) {
         try {
             cargarDao(context);
             dao.create(t);
@@ -55,7 +55,7 @@ public class TiposVisitaDAO extends DBHelperMOS {
         DeleteBuilder<TiposVisita, Integer> deleteBuilder = dao.deleteBuilder();
         deleteBuilder.delete();
     }
-    public static void borrarTipoEstadoPorID(Context context, int id) throws SQLException {
+    public static void borrarTipoVisitaPorID(Context context, int id) throws SQLException {
         cargarDao(context);
         DeleteBuilder<TiposVisita, Integer> deleteBuilder = dao.deleteBuilder();
         deleteBuilder.where().eq(Tecnico.ID_TECNICO, id);
@@ -65,22 +65,22 @@ public class TiposVisitaDAO extends DBHelperMOS {
     //__________FUNCIONES DE BUSQUEDA______________________//
 
 
-    public static List<TiposVisita> buscarTodosLosTipoEstado(Context context) throws SQLException {
+    public static List<TiposVisita> buscarTodosLosTipoVisita(Context context) throws SQLException {
         cargarDao(context);
-        List<TiposVisita> listadoTipoEstado= dao.queryForAll();
-        if(listadoTipoEstado.isEmpty()) {
+        List<TiposVisita> listadoTipoVisita= dao.queryForAll();
+        if(listadoTipoVisita.isEmpty()) {
             return null;
         }else{
-            return listadoTipoEstado;
+            return listadoTipoVisita;
         }
     }
-    public static TiposVisita buscarTipoEstadoPorId(Context context, int id) throws SQLException {
+    public static TiposVisita buscarTipoVisitaPorId(Context context, int id) throws SQLException {
         cargarDao(context);
-        List<TiposVisita> listadoTipoEstado= dao.queryForEq(Tecnico.ID_TECNICO, id);
-        if(listadoTipoEstado.isEmpty()) {
+        List<TiposVisita> listadoTipoVisita= dao.queryForEq(Tecnico.ID_TECNICO, id);
+        if(listadoTipoVisita.isEmpty()) {
             return null;
         }else{
-            return listadoTipoEstado.get(0);
+            return listadoTipoVisita.get(0);
         }
     }
 

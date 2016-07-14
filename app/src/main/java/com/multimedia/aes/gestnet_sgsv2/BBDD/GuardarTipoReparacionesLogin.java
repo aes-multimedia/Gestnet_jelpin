@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoEstadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -50,9 +51,10 @@ public class GuardarTipoReparacionesLogin {
             }
         }
         if (bien){
-            ((Login)context).siguienteActivity();
+            ManagerProgressDialog.guardarDatosTipoVisita(context);
+            new GuardarTiposVisita(context,Json);
         }else{
-            ((Login)context).sacarMensaje("error tipo reparaciones");
+            ((Login)context).sacarMensaje("error uso tipo visita");
         }
 
     }
