@@ -3,6 +3,8 @@
     package="com.multimedia.aes.gestnet_sgsv2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -27,8 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".nucleo.Incidencias"
-            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+        <activity
+            android:name=".nucleo.Incidencias"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".nucleo.Bluetooth"></activity>
     </application>
 
 </manifest>

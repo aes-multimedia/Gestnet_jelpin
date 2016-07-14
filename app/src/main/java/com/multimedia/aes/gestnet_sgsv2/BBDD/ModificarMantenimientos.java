@@ -247,6 +247,12 @@ public class ModificarMantenimientos {
             }else{
                 uso_maquina = jsonObject1.getInt("fk_uso");
             }
+            String puesta_marcha_maquina;
+            if (jsonObject1.getString("fk_uso").equals("null")){
+                puesta_marcha_maquina = "0000-00-00";
+            }else{
+                puesta_marcha_maquina = jsonObject1.getString("puesta_marcha");
+            }
             Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
@@ -254,7 +260,7 @@ public class ModificarMantenimientos {
                     moroso_usuario, observaciones_usuario,
                     fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina,
                     tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
-                    fecha_creacion, fecha_aviso,
+                    puesta_marcha_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
                     num_parte, fk_tipo, fk_user_asignacion, fk_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,

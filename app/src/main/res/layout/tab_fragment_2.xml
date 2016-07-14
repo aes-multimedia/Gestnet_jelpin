@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/etModelo"
                         android:minHeight="30dp"
-                        android:background="@drawable/caldera_spiners"
+                        android:background="@drawable/edit_texts_naranja"
                         android:gravity="right" />
 
 
@@ -176,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ver despiece caldera"
-                android:id="@+id/button"
+                android:id="@+id/btnDespiece"
                 android:background="@drawable/botones"
                 android:gravity="center"
                 android:layout_margin="20dp"

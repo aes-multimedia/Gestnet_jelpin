@@ -71,6 +71,8 @@ public class TabFragment2 extends Fragment {
         spUso = (Spinner)vista.findViewById(R.id.spUso);
         spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
+        etModelo = (EditText)vista.findViewById(R.id.etModelo);
+        btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()];
@@ -140,6 +142,21 @@ public class TabFragment2 extends Fragment {
             spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        int estado = Integer.parseInt(mantenimiento.getEstado_android());
+        if (estado==0){
+
+        }else if (estado==1){
+
+        }else if (estado==2){
+
+        }else if (estado==3){
+            spMarca.setClickable(false);
+            spTipo.setClickable(false);
+            spPuestaMarcha.setClickable(false);
+            spPotencia.setClickable(false);
+            spUso.setClickable(false);
+            etModelo.setClickable(false);
         }
         return vista;
     }
