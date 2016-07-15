@@ -52,7 +52,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
-
+    private TiposVisita tipoVisita;
+    private LinearLayout linearSubtipos;
     private String subTiposVisita[];
 
 
@@ -168,6 +169,14 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+       tipoVisita = (TiposVisita) adapterView.getSelectedItem();
+        if(tipoVisita.getbSubTipos()==1){
+            linearSubtipos.setVisibility(View.VISIBLE);
+        }
+
+
 
 
     }

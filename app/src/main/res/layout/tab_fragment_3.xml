@@ -161,7 +161,9 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:visibility="gone"
+                    android:id="@+id/linearSubtipos">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -170,7 +172,7 @@
                         android:text="Subtipo Visita"
                         android:id="@+id/textView30"
                         android:textSize="18dp"
-                        android:visibility="gone"/>
+                        />
 
                     <Spinner
                         android:layout_width="match_parent"
