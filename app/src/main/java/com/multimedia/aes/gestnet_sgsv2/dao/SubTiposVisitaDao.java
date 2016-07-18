@@ -12,9 +12,6 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Sergio on 13/07/2016.
- */
 public class SubTiposVisitaDAO extends DBHelperMOS {
 
 

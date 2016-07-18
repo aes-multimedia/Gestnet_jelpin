@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +75,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llReparacion.setVisibility(View.GONE);
         cbReparacion.setOnClickListener(this);
+        btnFinalizar.setOnClickListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
         String oldFormat = "dd-MM-yyyy HH:mm:ss";
@@ -119,6 +122,14 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
                 llReparacion.setVisibility(View.VISIBLE);
             }else{
                 llReparacion.setVisibility(View.GONE);
+            }
+        }else if (view.getId()==R.id.btnFinalizar){
+            Intent i = new Intent(getContext(), Firmar.class);
+            getContext().startActivity(i);
+            try {
+                MantenimientoDAO.actualizarEstadoAndroid(getContext(),3,mantenimiento.getId_mantenimiento());
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

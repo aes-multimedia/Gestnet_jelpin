@@ -15,11 +15,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by Sergio on 13/07/2016.
- */
 public class TiposVisitaDAO extends DBHelperMOS {
-
 
     static Dao<TiposVisita, Integer> dao;
 
