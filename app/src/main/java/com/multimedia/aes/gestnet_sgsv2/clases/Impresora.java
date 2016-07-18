@@ -67,13 +67,19 @@ public class Impresora {
 		POSPrinterService pps = new POSPrinterService();
 		try {
 			imprimirImagenEncabezado(pps);
-			generarTexto(pps);
+			generarTexto1(pps);
+			imprimirFirma(pps);
+			generarTexto2(pps);
+			imprimirFirma(pps);
+			generarTexto3(pps);
+			imprimirFirma(pps);
+			generarTexto4(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
 			Toast.makeText(activity, R.string.err_durante_impr, Toast.LENGTH_SHORT).show();
 		}
 	}
-	private void generarTexto(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
+	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String fecha = "22/06/2016";
 		String hora = "12:06";
 		String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
@@ -145,8 +151,18 @@ public class Impresora {
 		String nombre = "Nombre: "+nom+"\n";
 		String dn = "02365984K";
 		String dni = "DNI: "+dn+"\n";
-		String firma = "Firma:"+"\n\n\n\n\n\n";
-		imprimirFirma(pps);
+		String firma = "Firma:"+"\n";
+
+		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+servicio+direccion+
+				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+datos_averia+
+				notificada+atendida+prevista_reparacion+reparada+numero_solicitud+codigo_averia+descripcion+
+				presupuesto+piezas+mano_obra+desplazamiento+otros+descuentos_preiva+materiales+
+				presupuesto_total_siniva+iva+presupuesto_total_coniva+otros_descuentos+total+observaciones_tecnico+
+				observ_tecnico+recepcion_presup_cliente+fecha_recep+nombre+dni+firma;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		Thread.sleep(2000);
+	}
+	private void generarTexto2(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String aceptacion_presupuesto = "-----ACEPTACION PRESUPUESTO-----" + "\n";
 		String recibido = "* Recibido antes de la realizacion de los trabajos."+"\n";
 		String aceptado = "* Una vez aceptado, el presupuesto hara de orden de trabajo."+"\n";
@@ -156,8 +172,13 @@ public class Impresora {
 		String nombre_acep = "Nombre: "+nom_acep+"\n";
 		String dn_acep = "02365984K";
 		String dni_acep = "DNI: "+dn_acep+"\n";
-		String firma_acep = "Firma:"+"\n\n\n\n\n\n";
-		imprimirFirma(pps);
+		String firma_acep = "Firma:"+"\n";
+		String textoImpresion =aceptacion_presupuesto+recibido+
+				aceptado+fecha_acep+nombre_acep+dni_acep+firma_acep;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		Thread.sleep(2000);
+	}
+	private void generarTexto3(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String conforme_final_cliente = "-----CONFORME FINAL CLIENTE-----" + "\n";
 		String fec_conf = "22/06/2016-13:00";
 		String fecha_conf = "Fecha: "+fec_conf+"\n";
@@ -165,33 +186,32 @@ public class Impresora {
 		String nombre_conf = "Nombre: "+nom_conf+"\n";
 		String dn_conf = "02365984K";
 		String dni_conf = "DNI: "+dn_conf+"\n";
-		String firma_conf = "Firma:"+"\n\n\n\n\n\n"+"\n\n";
-		imprimirFirma(pps);
-		String observaciones_cliente = "-------OBSERVAC. TECNICO-------" + "\n";
-		String obs_cliente = "";
-		String observ_cliente = obs_cliente+"\n\n";
-		String validez = "* Validez del presupuesto: 30 dias desde la fecha de recepcion."+"\n";
-		String garantia = "* Garantia de los trabajos realizados: 6 meses desde la finalizacion"+"\n";
-		String sustitu = "* No se sustituiran innecesariamente piezas o materiales si con ello se " +
-				"incrementan los costes del servicio o se degradan los bienes objeto de la prestacion." +
-				"Cualquier variacion del importe del presupuesto inicial debera ponerse en conocimiento del usuario" +
-				"por escrito y de modo desglosado. No cabra modificacion al alza del presupuesto en los casos" +
-				"de errores en las mediciones y valoraciones efectuadas por el tecnico. Las modificaciones deberan ser" +
-				" firmadas por ambas partes en señal de conformidad."+"\n";
-		String reclamacion = "* Existen hojas de reclamaciones a disposicion del cliente."+"\n\n\n\n\n\n";
-		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+servicio+direccion+
-				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+datos_averia+
-				notificada+atendida+prevista_reparacion+reparada+numero_solicitud+codigo_averia+descripcion+
-				presupuesto+piezas+mano_obra+desplazamiento+otros+descuentos_preiva+materiales+
-				presupuesto_total_siniva+iva+presupuesto_total_coniva+otros_descuentos+total+observaciones_tecnico+
-				observ_tecnico+recepcion_presup_cliente+fecha_recep+nombre+dni+firma+aceptacion_presupuesto+recibido+
-				aceptado+fecha_acep+nombre_acep+dni_acep+firma_acep+conforme_final_cliente+fecha_conf+nombre_conf+
-				dni_conf+firma_conf+observaciones_cliente+observ_cliente+validez+garantia+sustitu+reclamacion;
+		String firma_conf = "Firma:"+"\n";
+		String textoImpresion =conforme_final_cliente+fecha_conf+nombre_conf+
+				dni_conf+firma_conf;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
 		Thread.sleep(2000);
 	}
-	private Bitmap loadImageFromStorage()
-	{
+	private void generarTexto4(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
+		String observaciones_cliente = "-------OBSERVAC. TECNICO-------" + "\n";
+		String obs_cliente = "";
+		String observ_cliente = obs_cliente+"\n\n";
+
+		String info = "-------------INFO.-------------" + "\n";
+		String validez = "*Validez del presupuesto: 30" +"\n"+ " dias desde la fecha de" +"\n"+ " recepcion."+"\n";
+		String garantia = "*Garantia de los trabajos" +"\n"+ " realizados: 6 meses desde la"+"\n"+" finalizacion"+"\n";
+		String sustitu = "*No se sustituiran"+"\n"+" innecesariamente piezas o"+"\n"+" materiales si con ello se"+"\n"+
+				" incrementan los costes del"+"\n"+" servicio o se degradan los"+"\n"+" bienes objeto de la prestacion." +"\n"+
+				" Cualquier variacion del importe"+"\n"+" del presupuesto inicial debera"+"\n"+" ponerse en conocimiento del"+"\n"+
+				" usuario por escrito y de modo"+"\n"+" desglosado. No cabra"+"\n"+" modificacion al alza del"+"\n"+
+				" presupuesto en los casos de"+"\n"+" errores en las mediciones y"+"\n"+" valoraciones efectuadas por el"+"\n"+
+				" tecnico. Las modificaciones"+"\n"+" deberan ser firmadas por ambas"+"\n"+" partes en senal de conformidad."+"\n";
+		String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente."+"\n\n\n\n\n\n";
+		String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		Thread.sleep(2000);
+	}
+	private Bitmap loadImageFromStorage(){
 		Bitmap b=null;
 		try {
 			File f=new File(path, "profile.jpg");
@@ -240,32 +260,6 @@ public class Impresora {
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(2000);
 	}
-	/*private void generarTextoFinal(POSPrinterService pps) throws JposException, InterruptedException {
-		try {
-			imprimirFirma(pps);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void imprimirFirma(POSPrinterService pps) throws IOException, JposException, InterruptedException {
-			final int MAX_FIRMA_SIZE = 375;
-			FileInputStream fis = new FileInputStream(ip.getRuta_local());
-			Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
-			int w = imageBitmap.getWidth();
-			int h = imageBitmap.getHeight();
-			float multiplicador = (float) w / MAX_FIRMA_SIZE;
-			imageBitmap = Bitmap.createScaledBitmap(imageBitmap, (int) (w / multiplicador), (int) (h / multiplicador), false);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-			OutputStream out = new FileOutputStream(ip.getRuta_local() + "_tmp");
-			baos.writeTo(out);
-			pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, ip.getRuta_local() + "_tmp", 1, POSPrinterConst.PTR_BM_LEFT);
-			Thread.sleep(2000);
-			File f = new File(ip.getRuta_local() + "_tmp");
-			f.delete();
-	}*/
 	private String limpiarAcentos(String texto_entrada) {
 		String original = "��������������u������������������Ǻ";
 		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCo";
@@ -274,18 +268,5 @@ public class Impresora {
 			output = output.replace(original.charAt(i), ascii.charAt(i));
 		}
 		return output;
-	}
-	private String generarLineaSewoo(String texto_entrada) {
-
-		texto_entrada = limpiarAcentos(texto_entrada);
-		String texto_retorno = "";
-		for (int i = 0; i < texto_entrada.length(); i = i + ancho_sewoo_seleccionado - 1) {
-			texto_retorno += texto_entrada.substring(i, (i + ancho_sewoo_seleccionado - 1) <= texto_entrada.length() ? (i + ancho_sewoo_seleccionado - 1) : texto_entrada.length()) + "-\n";
-			ocupados = texto_entrada.substring(i, (i + ancho_sewoo_seleccionado - 1) <= texto_entrada.length() ? (i + ancho_sewoo_seleccionado - 1) : texto_entrada.length()) + "-\n";
-		}
-		if (texto_retorno.length() > 0) {
-			texto_retorno = texto_retorno.substring(0, texto_retorno.length() - 3);
-		}
-		return texto_retorno + "\n";
 	}
 }

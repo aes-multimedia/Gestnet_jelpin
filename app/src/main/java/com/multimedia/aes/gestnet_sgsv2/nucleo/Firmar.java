@@ -74,16 +74,6 @@ public class Firmar extends Activity implements View.OnClickListener {
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        Toast.makeText(this, directory.getAbsolutePath(), Toast.LENGTH_LONG).show();
         // Create imageDir
         File mypath=new File(directory,"profile.jpg");
 

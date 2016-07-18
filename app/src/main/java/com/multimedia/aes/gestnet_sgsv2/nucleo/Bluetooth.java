@@ -42,7 +42,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
     private ArrayList<BluetoothDevice> listaDevice = new ArrayList<>();
     private ArrayList<String> listaNombre = new ArrayList<>();
     private ListView lvNombres;
-    private Button openButton, sendButton, closeButton,btnFirmar;
+    private Button openButton, sendButton, closeButton;
     private TextView txtImpreso;
     private LinearLayout llImpreso;
     private Impresora impresora;
@@ -57,7 +57,6 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         lvNombres = (ListView) findViewById(R.id.lvNombres);
         txtImpreso = (TextView) findViewById(R.id.txtImpreso);
         llImpreso = (LinearLayout) findViewById(R.id.llImpreso);
-        btnFirmar = (Button) findViewById(R.id.btnFirmar);
 
         lvNombres.setOnItemClickListener(this);
         openButton.setOnClickListener(this);
