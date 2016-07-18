@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,10 +19,16 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,9 +39,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TabFragment3 extends Fragment implements View.OnClickListener {
+public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private View vista;
-    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion;
+    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion, spSubTipoVisita;
     private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
@@ -44,6 +51,12 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
     private TextView tvFechaVisita,tvFechaLimite;
     private Mantenimiento mantenimiento = null;
     private LinearLayout llReparacion;
+    private List<TiposVisita> listaTiposVisita=null;
+    private List<SubTiposVisita> listaSubTiposVista=null;
+    private String tiposVisita [];
+    private TiposVisita tipoVisita;
+    private LinearLayout linearSubtipos;
+    private String subTiposVisita[];
 
 
     @Override
@@ -60,6 +73,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
         }
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
+        spTipoVisita.setOnItemClickListener(this);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
         spTiempoReparacion = (Spinner) vista.findViewById(R.id.spTiempoReparacion);
         etCodBarras = (EditText) vista.findViewById(R.id.etCodigoBarras);
@@ -74,6 +88,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llReparacion.setVisibility(View.GONE);
+        spSubTipoVisita = ( Spinner)vista.findViewById(R.id.spSubTipoVisita);
+
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
 
@@ -97,6 +113,31 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         tvFechaLimite.setText(fecha);
+
+
+        try{
+            listaTiposVisita = TiposVisitaDAO.buscarTodosLosTipoVisita(getContext());
+            tiposVisita = new String[listaTiposVisita.size()];
+            for (int i = 0; i < listaTiposVisita.size(); i++) {
+                tiposVisita[i]=listaTiposVisita.get(i).getDescripcion();
+            }
+            spTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tiposVisita));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        try{
+            listaSubTiposVista = SubTiposVisitaDAO.buscarTodosLosSubTiposVisita(getContext());
+            subTiposVisita = new String[listaSubTiposVista.size()];
+            for (int i = 0; i < listaSubTiposVista.size(); i++) {
+                tiposVisita[i]=listaSubTiposVista.get(i).getDescripcion();
+            }
+            spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
 
         try {
@@ -132,5 +173,22 @@ public class TabFragment3 extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
         }
+
+
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+       tipoVisita = (TiposVisita) adapterView.getSelectedItem();
+        if(tipoVisita.getbSubTipos()==1){
+            linearSubtipos.setVisibility(View.VISIBLE);
+        }
+
+
+
+
     }
 }

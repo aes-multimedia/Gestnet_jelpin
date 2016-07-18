@@ -14,9 +14,7 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-/**
- * Created by Sergio on 14/07/2016.
- */
+
 public class GuardarTiposVisita {
 
     private static String Json;
