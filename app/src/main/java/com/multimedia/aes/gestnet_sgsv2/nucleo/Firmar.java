@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,13 +24,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 
 public class Firmar extends Activity implements View.OnClickListener {
     private Button btnGuardar,btnBorrar;
     private ImageView ivFirma;
     private FrameLayout frFirma;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2.nucleo/app_imageDir";
-
+    private char chEuro = '€';
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +49,14 @@ public class Firmar extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.btnBorrar){
-            recreate();
+            String c = null;
+            try {
+                c = URLEncoder.encode("€", "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            Log.d("euro", c);
+            //recreate();
         }else if (view.getId()==R.id.btnGuardar){
             Bitmap bitmap = Bitmap.createBitmap( frFirma.getWidth(), frFirma.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);

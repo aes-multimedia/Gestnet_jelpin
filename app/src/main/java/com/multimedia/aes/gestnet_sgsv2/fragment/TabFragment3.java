@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -39,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion, spSubTipoVisita;
     private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
@@ -73,7 +74,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
-        spTipoVisita.setOnItemClickListener(this);
+        spTipoVisita.setOnItemSelectedListener(this);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
         spTiempoReparacion = (Spinner) vista.findViewById(R.id.spTiempoReparacion);
         etCodBarras = (EditText) vista.findViewById(R.id.etCodigoBarras);
@@ -88,8 +89,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llReparacion.setVisibility(View.GONE);
-        spSubTipoVisita = ( Spinner)vista.findViewById(R.id.spSubTipoVisita);
-
+        spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
+        linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
 
@@ -127,18 +128,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             e.printStackTrace();
         }
 
-        try{
-            listaSubTiposVista = SubTiposVisitaDAO.buscarTodosLosSubTiposVisita(getContext());
-            subTiposVisita = new String[listaSubTiposVista.size()];
-            for (int i = 0; i < listaSubTiposVista.size(); i++) {
-                tiposVisita[i]=listaSubTiposVista.get(i).getDescripcion();
-            }
-            spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
-
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
 
         try {
             tiposReparacion = TiposReparacionesDAO.buscarTodosLosTiposReparaciones(getContext());
@@ -164,31 +153,62 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             }else{
                 llReparacion.setVisibility(View.GONE);
             }
-        }else if (view.getId()==R.id.btnFinalizar){
+        }else if (view.getId()==R.id.btnFinalizar) {
             Intent i = new Intent(getContext(), Firmar.class);
             getContext().startActivity(i);
             try {
-                MantenimientoDAO.actualizarEstadoAndroid(getContext(),3,mantenimiento.getId_mantenimiento());
+                MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-
-
-
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-       tipoVisita = (TiposVisita) adapterView.getSelectedItem();
-        if(tipoVisita.getbSubTipos()==1){
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if(i==2){
+            try{
+                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),3);
+                subTiposVisita = new String[listaSubTiposVista.size()];
+                for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+                }
+                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
             linearSubtipos.setVisibility(View.VISIBLE);
+        }else if (i==4){
+            try{
+                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),5);
+                subTiposVisita = new String[listaSubTiposVista.size()];
+                for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+                }
+                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            linearSubtipos.setVisibility(View.VISIBLE);
+        }else if (i==5){
+            try{
+                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),6);
+                subTiposVisita = new String[listaSubTiposVista.size()];
+                for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+                }
+                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            linearSubtipos.setVisibility(View.VISIBLE);
+        }else{
+            linearSubtipos.setVisibility(View.GONE);
         }
+    }
 
-
-
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 }

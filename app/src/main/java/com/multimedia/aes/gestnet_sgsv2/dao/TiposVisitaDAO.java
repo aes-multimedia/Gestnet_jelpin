@@ -54,7 +54,7 @@ public class TiposVisitaDAO extends DBHelperMOS {
     public static void borrarTipoVisitaPorID(Context context, int id) throws SQLException {
         cargarDao(context);
         DeleteBuilder<TiposVisita, Integer> deleteBuilder = dao.deleteBuilder();
-        deleteBuilder.where().eq(Tecnico.ID_TECNICO, id);
+        deleteBuilder.where().eq(TiposVisita.ID_TIPO_VISITA, id);
         deleteBuilder.delete();
     }
 
@@ -72,7 +72,7 @@ public class TiposVisitaDAO extends DBHelperMOS {
     }
     public static TiposVisita buscarTipoVisitaPorId(Context context, int id) throws SQLException {
         cargarDao(context);
-        List<TiposVisita> listadoTipoVisita= dao.queryForEq(Tecnico.ID_TECNICO, id);
+        List<TiposVisita> listadoTipoVisita= dao.queryForEq(TiposVisita.ID_TIPO_VISITA, id);
         if(listadoTipoVisita.isEmpty()) {
             return null;
         }else{

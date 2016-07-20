@@ -52,7 +52,7 @@ public class SubTiposVisitaDAO extends DBHelperMOS {
     public static void borrarSubTiposVisitaPorID(Context context, int id) throws SQLException, java.sql.SQLException {
         cargarDao(context);
         DeleteBuilder<SubTiposVisita, Integer> deleteBuilder = dao.deleteBuilder();
-        deleteBuilder.where().eq(Tecnico.ID_TECNICO, id);
+        deleteBuilder.where().eq(SubTiposVisita.ID_SUBTIPO_VISITA, id);
         deleteBuilder.delete();
     }
 
@@ -70,11 +70,20 @@ public class SubTiposVisitaDAO extends DBHelperMOS {
     }
     public static SubTiposVisita buscarSubTiposVisitaPorId(Context context, int id) throws SQLException {
         cargarDao(context);
-        List<SubTiposVisita> listadoSubTiposVisita= dao.queryForEq(Tecnico.ID_TECNICO, id);
+        List<SubTiposVisita> listadoSubTiposVisita= dao.queryForEq(SubTiposVisita.ID_SUBTIPO_VISITA, id);
         if(listadoSubTiposVisita.isEmpty()) {
             return null;
         }else{
             return listadoSubTiposVisita.get(0);
+        }
+    }
+    public static List<SubTiposVisita> buscarSubTiposVisitaPorTipo(Context context, int tipo) throws SQLException {
+        cargarDao(context);
+        List<SubTiposVisita> listadoSubTiposVisita= dao.queryForEq(SubTiposVisita.FK_TIPO_VISITA, tipo);
+        if(listadoSubTiposVisita.isEmpty()) {
+            return null;
+        }else{
+            return listadoSubTiposVisita;
         }
     }
 

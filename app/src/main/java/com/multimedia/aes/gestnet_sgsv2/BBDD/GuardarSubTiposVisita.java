@@ -33,18 +33,6 @@ public class GuardarSubTiposVisita {
             e.printStackTrace();
         }
     }
-//int id_subtipo, int activo, String descripcion_ticket, String descripcion, String codigo, int fk_tipo_visita
-
-    /*
-    "id_subtipo": "1",
-                "fk_tipo_visita": "3",
-                "codigo": "IPa-1",
-                "descripcion": "Fuga de Gas",
-                "descripcion_ticket": "Fuga de gas",
-                "activo": "1"
-    * */
-
-
     public static void guardarJsonSubTiposVisita() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(Json);
         jsonObject = jsonObject.getJSONObject("usuario");
@@ -66,7 +54,7 @@ public class GuardarSubTiposVisita {
         if (bien){
             ((Login)context).siguienteActivity();
         }else{
-            ((Login)context).sacarMensaje("error tipo sub tipo");
+            ((Login)context).sacarMensaje("error sub tipo visita");
         }
     }
 }

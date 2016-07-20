@@ -20,7 +20,7 @@
                 android:id="@+id/open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar" />
+                android:text="Buscar otros" />
 
             <Button
                 android:id="@+id/send"

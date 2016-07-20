@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
@@ -20,13 +21,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 
 import jpos.JposException;
 import jpos.POSPrinterConst;
 
 public class Impresora {
-
 	public Activity activity;
 	private BluetoothAdapter bluetoothAdapter;
 	public BluetoothPort bp;
@@ -37,6 +39,8 @@ public class Impresora {
 	public Thread hThread;
 	BluetoothDevice mmDevice;
 	private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
+	private char chEuro = '€';
+	String c = Character.toString(chEuro);
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
 		super();
@@ -82,8 +86,8 @@ public class Impresora {
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String fecha = "22/06/2016";
 		String hora = "12:06";
-		String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
-		String datos_cliente = "---------DATOS CLIENTE---------" + "\n";
+		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
+		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
 		String num_contrato = "000111522";
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
@@ -91,7 +95,7 @@ public class Impresora {
 		String servicio = "Servicio: "+serv+ "\n";
 		String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
 		String direccion = "Direccion"+"\n"+dir+"\n\n";
-		String datos_tecnico = "---------DATOS TECNICO---------" + "\n";
+		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "IBERDROLA";
 		String empresa = "Empresa: "+emp+"\n";
 		String cif_emp = "02365474S";
@@ -118,33 +122,33 @@ public class Impresora {
 		String desc = "Una averia sin importancia";
 		String descripcion = "Descripcion: "+"\n"+desc+"\n\n";
 
-		String presupuesto = "----------PRESUPUESTO----------" + "\n";
-		String piez = "Junta caldera-5 \u20ac";
+		String presupuesto = "----------PRESUPUESTO-----------" + "\n";
+		String piez = "Junta caldera-5 euros";
 		String piezas = "Piezas: "+piez+"\n";
-		String man_obra = "2-20 \u20ac";
+		String man_obra = "2 x 20 euros";
 		String mano_obra = "Mano de obra: "+man_obra+"\n";
-		String despl = "35-24 \u20ac";
+		String despl = "5 x 24 euros";
 		String desplazamiento = "Desplazamiento: "+"\n"+despl+"\n";
-		String otr = "96-31 \u20ac"+"\n"+"2-12 \u20ac";
+		String otr = "6 x 31 euros"+"\n"+"2-12 euros";
 		String otros = "Otros: "+otr+"\n";
 		String desc_preiva = "0%";
 		String descuentos_preiva = "Descuentos antes de iva: "+"\n"+desc_preiva+"\n";
-		String mat = "6-29 \u20ac";
+		String mat = "6 x 29 euros";
 		String materiales = "Materiales: "+mat+"\n";
-		String pres_tot_siniva = "95 \u20ac";
+		String pres_tot_siniva = "95 euros";
 		String presupuesto_total_siniva = "Presupuesto total sin iva: "+"\n"+pres_tot_siniva+"\n";
 		String iv = "21%";
 		String iva = "IVA: "+iv+"\n";
-		String pres_tot_coniva = "102 \u20ac";
+		String pres_tot_coniva = "102 euros";
 		String presupuesto_total_coniva = "Presupuesto total con iva: "+"\n"+pres_tot_coniva+"\n";
 		String otr_desc = "0%";
 		String otros_descuentos = "Otros descuentos: "+otr_desc+"\n";
-		String tot = "102 \u20ac";
+		String tot = "102 euros";
 		String total = "TOTAL A PAGAR: "+tot+"\n\n";
-		String observaciones_tecnico = "-------OBSERVAC. TECNICO-------" + "\n";
+		String observaciones_tecnico = "-------OBSERVAC. TECNICO--------" + "\n";
 		String obs_tecnico = "La maquina es antigüa";
 		String observ_tecnico = obs_tecnico+"\n\n";
-		String recepcion_presup_cliente = "---RECEPCION PRESUP. CLIENTE---" + "\n";
+		String recepcion_presup_cliente = "---RECEPCION PRESUP. CLIENTE----" + "\n";
 		String fec_recep = "22/06/2016-13:00";
 		String fecha_recep = "Fecha: "+fec_recep+"\n";
 		String nom = "Alejandro Perez Lopez";
@@ -164,8 +168,8 @@ public class Impresora {
 	}
 	private void generarTexto2(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String aceptacion_presupuesto = "-----ACEPTACION PRESUPUESTO-----" + "\n";
-		String recibido = "* Recibido antes de la realizacion de los trabajos."+"\n";
-		String aceptado = "* Una vez aceptado, el presupuesto hara de orden de trabajo."+"\n";
+		String recibido = "* Recibido antes de la"+"\n"+" realizacion de los trabajos."+"\n";
+		String aceptado = "* Una vez aceptado, el"+"\n"+" presupuesto hara de orden de"+"\n"+" trabajo."+"\n";
 		String fec_acep = "22/06/2016-13:00";
 		String fecha_acep = "Fecha: "+fec_acep+"\n";
 		String nom_acep = "Alejandro Perez Lopez";
@@ -193,12 +197,12 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private void generarTexto4(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		String observaciones_cliente = "-------OBSERVAC. TECNICO-------" + "\n";
+		String observaciones_cliente = "-------OBSERVAC. TECNICO--------" + "\n";
 		String obs_cliente = "";
 		String observ_cliente = obs_cliente+"\n\n";
 
-		String info = "-------------INFO.-------------" + "\n";
-		String validez = "*Validez del presupuesto: 30" +"\n"+ " dias desde la fecha de" +"\n"+ " recepcion."+"\n";
+		String info = "-------------INFO.--------------" + "\n";
+		String validez = "*Validez del presupuesto: 30"+"\n"+ " dias desde la fecha de" +"\n"+ " recepcion."+"\n";
 		String garantia = "*Garantia de los trabajos" +"\n"+ " realizados: 6 meses desde la"+"\n"+" finalizacion"+"\n";
 		String sustitu = "*No se sustituiran"+"\n"+" innecesariamente piezas o"+"\n"+" materiales si con ello se"+"\n"+
 				" incrementan los costes del"+"\n"+" servicio o se degradan los"+"\n"+" bienes objeto de la prestacion." +"\n"+

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
@@ -22,10 +23,11 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class FragmentMantenimiento extends Fragment {
+public class FragmentMantenimiento extends Fragment implements View.OnClickListener {
     private View vista;
     private boolean activo;
     private Mantenimiento mantenimiento;
+    private Button btnFinalizar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,13 +71,18 @@ public class FragmentMantenimiento extends Fragment {
             }
         });
 
-
         return vista;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 }

@@ -28,6 +28,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
@@ -46,6 +47,8 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
     private TextView txtImpreso;
     private LinearLayout llImpreso;
     private Impresora impresora;
+    private char chEuro = '€';
+    String c = Character.toString(chEuro);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,16 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         llImpreso.setVisibility(View.GONE);
         findBT();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        listaDevice.clear();
+        listaNombre.clear();
+        findBT();
+        ponerLista();
+    }
+
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -240,7 +253,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         String observaciones_cliente = "-------OBSERVAC. TECNICO-------" + "\n";
         String obs_cliente = "";
         String observ_cliente = obs_cliente+"\n\n";
-        String validez = "* Validez del presupuesto: 30 dias desde la fecha de recepcion."+"\n";
+        String validez = "* Validez del presupuesto: 30 "+ Charset.forName("UTF-8").encode(c).toString()+" desde la fecha de recepcion."+"\n";
         String garantia = "* Garantia de los trabajos realizados: 6 meses desde la finalizacion"+"\n";
         String sustitu = "* No se sustituiran innecesariamente piezas o materiales si con ello se " +
                 "incrementan los costes del servicio o se degradan los bienes objeto de la prestacion." +
