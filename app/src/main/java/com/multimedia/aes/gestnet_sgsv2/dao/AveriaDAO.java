@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -119,15 +121,14 @@ public class AveriaDAO extends DBHelperMOS {
 	}
 
 
-	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-	/*public void actualizarCif (Context context, String dni, int id_usuario ) throws SQLException
+	public void actualizarAveria (Context context, String i, int id_averia ) throws SQLException
 	{
 		cargarDao(context);
-		UpdateBuilder<Tecnico, Integer> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq(Tecnico.ID_TECNICO,id_usuario);
-		updateBuilder.updateColumnValue(Tecnico.DNI_CIF, dni);
+		UpdateBuilder<Averia, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Averia.ID_AVERIA,id_averia);
+		updateBuilder.updateColumnValue(Averia.ID_AVERIA, i);
 		updateBuilder.update();
-	}*/
+	}
 }

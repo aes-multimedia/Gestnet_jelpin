@@ -82,15 +82,5 @@ public class TiposReparacionesDAO  extends DBHelperMOS {
     }
 
 
-    //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
-
-    /*public void actualizarCif (Context context, String dni, int id_usuario ) throws SQLException
-    {
-        cargarDao(context);
-        UpdateBuilder<Tecnico, Integer> updateBuilder = dao.updateBuilder();
-        updateBuilder.where().eq(Tecnico.ID_TECNICO,id_usuario);
-        updateBuilder.updateColumnValue(Tecnico.DNI_CIF, dni);
-        updateBuilder.update();
-    }*/
 }

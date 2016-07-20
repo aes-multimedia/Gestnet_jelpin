@@ -69,23 +69,11 @@ public class UsoCalderaDAO extends DBHelperMOS {
 	public static UsoCaldera buscarUsoCalderaPorId(Context context, int id) throws SQLException {
 		cargarDao(context);
 		List<UsoCaldera> listadoUsoCaldera= dao.queryForEq(UsoCaldera.ID_USO_CALDERA, id);
-		if(listadoUsoCaldera.isEmpty()) {
-			return null;
+		if(listadoUsoCaldera.isEmpty()){
+			return  null;
 		}else{
 			return listadoUsoCaldera.get(0);
 		}
 	}
 
-
-	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
-
-	/*public void actualizarCif (Context context, String dni, int id_usuario ) throws SQLException
-	{
-		cargarDao(context);
-		UpdateBuilder<Tecnico, Integer> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq(Tecnico.ID_TECNICO,id_usuario);
-		updateBuilder.updateColumnValue(Tecnico.DNI_CIF, dni);
-		updateBuilder.update();
-	}*/
 }

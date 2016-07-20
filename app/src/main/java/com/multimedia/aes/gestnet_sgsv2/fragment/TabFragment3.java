@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -40,7 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion, spSubTipoVisita;
     private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
@@ -74,7 +73,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
-        spTipoVisita.setOnItemSelectedListener(this);
+        spTipoVisita.setOnItemClickListener(this);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
         spTiempoReparacion = (Spinner) vista.findViewById(R.id.spTiempoReparacion);
         etCodBarras = (EditText) vista.findViewById(R.id.etCodigoBarras);
@@ -162,6 +161,9 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                 e.printStackTrace();
             }
         }
+
+
+
     }
 
     @Override

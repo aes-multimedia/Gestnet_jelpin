@@ -291,7 +291,7 @@
                             android:id="@+id/textView28"
                             android:textSize="18dp" />
 
-                        <Spinner
+                        <TimePicker
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:id="@+id/spTiempoReparacion"
