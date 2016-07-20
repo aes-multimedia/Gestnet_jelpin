@@ -3,12 +3,14 @@ package com.multimedia.aes.gestnet_sgsv2.hilos;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 import com.sewoo.request.android.RequestHandler;
 
 import java.io.IOException;
@@ -54,6 +56,9 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
+		Intent i = new Intent(activity, Index.class);
+		activity.startActivity(i);
+		activity.finish();
 		if (result.equals(Constantes.SUCCES)) {
 			
 		}			
