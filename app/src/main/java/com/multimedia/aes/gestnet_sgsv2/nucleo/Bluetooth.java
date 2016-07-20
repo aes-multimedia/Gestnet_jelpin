@@ -70,16 +70,6 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         llImpreso.setVisibility(View.GONE);
         findBT();
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        listaDevice.clear();
-        listaNombre.clear();
-        findBT();
-        ponerLista();
-    }
-
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -103,6 +93,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
             }
         }
     };
+
 
     @Override
     public void onClick(View view) {

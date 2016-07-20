@@ -123,13 +123,13 @@ public class Impresora {
 		String descripcion = "Descripcion: "+"\n"+desc+"\n\n";
 
 		String presupuesto = "----------PRESUPUESTO-----------" + "\n";
-		String piez = "Junta caldera-5 euros";
+		String piez = "Junta caldera  5 euros";
 		String piezas = "Piezas: "+piez+"\n";
-		String man_obra = "2 x 20 euros";
+		String man_obra = "2 piezas: 20 euros";
 		String mano_obra = "Mano de obra: "+man_obra+"\n";
-		String despl = "5 x 24 euros";
+		String despl = "5 horas:  24 euros";
 		String desplazamiento = "Desplazamiento: "+"\n"+despl+"\n";
-		String otr = "6 x 31 euros"+"\n"+"2-12 euros";
+		String otr = "6 Km 31 euros"+"\n"+"2-12 euros";
 		String otros = "Otros: "+otr+"\n";
 		String desc_preiva = "0%";
 		String descuentos_preiva = "Descuentos antes de iva: "+"\n"+desc_preiva+"\n";
