@@ -129,11 +129,11 @@ public class Impresora {
 		String mano_obra = "Mano de obra: "+man_obra+"\n";
 		String despl = "5 horas:  24 euros";
 		String desplazamiento = "Desplazamiento: "+"\n"+despl+"\n";
-		String otr = "6 Km 31 euros"+"\n"+"2-12 euros";
+		String otr = "6 Km 31 euros"+"\n"+"2 Km 12 euros";
 		String otros = "Otros: "+otr+"\n";
 		String desc_preiva = "0%";
 		String descuentos_preiva = "Descuentos antes de iva: "+"\n"+desc_preiva+"\n";
-		String mat = "6 x 29 euros";
+		String mat = "6 piezas: 29 euros";
 		String materiales = "Materiales: "+mat+"\n";
 		String pres_tot_siniva = "95 euros";
 		String presupuesto_total_siniva = "Presupuesto total sin iva: "+"\n"+pres_tot_siniva+"\n";
@@ -146,7 +146,7 @@ public class Impresora {
 		String tot = "102 euros";
 		String total = "TOTAL A PAGAR: "+tot+"\n\n";
 		String observaciones_tecnico = "-------OBSERVAC. TECNICO--------" + "\n";
-		String obs_tecnico = "La maquina es antigüa";
+		String obs_tecnico = "La maquina es antigua";
 		String observ_tecnico = obs_tecnico+"\n\n";
 		String recepcion_presup_cliente = "---RECEPCION PRESUP. CLIENTE----" + "\n";
 		String fec_recep = "22/06/2016-13:00";

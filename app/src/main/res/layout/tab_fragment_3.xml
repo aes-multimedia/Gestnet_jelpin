@@ -294,7 +294,7 @@
                         <TimePicker
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:id="@+id/spTiempoReparacion"
+                            android:id="@+id/tpTiempoReparacion"
                             android:background="@drawable/caldera_spiners"
                             android:gravity="right"
                             android:spinnerMode="dropdown"

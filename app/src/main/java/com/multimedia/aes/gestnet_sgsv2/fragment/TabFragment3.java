@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -39,12 +40,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion, spTiempoReparacion, spSubTipoVisita;
+    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita;
     private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
+    private TimePicker tpTiempoReparacion;
     private Button btnFinalizar;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
@@ -73,9 +75,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
-        spTipoVisita.setOnItemClickListener(this);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
-        spTiempoReparacion = (Spinner) vista.findViewById(R.id.spTiempoReparacion);
+        tpTiempoReparacion = (TimePicker) vista.findViewById(R.id.tpTiempoReparacion);
         etCodBarras = (EditText) vista.findViewById(R.id.etCodigoBarras);
         etObservaciones = (EditText) vista.findViewById(R.id.etObservaciones);
         etCosteMateriales = (EditText) vista.findViewById(R.id.etCosteMateriales);
@@ -92,6 +93,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
+        spTipoVisita.setOnItemSelectedListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
         String oldFormat = "dd-MM-yyyy HH:mm:ss";
