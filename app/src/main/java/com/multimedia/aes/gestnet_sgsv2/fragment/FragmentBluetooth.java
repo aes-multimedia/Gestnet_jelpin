@@ -1,14 +1,13 @@
-package com.multimedia.aes.gestnet_sgsv2.nucleo;
+package com.multimedia.aes.gestnet_sgsv2.fragment;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
-import com.sewoo.jpos.POSPrinterService;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +16,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -25,9 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,16 +33,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
-import jpos.JposException;
-import jpos.POSPrinterConst;
-
-public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class FragmentBluetooth extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothSocket mmSocket;
@@ -59,38 +51,40 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
     private LinearLayout llImpreso;
     private Impresora impresora;
     private char chEuro = '€';
-    private ImageView ivLogo,ivFirma1,ivFirma2,ivFirma3;
+    private ImageView ivLogo;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
-
+    private View vista;
     String c = Character.toString(chEuro);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bluetooth);
-        openButton = (Button) findViewById(R.id.open);
-        sendButton = (Button) findViewById(R.id.send);
-        closeButton = (Button) findViewById(R.id.close);
-        lvNombres = (ListView) findViewById(R.id.lvNombres);
-        txtImpreso = (TextView) findViewById(R.id.txtImpreso);
-        llImpreso = (LinearLayout) findViewById(R.id.llImpreso);
-        txtImpreso2 = (TextView) findViewById(R.id.txtImpreso2);
-        txtImpreso3 = (TextView) findViewById(R.id.txtImpreso3);
-        txtImpreso4 = (TextView) findViewById(R.id.txtImpreso4);
-
-        ivLogo = (ImageView) findViewById(R.id.ivLogo);
-        ivFirma1 = (ImageView) findViewById(R.id.ivFirmaUno);
-        ivFirma2 = (ImageView) findViewById(R.id.ivFirmaDos);
-        ivFirma3 = (ImageView) findViewById(R.id.ivFirmaTres);
+        vista = inflater.inflate(R.layout.bluetooth, container, false);
+        openButton = (Button) vista.findViewById(R.id.open);
+        sendButton = (Button) vista.findViewById(R.id.send);
+        closeButton = (Button) vista.findViewById(R.id.close);
+        lvNombres = (ListView) vista.findViewById(R.id.lvNombres);
+        txtImpreso = (TextView) vista.findViewById(R.id.txtImpreso);
+        llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
+        txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
+        txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
+        txtImpreso4 = (TextView) vista.findViewById(R.id.txtImpreso4);
+        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
 
         lvNombres.setOnItemClickListener(this);
         openButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         closeButton.setOnClickListener(this);
+
         sendButton.setVisibility(View.GONE);
         closeButton.setVisibility(View.GONE);
-        llImpreso.setVisibility(View.GONE);
-        findBT();
+        llImpreso.setVisibility(View.VISIBLE);
+        lvNombres.setVisibility(View.GONE);
+        txtImpreso.setText(generarTexto1());
+        txtImpreso2.setText(generarTexto2());
+        txtImpreso3.setText(generarTexto3());
+        txtImpreso4.setText(generarTexto4());
+        return vista;
     }
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -115,37 +109,33 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
             }
         }
     };
-
-
     @Override
     public void onClick(View view) {
-        try {
-            if (view.getId() == R.id.open) {
-                ManagerProgressDialog.abrirDialog(this);
-                ManagerProgressDialog.buscandoBluetooth(this);
-                listaDevice.clear();
-                listaNombre.clear();
-                findBT();
-                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                registerReceiver(bReciever, filter);
-                mBluetoothAdapter.startDiscovery();
-                sendButton.setVisibility(View.VISIBLE);
-                closeButton.setVisibility(View.VISIBLE);
-                openButton.setVisibility(View.GONE);
-            } else if (view.getId() == R.id.send) {
-                impresora = new Impresora(this,mmDevice);
-                impresora.imprimir();
-                sendButton.setVisibility(View.GONE);
-                closeButton.setVisibility(View.GONE);
-                openButton.setVisibility(View.VISIBLE);
-                lvNombres.setVisibility(View.VISIBLE);
-                llImpreso.setVisibility(View.GONE);
-            } else if (view.getId() == R.id.close) {
-                closeBT();
-                llImpreso.setVisibility(View.GONE);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (view.getId() == R.id.open) {
+            ManagerProgressDialog.abrirDialog(getContext());
+            ManagerProgressDialog.buscandoBluetooth(getContext());
+            listaDevice.clear();
+            listaNombre.clear();
+            findBT();
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            getContext().registerReceiver(bReciever, filter);
+            mBluetoothAdapter.startDiscovery();
+            lvNombres.setVisibility(View.VISIBLE);
+            llImpreso.setVisibility(View.GONE);
+            sendButton.setVisibility(View.GONE);
+            closeButton.setVisibility(View.GONE);
+            openButton.setVisibility(View.GONE);
+        } else if (view.getId() == R.id.send) {
+            Intent i = new Intent(getContext(),Firmar.class);
+            startActivity(i);
+            sendButton.setVisibility(View.GONE);
+            closeButton.setVisibility(View.VISIBLE);
+            openButton.setVisibility(View.GONE);
+            lvNombres.setVisibility(View.GONE);
+            llImpreso.setVisibility(View.VISIBLE);
+        } else if (view.getId() == R.id.close) {
+            impresora = new Impresora(getActivity(),mmDevice);
+            impresora.imprimir();
         }
     }
     void findBT() {
@@ -186,7 +176,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         }
     }
     public void ponerLista() {
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listaNombre);
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaNombre);
         lvNombres.setAdapter(adaptador);
     }
     @Override
@@ -194,7 +184,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         lvNombres.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
         sendButton.setVisibility(View.VISIBLE);
-        closeButton.setVisibility(View.VISIBLE);
+        closeButton.setVisibility(View.GONE);
         openButton.setVisibility(View.GONE);
         txtImpreso.setText(generarTexto1());
         txtImpreso2.setText(generarTexto2());
@@ -202,9 +192,6 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
         txtImpreso4.setText(generarTexto4());
         try {
             ivLogo.setImageBitmap(generarImagen());
-            ivFirma1.setImageBitmap(loadImageFromStorage());
-            ivFirma2.setImageBitmap(loadImageFromStorage());
-            ivFirma3.setImageBitmap(loadImageFromStorage());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -214,7 +201,7 @@ public class Bluetooth extends AppCompatActivity implements AdapterView.OnItemCl
     }
     private Bitmap generarImagen() throws IOException {
         InputStream bitmap = null;
-        bitmap =  this.getAssets().open("logo.png");
+        bitmap =  getContext().getAssets().open("logo.png");
         Bitmap btmp= BitmapFactory.decodeStream(bitmap);
 
 

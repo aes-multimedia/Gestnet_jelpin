@@ -63,11 +63,8 @@ public class Firmar extends Activity implements View.OnClickListener {
             frFirma.draw(canvas);
             bitmap = redimensionarImagenMaximo(bitmap,320,320);
             saveToInternalSorage(bitmap);
-            Intent i = new Intent(this,Bluetooth.class);
-            startActivity(i);
             finish();
         }
-
     }
     public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
         //Redimensionamos

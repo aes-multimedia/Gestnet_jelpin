@@ -21,15 +21,13 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
-import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -155,8 +153,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                 llReparacion.setVisibility(View.GONE);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
-            Intent i = new Intent(getContext(), Firmar.class);
-            getContext().startActivity(i);
+            ((Index)getContext()).ticket();
             try {
                 MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
             } catch (SQLException e) {
@@ -213,5 +210,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

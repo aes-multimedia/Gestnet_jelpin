@@ -25,6 +25,7 @@ import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
 
 import org.json.JSONException;
@@ -176,4 +177,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+    public void ticket(){
+        Class fragmentClass = FragmentBluetooth.class;
+        Fragment fragment;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

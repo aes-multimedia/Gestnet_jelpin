@@ -32,10 +32,11 @@
         <activity
             android:name=".nucleo.Incidencias"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".nucleo.Bluetooth">
+        <activity android:name=".fragment.FragmentBluetooth">
         </activity>
         <activity
             android:name=".nucleo.Firmar"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:screenOrientation="portrait">
         </activity>
     </application>
