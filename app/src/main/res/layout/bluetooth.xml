@@ -20,19 +20,22 @@
                 android:id="@+id/open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar otros" />
+                android:text="Buscar otros"
+                android:background="@drawable/botones" />
 
             <Button
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Imprimir" />
+                android:text="Imprimir"
+                android:background="@drawable/botones" />
 
             <Button
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Desconectar" />
+                android:text="Desconectar"
+                android:background="@drawable/botones" />
 
         </LinearLayout>
 

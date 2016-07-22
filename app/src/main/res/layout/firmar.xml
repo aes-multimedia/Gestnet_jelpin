@@ -3,7 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".nucleo.Firmar"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/frFirma"
+        android:layout_weight="1.00">
+
+        <com.multimedia.aes.gestnet_sgsv2.nucleo.TouchView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:id="@+id/cvFirma" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -30,14 +46,17 @@
                 android:layout_height="wrap_content"
                 android:text="Guardar"
                 android:id="@+id/btnGuardar"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:background="@drawable/botones" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Borrar"
                 android:id="@+id/btnBorrar"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/botones"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -45,18 +64,5 @@
                 android:id="@+id/ivFirma" />
         </LinearLayout>
     </LinearLayout>
-
-    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/frFirma">
-
-        <com.multimedia.aes.gestnet_sgsv2.nucleo.TouchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
-            android:id="@+id/cvFirma" />
-    </FrameLayout>
 
 </LinearLayout>
