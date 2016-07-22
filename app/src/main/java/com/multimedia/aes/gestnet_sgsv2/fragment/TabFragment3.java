@@ -213,6 +213,5 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }
