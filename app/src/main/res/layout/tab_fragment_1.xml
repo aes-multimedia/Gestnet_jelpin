@@ -260,7 +260,10 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/etNombre" />
+                    android:id="@+id/etNombre"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -370,13 +373,14 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/iniciar_parte"
                 android:id="@+id/btnIniciarParte"
                 android:background="@drawable/botones"
                 android:layout_marginTop="10dp"
                 android:textSize="15dp"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:layout_marginBottom="15dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -384,7 +388,6 @@
                 android:text="@string/confirmar_telefono"
                 android:id="@+id/btnConfirmarObsTel"
                 android:background="@drawable/botones"
-                android:layout_marginTop="10dp"
                 android:textSize="12dp"
                 android:textColor="#FFF"
                 android:layout_marginBottom="20dp" />

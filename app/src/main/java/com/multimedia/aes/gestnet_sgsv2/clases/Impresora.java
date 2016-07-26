@@ -240,7 +240,7 @@ public class Impresora {
 				}
 			}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(2000);
+		Thread.sleep(4000);
 	}
 	private void imprimirImagenEncabezado(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		InputStream bitmap = null;
@@ -262,7 +262,7 @@ public class Impresora {
 			bitmap.close();
 		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 	}
 	private String limpiarAcentos(String texto_entrada) {
 		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº";

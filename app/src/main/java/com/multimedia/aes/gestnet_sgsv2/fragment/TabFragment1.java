@@ -189,6 +189,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etTelefono3.setEnabled(false);
             etTelefono4.setEnabled(false);
             etTelefono5.setEnabled(false);
+            etNombre.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }
         return vista;

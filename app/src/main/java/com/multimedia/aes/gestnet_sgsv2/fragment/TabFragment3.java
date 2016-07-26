@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -45,10 +46,10 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
     private TimePicker tpTiempoReparacion;
-    private Button btnFinalizar;
+    private Button btnFinalizar,btnImprimir;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
-    private TextView tvFechaVisita,tvFechaLimite;
+    private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
     private Mantenimiento mantenimiento = null;
     private LinearLayout llReparacion;
     private List<TiposVisita> listaTiposVisita=null;
@@ -57,6 +58,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private TiposVisita tipoVisita;
     private LinearLayout linearSubtipos;
     private String subTiposVisita[];
+    private ScrollView scFinalizar;
 
 
     @Override
@@ -83,14 +85,18 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
+        btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
         tvFechaVisita = (TextView)vista.findViewById(R.id.tvFechaVisita);
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
+        txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llReparacion.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
+        scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
+        btnImprimir.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
@@ -140,6 +146,20 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             e.printStackTrace();
         }
 
+        int estado = Integer.parseInt(mantenimiento.getEstado_android());
+        if (estado==0){
+
+        }else if (estado==1){
+            btnImprimir.setVisibility(View.GONE);
+            scFinalizar.setVisibility(View.VISIBLE);
+            txtFinalizado.setVisibility(View.GONE);
+        }else if (estado==2){
+
+        }else if (estado==3){
+            scFinalizar.setVisibility(View.GONE);
+            btnImprimir.setVisibility(View.VISIBLE);
+            txtFinalizado.setVisibility(View.VISIBLE);
+        }
         return vista;
     }
 
@@ -159,6 +179,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else if (view.getId()==R.id.btnImprimir){
+            ((Index)getContext()).ticket();
         }
 
 

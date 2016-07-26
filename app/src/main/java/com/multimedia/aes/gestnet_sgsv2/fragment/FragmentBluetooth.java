@@ -25,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,13 +50,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private ListView lvNombres;
     private Button openButton, sendButton, closeButton;
     private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
-    private LinearLayout llImpreso;
+    private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private char chEuro = '€';
     private ImageView ivLogo;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
-    String c = Character.toString(chEuro);
+    private ScrollView scTicket;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,10 +67,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         lvNombres = (ListView) vista.findViewById(R.id.lvNombres);
         txtImpreso = (TextView) vista.findViewById(R.id.txtImpreso);
         llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
+        llBotones = (LinearLayout) vista.findViewById(R.id.llBotones);
         txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
         txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
         txtImpreso4 = (TextView) vista.findViewById(R.id.txtImpreso4);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
+        scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
 
         lvNombres.setOnItemClickListener(this);
         openButton.setOnClickListener(this);
@@ -79,6 +82,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         sendButton.setVisibility(View.GONE);
         closeButton.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
+        scTicket.setVisibility(View.VISIBLE);
         lvNombres.setVisibility(View.GONE);
         try {
             ivLogo.setImageBitmap(generarImagen());
@@ -118,6 +122,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.open) {
+            llBotones.setVisibility(View.GONE);
             ManagerProgressDialog.abrirDialog(getContext());
             ManagerProgressDialog.buscandoBluetooth(getContext());
             listaDevice.clear();
@@ -127,11 +132,14 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             getContext().registerReceiver(bReciever, filter);
             mBluetoothAdapter.startDiscovery();
             lvNombres.setVisibility(View.VISIBLE);
+
             llImpreso.setVisibility(View.GONE);
+            scTicket.setVisibility(View.GONE);
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.GONE);
             openButton.setVisibility(View.GONE);
         } else if (view.getId() == R.id.send) {
+            llBotones.setVisibility(View.VISIBLE);
             Intent i = new Intent(getContext(),Firmar.class);
             startActivity(i);
             sendButton.setVisibility(View.GONE);
@@ -139,6 +147,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             openButton.setVisibility(View.GONE);
             lvNombres.setVisibility(View.GONE);
             llImpreso.setVisibility(View.VISIBLE);
+            scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
@@ -187,8 +196,10 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        llBotones.setVisibility(View.VISIBLE);
         lvNombres.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
+        scTicket.setVisibility(View.VISIBLE);
         sendButton.setVisibility(View.VISIBLE);
         closeButton.setVisibility(View.GONE);
         openButton.setVisibility(View.GONE);
@@ -201,9 +212,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
+        Toast.makeText(getContext(), "Impresora seleccionada", Toast.LENGTH_SHORT).show();
     }
     private Bitmap generarImagen() throws IOException {
         InputStream bitmap = null;

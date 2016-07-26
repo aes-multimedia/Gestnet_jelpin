@@ -56,6 +56,7 @@
     <string name="err_impr">Se ha producido un error al conectar con la impresora.</string>
     <string name="mac_testo">MAC_TESTO</string>
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
+    <string name="parte_finalizado">PARTE FINALIZADO</string>
 
 
     <string-array name="tipoVisita">

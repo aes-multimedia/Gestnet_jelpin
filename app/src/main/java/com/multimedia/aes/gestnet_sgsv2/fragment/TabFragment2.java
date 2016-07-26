@@ -145,12 +145,12 @@ public class TabFragment2 extends Fragment {
         }else if (estado==2){
 
         }else if (estado==3){
-            spMarca.setClickable(false);
-            spTipo.setClickable(false);
-            spPuestaMarcha.setClickable(false);
-            spPotencia.setClickable(false);
-            spUso.setClickable(false);
-            etModelo.setClickable(false);
+            spMarca.setEnabled(false);
+            spTipo.setEnabled(false);
+            spPuestaMarcha.setEnabled(false);
+            spPotencia.setEnabled(false);
+            spUso.setEnabled(false);
+            etModelo.setEnabled(false);
         }
         return vista;
     }
