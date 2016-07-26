@@ -393,4 +393,53 @@ public class MantenimientoDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Mantenimiento.ESTADO_ANDROID,i);
 		updateBuilder.update();
 	}
+	public static void actualizarNombreUsuario(Context context, String nombre, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.NOMBRE_USUARIO,nombre);
+		updateBuilder.update();
+	}
+	public static void actualizarTelefono1(Context context, String tlf1, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO1_USUARIO,tlf1);
+		updateBuilder.update();
+	}
+	public static void actualizarTelefono2(Context context, String tlf2, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO2_USUARIO,tlf2);
+		updateBuilder.update();
+	}
+	public static void actualizarTelefono3(Context context, String tlf3, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO3_USUARIO,tlf3);
+		updateBuilder.update();
+	}
+	public static void actualizarTelefono4(Context context, String tlf4, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO4_USUARIO,tlf4);
+		updateBuilder.update();
+	}
+	public static void actualizarTelefono5(Context context, String tlf5, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.TELEFONO5_USUARIO,tlf5);
+		updateBuilder.update();
+	}
+	public static void actualizarObservacionesCliente(Context context, String obs, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.OBSERVACIONES_USUARIO,obs);
+		updateBuilder.update();
+	}
 }

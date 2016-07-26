@@ -117,12 +117,6 @@ public class TabFragment2 extends Fragment {
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
-            /*String uso= UsoCalderaDAO.buscarUsoCalderaPorId(getContext(),mantenimiento.getUso_maquina()).getNombre_uso_caldera();
-            myAdap = (ArrayAdapter) spUso.getAdapter();
-            spinnerPosition = myAdap.getPosition(uso);
-            spUso.setSelection(spinnerPosition);*/
-
-
             listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
             potencias=new String[listaPotencia.size()];
             for (int i = 0; i < listaPotencia.size(); i++) {

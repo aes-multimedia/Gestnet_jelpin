@@ -29,8 +29,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
-            txtTipo,txtMarca,txtModelo,txtNombre,txtDireccion;
-    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5;
+            txtTipo,txtMarca,txtModelo,txtDireccion;
+    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre;
     private Button btnIniciarParte,btnConfirmarObsTel;
     private Mantenimiento mantenimiento = null;
 
@@ -58,7 +58,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtTipo = (TextView)vista.findViewById(R.id.txtTipo);
         txtMarca = (TextView)vista.findViewById(R.id.txtMarca);
         txtModelo = (TextView)vista.findViewById(R.id.txtModelo);
-        txtNombre = (TextView)vista.findViewById(R.id.txtNombre);
         txtDireccion = (TextView)vista.findViewById(R.id.txtDireccion);
 
 
@@ -68,6 +67,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         etTelefono3 = (EditText)vista.findViewById(R.id.etTelefono3);
         etTelefono4 = (EditText)vista.findViewById(R.id.etTelefono4);
         etTelefono5 = (EditText)vista.findViewById(R.id.etTelefono5);
+        etNombre = (EditText)vista.findViewById(R.id.etNombre);
 
         btnIniciarParte = (Button)vista.findViewById(R.id.btnIniciarParte);
         btnConfirmarObsTel = (Button)vista.findViewById(R.id.btnConfirmarObsTel);
@@ -91,7 +91,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else if (mantenimiento.getFk_tipo()==7){
             txtTipoIntervencion.setText("Presupuesto");
         }
-
         if (mantenimiento.getPagado_endesa().equals("0")){
             txtVenta.setText("No");
         }else{
@@ -160,9 +159,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
 
         txtModelo.setText(mantenimiento.getModelo_maquina());
-        txtMarca.setText(" - "+mantenimiento.getMarca_maquina()+" - ");
-        txtNombre.setText(mantenimiento.getNombre_usuario());
-        txtDireccion.setText(mantenimiento.getDireccion()+" - ("+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+" - "+mantenimiento.getMunicipio()+")");
+        txtMarca.setText(mantenimiento.getMarca_maquina());
+        etNombre.setText(mantenimiento.getNombre_usuario());
+        txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());
 
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
         etTelefono1.setText(mantenimiento.getTelefono1_usuario());
@@ -190,19 +189,71 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etTelefono3.setEnabled(false);
             etTelefono4.setEnabled(false);
             etTelefono5.setEnabled(false);
+            btnConfirmarObsTel.setVisibility(View.GONE);
         }
         return vista;
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btnIniciarParte){
+        if (view.getId() == R.id.btnIniciarParte){
             try {
                 MantenimientoDAO.actualizarEstadoAndroid(getContext(),1,mantenimiento.getId_mantenimiento());
                 ((Index)getContext()).activar();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }if (view.getId() == R.id.btnConfirmarObsTel){
+            if (!mantenimiento.getNombre_usuario().equals(etNombre.getText())&&!etNombre.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarNombreUsuario(getContext(),etNombre.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getTelefono1_usuario().equals(etTelefono1.getText())&&!etTelefono1.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarTelefono1(getContext(),etTelefono1.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getTelefono2_usuario().equals(etTelefono2.getText())&&!etTelefono2.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarTelefono2(getContext(),etTelefono2.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getTelefono3_usuario().equals(etTelefono3.getText())&&!etTelefono3.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarTelefono3(getContext(),etTelefono3.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getTelefono4_usuario().equals(etTelefono4.getText())&&!etTelefono4.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarTelefono4(getContext(),etTelefono4.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getTelefono5_usuario().equals(etTelefono5.getText())&&!etTelefono5.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarTelefono5(getContext(),etTelefono5.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getObservaciones_usuario().equals(etObservaciones.getText())&&!etObservaciones.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarObservacionesCliente(getContext(),etObservaciones.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
         }
     }
 

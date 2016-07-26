@@ -44,7 +44,7 @@
     <string name="observaciones">Observaciones: </string>
     <string name="telefonos">Telefonos: </string>
     <string name="iniciar_parte">INICIAR PARTE</string>
-    <string name="confirmar_telefono">CONFIRMAR TELEFONOS Y OBSERVACIONES</string>
+    <string name="confirmar_telefono">ACTUALIZAR DATOS DEL USUARIO</string>
     <string name="datos_tipo_estado">guardando estados</string>
     <string name="datos_tipo_rparacion">Guardando tipo de reparacion</string>
     <string name="buscando_bluetooth">Buscando Dispositivos Bluetooth</string>

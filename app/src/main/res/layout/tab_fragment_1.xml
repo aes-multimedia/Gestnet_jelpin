@@ -30,7 +30,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/fondo_linear_gris"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -42,7 +45,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/fecha_llamada"
                         android:id="@+id/textView15"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -63,7 +66,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/num_orden_iberdrola"
                         android:id="@+id/textView4"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -92,7 +95,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/venta"
                         android:id="@+id/textView6"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -129,7 +132,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/contador_averias"
                         android:id="@+id/textView9"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -149,7 +152,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/contrato"
                         android:id="@+id/textView12"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -170,7 +173,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="@string/tipo_urgencia"
                         android:id="@+id/textView17"
-                        android:textSize="18dp" />
+                        android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -198,10 +201,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/fondo_linear_gris"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -219,7 +225,6 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="marca"
                         android:id="@+id/txtMarca"
-                        android:layout_marginLeft="10dp"
                         android:textSize="18dp" />
 
                     <TextView
@@ -228,7 +233,6 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="modelo"
                         android:id="@+id/txtModelo"
-                        android:layout_marginLeft="10dp"
                         android:textSize="18dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -248,15 +252,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/fondo_linear_gris">
+                android:background="@drawable/fondo_linear_gris"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="nombre"
-                    android:id="@+id/txtNombre"
-                    android:textSize="18dp" />
+                    android:id="@+id/etNombre" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -264,7 +268,8 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="direccion"
                     android:id="@+id/txtDireccion"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -272,7 +277,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/telefonos"
                     android:id="@+id/textView18"
-                    android:textSize="18dp"
+                    android:textSize="19dp"
                     android:layout_marginTop="10dp" />
 
                 <EditText
@@ -336,7 +341,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/fondo_linear_gris"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -344,7 +352,7 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/observaciones"
                     android:id="@+id/textView3"
-                    android:textSize="15dp"
+                    android:textSize="19dp"
                     android:layout_marginTop="10dp" />
 
                 <EditText

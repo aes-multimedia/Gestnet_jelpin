@@ -22,7 +22,7 @@ public class GuardarSubTiposVisita {
     private static Context context;
     private static boolean bien;
 
-    public GuardarSubTiposVisita(Context context, String json) {
+    public  GuardarSubTiposVisita(Context context, String json) {
         this.context = context;
         Json = json;
         try {

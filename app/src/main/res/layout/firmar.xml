@@ -25,7 +25,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#bbb">
+        android:background="@drawable/fondo_linear_gris"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Firma el mantenimiento por favor"
             android:id="@+id/textView32"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000" />
 
         <LinearLayout
             android:orientation="horizontal"
