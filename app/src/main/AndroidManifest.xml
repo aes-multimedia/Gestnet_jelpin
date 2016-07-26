@@ -14,8 +14,7 @@
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
         <activity
             android:name=".nucleo.Login"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
@@ -26,19 +25,18 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".nucleo.Incidencias"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".fragment.FragmentBluetooth">
-        </activity>
+        <activity android:name=".fragment.FragmentBluetooth"></activity>
         <activity
             android:name=".nucleo.Firmar"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Dialog"></activity>
     </application>
 
 </manifest>

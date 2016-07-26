@@ -265,7 +265,7 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private String limpiarAcentos(String texto_entrada) {
-		String original = "��������������u������������������Ǻ";
+		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº";
 		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCo";
 		String output = texto_entrada;
 		for (int i = 0; i < original.length(); i++) {

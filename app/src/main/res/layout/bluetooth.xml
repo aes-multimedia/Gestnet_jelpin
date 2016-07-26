@@ -51,14 +51,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView5" >
+        android:id="@+id/scrollView5"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llImpreso"
-            android:background="#fff">
+            android:background="#fff"
+            android:padding="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"

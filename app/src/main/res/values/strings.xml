@@ -58,7 +58,6 @@
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
 
 
-
     <string-array name="tipoVisita">
         <item>Sin defectos</item>
         <item>Precintado de instalación</item>

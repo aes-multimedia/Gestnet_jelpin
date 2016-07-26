@@ -49,14 +49,7 @@ public class Firmar extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.btnBorrar){
-            String c = null;
-            try {
-                c = URLEncoder.encode("€", "utf-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            Log.d("euro", c);
-            //recreate();
+            recreate();
         }else if (view.getId()==R.id.btnGuardar){
             Bitmap bitmap = Bitmap.createBitmap( frFirma.getWidth(), frFirma.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);

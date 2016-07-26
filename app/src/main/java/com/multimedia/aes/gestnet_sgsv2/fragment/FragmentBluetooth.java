@@ -80,10 +80,16 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         closeButton.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
         lvNombres.setVisibility(View.GONE);
+        try {
+            ivLogo.setImageBitmap(generarImagen());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         txtImpreso.setText(generarTexto1());
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
+        findBT();
         return vista;
     }
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
