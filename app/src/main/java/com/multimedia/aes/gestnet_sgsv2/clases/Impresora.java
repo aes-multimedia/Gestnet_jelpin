@@ -12,9 +12,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloConectarImpr;
 import com.sewoo.jpos.POSPrinterService;
 import com.sewoo.port.android.BluetoothPort;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +30,10 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import jpos.JposException;
 import jpos.POSPrinterConst;
@@ -41,6 +51,7 @@ public class Impresora {
 	private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
 	private char chEuro = '€';
 	String c = Character.toString(chEuro);
+	private Mantenimiento mantenimiento;
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
 		super();
@@ -49,6 +60,15 @@ public class Impresora {
 		res = activity.getResources();
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		bp = BluetoothPort.getInstance();
+		try {
+			JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(activity));
+			int id = jsonObject.getInt("id");
+			mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	public void imprimir() {
 		iniciarConexion();
@@ -84,16 +104,33 @@ public class Impresora {
 		}
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		String fecha = "22/06/2016";
-		String hora = "12:06";
+		Calendar cal = new GregorianCalendar();
+		Date date = cal.getTime();
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		String fecha = df.format(date);
+		df = new SimpleDateFormat("hh:mm");
+		String hora = df.format(date);
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
-		String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
+		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = "000111522";
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String serv = "Mantenimiento Gas";
+		String serv=null;
+		if (mantenimiento.getFk_efv()==1){
+			serv = "Servicio Manto Gas Fraccionado";
+		}else if (mantenimiento.getFk_efv()==2){
+			serv = "Servicio de Mantenimiento Gas Independiente";
+		}else if (mantenimiento.getFk_efv()==3){
+			serv = "Servicio de Mantenimiento Gas Calefacción Independiente";
+		}else if (mantenimiento.getFk_efv()==4){
+			serv = "Servicio de Mantenimiento Gas Calefacción Fraccionado";
+		}else if (mantenimiento.getFk_efv()==5){
+			serv = "Servicio de Mantenimiento Gas Ampliado Independiente";
+		}else if (mantenimiento.getFk_efv()==6){
+			serv = "Servicio de Mantenimiento Gas Ampliado";
+		}
 		String servicio = "Servicio: "+serv+ "\n";
-		String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio();
 		String direccion = "Direccion"+"\n"+dir+"\n\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "IBERDROLA";

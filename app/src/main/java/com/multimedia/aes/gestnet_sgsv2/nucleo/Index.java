@@ -1,7 +1,13 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
+import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,10 +45,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     private ListView lvIndex;
     private AdaptadorMantenimientos adaptadorMantenimientos;
-    private ArrayList<Mantenimiento> arrayList=new ArrayList();
+    private ArrayList<Mantenimiento> arrayList = new ArrayList();
     private SwipeRefreshLayout srl;
-    private ImageView ivIncidencias,ivLlamarAes;
+    private ImageView ivIncidencias, ivLlamarAes;
     private LinearLayout cuerpo;
+    private int year,month,day;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,18 +73,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        srl = (SwipeRefreshLayout)findViewById(R.id.lllistview);
+        srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
-        adaptadorMantenimientos = new AdaptadorMantenimientos(this,R.layout.camp_adapter_list_view_mantenimiento,arrayList);
-        lvIndex = (ListView)findViewById(R.id.lvIndex);
+        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayList);
+        lvIndex = (ListView) findViewById(R.id.lvIndex);
         lvIndex.setAdapter(adaptadorMantenimientos);
         lvIndex.setOnItemClickListener(this);
-        ivIncidencias = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
-        ivLlamarAes = (ImageView)navigationView.getHeaderView(0).findViewById(R.id.ivLlamarAes);
+        ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
+        ivLlamarAes = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivLlamarAes);
         ivIncidencias.setOnClickListener(this);
         ivLlamarAes.setOnClickListener(this);
 
-        cuerpo = (LinearLayout)findViewById(R.id.cuerpo);
+        cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
     }
 
     @Override
@@ -99,16 +108,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         } else if (id == R.id.mantenimientos) {
             recreate();
-        }else if (id == R.id.almacen) {
+        } else if (id == R.id.almacen) {
 
         } else if (id == R.id.buscar_parte) {
 
         } else if (id == R.id.ajustes) {
-
         } else if (id == R.id.cerrar_sesion) {
             try {
                 BBDDConstantes.borrarDatosTablas(this);
-                Intent i = new Intent(this,Login.class);
+                Intent i = new Intent(this, Login.class);
                 startActivity(i);
                 finish();
                 GestorSharedPreferences.clearSharedPreferencesTecnico(this);
@@ -121,14 +129,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id",(String) view.getTag());
+            jsonObject.put("id", (String) view.getTag());
             GestorSharedPreferences.clearSharedPreferencesMantenimiento(this);
-            GestorSharedPreferences.setJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this),jsonObject);
+            GestorSharedPreferences.setJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this), jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -149,18 +156,22 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onRefresh() {
         srl.setRefreshing(true);
-        adaptadorMantenimientos = new AdaptadorMantenimientos(this,R.layout.camp_adapter_list_view_mantenimiento,arrayList);
+        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayList);
         lvIndex.setAdapter(adaptadorMantenimientos);
         srl.setRefreshing(false);
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.ivIncidencias){
-            Intent i = new Intent(this,Incidencias.class);
+        if (view.getId() == R.id.ivIncidencias) {
+            Intent i = new Intent(this, Incidencias.class);
             startActivity(i);
-        }else if (view.getId()==R.id.ivLlamarAes){
-            Toast.makeText(Index.this, "llamar", Toast.LENGTH_SHORT).show();
+        } else if (view.getId() == R.id.ivLlamarAes) {
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:664783563"));
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            startActivity(intent);
         }
     }
     public void activar(){

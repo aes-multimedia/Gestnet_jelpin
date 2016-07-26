@@ -35,7 +35,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Set;
 
 public class FragmentBluetooth extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
@@ -89,7 +93,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         } catch (IOException e) {
             e.printStackTrace();
         }
-        txtImpreso.setText(generarTexto1());
+        Calendar cal = new GregorianCalendar();
+        Date date = cal.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+        String fecha = df.format(date);
+        txtImpreso.setText(fecha);
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
@@ -219,8 +227,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         InputStream bitmap = null;
         bitmap =  getContext().getAssets().open("logo.png");
         Bitmap btmp= BitmapFactory.decodeStream(bitmap);
-
-
         return btmp;
     }
     private String generarTexto1()  {

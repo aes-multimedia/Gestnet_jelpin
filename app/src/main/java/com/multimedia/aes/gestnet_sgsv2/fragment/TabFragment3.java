@@ -163,7 +163,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         return vista;
     }
 
-
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.cbReparacion){

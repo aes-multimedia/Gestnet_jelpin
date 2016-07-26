@@ -49,20 +49,47 @@
         android:inputType="textMultiLine"
         android:lines="17"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/etIncidencia"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:background="@drawable/edit_texts_naranja"
         android:textSize="15dp"
         android:textColor="#666"
+        android:layout_marginRight="15dp"
         android:gravity="top"
-        android:layout_marginRight="15dp" />
+        android:padding="5dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/introducir_nombre"
+        android:id="@+id/textView34"
+        android:textColor="#F47435"
+        android:textSize="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etNombreTecnico"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/edit_texts_naranja"
+        android:gravity="top"
+        android:textColor="#666"
+        android:textSize="15dp"
+        android:padding="5dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/enviar"
-        android:id="@+id/btnEnviar"
+        android:id="@+id/btnEnviarIncidencia"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:background="@drawable/botones"

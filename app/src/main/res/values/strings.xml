@@ -57,6 +57,7 @@
     <string name="mac_testo">MAC_TESTO</string>
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
     <string name="parte_finalizado">PARTE FINALIZADO</string>
+    <string name="introducir_nombre">Introduzca su nombre</string>
 
 
     <string-array name="tipoVisita">
