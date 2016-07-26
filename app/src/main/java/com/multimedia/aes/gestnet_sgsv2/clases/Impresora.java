@@ -130,7 +130,7 @@ public class Impresora {
 			serv = "Servicio de Mantenimiento Gas Ampliado";
 		}
 		String servicio = "Servicio: "+serv+ "\n";
-		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio();
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
 		String direccion = "Direccion"+"\n"+dir+"\n\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "IBERDROLA";
@@ -200,7 +200,7 @@ public class Impresora {
 				presupuesto+piezas+mano_obra+desplazamiento+otros+descuentos_preiva+materiales+
 				presupuesto_total_siniva+iva+presupuesto_total_coniva+otros_descuentos+total+observaciones_tecnico+
 				observ_tecnico+recepcion_presup_cliente+fecha_recep+nombre+dni+firma;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
 	private void generarTexto2(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
@@ -216,7 +216,7 @@ public class Impresora {
 		String firma_acep = "Firma:"+"\n";
 		String textoImpresion =aceptacion_presupuesto+recibido+
 				aceptado+fecha_acep+nombre_acep+dni_acep+firma_acep;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
 	private void generarTexto3(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
@@ -230,7 +230,7 @@ public class Impresora {
 		String firma_conf = "Firma:"+"\n";
 		String textoImpresion =conforme_final_cliente+fecha_conf+nombre_conf+
 				dni_conf+firma_conf;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
 	private void generarTexto4(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
@@ -249,13 +249,13 @@ public class Impresora {
 				" tecnico. Las modificaciones"+"\n"+" deberan ser firmadas por ambas"+"\n"+" partes en senal de conformidad."+"\n";
 		String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente."+"\n\n\n\n\n\n";
 		String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, textoImpresion);
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
 	private Bitmap loadImageFromStorage(){
 		Bitmap b=null;
 		try {
-			File f=new File(path, "profile.jpg");
+			File f=new File(path, "firma.jpg");
 			b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 		}

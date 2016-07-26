@@ -1,12 +1,17 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
+import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
 
 import android.content.BroadcastReceiver;
@@ -29,17 +34,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Set;
 
 public class FragmentBluetooth extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
@@ -56,10 +62,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private ImageView ivLogo;
+    private ImageView ivLogo,ivFirma1,ivFirma2,ivFirma3;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
     private ScrollView scTicket;
+    private Mantenimiento mantenimiento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +83,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
         txtImpreso4 = (TextView) vista.findViewById(R.id.txtImpreso4);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
+        ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
+        ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
+        ivFirma3 = (ImageView) vista.findViewById(R.id.ivFirmaTres);
+        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
+        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
         scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
 
         lvNombres.setOnItemClickListener(this);
@@ -88,16 +100,22 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         llImpreso.setVisibility(View.VISIBLE);
         scTicket.setVisibility(View.VISIBLE);
         lvNombres.setVisibility(View.GONE);
+
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            int id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             ivLogo.setImageBitmap(generarImagen());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Calendar cal = new GregorianCalendar();
-        Date date = cal.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
-        String fecha = df.format(date);
-        txtImpreso.setText(fecha);
+        txtImpreso.setText(generarTexto1());
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
@@ -150,6 +168,9 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             llBotones.setVisibility(View.VISIBLE);
             Intent i = new Intent(getContext(),Firmar.class);
             startActivity(i);
+            ivFirma1.setImageBitmap(loadFirmaFromStorage());
+            ivFirma2.setImageBitmap(loadFirmaFromStorage());
+            ivFirma3.setImageBitmap(loadFirmaFromStorage());
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.VISIBLE);
             openButton.setVisibility(View.GONE);
@@ -157,9 +178,28 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             llImpreso.setVisibility(View.VISIBLE);
             scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
+            Bitmap bitmap = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            llImpreso.draw(canvas);
+            saveToInternalSorage(bitmap);
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
         }
+    }
+
+    private String saveToInternalSorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getContext());
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File mypath=new File(directory,"ticket"+mantenimiento.getId_mantenimiento()+".jpg");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
     }
     void findBT() {
         try {
@@ -358,10 +398,10 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
        return textoImpresion;
     }
-    private Bitmap loadImageFromStorage(){
+    private Bitmap loadFirmaFromStorage(){
         Bitmap b=null;
         try {
-            File f=new File(path, "profile.jpg");
+            File f=new File(path, "firma.jpg");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
 
         }

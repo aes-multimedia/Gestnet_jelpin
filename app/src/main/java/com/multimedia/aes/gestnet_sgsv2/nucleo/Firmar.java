@@ -76,7 +76,7 @@ public class Firmar extends Activity implements View.OnClickListener {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+        File mypath=new File(directory,"firma.jpg");
 
         FileOutputStream fos = null;
         try {
@@ -95,7 +95,7 @@ public class Firmar extends Activity implements View.OnClickListener {
     {
 
         try {
-            File f=new File(path, "profile.jpg");
+            File f=new File(path, "firma.jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
             ivFirma.setImageBitmap(b);
         }
