@@ -175,7 +175,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }else if (view.getId()==R.id.btnFinalizar) {
             ((Index)getContext()).ticket();
             try {
-                MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
             } catch (SQLException e) {
                 e.printStackTrace();
             }

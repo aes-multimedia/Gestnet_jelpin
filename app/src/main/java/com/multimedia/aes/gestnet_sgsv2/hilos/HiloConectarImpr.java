@@ -8,12 +8,19 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 import com.sewoo.request.android.RequestHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 
@@ -56,6 +63,21 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
+		Mantenimiento mantenimiento = null;
+		try {
+			JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(activity));
+			int id = jsonObject.getInt("id");
+			mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			MantenimientoDAO.actualizarEstadoAndroid(activity, 3, mantenimiento.getId_mantenimiento());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		Intent i = new Intent(activity, Index.class);
 		activity.startActivity(i);
 		activity.finish();
