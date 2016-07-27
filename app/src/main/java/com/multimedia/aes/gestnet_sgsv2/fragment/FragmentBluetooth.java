@@ -168,9 +168,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             llBotones.setVisibility(View.VISIBLE);
             Intent i = new Intent(getContext(),Firmar.class);
             startActivity(i);
-            ivFirma1.setImageBitmap(loadFirmaFromStorage());
-            ivFirma2.setImageBitmap(loadFirmaFromStorage());
-            ivFirma3.setImageBitmap(loadFirmaFromStorage());
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.VISIBLE);
             openButton.setVisibility(View.GONE);
@@ -261,6 +258,9 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
+        ivFirma1.setImageBitmap(loadFirmaFromStorage());
+        ivFirma2.setImageBitmap(loadFirmaFromStorage());
+        ivFirma3.setImageBitmap(loadFirmaFromStorage());
         Toast.makeText(getContext(), "Impresora seleccionada", Toast.LENGTH_SHORT).show();
     }
     private Bitmap generarImagen() throws IOException {
