@@ -56,9 +56,12 @@ public class Firmar extends Activity implements View.OnClickListener {
             frFirma.draw(canvas);
             bitmap = redimensionarImagenMaximo(bitmap,320,320);
             saveToInternalSorage(bitmap);
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }
     }
+
     public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
         //Redimensionamos
         int width = mBitmap.getWidth();
@@ -75,9 +78,7 @@ public class Firmar extends Activity implements View.OnClickListener {
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"firma.jpg");
-
+        File mypath=new File(directory,"firma.png");
         FileOutputStream fos = null;
         try {
 
@@ -89,20 +90,6 @@ public class Firmar extends Activity implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return directory.getAbsolutePath();
-    }
-    private void loadImageFromStorage(String path)
-    {
-
-        try {
-            File f=new File(path, "firma.jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ivFirma.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
+        return mypath.getAbsolutePath();
     }
 }

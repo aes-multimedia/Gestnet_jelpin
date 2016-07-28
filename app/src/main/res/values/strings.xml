@@ -58,6 +58,7 @@
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
     <string name="parte_finalizado">PARTE FINALIZADO</string>
     <string name="introducir_nombre">Introduzca su nombre</string>
+    <string name="subir_ticket">Subiendo ticket</string>
 
 
     <string-array name="tipoVisita">

@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
+import android.app.Activity;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -94,7 +95,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         openButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         closeButton.setOnClickListener(this);
-
         sendButton.setVisibility(View.GONE);
         closeButton.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
@@ -116,6 +116,9 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         txtImpreso.setText(generarTexto1());
+        ivFirma1.setImageResource(R.drawable.circle);
+        ivFirma2.setImageResource(R.drawable.circle);
+        ivFirma3.setImageResource(R.drawable.circle);
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
@@ -158,7 +161,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             getContext().registerReceiver(bReciever, filter);
             mBluetoothAdapter.startDiscovery();
             lvNombres.setVisibility(View.VISIBLE);
-
             llImpreso.setVisibility(View.GONE);
             scTicket.setVisibility(View.GONE);
             sendButton.setVisibility(View.GONE);
@@ -167,7 +169,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
             Intent i = new Intent(getContext(),Firmar.class);
-            startActivity(i);
+            startActivityForResult(i,99);
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.VISIBLE);
             openButton.setVisibility(View.GONE);
@@ -184,10 +186,26 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                Bitmap bitmap = loadFirmaFromStorage();
+                ivFirma1.setImageBitmap(bitmap);
+                ivFirma2.setImageBitmap(bitmap);
+                ivFirma3.setImageBitmap(bitmap);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File mypath=new File(directory,"ticket"+mantenimiento.getId_mantenimiento()+".jpg");
+        File mypath=new File(directory,"ticket"+mantenimiento.getId_mantenimiento()+".png");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
@@ -258,9 +276,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
-        ivFirma1.setImageBitmap(loadFirmaFromStorage());
-        ivFirma2.setImageBitmap(loadFirmaFromStorage());
-        ivFirma3.setImageBitmap(loadFirmaFromStorage());
         Toast.makeText(getContext(), "Impresora seleccionada", Toast.LENGTH_SHORT).show();
     }
     private Bitmap generarImagen() throws IOException {
@@ -401,9 +416,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private Bitmap loadFirmaFromStorage(){
         Bitmap b=null;
         try {
-            File f=new File(path, "firma.jpg");
+            File f=new File(path, "firma.png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
-
         }
         catch (FileNotFoundException e)
         {

@@ -12,6 +12,7 @@ import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreference
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 import com.sewoo.request.android.RequestHandler;
@@ -78,11 +79,11 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		new HiloSubirTicket(activity).execute();
 		Intent i = new Intent(activity, Index.class);
 		activity.startActivity(i);
 		activity.finish();
 		if (result.equals(Constantes.SUCCES)) {
-			
 		}			
 		else 
 			Toast.makeText(activity, R.string.err_impr, Toast.LENGTH_SHORT).show();

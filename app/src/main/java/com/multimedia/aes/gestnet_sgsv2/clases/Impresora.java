@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloConectarImpr;
 import com.sewoo.jpos.POSPrinterService;
@@ -49,8 +50,6 @@ public class Impresora {
 	public Thread hThread;
 	BluetoothDevice mmDevice;
 	private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
-	private char chEuro = '€';
-	String c = Character.toString(chEuro);
 	private Mantenimiento mantenimiento;
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
@@ -92,10 +91,10 @@ public class Impresora {
 		try {
 			imprimirImagenEncabezado(pps);
 			generarTexto1(pps);
-			imprimirFirma(pps);
-			generarTexto2(pps);
-			imprimirFirma(pps);
-			generarTexto3(pps);
+			//imprimirFirma(pps);
+			//generarTexto2(pps);
+			//imprimirFirma(pps);
+			//generarTexto3(pps);
 			imprimirFirma(pps);
 			generarTexto4(pps);
 			bluetoothAdapter.disable();
@@ -255,7 +254,7 @@ public class Impresora {
 	private Bitmap loadImageFromStorage(){
 		Bitmap b=null;
 		try {
-			File f=new File(path, "firma.jpg");
+			File f=new File(path, "firma.png");
 			b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 		}

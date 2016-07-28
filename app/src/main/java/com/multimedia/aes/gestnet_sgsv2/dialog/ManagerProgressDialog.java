@@ -53,6 +53,9 @@ public abstract class ManagerProgressDialog {
     public static void guardarDatoSubTipoVisita(Context context) {
         p.setMessage(context.getResources().getString(R.string.datos_subtipo_visita));
     }
+    public static void subirTicket(Context context) {
+        p.setMessage(context.getResources().getString(R.string.subir_ticket));
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }
