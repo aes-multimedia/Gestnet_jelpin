@@ -1,8 +1,6 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,17 +18,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorAverias;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
@@ -45,11 +43,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     private ListView lvIndex;
     private AdaptadorMantenimientos adaptadorMantenimientos;
-    private ArrayList<Mantenimiento> arrayList = new ArrayList();
+    private AdaptadorAverias adaptadorAveria;
+    private ArrayList<Mantenimiento> arrayListMantenimiento = new ArrayList();
+    private ArrayList<Averia> arrayListAveria = new ArrayList();
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias, ivLlamarAes;
     private LinearLayout cuerpo;
-    private int year,month,day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +68,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         navigationView.setNavigationItemSelectedListener(this);
 
         try {
-            arrayList = new ArrayList(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+            arrayListMantenimiento = new ArrayList(MantenimientoDAO.buscarTodosLosMantenimientos(this));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
-        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayList);
         lvIndex = (ListView) findViewById(R.id.lvIndex);
+        setTitle("Mantenimientos");
+        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
         lvIndex.setAdapter(adaptadorMantenimientos);
         lvIndex.setOnItemClickListener(this);
         ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
@@ -105,9 +105,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         if (id == R.id.documentos) {
         } else if (id == R.id.averias) {
-
+            adaptadorAveria = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
+            lvIndex.setAdapter(adaptadorAveria);
+            setTitle("Averias");
         } else if (id == R.id.mantenimientos) {
-            recreate();
+            adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
+            lvIndex.setAdapter(adaptadorMantenimientos);
+            setTitle("Mantenimientos");
         } else if (id == R.id.almacen) {
 
         } else if (id == R.id.buscar_parte) {
@@ -156,8 +160,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onRefresh() {
         srl.setRefreshing(true);
-        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayList);
-        lvIndex.setAdapter(adaptadorMantenimientos);
+        //adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
+        //lvIndex.setAdapter(adaptadorMantenimientos);
         srl.setRefreshing(false);
     }
 

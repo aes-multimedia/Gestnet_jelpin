@@ -6,17 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class AdaptadorAvisos extends ArrayAdapter {
+public class AdaptadorAverias extends ArrayAdapter {
 
     private Context context;
     private int view;
-    private ArrayList<JSONObject> arrayList;
+    private ArrayList<Averia> arrayList;
 
-    public AdaptadorAvisos(Context context, int view, ArrayList<JSONObject> arrayList) {
+    public AdaptadorAverias(Context context, int view, ArrayList<Averia> arrayList) {
         super(context, view, arrayList);
         this.context = context;
         this.view = view;
@@ -30,7 +32,6 @@ public class AdaptadorAvisos extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        JSONObject jsonObject = arrayList.get(position);
         return item;
     }
 }

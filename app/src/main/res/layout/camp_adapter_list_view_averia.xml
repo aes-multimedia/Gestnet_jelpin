@@ -16,7 +16,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="10:00"
@@ -30,8 +30,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:id="@+id/ivEstado"
-            android:layout_marginRight="5dp" />
+            android:id="@+id/ivEstado" />
 
         <LinearLayout
             android:orientation="vertical"

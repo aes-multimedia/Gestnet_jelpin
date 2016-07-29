@@ -116,9 +116,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         txtImpreso.setText(generarTexto1());
-        ivFirma1.setImageResource(R.drawable.circle);
-        ivFirma2.setImageResource(R.drawable.circle);
-        ivFirma3.setImageResource(R.drawable.circle);
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
@@ -189,7 +186,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1) {
+        if (requestCode == 99) {
             if(resultCode == Activity.RESULT_OK){
                 Bitmap bitmap = loadFirmaFromStorage();
                 ivFirma1.setImageBitmap(bitmap);
