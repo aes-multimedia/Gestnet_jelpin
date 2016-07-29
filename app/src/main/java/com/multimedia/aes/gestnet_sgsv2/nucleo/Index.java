@@ -27,6 +27,7 @@ import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreference
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorAverias;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
+import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -49,42 +50,53 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias, ivLlamarAes;
     private LinearLayout cuerpo;
-
+    private int parte = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this));
+            parte = jsonObject.getInt("parte");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             arrayListMantenimiento = new ArrayList(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+            arrayListAveria = new ArrayList(AveriaDAO.buscarTodasLasAverias(this));
         } catch (SQLException e) {
             e.printStackTrace();
         }
         srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
         lvIndex = (ListView) findViewById(R.id.lvIndex);
-        setTitle("Mantenimientos");
-        adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
-        lvIndex.setAdapter(adaptadorMantenimientos);
         lvIndex.setOnItemClickListener(this);
         ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivLlamarAes = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivLlamarAes);
         ivIncidencias.setOnClickListener(this);
         ivLlamarAes.setOnClickListener(this);
-
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
+
+        if (parte==1){
+            setTitle("Averias");
+            adaptadorAveria = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
+            lvIndex.setAdapter(adaptadorAveria);
+        }else if(parte==2){
+            setTitle("Mantenimientos");
+            adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
+            lvIndex.setAdapter(adaptadorMantenimientos);
+        }
     }
 
     @Override
@@ -105,13 +117,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         if (id == R.id.documentos) {
         } else if (id == R.id.averias) {
-            adaptadorAveria = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
-            lvIndex.setAdapter(adaptadorAveria);
-            setTitle("Averias");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("parte", 1);
+                GestorSharedPreferences.clearSharedPreferencesPartes(this);
+                GestorSharedPreferences.setJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this), jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            recreate();
         } else if (id == R.id.mantenimientos) {
-            adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
-            lvIndex.setAdapter(adaptadorMantenimientos);
-            setTitle("Mantenimientos");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("parte", 2);
+                GestorSharedPreferences.clearSharedPreferencesPartes(this);
+                GestorSharedPreferences.setJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this), jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            recreate();
         } else if (id == R.id.almacen) {
 
         } else if (id == R.id.buscar_parte) {

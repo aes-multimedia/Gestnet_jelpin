@@ -5,7 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 
 import org.json.JSONObject;
@@ -32,6 +36,15 @@ public class AdaptadorAverias extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
+        TextView direccion = (TextView) item.findViewById(R.id.txtDireccion);
+        TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
+        TextView cp = (TextView) item.findViewById(R.id.txtCP);
+        LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
+        ImageView ivEstado = (ImageView)item.findViewById(R.id.ivEstado);
+        direccion.setText(String.valueOf(arrayList.get(position).getNom_calle()+" - "+arrayList.get(position).getCod_portal()+" - "+arrayList.get(position).getTip_piso()+"-"+arrayList.get(position).getTip_mano()));
+        cp.setText("C.P.:  "+String.valueOf(arrayList.get(position).getCod_postal()));
+        provincia.setText("("+String.valueOf(arrayList.get(position).getNombre_provincia())+"-"+String.valueOf(arrayList.get(position).getNombre_poblacion())+")");
+        global.setTag(String.valueOf(arrayList.get(position).getId_averia()));
         return item;
     }
 }
