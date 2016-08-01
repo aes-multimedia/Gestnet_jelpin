@@ -40,7 +40,6 @@ public class AdaptadorAverias extends ArrayAdapter {
         TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
         TextView cp = (TextView) item.findViewById(R.id.txtCP);
         LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
-        ImageView ivEstado = (ImageView)item.findViewById(R.id.ivEstado);
         direccion.setText(String.valueOf(arrayList.get(position).getNom_calle()+" - "+arrayList.get(position).getCod_portal()+" - "+arrayList.get(position).getTip_piso()+"-"+arrayList.get(position).getTip_mano()));
         cp.setText("C.P.:  "+String.valueOf(arrayList.get(position).getCod_postal()));
         provincia.setText("("+String.valueOf(arrayList.get(position).getNombre_provincia())+"-"+String.valueOf(arrayList.get(position).getNombre_poblacion())+")");
