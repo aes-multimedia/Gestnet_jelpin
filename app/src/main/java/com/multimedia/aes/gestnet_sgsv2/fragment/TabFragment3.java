@@ -188,44 +188,46 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i==2){
-            try{
-                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),3);
-                subTiposVisita = new String[listaSubTiposVista.size()];
-                for (int j = 0; j < listaSubTiposVista.size(); j++) {
-                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+        if (view.getId()==R.id.spTipoVisita) {
+            if (i == 2) {
+                try {
+                    listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);
+                    subTiposVisita = new String[listaSubTiposVista.size()];
+                    for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                        subTiposVisita[j] = listaSubTiposVista.get(j).getCodigo();
+                    }
+                    spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-            linearSubtipos.setVisibility(View.VISIBLE);
-        }else if (i==4){
-            try{
-                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),5);
-                subTiposVisita = new String[listaSubTiposVista.size()];
-                for (int j = 0; j < listaSubTiposVista.size(); j++) {
-                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+                linearSubtipos.setVisibility(View.VISIBLE);
+            } else if (i == 4) {
+                try {
+                    listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 5);
+                    subTiposVisita = new String[listaSubTiposVista.size()];
+                    for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                        subTiposVisita[j] = listaSubTiposVista.get(j).getCodigo();
+                    }
+                    spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-            linearSubtipos.setVisibility(View.VISIBLE);
-        }else if (i==5){
-            try{
-                listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(),6);
-                subTiposVisita = new String[listaSubTiposVista.size()];
-                for (int j = 0; j < listaSubTiposVista.size(); j++) {
-                    subTiposVisita[j]=listaSubTiposVista.get(j).getDescripcion();
+                linearSubtipos.setVisibility(View.VISIBLE);
+            } else if (i == 5) {
+                try {
+                    listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 6);
+                    subTiposVisita = new String[listaSubTiposVista.size()];
+                    for (int j = 0; j < listaSubTiposVista.size(); j++) {
+                        subTiposVisita[j] = listaSubTiposVista.get(j).getCodigo();
+                    }
+                    spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                spSubTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, subTiposVisita));
-            }catch (SQLException e){
-                e.printStackTrace();
+                linearSubtipos.setVisibility(View.VISIBLE);
+            } else {
+                linearSubtipos.setVisibility(View.GONE);
             }
-            linearSubtipos.setVisibility(View.VISIBLE);
-        }else{
-            linearSubtipos.setVisibility(View.GONE);
         }
     }
 

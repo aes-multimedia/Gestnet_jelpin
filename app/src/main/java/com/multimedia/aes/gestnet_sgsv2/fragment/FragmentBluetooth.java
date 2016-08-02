@@ -273,6 +273,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
+        getContext().unregisterReceiver(bReciever);
         Toast.makeText(getContext(), "Impresora seleccionada", Toast.LENGTH_SHORT).show();
     }
     private Bitmap generarImagen() throws IOException {
@@ -393,7 +394,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
      return textoImpresion;
     }
     private String generarTexto4()  {
-        String observaciones_cliente = "-------OBSERVAC. TECNICO--------" + "\n";
+        String observaciones_cliente = "-------OBSERVAC. CLIENTE--------" + "\n";
         String obs_cliente = "";
         String observ_cliente = obs_cliente+"\n\n";
 

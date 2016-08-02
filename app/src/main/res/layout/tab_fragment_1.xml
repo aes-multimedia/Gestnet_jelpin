@@ -64,44 +64,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/num_orden_iberdrola"
-                        android:id="@+id/textView4"
+                        android:text="@string/contrato"
+                        android:id="@+id/textView12"
                         android:textSize="19dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="num orden"
-                        android:id="@+id/txtNumOrdenIberdrola"
-                        android:textSize="18dp"
-                        android:layout_marginLeft="10dp" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="tipo intervencion"
-                    android:id="@+id/txtTipoIntervencion"
-                    android:textSize="18dp" />
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/venta"
-                        android:id="@+id/textView6"
-                        android:textSize="19dp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="venta"
-                        android:id="@+id/txtVenta"
+                        android:text="num contrato"
+                        android:id="@+id/txtContrato"
                         android:textSize="18dp"
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>
@@ -130,35 +101,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/contador_averias"
-                        android:id="@+id/textView9"
+                        android:text="@string/venta"
+                        android:id="@+id/textView6"
                         android:textSize="19dp" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="num averias"
-                        android:id="@+id/txtContadorAverias"
-                        android:textSize="18dp"
-                        android:layout_marginLeft="10dp" />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/contrato"
-                        android:id="@+id/textView12"
-                        android:textSize="19dp" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="num contrato"
-                        android:id="@+id/txtContrato"
+                        android:text="venta"
+                        android:id="@+id/txtVenta"
                         android:textSize="18dp"
                         android:layout_marginLeft="10dp" />
                 </LinearLayout>
@@ -184,6 +135,57 @@
                         android:layout_marginLeft="10dp" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/contador_averias"
+                        android:id="@+id/textView9"
+                        android:textSize="19dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="num averias"
+                        android:id="@+id/txtContadorAverias"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/num_orden_iberdrola"
+                        android:id="@+id/textView4"
+                        android:textSize="19dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="num orden"
+                        android:id="@+id/txtNumOrdenIberdrola"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="tipo intervencion"
+                    android:id="@+id/txtTipoIntervencion"
+                    android:textSize="18dp" />
+
             </LinearLayout>
 
 

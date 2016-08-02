@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Potencia Caldera"
+                        android:text="Potencia Equipo"
                         android:id="@+id/textView20"
                         android:textSize="18dp" />
 
@@ -174,12 +174,13 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ver despiece caldera"
+                android:text="Ver despiece equipo"
                 android:id="@+id/btnDespiece"
                 android:background="@drawable/botones"
                 android:gravity="center"
                 android:layout_margin="20dp"
-                android:textColor="#FFF" />
+                android:textColor="#FFF"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

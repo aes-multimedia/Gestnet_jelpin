@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -49,7 +50,6 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         }
 
     }
-
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -63,13 +63,11 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         }
         return null;
     }
-
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         Toast.makeText(activity, "Imagen ticket subida", Toast.LENGTH_SHORT).show();
     }
-
     private String subir() throws JSONException, IOException {
         JSONObject msg = new JSONObject();
         JSONObject jsonObject = new JSONObject();
@@ -82,6 +80,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         msg.put("ticket",jsonObjectTicket);
         msg.put("logo",logo);
         msg.put("firma",firma);
+        Log.d("JSON",msg.toString());
         URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/carga_imagen");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
@@ -108,6 +107,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         String fecha = "22/06/2016";
         String hora = "12:06";
         String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
+        String dn = "02365984K";
         String num_contrato = "000111522";
         String serv = "Mantenimiento Gas";
         String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
@@ -142,6 +142,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         jsonObjectTicket.put("fecha",fecha);
         jsonObjectTicket.put("hora",hora);
         jsonObjectTicket.put("nombre_cliente",nombre_cliente);
+        jsonObjectTicket.put("dni_cliente",dn);
         jsonObjectTicket.put("numero_contrato",num_contrato);
         jsonObjectTicket.put("servicio",serv);
         jsonObjectTicket.put("direccion",dir);
@@ -155,7 +156,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         jsonObjectTicket.put("prevista_reparacion",prev_repar);
         jsonObjectTicket.put("reparada",repa);
         jsonObjectTicket.put("numero_solicitud",num_solic);
-        jsonObjectTicket.put("codigo_veria",cod_ave);
+        jsonObjectTicket.put("codigo_averia",cod_ave);
         jsonObjectTicket.put("descripcion_averia",desc);
         jsonObjectTicket.put("piezas",piez);
         jsonObjectTicket.put("mano_obra",man_obra);
@@ -172,7 +173,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         jsonObjectTicket.put("fecha_recepcion",fec_recep);
         jsonObjectTicket.put("fecha_aceptacion",fec_acep);
         jsonObjectTicket.put("fecha_conforme",fec_conf);
-        jsonObjectTicket.put("fecha_conforme",obs_cliente);
+        jsonObjectTicket.put("observacion_cliente",obs_cliente);
     }
     private String loadLogoFromStorage() throws IOException {
         InputStream bitmap = null;
