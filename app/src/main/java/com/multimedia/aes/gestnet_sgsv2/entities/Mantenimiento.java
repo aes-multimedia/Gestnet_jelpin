@@ -8,6 +8,7 @@ public class Mantenimiento {
 
     public static final String ID_MANTENIMIENTO = "_id_mantenimiento";
     public static final String HASH = "hash";
+    public static final String BASE64 = "base64";
     public static final String FK_USER_CREADOR = "fk_user_creador";
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
@@ -33,9 +34,7 @@ public class Mantenimiento {
     public static final String MODELO_MAQUINA = "modelo_maquina";
     public static final String MARCA_MAQUINA = "marca_maquina";
     public static final String USO_MAQUINA = "uso_maquina";
-
     public static final String PUESTA_MARCHA_MAQUINA = "puesta_marcha_maquina";
-
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -109,6 +108,8 @@ public class Mantenimiento {
     private int id_mantenimiento;
     @DatabaseField(columnName = HASH)
     private String hash;
+    @DatabaseField(columnName = BASE64)
+    private String base64;
     @DatabaseField(columnName = FK_USER_CREADOR)
     private int fk_user_creador;
     @DatabaseField(columnName = FK_TECNICO)
@@ -159,10 +160,8 @@ public class Mantenimiento {
     private String marca_maquina;
     @DatabaseField(columnName = USO_MAQUINA)
     private int uso_maquina;
-
     @DatabaseField(columnName = PUESTA_MARCHA_MAQUINA)
     private String puesta_marcha_maquina;
-
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -304,7 +303,7 @@ public class Mantenimiento {
     }
 
 
-    public Mantenimiento(int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
+    public Mantenimiento(int id_mantenimiento, String hash, String base64, int fk_user_creador, int fk_tecnico, int fk_usuario,
                          int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
                          String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
                          String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -334,6 +333,7 @@ public class Mantenimiento {
                          int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
         this.hash = hash;
+        this.base64 = base64;
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
@@ -430,8 +430,6 @@ public class Mantenimiento {
         this.contador_averias = contador_averias;
     }
 
-
-
     public int getId_mantenimiento() {
         return id_mantenimiento;
     }
@@ -443,6 +441,12 @@ public class Mantenimiento {
     }
     public void setHash(String hash) {
         this.hash = hash;
+    }
+    public String getBase64() {
+        return base64;
+    }
+    public void setBase64(String base64) {
+        this.base64 = base64;
     }
     public int getFk_user_creador() {
         return fk_user_creador;

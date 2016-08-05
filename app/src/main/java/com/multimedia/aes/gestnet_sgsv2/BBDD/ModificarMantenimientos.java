@@ -42,6 +42,7 @@ public class ModificarMantenimientos {
                 id_mantenimiento = jsonArray.getJSONObject(i).getInt("id_parte");
             }
             String hash = jsonArray.getJSONObject(i).getString("hash");
+            String base64 = jsonArray.getJSONObject(i).getString("code64");
             int fk_user_creador;
             if (jsonArray.getJSONObject(i).getString("fk_user_creador").equals("null")){
                 fk_user_creador = -1;
@@ -253,7 +254,7 @@ public class ModificarMantenimientos {
             }else{
                 puesta_marcha_maquina = jsonObject1.getString("puesta_marcha");
             }
-            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
+            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash,base64, fk_user_creador, fk_tecnico, fk_usuario,
                     fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
                     telefono4_usuario, telefono5_usuario, email_usuario,

@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private ImageView ivLogo,ivFirma1,ivFirma2,ivFirma3;
+    private ImageView ivLogo,ivFirma1,ivFirma2,ivFirma3,ivCodigoBarras;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
     private ScrollView scTicket;
@@ -87,8 +88,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
         ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
         ivFirma3 = (ImageView) vista.findViewById(R.id.ivFirmaTres);
-        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
-        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
+        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
+
         scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
 
         lvNombres.setOnItemClickListener(this);
@@ -119,6 +120,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
         txtImpreso4.setText(generarTexto4());
+        ivCodigoBarras.setImageBitmap(codigoBarras());
         findBT();
         return vista;
     }
@@ -174,6 +176,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             llImpreso.setVisibility(View.VISIBLE);
             scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
+            closeButton.setVisibility(View.GONE);
             Bitmap bitmap = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             llImpreso.draw(canvas);
@@ -423,6 +426,10 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         return b;
     }
-
+    private Bitmap codigoBarras(){
+        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
+        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
+        return bit;
+    }
 
 }

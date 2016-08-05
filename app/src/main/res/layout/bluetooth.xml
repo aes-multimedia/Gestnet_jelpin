@@ -118,6 +118,11 @@
                 android:text="Large Text"
                 android:id="@+id/txtImpreso4" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivCodigoBarras" />
+
         </LinearLayout>
     </ScrollView>
 

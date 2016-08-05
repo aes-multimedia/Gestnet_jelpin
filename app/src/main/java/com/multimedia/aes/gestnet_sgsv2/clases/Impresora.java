@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -90,13 +91,15 @@ public class Impresora {
 		POSPrinterService pps = new POSPrinterService();
 		try {
 			imprimirImagenEncabezado(pps);
-			generarTexto1(pps);
-			//imprimirFirma(pps);
-			//generarTexto2(pps);
+			//generarTexto1(pps);
+			imprimirFirma(pps);
+			generarTexto2(pps);
 			//imprimirFirma(pps);
 			//generarTexto3(pps);
-			imprimirFirma(pps);
-			generarTexto4(pps);
+			//imprimirFirma(pps);
+			//generarTexto4(pps);
+			imprimirCodigoBarras(pps);
+			generarTextoFin(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
 			Toast.makeText(activity, R.string.err_durante_impr, Toast.LENGTH_SHORT).show();
@@ -246,8 +249,13 @@ public class Impresora {
 				" usuario por escrito y de modo"+"\n"+" desglosado. No cabra"+"\n"+" modificacion al alza del"+"\n"+
 				" presupuesto en los casos de"+"\n"+" errores en las mediciones y"+"\n"+" valoraciones efectuadas por el"+"\n"+
 				" tecnico. Las modificaciones"+"\n"+" deberan ser firmadas por ambas"+"\n"+" partes en senal de conformidad."+"\n";
-		String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente."+"\n\n\n\n\n\n";
+		String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente.";
 		String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
+		Thread.sleep(2000);
+	}
+	private void generarTextoFin(POSPrinterService pps) throws JposException, InterruptedException {
+		String textoImpresion ="\n\n\n\n\n\n\n";
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
@@ -264,6 +272,22 @@ public class Impresora {
 		}
 		return b;
 	}
+	private void imprimirCodigoBarras(POSPrinterService pps) throws InterruptedException, IOException, JposException {
+		int img[][] = null;
+		int ancho = 1;
+		byte[] a =Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
+		Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
+		img = new int[bit.getWidth()][bit.getHeight()];
+		ancho = bit.getWidth();
+		for (int i = 0; i < bit.getHeight(); i++) {
+			for (int j = 0; j < bit.getWidth(); j++) {
+				img[j][i] = bit.getPixel(j, i);
+			}
+		}
+		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
+		Thread.sleep(3000);
+	}
+
 	private void imprimirFirma(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		int img[][] = null;
 		int ancho = 1;
@@ -301,8 +325,8 @@ public class Impresora {
 		Thread.sleep(3000);
 	}
 	private String limpiarAcentos(String texto_entrada) {
-		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº";
-		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCo";
+		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";
+		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCoE";
 		String output = texto_entrada;
 		for (int i = 0; i < original.length(); i++) {
 			output = output.replace(original.charAt(i), ascii.charAt(i));

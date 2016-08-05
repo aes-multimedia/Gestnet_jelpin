@@ -49,13 +49,13 @@ public class AdaptadorMantenimientos extends ArrayAdapter {
     public void cambiarColorEstado(int position,ImageView ivEstado){
         int estado = Integer.parseInt(arrayList.get(position).getEstado_android());
         if (estado==0){
-            ivEstado.setImageResource(R.drawable.circlesininiciar);
+            ivEstado.setImageResource(R.drawable.circle);
         }else if (estado==1){
             ivEstado.setImageResource(R.drawable.circleiniciado);
         }else if (estado==2){
             ivEstado.setImageResource(R.drawable.circlependiente);
         }else if (estado==3){
-            ivEstado.setImageResource(R.drawable.circle);
+            ivEstado.setImageResource(R.drawable.circlesininiciar);
         }
     }
 }

@@ -17,8 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
-    private String host = "192.168.0.150";
-    private String puerto = "99";
+    private String host = "192.168.0.228";
     private String mensaje="";
     private JSONObject jsonObject;
     private String apikey;
@@ -55,7 +54,7 @@ public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
     }
 
     private String logeo() throws JSONException, IOException {
-        URL urlws = new URL("http://"+host+":"+puerto+"/practicas/apis/api-sgs/v1/usuario/login");
+        URL urlws = new URL("http://"+host+"/api-sgs/v1/usuario/login");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);

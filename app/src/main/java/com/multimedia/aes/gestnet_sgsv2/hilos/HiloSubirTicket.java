@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
     private Activity activity;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private Mantenimiento mantenimiento=null;
+    private Tecnico tecnico = null;
     JSONObject jsonObjectTicket = new JSONObject();
 
     public HiloSubirTicket(Activity activity) {
@@ -42,6 +45,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(activity));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
+            tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
             generarTexto1();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -66,7 +70,7 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        Toast.makeText(activity, "Imagen ticket subida", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Subido", Toast.LENGTH_SHORT).show();
     }
     private String subir() throws JSONException, IOException {
         JSONObject msg = new JSONObject();
@@ -86,7 +90,9 @@ public class HiloSubirTicket extends AsyncTask<Void,Void,Void>{
         uc.setDoOutput(true);
         uc.setDoInput(true);
         uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.addRequestProperty("fk_parte", String.valueOf(mantenimiento.getFk_tecnico()));
+        uc.addRequestProperty("fk_parte", String.valueOf(mantenimiento.getId_mantenimiento()));
+        uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+        uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
         uc.setRequestMethod("POST");
         uc.connect();
         OutputStream os = uc.getOutputStream();

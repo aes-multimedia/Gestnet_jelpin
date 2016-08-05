@@ -16,8 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
-    private String host = "192.168.0.150";
-    private String puerto = "99";
+    private String host = "192.168.0.228";
     private String mensaje="";
     private String login,pass;
     private Login activity;
@@ -58,7 +57,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         JSONObject msg = new JSONObject();
         msg.put("login",login);
         msg.put("pass",pass);
-        URL urlws = new URL("http://"+host+":"+puerto+"/practicas/apis/api-sgs/v1/usuario/login");
+        URL urlws = new URL("http://"+host+"/api-sgs/v1/usuario/login");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);

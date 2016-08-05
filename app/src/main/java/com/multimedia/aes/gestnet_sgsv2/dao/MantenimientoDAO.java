@@ -22,7 +22,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newMantenimiento(Context context,int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
+	public static boolean newMantenimiento(Context context,int id_mantenimiento,String hash, String base64 ,int fk_user_creador, int fk_tecnico, int fk_usuario,
 										   int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
 										   String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
 										   String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -50,7 +50,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   String orden, String historico, int fk_tipo_urgencia_factura,
 										   String error_batch, int fk_batch_actual, int fk_efv, String scoring,
 										   int fk_categoria_visita, String contador_averias) {
-		Mantenimiento m = montarMantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
+		Mantenimiento m = montarMantenimiento(id_mantenimiento, hash,base64, fk_user_creador, fk_tecnico, fk_usuario,
 				fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,
@@ -90,7 +90,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Mantenimiento montarMantenimiento(int id_mantenimiento,String hash, int fk_user_creador, int fk_tecnico, int fk_usuario,
+	public static Mantenimiento montarMantenimiento(int id_mantenimiento,String hash, String base64, int fk_user_creador, int fk_tecnico, int fk_usuario,
 													int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
 													String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
 													String telefono4_usuario, String telefono5_usuario, String email_usuario,
@@ -118,7 +118,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 													String orden, String historico, int fk_tipo_urgencia_factura,
 													String error_batch, int fk_batch_actual, int fk_efv, String scoring,
 													int fk_categoria_visita, String contador_averias) {
-		Mantenimiento m =new Mantenimiento(id_mantenimiento, hash, fk_user_creador, fk_tecnico, fk_usuario,
+		Mantenimiento m =new Mantenimiento(id_mantenimiento, hash,base64, fk_user_creador, fk_tecnico, fk_usuario,
 				fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
 				telefono1_usuario, telefono2_usuario, telefono3_usuario,
 				telefono4_usuario, telefono5_usuario, email_usuario,

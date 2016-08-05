@@ -52,7 +52,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private ImageView ivIncidencias, ivLlamarAes;
     private LinearLayout cuerpo;
     private int parte = 2;
-    JSONObject jsonObjectTicket = new JSONObject();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,95 +99,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             lvIndex.setAdapter(adaptadorMantenimientos);
         }
 
-        try {
-
-            generarTexto1();
-            JSONObject msg = new JSONObject();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("name","ticket");
-            jsonObject.put("base64","base64");
-            msg.put("images",jsonObject);
-            msg.put("ticket",jsonObjectTicket);
-            msg.put("logo","logo");
-            msg.put("firma","firma");
-            Log.d("JSON",msg.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void generarTexto1() throws JSONException {
-        String fecha = "22/06/2016";
-        String hora = "12:06";
-        String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
-        String dn = "02365984K";
-        String num_contrato = "000111522";
-        String serv = "Mantenimiento Gas";
-        String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
-        String emp = "IBERDROLA";
-        String noti = "21/06/2016";
-        String cif_emp = "02365474S";
-        String num_emp_mant = "44556678";
-        String tec = "Pedro Buenhombre Lopez";
-        String num_insta = "659898741";
-        String atend = "18/06/2016-14:00";
-        String prev_repar = "26/06/2016-13:30";
-        String repa = "24/06/2016-12:48";
-        String num_solic = "6547952";
-        String cod_ave = "3216565";
-        String desc = "Una averia sin importancia";
-        String despl = "5 horas:  24 euros";
-        String piez = "Junta caldera  5 euros";
-        String man_obra = "2 horas: 20 euros";
-        String otr = "6 Km 31 euros"+"\n"+"2 Km 12 euros";
-        String desc_preiva = "0%";
-        String mat = "6 piezas: 29 euros";
-        String pres_tot_siniva = "95 euros";
-        String iv = "21%";
-        String pres_tot_coniva = "102 euros";
-        String otr_desc = "0%";
-        String tot = "102 euros";
-        String obs_tecnico = "La maquina es antigüa";
-        String fec_recep = "22/06/2016-13:00";
-        String fec_acep = "22/06/2016-13:00";
-        String fec_conf = "22/06/2016-13:00";
-        String obs_cliente = "muy majo el tecnico";
-        jsonObjectTicket.put("fecha",fecha);
-        jsonObjectTicket.put("hora",hora);
-        jsonObjectTicket.put("nombre_cliente",nombre_cliente);
-        jsonObjectTicket.put("dni_cliente",dn);
-        jsonObjectTicket.put("numero_contrato",num_contrato);
-        jsonObjectTicket.put("servicio",serv);
-        jsonObjectTicket.put("direccion",dir);
-        jsonObjectTicket.put("empresa",emp);
-        jsonObjectTicket.put("cif_empresa",cif_emp);
-        jsonObjectTicket.put("numero_empresa_mantenedora",num_emp_mant);
-        jsonObjectTicket.put("tecnico",tec);
-        jsonObjectTicket.put("numero_instalador",num_insta);
-        jsonObjectTicket.put("notificada",noti);
-        jsonObjectTicket.put("atendida",atend);
-        jsonObjectTicket.put("prevista_reparacion",prev_repar);
-        jsonObjectTicket.put("reparada",repa);
-        jsonObjectTicket.put("numero_solicitud",num_solic);
-        jsonObjectTicket.put("codigo_veria",cod_ave);
-        jsonObjectTicket.put("descripcion_averia",desc);
-        jsonObjectTicket.put("piezas",piez);
-        jsonObjectTicket.put("mano_obra",man_obra);
-        jsonObjectTicket.put("desplazamiento",despl);
-        jsonObjectTicket.put("otros",otr);
-        jsonObjectTicket.put("descuento_preiva",desc_preiva);
-        jsonObjectTicket.put("materiales",mat);
-        jsonObjectTicket.put("presupuesto_sin_iva",pres_tot_siniva);
-        jsonObjectTicket.put("iva",iv);
-        jsonObjectTicket.put("presupuesto_con_iva",pres_tot_coniva);
-        jsonObjectTicket.put("otros_descuentos",otr_desc);
-        jsonObjectTicket.put("total",tot);
-        jsonObjectTicket.put("observaciones_tecnico",obs_tecnico);
-        jsonObjectTicket.put("fecha_recepcion",fec_recep);
-        jsonObjectTicket.put("fecha_aceptacion",fec_acep);
-        jsonObjectTicket.put("fecha_conforme",fec_conf);
-        jsonObjectTicket.put("observacion_cliente",obs_cliente);
     }
 
     @Override
