@@ -31,6 +31,10 @@
     <item android:title="">
         <menu>
             <item
+                android:id="@+id/cambiarFecha"
+                android:icon="@drawable/ic_fecha"
+                android:title="@string/cambiar_fecha" />
+            <item
                 android:id="@+id/cerrar_sesion"
                 android:icon="@drawable/ic_cerrar_sesion"
                 android:title="@string/cerrar_sesion" />

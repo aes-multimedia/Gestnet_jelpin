@@ -73,4 +73,27 @@ public abstract class GestorSharedPreferences {
         spe.clear();
         spe.commit();
     }
+    //<---------------------------------------------------------------------------------->
+    public static SharedPreferences getSharedPreferencesDia(Context context) {
+        return context.getSharedPreferences("spDia", context.MODE_PRIVATE);
+    }
+
+    public static void setJsonDia(SharedPreferences sharedPreferences, JSONObject jsonObject) {
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.putString("dia", jsonObject.toString());
+        spe.commit();
+    }
+
+    public static JSONObject getJsonDia(SharedPreferences sharedPreferences) throws JSONException {
+        String s = sharedPreferences.getString("dia", "{}");
+        return new JSONObject(s);
+    }
+
+    public static void clearSharedPreferencesDia(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferencesDia(context);
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.clear();
+        spe.commit();
+    }
+
 }

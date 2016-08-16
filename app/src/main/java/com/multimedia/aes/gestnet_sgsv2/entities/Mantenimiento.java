@@ -44,6 +44,7 @@ public class Mantenimiento {
     public static final String FK_TIPO = "fk_tipo";
     public static final String FK_USER_ASIGNACION = "fk_user_asignacion";
     public static final String FK_HORARIO = "fk_horario";
+    public static final String DESCRIPCION_HORARIO = "descripcion_horario";
     public static final String FRANJA_HORARIA = "franja_horaria";
     public static final String FK_FRANJA_IP = "fk_franja_ip";
     public static final String FK_ESTADO = "fk_estado";
@@ -180,6 +181,8 @@ public class Mantenimiento {
     private int fk_user_asignacion;
     @DatabaseField(columnName = FK_HORARIO)
     private int fk_horario;
+    @DatabaseField(columnName = DESCRIPCION_HORARIO)
+    private String descripcion_horario;
     @DatabaseField(columnName = FRANJA_HORARIA)
     private String franja_horaria;
     @DatabaseField(columnName = FK_FRANJA_IP)
@@ -312,7 +315,7 @@ public class Mantenimiento {
                          int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
                          int uso_maquina, String puesta_marcha_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
-                         String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
+                         String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,String descripcion_horario,
                          String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
                          String observacionesAsignacion, String confirmado, String imprimir,
                          String fecha_factura, String num_factura, String fecha_factura_rectificativa,
@@ -369,6 +372,7 @@ public class Mantenimiento {
         this.fk_tipo = fk_tipo;
         this.fk_user_asignacion = fk_user_asignacion;
         this.fk_horario = fk_horario;
+        this.descripcion_horario = descripcion_horario;
         this.franja_horaria = franja_horaria;
         this.fk_franja_ip = fk_franja_ip;
         this.fk_estado = fk_estado;
@@ -666,6 +670,12 @@ public class Mantenimiento {
     }
     public void setFk_horario(int fk_horario) {
         this.fk_horario = fk_horario;
+    }
+    public String getDescripcion_horario() {
+        return descripcion_horario;
+    }
+    public void setDescripcion_horario(String descripcion_horario) {
+        this.descripcion_horario = descripcion_horario;
     }
     public String getFranja_horaria() {
         return franja_horaria;

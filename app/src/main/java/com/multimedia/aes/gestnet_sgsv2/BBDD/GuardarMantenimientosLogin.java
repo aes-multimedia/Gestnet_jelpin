@@ -103,6 +103,7 @@ public class GuardarMantenimientosLogin {
             }else{
                 fk_horario = jsonArray.getJSONObject(i).getInt("fk_horario");
             }
+            String descripcion_horario = jsonArray.getJSONObject(i).getString("descripcion_horario");
             String franja_horaria = jsonArray.getJSONObject(i).getString("franja_horaria");
             int fk_franja_ip;
             if (jsonArray.getJSONObject(i).getString("fk_franja_ip").equals("null")){
@@ -265,7 +266,7 @@ public class GuardarMantenimientosLogin {
                     tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
                     puesta_marcha_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
-                    num_parte, fk_tipo, fk_user_asignacion, fk_horario,
+                    num_parte, fk_tipo, fk_user_asignacion, fk_horario,descripcion_horario,
                     franja_horaria, fk_franja_ip, fk_estado, observaciones,
                     observacionesAsignacion, confirmado, imprimir,
                     fecha_factura, num_factura, fecha_factura_rectificativa,

@@ -126,25 +126,25 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     }
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                boolean noEsta = true;
-                for (int i = 0; i < listaNombre.size(); i++) {
-                    if (listaNombre.get(i).equals(device.getName())) {
-                        noEsta = false;
-                        break;
-                    }
-                }
-                if (noEsta) {
-                    listaDevice.add(device);
-                    listaNombre.add(device.getName());
+        String action = intent.getAction();
+        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            boolean noEsta = true;
+            for (int i = 0; i < listaNombre.size(); i++) {
+                if (listaNombre.get(i).equals(device.getName())) {
+                    noEsta = false;
+                    break;
                 }
             }
-            ponerLista();
-            if (ManagerProgressDialog.getDialog()!=null) {
-                ManagerProgressDialog.cerrarDialog();
+            if (noEsta) {
+                listaDevice.add(device);
+                listaNombre.add(device.getName());
             }
+        }
+        ponerLista();
+        if (ManagerProgressDialog.getDialog()!=null) {
+            ManagerProgressDialog.cerrarDialog();
+        }
         }
     };
     @Override

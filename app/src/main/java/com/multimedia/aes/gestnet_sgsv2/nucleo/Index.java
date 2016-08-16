@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,9 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -39,7 +43,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -72,9 +80,22 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        JSONObject jo= new JSONObject();
+        String dia = null;
+        try {
+            jo = GestorSharedPreferences.getJsonDia(GestorSharedPreferences.getSharedPreferencesDia(this));
+            dia = jo.getString("dia");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         try {
-            arrayListMantenimiento = new ArrayList(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+            if (jo.toString().equals("{}")){
+                rellenarArrayMantenimientoFecha(getDateTime());
+            }else{
+                rellenarArrayMantenimientoFecha(dia);
+            }
             arrayListAveria = new ArrayList(AveriaDAO.buscarTodasLasAverias(this));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +114,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             setTitle("Averias");
             adaptadorAveria = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
             lvIndex.setAdapter(adaptadorAveria);
-        }else if(parte==2){
+        }else{
             setTitle("Mantenimientos");
             adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
             lvIndex.setAdapter(adaptadorMantenimientos);
@@ -101,6 +122,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     }
 
+    public void rellenarArrayMantenimientoFecha(String fecha) throws SQLException {
+        if (MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha)!=null) {
+            arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha));
+        }else{
+            Toast.makeText(Index.this, "No hay mantenimientos ese dia", Toast.LENGTH_SHORT).show();
+            arrayListMantenimiento.addAll(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+        }
+    }
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date(); return dateFormat.format(date); }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -143,6 +176,37 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.buscar_parte) {
 
         } else if (id == R.id.ajustes) {
+        } else if (id == R.id.cambiarFecha) {
+            Calendar mcurrentDate = Calendar.getInstance();
+            int mYear = mcurrentDate.get(Calendar.YEAR);
+            int mMonth = mcurrentDate.get(Calendar.MONTH);
+            int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog mDatePicker;
+            mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                    selectedmonth = selectedmonth + 1;
+                    String day = selectedday+"";
+                    String month = selectedmonth+"";
+                    if (selectedday<10){
+                        day="0"+selectedday;
+                    }
+                    if (selectedmonth<10){
+                        month = "0"+selectedmonth;
+                    }
+                    String year=selectedyear+"";
+                    JSONObject js = new JSONObject();
+                    try {
+                        js.put("dia",day+"-"+month+"-"+year);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
+                    recreate();
+                }
+            }, mYear, mMonth, mDay);
+            mDatePicker.setTitle("Select Date");
+            mDatePicker.show();
         } else if (id == R.id.cerrar_sesion) {
             try {
                 BBDDConstantes.borrarDatosTablas(this);

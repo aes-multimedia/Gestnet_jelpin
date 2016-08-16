@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class AdaptadorMantenimientos extends ArrayAdapter {
@@ -34,12 +36,14 @@ public class AdaptadorMantenimientos extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
+        TextView hora = (TextView) item.findViewById(R.id.txtHora);
         TextView direccion = (TextView) item.findViewById(R.id.txtDireccion);
         TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
         TextView cp = (TextView) item.findViewById(R.id.txtCP);
         LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
         ImageView ivEstado = (ImageView)item.findViewById(R.id.ivEstado);
         cambiarColorEstado(position,ivEstado);
+        hora.setText(String.valueOf(arrayList.get(position).getDescripcion_horario()));
         direccion.setText(String.valueOf(arrayList.get(position).getDireccion()));
         cp.setText("C.P.:  "+String.valueOf(arrayList.get(position).getCod_postal()));
         provincia.setText("("+String.valueOf(arrayList.get(position).getProvincia())+"-"+String.valueOf(arrayList.get(position).getMunicipio())+")");

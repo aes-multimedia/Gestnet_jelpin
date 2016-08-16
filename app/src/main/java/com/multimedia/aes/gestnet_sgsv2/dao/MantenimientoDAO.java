@@ -31,7 +31,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   int fk_maquina, String tipo_maquina, String modelo_maquina,String marca_maquina,
 										   int uso_maquina,String puesta_marcha_maquina, String fecha_creacion, String fecha_aviso,
 										   String fecha_visita, String visita_duplicada, String fecha_reparacion,
-										   String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
+										   String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,String descripcion_horario,
 										   String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
 										   String observacionesAsignacion, String confirmado, String imprimir,
 										   String fecha_factura, String num_factura, String fecha_factura_rectificativa,
@@ -59,7 +59,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 				tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
 				puesta_marcha_maquina,fecha_creacion, fecha_aviso,
 				fecha_visita, visita_duplicada, fecha_reparacion,
-				num_parte, fk_tipo, fk_user_asignacion, fk_horario,
+				num_parte, fk_tipo, fk_user_asignacion, fk_horario, descripcion_horario,
 				franja_horaria, fk_franja_ip, fk_estado, observaciones,
 				observacionesAsignacion, confirmado, imprimir,
 				fecha_factura, num_factura, fecha_factura_rectificativa,
@@ -99,7 +99,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 													int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
 													int uso_maquina,String puesta_marcha_maquina,String fecha_creacion, String fecha_aviso,
 													String fecha_visita, String visita_duplicada, String fecha_reparacion,
-													String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,
+													String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,String descripcion_horario,
 													String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
 													String observacionesAsignacion, String confirmado, String imprimir,
 													String fecha_factura, String num_factura, String fecha_factura_rectificativa,
@@ -127,7 +127,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 				tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
 				puesta_marcha_maquina,fecha_creacion, fecha_aviso,
 				fecha_visita, visita_duplicada, fecha_reparacion,
-				num_parte, fk_tipo, fk_user_asignacion, fk_horario,
+				num_parte, fk_tipo, fk_user_asignacion, fk_horario,descripcion_horario,
 				franja_horaria, fk_franja_ip, fk_estado, observaciones,
 				observacionesAsignacion, confirmado, imprimir,
 				fecha_factura, num_factura, fecha_factura_rectificativa,
@@ -184,7 +184,32 @@ public class MantenimientoDAO extends DBHelperMOS {
 			return listadoMantenimiento.get(0);
 		}
 	}
-
+	public static List<Mantenimiento> buscarMantenimientosPorFechas(Context context, String fecha)throws SQLException {
+		cargarDao(context);
+		List<Mantenimiento> listadoMantenimiento= dao.queryBuilder().where().between(Mantenimiento.FECHA_VISITA,fecha+" 00:00:00",fecha+" 23:59:59").query();
+		if(listadoMantenimiento.isEmpty()) {
+			return null;
+		}else{
+			return listadoMantenimiento;
+		}
+	}
+	public static List<Mantenimiento> buscarMantenimientosPorFecha(Context context, String fecha)throws SQLException {
+		cargarDao(context);
+		List<Mantenimiento> listadoMantenimiento= dao.queryForAll();
+		List<Mantenimiento> mantenimientos = dao.queryForAll();
+		mantenimientos.clear();
+		for (int i = 0; i < listadoMantenimiento.size(); i++) {
+			String fec = listadoMantenimiento.get(i).getFecha_visita();
+			if (fec.split(" ").equals(fecha)){
+				mantenimientos.add(listadoMantenimiento.get(i));
+			}
+		}
+		if(mantenimientos.isEmpty()) {
+			return null;
+		}else{
+			return mantenimientos;
+		}
+	}
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
