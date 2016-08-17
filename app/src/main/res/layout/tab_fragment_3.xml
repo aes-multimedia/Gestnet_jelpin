@@ -127,12 +127,10 @@
 
                     </LinearLayout>
 
-                    <EditText
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etCodigoBarras"
-                        android:minHeight="30dp"
-                        android:background="@drawable/edit_texts_naranja" />
+                        android:id="@+id/ivCodigoBarras" />
 
                 </LinearLayout>
 
@@ -303,14 +301,15 @@
                             android:id="@+id/textView28"
                             android:textSize="18dp" />
 
-                        <TimePicker
+                        <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:id="@+id/tpTiempoReparacion"
+                            android:id="@+id/spTiempoManoObra"
                             android:background="@drawable/caldera_spiners"
                             android:gravity="right"
                             android:spinnerMode="dropdown"
                             android:entries="@array/tiempoReparacion" />
+
                     </LinearLayout>
 
                     <LinearLayout

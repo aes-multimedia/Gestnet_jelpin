@@ -1,8 +1,11 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -42,10 +46,9 @@ import java.util.List;
 public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita;
-    private EditText etCodBarras, etObservaciones, etCosteMateriales, etManoObra;
+    private EditText etObservaciones, etCosteMateriales, etManoObra;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
-    private TimePicker tpTiempoReparacion;
     private Button btnFinalizar,btnImprimir;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
@@ -59,6 +62,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private LinearLayout linearSubtipos;
     private String subTiposVisita[];
     private ScrollView scFinalizar;
+    private ImageView ivCodigoBarras;
 
 
     @Override
@@ -73,11 +77,11 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
-        tpTiempoReparacion = (TimePicker) vista.findViewById(R.id.tpTiempoReparacion);
-        etCodBarras = (EditText) vista.findViewById(R.id.etCodigoBarras);
         etObservaciones = (EditText) vista.findViewById(R.id.etObservaciones);
         etCosteMateriales = (EditText) vista.findViewById(R.id.etCosteMateriales);
         etManoObra = (EditText) vista.findViewById(R.id.etCosteManoDeObra);
@@ -94,6 +98,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
+        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
@@ -160,6 +165,9 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             btnImprimir.setVisibility(View.VISIBLE);
             txtFinalizado.setVisibility(View.VISIBLE);
         }
+        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
+        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
+        ivCodigoBarras.setImageBitmap(bit);
         return vista;
     }
 

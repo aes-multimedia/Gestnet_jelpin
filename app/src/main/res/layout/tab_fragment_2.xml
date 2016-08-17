@@ -165,7 +165,8 @@
                         android:id="@+id/etModelo"
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
-                        android:gravity="right" />
+                        android:gravity="left"
+                        android:padding="5dp" />
 
 
                 </LinearLayout>

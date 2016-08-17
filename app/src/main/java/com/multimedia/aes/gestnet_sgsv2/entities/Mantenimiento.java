@@ -29,6 +29,8 @@ public class Mantenimiento {
     public static final String COD_POSTAL = "codigo_postal";
     public static final String PROVINCIA = "provincia";
     public static final String MUNICIPIO = "municipio";
+    public static final String LATITUD = "latitud";
+    public static final String LONGITUD = "longitud";
     public static final String FK_MAQUINA = "fk_maquina";
     public static final String TIPO_MAQUINA = "tipo_maquina";
     public static final String MODELO_MAQUINA = "modelo_maquina";
@@ -151,6 +153,10 @@ public class Mantenimiento {
     private String provincia;
     @DatabaseField(columnName = MUNICIPIO)
     private String municipio;
+    @DatabaseField(columnName = LATITUD)
+    private String latitud;
+    @DatabaseField(columnName = LONGITUD)
+    private String longitud;
     @DatabaseField(columnName = FK_MAQUINA)
     private int fk_maquina;
     @DatabaseField(columnName = TIPO_MAQUINA)
@@ -311,7 +317,7 @@ public class Mantenimiento {
                          String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
                          String telefono4_usuario, String telefono5_usuario, String email_usuario,
                          String moroso_usuario, String observaciones_usuario,int fk_direccion,
-                         String direccion, String cod_postal, String provincia, String municipio,
+                         String direccion, String cod_postal, String provincia, String municipio,String latitud,String longitud,
                          int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
                          int uso_maquina, String puesta_marcha_maquina, String fecha_creacion, String fecha_aviso,
                          String fecha_visita, String visita_duplicada, String fecha_reparacion,
@@ -357,6 +363,8 @@ public class Mantenimiento {
         this.cod_postal = cod_postal;
         this.provincia = provincia;
         this.municipio = municipio;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.fk_maquina = fk_maquina;
         this.tipo_maquina =tipo_maquina;
         this.modelo_maquina = modelo_maquina;
@@ -577,6 +585,18 @@ public class Mantenimiento {
     }
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
+    }
+    public String getLatitud() {
+        return latitud;
+    }
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+    public String getLongitud() {
+        return longitud;
+    }
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
     public int getFk_maquina() {
         return fk_maquina;

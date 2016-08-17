@@ -1,13 +1,20 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +23,7 @@ import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreference
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Mapa;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +39,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
             txtTipo,txtMarca,txtModelo,txtDireccion;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre;
+    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5;
     private Button btnIniciarParte,btnConfirmarObsTel;
     private Mantenimiento mantenimiento = null;
+    private ImageButton ibLocation,ibIr;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,8 +82,24 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         btnIniciarParte = (Button)vista.findViewById(R.id.btnIniciarParte);
         btnConfirmarObsTel = (Button)vista.findViewById(R.id.btnConfirmarObsTel);
 
+        ivLlamar1 = (ImageView) vista.findViewById(R.id.ivLlamar1);
+        ivLlamar2 = (ImageView) vista.findViewById(R.id.ivLlamar2);
+        ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
+        ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
+        ivLlamar5 = (ImageView) vista.findViewById(R.id.ivLlamar5);
+
+        ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
+        ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
+
         btnIniciarParte.setOnClickListener(this);
         btnConfirmarObsTel.setOnClickListener(this);
+        ivLlamar1.setOnClickListener(this);
+        ivLlamar2.setOnClickListener(this);
+        ivLlamar3.setOnClickListener(this);
+        ivLlamar4.setOnClickListener(this);
+        ivLlamar5.setOnClickListener(this);
+        ibLocation.setOnClickListener(this);
+        ibIr.setOnClickListener(this);
 
         txtNumOrdenIberdrola.setText(mantenimiento.getNum_orden_endesa());
         if (mantenimiento.getFk_tipo()==1){
@@ -164,11 +190,31 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());
 
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
-        etTelefono1.setText(mantenimiento.getTelefono1_usuario());
-        etTelefono2.setText(mantenimiento.getTelefono2_usuario());
-        etTelefono3.setText(mantenimiento.getTelefono3_usuario());
-        etTelefono4.setText(mantenimiento.getTelefono4_usuario());
-        etTelefono5.setText(mantenimiento.getTelefono5_usuario());
+
+        if (mantenimiento.getTelefono1_usuario().equals("null")||mantenimiento.getTelefono1_usuario().equals("")){
+        }else{
+            etTelefono1.setText(mantenimiento.getTelefono1_usuario());
+        }
+        if (mantenimiento.getTelefono2_usuario().equals("null")||mantenimiento.getTelefono2_usuario().equals("")){
+        }else{
+            etTelefono2.setText(mantenimiento.getTelefono2_usuario());
+        }
+        if (mantenimiento.getTelefono3_usuario().equals("null")||mantenimiento.getTelefono3_usuario().equals("")){
+        }else{
+            etTelefono3.setText(mantenimiento.getTelefono3_usuario());
+        }
+        if (mantenimiento.getTelefono4_usuario().equals("null")||mantenimiento.getTelefono4_usuario().equals("")){
+        }else{
+            etTelefono4.setText(mantenimiento.getTelefono4_usuario());
+        }
+        if (mantenimiento.getTelefono5_usuario().equals("null")||mantenimiento.getTelefono5_usuario().equals("")){
+        }else{
+            etTelefono5.setText(mantenimiento.getTelefono5_usuario());
+        }
+
+
+
+
 
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
@@ -204,7 +250,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }if (view.getId() == R.id.btnConfirmarObsTel){
+        }else if (view.getId() == R.id.btnConfirmarObsTel){
             if (!mantenimiento.getNombre_usuario().equals(etNombre.getText())&&!etNombre.getText().toString().trim().equals("")){
                 try {
                     MantenimientoDAO.actualizarNombreUsuario(getContext(),etNombre.getText().toString(),mantenimiento.getId_mantenimiento());
@@ -255,6 +301,55 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 }
             }
             Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
+        }else if (view.getId() == R.id.ivLlamar1){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
+            }else{
+                llamar(etTelefono1.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar2){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
+            }else{
+                llamar(etTelefono2.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar3){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
+            }else{
+                llamar(etTelefono3.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar4){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
+            }else{
+                llamar(etTelefono4.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar5){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
+            }else{
+                llamar(etTelefono5.getText().toString());
+            }
+        }else if (view.getId()==R.id.ibLocation){
+            Intent i = new Intent(getContext(),Mapa.class);
+            i.putExtra("destino", new double[]{Double.parseDouble(mantenimiento.getLatitud()),Double.parseDouble(mantenimiento.getLongitud())});
+            startActivity(i);
+        }else if (view.getId()==R.id.ibIr){
+            String geoUri = null;
+            geoUri = "http://maps.google.com/maps?q=loc:" + mantenimiento.getLatitud() + "," + mantenimiento.getLongitud()+ " (" + mantenimiento.getNombre_usuario() + ")";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+            startActivity(intent);
+        }
+    }
+    public void llamar(String tel) {
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            getContext().startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel)));
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 

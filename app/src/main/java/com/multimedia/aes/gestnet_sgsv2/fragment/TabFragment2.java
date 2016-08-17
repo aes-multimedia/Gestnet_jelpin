@@ -137,6 +137,9 @@ public class TabFragment2 extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if (!mantenimiento.getModelo_maquina().equals("null")&&!mantenimiento.getModelo_maquina().equals("")) {
+            etModelo.setText(mantenimiento.getModelo_maquina());
+        }
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
 

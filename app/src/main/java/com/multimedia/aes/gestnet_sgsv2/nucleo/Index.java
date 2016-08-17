@@ -111,9 +111,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
 
         if (parte==1){
-            setTitle("Averias");
+            /*setTitle("Averias");
             adaptadorAveria = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
-            lvIndex.setAdapter(adaptadorAveria);
+            lvIndex.setAdapter(adaptadorAveria);*/
         }else{
             setTitle("Mantenimientos");
             adaptadorMantenimientos = new AdaptadorMantenimientos(this, R.layout.camp_adapter_list_view_mantenimiento, arrayListMantenimiento);
@@ -152,7 +152,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         if (id == R.id.documentos) {
         } else if (id == R.id.averias) {
-            JSONObject jsonObject = new JSONObject();
+            /*JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("parte", 1);
                 GestorSharedPreferences.clearSharedPreferencesPartes(this);
@@ -160,7 +160,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            recreate();
+            recreate();*/
         } else if (id == R.id.mantenimientos) {
             JSONObject jsonObject = new JSONObject();
             try {

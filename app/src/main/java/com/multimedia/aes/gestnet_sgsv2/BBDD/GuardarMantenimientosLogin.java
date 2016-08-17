@@ -73,6 +73,8 @@ public class GuardarMantenimientosLogin {
             String cod_postal = jsonArray.getJSONObject(i).getString("codigo_postal");
             String provincia = jsonArray.getJSONObject(i).getString("provincia");
             String municipio = jsonArray.getJSONObject(i).getString("municipio");
+            String latitud = jsonArray.getJSONObject(i).getString("latitud");
+            String longitud = jsonArray.getJSONObject(i).getString("longitud");
             int fk_maquina;
             if (jsonArray.getJSONObject(i).getString("fk_maquina").equals("null")){
                 fk_maquina = -1;
@@ -262,7 +264,7 @@ public class GuardarMantenimientosLogin {
                     telefono1_usuario, telefono2_usuario, telefono3_usuario,
                     telefono4_usuario, telefono5_usuario, email_usuario,
                     moroso_usuario, observaciones_usuario,
-                    fk_direccion, direccion, cod_postal, provincia, municipio, fk_maquina,
+                    fk_direccion, direccion, cod_postal, provincia, municipio, latitud, longitud, fk_maquina,
                     tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,
                     puesta_marcha_maquina, fecha_creacion, fecha_aviso,
                     fecha_visita, visita_duplicada, fecha_reparacion,
