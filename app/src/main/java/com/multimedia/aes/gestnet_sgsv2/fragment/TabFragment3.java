@@ -203,7 +203,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
 
 
-
     }
     public static void llenarDatos(String scanContent, String scanFormat){
         if (scan) {
