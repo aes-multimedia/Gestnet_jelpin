@@ -307,25 +307,25 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 llamar(etTelefono1.getText().toString());
             }
         }else if (view.getId() == R.id.ivLlamar2){
-            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+            if (etTelefono2.getText().toString().equals("")||etTelefono2.getText().toString().equals("null")){
                 Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
             }else{
                 llamar(etTelefono2.getText().toString());
             }
         }else if (view.getId() == R.id.ivLlamar3){
-            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+            if (etTelefono3.getText().toString().equals("")||etTelefono3.getText().toString().equals("null")){
                 Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
             }else{
                 llamar(etTelefono3.getText().toString());
             }
         }else if (view.getId() == R.id.ivLlamar4){
-            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+            if (etTelefono4.getText().toString().equals("")||etTelefono4.getText().toString().equals("null")){
                 Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
             }else{
                 llamar(etTelefono4.getText().toString());
             }
         }else if (view.getId() == R.id.ivLlamar5){
-            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+            if (etTelefono5.getText().toString().equals("")||etTelefono5.getText().toString().equals("null")){
                 Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
             }else{
                 llamar(etTelefono5.getText().toString());

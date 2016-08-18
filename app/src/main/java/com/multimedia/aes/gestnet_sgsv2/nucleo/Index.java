@@ -31,6 +31,8 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorAverias;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
+import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
+import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
@@ -38,6 +40,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -295,5 +298,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+            TabFragment3.llenarDatos(scanContent,scanFormat);
+        }else{
+            Toast toast = Toast.makeText(this,
+                    "No se ha recibido datos del scaneo!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 }

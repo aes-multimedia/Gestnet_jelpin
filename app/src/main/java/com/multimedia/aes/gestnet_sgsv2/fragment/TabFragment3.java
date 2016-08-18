@@ -1,11 +1,8 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +12,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
+import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
@@ -62,8 +60,9 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private LinearLayout linearSubtipos;
     private String subTiposVisita[];
     private ScrollView scFinalizar;
-    private ImageView ivCodigoBarras;
-
+    private Button scanBtn,scanBtn1;
+    private static TextView contentTxt, contentTxt1;
+    private static boolean scan = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +97,12 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
-        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
+        scanBtn = (Button)vista.findViewById(R.id.scan_button);
+        contentTxt = (TextView)vista.findViewById(R.id.scan_content);
+        scanBtn1 = (Button)vista.findViewById(R.id.scan_button1);
+        contentTxt1 = (TextView)vista.findViewById(R.id.scan_content1);
+        scanBtn.setOnClickListener(this);
+        scanBtn1.setOnClickListener(this);
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
@@ -165,9 +169,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             btnImprimir.setVisibility(View.VISIBLE);
             txtFinalizado.setVisibility(View.VISIBLE);
         }
-        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
-        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
-        ivCodigoBarras.setImageBitmap(bit);
         return vista;
     }
 
@@ -188,15 +189,30 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             }
         }else if (view.getId()==R.id.btnImprimir){
             ((Index)getContext()).ticket();
+        }else if(view.getId()==R.id.scan_button){
+            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+            scanIntegrator.initiateScan();
+            scan=true;
+        }else if(view.getId()==R.id.scan_button1){
+            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
+            scanIntegrator.initiateScan();
+            scan=false;
         }
 
 
 
     }
+    public static void llenarDatos(String scanContent, String scanFormat){
+        if (scan) {
+            contentTxt.setText(scanContent);
+        }else{
+            contentTxt1.setText(scanContent);
+        }
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (view.getId()==R.id.spTipoVisita) {
+        if (adapterView==spTipoVisita) {
             if (i == 2) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);

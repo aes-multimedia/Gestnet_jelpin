@@ -70,7 +70,7 @@
     <string name="seleccione_tipo_visita">Selecciona un tipo de visita</string>
     <string name="seleccione_tipo_reparacion">Selecciona un tipo de reparacion</string>
     <string name="seleccione_tiempo_mano_obra">Selecciona un tiempo de mano de obra</string>
-
+    <string name="scan">Scan</string>
 
 
     <string-array name="tipoVisita">

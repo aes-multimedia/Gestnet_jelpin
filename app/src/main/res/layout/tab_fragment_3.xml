@@ -115,22 +115,19 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
-                        <TextView
+                        <Button android:id="@+id/scan_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Codigo de Barras"
-                            android:id="@+id/textView35"
-                            android:textSize="18dp"
-                            android:layout_marginTop="10dp" />
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/scan" />
 
+                        <TextView
+                            android:id="@+id/scan_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textIsSelectable="true"
+                            android:text="iop" />
                     </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ivCodigoBarras" />
 
                 </LinearLayout>
 
@@ -356,6 +353,26 @@
                             android:minHeight="30dp"
                             android:background="@drawable/edit_texts_naranja"
                             android:layout_marginTop="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <Button
+                            android:id="@+id/scan_button1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/scan" />
+
+                        <TextView
+                            android:id="@+id/scan_content1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textIsSelectable="true"
+                            android:text="iop" />
                     </LinearLayout>
                 </LinearLayout>
 
