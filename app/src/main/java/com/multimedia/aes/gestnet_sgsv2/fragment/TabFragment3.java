@@ -47,7 +47,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private EditText etObservaciones, etCosteMateriales, etManoObra;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
-    private Button btnFinalizar,btnImprimir;
+    private Button btnFinalizar,btnImprimir,scanBtn,scanBtn1,btnSacarFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
@@ -60,7 +60,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private LinearLayout linearSubtipos;
     private String subTiposVisita[];
     private ScrollView scFinalizar;
-    private Button scanBtn,scanBtn1;
     private static TextView contentTxt, contentTxt1;
     private static boolean scan = true;
 
@@ -89,6 +88,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
+        btnSacarFoto =(Button) vista.findViewById(R.id.btnSacarFoto);
         tvFechaVisita = (TextView)vista.findViewById(R.id.tvFechaVisita);
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
@@ -106,6 +106,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         cbReparacion.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
+        btnSacarFoto.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
@@ -197,6 +198,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
             scanIntegrator.initiateScan();
             scan=false;
+        }else if(view.getId()==R.id.btnSacarFoto){
+
         }
 
 
