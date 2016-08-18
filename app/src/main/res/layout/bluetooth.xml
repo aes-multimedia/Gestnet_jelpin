@@ -20,6 +20,13 @@
             android:paddingBottom="10dp">
 
             <Button
+                android:id="@+id/btnOtra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buscar Otra Impresora"
+                android:background="@drawable/botones" />
+
+            <Button
                 android:id="@+id/open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

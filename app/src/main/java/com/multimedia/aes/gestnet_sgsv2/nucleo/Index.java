@@ -305,9 +305,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             String scanFormat = scanningResult.getFormatName();
             TabFragment3.llenarDatos(scanContent,scanFormat);
         }else{
-            Toast toast = Toast.makeText(this,
-                    "No se ha recibido datos del scaneo!", Toast.LENGTH_SHORT);
-            toast.show();
         }
     }
 }

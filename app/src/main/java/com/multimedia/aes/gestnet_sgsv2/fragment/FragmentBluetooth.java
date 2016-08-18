@@ -60,7 +60,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private ArrayList<BluetoothDevice> listaDevice = new ArrayList<>();
     private ArrayList<String> listaNombre = new ArrayList<>();
     private ListView lvNombres;
-    private Button openButton, sendButton, closeButton;
+    private Button openButton, sendButton, closeButton,btnOtra;
     private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
@@ -77,6 +77,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         openButton = (Button) vista.findViewById(R.id.open);
         sendButton = (Button) vista.findViewById(R.id.send);
         closeButton = (Button) vista.findViewById(R.id.close);
+        btnOtra = (Button) vista.findViewById(R.id.btnOtra);
         lvNombres = (ListView) vista.findViewById(R.id.lvNombres);
         txtImpreso = (TextView) vista.findViewById(R.id.txtImpreso);
         llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
@@ -96,11 +97,13 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         openButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
         closeButton.setOnClickListener(this);
+        btnOtra.setOnClickListener(this);
         sendButton.setVisibility(View.GONE);
         closeButton.setVisibility(View.GONE);
         llImpreso.setVisibility(View.VISIBLE);
         scTicket.setVisibility(View.VISIBLE);
         lvNombres.setVisibility(View.GONE);
+        btnOtra.setVisibility(View.GONE);
 
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
@@ -145,20 +148,16 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         if (ManagerProgressDialog.getDialog()!=null) {
             ManagerProgressDialog.cerrarDialog();
         }
+            getContext().unregisterReceiver(bReciever);
         }
     };
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.open) {
-            llBotones.setVisibility(View.GONE);
-            ManagerProgressDialog.abrirDialog(getContext());
-            ManagerProgressDialog.buscandoBluetooth(getContext());
+            btnOtra.setVisibility(View.VISIBLE);
             listaDevice.clear();
             listaNombre.clear();
             findBT();
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            getContext().registerReceiver(bReciever, filter);
-            mBluetoothAdapter.startDiscovery();
             lvNombres.setVisibility(View.VISIBLE);
             llImpreso.setVisibility(View.GONE);
             scTicket.setVisibility(View.GONE);
@@ -183,6 +182,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             saveToInternalSorage(bitmap);
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
+        }else if (view.getId() == R.id.btnOtra) {
+            ManagerProgressDialog.abrirDialog(getContext());
+            ManagerProgressDialog.buscandoBluetooth(getContext());
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            getContext().registerReceiver(bReciever, filter);
+            mBluetoothAdapter.startDiscovery();
         }
     }
 
@@ -239,6 +244,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ponerLista();
     }
     void closeBT() throws IOException {
         try {
@@ -266,6 +272,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         sendButton.setVisibility(View.VISIBLE);
         closeButton.setVisibility(View.GONE);
         openButton.setVisibility(View.GONE);
+        btnOtra.setVisibility(View.GONE);
         txtImpreso.setText(generarTexto1());
         txtImpreso2.setText(generarTexto2());
         txtImpreso3.setText(generarTexto3());
@@ -276,7 +283,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
-        getContext().unregisterReceiver(bReciever);
         Toast.makeText(getContext(), "Impresora seleccionada", Toast.LENGTH_SHORT).show();
     }
     private Bitmap generarImagen() throws IOException {
