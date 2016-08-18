@@ -60,15 +60,28 @@
     <string name="introducir_nombre">Introduzca su nombre</string>
     <string name="subir_ticket">Subiendo ticket</string>
     <string name="cambiar_fecha">Cambiar Fecha</string>
+    <string name="title_activity_mapa">Map</string>
+    <string name="seleccione_tipo_maquina">Selecciona un tipo de maquina</string>
+    <string name="seleccione_marca_maquina">Selecciona una marca de maquina</string>
+    <string name="seleccione_uso_maquina">Selecciona un uso de maquina</string>
+    <string name="seleccione_potencia_maquina">Selecciona una potencia de maquina</string>
+    <string name="seleccione_puesta_maquina">Selecciona la puesta en marcha de maquina</string>
+    <string name="seleccione_estado_visita">Selecciona un estado de visita</string>
+    <string name="seleccione_tipo_visita">Selecciona un tipo de visita</string>
+    <string name="seleccione_tipo_reparacion">Selecciona un tipo de reparacion</string>
+    <string name="seleccione_tiempo_mano_obra">Selecciona un tiempo de mano de obra</string>
+
 
 
     <string-array name="tipoVisita">
+        <item>--Seleccione un valor--</item>
         <item>Sin defectos</item>
         <item>Precintado de instalación</item>
         <item>Anomalia secundaria</item>
         <item>Defectos menores</item>
     </string-array>
     <string-array name="estadosVisita">
+        <item>--Seleccione un valor--</item>
         <item>Cancelada - Ausente por segunda vez</item>
         <item>Cancelada - Cliente no desea visita</item>
         <item>Cancelada - Cliente no localizable</item>
@@ -78,6 +91,7 @@
         <item>En Ejecución</item>
     </string-array>
     <string-array name="tiempoReparacion">
+        <item>--Seleccione un valor--</item>
         <item>2 horas o mas</item>
         <item>De 1 a 2 horas</item>
         <item>Menos de 1 hora</item>

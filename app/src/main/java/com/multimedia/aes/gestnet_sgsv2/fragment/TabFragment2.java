@@ -75,9 +75,10 @@ public class TabFragment2 extends Fragment {
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
-            tipos = new String[listaTipos.size()];
-            for (int i = 0; i < listaTipos.size(); i++) {
-                tipos[i]=listaTipos.get(i).getNombre_tipo_caldera();
+            tipos = new String[listaTipos.size()+1];
+            tipos[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaTipos.size()+1; i++) {
+                tipos[i]=listaTipos.get(i-1).getNombre_tipo_caldera();
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
@@ -98,9 +99,10 @@ public class TabFragment2 extends Fragment {
             }
 
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
-            marcas = new String[listaMarcas.size()];
-            for (int i = 0; i < listaMarcas.size(); i++) {
-                marcas[i]=listaMarcas.get(i).getNombre_marca_caldera();
+            marcas = new String[listaMarcas.size()+1];
+            marcas[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaMarcas.size()+1; i++) {
+                marcas[i]=listaMarcas.get(i-1).getNombre_marca_caldera();
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
@@ -111,24 +113,27 @@ public class TabFragment2 extends Fragment {
 
 
             listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
-            usos=new String[listaUso.size()];
-            for (int i = 0; i < listaUso.size(); i++) {
-                usos[i]=listaUso.get(i).getNombre_uso_caldera();
+            usos=new String[listaUso.size()+1];
+            usos[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaUso.size()+1; i++) {
+                usos[i]=listaUso.get(i-1).getNombre_uso_caldera();
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
             listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
-            potencias=new String[listaPotencia.size()];
-            for (int i = 0; i < listaPotencia.size(); i++) {
-                potencias[i]=listaPotencia.get(i).getPotencia();
+            potencias=new String[listaPotencia.size()+1];
+            potencias[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaPotencia.size()+1; i++) {
+                potencias[i]=listaPotencia.get(i-1).getPotencia();
             }
             spPotencia.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, potencias));
 
             Date d = new Date();
             String s  = String.valueOf(DateFormat.format("yyyy", d.getTime()));
             int año = Integer.parseInt(s);
-            puestaMarcha=new String[66];
-            int a = 0;
+            puestaMarcha=new String[67];
+            puestaMarcha[0]="--Seleccione un valor--";
+            int a = 1;
             for (int i = año-65; i <= año; i++) {
                 puestaMarcha[a]=String.valueOf(i);
                 a++;

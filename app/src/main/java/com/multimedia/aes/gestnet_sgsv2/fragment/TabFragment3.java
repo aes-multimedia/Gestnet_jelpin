@@ -125,12 +125,12 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
         tvFechaLimite.setText(fecha);
 
-
         try{
             listaTiposVisita = TiposVisitaDAO.buscarTodosLosTipoVisita(getContext());
-            tiposVisita = new String[listaTiposVisita.size()];
-            for (int i = 0; i < listaTiposVisita.size(); i++) {
-                tiposVisita[i]=listaTiposVisita.get(i).getDescripcion();
+            tiposVisita = new String[listaTiposVisita.size()+1];
+            tiposVisita[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaTiposVisita.size()+1; i++) {
+                tiposVisita[i]=listaTiposVisita.get(i-1).getDescripcion();
             }
             spTipoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tiposVisita));
 
@@ -138,12 +138,12 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             e.printStackTrace();
         }
 
-
         try {
             tiposReparacion = TiposReparacionesDAO.buscarTodosLosTiposReparaciones(getContext());
-            tipos = new String[tiposReparacion.size()];
-            for (int i = 0; i < tiposReparacion.size(); i++) {
-                tipos[i]=tiposReparacion.get(i).getAbreviatura();
+            tipos = new String[tiposReparacion.size()+1];
+            tipos[0]="--Seleccione un valor--";
+            for (int i = 1; i < tiposReparacion.size()+1; i++) {
+                tipos[i]=tiposReparacion.get(i-1).getAbreviatura();
             }
             spTipoReparacion.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 

@@ -1,10 +1,10 @@
-package com.multimedia.aes.gestnet_sgsv2.nucleo;
+package com.multimedia.aes.gestnet_sgsv2;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +30,6 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -44,5 +43,4 @@ public class Mapa extends FragmentActivity implements OnMapReadyCallback {
         }
         mMap.setMyLocationEnabled(true);
     }
-
 }

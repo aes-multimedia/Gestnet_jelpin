@@ -18,17 +18,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.multimedia.aes.gestnet_sgsv2.Mapa;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.Mapa;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -333,13 +332,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             }
         }else if (view.getId()==R.id.ibLocation){
             Intent i = new Intent(getContext(),Mapa.class);
-            i.putExtra("destino", new double[]{Double.parseDouble(mantenimiento.getLatitud()),Double.parseDouble(mantenimiento.getLongitud())});
-            startActivity(i);
+            Double a = Double.parseDouble(mantenimiento.getLatitud());
+            Double b = Double.parseDouble(mantenimiento.getLongitud());
+            i.putExtra("destino", new double[]{a,b});
+            getContext().startActivity(i);
         }else if (view.getId()==R.id.ibIr){
             String geoUri = null;
             geoUri = "http://maps.google.com/maps?q=loc:" + mantenimiento.getLatitud() + "," + mantenimiento.getLongitud()+ " (" + mantenimiento.getNombre_usuario() + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
-            startActivity(intent);
+            getContext().startActivity(intent);
         }
     }
     public void llamar(String tel) {
