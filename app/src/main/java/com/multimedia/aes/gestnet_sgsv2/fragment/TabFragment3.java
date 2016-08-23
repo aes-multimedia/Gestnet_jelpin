@@ -1,11 +1,21 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,24 +31,32 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaImagenes;
+import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
+import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
+import com.multimedia.aes.gestnet_sgsv2.hilos.HiloSubirImagenes;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Camara;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,12 +66,12 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private EditText etObservaciones, etCosteMateriales, etManoObra;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
-    private Button btnFinalizar,btnImprimir,scanBtn,scanBtn1,btnSacarFoto;
+    private Button btnFinalizar,btnImprimir,scanBtn,scanBtn1,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
-    private Mantenimiento mantenimiento = null;
-    private LinearLayout llReparacion;
+    private static Mantenimiento mantenimiento = null;
+    private LinearLayout llReparacion,llContadorInterno;
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
@@ -62,6 +81,11 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     private ScrollView scFinalizar;
     private static TextView contentTxt, contentTxt1;
     private static boolean scan = true;
+    public static AdaptadorListaImagenes adaptadorListaImagenes;
+    public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
+    public static int alto1=0, height;
+    public static ListView lvImagenes;
+    public static Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,8 +99,10 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
+        Display display = ((Index)getContext()).getWindowManager().getDefaultDisplay();
+        height = display.getHeight();
+        height=height/16;
+        context=getContext();
         spEstadoVisita = (Spinner) vista.findViewById(R.id.spEstadoVisita);
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
@@ -88,11 +114,13 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
-        btnSacarFoto =(Button) vista.findViewById(R.id.btnSacarFoto);
+        btnArchivo = (Button)vista.findViewById(R.id.btnArchivo);
+        btnFoto = (Button)vista.findViewById(R.id.btnFoto);
         tvFechaVisita = (TextView)vista.findViewById(R.id.tvFechaVisita);
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
+        llContadorInterno = (LinearLayout)vista.findViewById(R.id.llContadorInterno);
         llReparacion.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
@@ -101,12 +129,15 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         contentTxt = (TextView)vista.findViewById(R.id.scan_content);
         scanBtn1 = (Button)vista.findViewById(R.id.scan_button1);
         contentTxt1 = (TextView)vista.findViewById(R.id.scan_content1);
+        lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
         scanBtn.setOnClickListener(this);
         scanBtn1.setOnClickListener(this);
         cbReparacion.setOnClickListener(this);
+        cbContadorInterno.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
-        btnSacarFoto.setOnClickListener(this);
+        btnFoto.setOnClickListener(this);
+        btnArchivo.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
 
         String dateSample = mantenimiento.getFecha_visita();
@@ -181,15 +212,37 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             }else{
                 llReparacion.setVisibility(View.GONE);
             }
-        }else if (view.getId()==R.id.btnFinalizar) {
-            ((Index)getContext()).ticket();
-            try {
-                MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
-            } catch (SQLException e) {
-                e.printStackTrace();
+        }else if (view.getId()==R.id.cbContadorInterno){
+            if (cbContadorInterno.isChecked()){
+                llContadorInterno.setVisibility(View.VISIBLE);
+            }else{
+                llContadorInterno.setVisibility(View.GONE);
             }
+        }else if (view.getId()==R.id.btnFinalizar) {
+            if (!arraylistImagenes.isEmpty()){
+                int id = 0;
+                try {
+                    id = ImagenesDAO.buscarUltimoIdImagen(getContext());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < arraylistImagenes.size(); i++) {
+                    id++;
+                    ImagenesDAO.newImagen(getContext(),id,arraylistImagenes.get(i).nombre,arraylistImagenes.get(i).ruta,mantenimiento.getId_mantenimiento());
+                }
+                new HiloSubirImagenes(getActivity()).execute();
+            }else{
+                Toast.makeText(getContext(), "entra", Toast.LENGTH_SHORT).show();
+                /*((Index)getContext()).ticket();
+                try {
+                    MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }*/
+            }
+
         }else if (view.getId()==R.id.btnImprimir){
-            ((Index)getContext()).ticket();
+            ((Index)getContext()).ticket("hola");
         }else if(view.getId()==R.id.scan_button){
             IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
             scanIntegrator.initiateScan();
@@ -198,8 +251,10 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
             scanIntegrator.initiateScan();
             scan=false;
-        }else if(view.getId()==R.id.btnSacarFoto){
-
+        }else if (view.getId()==R.id.btnFoto){
+            hacerFoto();
+        }else if (view.getId()==R.id.btnArchivo){
+            cogerFoto();
         }
 
 
@@ -211,7 +266,118 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             contentTxt1.setText(scanContent);
         }
     }
+    public static Bitmap resizeImage(Bitmap bitmap) {
 
+        Bitmap BitmapOrg = bitmap;
+
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+
+        if(width>1000&&height>1000) {
+            int newWidth = (width * 20) / 100;
+            int newHeight = (height * 20) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else if (width>1500&&height>1500) {
+            int newWidth = (width * 10) / 100;
+            int newHeight = (height * 10) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else if (width>2000&&height>2000) {
+            int newWidth = (width * 5) / 100;
+            int newHeight = (height * 5) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else{
+            return bitmap;
+        }
+    }
+    public static void borrarArrayImagenes(int position, Context context){
+        arraylistImagenes.remove(position);
+        alto1-=height;
+        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
+        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+        lvImagenes.setAdapter(adaptadorListaImagenes);
+    }
+
+    public static void result(String path){
+        File image = new File(path);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
+        bitmap = resizeImage(bitmap);
+        String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
+        arraylistImagenes.add(new DataImagenes(path,nombre,bitmap,mantenimiento.getId_mantenimiento()));
+        alto1+=height;
+        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
+        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+        lvImagenes.setAdapter(adaptadorListaImagenes);
+    }
+    public static String getPath(Uri contentUri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
+    public void hacerFoto(){
+        Intent i = new Intent(getContext(), Camara.class);
+        startActivity(i);
+    }
+    private void cogerFoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, 2);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = intent.getData();
+                result(getPath(selectedImage));
+            }
+        }
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+            llenarDatos(scanContent,scanFormat);
+        }else{
+        }
+    }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView==spTipoVisita) {

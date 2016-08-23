@@ -1,20 +1,27 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaEquipamientos;
+import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
@@ -30,16 +37,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
-public class TabFragment2 extends Fragment {
+public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     private View vista;
-    private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha;
-    private EditText etModelo;
-    private Button btnDespiece;
+    private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
+    private EditText etModelo,etPotenciaFuego;
+    private Button btnDespiece,btnAñadirEquip;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
     private List<UsoCaldera> listaUso=null;
@@ -50,7 +58,10 @@ public class TabFragment2 extends Fragment {
     private String[] potencias;
     private String[] puestaMarcha;
     private Mantenimiento mantenimiento = null;
-
+    private static int alto=0, height;
+    private static ListView lvEquipamientos;
+    private static ArrayList<DataEquipamientos> arraylistEquipamiento = new ArrayList<>();
+    private static AdaptadorListaEquipamientos adaptadorListaEquipamientos;
 
 
     @Override
@@ -65,14 +76,21 @@ public class TabFragment2 extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        height = display.getHeight();
+        height=height/16;
         spTipo = (Spinner)vista.findViewById(R.id.spTipo);
         spMarca = (Spinner)vista.findViewById(R.id.spMarca);
         spUso = (Spinner)vista.findViewById(R.id.spUso);
         spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
+        spTipoEquipamiento = (Spinner)vista.findViewById(R.id.spTipoEquipamiento);
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
+        etPotenciaFuego = (EditText)vista.findViewById(R.id.etPotenciaFuego);
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
+        btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
+        lvEquipamientos = (ListView)vista.findViewById(R.id.lvEquipamientos);
+        btnAñadirEquip.setOnClickListener(this);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()+1];
@@ -163,4 +181,22 @@ public class TabFragment2 extends Fragment {
         return vista;
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.btnAñadirEquip){
+            alto+=height;
+            lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+            arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString()));
+            adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+            lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+
+        }
+    }
+    public static void borrarArrayProductos(int position, Context context){
+        arraylistEquipamiento.remove(position);
+        alto-=height;
+        lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+        adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(context, R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+        lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+    }
 }

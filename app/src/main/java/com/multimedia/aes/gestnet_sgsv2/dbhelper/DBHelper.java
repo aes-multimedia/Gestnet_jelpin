@@ -7,7 +7,9 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
@@ -97,7 +99,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		return BBDDConstantes.potenciaDao;
 	}
 
-
 	public Dao<TipoEstado, Integer> getTipoEstadoDAO() throws SQLException {
 		if (BBDDConstantes.tipoEstadoDao == null) {
 			BBDDConstantes.tipoEstadoDao = getDao(TipoEstado.class);
@@ -124,6 +125,19 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.subTiposVisitasDao = getDao(SubTiposVisita.class);
 		}
 		return BBDDConstantes.subTiposVisitasDao;
+	}
+
+	public Dao<Imagenes, Integer> getImagenDAO() throws SQLException {
+		if (BBDDConstantes.imagenesDao == null) {
+			BBDDConstantes.imagenesDao = getDao(Imagenes.class);
+		}
+		return BBDDConstantes.imagenesDao;
+	}
+	public Dao<MantenimientoTerminado, Integer> getMantenimientoTerminadoDAO() throws SQLException {
+		if (BBDDConstantes.mantenimientoTerminadoDao == null) {
+			BBDDConstantes.mantenimientoTerminadoDao = getDao(MantenimientoTerminado.class);
+		}
+		return BBDDConstantes.mantenimientoTerminadoDao;
 	}
 
 }

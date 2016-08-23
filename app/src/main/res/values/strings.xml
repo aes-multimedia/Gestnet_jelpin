@@ -70,6 +70,12 @@
     <string name="seleccione_tipo_visita">Selecciona un tipo de visita</string>
     <string name="seleccione_tipo_reparacion">Selecciona un tipo de reparacion</string>
     <string name="seleccione_tiempo_mano_obra">Selecciona un tiempo de mano de obra</string>
+    <string name="sacar_foto">SACAR FOTO</string>
+    <string name="tomar_foto">TOMAR FOTO</string>
+    <string name="guardar_imagen">GUARDAR IMAGEN</string>
+    <string name="nombre_imagen">NOMBRE DE LA IMAGEN</string>
+    <string name="guardar">GUARDAR</string>
+    <string name="seleccionar_archivo">SELECCIONAR ARCHIVO</string>
     <string name="scan">Scan</string>
 
 
@@ -95,6 +101,12 @@
         <item>2 horas o mas</item>
         <item>De 1 a 2 horas</item>
         <item>Menos de 1 hora</item>
+    </string-array>
+    <string-array name="equipamientos">
+        <item>--Seleccione un valor--</item>
+        <item>Cocina</item>
+        <item>Horno</item>
+        <item>Horno + Grill</item>
     </string-array>
 
 </resources>

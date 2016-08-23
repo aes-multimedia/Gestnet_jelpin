@@ -182,6 +182,61 @@
                 android:layout_margin="20dp"
                 android:textColor="#FFF"
                 android:visibility="gone" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/llEquipo"
+                android:background="@drawable/fondo_linear_gris"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:paddingBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Tipo Equipamiento"
+                    android:id="@+id/textView35" />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/spTipoEquipamiento"
+                    android:entries="@array/equipamientos"
+                    android:background="@drawable/caldera_spiners" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Potencia/Fuegos"
+                    android:id="@+id/textView38" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/etPotenciaFuego"
+                    android:autoText="false"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:padding="5dp"
+                    android:minHeight="30dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Añadir Equipamiento"
+                    android:id="@+id/btnAñadirEquip"
+                    android:layout_gravity="center_horizontal" />
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvEquipamientos" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

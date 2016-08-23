@@ -1,16 +1,20 @@
 package com.multimedia.aes.gestnet_sgsv2.nucleo;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -30,7 +35,9 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorAverias;
+import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaImagenes;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorMantenimientos;
+import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
@@ -42,9 +49,12 @@ import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -285,7 +295,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-    public void ticket(){
+    public void ticket(String msg){
+        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
         Class fragmentClass = FragmentBluetooth.class;
         Fragment fragment;
         try {
@@ -296,15 +310,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }
-    }
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
-            TabFragment3.llenarDatos(scanContent,scanFormat);
-        }else{
         }
     }
 }

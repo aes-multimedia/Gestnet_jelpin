@@ -5,7 +5,9 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
@@ -16,7 +18,9 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
@@ -45,6 +49,8 @@ public class BBDDConstantes {
 	public static Dao<TiposReparaciones, Integer> tipoReparacionesDao;
 	public static Dao<TiposVisita, Integer> tiposVisitasDao;
 	public static Dao<SubTiposVisita, Integer> subTiposVisitasDao;
+	public static Dao<Imagenes, Integer> imagenesDao;
+	public static Dao<MantenimientoTerminado, Integer> mantenimientoTerminadoDao;
 
 	public static void cerrarDao() {
 		tecnicoDao = null;
@@ -58,6 +64,8 @@ public class BBDDConstantes {
 		tipoReparacionesDao = null;
 		tiposVisitasDao = null;
 		subTiposVisitasDao = null;
+		imagenesDao = null;
+		mantenimientoTerminadoDao = null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -72,6 +80,8 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, TiposReparaciones.class);
 		TableUtils.createTable(connectionSource, TiposVisita.class);
 		TableUtils.createTable(connectionSource, SubTiposVisita.class);
+		TableUtils.createTable(connectionSource, Imagenes.class);
+		TableUtils.createTable(connectionSource, MantenimientoTerminado.class);
 
 	}
 
@@ -87,6 +97,8 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, TiposReparaciones.class, true);
 		TableUtils.dropTable(connectionSource, TiposVisita.class, true);
 		TableUtils.dropTable(connectionSource, SubTiposVisita.class, true);
+		TableUtils.dropTable(connectionSource, Imagenes.class, true);
+		TableUtils.dropTable(connectionSource, MantenimientoTerminado.class, true);
 
 	}
 
@@ -102,6 +114,8 @@ public class BBDDConstantes {
 		TiposReparacionesDAO.borrarTodosLosTiposReparaciones(context);
 		TiposVisitaDAO.borrarTodosLosTiposVisita(context);
 		SubTiposVisitaDAO.borrarTodosLosSubTiposVisita(context);
+		ImagenesDAO.borrarTodasLasImagenes(context);
+		MantenimientoTerminadoDAO.borrarTodosLosMantenimientoTerminados(context);
 
 	}
 }
