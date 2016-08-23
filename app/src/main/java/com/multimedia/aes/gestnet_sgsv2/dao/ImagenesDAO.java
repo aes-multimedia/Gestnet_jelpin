@@ -21,8 +21,8 @@ public class ImagenesDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newImagen(Context context, int id_imagen, String nombre_imagen, String ruta_imagen, int fk_parte) {
-		Imagenes i = montarImagen(id_imagen, nombre_imagen, ruta_imagen, fk_parte);
+	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte) {
+		Imagenes i = montarImagen(nombre_imagen, ruta_imagen, fk_parte);
 		return crearImagen(i,context);
 	}
 	public static boolean crearImagen(Imagenes i,Context context) {
@@ -35,8 +35,8 @@ public class ImagenesDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Imagenes montarImagen(int id_imagen, String nombre_imagen,String ruta_imagen, int fk_parte) {
-		Imagenes i =new Imagenes(id_imagen, nombre_imagen, ruta_imagen, fk_parte);
+	public static Imagenes montarImagen(String nombre_imagen,String ruta_imagen, int fk_parte) {
+		Imagenes i =new Imagenes(nombre_imagen, ruta_imagen, fk_parte);
 		return i;
 	}
 

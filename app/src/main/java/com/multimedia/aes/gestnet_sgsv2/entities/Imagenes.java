@@ -11,7 +11,7 @@ public class Imagenes {
     public static final String RUTA_IMAGEN = "ruta_imagen";
     public static final String FK_PARTE = "fk_parte";
 
-    @DatabaseField(id = true, columnName = ID_IMAGEN)
+    @DatabaseField(generatedId = true, columnName = ID_IMAGEN)
     private int id_imagen;
     @DatabaseField(columnName = NOMBRE_IMAGEN)
     private String nombre_imagen;
@@ -22,8 +22,7 @@ public class Imagenes {
 
     public Imagenes() {
     }
-    public Imagenes(int id_imagen, String nombre_imagen, String ruta_imagen, int fk_parte) {
-        this.id_imagen = id_imagen;
+    public Imagenes(String nombre_imagen, String ruta_imagen, int fk_parte) {
         this.nombre_imagen = nombre_imagen;
         this.ruta_imagen = ruta_imagen;
         this.fk_parte = fk_parte;

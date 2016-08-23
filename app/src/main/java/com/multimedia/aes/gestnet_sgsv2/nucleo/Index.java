@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -47,6 +48,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment1;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
 
 import org.json.JSONArray;
@@ -139,7 +141,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha)!=null) {
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha));
         }else{
-            Toast.makeText(Index.this, "No hay mantenimientos ese dia", Toast.LENGTH_SHORT).show();
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarTodosLosMantenimientos(this));
         }
     }
@@ -295,11 +296,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-    public void ticket(String msg){
-        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
-        Toast.makeText(Index.this, msg+" /", Toast.LENGTH_SHORT).show();
+    public void ticket(){
         Class fragmentClass = FragmentBluetooth.class;
         Fragment fragment;
         try {
@@ -311,5 +308,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+    public void sacarDatos(){
+        TabFragment3 tabFragment3 = null;
+        String a = tabFragment3.getEtCosteMateriales().getText().toString();
+        Toast.makeText(Index.this, a, Toast.LENGTH_SHORT).show();
     }
 }

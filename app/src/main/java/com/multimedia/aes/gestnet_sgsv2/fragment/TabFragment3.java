@@ -220,15 +220,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             }
         }else if (view.getId()==R.id.btnFinalizar) {
             if (!arraylistImagenes.isEmpty()){
-                int id = 0;
-                try {
-                    id = ImagenesDAO.buscarUltimoIdImagen(getContext());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
                 for (int i = 0; i < arraylistImagenes.size(); i++) {
-                    id++;
-                    ImagenesDAO.newImagen(getContext(),id,arraylistImagenes.get(i).nombre,arraylistImagenes.get(i).ruta,mantenimiento.getId_mantenimiento());
+                    ImagenesDAO.newImagen(getContext(),arraylistImagenes.get(i).nombre,arraylistImagenes.get(i).ruta,mantenimiento.getId_mantenimiento());
                 }
                 new HiloSubirImagenes(getActivity()).execute();
             }else{
@@ -242,7 +235,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             }
 
         }else if (view.getId()==R.id.btnImprimir){
-            ((Index)getContext()).ticket("hola");
+            ((Index)getContext()).ticket();
         }else if(view.getId()==R.id.scan_button){
             IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
             scanIntegrator.initiateScan();
@@ -426,5 +419,73 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+
+    public LinearLayout getLlContadorInterno() {
+        return llContadorInterno;
+    }
+    public ScrollView getScFinalizar() {
+        return scFinalizar;
+    }
+    public LinearLayout getLlReparacion() {
+        return llReparacion;
+    }
+    public TextView getTxtFinalizado() {
+        return txtFinalizado;
+    }
+    public TextView getTvFechaLimite() {
+        return tvFechaLimite;
+    }
+    public TextView getTvFechaVisita() {
+        return tvFechaVisita;
+    }
+    public Button getBtnFoto() {
+        return btnFoto;
+    }
+    public Button getBtnArchivo() {
+        return btnArchivo;
+    }
+    public Button getScanBtn1() {
+        return scanBtn1;
+    }
+    public Button getScanBtn() {
+        return scanBtn;
+    }
+    public Button getBtnImprimir() {
+        return btnImprimir;
+    }
+    public Button getBtnFinalizar() {
+        return btnFinalizar;
+    }
+    public DatePicker getDpFechaReparacion() {
+        return dpFechaReparacion;
+    }
+    public CheckBox getCbReparacion() {
+        return cbReparacion;
+    }
+    public CheckBox getCbContadorInterno() {
+        return cbContadorInterno;
+    }
+    public EditText getEtManoObra() {
+        return etManoObra;
+    }
+    public EditText getEtCosteMateriales() {
+        return etCosteMateriales;
+    }
+    public EditText getEtObservaciones() {
+        return etObservaciones;
+    }
+    public Spinner getSpSubTipoVisita() {
+        return spSubTipoVisita;
+    }
+    public Spinner getSpEstadoVisita() {
+        return spEstadoVisita;
+    }
+    public Spinner getSpTipoVisita() {
+        return spTipoVisita;
+    }
+    public Spinner getSpTipoReparacion() {
+        return spTipoReparacion;
     }
 }

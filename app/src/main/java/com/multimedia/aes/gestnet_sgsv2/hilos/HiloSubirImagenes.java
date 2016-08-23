@@ -9,8 +9,10 @@ import android.util.Base64;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 import org.json.JSONArray;
@@ -37,6 +39,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
     private ArrayList<Imagenes> arraylistImagenes = new ArrayList<>();
     private Mantenimiento mantenimiento = null;
     private int id = 0;
+    private Tecnico tecnico = null;
 
     public HiloSubirImagenes(Activity activity) {
         this.activity = activity;
@@ -45,6 +48,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
             id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
             arraylistImagenes.addAll(ImagenesDAO.buscarImagenPorFk_parte(activity,id));
+            tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -72,7 +76,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        ((Index)activity).ticket(mensaje);
+        ((Index)activity).ticket();
         try {
             MantenimientoDAO.actualizarEstadoAndroid(activity, 2, mantenimiento.getId_mantenimiento());
         } catch (SQLException e) {
@@ -80,7 +84,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
         }
     }
     private String images() throws JSONException, IOException {
-        URL urlws = new URL("http://"+host+"/api_sgs/v1/mantenimientos/foto");
+        URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/foto");
         JSONObject js = new JSONObject();
         JSONArray jsa = new JSONArray();
         for (int i = 0; i <arraylistImagenes.size(); i++) {
@@ -101,7 +105,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
             }
         }
         try {
-            js.put("images",jsa);
+            js.put("imagen",jsa);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -109,6 +113,8 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
         uc.setDoOutput(true);
         uc.setDoInput(true);
         uc.addRequestProperty("fk_parte",String.valueOf(id));
+        uc.addRequestProperty("apikey",tecnico.getApikey());
+        uc.addRequestProperty("id",String.valueOf(tecnico.getId_tecnico()));
         uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
         uc.setRequestMethod("POST");
         uc.connect();
