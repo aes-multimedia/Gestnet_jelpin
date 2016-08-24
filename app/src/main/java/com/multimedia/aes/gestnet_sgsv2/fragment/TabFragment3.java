@@ -42,6 +42,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
@@ -86,6 +87,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     public static int alto1=0, height;
     public static ListView lvImagenes;
     public static Context context;
+    private MantenimientoTerminado mantenimientoTerminado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -219,19 +221,22 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                 llContadorInterno.setVisibility(View.GONE);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
+
+
+
+
             if (!arraylistImagenes.isEmpty()){
                 for (int i = 0; i < arraylistImagenes.size(); i++) {
                     ImagenesDAO.newImagen(getContext(),arraylistImagenes.get(i).nombre,arraylistImagenes.get(i).ruta,mantenimiento.getId_mantenimiento());
                 }
                 new HiloSubirImagenes(getActivity()).execute();
             }else{
-                Toast.makeText(getContext(), "entra", Toast.LENGTH_SHORT).show();
-                /*((Index)getContext()).ticket();
+                ((Index)getContext()).ticket();
                 try {
                     MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
-                }*/
+                }
             }
 
         }else if (view.getId()==R.id.btnImprimir){
@@ -421,71 +426,23 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
 
     }
 
+    public void guardarDatos(){
+        int a = spEstadoVisita.getSelectedItemPosition();
+        if (a!=0){
 
-    public LinearLayout getLlContadorInterno() {
-        return llContadorInterno;
+        }
+        if (!contentTxt.getText().toString().trim().equals("")){
+            mantenimientoTerminado.setCodigo_barras(contentTxt.getText().toString());
+        }
+        int b = spTipoVisita.getSelectedItemPosition();
+        if (b!=0){
+
+        }
+        if (!etObservaciones.getText().toString().trim().equals("")){
+            mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
+        }
     }
-    public ScrollView getScFinalizar() {
-        return scFinalizar;
-    }
-    public LinearLayout getLlReparacion() {
-        return llReparacion;
-    }
-    public TextView getTxtFinalizado() {
-        return txtFinalizado;
-    }
-    public TextView getTvFechaLimite() {
-        return tvFechaLimite;
-    }
-    public TextView getTvFechaVisita() {
-        return tvFechaVisita;
-    }
-    public Button getBtnFoto() {
-        return btnFoto;
-    }
-    public Button getBtnArchivo() {
-        return btnArchivo;
-    }
-    public Button getScanBtn1() {
-        return scanBtn1;
-    }
-    public Button getScanBtn() {
-        return scanBtn;
-    }
-    public Button getBtnImprimir() {
-        return btnImprimir;
-    }
-    public Button getBtnFinalizar() {
-        return btnFinalizar;
-    }
-    public DatePicker getDpFechaReparacion() {
-        return dpFechaReparacion;
-    }
-    public CheckBox getCbReparacion() {
-        return cbReparacion;
-    }
-    public CheckBox getCbContadorInterno() {
-        return cbContadorInterno;
-    }
-    public EditText getEtManoObra() {
-        return etManoObra;
-    }
-    public EditText getEtCosteMateriales() {
-        return etCosteMateriales;
-    }
-    public EditText getEtObservaciones() {
-        return etObservaciones;
-    }
-    public Spinner getSpSubTipoVisita() {
-        return spSubTipoVisita;
-    }
-    public Spinner getSpEstadoVisita() {
-        return spEstadoVisita;
-    }
-    public Spinner getSpTipoVisita() {
-        return spTipoVisita;
-    }
-    public Spinner getSpTipoReparacion() {
-        return spTipoReparacion;
+    public void setMantenimientoTerminado(MantenimientoTerminado mantenimientoTerminado) {
+        this.mantenimientoTerminado = mantenimientoTerminado;
     }
 }

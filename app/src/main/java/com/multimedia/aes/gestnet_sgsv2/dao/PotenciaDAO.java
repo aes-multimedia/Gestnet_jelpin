@@ -74,6 +74,15 @@ public class PotenciaDAO extends DBHelperMOS {
 			return listadoPotencia.get(0);
 		}
 	}
+	public static int buscarPotenciaPorNombre(Context context, String nombre) throws SQLException {
+		cargarDao(context);
+		List<Potencia> listadoPotencia= dao.queryForEq(Potencia.POTENCIA, nombre);
+		if(listadoPotencia.isEmpty()) {
+			return 0;
+		}else{
+			return listadoPotencia.get(0).getId_potencia();
+		}
+	}
 
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//

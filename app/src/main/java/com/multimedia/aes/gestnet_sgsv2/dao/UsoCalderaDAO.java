@@ -76,4 +76,13 @@ public class UsoCalderaDAO extends DBHelperMOS {
 		}
 	}
 
+	public static int buscarUsoCalderaPorNombre(Context context, String nombre) throws SQLException {
+		cargarDao(context);
+		List<UsoCaldera> listadoUsoCaldera= dao.queryForEq(UsoCaldera.NOMBRE_USO_CALDERA, nombre);
+		if(listadoUsoCaldera.isEmpty()){
+			return  0;
+		}else{
+			return listadoUsoCaldera.get(0).getId_uso_caldera();
+		}
+	}
 }

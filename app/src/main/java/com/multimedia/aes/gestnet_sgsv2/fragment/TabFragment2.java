@@ -28,6 +28,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
@@ -125,11 +126,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
-            String marca= mantenimiento.getMarca_maquina();
-            ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
-            int spinnerPosition = myAdap.getPosition(marca);
-            spMarca.setSelection(spinnerPosition);
-
 
             listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
             usos=new String[listaUso.size()+1];
@@ -199,5 +195,55 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
         adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(context, R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
         lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+    }
+
+    public MantenimientoTerminado guardarDatos(MantenimientoTerminado manten){
+        Toast.makeText(getContext(), spTipo.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+        int a = spTipo.getSelectedItemPosition();
+        if (a!=0){
+            try {
+                int fk_tipo_maquina = TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString());
+                manten.setFk_tipo_maquina(fk_tipo_maquina);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        int b = spMarca.getSelectedItemPosition();
+        if (b!=0){
+            try {
+                int fk_marca_maquina = MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString());
+                manten.setFk_marca_maquina(fk_marca_maquina);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        int c = spMarca.getSelectedItemPosition();
+        if (c!=0){
+            try {
+                int fk_uso_maquina = UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString());
+                manten.setFk_uso_maquina(fk_uso_maquina);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        int d = spPotencia.getSelectedItemPosition();
+        if (d!=0){
+            try {
+                int fk_potencia_maquina = PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString());
+                manten.setFk_potencia_maquina(fk_potencia_maquina);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        int f = spPuestaMarcha.getSelectedItemPosition();
+        if (f!=0){
+            String puesta_marcha_maquina = spPotencia.getSelectedItem().toString();
+            manten.setPuesta_marcha_maquina(puesta_marcha_maquina);
+        }
+        if (!etModelo.getText().toString().trim().equals("")){
+            String modelo_maquina = etModelo.getText().toString();
+            manten.setModelo_maquina(modelo_maquina);
+        }
+        return manten;
     }
 }

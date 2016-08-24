@@ -76,6 +76,15 @@ public class TipoCalderaDAO extends DBHelperMOS {
 			return listadoTipoCaldera.get(0);
 		}
 	}
+	public static int buscarTipoCalderaPorNombre(Context context, String nombre) throws SQLException {
+		cargarDao(context);
+		List<TipoCaldera> listadoTipoCaldera= dao.queryForEq(TipoCaldera.NOMBRE_TIPO_CALDERA, nombre);
+		if(listadoTipoCaldera.isEmpty()) {
+			return 0;
+		}else{
+			return listadoTipoCaldera.get(0).getId_tipo_caldera();
+		}
+	}
 
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//

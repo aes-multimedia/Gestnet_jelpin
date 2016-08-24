@@ -17,6 +17,7 @@ import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreference
 import com.multimedia.aes.gestnet_sgsv2.adapter.PageAdapter;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,10 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
     private boolean activo;
     private Mantenimiento mantenimiento;
     private Button btnFinalizar;
+    private TabFragment1 tab1;
+    private TabFragment2 tab2;
+    private TabFragment3 tab3;
+    private MantenimientoTerminado mantenimientoTerminado = new MantenimientoTerminado();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,16 +58,25 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
         final PageAdapter adapter = new PageAdapter
                 (getFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                tab1 = adapter.getTab1();
+                tab2 = adapter.getTab2();
+                tab3 = adapter.getTab3();
+                if (tab.getPosition()==2){
+                    tab3.setMantenimientoTerminado(mantenimientoTerminado);
+                }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                if (tab.getPosition()==1){
+                    mantenimientoTerminado = tab2.guardarDatos(mantenimientoTerminado);
+                }
             }
 
             @Override
@@ -70,7 +84,6 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
 
             }
         });
-
         return vista;
     }
 
@@ -85,4 +98,5 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
     public void onClick(View view) {
 
     }
+
 }
