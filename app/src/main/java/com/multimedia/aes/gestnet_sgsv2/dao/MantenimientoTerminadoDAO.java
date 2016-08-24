@@ -21,7 +21,10 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newMantenimientoTerminado(Context context,int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, String contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
+	public static boolean newMantenimientoTerminado(Context context, MantenimientoTerminado m){
+		return crearMantenimientoTerminado(m,context);
+	}
+	public static boolean newMantenimientoTerminado(Context context,int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, int contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, codigo_barras, fk_estado_visita, fk_tipo_visita, observaciones_tecnico, contador_interno, codigo_interno, reparacion, fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra, coste_materiales, coste_mano_obra, codigo_barras_reparacion, fk_tipo_maquina, fk_marca_maquina, modelo_maquina, fk_potencia_maquina, fk_uso_maquina, puesta_marcha_maquina);
 		return crearMantenimientoTerminado(m,context);
 	}
@@ -35,7 +38,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static MantenimientoTerminado montarMantenimientoTerminado(int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, String contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
+	public static MantenimientoTerminado montarMantenimientoTerminado(int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, int contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, codigo_barras, fk_estado_visita, fk_tipo_visita, observaciones_tecnico, contador_interno, codigo_interno, reparacion, fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra, coste_materiales, coste_mano_obra, codigo_barras_reparacion, fk_tipo_maquina, fk_marca_maquina, modelo_maquina, fk_potencia_maquina, fk_uso_maquina, puesta_marcha_maquina);
 		return m;
 	}

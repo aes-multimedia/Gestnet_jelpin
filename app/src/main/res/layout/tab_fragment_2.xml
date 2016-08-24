@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Tipo Caldera"
+                        android:text="Tipo Maquina"
                         android:id="@+id/textView13"
                         android:textSize="18dp" />
 
@@ -67,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Marca Caldera"
+                        android:text="Marca Maquina"
                         android:id="@+id/textView14"
                         android:textSize="18dp" />
 
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Uso Caldera"
+                        android:text="Uso Maquina"
                         android:id="@+id/textView16"
                         android:textSize="18dp" />
 
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Potencia Equipo"
+                        android:text="Potencia Maquina"
                         android:id="@+id/textView20"
                         android:textSize="18dp" />
 

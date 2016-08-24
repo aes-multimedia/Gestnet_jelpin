@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -197,7 +196,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     }
 
     public MantenimientoTerminado guardarDatos(MantenimientoTerminado manten){
-        Toast.makeText(getContext(), spTipo.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         int a = spTipo.getSelectedItemPosition();
         if (a!=0){
             try {
@@ -206,6 +204,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else{
+            manten.setFk_tipo_maquina(-1);
         }
         int b = spMarca.getSelectedItemPosition();
         if (b!=0){
@@ -215,6 +215,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else{
+            manten.setFk_marca_maquina(-1);
         }
         int c = spMarca.getSelectedItemPosition();
         if (c!=0){
@@ -224,6 +226,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else{
+            manten.setFk_uso_maquina(-1);
         }
         int d = spPotencia.getSelectedItemPosition();
         if (d!=0){
@@ -233,6 +237,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else{
+            manten.setFk_potencia_maquina(-1);
         }
         int f = spPuestaMarcha.getSelectedItemPosition();
         if (f!=0){

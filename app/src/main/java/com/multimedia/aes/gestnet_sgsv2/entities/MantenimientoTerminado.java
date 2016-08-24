@@ -37,7 +37,7 @@ import com.j256.ormlite.table.DatabaseTable;
         @DatabaseField(columnName = OBSERVACIONES_TECNICO)
         private String observaciones_tecnico;
         @DatabaseField(columnName = CONTADOR_INTERNO)
-        private String contador_interno;
+        private int contador_interno;
         @DatabaseField(columnName = CODIGO_INTERNO)
         private String codigo_interno;
         @DatabaseField(columnName = REPARACION)
@@ -70,30 +70,30 @@ import com.j256.ormlite.table.DatabaseTable;
         public MantenimientoTerminado() {
         }
 
-        public MantenimientoTerminado(int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, String contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
-            this.id_mantenimiento_terminado = id_mantenimiento_terminado;
-            this.codigo_barras = codigo_barras;
-            this.fk_estado_visita = fk_estado_visita;
-            this.fk_tipo_visita = fk_tipo_visita;
-            this.observaciones_tecnico = observaciones_tecnico;
-            this.contador_interno = contador_interno;
-            this.codigo_interno = codigo_interno;
-            this.reparacion = reparacion;
-            this.fk_tipo_reparacion = fk_tipo_reparacion;
-            this.fecha_reparacion = fecha_reparacion;
-            this.fk_tiempo_mano_obra = fk_tiempo_mano_obra;
-            this.coste_materiales = coste_materiales;
-            this.coste_mano_obra = coste_mano_obra;
-            this.codigo_barras_reparacion = codigo_barras_reparacion;
-            this.fk_tipo_maquina = fk_tipo_maquina;
-            this.fk_marca_maquina = fk_marca_maquina;
-            this.modelo_maquina = modelo_maquina;
-            this.fk_potencia_maquina = fk_potencia_maquina;
-            this.fk_uso_maquina = fk_uso_maquina;
-            this.puesta_marcha_maquina = puesta_marcha_maquina;
-        }
+    public MantenimientoTerminado(int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, int contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
+        this.id_mantenimiento_terminado = id_mantenimiento_terminado;
+        this.codigo_barras = codigo_barras;
+        this.fk_estado_visita = fk_estado_visita;
+        this.fk_tipo_visita = fk_tipo_visita;
+        this.observaciones_tecnico = observaciones_tecnico;
+        this.contador_interno = contador_interno;
+        this.codigo_interno = codigo_interno;
+        this.reparacion = reparacion;
+        this.fk_tipo_reparacion = fk_tipo_reparacion;
+        this.fecha_reparacion = fecha_reparacion;
+        this.fk_tiempo_mano_obra = fk_tiempo_mano_obra;
+        this.coste_materiales = coste_materiales;
+        this.coste_mano_obra = coste_mano_obra;
+        this.codigo_barras_reparacion = codigo_barras_reparacion;
+        this.fk_tipo_maquina = fk_tipo_maquina;
+        this.fk_marca_maquina = fk_marca_maquina;
+        this.modelo_maquina = modelo_maquina;
+        this.fk_potencia_maquina = fk_potencia_maquina;
+        this.fk_uso_maquina = fk_uso_maquina;
+        this.puesta_marcha_maquina = puesta_marcha_maquina;
+    }
 
-        public int getId_mantenimiento_terminado() {
+    public int getId_mantenimiento_terminado() {
             return id_mantenimiento_terminado;
         }
         public void setId_mantenimiento_terminado(int id_mantenimiento_terminado) {
@@ -123,10 +123,10 @@ import com.j256.ormlite.table.DatabaseTable;
         public void setObservaciones_tecnico(String observaciones_tecnico) {
             this.observaciones_tecnico = observaciones_tecnico;
         }
-        public String getContador_interno() {
+        public int getContador_interno() {
             return contador_interno;
         }
-        public void setContador_interno(String contador_interno) {
+        public void setContador_interno(int contador_interno) {
             this.contador_interno = contador_interno;
         }
         public String getCodigo_interno() {
