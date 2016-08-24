@@ -244,7 +244,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/editText"
+                        android:id="@+id/etContadorInterno"
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja" />
                 </LinearLayout>
@@ -264,7 +264,8 @@
                     android:background="@drawable/fondo_linear_gris"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingBottom="5dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:orientation="vertical"

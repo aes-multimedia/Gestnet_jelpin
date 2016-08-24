@@ -309,9 +309,4 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-    public void sacarDatos(){
-        TabFragment3 tabFragment3 = null;
-        String a = tabFragment3.getEtCosteMateriales().getText().toString();
-        Toast.makeText(Index.this, a, Toast.LENGTH_SHORT).show();
-    }
 }

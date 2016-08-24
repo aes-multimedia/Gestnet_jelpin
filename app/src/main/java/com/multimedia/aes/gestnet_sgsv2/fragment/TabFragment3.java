@@ -63,8 +63,8 @@ import java.util.List;
 
 public class TabFragment3 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita;
-    private EditText etObservaciones, etCosteMateriales, etManoObra;
+    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra;
+    private EditText etObservaciones, etCosteMateriales, etManoObra,etContadorInterno;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
     private Button btnFinalizar,btnImprimir,scanBtn,scanBtn1,btnArchivo,btnFoto;
@@ -111,6 +111,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         etObservaciones = (EditText) vista.findViewById(R.id.etObservaciones);
         etCosteMateriales = (EditText) vista.findViewById(R.id.etCosteMateriales);
         etManoObra = (EditText) vista.findViewById(R.id.etCosteManoDeObra);
+        etContadorInterno = (EditText) vista.findViewById(R.id.etContadorInterno);
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
@@ -125,6 +126,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         llContadorInterno = (LinearLayout)vista.findViewById(R.id.llContadorInterno);
         llReparacion.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
+        spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
         scanBtn = (Button)vista.findViewById(R.id.scan_button);
@@ -221,9 +223,8 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                 llContadorInterno.setVisibility(View.GONE);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
-
-
-
+            guardarDatos();
+            Toast.makeText(getContext(), mantenimientoTerminado.getFk_tipo_visita()+"/", Toast.LENGTH_SHORT).show();
 
             if (!arraylistImagenes.isEmpty()){
                 for (int i = 0; i < arraylistImagenes.size(); i++) {
@@ -429,7 +430,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     public void guardarDatos(){
         int a = spEstadoVisita.getSelectedItemPosition();
         if (a!=0){
-
+            mantenimientoTerminado.setFk_estado_visita(1);
         }
         if (!contentTxt.getText().toString().trim().equals("")){
             mantenimientoTerminado.setCodigo_barras(contentTxt.getText().toString());
@@ -440,6 +441,32 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }
         if (!etObservaciones.getText().toString().trim().equals("")){
             mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
+        }
+        if (cbContadorInterno.isChecked()){
+            if (!etContadorInterno.getText().toString().trim().equals("")){
+                mantenimientoTerminado.setContador_interno(etContadorInterno.getText().toString());
+            }
+        }
+        if (cbReparacion.isChecked()){
+            int c = spTipoReparacion.getSelectedItemPosition();
+            if (c!=0){
+
+            }
+            String fecha = dpFechaReparacion.getYear()+"-"+dpFechaReparacion.getMonth()+"-"+dpFechaReparacion.getDayOfMonth();
+            mantenimientoTerminado.setFecha_reparacion(fecha);
+            int d = spTiempoManoObra.getSelectedItemPosition();
+            if (d!=0){
+
+            }
+            if (!etCosteMateriales.getText().toString().trim().equals("")){
+                mantenimientoTerminado.setCoste_materiales(etCosteMateriales.getText().toString());
+            }
+            if (!etManoObra.getText().toString().trim().equals("")){
+                mantenimientoTerminado.setCoste_mano_obra(etManoObra.getText().toString());
+            }
+            if (!contentTxt1.getText().toString().trim().equals("")){
+                mantenimientoTerminado.setCodigo_barras_reparacion(contentTxt1.getText().toString());
+            }
         }
     }
     public void setMantenimientoTerminado(MantenimientoTerminado mantenimientoTerminado) {

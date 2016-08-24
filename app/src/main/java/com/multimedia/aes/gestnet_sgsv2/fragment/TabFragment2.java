@@ -186,7 +186,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString()));
             adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
             lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
-            ((Index)getContext()).sacarDatos();
         }
     }
     public static void borrarArrayProductos(int position, Context context){
