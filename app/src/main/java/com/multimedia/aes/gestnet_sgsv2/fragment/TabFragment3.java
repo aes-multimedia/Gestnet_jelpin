@@ -227,20 +227,20 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             guardarDatos();
             if (mantenimientoTerminado.getFk_tipo_maquina()!=-1) {
                 if (mantenimientoTerminado.getFk_marca_maquina()!=-1) {
-                    if (!mantenimientoTerminado.getModelo_maquina().equals("null")) {
+                    if (mantenimientoTerminado.getModelo_maquina()!=null) {
                         if (mantenimientoTerminado.getFk_potencia_maquina()!=-1) {
                             if (mantenimientoTerminado.getFk_uso_maquina()!=-1) {
-                                if (!mantenimientoTerminado.getPuesta_marcha_maquina().equals("null")) {
+                                if (mantenimientoTerminado.getPuesta_marcha_maquina()!=null) {
                                     if (mantenimientoTerminado.getFk_estado_visita() != -1) {
                                         if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
-                                            if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno().equals("")) {
+                                            if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
                                                 Toast.makeText(getContext(), "Seleccione codigo de barras", Toast.LENGTH_LONG).show();
                                             } else {
                                                 if (mantenimientoTerminado.getReparacion() == 1) {
                                                     if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
                                                         if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {
-                                                            if (!mantenimientoTerminado.getCoste_materiales().equals("null")) {
-                                                                if (!mantenimientoTerminado.getCoste_mano_obra().equals("null")) {
+                                                            if (mantenimientoTerminado.getCoste_materiales()!=null) {
+                                                                if (mantenimientoTerminado.getCoste_mano_obra()!=null) {
                                                                     if (!arraylistImagenes.isEmpty()) {
                                                                         MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                                                                         for (int i = 0; i < arraylistImagenes.size(); i++) {
