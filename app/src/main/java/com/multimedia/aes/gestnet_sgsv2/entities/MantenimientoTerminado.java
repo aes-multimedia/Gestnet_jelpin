@@ -6,6 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "mos_mantenimientos_terminados")
     public class MantenimientoTerminado {
         public static final String ID_MANTENIMIENTO_TERMINADO = "_id_mantenimiento_terminado";
+        public static final String Fk_PARTE = "fk_parte";
         public static final String CODIGO_BARRAS = "codigo_barras";
         public static final String FK_ESTADO_VISITA = "fk_estado_visita";
         public static final String FK_TIPO_VISITA = "fk_tipo_visita";
@@ -28,6 +29,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
         @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
         private int id_mantenimiento_terminado;
+        @DatabaseField(columnName = Fk_PARTE)
+        private int fk_parte;
         @DatabaseField(columnName = CODIGO_BARRAS)
         private String codigo_barras;
         @DatabaseField(columnName = FK_ESTADO_VISITA)
@@ -70,8 +73,9 @@ import com.j256.ormlite.table.DatabaseTable;
         public MantenimientoTerminado() {
         }
 
-    public MantenimientoTerminado(int id_mantenimiento_terminado, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, int contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
+    public MantenimientoTerminado(int id_mantenimiento_terminado, int fk_parte, String codigo_barras, int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico, int contador_interno, String codigo_interno, int reparacion, int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra, String coste_materiales, String coste_mano_obra, String codigo_barras_reparacion, int fk_tipo_maquina, int fk_marca_maquina, String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina, String puesta_marcha_maquina) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
+        this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
         this.fk_estado_visita = fk_estado_visita;
         this.fk_tipo_visita = fk_tipo_visita;
@@ -93,11 +97,17 @@ import com.j256.ormlite.table.DatabaseTable;
         this.puesta_marcha_maquina = puesta_marcha_maquina;
     }
 
-    public int getId_mantenimiento_terminado() {
+        public int getId_mantenimiento_terminado() {
             return id_mantenimiento_terminado;
         }
         public void setId_mantenimiento_terminado(int id_mantenimiento_terminado) {
             this.id_mantenimiento_terminado = id_mantenimiento_terminado;
+        }
+        public int getFk_parte() {
+            return fk_parte;
+        }
+        public void setFk_parte(int fk_parte) {
+            this.fk_parte = fk_parte;
         }
         public String getCodigo_barras() {
             return codigo_barras;

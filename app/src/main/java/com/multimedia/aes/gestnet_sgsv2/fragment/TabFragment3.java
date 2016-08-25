@@ -502,6 +502,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     }
 
     public void guardarDatos(){
+        mantenimientoTerminado.setFk_parte(mantenimiento.getId_mantenimiento());
         int a = spEstadoVisita.getSelectedItemPosition();
         if (a!=0){
             mantenimientoTerminado.setFk_estado_visita(1);

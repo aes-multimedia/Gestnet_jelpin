@@ -55,6 +55,7 @@ import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment1;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
+import com.multimedia.aes.gestnet_sgsv2.services.ConectionService;
 import com.multimedia.aes.gestnet_sgsv2.services.UploadService;
 
 import org.json.JSONArray;
@@ -105,6 +106,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 receiver,
                 filter);
+        intentConectionService = new Intent(
+                getApplicationContext(), ConectionService.class);
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this));
             parte = jsonObject.getInt("parte");
@@ -340,7 +343,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         public void onReceive(Context context, Intent intent) {
             switch (intent.getAction()) {
                 case Constantes.ACTION_RUN_SERVICE:
-                    Toast.makeText(Index.this, String.valueOf(intent.getStringExtra(Constantes.EXTRA_MEMORY)), Toast.LENGTH_SHORT).show();
                     if (intent.getStringExtra(Constantes.EXTRA_MEMORY).equals("1")){
                         stpService();
                         Intent in = new Intent(Index.this, UploadService.class);
@@ -350,15 +352,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
 
                 case Constantes.ACTION_RUN_ISERVICE:
-                    Toast.makeText(Index.this, intent.getIntExtra(Constantes.EXTRA_PROGRESS, -1) + "", Toast.LENGTH_SHORT).show();
                     break;
 
                 case Constantes.ACTION_MEMORY_EXIT:
-                    Toast.makeText(Index.this, "Memoria", Toast.LENGTH_SHORT).show();
                     break;
 
                 case Constantes.ACTION_PROGRESS_EXIT:
-                    Toast.makeText(Index.this, "Progreso", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
