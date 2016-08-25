@@ -4,7 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Base64;
 import android.util.Log;
@@ -42,6 +46,7 @@ import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
 import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
+import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
@@ -50,6 +55,7 @@ import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentBluetooth;
 import com.multimedia.aes.gestnet_sgsv2.fragment.FragmentMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment1;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
+import com.multimedia.aes.gestnet_sgsv2.services.UploadService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +81,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private ImageView ivIncidencias, ivLlamarAes;
     private LinearLayout cuerpo;
     private int parte = 2;
+    private Intent intentConectionService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +95,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        IntentFilter filter = new IntentFilter(
+                Constantes.ACTION_RUN_ISERVICE);
+        filter.addAction(Constantes.ACTION_RUN_SERVICE);
+        filter.addAction(Constantes.ACTION_MEMORY_EXIT);
+        filter.addAction(Constantes.ACTION_PROGRESS_EXIT);
+        ResponseReceiver receiver =
+                new ResponseReceiver();
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                receiver,
+                filter);
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this));
             parte = jsonObject.getInt("parte");
@@ -307,6 +323,44 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+    public void strtService(){
+        startService(intentConectionService);
+    }
+    public void stpService(){
+        stopService(intentConectionService);
+    }
+    private class ResponseReceiver extends BroadcastReceiver {
+
+        private ResponseReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Constantes.ACTION_RUN_SERVICE:
+                    Toast.makeText(Index.this, String.valueOf(intent.getStringExtra(Constantes.EXTRA_MEMORY)), Toast.LENGTH_SHORT).show();
+                    if (intent.getStringExtra(Constantes.EXTRA_MEMORY).equals("1")){
+                        stpService();
+                        Intent in = new Intent(Index.this, UploadService.class);
+                        in.setAction(Constantes.ACTION_RUN_ISERVICE);
+                        startService(in);
+                    }
+                    break;
+
+                case Constantes.ACTION_RUN_ISERVICE:
+                    Toast.makeText(Index.this, intent.getIntExtra(Constantes.EXTRA_PROGRESS, -1) + "", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case Constantes.ACTION_MEMORY_EXIT:
+                    Toast.makeText(Index.this, "Memoria", Toast.LENGTH_SHORT).show();
+                    break;
+
+                case Constantes.ACTION_PROGRESS_EXIT:
+                    Toast.makeText(Index.this, "Progreso", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
     }
 }

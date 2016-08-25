@@ -254,7 +254,9 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                                                         } catch (SQLException e) {
                                                                             e.printStackTrace();
                                                                         }
+
                                                                     }
+                                                                    ((Index)getContext()).strtService();
                                                                 } else {
                                                                     Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
                                                                 }
@@ -282,6 +284,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                                             e.printStackTrace();
                                                         }
                                                     }
+                                                    ((Index)getContext()).strtService();
                                                 }
                                             }
                                         } else {
