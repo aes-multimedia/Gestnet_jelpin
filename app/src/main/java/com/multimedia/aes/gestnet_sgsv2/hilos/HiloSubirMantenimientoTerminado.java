@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_sgsv2.hilos;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
@@ -33,9 +34,12 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
     private Mantenimiento mantenimiento = null;
     private Tecnico tecnico = null;
     private List<EquipamientoCaldera> equipamientoCalderas = null;
-    JSONObject msg = new JSONObject();
+    private JSONObject msg = new JSONObject();
+    private String mensaje = "";
+    private Context context;
 
     public HiloSubirMantenimientoTerminado(Context context,int idParte) {
+        this.context=context;
         try {
             mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorId(context,idParte);
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(context,mantenimientoTerminado.getFk_parte());
@@ -52,7 +56,7 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            subir();
+            mensaje = subir();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -63,9 +67,10 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
     }
     private String subir() throws JSONException, IOException {
-        URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/carga_imagen");
+        URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/carga_datos");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
