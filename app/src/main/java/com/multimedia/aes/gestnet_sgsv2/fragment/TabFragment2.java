@@ -16,11 +16,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
@@ -297,7 +299,20 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
             manten.setTemperatura_agua_generador_calor_salida(temperatura_agua_generador_calor_salida);
         }
-
+        if (!arraylistEquipamiento.isEmpty()){
+            for (int i = 0; i < arraylistEquipamiento.size(); i++) {
+                String potencia = arraylistEquipamiento.get(i).potencia;
+                int fk_equipamiento = 0;
+                if (arraylistEquipamiento.get(i).descripcion.equals("Cocina")){
+                    fk_equipamiento = 1;
+                }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno")){
+                    fk_equipamiento = 2;
+                }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno + Grill")){
+                    fk_equipamiento = 3;
+                }
+                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getFk_maquina());
+            }
+        }
         return manten;
     }
 

@@ -3,13 +3,16 @@ package com.multimedia.aes.gestnet_sgsv2.hilos;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,12 +24,15 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
     private String host = "192.168.0.228";
     private MantenimientoTerminado mantenimientoTerminado = null;
     private Mantenimiento mantenimiento = null;
     private Tecnico tecnico = null;
+    private List<EquipamientoCaldera> equipamientoCalderas = null;
     JSONObject msg = new JSONObject();
 
     public HiloSubirMantenimientoTerminado(Context context,int idParte) {
@@ -34,6 +40,7 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
             mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorId(context,idParte);
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(context,mantenimientoTerminado.getFk_parte());
             tecnico = TecnicoDAO.buscarTodosLosTecnicos(context).get(0);
+            equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMaquina(context, mantenimiento.getFk_maquina());
             rellenarJson();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,7 +93,7 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
-        JSONObject jsonObject4 = new JSONObject();
+        JSONArray jsonObject4 = new JSONArray();
         jsonObject1.put("observaciones_visita", mantenimiento.getObservaciones_usuario());
         jsonObject1.put("comprobante","");
         jsonObject1.put("facturadoProveedor","");
@@ -138,11 +145,13 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
         jsonObject3.put("tempAmbLocal",mantenimientoTerminado.getTemperatura_ambiente_local());
         jsonObject3.put("tempAguaGeneradorCalorEntrada",mantenimientoTerminado.getTemperatura_agua_generador_calor_entrada());
         jsonObject3.put("tempAguaGeneradorCalorSalida",mantenimientoTerminado.getTemperatura_agua_generador_calor_salida());
-
-        jsonObject4.put("potencia","");
-        jsonObject4.put("fkMaquina",mantenimiento.getFk_maquina());
-        jsonObject4.put("idTipoEquipamientos","");
-
+        for (int i = 0; i < equipamientoCalderas.size(); i++) {
+            JSONObject jsonObject5 = new JSONObject();
+            jsonObject5.put("potencia",equipamientoCalderas.get(i).getPotencia_fuegos());
+            jsonObject5.put("fkMaquina",mantenimiento.getFk_maquina());
+            jsonObject5.put("idTipoEquipamientos",equipamientoCalderas.get(i).getFk_tipo_equipamiento());
+            jsonObject4.put(jsonObject5);
+        }
         msg.put("datos_adicionales",jsonObject1);
         msg.put("sat_partes",jsonObject2);
         msg.put("usuarios_maquinas",jsonObject3);
