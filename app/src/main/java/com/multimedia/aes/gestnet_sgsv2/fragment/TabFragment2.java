@@ -47,7 +47,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     private View vista;
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
-    private EditText etModelo,etPotenciaFuego;
+    private EditText etModelo,etPotenciaFuego,etCodigo,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
+            etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida;
     private Button btnDespiece,btnAñadirEquip;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
@@ -88,6 +89,16 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spTipoEquipamiento = (Spinner)vista.findViewById(R.id.spTipoEquipamiento);
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
         etPotenciaFuego = (EditText)vista.findViewById(R.id.etPotenciaFuego);
+        etCodigo = (EditText)vista.findViewById(R.id.etCodigo);
+        etC0 = (EditText)vista.findViewById(R.id.etC0);
+        etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
+        etCaudalACS = (EditText)vista.findViewById(R.id.etCaudalACS);
+        etPotenciaUtil = (EditText)vista.findViewById(R.id.etPotenciaUtil);
+        etTempGasesComb = (EditText)vista.findViewById(R.id.etTempGasesComb);
+        etTempAmbienteLocal = (EditText)vista.findViewById(R.id.etTempAmbienteLocal);
+        etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
+        etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
+
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
         lvEquipamientos = (ListView)vista.findViewById(R.id.lvEquipamientos);
@@ -249,6 +260,45 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             String modelo_maquina = etModelo.getText().toString();
             manten.setModelo_maquina(modelo_maquina);
         }
+        if (!etCodigo.getText().toString().trim().equals("")){
+            String codigo_maquina = etCodigo.getText().toString();
+            manten.setCodigo_maquina(codigo_maquina);
+        }
+        if (!etC0.getText().toString().trim().equals("")){
+            String c0_maquina = etC0.getText().toString();
+            manten.setC0_maquina(c0_maquina);
+        }
+
+        if (!etTempMaxACS.getText().toString().trim().equals("")){
+            String temperatura_max_acs = etTempMaxACS.getText().toString();
+            manten.setTemperatura_max_acs(temperatura_max_acs);
+        }
+        if (!etCaudalACS.getText().toString().trim().equals("")){
+            String caudal_acs = etCaudalACS.getText().toString();
+            manten.setCaudal_acs(caudal_acs);
+        }
+        if (!etPotenciaUtil.getText().toString().trim().equals("")){
+            String potencia_util = etPotenciaUtil.getText().toString();
+            manten.setPotencia_util(potencia_util);
+        }
+        if (!etTempGasesComb.getText().toString().trim().equals("")){
+            String temperatura_gases_combustion = etTempGasesComb.getText().toString();
+            manten.setTemperatura_gases_combustion(temperatura_gases_combustion);
+        }
+        if (!etTempAmbienteLocal.getText().toString().trim().equals("")){
+            String temperatura_ambiente_local = etTempAmbienteLocal.getText().toString();
+            manten.setTemperatura_ambiente_local(temperatura_ambiente_local);
+        }
+        if (!etTempAguaGeneCalorEntrada.getText().toString().trim().equals("")){
+            String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
+            manten.setTemperatura_agua_generador_calor_entrada(temperatura_agua_generador_calor_entrada);
+        }
+        if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
+            String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
+            manten.setTemperatura_agua_generador_calor_salida(temperatura_agua_generador_calor_salida);
+        }
+
         return manten;
     }
+
 }

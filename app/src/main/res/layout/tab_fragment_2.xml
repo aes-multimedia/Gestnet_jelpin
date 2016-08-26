@@ -37,6 +37,31 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Código"
+                        android:id="@+id/textView39"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etCodigo"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                    >
 
@@ -44,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Tipo Maquina"
+                        android:text="Tipo"
                         android:id="@+id/textView13"
                         android:textSize="18dp" />
 
@@ -67,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Marca Maquina"
+                        android:text="Marca"
                         android:id="@+id/textView14"
                         android:textSize="18dp" />
 
@@ -89,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Uso Maquina"
+                        android:text="Uso"
                         android:id="@+id/textView16"
                         android:textSize="18dp" />
 
@@ -111,7 +136,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Potencia Maquina"
+                        android:text="Potencia"
                         android:id="@+id/textView20"
                         android:textSize="18dp" />
 
@@ -133,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Puesta en Marcha"
+                        android:text="Puesta en marcha"
                         android:id="@+id/textView21"
                         android:textSize="18dp" />
 
@@ -142,7 +167,7 @@
                         android:layout_height="40dp"
                         android:id="@+id/spPuestaMarcha"
                         android:spinnerMode="dropdown"
-                        android:background="@drawable/caldera_spiners" />
+                        android:background="@drawable/caldera_spiners"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -169,6 +194,183 @@
                         android:padding="5dp" />
 
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="C0"
+                        android:id="@+id/textView40"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etC0"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Temperatura Max ACS"
+                        android:id="@+id/textView41"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTempMaxACS"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Caudal de ACS"
+                        android:id="@+id/textView42"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etCaudalACS"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Potencia Util"
+                        android:id="@+id/textView43"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etPotenciaUtil"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Temperatura gases combustion"
+                        android:id="@+id/textView44"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTempGasesComb"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Temperatura ambiente local"
+                        android:id="@+id/textView45"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTempAmbienteLocal"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Temperatura agua del generador de calor (entrada-salida)"
+                        android:id="@+id/textView46"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTempAguaGeneCalorEntrada"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTempAguaGeneCalorSalida"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp" />
                 </LinearLayout>
             </LinearLayout>
 
