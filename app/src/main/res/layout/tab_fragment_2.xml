@@ -54,7 +54,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
 
                 </LinearLayout>
 
@@ -217,7 +218,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -241,7 +243,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -265,7 +268,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -289,7 +293,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -313,7 +318,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -337,7 +343,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -361,7 +368,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -370,7 +378,8 @@
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
-                        android:padding="5dp" />
+                        android:padding="5dp"
+                        android:inputType="number" />
                 </LinearLayout>
             </LinearLayout>
 

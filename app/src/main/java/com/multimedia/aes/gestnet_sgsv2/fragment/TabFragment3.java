@@ -260,22 +260,28 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                                         if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {
                                                             if (mantenimientoTerminado.getCoste_materiales()!=null) {
                                                                 if (mantenimientoTerminado.getCoste_mano_obra()!=null) {
+                                                                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                                                                     if (!arraylistImagenes.isEmpty()) {
-                                                                        MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+
                                                                         for (int i = 0; i < arraylistImagenes.size(); i++) {
                                                                             ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
                                                                         }
-                                                                        new HiloSubirImagenes(getActivity()).execute();
                                                                     } else {
                                                                         ((Index) getContext()).ticket();
                                                                         try {
-                                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
+                                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
                                                                         } catch (SQLException e) {
                                                                             e.printStackTrace();
                                                                         }
 
                                                                     }
-                                                                    ((Index)getContext()).strtService();
+                                                                    List<MantenimientoTerminado> list = null;
+                                                                    try {
+                                                                        list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getContext());
+                                                                    } catch (SQLException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                    Toast.makeText(getContext(), "entra"+list.get(0).getModelo_maquina(), Toast.LENGTH_SHORT).show();
                                                                 } else {
                                                                     Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
                                                                 }
@@ -289,21 +295,19 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                                         Toast.makeText(getContext(), "Seleccione tipo de reparacion", Toast.LENGTH_LONG).show();
                                                     }
                                                 } else {
+                                                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                                                     if (!arraylistImagenes.isEmpty()) {
-                                                        MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                                                         for (int i = 0; i < arraylistImagenes.size(); i++) {
                                                             ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
                                                         }
-                                                        new HiloSubirImagenes(getActivity()).execute();
                                                     } else {
                                                         ((Index) getContext()).ticket();
                                                         try {
-                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 2, mantenimiento.getId_mantenimiento());
+                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
                                                         } catch (SQLException e) {
                                                             e.printStackTrace();
                                                         }
                                                     }
-                                                    ((Index)getContext()).strtService();
                                                 }
                                             }
                                         } else {
@@ -641,6 +645,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         }else{
             mantenimientoTerminado.setRevision_sistema_control(0);
         }
+        mantenimientoTerminado.setEnviado(false);
     }
     public void setMantenimientoTerminado(MantenimientoTerminado mantenimientoTerminado) {
         this.mantenimientoTerminado = mantenimientoTerminado;

@@ -78,7 +78,7 @@ public class HiloSubirImagenes extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         ((Index)activity).ticket();
         try {
-            MantenimientoDAO.actualizarEstadoAndroid(activity, 2, mantenimiento.getId_mantenimiento());
+            MantenimientoDAO.actualizarEstadoAndroid(activity, 3, mantenimiento.getId_mantenimiento());
         } catch (SQLException e) {
             e.printStackTrace();
         }

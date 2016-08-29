@@ -77,6 +77,7 @@
     <string name="guardar">GUARDAR</string>
     <string name="seleccionar_archivo">SELECCIONAR ARCHIVO</string>
     <string name="scan">Scan</string>
+    <string name="subir_datos">Subir datos</string>
 
 
     <string-array name="tipoVisita">

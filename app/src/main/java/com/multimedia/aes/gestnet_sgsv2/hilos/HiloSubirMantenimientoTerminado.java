@@ -68,6 +68,12 @@ public class HiloSubirMantenimientoTerminado extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
     }
     private String subir() throws JSONException, IOException {
         URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/carga_datos");

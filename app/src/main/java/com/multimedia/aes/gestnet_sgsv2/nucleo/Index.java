@@ -209,6 +209,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.buscar_parte) {
 
         } else if (id == R.id.ajustes) {
+
+        } else if (id == R.id.subir_datos) {
+            strtService();
         } else if (id == R.id.cambiarFecha) {
             Calendar mcurrentDate = Calendar.getInstance();
             int mYear = mcurrentDate.get(Calendar.YEAR);

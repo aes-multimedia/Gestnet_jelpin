@@ -19,9 +19,13 @@
             android:icon="@drawable/ic_almacen"
             android:title="@string/almacen" />
         <item
-            android:id="@+id/buscar_parte"
-            android:icon="@drawable/ic_buscar_parte"
-            android:title="@string/buscar_parte" />
+        android:id="@+id/buscar_parte"
+        android:icon="@drawable/ic_buscar_parte"
+        android:title="@string/buscar_parte" />
+        <item
+            android:id="@+id/subir_datos"
+            android:icon="@drawable/ic_subir_datos"
+            android:title="@string/subir_datos" />
         <item
             android:id="@+id/ajustes"
             android:icon="@drawable/ic_ajustes"

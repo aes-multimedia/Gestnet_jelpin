@@ -340,14 +340,14 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
                         android:ems="10"
                         android:id="@+id/etTelefono2"
                         android:background="@drawable/edit_texts_naranja"
                         android:layout_marginTop="10dp"
                         android:hint="telefono2"
                         android:padding="5dp"
-                        android:layout_weight="10" />
+                        android:layout_weight="10"
+                        android:inputType="number" />
 
                     <ImageView
                         android:layout_width="wrap_content"

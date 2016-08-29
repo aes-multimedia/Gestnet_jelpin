@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
@@ -42,7 +43,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 													int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-													int caudal_acs_calculo_potencia, int revision_sistema_control) {
+													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 																fk_estado_visita, fk_tipo_visita, observaciones_tecnico,
 																contador_interno, codigo_interno, reparacion,
@@ -61,7 +62,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
 																comprobacion_niveles_agua, tipo_conducto_evacuacion,
 																revision_estado_aislamiento_termico, analisis_productos_combustion,
-																caudal_acs_calculo_potencia, revision_sistema_control);
+																caudal_acs_calculo_potencia, revision_sistema_control,enviado);
 		return crearMantenimientoTerminado(m,context);
 	}
 	public static boolean crearMantenimientoTerminado(MantenimientoTerminado m,Context context) {
@@ -92,7 +93,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 																	  int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-																	  int caudal_acs_calculo_potencia, int revision_sistema_control) {
+																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, observaciones_tecnico,
 															contador_interno, codigo_interno, reparacion,
@@ -111,7 +112,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
 															comprobacion_niveles_agua, tipo_conducto_evacuacion,
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
-															caudal_acs_calculo_potencia, revision_sistema_control);
+															caudal_acs_calculo_potencia, revision_sistema_control,enviado);
 		return m;
 	}
 
@@ -151,4 +152,11 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 		}
 	}
 
+	public static void actualizarEnviado(Context context, boolean enviado, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<MantenimientoTerminado, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(MantenimientoTerminado.ID_MANTENIMIENTO_TERMINADO,id_mantenimiento);
+		updateBuilder.updateColumnValue(MantenimientoTerminado.ENVIADO,enviado);
+		updateBuilder.update();
+	}
 }
