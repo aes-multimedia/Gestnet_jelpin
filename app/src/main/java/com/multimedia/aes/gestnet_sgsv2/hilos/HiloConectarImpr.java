@@ -79,7 +79,6 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		new HiloSubirTicket(activity).execute();
 		Intent i = new Intent(activity, Index.class);
 		activity.startActivity(i);
 		activity.finish();

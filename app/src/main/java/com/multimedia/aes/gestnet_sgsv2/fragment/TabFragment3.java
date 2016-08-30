@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -253,7 +254,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                     if (mantenimientoTerminado.getFk_estado_visita() != -1) {
                                         if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
                                             if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
-                                                Toast.makeText(getContext(), "Seleccione codigo de barras", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
                                             } else {
                                                 if (mantenimientoTerminado.getReparacion() == 1) {
                                                     if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
@@ -522,7 +523,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         int a = spEstadoVisita.getSelectedItemPosition();
         switch (a){
             case 0:
-                mantenimientoTerminado.setFk_estado_visita(-1);
+                mantenimientoTerminado.setFk_estado_visita(33);
                 break;
             case 1:
                 mantenimientoTerminado.setFk_estado_visita(33);
