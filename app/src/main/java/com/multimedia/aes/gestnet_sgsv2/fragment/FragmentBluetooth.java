@@ -423,7 +423,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private Bitmap loadFirmaFromStorage(){
         Bitmap b=null;
         try {
-            File f=new File(path, "firma.png");
+            File f=new File(path, "firma"+mantenimiento.getId_mantenimiento()+".png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)

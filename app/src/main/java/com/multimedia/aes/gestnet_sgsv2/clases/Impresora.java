@@ -262,7 +262,7 @@ public class Impresora {
 	private Bitmap loadImageFromStorage(){
 		Bitmap b=null;
 		try {
-			File f=new File(path, "firma.png");
+			File f=new File(path, "firma"+mantenimiento.getId_mantenimiento()+".png");
 			b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 		}

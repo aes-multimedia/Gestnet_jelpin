@@ -178,7 +178,12 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         }else if (estado==1){
 
         }else if (estado==2){
-
+            spMarca.setEnabled(false);
+            spTipo.setEnabled(false);
+            spPuestaMarcha.setEnabled(false);
+            spPotencia.setEnabled(false);
+            spUso.setEnabled(false);
+            etModelo.setEnabled(false);
         }else if (estado==3){
             spMarca.setEnabled(false);
             spTipo.setEnabled(false);

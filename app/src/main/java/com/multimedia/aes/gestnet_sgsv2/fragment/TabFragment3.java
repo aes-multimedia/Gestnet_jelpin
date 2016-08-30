@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +46,6 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
-import com.multimedia.aes.gestnet_sgsv2.hilos.HiloSubirImagenes;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Camara;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
@@ -220,7 +218,9 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
             scFinalizar.setVisibility(View.VISIBLE);
             txtFinalizado.setVisibility(View.GONE);
         }else if (estado==2){
-
+            scFinalizar.setVisibility(View.GONE);
+            btnImprimir.setVisibility(View.VISIBLE);
+            txtFinalizado.setVisibility(View.VISIBLE);
         }else if (estado==3){
             scFinalizar.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);

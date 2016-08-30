@@ -222,8 +222,17 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             btnIniciarParte.setText("PARTE INICIADO");
             btnIniciarParte.setClickable(false);
         }else if (estado==2){
-            btnIniciarParte.setText("PARTE PENDIENTE");
+            btnIniciarParte.setText("PARTE PENDIENTE DE FACTURACION");
             btnIniciarParte.setClickable(false);
+            btnConfirmarObsTel.setClickable(false);
+            etObservaciones.setEnabled(false);
+            etTelefono1.setEnabled(false);
+            etTelefono2.setEnabled(false);
+            etTelefono3.setEnabled(false);
+            etTelefono4.setEnabled(false);
+            etTelefono5.setEnabled(false);
+            etNombre.setEnabled(false);
+            btnConfirmarObsTel.setVisibility(View.GONE);
         }else if (estado==3){
             btnIniciarParte.setText("PARTE CERRADO");
             btnIniciarParte.setClickable(false);

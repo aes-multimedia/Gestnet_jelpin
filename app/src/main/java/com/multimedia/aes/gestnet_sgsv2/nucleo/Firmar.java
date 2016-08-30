@@ -19,6 +19,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.sql.SQLException;
 
 public class Firmar extends Activity implements View.OnClickListener {
     private Button btnGuardar,btnBorrar;
@@ -34,6 +41,8 @@ public class Firmar extends Activity implements View.OnClickListener {
     private FrameLayout frFirma;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2.nucleo/app_imageDir";
     private char chEuro = '€';
+    private Mantenimiento mantenimiento;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +53,17 @@ public class Firmar extends Activity implements View.OnClickListener {
         frFirma = (FrameLayout) findViewById(R.id.frFirma);
         btnGuardar.setOnClickListener(this);
         btnBorrar.setOnClickListener(this);
+        int id = 0;
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this));
+            id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(this,id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -78,7 +98,7 @@ public class Firmar extends Activity implements View.OnClickListener {
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File mypath=new File(directory,"firma.png");
+        File mypath=new File(directory,"firma"+mantenimiento.getId_mantenimiento()+".png");
         FileOutputStream fos = null;
         try {
 
