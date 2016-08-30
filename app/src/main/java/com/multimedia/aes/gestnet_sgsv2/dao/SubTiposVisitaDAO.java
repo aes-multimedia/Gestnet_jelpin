@@ -86,6 +86,15 @@ public class SubTiposVisitaDAO extends DBHelperMOS {
             return listadoSubTiposVisita;
         }
     }
+    public static int buscarSubTipoVisitaPorCodigo(Context context, String codigo) throws SQLException {
+        cargarDao(context);
+        List<SubTiposVisita> listadoSubTiposVisita= dao.queryForEq(SubTiposVisita.CODIGO, codigo);
+        if(listadoSubTiposVisita.isEmpty()) {
+            return -1;
+        }else{
+            return listadoSubTiposVisita.get(0).getId_subtipo();
+        }
+    }
 
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//

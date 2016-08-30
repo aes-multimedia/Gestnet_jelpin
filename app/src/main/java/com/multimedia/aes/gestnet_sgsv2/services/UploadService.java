@@ -61,9 +61,7 @@ public class UploadService extends IntentService {
     private void handleActionRun() {
         try {
             List<MantenimientoTerminado> list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext());
-            Toast.makeText(getBaseContext(), "entra"+list.get(0).getModelo_maquina(), Toast.LENGTH_SHORT).show();
             if (MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext())!=null){
-                Toast.makeText(getBaseContext(), "entra 1", Toast.LENGTH_SHORT).show();
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                         .setSmallIcon(android.R.drawable.stat_sys_download_done)
                         .setContentTitle("Cargando partes")
@@ -78,10 +76,7 @@ public class UploadService extends IntentService {
                     if (!list.get(i).isEnviado()){
                         String mensaje = subir(rellenarJson(list.get(i).getId_mantenimiento_terminado()));
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
-                        Toast.makeText(getBaseContext(), mensaje + " ", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getBaseContext(), mensaje + " ", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getBaseContext(), mensaje + " ", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getBaseContext(), mensaje + " ", Toast.LENGTH_SHORT).show();
+                        Log.d("-----AAAASSSSSAAAA-----", mensaje);
                     }
                     //new HiloSubirImagenes(getActivity()).execute();
                     Thread.sleep(3000);
@@ -146,57 +141,58 @@ public class UploadService extends IntentService {
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
         JSONArray jsonObject4 = new JSONArray();
-        jsonObject1.put("observaciones_visita", mantenimiento.getObservaciones_usuario());
+        jsonObject1.put("observaciones_visita", "\"\'"+mantenimiento.getObservaciones_usuario()+"\'\"");
         jsonObject1.put("comprobante","0");
         jsonObject1.put("facturadoProveedor","0");
-        jsonObject1.put("codigoBarras", mantenimientoTerminado.getCodigo_barras());
-        jsonObject1.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
-        jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
-        jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
-        jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
-        jsonObject1.put("codigoInterno", mantenimientoTerminado.getCodigo_interno());
-        jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
-        jsonObject1.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
-        jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
-        jsonObject1.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
-        jsonObject1.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
-        jsonObject1.put("costeManoDeObraAdicional", mantenimientoTerminado.getCoste_mano_obra_adicional());
-        jsonObject1.put("codigoBarrasReparacion", mantenimientoTerminado.getCodigo_barras_reparacion());
-        jsonObject1.put("limpiezaQuemadorCaldera", mantenimientoTerminado.getLimpieza_quemadores_caldera());
-        jsonObject1.put("revisionVasoExpansion", mantenimientoTerminado.getRevision_vaso_expansion());
-        jsonObject1.put("regulacionAparatos", mantenimientoTerminado.getRegulacion_aparatos());
-        jsonObject1.put("compEstanqCierreQuemadoresCalderas", mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera());
-        jsonObject1.put("revGeneralCalderas", mantenimientoTerminado.getRevision_calderas_contadores());
-        jsonObject1.put("verCircuitoHidCalefaccion", mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion());
-        jsonObject1.put("estConexionAparatos", mantenimientoTerminado.getEstanqueidad_conexion_aparatos());
-        jsonObject1.put("estConductoEvacuacion", mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg());
-        jsonObject1.put("compNivelesAgua", mantenimientoTerminado.getComprobacion_niveles_agua());
-        jsonObject1.put("tipoConductoEvacuacion", mantenimientoTerminado.getTipo_conducto_evacuacion());
-        jsonObject1.put("revEstadoAislamientoTermico", mantenimientoTerminado.getRevision_estado_aislamiento_termico());
-        jsonObject1.put("analisisProdCombustion", mantenimientoTerminado.getAnalisis_productos_combustion());
-        jsonObject1.put("caudalACS", mantenimientoTerminado.getCaudal_acs());
-        jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
+        jsonObject1.put("codigoBarras", "\"\'"+mantenimientoTerminado.getCodigo_barras()+"\'\"");
+        jsonObject1.put("fkTipoVisita", "\"\'"+mantenimientoTerminado.getFk_tipo_visita()+"\'\"");
+        jsonObject1.put("fkSubTipoVisita", "\"\'"+mantenimientoTerminado.getFk_subtipo_visita()+"\'\"");
+        jsonObject1.put("observacionesTecnico", "\"\'"+mantenimiento.getObservaciones()+"\'\"");
+        jsonObject1.put("empresa", "\"\'"+mantenimiento.getFk_empresa_usuario()+"\'\"");
+        jsonObject1.put("contadorInterno", "\"\'"+mantenimientoTerminado.getContador_interno()+"\'\"");
+        jsonObject1.put("codigoInterno", "\"\'"+mantenimientoTerminado.getCodigo_interno()+"\'\"");
+        jsonObject1.put("reparacion", "\"\'"+mantenimientoTerminado.getReparacion()+"\'\"");
+        jsonObject1.put("fkTipoReparacion", "\"\'"+mantenimientoTerminado.getFk_tipo_reparacion()+"\'\"");
+        jsonObject1.put("fechaReparacion", "\"\'"+mantenimientoTerminado.getFecha_reparacion()+"\'\"");
+        jsonObject1.put("fkTiempoManoObra", "\"\'"+mantenimientoTerminado.getFk_tiempo_mano_obra()+"\'\"");
+        jsonObject1.put("costeMateriales", "\"\'"+mantenimientoTerminado.getCoste_materiales()+"\'\"");
+        jsonObject1.put("costeManoDeObraAdicional", "\"\'"+mantenimientoTerminado.getCoste_mano_obra_adicional()+"\'\"");
+        jsonObject1.put("codigoBarrasReparacion", "\"\'"+mantenimientoTerminado.getCodigo_barras_reparacion()+"\'\"");
+        jsonObject1.put("limpiezaQuemadorCaldera", "\"\'"+mantenimientoTerminado.getLimpieza_quemadores_caldera()+"\'\"");
+        jsonObject1.put("revisionVasoExpansion", "\"\'"+mantenimientoTerminado.getRevision_vaso_expansion()+"\'\"");
+        jsonObject1.put("regulacionAparatos", "\"\'"+mantenimientoTerminado.getRegulacion_aparatos()+"\'\"");
+        jsonObject1.put("compEstanqCierreQuemadoresCalderas", "\"\'"+mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()+"\'\"");
+        jsonObject1.put("revGeneralCalderas", "\"\'"+mantenimientoTerminado.getRevision_calderas_contadores()+"\'\"");
+        jsonObject1.put("verCircuitoHidCalefaccion", "\"\'"+mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()+"\'\"");
+        jsonObject1.put("estConexionAparatos", "\"\'"+mantenimientoTerminado.getEstanqueidad_conexion_aparatos()+"\'\"");
+        jsonObject1.put("estConductoEvacuacionIRG", "\"\'"+mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()+"\'\"");
+        jsonObject1.put("compNivelesAgua", "\"\'"+mantenimientoTerminado.getComprobacion_niveles_agua()+"\'\"");
+        jsonObject1.put("tipoConductoEvacuacion", "\"\'"+mantenimientoTerminado.getTipo_conducto_evacuacion()+"\'\"");
+        jsonObject1.put("revEstadoAislamientoTermico", "\"\'"+mantenimientoTerminado.getRevision_estado_aislamiento_termico()+"\'\"");
+        jsonObject1.put("analisisProdCombustion", "\"\'"+mantenimientoTerminado.getAnalisis_productos_combustion()+"\'\"");
+        jsonObject1.put("caudalACS", "\"\'"+mantenimientoTerminado.getCaudal_acs()+"\'\"");
+        jsonObject1.put("revSistemaControl", "\"\'"+mantenimientoTerminado.getRevision_sistema_control()+"\'\"");
 
-        jsonObject2.put("fkEstadoVisita",mantenimientoTerminado.getFk_estado_visita());
-        jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
+        jsonObject2.put("fkEstadoVisita","\"\'"+mantenimientoTerminado.getFk_estado_visita()+"\'\"");
+        jsonObject2.put("fechaVisita","\"\'"+mantenimiento.getFecha_visita()+"\'\"");
         jsonObject2.put("cartaEnviada","0");
         jsonObject2.put("fechaEnvioCarta","0000-00-00");
 
-        jsonObject3.put("fkTipoCaldera",mantenimientoTerminado.getFk_tipo_maquina());
-        jsonObject3.put("fkMaquina",mantenimiento.getFk_maquina());
-        jsonObject3.put("fkMarca",mantenimientoTerminado.getFk_marca_maquina());
-        jsonObject3.put("potencia",mantenimientoTerminado.getFk_potencia_maquina());
-        jsonObject3.put("fkUso",mantenimientoTerminado.getFk_uso_maquina());
-        jsonObject3.put("puestaEnMarcha",mantenimientoTerminado.getPuesta_marcha_maquina());
-        jsonObject3.put("codigo",mantenimientoTerminado.getCodigo_maquina());
-        jsonObject3.put("c0ppm",mantenimientoTerminado.getC0_maquina());
-        jsonObject3.put("tempMaxACS",mantenimientoTerminado.getTemperatura_max_acs());
-        jsonObject3.put("caudalACS",mantenimientoTerminado.getCaudal_acs());
-        jsonObject3.put("potenciaUtil",mantenimientoTerminado.getPotencia_util());
-        jsonObject3.put("tempGasCombustion",mantenimientoTerminado.getTemperatura_gases_combustion());
-        jsonObject3.put("tempAmbLocal",mantenimientoTerminado.getTemperatura_ambiente_local());
-        jsonObject3.put("tempAguaGeneradorCalorEntrada",mantenimientoTerminado.getTemperatura_agua_generador_calor_entrada());
-        jsonObject3.put("tempAguaGeneradorCalorSalida",mantenimientoTerminado.getTemperatura_agua_generador_calor_salida());
+        jsonObject3.put("fkTipoCaldera","\"\'"+mantenimientoTerminado.getFk_tipo_maquina()+"\'\"");
+        jsonObject3.put("id_maquina","\"\'"+mantenimiento.getFk_maquina()+"\'\"");
+        jsonObject3.put("fkMarca","\"\'"+mantenimientoTerminado.getFk_marca_maquina()+"\'\"");
+        jsonObject3.put("potencia","\"\'"+mantenimientoTerminado.getFk_potencia_maquina()+"\'\"");
+        jsonObject3.put("fkUso","\"\'"+mantenimientoTerminado.getFk_uso_maquina()+"\'\"");
+        jsonObject3.put("puestaEnMarcha","\"\'"+mantenimientoTerminado.getPuesta_marcha_maquina()+"\'\"");
+        jsonObject3.put("codigo","\"\'"+mantenimientoTerminado.getCodigo_maquina()+"\'\"");
+        jsonObject3.put("c0ppm","\"\'"+mantenimientoTerminado.getC0_maquina()+"\'\"");
+        jsonObject3.put("tempMaxACS","\"\'"+mantenimientoTerminado.getTemperatura_max_acs()+"\'\"");
+        jsonObject3.put("caudalACS","\"\'"+mantenimientoTerminado.getCaudal_acs()+"\'\"");
+        jsonObject3.put("potenciaUtil","\"\'"+mantenimientoTerminado.getPotencia_util()+"\'\"");
+        jsonObject3.put("tempGasCombustion","\"\'"+mantenimientoTerminado.getTemperatura_gases_combustion()+"\'\"");
+        jsonObject3.put("tempAmbLocal","\"\'"+mantenimientoTerminado.getTemperatura_ambiente_local()+"\'\"");
+        jsonObject3.put("tempAguaGeneradorCalorEntrada","\"\'"+mantenimientoTerminado.getTemperatura_agua_generador_calor_entrada()+"\'\"");
+        jsonObject3.put("tempAguaGeneradorCalorSalida","\"\'"+mantenimientoTerminado.getTemperatura_agua_generador_calor_salida()+"\'\"");
         try {
             equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMaquina(getBaseContext(), mantenimiento.getFk_maquina());
         } catch (SQLException e) {
@@ -205,9 +201,9 @@ public class UploadService extends IntentService {
         if (equipamientoCalderas!=null) {
             for (int i = 0; i < equipamientoCalderas.size(); i++) {
                 JSONObject jsonObject5 = new JSONObject();
-                jsonObject5.put("potencia", equipamientoCalderas.get(i).getPotencia_fuegos());
-                jsonObject5.put("fkMaquina", mantenimiento.getFk_maquina());
-                jsonObject5.put("idTipoEquipamientos", equipamientoCalderas.get(i).getFk_tipo_equipamiento());
+                jsonObject5.put("potencia", "\"\'"+equipamientoCalderas.get(i).getPotencia_fuegos()+"\'\"");
+                jsonObject5.put("fkMaquina", "\"\'"+mantenimiento.getFk_maquina()+"\'\"");
+                jsonObject5.put("idTipoEquipamientos", "\"\'"+equipamientoCalderas.get(i).getFk_tipo_equipamiento()+"\'\"");
                 jsonObject4.put(jsonObject5);
             }
         }

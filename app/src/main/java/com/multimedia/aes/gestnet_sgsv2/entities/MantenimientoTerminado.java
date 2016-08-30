@@ -10,6 +10,7 @@ public class MantenimientoTerminado {
     public static final String CODIGO_BARRAS = "codigo_barras";
     public static final String FK_ESTADO_VISITA = "fk_estado_visita";
     public static final String FK_TIPO_VISITA = "fk_tipo_visita";
+    public static final String FK_SUBTIPO_VISITA = "fk_subtipo_visita";
     public static final String OBSERVACIONES_TECNICO = "observaciones_tecnico";
     public static final String CONTADOR_INTERNO = "contador_interno";
     public static final String CODIGO_INTERNO = "codigo_interno";
@@ -62,6 +63,8 @@ public class MantenimientoTerminado {
     private int fk_estado_visita;
     @DatabaseField(columnName = FK_TIPO_VISITA)
     private int fk_tipo_visita;
+    @DatabaseField(columnName = FK_SUBTIPO_VISITA)
+    private int fk_subtipo_visita;
     @DatabaseField(columnName = OBSERVACIONES_TECNICO)
     private String observaciones_tecnico;
     @DatabaseField(columnName = CONTADOR_INTERNO)
@@ -149,7 +152,7 @@ public class MantenimientoTerminado {
     }
 
     public MantenimientoTerminado(int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
-                                  int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico,
+                                  int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
                                   int contador_interno, String codigo_interno, int reparacion,
                                   int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
                                   String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
@@ -172,6 +175,7 @@ public class MantenimientoTerminado {
         this.codigo_barras = codigo_barras;
         this.fk_estado_visita = fk_estado_visita;
         this.fk_tipo_visita = fk_tipo_visita;
+        this.fk_subtipo_visita = fk_subtipo_visita;
         this.observaciones_tecnico = observaciones_tecnico;
         this.contador_interno = contador_interno;
         this.codigo_interno = codigo_interno;
@@ -244,6 +248,12 @@ public class MantenimientoTerminado {
     }
     public void setFk_tipo_visita(int fk_tipo_visita) {
         this.fk_tipo_visita = fk_tipo_visita;
+    }
+    public int getFk_subtipo_visita() {
+        return fk_subtipo_visita;
+    }
+    public void setFk_subtipo_visita(int fk_subtipo_visita) {
+        this.fk_subtipo_visita = fk_subtipo_visita;
     }
     public String getObservaciones_tecnico() {
         return observaciones_tecnico;

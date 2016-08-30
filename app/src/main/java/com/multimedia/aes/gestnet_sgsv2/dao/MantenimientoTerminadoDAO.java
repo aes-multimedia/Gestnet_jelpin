@@ -26,7 +26,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 		return crearMantenimientoTerminado(m,context);
 	}
 	public static boolean newMantenimientoTerminado(Context context,int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
-													int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico,
+													int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
 													int contador_interno, String codigo_interno, int reparacion,
 													int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
 													String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
@@ -45,7 +45,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
-																fk_estado_visita, fk_tipo_visita, observaciones_tecnico,
+																fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 																contador_interno, codigo_interno, reparacion,
 																fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra,
 																coste_materiales, coste_mano_obra, coste_mano_obra_adicional,
@@ -76,7 +76,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 		}
 	}
 	public static MantenimientoTerminado montarMantenimientoTerminado(int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
-																	  int fk_estado_visita, int fk_tipo_visita, String observaciones_tecnico,
+																	  int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
 																	  int contador_interno, String codigo_interno, int reparacion,
 																	  int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
 																	  String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
@@ -95,7 +95,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
-															fk_estado_visita, fk_tipo_visita, observaciones_tecnico,
+															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 															contador_interno, codigo_interno, reparacion,
 															fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra,
 															coste_materiales, coste_mano_obra, coste_mano_obra_adicional,

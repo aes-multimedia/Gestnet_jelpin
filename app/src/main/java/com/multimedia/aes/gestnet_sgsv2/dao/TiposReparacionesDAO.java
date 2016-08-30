@@ -73,11 +73,20 @@ public class TiposReparacionesDAO  extends DBHelperMOS {
     }
     public static TiposReparaciones buscarTiposReparacionesPorId(Context context, int id) throws SQLException {
         cargarDao(context);
-        List<TiposReparaciones> listadoTiposReparaciones= dao.queryForEq(Tecnico.ID_TECNICO, id);
+        List<TiposReparaciones> listadoTiposReparaciones= dao.queryForEq(TiposReparaciones.ID_TIPO_REPARACION, id);
         if(listadoTiposReparaciones.isEmpty()) {
             return null;
         }else{
             return listadoTiposReparaciones.get(0);
+        }
+    }
+    public static int buscarTiposReparacionesPorAbreviatura(Context context, String ab) throws SQLException {
+        cargarDao(context);
+        List<TiposReparaciones> listadoTiposReparaciones= dao.queryForEq(TiposReparaciones.ABREVIATURA, ab);
+        if(listadoTiposReparaciones.isEmpty()) {
+            return -1;
+        }else{
+            return listadoTiposReparaciones.get(0).getId_tipo_reparacion();
         }
     }
 

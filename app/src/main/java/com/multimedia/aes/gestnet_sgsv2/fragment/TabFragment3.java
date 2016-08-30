@@ -275,13 +275,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                                                                         }
 
                                                                     }
-                                                                    List<MantenimientoTerminado> list = null;
-                                                                    try {
-                                                                        list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getContext());
-                                                                    } catch (SQLException e) {
-                                                                        e.printStackTrace();
-                                                                    }
-                                                                    Toast.makeText(getContext(), "entra"+list.get(0).getModelo_maquina(), Toast.LENGTH_SHORT).show();
                                                                 } else {
                                                                     Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
                                                                 }
@@ -477,7 +470,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView==spTipoVisita) {
-            if (i == 2) {
+            if (i == 3) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -489,7 +482,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 4) {
+            } else if (i == 5) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 5);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -501,7 +494,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 5) {
+            } else if (i == 6) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 6);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -527,18 +520,70 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
     public void guardarDatos(){
         mantenimientoTerminado.setFk_parte(mantenimiento.getId_mantenimiento());
         int a = spEstadoVisita.getSelectedItemPosition();
-        if (a!=0){
-            mantenimientoTerminado.setFk_estado_visita(1);
-        }else{
-            mantenimientoTerminado.setFk_estado_visita(-1);
+        switch (a){
+            case 0:
+                mantenimientoTerminado.setFk_estado_visita(-1);
+                break;
+            case 1:
+                mantenimientoTerminado.setFk_estado_visita(33);
+                break;
+            case 2:
+                mantenimientoTerminado.setFk_estado_visita(34);
+                break;
+            case 3:
+                mantenimientoTerminado.setFk_estado_visita(35);
+                break;
+            case 4:
+                mantenimientoTerminado.setFk_estado_visita(36);
+                break;
+            case 5:
+                mantenimientoTerminado.setFk_estado_visita(37);
+                break;
+            case 6:
+                mantenimientoTerminado.setFk_estado_visita(38);
+                break;
+            case 7:
+                mantenimientoTerminado.setFk_estado_visita(39);
+                break;
+            case 8:
+                mantenimientoTerminado.setFk_estado_visita(40);
+                break;
+            case 9:
+                mantenimientoTerminado.setFk_estado_visita(41);
+                break;
+            case 10:
+                mantenimientoTerminado.setFk_estado_visita(42);
+                break;
+            case 11:
+                mantenimientoTerminado.setFk_estado_visita(43);
+                break;
+
         }
         if (!contentTxt.getText().toString().trim().equals("")){
             mantenimientoTerminado.setCodigo_barras(contentTxt.getText().toString());
         }
         int b = spTipoVisita.getSelectedItemPosition();
         if (b!=0){
-
+            int id= -1;
+            try {
+                id = TiposVisitaDAO.buscarTipoVisitaPorNombre(getContext(),spTipoVisita.getSelectedItem().toString());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            mantenimientoTerminado.setFk_tipo_visita(id);
         }
+        int t = spSubTipoVisita.getSelectedItemPosition();
+        if (t==3||t==5||t==6){
+            int id= -1;
+            try {
+                id = SubTiposVisitaDAO.buscarSubTipoVisitaPorCodigo(getContext(),spSubTipoVisita.getSelectedItem().toString());
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            mantenimientoTerminado.setFk_subtipo_visita(id);
+        }
+
         if (!etObservaciones.getText().toString().trim().equals("")){
             mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
         }
@@ -550,18 +595,33 @@ public class TabFragment3 extends Fragment implements View.OnClickListener, Adap
         if (cbReparacion.isChecked()){
             int c = spTipoReparacion.getSelectedItemPosition();
             if (c!=0){
-                mantenimientoTerminado.setFk_tipo_reparacion(1);
-            }else{
-                mantenimientoTerminado.setFk_tipo_reparacion(-1);
+                int id= -1;
+                try {
+                    id= TiposReparacionesDAO.buscarTiposReparacionesPorAbreviatura(getContext(),spTipoReparacion.getSelectedItem().toString());
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mantenimientoTerminado.setFk_tipo_reparacion(id);
             }
             String fecha = dpFechaReparacion.getYear()+"-"+dpFechaReparacion.getMonth()+"-"+dpFechaReparacion.getDayOfMonth();
             mantenimientoTerminado.setFecha_reparacion(fecha);
             int d = spTiempoManoObra.getSelectedItemPosition();
-            if (d!=0){
-                mantenimientoTerminado.setFk_tiempo_mano_obra(1);
-            }else{
-                mantenimientoTerminado.setFk_tiempo_mano_obra(-1);
+            switch (d){
+                case 0:
+                    mantenimientoTerminado.setFk_tiempo_mano_obra(-1);
+                    break;
+                case 1:
+                    mantenimientoTerminado.setFk_tiempo_mano_obra(1);
+                    break;
+                case 2:
+                    mantenimientoTerminado.setFk_tiempo_mano_obra(2);
+                    break;
+                case 3:
+                    mantenimientoTerminado.setFk_tiempo_mano_obra(3);
+                    break;
             }
+
             if (!etCosteMateriales.getText().toString().trim().equals("")){
                 mantenimientoTerminado.setCoste_materiales(etCosteMateriales.getText().toString());
             }
