@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
-import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
+import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment4;
 
 import java.util.ArrayList;
 
@@ -49,6 +49,6 @@ public class AdaptadorListaImagenes extends ArrayAdapter implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        TabFragment3.borrarArrayImagenes((int)v.getTag(),context);
+        TabFragment4.borrarArrayImagenes((int)v.getTag(),context);
     }
 }

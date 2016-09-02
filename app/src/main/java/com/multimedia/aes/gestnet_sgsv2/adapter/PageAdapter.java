@@ -8,12 +8,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment1;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment2;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
+import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment4;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
     private TabFragment1 tab1;
     private TabFragment2 tab2;
     private TabFragment3 tab3;
+    private TabFragment4 tab4;
 
     public PageAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -33,6 +35,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 2:
                 tab3 = new TabFragment3();
                 return tab3;
+            case 3:
+                tab4 = new TabFragment4();
+                return tab4;
             default:
                 return null;
         }
@@ -51,5 +56,8 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     }
     public TabFragment3 getTab3() {
         return tab3;
+    }
+    public TabFragment4 getTab4() {
+        return tab4;
     }
 }

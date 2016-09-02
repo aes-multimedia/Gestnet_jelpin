@@ -135,7 +135,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 
 	public static List<MantenimientoTerminado> buscarTodosLosMantenimientoTerminados(Context context) throws SQLException {
 		cargarDao(context);
-		List<MantenimientoTerminado> listadoMantenimientoTerminado= dao.queryForAll();
+		List<MantenimientoTerminado> listadoMantenimientoTerminado= dao.queryForEq(MantenimientoTerminado.ENVIADO, false);
 		if(listadoMantenimientoTerminado.isEmpty()) {
 			return null;
 		}else{

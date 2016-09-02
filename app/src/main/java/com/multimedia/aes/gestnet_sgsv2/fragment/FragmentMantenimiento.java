@@ -31,6 +31,7 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
     private TabFragment1 tab1;
     private TabFragment2 tab2;
     private TabFragment3 tab3;
+    private TabFragment4 tab4;
     private MantenimientoTerminado mantenimientoTerminado = new MantenimientoTerminado();
     @Nullable
     @Override
@@ -49,7 +50,8 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
         }
 
         if (!mantenimiento.getEstado_android().equals("0")) {
-            tabLayout.addTab(tabLayout.newTab().setText("Caldera"));
+            tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
+            tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -66,8 +68,9 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
                 tab1 = adapter.getTab1();
                 tab2 = adapter.getTab2();
                 tab3 = adapter.getTab3();
-                if (tab.getPosition()==2){
-                    tab3.setMantenimientoTerminado(mantenimientoTerminado);
+                tab4 = adapter.getTab4();
+                if (tab.getPosition()==3){
+                    tab4.setMantenimientoTerminado(mantenimientoTerminado);
                 }
             }
 
@@ -75,6 +78,8 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getPosition()==1){
                     mantenimientoTerminado = tab2.guardarDatos(mantenimientoTerminado);
+                }else if (tab.getPosition()==2){
+                    mantenimientoTerminado = tab3.guardarDatos(mantenimientoTerminado);
                 }
             }
 

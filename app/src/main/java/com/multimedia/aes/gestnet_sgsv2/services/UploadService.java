@@ -47,7 +47,6 @@ public class UploadService extends IntentService {
     private String host = "192.168.0.228";
     private Tecnico tecnico = null;
     private List<EquipamientoCaldera> equipamientoCalderas = null;
-    private String mensaje = "";
     private MantenimientoTerminado mantenimientoTerminado = null;
     private Mantenimiento mantenimiento = null;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
@@ -65,39 +64,32 @@ public class UploadService extends IntentService {
             }
         }
     }
-
-
     private void handleActionRun() {
         try {
-            List<MantenimientoTerminado> list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext());
             if (MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext())!=null){
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                        .setContentTitle("Cargando partes")
-                        .setContentText("Procesando...");
-                //List<MantenimientoTerminado> list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext());
+                List<MantenimientoTerminado> list = MantenimientoTerminadoDAO.buscarTodosLosMantenimientoTerminados(getBaseContext());
+                Log.d("-------TAMAÑO-------", String.valueOf(list.size()));
                 for (int i = 0; i < list.size() ; i++) {
-                    builder.setProgress(list.size(), i, false);
-                    startForeground(1, builder.build());
                     Intent localIntent = new Intent(Constantes.ACTION_RUN_ISERVICE)
                             .putExtra(Constantes.EXTRA_PROGRESS, i);
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
-                    if (!list.get(i).isEnviado()){
-                        String mensaje = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
-                        if (mensaje.equals("1")){
-                            subirTiket(rellenarJsonTiket(list.get(i).getFk_parte()));
-                            if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
-                                subirImagen(rellenarJsonImagenes(list.get(i).getFk_parte()));
-                            }else{
-
-                            }
-                            MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
+                    String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
+                    Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
+                    MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
+                    if (mensajemantenimiento.equals("1")){
+                        String mensajeticket = subirTiket(rellenarJsonTiket(list.get(i).getFk_parte()));
+                        Log.d("-----MENSAJETICKET-----", mensajeticket);
+                        if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
+                            String mensajeImagen = subirImagen(rellenarJsonImagenes(list.get(i).getFk_parte()));
+                            Log.d("-----MENSAJEIMAGEN-----", mensajeImagen);
                         }else{
-                            Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
+
                         }
 
-                        Log.d("-----MENSAJE-----", mensaje);
+                    }else{
+                        Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
                     }
+
                     Thread.sleep(3000);
                 }
                 // Quitar de primer plano
@@ -106,7 +98,7 @@ public class UploadService extends IntentService {
                 Toast.makeText(getBaseContext(),"No hay datos para subir", Toast.LENGTH_SHORT).show();
             }
 
-        } catch (InterruptedException e) {
+            } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();

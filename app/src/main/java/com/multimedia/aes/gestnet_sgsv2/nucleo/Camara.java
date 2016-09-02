@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
-import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment3;
+import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment4;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,7 +90,7 @@ public class Camara extends AppCompatActivity implements View.OnClickListener{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        TabFragment3.result(myPath.getAbsolutePath());
+        TabFragment4.result(myPath.getAbsolutePath());
         finish();
     }
     private void getCamera(){
