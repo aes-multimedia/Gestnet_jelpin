@@ -37,6 +37,7 @@ public class MantenimientoTerminado {
     public static final String CAUDAL_ACS_CALCULO_POTENCIA = "caudal_acs_calculo_potencia";
     public static final String REVISION_SISTEMA_CONTROL = "revision_sistema_control";
     public static final String ENVIADO = "enviado";
+    public static final String MAQUINA = "maquina";
 
     @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
     private int id_mantenimiento_terminado;
@@ -102,6 +103,8 @@ public class MantenimientoTerminado {
     private int revision_sistema_control;
     @DatabaseField(columnName = ENVIADO)
     private boolean enviado;
+    @DatabaseField(columnName = MAQUINA)
+    private boolean maquina;
 
     public MantenimientoTerminado() {
     }
@@ -117,7 +120,7 @@ public class MantenimientoTerminado {
                                   int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
                                   int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado) {
+                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
@@ -150,6 +153,7 @@ public class MantenimientoTerminado {
         this.caudal_acs_calculo_potencia = caudal_acs_calculo_potencia;
         this.revision_sistema_control = revision_sistema_control;
         this.enviado = enviado;
+        this.maquina = maquina;
     }
 
     public int getId_mantenimiento_terminado() {
@@ -338,12 +342,16 @@ public class MantenimientoTerminado {
     public void setRevision_sistema_control(int revision_sistema_control) {
         this.revision_sistema_control = revision_sistema_control;
     }
-
     public boolean isEnviado() {
         return enviado;
     }
-
     public void setEnviado(boolean enviado) {
         this.enviado = enviado;
+    }
+    public boolean isMaquina() {
+        return maquina;
+    }
+    public void setMaquina(boolean maquina) {
+        this.maquina = maquina;
     }
 }

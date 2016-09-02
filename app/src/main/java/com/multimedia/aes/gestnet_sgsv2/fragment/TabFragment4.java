@@ -220,88 +220,68 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }
         }else if (view.getId()==R.id.btnFinalizar) {
             guardarDatos();
-            if (mantenimientoTerminado.getFk_tipo_maquina()!=-1) {
-                if (mantenimientoTerminado.getFk_marca_maquina()!=-1) {
-                    if (mantenimientoTerminado.getModelo_maquina()!=null) {
-                        if (mantenimientoTerminado.getFk_potencia_maquina()!=-1) {
-                            if (mantenimientoTerminado.getFk_uso_maquina()!=-1) {
-                                if (mantenimientoTerminado.getPuesta_marcha_maquina()!=null) {
-                                    if (mantenimientoTerminado.getFk_estado_visita() != -1) {
-                                        if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
-                                            if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
-                                                Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
-                                            } else {
-                                                if (mantenimientoTerminado.getReparacion() == 1) {
-                                                    if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
-                                                        if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {
-                                                            if (mantenimientoTerminado.getCoste_materiales()!=null) {
-                                                                if (mantenimientoTerminado.getCoste_mano_obra()!=null) {
-                                                                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
-                                                                    if (!arraylistImagenes.isEmpty()) {
+            if (mantenimientoTerminado.isMaquina()) {
+                if (mantenimientoTerminado.getFk_estado_visita() != -1) {
+                    if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
+                        if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
+                            Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (mantenimientoTerminado.getReparacion() == 1) {
+                                if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
+                                    if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {
+                                        if (mantenimientoTerminado.getCoste_materiales()!=null) {
+                                            if (mantenimientoTerminado.getCoste_mano_obra()!=null) {
+                                                MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+                                                if (!arraylistImagenes.isEmpty()) {
 
-                                                                        for (int i = 0; i < arraylistImagenes.size(); i++) {
-                                                                            ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
-                                                                        }
-                                                                    } else {
-                                                                        ((Index) getContext()).ticket();
-                                                                        try {
-                                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
-                                                                        } catch (SQLException e) {
-                                                                            e.printStackTrace();
-                                                                        }
-
-                                                                    }
-                                                                } else {
-                                                                    Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            } else {
-                                                                Toast.makeText(getContext(), "Seleccione coste de materiales", Toast.LENGTH_LONG).show();
-                                                            }
-                                                        } else {
-                                                            Toast.makeText(getContext(), "Seleccione tiempo de mano de obra", Toast.LENGTH_LONG).show();
-                                                        }
-                                                    } else {
-                                                        Toast.makeText(getContext(), "Seleccione tipo de reparacion", Toast.LENGTH_LONG).show();
+                                                    for (int i = 0; i < arraylistImagenes.size(); i++) {
+                                                        ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
                                                     }
                                                 } else {
-                                                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
-                                                    if (!arraylistImagenes.isEmpty()) {
-                                                        for (int i = 0; i < arraylistImagenes.size(); i++) {
-                                                            ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
-                                                        }
-                                                    } else {
-                                                        ((Index) getContext()).ticket();
-                                                        try {
-                                                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
-                                                        } catch (SQLException e) {
-                                                            e.printStackTrace();
-                                                        }
+                                                    ((Index) getContext()).ticket();
+                                                    try {
+                                                        MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                                                    } catch (SQLException e) {
+                                                        e.printStackTrace();
                                                     }
+
                                                 }
+                                            } else {
+                                                Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
                                             }
                                         } else {
-                                            Toast.makeText(getContext(), "Seleccione tipo visita", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getContext(), "Seleccione coste de materiales", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-                                        Toast.makeText(getContext(), "Seleccione estado visita", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getContext(), "Seleccione tiempo de mano de obra", Toast.LENGTH_LONG).show();
                                     }
-                                }else {
-                                    Toast.makeText(getContext(), "Seleccione puesta en marcha de la maquina", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Seleccione tipo de reparacion", Toast.LENGTH_LONG).show();
                                 }
-                            }else {
-                                Toast.makeText(getContext(), "Seleccione uso de maquina", Toast.LENGTH_LONG).show();
+                            } else {
+                                MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+                                if (!arraylistImagenes.isEmpty()) {
+                                    for (int i = 0; i < arraylistImagenes.size(); i++) {
+                                        ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
+                                    }
+                                } else {
+                                    ((Index) getContext()).ticket();
+                                    try {
+                                        MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
-                        }else {
-                            Toast.makeText(getContext(), "Seleccione potencia de maquina", Toast.LENGTH_LONG).show();
                         }
-                    }else{
-                        Toast.makeText(getContext(), "Seleccione modelo de maquina", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getContext(), "Seleccione tipo visita", Toast.LENGTH_LONG).show();
                     }
-                }else{
-                    Toast.makeText(getContext(), "Seleccione marca de maquina", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Seleccione estado visita", Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(getContext(), "Seleccione tipo de maquina", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Seleccione minimo una maquina", Toast.LENGTH_LONG).show();
             }
 
 

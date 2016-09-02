@@ -232,11 +232,14 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
     }
 
-    public MantenimientoTerminado guardarDatos(MantenimientoTerminado manten){
+    public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado){
         if (!arrayListMaquina.isEmpty()){
             for (int i = 0; i < arrayListMaquina.size(); i++) {
                 MaquinaDAO.newMaquina(getContext(),arrayListMaquina.get(i));
             }
+            mantenimientoTerminado.setMaquina(true);
+        }else{
+            mantenimientoTerminado.setMaquina(false);
         }
         if (!arraylistEquipamiento.isEmpty()){
             for (int i = 0; i < arraylistEquipamiento.size(); i++) {
@@ -252,7 +255,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getFk_maquina());
             }
         }
-        return manten;
+        return mantenimientoTerminado;
     }
 
 }
