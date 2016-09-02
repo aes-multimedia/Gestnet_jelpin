@@ -84,7 +84,15 @@ public class MarcaCalderaDAO extends DBHelperMOS {
 			return listadoMarcaCaldera.get(0).getId_marca_caldera();
 		}
 	}
-
+	public static String buscarNombreMarcaCalderaPorId(Context context, int id) throws SQLException {
+		cargarDao(context);
+		List<MarcaCaldera> listadoMarcaCaldera= dao.queryForEq(MarcaCaldera.ID_MARCA_CALDERA, id);
+		if(listadoMarcaCaldera.isEmpty()) {
+			return null;
+		}else{
+			return listadoMarcaCaldera.get(0).getNombre_marca_caldera();
+		}
+	}
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 

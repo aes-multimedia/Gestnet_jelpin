@@ -381,6 +381,17 @@
                         android:padding="5dp"
                         android:inputType="number" />
                 </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Añadir Maquina"
+                    android:id="@+id/btnAñadirMaquina" />
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvMaquinas" />
             </LinearLayout>
 
             <Button

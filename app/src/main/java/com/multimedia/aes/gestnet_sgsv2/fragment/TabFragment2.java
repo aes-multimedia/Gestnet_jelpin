@@ -21,15 +21,18 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaEquipamientos;
+import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaMaquinas;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
@@ -51,7 +54,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
     private EditText etModelo,etPotenciaFuego,etCodigo,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
             etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida;
-    private Button btnDespiece,btnAñadirEquip;
+    private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
     private List<UsoCaldera> listaUso=null;
@@ -63,9 +66,11 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private String[] puestaMarcha;
     private Mantenimiento mantenimiento = null;
     private static int alto=0, height;
-    private static ListView lvEquipamientos;
+    private static ListView lvEquipamientos,lvMaquinas;
     private static ArrayList<DataEquipamientos> arraylistEquipamiento = new ArrayList<>();
     private static AdaptadorListaEquipamientos adaptadorListaEquipamientos;
+    private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
+    private static AdaptadorListaMaquinas adaptadorListaMaquinas;
 
 
     @Override
@@ -103,8 +108,11 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
+        btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         lvEquipamientos = (ListView)vista.findViewById(R.id.lvEquipamientos);
+        lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         btnAñadirEquip.setOnClickListener(this);
+        btnAñadirMaquina.setOnClickListener(this);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()+1];
@@ -207,7 +215,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }else{
                 Toast.makeText(getContext(), "Faltan datos en el equipamiento", Toast.LENGTH_SHORT).show();
             }
-
+        }else if (view.getId()==R.id.btnAñadirMaquina){
+            alto+=height;
+            lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+            Maquina m = new Maquina();
+            arrayListMaquina.add(m);
+            adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
+            lvMaquinas.setAdapter(adaptadorListaMaquinas);
         }
     }
     public static void borrarArrayProductos(int position, Context context){
@@ -219,95 +233,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     }
 
     public MantenimientoTerminado guardarDatos(MantenimientoTerminado manten){
-        int a = spTipo.getSelectedItemPosition();
-        if (a!=0){
-            try {
-                int fk_tipo_maquina = TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString());
-                manten.setFk_tipo_maquina(fk_tipo_maquina);
-            } catch (SQLException e) {
-                e.printStackTrace();
+        if (!arrayListMaquina.isEmpty()){
+            for (int i = 0; i < arrayListMaquina.size(); i++) {
+                MaquinaDAO.newMaquina(getContext(),arrayListMaquina.get(i));
             }
-        }else{
-            manten.setFk_tipo_maquina(-1);
-        }
-        int b = spMarca.getSelectedItemPosition();
-        if (b!=0){
-            try {
-                int fk_marca_maquina = MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString());
-                manten.setFk_marca_maquina(fk_marca_maquina);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }else{
-            manten.setFk_marca_maquina(-1);
-        }
-        int c = spMarca.getSelectedItemPosition();
-        if (c!=0){
-            try {
-                int fk_uso_maquina = UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString());
-                manten.setFk_uso_maquina(fk_uso_maquina);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }else{
-            manten.setFk_uso_maquina(-1);
-        }
-        int d = spPotencia.getSelectedItemPosition();
-        if (d!=0){
-            try {
-                int fk_potencia_maquina = PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString());
-                manten.setFk_potencia_maquina(fk_potencia_maquina);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }else{
-            manten.setFk_potencia_maquina(-1);
-        }
-        int f = spPuestaMarcha.getSelectedItemPosition();
-        if (f!=0){
-            String puesta_marcha_maquina = spPotencia.getSelectedItem().toString();
-            manten.setPuesta_marcha_maquina(puesta_marcha_maquina);
-        }
-        if (!etModelo.getText().toString().trim().equals("")){
-            String modelo_maquina = etModelo.getText().toString();
-            manten.setModelo_maquina(modelo_maquina);
-        }
-        if (!etCodigo.getText().toString().trim().equals("")){
-            String codigo_maquina = etCodigo.getText().toString();
-            manten.setCodigo_maquina(codigo_maquina);
-        }
-        if (!etC0.getText().toString().trim().equals("")){
-            String c0_maquina = etC0.getText().toString();
-            manten.setC0_maquina(c0_maquina);
-        }
-
-        if (!etTempMaxACS.getText().toString().trim().equals("")){
-            String temperatura_max_acs = etTempMaxACS.getText().toString();
-            manten.setTemperatura_max_acs(temperatura_max_acs);
-        }
-        if (!etCaudalACS.getText().toString().trim().equals("")){
-            String caudal_acs = etCaudalACS.getText().toString();
-            manten.setCaudal_acs(caudal_acs);
-        }
-        if (!etPotenciaUtil.getText().toString().trim().equals("")){
-            String potencia_util = etPotenciaUtil.getText().toString();
-            manten.setPotencia_util(potencia_util);
-        }
-        if (!etTempGasesComb.getText().toString().trim().equals("")){
-            String temperatura_gases_combustion = etTempGasesComb.getText().toString();
-            manten.setTemperatura_gases_combustion(temperatura_gases_combustion);
-        }
-        if (!etTempAmbienteLocal.getText().toString().trim().equals("")){
-            String temperatura_ambiente_local = etTempAmbienteLocal.getText().toString();
-            manten.setTemperatura_ambiente_local(temperatura_ambiente_local);
-        }
-        if (!etTempAguaGeneCalorEntrada.getText().toString().trim().equals("")){
-            String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
-            manten.setTemperatura_agua_generador_calor_entrada(temperatura_agua_generador_calor_entrada);
-        }
-        if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
-            String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
-            manten.setTemperatura_agua_generador_calor_salida(temperatura_agua_generador_calor_salida);
         }
         if (!arraylistEquipamiento.isEmpty()){
             for (int i = 0; i < arraylistEquipamiento.size(); i++) {

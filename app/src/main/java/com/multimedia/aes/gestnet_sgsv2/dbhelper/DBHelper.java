@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
@@ -145,6 +146,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.equipamientoCalderaDao = getDao(EquipamientoCaldera.class);
 		}
 		return BBDDConstantes.equipamientoCalderaDao;
+	}
+	public Dao<Maquina, Integer> getMaquinaDAO() throws SQLException {
+		if (BBDDConstantes.maquinaDao == null) {
+			BBDDConstantes.maquinaDao = getDao(Maquina.class);
+		}
+		return BBDDConstantes.maquinaDao;
 	}
 
 }
