@@ -23,7 +23,6 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_3, container, false);
-
         cbLimpQuemCal = (CheckBox) vista.findViewById(R.id.cbLimpQuemCal);
         cbRevVasoExpan = (CheckBox) vista.findViewById(R.id.cbRevVasoExpan);
         cbRegulApara = (CheckBox) vista.findViewById(R.id.cbRegulApara);
@@ -38,8 +37,6 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
         cbAnalProduComb = (CheckBox) vista.findViewById(R.id.cbAnalProduComb);
         cbCaudACSCalcPotUtil = (CheckBox) vista.findViewById(R.id.cbCaudACSCalcPotUtil);
         cbReviSistContro = (CheckBox) vista.findViewById(R.id.cbReviSistContro);
-
-
         return vista;
     }
 

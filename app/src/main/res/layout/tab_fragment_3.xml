@@ -2,151 +2,165 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/fondo_linear_gris"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" >
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView4" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Visita Mantenimiento RITE"
-            android:id="@+id/textView47"
-            android:textSize="18dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Limpieza del quemador de la caldera"
-            android:id="@+id/cbLimpQuemCal"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fondo_linear_gris"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" >
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Revisión del vaso de expansión"
-            android:id="@+id/cbRevVasoExpan"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Visita Mantenimiento RITE"
+                    android:id="@+id/textView47"
+                    android:textSize="18dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Regulación de aparatos"
-            android:id="@+id/cbRegulApara"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Limpieza del quemador de la caldera"
+                    android:id="@+id/cbLimpQuemCal"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comprobar estanqueidad de cierre entre quemadores y caldera"
-            android:id="@+id/cbCompEstanCierrQuemCalen"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Revisión del vaso de expansión"
+                    android:id="@+id/cbRevVasoExpan"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-    </LinearLayout>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Regulación de aparatos"
+                    android:id="@+id/cbRegulApara"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/fondo_linear_gris"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" >
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comprobar estanqueidad de cierre entre quemadores y caldera"
+                    android:id="@+id/cbCompEstanCierrQuemCalen"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Visita de diagnóstico y Mantenimiento"
-            android:id="@+id/textView48"
-            android:textSize="18dp" />
+            </LinearLayout>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Revisión general de calderas y/o calentadores"
-            android:id="@+id/cbRevCaldCont"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fondo_linear_gris"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="10dp">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Verificación del circuito hidráulico de calefacción"
-            android:id="@+id/cbVeriHidraCalef"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Visita de diagnóstico y Mantenimiento"
+                    android:id="@+id/textView48"
+                    android:textSize="18dp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estanqueidad de la conexión de los aparatos"
-            android:id="@+id/cbEstanConexApar"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Revisión general de calderas y/o calentadores"
+                    android:id="@+id/cbRevCaldCont"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estanqueidad del conducto de evacuación y la IRG"
-            android:id="@+id/cbEstanCondEvacIRG"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Verificación del circuito hidráulico de calefacción"
+                    android:id="@+id/cbVeriHidraCalef"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comprobación de niveles de agua"
-            android:id="@+id/cbComprNivAgua"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estanqueidad de la conexión de los aparatos"
+                    android:id="@+id/cbEstanConexApar"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tipo del conducto de evacuación"
-            android:id="@+id/cbTipoCondEvac"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estanqueidad del conducto de evacuación y la IRG"
+                    android:id="@+id/cbEstanCondEvacIRG"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Revisión del estado del aislamiento térmico"
-            android:id="@+id/cbReviEstadoAislaTerm"
-            android:checked="false"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Comprobación de niveles de agua"
+                    android:id="@+id/cbComprNivAgua"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Análisis de los productos de la combustión"
-            android:id="@+id/cbAnalProduComb"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo del conducto de evacuación"
+                    android:id="@+id/cbTipoCondEvac"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Caudal de ACS y cálculo de potencia útil"
-            android:id="@+id/cbCaudACSCalcPotUtil"
-            android:buttonTint="@color/colorAccent"/>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Revisión del estado del aislamiento térmico"
+                    android:id="@+id/cbReviEstadoAislaTerm"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Revisión del sistema  de control"
-            android:id="@+id/cbReviSistContro"
-            android:buttonTint="@color/colorAccent"/>
-    </LinearLayout>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Análisis de los productos de la combustión"
+                    android:id="@+id/cbAnalProduComb"
+                    android:buttonTint="@color/colorAccent"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Caudal de ACS y cálculo de potencia útil"
+                    android:id="@+id/cbCaudACSCalcPotUtil"
+                    android:buttonTint="@color/colorAccent"/>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Revisión del sistema  de control"
+                    android:id="@+id/cbReviSistContro"
+                    android:buttonTint="@color/colorAccent"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

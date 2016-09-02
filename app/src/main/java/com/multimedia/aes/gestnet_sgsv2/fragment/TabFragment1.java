@@ -4,10 +4,13 @@ package com.multimedia.aes.gestnet_sgsv2.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
             txtTipo,txtMarca,txtModelo,txtDireccion;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre;
-    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5;
+    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5,ivCodigoBarras;
     private Button btnIniciarParte,btnConfirmarObsTel;
     private Mantenimiento mantenimiento = null;
     private ImageButton ibLocation,ibIr;
@@ -86,6 +89,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
         ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
         ivLlamar5 = (ImageView) vista.findViewById(R.id.ivLlamar5);
+        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
 
         ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
         ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
@@ -210,11 +214,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else{
             etTelefono5.setText(mantenimiento.getTelefono5_usuario());
         }
-
-
-
-
-
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
 
@@ -246,6 +245,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etNombre.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }
+        ivCodigoBarras.setImageBitmap(ponerCodigoBarras());
         return vista;
     }
 
@@ -362,6 +362,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
+    private Bitmap ponerCodigoBarras(){
+        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
+        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
+        return bit;
+    }
 
 }

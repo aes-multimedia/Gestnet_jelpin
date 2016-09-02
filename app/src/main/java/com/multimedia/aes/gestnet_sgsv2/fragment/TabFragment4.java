@@ -66,7 +66,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private EditText etObservaciones, etCosteMateriales, etManoObra, etManoObraAdicional, etContadorInterno;
     private CheckBox cbContadorInterno, cbReparacion;
     private DatePicker dpFechaReparacion;
-    private Button btnFinalizar,btnImprimir,scanBtn,scanBtn1,btnArchivo,btnFoto;
+    private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
@@ -79,8 +79,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private LinearLayout linearSubtipos;
     private String subTiposVisita[];
     private ScrollView scFinalizar;
-    private static TextView contentTxt, contentTxt1;
-    private static boolean scan = true;
     public static AdaptadorListaImagenes adaptadorListaImagenes;
     public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
     public static int alto1=0, height;
@@ -131,13 +129,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
-        scanBtn = (Button)vista.findViewById(R.id.scan_button);
-        contentTxt = (TextView)vista.findViewById(R.id.scan_content);
-        scanBtn1 = (Button)vista.findViewById(R.id.scan_button1);
-        contentTxt1 = (TextView)vista.findViewById(R.id.scan_content1);
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
-        scanBtn.setOnClickListener(this);
-        scanBtn1.setOnClickListener(this);
         cbReparacion.setOnClickListener(this);
         cbContadorInterno.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
@@ -316,14 +308,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
         }else if (view.getId()==R.id.btnImprimir){
             ((Index)getContext()).ticket();
-        }else if(view.getId()==R.id.scan_button){
-            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
-            scanIntegrator.initiateScan();
-            scan=true;
-        }else if(view.getId()==R.id.scan_button1){
-            IntentIntegrator scanIntegrator = new IntentIntegrator(getActivity());
-            scanIntegrator.initiateScan();
-            scan=false;
         }else if (view.getId()==R.id.btnFoto){
             hacerFoto();
         }else if (view.getId()==R.id.btnArchivo){
@@ -331,13 +315,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         }
 
 
-    }
-    public static void llenarDatos(String scanContent, String scanFormat){
-        if (scan) {
-            contentTxt.setText(scanContent);
-        }else{
-            contentTxt1.setText(scanContent);
-        }
     }
     public static Bitmap resizeImage(Bitmap bitmap) {
 
@@ -443,13 +420,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 result(getPath(selectedImage));
             }
         }
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
-            llenarDatos(scanContent,scanFormat);
-        }else{
-        }
     }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -543,9 +513,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 break;
 
         }
-        if (!contentTxt.getText().toString().trim().equals("")){
-            mantenimientoTerminado.setCodigo_barras(contentTxt.getText().toString());
-        }
         int b = spTipoVisita.getSelectedItemPosition();
         if (b!=0){
             int id= -1;
@@ -615,9 +582,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             if (!etManoObraAdicional.getText().toString().trim().equals("")){
                 mantenimientoTerminado.setCoste_mano_obra_adicional(etManoObraAdicional.getText().toString());
             }
-            if (!contentTxt1.getText().toString().trim().equals("")){
-                mantenimientoTerminado.setCodigo_barras_reparacion(contentTxt1.getText().toString());
-            }
+
         }
         mantenimientoTerminado.setEnviado(false);
     }
