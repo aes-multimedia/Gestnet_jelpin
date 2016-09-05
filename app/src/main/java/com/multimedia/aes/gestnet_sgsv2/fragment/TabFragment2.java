@@ -241,7 +241,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     etTempAmbienteLocal.setText("");
                     etTempAguaGeneCalorEntrada.setText("");
                     etTempAguaGeneCalorSalida.setText("");
-                    Toast.makeText(getContext(), "Maquina: "+m.getModelo_maquina(), Toast.LENGTH_SHORT).show();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

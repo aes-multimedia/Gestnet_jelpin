@@ -36,7 +36,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 													int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina) {
+													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 																fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 																contador_interno, codigo_interno, reparacion,
@@ -48,7 +48,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
 																comprobacion_niveles_agua, tipo_conducto_evacuacion,
 																revision_estado_aislamiento_termico, analisis_productos_combustion,
-																caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina);
+																caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,anomalia);
 		return crearMantenimientoTerminado(m,context);
 	}
 	public static boolean crearMantenimientoTerminado(MantenimientoTerminado m,Context context) {
@@ -72,7 +72,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 																	  int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina) {
+																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 															contador_interno, codigo_interno, reparacion,
@@ -84,7 +84,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
 															comprobacion_niveles_agua, tipo_conducto_evacuacion,
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
-															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina);
+															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,anomalia);
 		return m;
 	}
 

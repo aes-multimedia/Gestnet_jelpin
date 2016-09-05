@@ -19,6 +19,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -76,7 +77,7 @@ public class Impresora {
 			JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(activity));
 			int id = jsonObject.getInt("id");
 			mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
-			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,mantenimiento.getId_mantenimiento());
+			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,id);
 			tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
 			maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(activity,mantenimiento.getId_mantenimiento());
 		} catch (JSONException e) {
@@ -88,10 +89,11 @@ public class Impresora {
 	public void imprimir() {
 		iniciarConexion();
 		HiloConectarImpr hci = new HiloConectarImpr(this, activity);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			hci.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mmDevice);
-		else
+		}else {
 			hci.execute(mmDevice);
+		}
 	}
 	private void iniciarConexion() {
 		if (!bluetoothAdapter.isEnabled()) {
@@ -143,14 +145,24 @@ public class Impresora {
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
 		String datos_averia = "----------DATOS VISITA----------" + "\n";
 		String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
-		String notificada = ""+noti+"\n";
+		String notificada = ""+noti+"\n\n";
 		String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
 		String op = operaciones();
 		String operaciones = op+"\n";
-		String maquina = datosMaquinas()+"\n";
-		String anomalias_detectadas = "ANOMALIAS DETECTADAS: ";
-		String anom = "Sin Anomalias";
-		String anomalias = anom;
+		String maquina = datosMaquinas()+"\n\n";
+		String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
+		String anom = "";
+		if (mantenimientoTerminado.isAnomalia()){
+			anom = "Sin Anomalias";
+		}else {
+			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
+				anom = SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
+			}else{
+				anom = "otras anomalias";
+			}
+		}
+
+		String anomalias = anom+"\n\n";
 		String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
 				"correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
 				"esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
@@ -158,7 +170,7 @@ public class Impresora {
 		String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
 				"pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-		String obs = mantenimiento.getObservaciones();
+		String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
@@ -168,14 +180,14 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private void generarTextoFin(POSPrinterService pps) throws JposException, InterruptedException {
-		String conforme_cliente="--------CONFORME CLIENTE--------";
+		String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
 		String obs = mantenimiento.getObservaciones_usuario();
-		String observaciones = "Observaciones: "+obs;
+		String observaciones = "Observaciones: "+obs+"\n";
 		String nom = mantenimiento.getNombre_usuario();
-		String nombre = "Nombre: "+nom;
+		String nombre = "Nombre: "+nom+"\n";
 		String dn = mantenimiento.getDni_usuario();
-		String dni = "Dni: "+dn;
-		String firma_cliente="Firma Cliente";
+		String dni = "Dni: "+dn+"\n";
+		String firma_cliente="Firma Cliente"+"\n";
 
 		String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
@@ -263,46 +275,46 @@ public class Impresora {
 	private String operaciones(){
 		String operaciones = "";
 		if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
-			operaciones=operaciones+"Limpieza del quemador"+"\n"+"de la caldera.";
+			operaciones=operaciones+"-Limpieza del quemador"+"\n"+"de la caldera.";
 		}
 		if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
-			operaciones=operaciones+"\n"+"Revision del vaso de expansion.";
+			operaciones=operaciones+"\n"+"-Revision del vaso de expansion.";
 		}
 		if (mantenimientoTerminado.getRegulacion_aparatos()==1){
-			operaciones=operaciones+"\n"+"Regulacion de aparatos.";
+			operaciones=operaciones+"\n"+"-Regulacion de aparatos.";
 		}
 		if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-			operaciones=operaciones+"\n"+"Comprobar estanqueidad de cierre"+"\n"+"entre quemadores y caldera.";
+			operaciones=operaciones+"\n"+"-Comprobar estanqueidad de"+"\n"+"cierre entre quemadores y"+"\n"+" caldera.";
 		}
 		if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
-			operaciones=operaciones+"\n"+"Revision general de calderas"+"\n"+"y/o calentadores.";
+			operaciones=operaciones+"\n"+"-Revision general de calderas"+"\n"+"y/o calentadores.";
 		}
 		if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-			operaciones=operaciones+"\n"+"Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
+			operaciones=operaciones+"\n"+"-Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-			operaciones=operaciones+"\n"+"Estanqueidad de la conexion de"+"\n"+"los aparatos.";
+			operaciones=operaciones+"\n"+"-Estanqueidad de la conexion de"+"\n"+"los aparatos.";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
-			operaciones=operaciones+"\n"+"Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
+			operaciones=operaciones+"\n"+"-Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
 		}
 		if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
-			operaciones=operaciones+"\n"+"Comprobacion de niveles de agua.";
+			operaciones=operaciones+"\n"+"-Comprobacion de niveles de agua";
 		}
 		if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
-			operaciones=operaciones+"\n"+"Tipo de conducto de evacuacion.";
+			operaciones=operaciones+"\n"+"-Tipo de conducto de evacuacion.";
 		}
 		if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
-			operaciones=operaciones+"\n"+"Revision del estado del"+"\n"+"aislamiento termico.";
+			operaciones=operaciones+"\n"+"-Revision del estado del"+"\n"+"aislamiento termico.";
 		}
 		if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
-			operaciones=operaciones+"\n"+"Analisis de los productos de"+"\n"+"la combustion.";
+			operaciones=operaciones+"\n"+"-Analisis de los productos de"+"\n"+"la combustion.";
 		}
 		if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
-			operaciones=operaciones+"\n"+"Caudal de ACS y calculo de"+"\n"+"potencia util.";
+			operaciones=operaciones+"\n"+"-Caudal de ACS y calculo de"+"\n"+"potencia util.";
 		}
 		if (mantenimientoTerminado.getRevision_sistema_control()==1){
-			operaciones=operaciones+"\n"+"Revision del sistema de control";
+			operaciones=operaciones+"\n"+"-Revision del sistema de control";
 		}
 		return operaciones;
 	}
@@ -319,7 +331,7 @@ public class Impresora {
 			String añ = maquinas.get(i).getPuesta_marcha_maquina();
 			String año = "Fabricado: "+añ+"\n";
 			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
-			String potencia = "Potencia"+pot+"\n";
+			String potencia = "Potencia: "+pot+"\n\n";
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
 			String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";

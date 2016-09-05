@@ -38,6 +38,7 @@ public class MantenimientoTerminado {
     public static final String REVISION_SISTEMA_CONTROL = "revision_sistema_control";
     public static final String ENVIADO = "enviado";
     public static final String MAQUINA = "maquina";
+    public static final String ANOMALIA = "anomalia";
 
     @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
     private int id_mantenimiento_terminado;
@@ -105,6 +106,8 @@ public class MantenimientoTerminado {
     private boolean enviado;
     @DatabaseField(columnName = MAQUINA)
     private boolean maquina;
+    @DatabaseField(columnName = ANOMALIA)
+    private boolean anomalia;
 
     public MantenimientoTerminado() {
     }
@@ -120,7 +123,7 @@ public class MantenimientoTerminado {
                                   int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
                                   int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina) {
+                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
@@ -154,6 +157,7 @@ public class MantenimientoTerminado {
         this.revision_sistema_control = revision_sistema_control;
         this.enviado = enviado;
         this.maquina = maquina;
+        this.anomalia = anomalia;
     }
 
     public int getId_mantenimiento_terminado() {
@@ -353,5 +357,11 @@ public class MantenimientoTerminado {
     }
     public void setMaquina(boolean maquina) {
         this.maquina = maquina;
+    }
+    public boolean isAnomalia() {
+        return anomalia;
+    }
+    public void setAnomalia(boolean anomalia) {
+        this.anomalia = anomalia;
     }
 }

@@ -64,14 +64,14 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra;
     private EditText etObservaciones, etCosteMateriales, etManoObra, etManoObraAdicional, etContadorInterno;
-    private CheckBox cbContadorInterno, cbReparacion;
+    private CheckBox cbContadorInterno, cbReparacion,cbAnomalias;
     private DatePicker dpFechaReparacion;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
     private static Mantenimiento mantenimiento = null;
-    private LinearLayout llReparacion,llContadorInterno;
+    private LinearLayout llReparacion,llContadorInterno,llAnomalias;
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
@@ -112,6 +112,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         etContadorInterno = (EditText) vista.findViewById(R.id.etContadorInterno);
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
+        cbAnomalias = (CheckBox) vista.findViewById(R.id.cbAnomalias);
 
 
         dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
@@ -124,6 +125,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llContadorInterno = (LinearLayout)vista.findViewById(R.id.llContadorInterno);
+        llAnomalias = (LinearLayout)vista.findViewById(R.id.llAnomalias);
         llReparacion.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
@@ -132,6 +134,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
         cbReparacion.setOnClickListener(this);
         cbContadorInterno.setOnClickListener(this);
+        cbAnomalias.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
         btnFoto.setOnClickListener(this);
@@ -217,6 +220,14 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llContadorInterno.setVisibility(View.VISIBLE);
             }else{
                 llContadorInterno.setVisibility(View.GONE);
+            }
+        }else if (view.getId()==R.id.cbAnomalias){
+            if (cbAnomalias.isChecked()){
+                llAnomalias.setVisibility(View.VISIBLE);
+                mantenimientoTerminado.setAnomalia(true);
+            }else{
+                llAnomalias.setVisibility(View.GONE);
+                mantenimientoTerminado.setAnomalia(false);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
             guardarDatos();
