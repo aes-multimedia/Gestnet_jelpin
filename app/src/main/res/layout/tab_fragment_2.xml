@@ -369,7 +369,8 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:layout_marginBottom="5dp" />
 
                     <EditText
                         android:layout_width="match_parent"

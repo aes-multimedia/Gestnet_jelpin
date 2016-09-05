@@ -224,6 +224,24 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     arrayListMaquina.add(m);
                     adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
                     lvMaquinas.setAdapter(adaptadorListaMaquinas);
+                    spTipo.setSelection(0);
+                    spMarca.setSelection(0);
+                    spUso.setSelection(0);
+                    spPotencia.setSelection(0);
+                    spPuestaMarcha.setSelection(0);
+                    spTipoEquipamiento.setSelection(0);
+                    etModelo.setText("");
+                    etPotenciaFuego.setText("");
+                    etCodigo.setText("");
+                    etC0.setText("");
+                    etTempMaxACS.setText("");
+                    etCaudalACS.setText("");
+                    etPotenciaUtil.setText("");
+                    etTempGasesComb.setText("");
+                    etTempAmbienteLocal.setText("");
+                    etTempAguaGeneCalorEntrada.setText("");
+                    etTempAguaGeneCalorSalida.setText("");
+                    Toast.makeText(getContext(), "Maquina: "+m.getModelo_maquina(), Toast.LENGTH_SHORT).show();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

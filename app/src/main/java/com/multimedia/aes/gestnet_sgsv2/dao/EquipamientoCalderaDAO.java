@@ -75,9 +75,9 @@ public class EquipamientoCalderaDAO extends DBHelperMOS {
 			return listadoEquipamientoCaldera.get(0);
 		}
 	}
-	public static List<EquipamientoCaldera> buscarEquipamientoCalderaPorIdMaquina(Context context, int idMaquina) throws SQLException {
+	public static List<EquipamientoCaldera> buscarEquipamientoCalderaPorIdMantenimiento(Context context, int idMaquina) throws SQLException {
 		cargarDao(context);
-		List<EquipamientoCaldera> listadoEquipamientoCaldera= dao.queryForEq(EquipamientoCaldera.FK_MAQUINA, idMaquina);
+		List<EquipamientoCaldera> listadoEquipamientoCaldera= dao.queryForEq(EquipamientoCaldera.FK_PARTE, idMaquina);
 		if(listadoEquipamientoCaldera.isEmpty()){
 			return  null;
 		}else{

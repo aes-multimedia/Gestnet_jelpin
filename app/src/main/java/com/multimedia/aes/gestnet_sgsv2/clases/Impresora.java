@@ -107,9 +107,10 @@ public class Impresora {
 		try {
 			imprimirImagenEncabezado(pps);
 			generarTexto1(pps);
+			generarTextoFin(pps);
 			imprimirFirma(pps);
 			imprimirCodigoBarras(pps);
-			generarTextoFin(pps);
+			generarSaltoFinal(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
 			Toast.makeText(activity, R.string.err_durante_impr, Toast.LENGTH_SHORT).show();
@@ -137,7 +138,7 @@ public class Impresora {
 		String num_emp_mant = "44556678";
 		String numero_empresa_mantenedora = "N. Empresa Mantenedora: "+"\n"+num_emp_mant+"\n";
 		String tec = tecnico.getNombre_usuario();
-		String tecnico = "Tecnico: "+tec+"\n";
+		String tecnic = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
 		String datos_averia = "----------DATOS VISITA----------" + "\n";
@@ -147,15 +148,41 @@ public class Impresora {
 		String op = operaciones();
 		String operaciones = op+"\n";
 		String maquina = datosMaquinas()+"\n";
+		String anomalias_detectadas = "ANOMALIAS DETECTADAS: ";
+		String anom = "Sin Anomalias";
+		String anomalias = anom;
+		String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
+				"correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
+				"esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
+				"Decreto 919/2006,de 28 de julio."+"\n";
+		String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
+				"pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
+		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
+		String obs = mantenimiento.getObservaciones();
+		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
-				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+
-				datos_averia+notificada+presupuesto+operaciones+maquina;
+				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
+				datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
+				anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
-
 	private void generarTextoFin(POSPrinterService pps) throws JposException, InterruptedException {
-		String textoImpresion ="\n\n\n\n\n\n\n";
+		String conforme_cliente="--------CONFORME CLIENTE--------";
+		String obs = mantenimiento.getObservaciones_usuario();
+		String observaciones = "Observaciones: "+obs;
+		String nom = mantenimiento.getNombre_usuario();
+		String nombre = "Nombre: "+nom;
+		String dn = mantenimiento.getDni_usuario();
+		String dni = "Dni: "+dn;
+		String firma_cliente="Firma Cliente";
+
+		String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
+		Thread.sleep(2000);
+	}
+	private void generarSaltoFinal(POSPrinterService pps) throws JposException, InterruptedException {
+		String textoImpresion = "\n\n\n\n\n\n\n";
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
@@ -306,6 +333,26 @@ public class Impresora {
 			String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
 			String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
+			String rend_apar = "80%";
+			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
+			String co_cor = "55";
+			String co_corregido = "CO corregido: "+co_cor+ "\n";
+			String co_amb = maquinas.get(i).getC0_maquina();
+			String co_ambiente = "CO ambiente: "+co_amb+ "\n";
+			String tir = "5";
+			String tiro = "Tiro: "+tir+ "\n";
+			String c2 = "55";
+			String co2 = "CO2: "+c2+ "\n";
+			String o02 = "55";
+			String o2 = "O2: "+o02+ "\n";
+			String lamb = "55";
+			String lambda = "Lambda: "+lamb+ "\n";
+			String perd_chim = "15";
+			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
+			datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+						   temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
+						   temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
+						   lambda+perdidas_chimenea;
 		}
 
 		return datos_maquinas;
