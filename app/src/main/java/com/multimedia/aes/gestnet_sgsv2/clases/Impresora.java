@@ -15,8 +15,16 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloConectarImpr;
 import com.sewoo.jpos.POSPrinterService;
 import com.sewoo.port.android.BluetoothPort;
@@ -36,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import jpos.JposException;
 import jpos.POSPrinterConst;
@@ -52,6 +61,9 @@ public class Impresora {
 	BluetoothDevice mmDevice;
 	private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
 	private Mantenimiento mantenimiento;
+	private Tecnico tecnico;
+	private MantenimientoTerminado mantenimientoTerminado;
+	private List<Maquina> maquinas;
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
 		super();
@@ -64,6 +76,9 @@ public class Impresora {
 			JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(activity));
 			int id = jsonObject.getInt("id");
 			mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
+			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,mantenimiento.getId_mantenimiento());
+			tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
+			maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(activity,mantenimiento.getId_mantenimiento());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -91,13 +106,8 @@ public class Impresora {
 		POSPrinterService pps = new POSPrinterService();
 		try {
 			imprimirImagenEncabezado(pps);
-			//generarTexto1(pps);
+			generarTexto1(pps);
 			imprimirFirma(pps);
-			generarTexto2(pps);
-			//imprimirFirma(pps);
-			//generarTexto3(pps);
-			//imprimirFirma(pps);
-			//generarTexto4(pps);
 			imprimirCodigoBarras(pps);
 			generarTextoFin(pps);
 			bluetoothAdapter.disable();
@@ -115,145 +125,35 @@ public class Impresora {
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
-		String num_contrato = "000111522";
+		String num_contrato = mantenimiento.getContrato_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String serv=null;
-		if (mantenimiento.getFk_efv()==1){
-			serv = "Servicio Manto Gas Fraccionado";
-		}else if (mantenimiento.getFk_efv()==2){
-			serv = "Servicio de Mantenimiento Gas Independiente";
-		}else if (mantenimiento.getFk_efv()==3){
-			serv = "Servicio de Mantenimiento Gas Calefacción Independiente";
-		}else if (mantenimiento.getFk_efv()==4){
-			serv = "Servicio de Mantenimiento Gas Calefacción Fraccionado";
-		}else if (mantenimiento.getFk_efv()==5){
-			serv = "Servicio de Mantenimiento Gas Ampliado Independiente";
-		}else if (mantenimiento.getFk_efv()==6){
-			serv = "Servicio de Mantenimiento Gas Ampliado";
-		}
-		String servicio = "Servicio: "+serv+ "\n";
 		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
-		String direccion = "Direccion"+"\n"+dir+"\n\n";
+		String direccion = "Direccion: "+"\n"+dir+"\n\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
-		String emp = "IBERDROLA";
+		String emp = "ICISA";
 		String empresa = "Empresa: "+emp+"\n";
-		String cif_emp = "02365474S";
+		String cif_emp = "05954765L";
 		String cif = "CIF: "+cif_emp+"\n";
 		String num_emp_mant = "44556678";
 		String numero_empresa_mantenedora = "N. Empresa Mantenedora: "+"\n"+num_emp_mant+"\n";
-		String tec = "Pedro Buenhombre Lopez";
+		String tec = tecnico.getNombre_usuario();
 		String tecnico = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
-		String datos_averia = "----------DATOS AVERIA----------" + "\n";
-		String noti = "21/06/2016";
-		String notificada = "Notificada: "+noti+"\n";
-		String atend = "18/06/2016-14:00";
-		String atendida = "Atendida: "+atend+"\n";
-		String prev_repar = "26/06/2016-13:30";
-		String prevista_reparacion = "Prevista reparacion: "+"\n"+prev_repar+"\n";
-		String repa = "24/06/2016-12:48";
-		String reparada = "Reparada: "+repa+"\n";
-		String num_solic = "6547952";
-		String numero_solicitud = "N. Solicitud: "+num_solic+"\n";
-		String cod_ave = "3216565";
-		String codigo_averia = "Codigo Averia: "+cod_ave+"\n";
-		String desc = "Una averia sin importancia";
-		String descripcion = "Descripcion: "+"\n"+desc+"\n\n";
+		String datos_averia = "----------DATOS VISITA----------" + "\n";
+		String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
+		String notificada = ""+noti+"\n";
+		String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
+		String op = operaciones();
+		String operaciones = op+"\n";
+		String maquina = datosMaquinas()+"\n";
+		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
+				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+
+				datos_averia+notificada+presupuesto+operaciones+maquina;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
+		Thread.sleep(2000);
+	}
 
-		String presupuesto = "----------PRESUPUESTO-----------" + "\n";
-		String piez = "Junta caldera  5 euros";
-		String piezas = "Piezas: "+piez+"\n";
-		String man_obra = "2 piezas: 20 euros";
-		String mano_obra = "Mano de obra: "+man_obra+"\n";
-		String despl = "5 horas:  24 euros";
-		String desplazamiento = "Desplazamiento: "+"\n"+despl+"\n";
-		String otr = "6 Km 31 euros"+"\n"+"2 Km 12 euros";
-		String otros = "Otros: "+otr+"\n";
-		String desc_preiva = "0%";
-		String descuentos_preiva = "Descuentos antes de iva: "+"\n"+desc_preiva+"\n";
-		String mat = "6 piezas: 29 euros";
-		String materiales = "Materiales: "+mat+"\n";
-		String pres_tot_siniva = "95 euros";
-		String presupuesto_total_siniva = "Presupuesto total sin iva: "+"\n"+pres_tot_siniva+"\n";
-		String iv = "21%";
-		String iva = "IVA: "+iv+"\n";
-		String pres_tot_coniva = "102 euros";
-		String presupuesto_total_coniva = "Presupuesto total con iva: "+"\n"+pres_tot_coniva+"\n";
-		String otr_desc = "0%";
-		String otros_descuentos = "Otros descuentos: "+otr_desc+"\n";
-		String tot = "102 euros";
-		String total = "TOTAL A PAGAR: "+tot+"\n\n";
-		String observaciones_tecnico = "-------OBSERVAC. TECNICO--------" + "\n";
-		String obs_tecnico = "La maquina es antigua";
-		String observ_tecnico = obs_tecnico+"\n\n";
-		String recepcion_presup_cliente = "---RECEPCION PRESUP. CLIENTE----" + "\n";
-		String fec_recep = "22/06/2016-13:00";
-		String fecha_recep = "Fecha: "+fec_recep+"\n";
-		String nom = "Alejandro Perez Lopez";
-		String nombre = "Nombre: "+nom+"\n";
-		String dn = "02365984K";
-		String dni = "DNI: "+dn+"\n";
-		String firma = "Firma:"+"\n";
-
-		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+servicio+direccion+
-				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+datos_averia+
-				notificada+atendida+prevista_reparacion+reparada+numero_solicitud+codigo_averia+descripcion+
-				presupuesto+piezas+mano_obra+desplazamiento+otros+descuentos_preiva+materiales+
-				presupuesto_total_siniva+iva+presupuesto_total_coniva+otros_descuentos+total+observaciones_tecnico+
-				observ_tecnico+recepcion_presup_cliente+fecha_recep+nombre+dni+firma;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
-	}
-	private void generarTexto2(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		String aceptacion_presupuesto = "-----ACEPTACION PRESUPUESTO-----" + "\n";
-		String recibido = "* Recibido antes de la"+"\n"+" realizacion de los trabajos."+"\n";
-		String aceptado = "* Una vez aceptado, el"+"\n"+" presupuesto hara de orden de"+"\n"+" trabajo."+"\n";
-		String fec_acep = "22/06/2016-13:00";
-		String fecha_acep = "Fecha: "+fec_acep+"\n";
-		String nom_acep = "Alejandro Perez Lopez";
-		String nombre_acep = "Nombre: "+nom_acep+"\n";
-		String dn_acep = "02365984K";
-		String dni_acep = "DNI: "+dn_acep+"\n";
-		String firma_acep = "Firma:"+"\n";
-		String textoImpresion =aceptacion_presupuesto+recibido+
-				aceptado+fecha_acep+nombre_acep+dni_acep+firma_acep;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
-	}
-	private void generarTexto3(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		String conforme_final_cliente = "-----CONFORME FINAL CLIENTE-----" + "\n";
-		String fec_conf = "22/06/2016-13:00";
-		String fecha_conf = "Fecha: "+fec_conf+"\n";
-		String nom_conf = "Alejandro Perez Lopez";
-		String nombre_conf = "Nombre: "+nom_conf+"\n";
-		String dn_conf = "02365984K";
-		String dni_conf = "DNI: "+dn_conf+"\n";
-		String firma_conf = "Firma:"+"\n";
-		String textoImpresion =conforme_final_cliente+fecha_conf+nombre_conf+
-				dni_conf+firma_conf;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
-	}
-	private void generarTexto4(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		String observaciones_cliente = "-------OBSERVAC. TECNICO--------" + "\n";
-		String obs_cliente = "";
-		String observ_cliente = obs_cliente+"\n\n";
-
-		String info = "-------------INFO.--------------" + "\n";
-		String validez = "*Validez del presupuesto: 30"+"\n"+ " dias desde la fecha de" +"\n"+ " recepcion."+"\n";
-		String garantia = "*Garantia de los trabajos" +"\n"+ " realizados: 6 meses desde la"+"\n"+" finalizacion"+"\n";
-		String sustitu = "*No se sustituiran"+"\n"+" innecesariamente piezas o"+"\n"+" materiales si con ello se"+"\n"+
-				" incrementan los costes del"+"\n"+" servicio o se degradan los"+"\n"+" bienes objeto de la prestacion." +"\n"+
-				" Cualquier variacion del importe"+"\n"+" del presupuesto inicial debera"+"\n"+" ponerse en conocimiento del"+"\n"+
-				" usuario por escrito y de modo"+"\n"+" desglosado. No cabra"+"\n"+" modificacion al alza del"+"\n"+
-				" presupuesto en los casos de"+"\n"+" errores en las mediciones y"+"\n"+" valoraciones efectuadas por el"+"\n"+
-				" tecnico. Las modificaciones"+"\n"+" deberan ser firmadas por ambas"+"\n"+" partes en senal de conformidad."+"\n";
-		String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente.";
-		String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
-	}
 	private void generarTextoFin(POSPrinterService pps) throws JposException, InterruptedException {
 		String textoImpresion ="\n\n\n\n\n\n\n";
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
@@ -332,5 +232,82 @@ public class Impresora {
 			output = output.replace(original.charAt(i), ascii.charAt(i));
 		}
 		return output;
+	}
+	private String operaciones(){
+		String operaciones = "";
+		if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
+			operaciones=operaciones+"Limpieza del quemador"+"\n"+"de la caldera.";
+		}
+		if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
+			operaciones=operaciones+"\n"+"Revision del vaso de expansion.";
+		}
+		if (mantenimientoTerminado.getRegulacion_aparatos()==1){
+			operaciones=operaciones+"\n"+"Regulacion de aparatos.";
+		}
+		if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
+			operaciones=operaciones+"\n"+"Comprobar estanqueidad de cierre"+"\n"+"entre quemadores y caldera.";
+		}
+		if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
+			operaciones=operaciones+"\n"+"Revision general de calderas"+"\n"+"y/o calentadores.";
+		}
+		if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
+			operaciones=operaciones+"\n"+"Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
+		}
+		if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
+			operaciones=operaciones+"\n"+"Estanqueidad de la conexion de"+"\n"+"los aparatos.";
+		}
+		if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
+			operaciones=operaciones+"\n"+"Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
+		}
+		if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
+			operaciones=operaciones+"\n"+"Comprobacion de niveles de agua.";
+		}
+		if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
+			operaciones=operaciones+"\n"+"Tipo de conducto de evacuacion.";
+		}
+		if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
+			operaciones=operaciones+"\n"+"Revision del estado del"+"\n"+"aislamiento termico.";
+		}
+		if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
+			operaciones=operaciones+"\n"+"Analisis de los productos de"+"\n"+"la combustion.";
+		}
+		if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
+			operaciones=operaciones+"\n"+"Caudal de ACS y calculo de"+"\n"+"potencia util.";
+		}
+		if (mantenimientoTerminado.getRevision_sistema_control()==1){
+			operaciones=operaciones+"\n"+"Revision del sistema de control";
+		}
+		return operaciones;
+	}
+	private String datosMaquinas() throws SQLException {
+		String datos_maquinas = "";
+		for (int i = 0; i < maquinas.size(); i++) {
+			String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
+			String cod = maquinas.get(i).getCodigo_maquina();
+			String codigo = "Codigo: "+cod+"\n";
+			String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(activity,maquinas.get(i).getFk_marca_maquina());
+			String marca = "Marca: "+mar+"\n";
+			String mode = maquinas.get(i).getModelo_maquina();
+			String modelo = "Modelo: "+mode+"\n";
+			String añ = maquinas.get(i).getPuesta_marcha_maquina();
+			String año = "Fabricado: "+añ+"\n";
+			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
+			String potencia = "Potencia"+pot+"\n";
+			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
+			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
+			String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
+			String caud_acs = maquinas.get(i).getCaudal_acs();
+			String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
+			String pot_uti = maquinas.get(i).getPotencia_util();
+			String potencia_util = "Potencia util: "+pot_uti+"\n";
+			String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
+			String temp_agua_entrada = "Temp. agua entrada"+tem_agu_ent+"\n";
+			String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
+			String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
+			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
+			String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
+		}
+
+		return datos_maquinas;
 	}
 }

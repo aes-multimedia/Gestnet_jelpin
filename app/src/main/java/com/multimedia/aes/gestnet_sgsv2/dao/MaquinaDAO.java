@@ -74,4 +74,13 @@ public class MaquinaDAO extends DBHelperMOS {
 			return listadoMaquina.get(0);
 		}
 	}
+	public static List<Maquina> buscarMaquinaPorFkMantenimiento(Context context, int id) throws SQLException {
+		cargarDao(context);
+		List<Maquina> listadoMaquina= dao.queryForEq(Maquina.FK_MANTENIMIENTO, id);
+		if(listadoMaquina.isEmpty()){
+			return  null;
+		}else{
+			return listadoMaquina;
+		}
+	}
 }

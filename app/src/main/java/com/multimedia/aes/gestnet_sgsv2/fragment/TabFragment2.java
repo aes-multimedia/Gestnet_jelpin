@@ -122,7 +122,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
-            String tipo = null;
+           /* String tipo = null;
             if (!mantenimiento.getTipo_maquina().equals("null")) {
                 tipo= mantenimiento.getTipo_maquina();
                 try {
@@ -136,7 +136,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
                 int spinnerPosition = myAdap.getPosition(myString);
                 spTipo.setSelection(spinnerPosition);
-            }
+            }*/
 
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
             marcas = new String[listaMarcas.size()+1];
@@ -216,12 +216,19 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Faltan datos en el equipamiento", Toast.LENGTH_SHORT).show();
             }
         }else if (view.getId()==R.id.btnAñadirMaquina){
-            alto+=height;
-            lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
             Maquina m = new Maquina();
-            arrayListMaquina.add(m);
-            adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
-            lvMaquinas.setAdapter(adaptadorListaMaquinas);
+            try {
+                if (llenarMaquina(m)!=null){
+                    alto+=height;
+                    lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                    arrayListMaquina.add(m);
+                    adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
+                    lvMaquinas.setAdapter(adaptadorListaMaquinas);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
     public static void borrarArrayProductos(int position, Context context){
@@ -252,10 +259,103 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno + Grill")){
                     fk_equipamiento = 3;
                 }
-                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getFk_maquina());
+                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getId_mantenimiento());
             }
         }
         return mantenimientoTerminado;
     }
-
+    private String llenarMaquina(Maquina m) throws SQLException {
+        m.setFk_mantenimiento(mantenimiento.getId_mantenimiento());
+        if (spTipo.getSelectedItemPosition()!=0){
+            m.setFk_tipo_maquina(TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString()));
+            if (spMarca.getSelectedItemPosition()!=0){
+                m.setFk_marca_maquina(MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString()));
+                if (!etModelo.getText().toString().trim().equals("")){
+                    m.setModelo_maquina(etModelo.getText().toString());
+                    if (spPotencia.getSelectedItemPosition()!=0){
+                        m.setFk_potencia_maquina(PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString()));
+                        if (spUso.getSelectedItemPosition()!=0){
+                            m.setFk_uso_maquina(UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString()));
+                            if (spPuestaMarcha.getSelectedItemPosition()!=0){
+                                m.setPuesta_marcha_maquina(spPuestaMarcha.getSelectedItem().toString());
+                                if (!etCodigo.getText().toString().trim().equals("")){
+                                    m.setCodigo_maquina(etCodigo.getText().toString());
+                                    if (!etC0.getText().toString().trim().equals("")){
+                                        m.setC0_maquina(etC0.getText().toString());
+                                        if (!etTempMaxACS.getText().toString().trim().equals("")){
+                                            m.setTemperatura_max_acs(etTempMaxACS.getText().toString());
+                                            if (!etCaudalACS.getText().toString().trim().equals("")){
+                                                m.setCaudal_acs(etCaudalACS.getText().toString());
+                                                if (!etPotenciaUtil.getText().toString().trim().equals("")){
+                                                    m.setPotencia_util(etPotenciaUtil.getText().toString());
+                                                    if (!etTempGasesComb.getText().toString().trim().equals("")){
+                                                        m.setTemperatura_gases_combustion(etTempGasesComb.getText().toString());
+                                                        if (!etTempAmbienteLocal.getText().toString().trim().equals("")){
+                                                            m.setTemperatura_ambiente_local(etTempAmbienteLocal.getText().toString());
+                                                            if (!etTempAguaGeneCalorEntrada.getText().toString().trim().equals("")){
+                                                                m.setTemperatura_agua_generador_calor_entrada(etTempAguaGeneCalorEntrada.getText().toString());
+                                                                if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
+                                                                    m.setTemperatura_agua_generador_calor_salida(etTempAguaGeneCalorSalida.getText().toString());
+                                                                }else{
+                                                                    Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor salida", Toast.LENGTH_SHORT).show();
+                                                                    return null;
+                                                                }
+                                                            }else{
+                                                                Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor entrada", Toast.LENGTH_SHORT).show();
+                                                                return null;
+                                                            }
+                                                        }else{
+                                                            Toast.makeText(getContext(), "Seleccione una temperatura ambiente local", Toast.LENGTH_SHORT).show();
+                                                            return null;
+                                                        }
+                                                    }else{
+                                                        Toast.makeText(getContext(), "Seleccione una temperatura de gases de combustion", Toast.LENGTH_SHORT).show();
+                                                        return null;
+                                                    }
+                                                }else{
+                                                    Toast.makeText(getContext(), "Seleccione una potencia util", Toast.LENGTH_SHORT).show();
+                                                    return null;
+                                                }
+                                            }else{
+                                                Toast.makeText(getContext(), "Seleccione un caudal acs", Toast.LENGTH_SHORT).show();
+                                                return null;
+                                            }
+                                        }else{
+                                            Toast.makeText(getContext(), "Seleccione una temperatura maxima de acs", Toast.LENGTH_SHORT).show();
+                                            return null;
+                                        }
+                                    }else{
+                                        Toast.makeText(getContext(), "Seleccione un CO", Toast.LENGTH_SHORT).show();
+                                        return null;
+                                    }
+                                }else{
+                                    Toast.makeText(getContext(), "Seleccione un codigo", Toast.LENGTH_SHORT).show();
+                                    return null;
+                                }
+                            }else{
+                                Toast.makeText(getContext(), "Seleccione una puesta en marcha", Toast.LENGTH_SHORT).show();
+                                return null;
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Seleccione un uso", Toast.LENGTH_SHORT).show();
+                            return null;
+                        }
+                    }else{
+                        Toast.makeText(getContext(), "Seleccione una potencia", Toast.LENGTH_SHORT).show();
+                        return null;
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Seleccione un modelo", Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+            }else{
+                Toast.makeText(getContext(), "Seleccione una marca", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }else{
+            Toast.makeText(getContext(), "Seleccione un tipo", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return "";
+    }
 }
