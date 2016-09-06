@@ -109,7 +109,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         etCosteMateriales = (EditText) vista.findViewById(R.id.etCosteMateriales);
         etManoObra = (EditText) vista.findViewById(R.id.etCosteManoDeObra);
         etManoObraAdicional = (EditText) vista.findViewById(R.id.etCosteManoDeObraAdicional);
-        etContadorInterno = (EditText) vista.findViewById(R.id.etContadorInterno);
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         cbAnomalias = (CheckBox) vista.findViewById(R.id.cbAnomalias);
@@ -124,7 +123,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
-        llContadorInterno = (LinearLayout)vista.findViewById(R.id.llContadorInterno);
         llAnomalias = (LinearLayout)vista.findViewById(R.id.llAnomalias);
         llReparacion.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);

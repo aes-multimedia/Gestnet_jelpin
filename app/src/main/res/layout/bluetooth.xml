@@ -65,7 +65,8 @@
         android:layout_height="match_parent"
         android:id="@+id/scTicket"
         android:layout_marginTop="10dp"
-        android:background="@drawable/fondo_linear_gris">
+        android:background="@drawable/fondo_linear_gris"
+        android:visibility="gone">
 
         <LinearLayout
             android:orientation="vertical"
@@ -89,11 +90,6 @@
                 android:id="@+id/txtImpreso"
                 android:visibility="visible" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivFirmaUno" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,26 +100,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ivFirmaDos" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/txtImpreso3" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivFirmaTres" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/txtImpreso4" />
+                android:id="@+id/ivFirmaUno" />
 
             <ImageView
                 android:layout_width="wrap_content"

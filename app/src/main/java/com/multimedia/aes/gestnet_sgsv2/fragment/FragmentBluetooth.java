@@ -11,9 +11,19 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
+import com.sewoo.jpos.POSPrinterService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,8 +57,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
+
+import jpos.JposException;
+import jpos.POSPrinterConst;
 
 public class FragmentBluetooth extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
@@ -64,16 +82,31 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private ImageView ivLogo,ivFirma1,ivFirma2,ivFirma3,ivCodigoBarras;
+    private ImageView ivLogo,ivFirma1,ivCodigoBarras;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
     private ScrollView scTicket;
     private Mantenimiento mantenimiento;
+    private Tecnico tecnico;
+    private MantenimientoTerminado mantenimientoTerminado;
+    private List<Maquina> maquinas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vista = inflater.inflate(R.layout.bluetooth, container, false);
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            int id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+            mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(getContext(),id);
+            tecnico = TecnicoDAO.buscarTodosLosTecnicos(getContext()).get(0);
+            maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         openButton = (Button) vista.findViewById(R.id.open);
         sendButton = (Button) vista.findViewById(R.id.send);
         closeButton = (Button) vista.findViewById(R.id.close);
@@ -87,8 +120,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         txtImpreso4 = (TextView) vista.findViewById(R.id.txtImpreso4);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
         ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
-        ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
-        ivFirma3 = (ImageView) vista.findViewById(R.id.ivFirmaTres);
         ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
 
         scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
@@ -119,10 +150,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         } catch (IOException e) {
             e.printStackTrace();
         }
-        txtImpreso.setText(generarTexto1());
-        txtImpreso2.setText(generarTexto2());
-        txtImpreso3.setText(generarTexto3());
-        txtImpreso4.setText(generarTexto4());
+        try {
+            txtImpreso.setText(generarTexto1());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         ivCodigoBarras.setImageBitmap(codigoBarras());
         findBT();
         return vista;
@@ -198,8 +230,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if(resultCode == Activity.RESULT_OK){
                 Bitmap bitmap = loadFirmaFromStorage();
                 ivFirma1.setImageBitmap(bitmap);
-                ivFirma2.setImageBitmap(bitmap);
-                ivFirma3.setImageBitmap(bitmap);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -273,10 +303,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         closeButton.setVisibility(View.GONE);
         openButton.setVisibility(View.GONE);
         btnOtra.setVisibility(View.GONE);
-        txtImpreso.setText(generarTexto1());
-        txtImpreso2.setText(generarTexto2());
-        txtImpreso3.setText(generarTexto3());
-        txtImpreso4.setText(generarTexto4());
+        try {
+            txtImpreso.setText(generarTexto1());
+            txtImpreso2.setText(generarTextoFin());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try {
             ivLogo.setImageBitmap(generarImagen());
         } catch (IOException e) {
@@ -291,134 +323,78 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         Bitmap btmp= BitmapFactory.decodeStream(bitmap);
         return btmp;
     }
-    private String generarTexto1()  {
-        String fecha = "22/06/2016";
-        String hora = "12:06";
+    private String generarTexto1() throws SQLException {
+        Calendar cal = new GregorianCalendar();
+        Date date = cal.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = df.format(date);
+        df = new SimpleDateFormat("hh:mm");
+        String hora = df.format(date);
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
-        String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
-        String num_contrato = "000111522";
+        String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
+        String num_contrato = mantenimiento.getContrato_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-        String serv = "Mantenimiento Gas";
-        String servicio = "Servicio: "+serv+ "\n";
-        String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
-        String direccion = "Direccion"+"\n"+dir+"\n\n";
+        String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+        String direccion = "Direccion: "+"\n"+dir+"\n\n";
         String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
-        String emp = "IBERDROLA";
+        String emp = "ICISA";
         String empresa = "Empresa: "+emp+"\n";
-        String cif_emp = "02365474S";
+        String cif_emp = "05954765L";
         String cif = "CIF: "+cif_emp+"\n";
         String num_emp_mant = "44556678";
         String numero_empresa_mantenedora = "N. Empresa Mantenedora: "+"\n"+num_emp_mant+"\n";
-        String tec = "Pedro Buenhombre Lopez";
-        String tecnico = "Tecnico: "+tec+"\n";
+        String tec = tecnico.getNombre_usuario();
+        String tecnic = "Tecnico: "+tec+"\n";
         String num_insta = "659898741";
         String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
-        String datos_averia = "----------DATOS AVERIA----------" + "\n";
-        String noti = "21/06/2016";
-        String notificada = "Notificada: "+noti+"\n";
-        String atend = "18/06/2016-14:00";
-        String atendida = "Atendida: "+atend+"\n";
-        String prev_repar = "26/06/2016-13:30";
-        String prevista_reparacion = "Prevista reparacion: "+"\n"+prev_repar+"\n";
-        String repa = "24/06/2016-12:48";
-        String reparada = "Reparada: "+repa+"\n";
-        String num_solic = "6547952";
-        String numero_solicitud = "N. Solicitud: "+num_solic+"\n";
-        String cod_ave = "3216565";
-        String codigo_averia = "Codigo Averia: "+cod_ave+"\n";
-        String desc = "Una averia sin importancia";
-        String descripcion = "Descripcion: "+"\n"+desc+"\n\n";
+        String datos_averia = "----------DATOS VISITA----------" + "\n";
+        String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
+        String notificada = ""+noti+"\n\n";
+        String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
+        String op = operaciones();
+        String operaciones = op+"\n";
+        String maquina = datosMaquinas()+"\n\n";
+        String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
+        String anom = "";
+        if (mantenimientoTerminado.isAnomalia()){
+            anom = "Sin Anomalias";
+        }else {
+            if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
+                anom = SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita());
+            }else{
+                anom = "otras anomalias";
+            }
+        }
 
-        String presupuesto = "----------PRESUPUESTO-----------" + "\n";
-        String piez = "Junta caldera  5 euros";
-        String piezas = "Piezas: "+piez+"\n";
-        String man_obra = "2 piezas: 20 euros";
-        String mano_obra = "Mano de obra: "+man_obra+"\n";
-        String despl = "5 horas:  24 euros";
-        String desplazamiento = "Desplazamiento: "+"\n"+despl+"\n";
-        String otr = "6 Km 31 euros"+"\n"+"2 Km 12 euros";
-        String otros = "Otros: "+otr+"\n";
-        String desc_preiva = "0%";
-        String descuentos_preiva = "Descuentos antes de iva: "+"\n"+desc_preiva+"\n";
-        String mat = "6 piezas: 29 euros";
-        String materiales = "Materiales: "+mat+"\n";
-        String pres_tot_siniva = "95 euros";
-        String presupuesto_total_siniva = "Presupuesto total sin iva: "+"\n"+pres_tot_siniva+"\n";
-        String iv = "21%";
-        String iva = "IVA: "+iv+"\n";
-        String pres_tot_coniva = "102 euros";
-        String presupuesto_total_coniva = "Presupuesto total con iva: "+"\n"+pres_tot_coniva+"\n";
-        String otr_desc = "0%";
-        String otros_descuentos = "Otros descuentos: "+otr_desc+"\n";
-        String tot = "102 euros";
-        String total = "TOTAL A PAGAR: "+tot+"\n\n";
-        String observaciones_tecnico = "-------OBSERVAC. TECNICO--------" + "\n";
-        String obs_tecnico = "La maquina es antigüa";
-        String observ_tecnico = obs_tecnico+"\n\n";
-        String recepcion_presup_cliente = "---RECEPCION PRESUP. CLIENTE----" + "\n";
-        String fec_recep = "22/06/2016-13:00";
-        String fecha_recep = "Fecha: "+fec_recep+"\n";
-        String nom = "Alejandro Perez Lopez";
+        String anomalias = anom+"\n\n";
+        String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
+                "correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
+                "esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
+                "Decreto 919/2006,de 28 de julio."+"\n";
+        String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
+                "pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
+        String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
+        String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+        String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
+        String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
+                datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
+                datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
+                anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
+        return textoImpresion;
+    }
+    private String generarTextoFin(){
+        String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
+        String obs = mantenimiento.getObservaciones_usuario();
+        String observaciones = "Observaciones: "+obs+"\n";
+        String nom = mantenimiento.getNombre_usuario();
         String nombre = "Nombre: "+nom+"\n";
-        String dn = "02365984K";
-        String dni = "DNI: "+dn+"\n";
-        String firma = "Firma:"+"\n";
+        String dn = mantenimiento.getDni_usuario();
+        String dni = "Dni: "+dn+"\n";
+        String firma_cliente="Firma Cliente"+"\n";
 
-        String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+servicio+direccion+
-                datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnico+numero_instalador+datos_averia+
-                notificada+atendida+prevista_reparacion+reparada+numero_solicitud+codigo_averia+descripcion+
-                presupuesto+piezas+mano_obra+desplazamiento+otros+descuentos_preiva+materiales+
-                presupuesto_total_siniva+iva+presupuesto_total_coniva+otros_descuentos+total+observaciones_tecnico+
-                observ_tecnico+recepcion_presup_cliente+fecha_recep+nombre+dni+firma;
-
-       return textoImpresion;
-    }
-    private String generarTexto2()  {
-        String aceptacion_presupuesto = "-----ACEPTACION PRESUPUESTO-----" + "\n";
-        String recibido = "* Recibido antes de la"+"\n"+" realizacion de los trabajos."+"\n";
-        String aceptado = "* Una vez aceptado, el"+"\n"+" presupuesto hara de orden de"+"\n"+" trabajo."+"\n";
-        String fec_acep = "22/06/2016-13:00";
-        String fecha_acep = "Fecha: "+fec_acep+"\n";
-        String nom_acep = "Alejandro Perez Lopez";
-        String nombre_acep = "Nombre: "+nom_acep+"\n";
-        String dn_acep = "02365984K";
-        String dni_acep = "DNI: "+dn_acep+"\n";
-        String firma_acep = "Firma:"+"\n";
-        String textoImpresion =aceptacion_presupuesto+recibido+
-                aceptado+fecha_acep+nombre_acep+dni_acep+firma_acep;
-       return textoImpresion;
-    }
-    private String generarTexto3() {
-        String conforme_final_cliente = "-----CONFORME FINAL CLIENTE-----" + "\n";
-        String fec_conf = "22/06/2016-13:00";
-        String fecha_conf = "Fecha: "+fec_conf+"\n";
-        String nom_conf = "Alejandro Perez Lopez";
-        String nombre_conf = "Nombre: "+nom_conf+"\n";
-        String dn_conf = "02365984K";
-        String dni_conf = "DNI: "+dn_conf+"\n";
-        String firma_conf = "Firma:"+"\n";
-        String textoImpresion =conforme_final_cliente+fecha_conf+nombre_conf+
-                dni_conf+firma_conf;
-     return textoImpresion;
-    }
-    private String generarTexto4()  {
-        String observaciones_cliente = "-------OBSERVAC. CLIENTE--------" + "\n";
-        String obs_cliente = "";
-        String observ_cliente = obs_cliente+"\n\n";
-
-        String info = "-------------INFO.--------------" + "\n";
-        String validez = "*Validez del presupuesto: 30"+"\n"+ " dias desde la fecha de" +"\n"+ " recepcion."+"\n";
-        String garantia = "*Garantia de los trabajos" +"\n"+ " realizados: 6 meses desde la"+"\n"+" finalizacion"+"\n";
-        String sustitu = "*No se sustituiran"+"\n"+" innecesariamente piezas o"+"\n"+" materiales si con ello se"+"\n"+
-                " incrementan los costes del"+"\n"+" servicio o se degradan los"+"\n"+" bienes objeto de la prestacion." +"\n"+
-                " Cualquier variacion del importe"+"\n"+" del presupuesto inicial debera"+"\n"+" ponerse en conocimiento del"+"\n"+
-                " usuario por escrito y de modo"+"\n"+" desglosado. No cabra"+"\n"+" modificacion al alza del"+"\n"+
-                " presupuesto en los casos de"+"\n"+" errores en las mediciones y"+"\n"+" valoraciones efectuadas por el"+"\n"+
-                " tecnico. Las modificaciones"+"\n"+" deberan ser firmadas por ambas"+"\n"+" partes en senal de conformidad."+"\n";
-        String reclamacion = "*Existen hojas de reclamaciones"+"\n"+" a disposicion del cliente."+"\n\n\n\n\n\n";
-        String textoImpresion =observaciones_cliente+observ_cliente+info+validez+garantia+sustitu+reclamacion;
-       return textoImpresion;
+        String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
+        return textoImpresion;
     }
     private Bitmap loadFirmaFromStorage(){
         Bitmap b=null;
@@ -437,5 +413,101 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
         return bit;
     }
+    private String operaciones(){
+        String operaciones = "";
+        if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
+            operaciones=operaciones+"-Limpieza del quemador"+"\n"+"de la caldera.";
+        }
+        if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
+            operaciones=operaciones+"\n"+"-Revision del vaso de expansion.";
+        }
+        if (mantenimientoTerminado.getRegulacion_aparatos()==1){
+            operaciones=operaciones+"\n"+"-Regulacion de aparatos.";
+        }
+        if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
+            operaciones=operaciones+"\n"+"-Comprobar estanqueidad de"+"\n"+"cierre entre quemadores y"+"\n"+" caldera.";
+        }
+        if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
+            operaciones=operaciones+"\n"+"-Revision general de calderas"+"\n"+"y/o calentadores.";
+        }
+        if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
+            operaciones=operaciones+"\n"+"-Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
+        }
+        if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
+            operaciones=operaciones+"\n"+"-Estanqueidad de la conexion de"+"\n"+"los aparatos.";
+        }
+        if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
+            operaciones=operaciones+"\n"+"-Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
+        }
+        if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
+            operaciones=operaciones+"\n"+"-Comprobacion de niveles de agua";
+        }
+        if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
+            operaciones=operaciones+"\n"+"-Tipo de conducto de evacuacion.";
+        }
+        if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
+            operaciones=operaciones+"\n"+"-Revision del estado del"+"\n"+"aislamiento termico.";
+        }
+        if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
+            operaciones=operaciones+"\n"+"-Analisis de los productos de"+"\n"+"la combustion.";
+        }
+        if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
+            operaciones=operaciones+"\n"+"-Caudal de ACS y calculo de"+"\n"+"potencia util.";
+        }
+        if (mantenimientoTerminado.getRevision_sistema_control()==1){
+            operaciones=operaciones+"\n"+"-Revision del sistema de control";
+        }
+        return operaciones;
+    }
+    private String datosMaquinas() throws SQLException {
+        String datos_maquinas = "";
+        for (int i = 0; i < maquinas.size(); i++) {
+            String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
+            String cod = maquinas.get(i).getCodigo_maquina();
+            String codigo = "Codigo: "+cod+"\n";
+            String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquinas.get(i).getFk_marca_maquina());
+            String marca = "Marca: "+mar+"\n";
+            String mode = maquinas.get(i).getModelo_maquina();
+            String modelo = "Modelo: "+mode+"\n";
+            String añ = maquinas.get(i).getPuesta_marcha_maquina();
+            String año = "Fabricado: "+añ+"\n";
+            String pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
+            String potencia = "Potencia: "+pot+"\n\n";
+            String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
+            String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
+            String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
+            String caud_acs = maquinas.get(i).getCaudal_acs();
+            String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
+            String pot_uti = maquinas.get(i).getPotencia_util();
+            String potencia_util = "Potencia util: "+pot_uti+"\n";
+            String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
+            String temp_agua_entrada = "Temp. agua entrada"+tem_agu_ent+"\n";
+            String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
+            String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
+            String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
+            String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
+            String rend_apar = "80%";
+            String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
+            String co_cor = "55";
+            String co_corregido = "CO corregido: "+co_cor+ "\n";
+            String co_amb = maquinas.get(i).getC0_maquina();
+            String co_ambiente = "CO ambiente: "+co_amb+ "\n";
+            String tir = "5";
+            String tiro = "Tiro: "+tir+ "\n";
+            String c2 = "55";
+            String co2 = "CO2: "+c2+ "\n";
+            String o02 = "55";
+            String o2 = "O2: "+o02+ "\n";
+            String lamb = "55";
+            String lambda = "Lambda: "+lamb+ "\n";
+            String perd_chim = "15";
+            String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
+            datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+                    temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
+                    temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
+                    lambda+perdidas_chimenea;
+        }
 
+        return datos_maquinas;
+    }
 }
