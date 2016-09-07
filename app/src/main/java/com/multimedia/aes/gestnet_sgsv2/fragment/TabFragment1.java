@@ -144,7 +144,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             txtTipoMantenimiento.setText("Servicio de Mantenimiento Gas Ampliado");
         }
         txtContadorAverias.setText(mantenimiento.getContador_averias());
-        txtContrato.setText(mantenimiento.getContrato_endesa());
+        txtContrato.setText(mantenimiento.getNum_orden_endesa());
 
         String dateSample = mantenimiento.getFecha_aviso();
 

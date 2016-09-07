@@ -15,11 +15,13 @@ import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 
 import org.json.JSONArray;
@@ -51,6 +53,7 @@ public class UploadService extends IntentService {
     private Mantenimiento mantenimiento = null;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private ArrayList<Imagenes> arraylistImagenes = new ArrayList<>();
+    private List<Maquina> maquinas;
 
     public UploadService() {
         super("UploadService");
@@ -76,7 +79,7 @@ public class UploadService extends IntentService {
                     String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
                     MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
-                    if (mensajemantenimiento.equals("1")){
+                    if (!mensajemantenimiento.equals("1")){
                         String mensajeticket = subirTiket(rellenarJsonTiket(list.get(i).getFk_parte()));
                         Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
@@ -196,6 +199,8 @@ public class UploadService extends IntentService {
         mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorId(getBaseContext(),id);
         mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getBaseContext(),mantenimientoTerminado.getFk_parte());
         tecnico = TecnicoDAO.buscarTodosLosTecnicos(getBaseContext()).get(0);
+        maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
+        Maquina maquina = maquinas.get(0);
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
@@ -230,7 +235,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("tipoConductoEvacuacion", mantenimientoTerminado.getTipo_conducto_evacuacion());
         jsonObject1.put("revEstadoAislamientoTermico", mantenimientoTerminado.getRevision_estado_aislamiento_termico());
         jsonObject1.put("analisisProdCombustion", mantenimientoTerminado.getAnalisis_productos_combustion());
-        //jsonObject1.put("caudalACS", mantenimientoTerminado.getCaudal_acs());
+        jsonObject1.put("caudalACS", maquina.getCaudal_acs());
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
 
         jsonObject2.put("fkEstadoVisita",mantenimientoTerminado.getFk_estado_visita());
@@ -238,21 +243,21 @@ public class UploadService extends IntentService {
         jsonObject2.put("cartaEnviada","0");
         jsonObject2.put("fechaEnvioCarta","0000-00-00");
 
-        //jsonObject3.put("fkTipoCaldera",mantenimientoTerminado.getFk_tipo_maquina());
-        //jsonObject3.put("id_maquina",mantenimiento.getFk_maquina());
-        //jsonObject3.put("fkMarca",mantenimientoTerminado.getFk_marca_maquina());
-        //jsonObject3.put("potencia",mantenimientoTerminado.getFk_potencia_maquina());
-        //jsonObject3.put("fkUso",mantenimientoTerminado.getFk_uso_maquina());
-        //jsonObject3.put("puestaEnMarcha",mantenimientoTerminado.getPuesta_marcha_maquina());
-        //jsonObject3.put("codigo",mantenimientoTerminado.getCodigo_maquina());
-        //jsonObject3.put("c0ppm",mantenimientoTerminado.getC0_maquina());
-        //jsonObject3.put("tempMaxACS",mantenimientoTerminado.getTemperatura_max_acs());
-        //jsonObject3.put("caudalACS",mantenimientoTerminado.getCaudal_acs());
-        //jsonObject3.put("potenciaUtil",mantenimientoTerminado.getPotencia_util());
-        //jsonObject3.put("tempGasCombustion",mantenimientoTerminado.getTemperatura_gases_combustion());
-        //jsonObject3.put("tempAmbLocal",mantenimientoTerminado.getTemperatura_ambiente_local());
-        //jsonObject3.put("tempAguaGeneradorCalorEntrada",mantenimientoTerminado.getTemperatura_agua_generador_calor_entrada());
-        //jsonObject3.put("tempAguaGeneradorCalorSalida",mantenimientoTerminado.getTemperatura_agua_generador_calor_salida());
+        jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
+        jsonObject3.put("id_maquina",mantenimiento.getFk_maquina());
+        jsonObject3.put("fkMarca",maquina.getFk_marca_maquina());
+        jsonObject3.put("potencia",maquina.getFk_potencia_maquina());
+        jsonObject3.put("fkUso",maquina.getFk_uso_maquina());
+        jsonObject3.put("puestaEnMarcha",maquina.getPuesta_marcha_maquina());
+        jsonObject3.put("codigo",maquina.getCodigo_maquina());
+        jsonObject3.put("c0ppm",maquina.getC0_maquina());
+        jsonObject3.put("tempMaxACS",maquina.getTemperatura_max_acs());
+        jsonObject3.put("caudalACS",maquina.getCaudal_acs());
+        jsonObject3.put("potenciaUtil",maquina.getPotencia_util());
+        jsonObject3.put("tempGasCombustion",maquina.getTemperatura_gases_combustion());
+        jsonObject3.put("tempAmbLocal",maquina.getTemperatura_ambiente_local());
+        jsonObject3.put("tempAguaGeneradorCalorEntrada",maquina.getTemperatura_agua_generador_calor_entrada());
+        jsonObject3.put("tempAguaGeneradorCalorSalida",maquina.getTemperatura_agua_generador_calor_salida());
         try {
             equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(), mantenimiento.getId_mantenimiento());
         } catch (SQLException e) {

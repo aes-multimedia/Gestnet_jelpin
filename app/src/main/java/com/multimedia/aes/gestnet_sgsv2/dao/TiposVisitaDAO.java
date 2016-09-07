@@ -88,7 +88,15 @@ public class TiposVisitaDAO extends DBHelperMOS {
             return listadoTipoVisita.get(0).getId_tipo_visita();
         }
     }
-
+    public static String buscarNombreTipoVisitaPorId(Context context, int id) throws SQLException {
+        cargarDao(context);
+        List<TiposVisita> listadoSubTiposVisita= dao.queryForEq(TiposVisita.ID_TIPO_VISITA, id);
+        if(listadoSubTiposVisita.isEmpty()) {
+            return null;
+        }else{
+            return listadoSubTiposVisita.get(0).getDescripcion();
+        }
+    }
 
 
 }

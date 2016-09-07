@@ -17,6 +17,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
@@ -116,8 +117,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
         llBotones = (LinearLayout) vista.findViewById(R.id.llBotones);
         txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
-        txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
-        txtImpreso4 = (TextView) vista.findViewById(R.id.txtImpreso4);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
         ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
         ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
@@ -333,7 +332,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
-        String num_contrato = mantenimiento.getContrato_endesa();
+        String num_contrato = mantenimiento.getNum_orden_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";
         String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
         String direccion = "Direccion: "+"\n"+dir+"\n\n";
@@ -357,25 +356,25 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String maquina = datosMaquinas()+"\n\n";
         String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
-        if (mantenimientoTerminado.isAnomalia()){
+        if (!mantenimientoTerminado.isAnomalia()){
             anom = "Sin Anomalias";
         }else {
+            anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
             if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-                anom = SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita());
+                anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita());
             }else{
                 anom = "otras anomalias";
             }
         }
-
         String anomalias = anom+"\n\n";
         String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
                 "correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
                 "esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
                 "Decreto 919/2006,de 28 de julio."+"\n";
         String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
-                "pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
+                "pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n\n";
         String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-        String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+        String obs = "\n";
         String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
         String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
                 datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
@@ -481,26 +480,26 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String pot_uti = maquinas.get(i).getPotencia_util();
             String potencia_util = "Potencia util: "+pot_uti+"\n";
             String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
-            String temp_agua_entrada = "Temp. agua entrada"+tem_agu_ent+"\n";
+            String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+"\n";
             String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
-            String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
+            String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+"\n";
             String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
-            String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
-            String rend_apar = "80%";
+            String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+"\n";
+            String rend_apar = "98.3%";
             String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-            String co_cor = "55";
+            String co_cor = "88 ppm";
             String co_corregido = "CO corregido: "+co_cor+ "\n";
             String co_amb = maquinas.get(i).getC0_maquina();
             String co_ambiente = "CO ambiente: "+co_amb+ "\n";
-            String tir = "5";
+            String tir = "-.014 mbar";
             String tiro = "Tiro: "+tir+ "\n";
-            String c2 = "55";
+            String c2 = "9.01 %";
             String co2 = "CO2: "+c2+ "\n";
-            String o02 = "55";
+            String o02 = "5.1 %";
             String o2 = "O2: "+o02+ "\n";
-            String lamb = "55";
+            String lamb = "1.32";
             String lambda = "Lambda: "+lamb+ "\n";
-            String perd_chim = "15";
+            String perd_chim = "";
             String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
             datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
                     temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+

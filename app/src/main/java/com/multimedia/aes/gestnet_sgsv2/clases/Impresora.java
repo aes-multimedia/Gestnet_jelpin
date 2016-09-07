@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
@@ -128,7 +129,7 @@ public class Impresora {
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
-		String num_contrato = mantenimiento.getContrato_endesa();
+		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
 		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
 		String direccion = "Direccion: "+"\n"+dir+"\n\n";
@@ -152,11 +153,12 @@ public class Impresora {
 		String maquina = datosMaquinas()+"\n\n";
 		String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
 		String anom = "";
-		if (mantenimientoTerminado.isAnomalia()){
+		if (!mantenimientoTerminado.isAnomalia()){
 			anom = "Sin Anomalias";
 		}else {
+			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-				anom = SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
+				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
 			}else{
 				anom = "otras anomalias";
 			}
@@ -170,14 +172,14 @@ public class Impresora {
 		String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
 				"pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-		String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+		String obs = "Falta rejilla superior \n";
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
 				datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
 				anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
+		Thread.sleep(6000);
 	}
 	private void generarTextoFin(POSPrinterService pps) throws JposException, InterruptedException {
 		String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
@@ -345,21 +347,21 @@ public class Impresora {
 			String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
 			String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
-			String rend_apar = "80%";
+			String rend_apar = "98.3 %";
 			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-			String co_cor = "55";
+			String co_cor = "88 ppm";
 			String co_corregido = "CO corregido: "+co_cor+ "\n";
 			String co_amb = maquinas.get(i).getC0_maquina();
 			String co_ambiente = "CO ambiente: "+co_amb+ "\n";
-			String tir = "5";
+			String tir = "-.014 mbar";
 			String tiro = "Tiro: "+tir+ "\n";
-			String c2 = "55";
+			String c2 = "9.01 %";
 			String co2 = "CO2: "+c2+ "\n";
-			String o02 = "55";
+			String o02 = "5.1 %";
 			String o2 = "O2: "+o02+ "\n";
-			String lamb = "55";
+			String lamb = "1.32	";
 			String lambda = "Lambda: "+lamb+ "\n";
-			String perd_chim = "15";
+			String perd_chim = "";
 			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
 			datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
 						   temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
