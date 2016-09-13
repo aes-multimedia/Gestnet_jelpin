@@ -61,6 +61,6 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        TabFragment2.borrarArrayProductos((int)v.getTag(),context);
+        TabFragment2.borrarArrayMaquinas((int)v.getTag(),context);
     }
 }

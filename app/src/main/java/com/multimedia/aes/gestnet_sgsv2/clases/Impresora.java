@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
@@ -23,6 +24,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
@@ -55,7 +57,6 @@ public class Impresora {
 	public Activity activity;
 	private BluetoothAdapter bluetoothAdapter;
 	public BluetoothPort bp;
-	private String textoImpresion = "";
 	private int ancho_sewoo_seleccionado = 32;
 	private String ocupados;
 	private Resources res;
@@ -66,6 +67,7 @@ public class Impresora {
 	private Tecnico tecnico;
 	private MantenimientoTerminado mantenimientoTerminado;
 	private List<Maquina> maquinas;
+	private List<EquipamientoCaldera> equipamiento;
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
 		super();
@@ -81,6 +83,7 @@ public class Impresora {
 			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,id);
 			tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
 			maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(activity,mantenimiento.getId_mantenimiento());
+			equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(activity,mantenimiento.getId_mantenimiento());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -158,7 +161,8 @@ public class Impresora {
 		}else {
 			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
+				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita())+"\n";
+				anom+= SubTiposVisitaDAO.buscarSubTiposVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion();
 			}else{
 				anom = "otras anomalias";
 			}
@@ -363,12 +367,31 @@ public class Impresora {
 			String lambda = "Lambda: "+lamb+ "\n";
 			String perd_chim = "";
 			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
-			datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
 						   temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 						   temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
 						   lambda+perdidas_chimenea;
 		}
-
+		if (equipamiento!=null){
+			for (int i = 0; i < equipamiento.size(); i++) {
+				String datos_equipamiento = "-------DATOS EQUIPAMIENTO-------" + "\n";
+				int equ = equipamiento.get(i).getFk_tipo_equipamiento();
+				String tip_equ = "";
+				String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(i).getPotencia_fuegos()+"\n"+"\n";
+				switch (equ){
+					case 1:
+						tip_equ = "Cocina"+"\n";
+						break;
+					case 2:
+						tip_equ = "Horno"+"\n";
+						break;
+					case 3:
+						tip_equ = "Horno + Grill"+"\n";
+						break;
+				}
+				datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
+			}
+		}
 		return datos_maquinas;
 	}
 }

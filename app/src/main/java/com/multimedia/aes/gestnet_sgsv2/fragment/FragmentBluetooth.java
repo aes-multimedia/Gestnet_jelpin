@@ -231,7 +231,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
                 ivFirma1.setImageBitmap(bitmap);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+
             }
         }
     }

@@ -65,7 +65,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private String[] potencias;
     private String[] puestaMarcha;
     private Mantenimiento mantenimiento = null;
-    private static int alto=0, height;
+    private static int alto=0,alto1=0, height;
     private static ListView lvEquipamientos,lvMaquinas;
     private static ArrayList<DataEquipamientos> arraylistEquipamiento = new ArrayList<>();
     private static AdaptadorListaEquipamientos adaptadorListaEquipamientos;
@@ -219,8 +219,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             Maquina m = new Maquina();
             try {
                 if (llenarMaquina(m)!=null){
-                    alto+=height;
-                    lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                    alto1+=height;
+                    lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
                     arrayListMaquina.add(m);
                     adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
                     lvMaquinas.setAdapter(adaptadorListaMaquinas);
@@ -255,12 +255,20 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(context, R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
         lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
     }
+    public static void borrarArrayMaquinas(int position, Context context){
+        arrayListMaquina.remove(position);
+        alto1-=height;
+        lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
+        adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
+        lvMaquinas.setAdapter(adaptadorListaEquipamientos);
+    }
 
     public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado){
         if (!arrayListMaquina.isEmpty()){
             for (int i = 0; i < arrayListMaquina.size(); i++) {
                 MaquinaDAO.newMaquina(getContext(),arrayListMaquina.get(i));
             }
+            arrayListMaquina.clear();
             mantenimientoTerminado.setMaquina(true);
         }else{
             mantenimientoTerminado.setMaquina(false);
