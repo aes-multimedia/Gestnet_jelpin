@@ -63,13 +63,12 @@ import java.util.List;
 public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra;
-    private EditText etObservaciones, etCosteMateriales, etManoObra, etManoObraAdicional, etContadorInterno;
+    private EditText etObservaciones;
     private CheckBox cbContadorInterno, cbReparacion,cbAnomalias;
-    private DatePicker dpFechaReparacion;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
-    private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
+    private TextView tvFechaVisita,tvFechaLimite,txtFinalizado,txtFech,txtCosteMateriales,txtImporteManoObra,txtImporteManoObraAdicional;
     private static Mantenimiento mantenimiento = null;
     private LinearLayout llReparacion,llAnomalias;
     private List<TiposVisita> listaTiposVisita=null;
@@ -106,15 +105,10 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         spTipoVisita = (Spinner) vista.findViewById(R.id.spTipoVisita);
         spTipoReparacion = (Spinner) vista.findViewById(R.id.spTipoReparacion);
         etObservaciones = (EditText) vista.findViewById(R.id.etObservaciones);
-        etCosteMateriales = (EditText) vista.findViewById(R.id.etCosteMateriales);
-        etManoObra = (EditText) vista.findViewById(R.id.etCosteManoDeObra);
-        etManoObraAdicional = (EditText) vista.findViewById(R.id.etCosteManoDeObraAdicional);
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         cbAnomalias = (CheckBox) vista.findViewById(R.id.cbAnomalias);
 
-
-        dpFechaReparacion = (DatePicker) vista.findViewById(R.id.dpFechaReparacion);
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
         btnArchivo = (Button)vista.findViewById(R.id.btnArchivo);
@@ -122,6 +116,10 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         tvFechaVisita = (TextView)vista.findViewById(R.id.tvFechaVisita);
         tvFechaLimite = (TextView)vista.findViewById(R.id.tvFechaLimite);
         txtFinalizado = (TextView)vista.findViewById(R.id.txtFinalizado);
+        txtFech = (TextView)vista.findViewById(R.id.txtFech);
+        txtCosteMateriales = (TextView)vista.findViewById(R.id.txtCostesMateriales);
+        txtImporteManoObra = (TextView)vista.findViewById(R.id.txtImporteManoObra);
+        txtImporteManoObraAdicional = (TextView)vista.findViewById(R.id.txtImporteManoObraAdicional);
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llAnomalias = (LinearLayout)vista.findViewById(R.id.llAnomalias);
         llReparacion.setVisibility(View.GONE);
@@ -151,6 +149,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             e.printStackTrace();
         }
         tvFechaVisita.setText(fecha);
+        txtFech.setText(fecha);
 
         dateSample = mantenimiento.getFecha_maxima_endesa();
         try {
@@ -159,7 +158,9 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             e.printStackTrace();
         }
         tvFechaLimite.setText(fecha);
-
+        txtCosteMateriales.setText("50 €");
+        txtImporteManoObra.setText("0 €");
+        txtImporteManoObraAdicional.setText("0 €");
         try{
             listaTiposVisita = TiposVisitaDAO.buscarTodosLosTipoVisita(getContext());
             tiposVisita = new String[listaTiposVisita.size()+1];
@@ -172,7 +173,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         }catch (SQLException e){
             e.printStackTrace();
         }
-
         try {
             tiposReparacion = TiposReparacionesDAO.buscarTodosLosTiposReparaciones(getContext());
             tipos = new String[tiposReparacion.size()+1];
@@ -185,7 +185,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        spTipoReparacion.setSelection(1);
+        spTiempoManoObra.setSelection(3);
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
 
@@ -524,9 +525,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
         }
         if (cbContadorInterno.isChecked()){
-            if (!etContadorInterno.getText().toString().trim().equals("")){
-                mantenimientoTerminado.setContador_interno(Integer.parseInt(etContadorInterno.getText().toString()));
-            }
+            mantenimientoTerminado.setContador_interno(1);
         }
         if (cbReparacion.isChecked()){
             int c = spTipoReparacion.getSelectedItemPosition();
@@ -540,7 +539,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 }
                 mantenimientoTerminado.setFk_tipo_reparacion(id);
             }
-            String fecha = dpFechaReparacion.getYear()+"-"+dpFechaReparacion.getMonth()+"-"+dpFechaReparacion.getDayOfMonth();
+            String fecha = txtFech.getText().toString();
             mantenimientoTerminado.setFecha_reparacion(fecha);
             int d = spTiempoManoObra.getSelectedItemPosition();
             switch (d){
@@ -558,15 +557,9 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     break;
             }
 
-            if (!etCosteMateriales.getText().toString().trim().equals("")){
-                mantenimientoTerminado.setCoste_materiales(etCosteMateriales.getText().toString());
-            }
-            if (!etManoObra.getText().toString().trim().equals("")){
-                mantenimientoTerminado.setCoste_mano_obra(etManoObra.getText().toString());
-            }
-            if (!etManoObraAdicional.getText().toString().trim().equals("")){
-                mantenimientoTerminado.setCoste_mano_obra_adicional(etManoObraAdicional.getText().toString());
-            }
+            mantenimientoTerminado.setCoste_materiales("50");
+            mantenimientoTerminado.setCoste_mano_obra("0");
+            mantenimientoTerminado.setCoste_mano_obra_adicional("0");
 
         }
         mantenimientoTerminado.setEnviado(false);

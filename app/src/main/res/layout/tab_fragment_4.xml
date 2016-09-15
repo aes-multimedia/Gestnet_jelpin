@@ -44,7 +44,8 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:background="@drawable/fondo_linear_gris">
+                    android:background="@drawable/fondo_linear_gris"
+                    android:layout_marginBottom="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,171 +117,9 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/llReparacion"
-                    android:background="@drawable/fondo_linear_gris"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:visibility="visible">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Tipo Reparación"
-                            android:id="@+id/textView26"
-                            android:textSize="18dp" />
-
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:id="@+id/spTipoReparacion"
-                            android:background="@drawable/caldera_spiners"
-                            android:gravity="right"
-                            android:spinnerMode="dropdown" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Fecha Reparación"
-                            android:id="@+id/textView27"
-                            android:textSize="18dp" />
-
-                        <DatePicker
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/dpFechaReparacion" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Tiempo de mano de obra"
-                            android:id="@+id/textView28"
-                            android:textSize="18dp" />
-
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:id="@+id/spTiempoManoObra"
-                            android:background="@drawable/caldera_spiners"
-                            android:gravity="right"
-                            android:spinnerMode="dropdown"
-                            android:entries="@array/tiempoReparacion" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Coste Materiales"
-                            android:id="@+id/textView37"
-                            android:textSize="18dp"
-                            android:layout_marginTop="10dp" />
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etCosteMateriales"
-                            android:minHeight="30dp"
-                            android:background="@drawable/edit_texts_naranja"
-                            android:layout_marginTop="10dp"
-                            android:inputType="number" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Importe Mano de Obra"
-                            android:id="@+id/textView36"
-                            android:textSize="18dp"
-                            android:layout_marginTop="10dp" />
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etCosteManoDeObra"
-                            android:minHeight="30dp"
-                            android:background="@drawable/edit_texts_naranja"
-                            android:layout_marginTop="10dp"
-                            android:inputType="number" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Importe Mano de Obra Adicional"
-                            android:id="@+id/textView49"
-                            android:textSize="18dp"
-                            android:layout_marginTop="10dp" />
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etCosteManoDeObraAdicional"
-                            android:minHeight="30dp"
-                            android:background="@drawable/edit_texts_naranja"
-                            android:layout_marginTop="10dp"
-                            android:inputType="number" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Con anomalias"
-                    android:id="@+id/cbAnomalias"
-                    android:checked="false"
-                    android:buttonTint="@color/colorAccent" />
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/llAnomalias"
-                    android:visibility="gone">
+                    android:paddingBottom="10dp">
+
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -289,7 +128,8 @@
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:background="@drawable/fondo_linear_gris">
+                        android:background="@drawable/fondo_linear_gris"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -341,98 +181,287 @@
                             android:entries="@array/tipoVisita" />
                     </LinearLayout>
 
-
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Contador Interno"
                         android:id="@+id/cbContadorInterno"
                         android:checked="false"
-                        android:buttonTint="@color/colorAccent"/>
+                        android:buttonTint="@color/colorAccent" />
+                </LinearLayout>
 
-                    <CheckBox
-                        android:layout_width="wrap_content"
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acciones del mantenimiento"
+                    android:id="@+id/cbReparacion"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llReparacion"
+                    android:background="@drawable/fondo_linear_gris"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Reparacion Insitu"
-                        android:id="@+id/cbReparacion"
-                        android:checked="false"
-                        android:buttonTint="@color/colorAccent"/>
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Acción Realizada"
+                            android:id="@+id/textView26"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spTipoReparacion"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Fecha Reparación"
+                            android:id="@+id/textView27"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="fecha llamada"
+                            android:id="@+id/txtFech"
+                            android:textSize="18dp"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Tiempo de mano de obra"
+                            android:id="@+id/textView28"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spTiempoManoObra"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/tiempoReparacion" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Coste Materiales"
+                            android:id="@+id/textView37"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:id="@+id/txtCostesMateriales"
+                            android:textSize="18dp"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Importe Mano de Obra"
+                            android:id="@+id/textView36"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:id="@+id/txtImporteManoObra"
+                            android:textSize="18dp"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Importe Mano de Obra Adicional"
+                            android:id="@+id/textView49"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:id="@+id/txtImporteManoObraAdicional"
+                            android:textSize="18dp"
+                            android:layout_marginLeft="10dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <Button
+            </LinearLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Con anomalias"
+                android:id="@+id/cbAnomalias"
+                android:checked="false"
+                android:buttonTint="@color/colorAccent"
+                android:layout_marginLeft="10dp" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/llAnomalias"
+                android:visibility="visible"
+                android:paddingLeft="10dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/fondo_linear_gris"
+                android:layout_marginBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Acepta Reparación"
+                    android:id="@+id/textView33"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/fondo_linear_gris"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Observaciones"
+                    android:id="@+id/textView25"
+                    android:textSize="18dp" />
+
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Finalizar"
-                    android:id="@+id/btnFinalizar"
-                    android:background="@drawable/botones"
-                    android:gravity="center"
-                    android:layout_margin="20dp"
-                    android:textColor="#FFF" />
-
+                    android:id="@+id/etObservaciones"
+                    android:minHeight="100dp"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:layout_marginBottom="5dp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="10dp" >
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seleccionar_archivo"
+                        android:id="@+id/btnArchivo" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sacar_foto"
+                        android:id="@+id/btnFoto" />
+                </LinearLayout>
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lvImagenes" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Finalizar"
+                android:id="@+id/btnFinalizar"
+                android:background="@drawable/botones"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:textColor="#FFF" />
 
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/fondo_linear_gris"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Observaciones"
-            android:id="@+id/textView25"
-            android:textSize="18dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etObservaciones"
-            android:minHeight="100dp"
-            android:background="@drawable/edit_texts_naranja"
-            android:layout_marginBottom="5dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" >
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_margin="10dp" >
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/seleccionar_archivo"
-                android:id="@+id/btnArchivo" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sacar_foto"
-                android:id="@+id/btnFoto" />
-        </LinearLayout>
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvImagenes" />
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
