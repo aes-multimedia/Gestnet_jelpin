@@ -71,7 +71,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado;
     private static Mantenimiento mantenimiento = null;
-    private LinearLayout llReparacion,llContadorInterno,llAnomalias;
+    private LinearLayout llReparacion,llAnomalias;
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
@@ -214,11 +214,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llReparacion.setVisibility(View.GONE);
             }
         }else if (view.getId()==R.id.cbContadorInterno){
-            if (cbContadorInterno.isChecked()){
-                llContadorInterno.setVisibility(View.VISIBLE);
-            }else{
-                llContadorInterno.setVisibility(View.GONE);
-            }
+
         }else if (view.getId()==R.id.cbAnomalias){
             if (cbAnomalias.isChecked()){
                 llAnomalias.setVisibility(View.VISIBLE);
