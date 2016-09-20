@@ -63,14 +63,14 @@ import java.util.List;
 public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra;
-    private EditText etObservaciones;
-    private CheckBox cbContadorInterno, cbReparacion,cbAnomalias;
+    private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB;
+    private CheckBox cbContadorInterno, cbReparacion,cbAnomalias,cbAceptaRepSi,cbAceptaRepNo,cbSolicitudVisita,cbInSitu;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado,txtFech,txtCosteMateriales,txtImporteManoObra,txtImporteManoObraAdicional;
     private static Mantenimiento mantenimiento = null;
-    private LinearLayout llReparacion,llAnomalias;
+    private LinearLayout llReparacion,llAnomalias,llAceptaRep,llNoAceptaRep;
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
@@ -84,6 +84,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     public static ListView lvImagenes;
     public static Context context;
     private MantenimientoTerminado mantenimientoTerminado;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,6 +109,12 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         cbAnomalias = (CheckBox) vista.findViewById(R.id.cbAnomalias);
+        cbAceptaRepSi=(CheckBox) vista.findViewById(R.id.checkSiAcepta);
+        cbAceptaRepNo=(CheckBox) vista.findViewById(R.id.checkNoAcepta);
+        cbSolicitudVisita=(CheckBox) vista.findViewById(R.id.checkSolcitudVisita);
+        cbInSitu=(CheckBox) vista.findViewById(R.id.cbInSitu);
+        etCodVisitaPlataformaA=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaA);
+        etCodVisitaPlataformaB=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaB);
 
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
@@ -120,9 +127,16 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         txtCosteMateriales = (TextView)vista.findViewById(R.id.txtCostesMateriales);
         txtImporteManoObra = (TextView)vista.findViewById(R.id.txtImporteManoObra);
         txtImporteManoObraAdicional = (TextView)vista.findViewById(R.id.txtImporteManoObraAdicional);
+        etObservacionesInsitu=(EditText)vista.findViewById(R.id.observInsitu);
+
+
         llReparacion = (LinearLayout)vista.findViewById(R.id.llReparacion);
         llAnomalias = (LinearLayout)vista.findViewById(R.id.llAnomalias);
         llReparacion.setVisibility(View.GONE);
+        llAceptaRep=(LinearLayout)vista.findViewById(R.id.LinearAceptaReparacion);
+        llAceptaRep.setVisibility(View.GONE);
+        llNoAceptaRep=(LinearLayout)vista.findViewById(R.id.LinearNoAceptaRep);
+        llNoAceptaRep.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
@@ -131,11 +145,22 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         cbReparacion.setOnClickListener(this);
         cbContadorInterno.setOnClickListener(this);
         cbAnomalias.setOnClickListener(this);
+
+        cbAceptaRepSi.setOnClickListener(this);
+        cbAceptaRepNo.setOnClickListener(this);
+        cbSolicitudVisita.setOnClickListener(this);
+        cbInSitu.setOnClickListener(this);
+
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
         btnFoto.setOnClickListener(this);
         btnArchivo.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
+
+        llAceptaRep.setVisibility(View.GONE);
+        llAnomalias.setVisibility(View.GONE);
+
+
 
         String dateSample = mantenimiento.getFecha_visita();
         String oldFormat = "dd-MM-yyyy HH:mm:ss";
@@ -216,22 +241,64 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }
         }else if (view.getId()==R.id.cbContadorInterno){
 
-        }else if (view.getId()==R.id.cbAnomalias){
+        }else if (view.getId()==R.id.checkSiAcepta) {
+            if (cbAceptaRepSi.isChecked()) {
+                cbAceptaRepNo.setChecked(false);
+                llNoAceptaRep.setVisibility(View.GONE);
+                llAceptaRep.setVisibility(View.VISIBLE);
+            } else {
+                llAceptaRep.setVisibility(View.GONE);
+            }
+        }else if(view.getId()==R.id.checkNoAcepta){
+            if(cbAceptaRepNo.isChecked()){
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
+                llNoAceptaRep.setVisibility(View.VISIBLE);
+                etCodVisitaPlataformaA.setVisibility(View.VISIBLE);
+            }else{
+                etCodVisitaPlataformaA.setVisibility(View.GONE);
+                llNoAceptaRep.setVisibility(View.GONE);
+            }
+        }else if(view.getId()==R.id.cbInSitu){
+            if(cbInSitu.isChecked()){
+                cbSolicitudVisita.setChecked(false);
+               etObservacionesInsitu.setVisibility(View.VISIBLE);
+               etCodVisitaPlataformaB.setVisibility(View.GONE);
+
+            }else{
+                etObservacionesInsitu.setVisibility(View.GONE);
+            }
+        }
+        else if(view.getId()==R.id.checkSolcitudVisita){
+            if(cbSolicitudVisita.isChecked()){
+                etObservacionesInsitu.setVisibility(View.GONE);
+                etCodVisitaPlataformaB.setVisibility(View.VISIBLE);
+                cbInSitu.setChecked(false);
+            }else{
+
+                etCodVisitaPlataformaB.setVisibility(View.GONE);
+            }
+
+        }
+        else if (view.getId()==R.id.cbAnomalias){
             if (cbAnomalias.isChecked()){
                 llAnomalias.setVisibility(View.VISIBLE);
                 mantenimientoTerminado.setAnomalia(true);
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
             }else{
                 llAnomalias.setVisibility(View.GONE);
                 mantenimientoTerminado.setAnomalia(false);
+                cbAceptaRepSi.setChecked(false);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
             guardarDatos();
             if (mantenimientoTerminado.isMaquina()) {
                 if (mantenimientoTerminado.getFk_estado_visita() != -1) {
                     if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
-                        if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
-                            Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
-                        } else {
+                       /* if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
+                           // Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
+                        }/* else*/ {
                             if (mantenimientoTerminado.getReparacion() == 1) {
                                 if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
                                     if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {

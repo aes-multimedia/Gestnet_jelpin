@@ -389,6 +389,132 @@
                     android:text="Acepta Reparación"
                     android:id="@+id/textView33"
                     android:textSize="18dp" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Si"
+                        android:id="@+id/textView50" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/checkSiAcepta"
+                        android:checked="false" />
+
+                    <Space
+                        android:layout_width="20px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.13" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No"
+                        android:id="@+id/anomaliaNoAceptaRep"
+                        android:layout_gravity="top" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/checkNoAcepta"
+                        android:checked="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/LinearAceptaReparacion">
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="In Situ"
+                        android:id="@+id/cbInSitu" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:ems="10"
+                        android:id="@+id/observInsitu"
+                        android:minHeight="100dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:layout_marginBottom="5dp"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Solicitud de visita"
+                            android:id="@+id/textView53" />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/checkSolcitudVisita"
+                            android:checked="false" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:layout_marginBottom="5dp"
+                        android:minHeight="30dp"
+                        android:id="@+id/etCodVisitaPlataformaB"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/LinearNoAceptaRep">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Motivo"
+                        android:id="@+id/textView51" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:id="@+id/spMotivoNoAcepta"
+                        android:background="@drawable/caldera_spiners"
+                        android:gravity="right"
+                        android:spinnerMode="dropdown"
+                        android:entries="@array/tipoVisita"
+                        android:layout_marginBottom="5dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:minHeight="30dp"
+                        android:layout_marginBottom="5dp"
+                        android:id="@+id/etCodVisitaPlataformaA"
+                        />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
