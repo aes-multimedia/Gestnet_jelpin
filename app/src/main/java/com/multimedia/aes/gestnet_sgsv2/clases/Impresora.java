@@ -123,6 +123,7 @@ public class Impresora {
 		}
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
+
 		Calendar cal = new GregorianCalendar();
 		Date date = cal.getTime();
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -130,11 +131,12 @@ public class Impresora {
 		df = new SimpleDateFormat("hh:mm");
 		String hora = df.format(date);
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
+		String gps="Long:43.283594 Lat:-3.955325";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" "+mantenimiento.getProvincia()+" "+mantenimiento.getMunicipio();
 		String direccion = "Direccion: "+"\n"+dir+"\n\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "ICISA";
@@ -148,6 +150,7 @@ public class Impresora {
 		String num_insta = "659898741";
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
 		String datos_averia = "----------DATOS VISITA----------" + "\n";
+
 		String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
 		String notificada = ""+noti+"\n\n";
 		String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
@@ -169,16 +172,21 @@ public class Impresora {
 		}
 
 		String anomalias = anom+"\n\n";
-		String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
-				"correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
-				"esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
-				"Decreto 919/2006,de 28 de julio."+"\n";
-		String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
-				"pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n";
+		String comun = "";
+		String comuni = "";
+		if(mantenimientoTerminado.isAnomalia()) {
+			 comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
+					"correccion de las posibles" + "\n" + "anomalias detectadas durante" + "\n" +
+					"esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
+					"Decreto 919/2006,de 28 de julio." + "\n";
+			 comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
+					"pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n";
+		}
+
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
 		String obs = "Falta rejilla superior \n";
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
-		String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
+		String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
 				datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
 				anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
@@ -324,20 +332,40 @@ public class Impresora {
 		}
 		return operaciones;
 	}
+
+	String codigo(String codigo){
+		String literal="";
+		switch (codigo) {
+			case "1":literal="Estanca (Tipo C)";
+				break;
+			case "2":literal="Atmosférica (Tipo B)";
+				break;
+			case "6":literal="Condensación";
+				break;
+			case "7":literal="Caldera tiro mixto";
+				break;
+			case "8":literal="Calentador Gas";
+				break;
+			case "9":literal="Otras";
+				break;
+			default: literal="Otras";
+		}
+		return literal;
+	}
+
 	private String datosMaquinas() throws SQLException {
 		String datos_maquinas = "";
 		for (int i = 0; i < maquinas.size(); i++) {
 			String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
 			String cod = maquinas.get(i).getCodigo_maquina();
-			String codigo = "Codigo: "+cod+"\n";
+			String tipo= codigo(cod);
+			String codigo = "Tipo: "+tipo+"\n";
 			String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(activity,maquinas.get(i).getFk_marca_maquina());
-			String marca = "Marca: "+mar+"\n";
 			String mode = maquinas.get(i).getModelo_maquina();
-			String modelo = "Modelo: "+mode+"\n";
+			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
+			String marca = mar+" "+mode+" "+pot+"\n";
 			String añ = maquinas.get(i).getPuesta_marcha_maquina();
 			String año = "Fabricado: "+añ+"\n";
-			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
-			String potencia = "Potencia: "+pot+"\n\n";
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
 			String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
@@ -350,6 +378,7 @@ public class Impresora {
 			String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
 			String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
+			String temp_ambiente = "Temp. ambiente 26,7º\n";//esto hay que sacarlo de la bd
 			String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
 			String rend_apar = "98.3 %";
 			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
@@ -367,9 +396,9 @@ public class Impresora {
 			String lambda = "Lambda: "+lamb+ "\n";
 			String perd_chim = "";
 			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
-			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+año+observaciones_tecnico+
 						   temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
-						   temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
+						   temp_gases_combust+temp_ambiente+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
 						   lambda+perdidas_chimenea;
 		}
 		if (equipamiento!=null){
