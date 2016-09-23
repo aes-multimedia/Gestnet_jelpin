@@ -407,7 +407,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/checkSiAcepta"
-                        android:checked="false" />
+                        android:buttonTint="@color/colorAccent"/>
 
                     <Space
                         android:layout_width="20px"
@@ -426,6 +426,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/checkNoAcepta"
+                        android:buttonTint="@color/colorAccent"
                         android:checked="false" />
                 </LinearLayout>
 
@@ -439,6 +440,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="In Situ"
+                        android:buttonTint="@color/colorAccent"
                         android:id="@+id/cbInSitu" />
 
                     <EditText
@@ -468,6 +470,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/checkSolcitudVisita"
+                            android:buttonTint="@color/colorAccent"
                             android:checked="false" />
                     </LinearLayout>
 
@@ -525,7 +528,9 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
