@@ -1,12 +1,32 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
@@ -24,28 +44,6 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
-import com.sewoo.jpos.POSPrinterService;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.content.Intent;
-import android.util.Base64;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,9 +64,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
-import jpos.JposException;
-import jpos.POSPrinterConst;
-
 public class FragmentBluetooth extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private BluetoothAdapter mBluetoothAdapter;
@@ -80,10 +75,10 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private ArrayList<String> listaNombre = new ArrayList<>();
     private ListView lvNombres;
     private Button openButton, sendButton, closeButton,btnOtra;
-    private TextView txtImpreso,txtImpreso2,txtImpreso3,txtImpreso4;
+    private TextView txtImpreso,txtImpreso2,txtCodigoBarras;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private ImageView ivLogo,ivFirma1,ivCodigoBarras;
+    private ImageView ivLogo,ivFirma1;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
     private ScrollView scTicket;
@@ -117,9 +112,9 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
         llBotones = (LinearLayout) vista.findViewById(R.id.llBotones);
         txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
+        txtCodigoBarras = (TextView) vista.findViewById(R.id.txtCodigoBarras);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
         ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
-        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
 
         scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
 
@@ -151,10 +146,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         try {
             txtImpreso.setText(generarTexto1());
+            txtImpreso2.setText(generarTextoFin());
+            txtCodigoBarras.setText("569821435156964121");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ivCodigoBarras.setImageBitmap(codigoBarras());
         findBT();
         return vista;
     }
@@ -347,9 +343,13 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String tecnic = "Tecnico: "+tec+"\n";
         String num_insta = "659898741";
         String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
-        String datos_averia = "----------DATOS VISITA----------" + "\n";
-        String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
-        String notificada = ""+noti+"\n\n";
+        String datos_averia ="";
+        String notificada = "";
+        if (mantenimiento.getFk_categoria_visita()!=1) {
+            datos_averia = "----------DATOS VISITA----------" + "\n";
+            String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE";
+            notificada = "" + noti + "\n\n";
+        }
         String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
         String op = operaciones();
         String operaciones = op+"\n";
@@ -407,54 +407,49 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         return b;
     }
-    private Bitmap codigoBarras(){
-        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
-        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
-        return bit;
-    }
     private String operaciones(){
         String operaciones = "";
         if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
-            operaciones=operaciones+"-Limpieza del quemador"+"\n"+"de la caldera.";
+            operaciones=operaciones+"-Limpieza quemador";
         }
         if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
-            operaciones=operaciones+"\n"+"-Revision del vaso de expansion.";
+            operaciones=operaciones+"\n"+"-Revision vaso exp.";
         }
         if (mantenimientoTerminado.getRegulacion_aparatos()==1){
-            operaciones=operaciones+"\n"+"-Regulacion de aparatos.";
+            operaciones=operaciones+"\n"+"-Regulacion aparato.";
         }
         if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-            operaciones=operaciones+"\n"+"-Comprobar estanqueidad de"+"\n"+"cierre entre quemadores y"+"\n"+" caldera.";
+            operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+"quemadores y caldera.";
         }
         if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
-            operaciones=operaciones+"\n"+"-Revision general de calderas"+"\n"+"y/o calentadores.";
+            operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
         }
         if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-            operaciones=operaciones+"\n"+"-Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
+            operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+"calefaccion.";
         }
         if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad de la conexion de"+"\n"+"los aparatos.";
+            operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";
         }
         if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
+            operaciones=operaciones+"\n"+"-Estanqueidad conducto evac."+"\n"+" e IRG.";
         }
         if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
-            operaciones=operaciones+"\n"+"-Comprobacion de niveles de agua";
+            operaciones=operaciones+"\n"+"-Revision niveles agua";
         }
         if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
-            operaciones=operaciones+"\n"+"-Tipo de conducto de evacuacion.";
+            operaciones=operaciones+"\n"+"-Tiro evacuacion.";
         }
         if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
-            operaciones=operaciones+"\n"+"-Revision del estado del"+"\n"+"aislamiento termico.";
+            operaciones=operaciones+"\n"+"-Revision aislamiento termico.";
         }
         if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
-            operaciones=operaciones+"\n"+"-Analisis de los productos de"+"\n"+"la combustion.";
+            operaciones=operaciones+"\n"+"-Analisis PDC";
         }
         if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
-            operaciones=operaciones+"\n"+"-Caudal de ACS y calculo de"+"\n"+"potencia util.";
+            operaciones=operaciones+"\n"+"-Caudal ACS y calculo pot. util";
         }
         if (mantenimientoTerminado.getRevision_sistema_control()==1){
-            operaciones=operaciones+"\n"+"-Revision del sistema de control";
+            operaciones=operaciones+"\n"+"-Revision del sist. control";
         }
         return operaciones;
     }

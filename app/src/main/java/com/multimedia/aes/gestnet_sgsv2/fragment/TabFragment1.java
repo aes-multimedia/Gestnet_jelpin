@@ -49,9 +49,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
-            txtTipo,txtMarca,txtModelo,txtDireccion;
+            txtTipo,txtMarca,txtModelo,txtDireccion, txtCodigoBarras;
     private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre;
-    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5,ivCodigoBarras;
+    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5;
     private Button btnIniciarParte,btnConfirmarObsTel,btnBrother;
     private Mantenimiento mantenimiento = null;
     private ImageButton ibLocation,ibIr;
@@ -87,6 +87,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtMarca = (TextView)vista.findViewById(R.id.txtMarca);
         txtModelo = (TextView)vista.findViewById(R.id.txtModelo);
         txtDireccion = (TextView)vista.findViewById(R.id.txtDireccion);
+        txtCodigoBarras = (TextView) vista.findViewById(R.id.txtCodigoBarras);
 
 
         etObservaciones = (EditText)vista.findViewById(R.id.etObservaciones);
@@ -106,7 +107,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
         ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
         ivLlamar5 = (ImageView) vista.findViewById(R.id.ivLlamar5);
-        ivCodigoBarras = (ImageView) vista.findViewById(R.id.ivCodigoBarras);
 
         ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
         ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
@@ -263,7 +263,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etNombre.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }
-        ivCodigoBarras.setImageBitmap(ponerCodigoBarras());
+        txtCodigoBarras.setText("Codigo barras: 569821435156964121");
         return vista;
     }
 

@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
@@ -23,7 +22,6 @@ import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
@@ -41,8 +39,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -111,16 +107,24 @@ public class Impresora {
 	public void realizarImpresion() {
 		POSPrinterService pps = new POSPrinterService();
 		try {
+			generarCodigoBarras(pps);
 			imprimirImagenEncabezado(pps);
 			generarTexto1(pps);
 			generarTextoFin(pps);
 			imprimirFirma(pps);
-			imprimirCodigoBarras(pps);
 			generarSaltoFinal(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
 			Toast.makeText(activity, R.string.err_durante_impr, Toast.LENGTH_SHORT).show();
 		}
+	}
+	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
+
+		String datos_cliente = "569821435156964121" + "\n";
+
+		String textoImpresion =datos_cliente;
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
+		Thread.sleep(6000);
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 
@@ -149,10 +153,13 @@ public class Impresora {
 		String tecnic = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
-		String datos_averia = "----------DATOS VISITA----------" + "\n";
+		String datos_averia = "",notificada = "";
+		if (mantenimiento.getFk_categoria_visita()!=1) {
+			datos_averia = "----------DATOS VISITA----------" + "\n";
 
-		String noti = "Visita realizada cumpliendo los"+"\n"+"requisitos de la IT.3 del RITE";
-		String notificada = ""+noti+"\n\n";
+			String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE";
+			notificada = "" + noti + "\n\n";
+		}
 		String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
 		String op = operaciones();
 		String operaciones = op+"\n";
