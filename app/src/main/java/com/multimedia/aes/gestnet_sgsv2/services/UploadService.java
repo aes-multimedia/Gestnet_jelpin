@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import android.util.Log;
@@ -215,7 +214,6 @@ public class UploadService extends IntentService {
         jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
         jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
         jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
-        jsonObject1.put("codigoInterno", mantenimientoTerminado.getCodigo_interno());
         jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
         jsonObject1.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
         jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());

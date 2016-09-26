@@ -5,8 +5,6 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
-import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
-import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
@@ -50,7 +48,7 @@ public class UsoCalderaDAO extends DBHelperMOS {
 	public static void borrarUsoCalderaPorID(Context context, int id) throws SQLException {
 		cargarDao(context);
 		DeleteBuilder<UsoCaldera, Integer> deleteBuilder = dao.deleteBuilder();
-		deleteBuilder.where().eq(Tecnico.ID_TECNICO, id);
+		deleteBuilder.where().eq(UsoCaldera.ID_USO_CALDERA, id);
 		deleteBuilder.delete();
 	}
 

@@ -2,13 +2,7 @@ package com.multimedia.aes.gestnet_sgsv2.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 
-/**
- * Created by Sergio on 13/07/2016.
- */
 public class SubTiposVisita {
-
-
-
 
 
 

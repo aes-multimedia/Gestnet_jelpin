@@ -9,8 +9,15 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
+import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class TabFragment3  extends Fragment implements View.OnClickListener {
 
@@ -18,7 +25,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
     private CheckBox cbLimpQuemCal, cbRevVasoExpan,cbRegulApara,cbCompEstanCierrQuemCalen,
             cbRevCaldCont,cbVeriHidraCalef,cbEstanConexApar,cbEstanCondEvacIRG,cbComprNivAgua,
             cbTipoCondEvac,cbReviEstadoAislaTerm,cbAnalProduComb,cbCaudACSCalcPotUtil,cbReviSistContro;
-
+    private Mantenimiento mantenimiento = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +44,48 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
         cbAnalProduComb = (CheckBox) vista.findViewById(R.id.cbAnalProduComb);
         cbCaudACSCalcPotUtil = (CheckBox) vista.findViewById(R.id.cbCaudACSCalcPotUtil);
         cbReviSistContro = (CheckBox) vista.findViewById(R.id.cbReviSistContro);
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            int id = jsonObject.getInt("id");
+            mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int estado = Integer.parseInt(mantenimiento.getEstado_android());
+        if (estado==2) {
+            cbLimpQuemCal.setEnabled(false);
+            cbRevVasoExpan.setEnabled(false);
+            cbRegulApara.setEnabled(false);
+            cbCompEstanCierrQuemCalen.setEnabled(false);
+            cbRevCaldCont.setEnabled(false);
+            cbVeriHidraCalef.setEnabled(false);
+            cbEstanConexApar.setEnabled(false);
+            cbEstanCondEvacIRG.setEnabled(false);
+            cbComprNivAgua.setEnabled(false);
+            cbTipoCondEvac.setEnabled(false);
+            cbReviEstadoAislaTerm.setEnabled(false);
+            cbAnalProduComb.setEnabled(false);
+            cbCaudACSCalcPotUtil.setEnabled(false);
+            cbReviSistContro.setEnabled(false);
+        }else if(estado==2){
+            cbLimpQuemCal.setEnabled(false);
+            cbRevVasoExpan.setEnabled(false);
+            cbRegulApara.setEnabled(false);
+            cbCompEstanCierrQuemCalen.setEnabled(false);
+            cbRevCaldCont.setEnabled(false);
+            cbVeriHidraCalef.setEnabled(false);
+            cbEstanConexApar.setEnabled(false);
+            cbEstanCondEvacIRG.setEnabled(false);
+            cbComprNivAgua.setEnabled(false);
+            cbTipoCondEvac.setEnabled(false);
+            cbReviEstadoAislaTerm.setEnabled(false);
+            cbAnalProduComb.setEnabled(false);
+            cbCaudACSCalcPotUtil.setEnabled(false);
+            cbReviSistContro.setEnabled(false);
+        }
+
         return vista;
     }
 

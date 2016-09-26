@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
@@ -26,6 +27,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.MotivosNoRep;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
@@ -57,6 +59,7 @@ public class BBDDConstantes {
 	public static Dao<MantenimientoTerminado, Integer> mantenimientoTerminadoDao;
 	public static Dao<EquipamientoCaldera, Integer> equipamientoCalderaDao;
 	public static Dao<Maquina, Integer> maquinaDao;
+	public static Dao<MotivosNoRep, Integer> motivosNoRepDao;
 
 	public static void cerrarDao() {
 		tecnicoDao = null;
@@ -74,6 +77,7 @@ public class BBDDConstantes {
 		mantenimientoTerminadoDao = null;
 		equipamientoCalderaDao = null;
 		maquinaDao = null;
+		motivosNoRepDao = null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -92,6 +96,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, MantenimientoTerminado.class);
 		TableUtils.createTable(connectionSource, EquipamientoCaldera.class);
 		TableUtils.createTable(connectionSource, Maquina.class);
+		TableUtils.createTable(connectionSource, MotivosNoRep.class);
 
 	}
 
@@ -111,6 +116,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, MantenimientoTerminado.class, true);
 		TableUtils.dropTable(connectionSource, EquipamientoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, Maquina.class, true);
+		TableUtils.dropTable(connectionSource, MotivosNoRep.class, true);
 
 	}
 
@@ -130,6 +136,7 @@ public class BBDDConstantes {
 		MantenimientoTerminadoDAO.borrarTodosLosMantenimientoTerminados(context);
 		EquipamientoCalderaDAO.borrarTodosLosEquipamientoCaldera(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
+		MotivosNoRepDAO.borrarTodosLosMotivosNoRep(context);
 
 	}
 }

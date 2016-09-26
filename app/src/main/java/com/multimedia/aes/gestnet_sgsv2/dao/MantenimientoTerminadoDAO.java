@@ -7,8 +7,6 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
-import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
-import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,7 +25,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 	}
 	public static boolean newMantenimientoTerminado(Context context,int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
 													int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
-													int contador_interno, String codigo_interno, int reparacion,
+													int contador_interno, int reparacion,
 													int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
 													String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
 													String codigo_barras_reparacion,int limpieza_quemadores_caldera, int revision_vaso_expansion,
@@ -36,19 +34,21 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 													int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
+													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
+													boolean acciones,boolean anomalia,int fk_motivos_no_rep) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
-																fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
-																contador_interno, codigo_interno, reparacion,
-																fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra,
-																coste_materiales, coste_mano_obra, coste_mano_obra_adicional,
-																codigo_barras_reparacion,limpieza_quemadores_caldera, revision_vaso_expansion,
-																regulacion_aparatos, comprobar_estanqueidad_cierre_quemadores_caldera,
-																revision_calderas_contadores, verificacion_circuito_hidraulico_calefaccion,
-																estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
-																comprobacion_niveles_agua, tipo_conducto_evacuacion,
-																revision_estado_aislamiento_termico, analisis_productos_combustion,
-																caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,anomalia);
+															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
+															contador_interno, reparacion,
+															fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra,
+															coste_materiales, coste_mano_obra, coste_mano_obra_adicional,
+															codigo_barras_reparacion,limpieza_quemadores_caldera, revision_vaso_expansion,
+															regulacion_aparatos, comprobar_estanqueidad_cierre_quemadores_caldera,
+															revision_calderas_contadores, verificacion_circuito_hidraulico_calefaccion,
+															estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
+															comprobacion_niveles_agua, tipo_conducto_evacuacion,
+															revision_estado_aislamiento_termico, analisis_productos_combustion,
+															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
+															acciones,anomalia,fk_motivos_no_rep);
 		return crearMantenimientoTerminado(m,context);
 	}
 	public static boolean crearMantenimientoTerminado(MantenimientoTerminado m,Context context) {
@@ -63,7 +63,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 	}
 	public static MantenimientoTerminado montarMantenimientoTerminado(int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
 																	  int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
-																	  int contador_interno, String codigo_interno, int reparacion,
+																	  int contador_interno, int reparacion,
 																	  int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
 																	  String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
 																	  String codigo_barras_reparacion,int limpieza_quemadores_caldera, int revision_vaso_expansion,
@@ -72,10 +72,11 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
 																	  int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
+																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
+																	  boolean acciones,boolean anomalia,int fk_motivos_no_rep) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
-															contador_interno, codigo_interno, reparacion,
+															contador_interno, reparacion,
 															fk_tipo_reparacion, fecha_reparacion, fk_tiempo_mano_obra,
 															coste_materiales, coste_mano_obra, coste_mano_obra_adicional,
 															codigo_barras_reparacion,limpieza_quemadores_caldera, revision_vaso_expansion,
@@ -84,7 +85,8 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															estanqueidad_conexion_aparatos, estanqueidad_conducto_evacuacion_irg,
 															comprobacion_niveles_agua, tipo_conducto_evacuacion,
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
-															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,anomalia);
+															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
+															acciones,anomalia,fk_motivos_no_rep);
 		return m;
 	}
 

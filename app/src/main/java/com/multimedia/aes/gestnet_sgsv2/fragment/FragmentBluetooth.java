@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
@@ -39,6 +40,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
@@ -86,6 +88,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private Tecnico tecnico;
     private MantenimientoTerminado mantenimientoTerminado;
     private List<Maquina> maquinas;
+    private List<EquipamientoCaldera> equipamiento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +101,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(getContext(),id);
             tecnico = TecnicoDAO.buscarTodosLosTecnicos(getContext()).get(0);
             maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
+            equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -326,6 +330,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         df = new SimpleDateFormat("hh:mm");
         String hora = df.format(date);
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
+        String gps="Long:43.283594 Lat:-3.955325"+"\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
@@ -376,7 +381,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
         String obs = "\n";
         String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
-        String textoImpresion =fecha_hora+datos_cliente+nombre_cliente+numero_contrato+direccion+
+        String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
                 datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
                 datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
                 anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
@@ -496,10 +501,34 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String lambda = "Lambda: "+lamb+ "\n";
             String perd_chim = "";
             String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
-            datos_maquinas=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+            datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
                     temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
                     temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
                     lambda+perdidas_chimenea;
+        }
+        if (equipamiento!=null){
+            for (int i = 0; i < equipamiento.size(); i++) {
+                String datos_equipamiento = "--------DATOS INSTALACION-------" + "\n";
+                int equ = equipamiento.get(i).getFk_tipo_equipamiento();
+                String tip_equ = "";
+                String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(i).getPotencia_fuegos()+"\n"+"\n";
+                switch (equ){
+                    case 1:
+                        tip_equ = "Cocina"+"\n";
+                        String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
+                        String co2 = "Co2 Ambiente: 20";
+                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos+observaciones_tecnico+co2;
+                        break;
+                    case 2:
+                        tip_equ = "Horno"+"\n";
+                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
+                        break;
+                    case 3:
+                        tip_equ = "Horno + Grill"+"\n";
+                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
+                        break;
+                }
+            }
         }
 
         return datos_maquinas;

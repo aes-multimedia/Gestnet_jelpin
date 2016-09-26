@@ -135,7 +135,7 @@ public class Impresora {
 		df = new SimpleDateFormat("hh:mm");
 		String hora = df.format(date);
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
-		String gps="Long:43.283594 Lat:-3.955325";
+		String gps="Long:43.283594 Lat:-3.955325"+"\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
@@ -296,46 +296,46 @@ public class Impresora {
 	private String operaciones(){
 		String operaciones = "";
 		if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
-			operaciones=operaciones+"-Limpieza del quemador"+"\n"+"de la caldera.";
+			operaciones=operaciones+"-Limpieza quemador";
 		}
 		if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
-			operaciones=operaciones+"\n"+"-Revision del vaso de expansion.";
+			operaciones=operaciones+"\n"+"-Revision vaso exp.";
 		}
 		if (mantenimientoTerminado.getRegulacion_aparatos()==1){
-			operaciones=operaciones+"\n"+"-Regulacion de aparatos.";
+			operaciones=operaciones+"\n"+"-Regulacion aparato.";
 		}
 		if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-			operaciones=operaciones+"\n"+"-Comprobar estanqueidad de"+"\n"+"cierre entre quemadores y"+"\n"+" caldera.";
+			operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+"quemadores y caldera.";
 		}
 		if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
-			operaciones=operaciones+"\n"+"-Revision general de calderas"+"\n"+"y/o calentadores.";
+			operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
 		}
 		if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-			operaciones=operaciones+"\n"+"-Verificacion del circuito"+"\n"+"hidraulico de calefaccion.";
+			operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+"calefaccion.";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad de la conexion de"+"\n"+"los aparatos.";
+			operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad del conducto de"+"\n"+"evacuacion y de la IRG.";
+			operaciones=operaciones+"\n"+"-Estanqueidad conducto evac."+"\n"+" e IRG.";
 		}
 		if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
-			operaciones=operaciones+"\n"+"-Comprobacion de niveles de agua";
+			operaciones=operaciones+"\n"+"-Revision niveles agua";
 		}
 		if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
-			operaciones=operaciones+"\n"+"-Tipo de conducto de evacuacion.";
+			operaciones=operaciones+"\n"+"-Tiro evacuacion.";
 		}
 		if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
-			operaciones=operaciones+"\n"+"-Revision del estado del"+"\n"+"aislamiento termico.";
+			operaciones=operaciones+"\n"+"-Revision aislamiento termico.";
 		}
 		if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
-			operaciones=operaciones+"\n"+"-Analisis de los productos de"+"\n"+"la combustion.";
+			operaciones=operaciones+"\n"+"-Analisis PDC";
 		}
 		if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
-			operaciones=operaciones+"\n"+"-Caudal de ACS y calculo de"+"\n"+"potencia util.";
+			operaciones=operaciones+"\n"+"-Caudal ACS y calculo pot. util";
 		}
 		if (mantenimientoTerminado.getRevision_sistema_control()==1){
-			operaciones=operaciones+"\n"+"-Revision del sistema de control";
+			operaciones=operaciones+"\n"+"-Revision del sist. control";
 		}
 		return operaciones;
 	}
@@ -410,22 +410,26 @@ public class Impresora {
 		}
 		if (equipamiento!=null){
 			for (int i = 0; i < equipamiento.size(); i++) {
-				String datos_equipamiento = "-------DATOS EQUIPAMIENTO-------" + "\n";
+				String datos_equipamiento = "--------DATOS INSTALACION-------" + "\n";
 				int equ = equipamiento.get(i).getFk_tipo_equipamiento();
 				String tip_equ = "";
 				String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(i).getPotencia_fuegos()+"\n"+"\n";
 				switch (equ){
 					case 1:
 						tip_equ = "Cocina"+"\n";
+						String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
+						String co2 = "Co2 Ambiente: 20";
+						datos_maquinas+=datos_equipamiento+tip_equ+fuegos+observaciones_tecnico+co2;
 						break;
 					case 2:
 						tip_equ = "Horno"+"\n";
+						datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
 						break;
 					case 3:
 						tip_equ = "Horno + Grill"+"\n";
+						datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
 						break;
 				}
-				datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
 			}
 		}
 		return datos_maquinas;

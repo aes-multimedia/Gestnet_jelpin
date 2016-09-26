@@ -38,7 +38,11 @@ public class MantenimientoTerminado {
     public static final String REVISION_SISTEMA_CONTROL = "revision_sistema_control";
     public static final String ENVIADO = "enviado";
     public static final String MAQUINA = "maquina";
+    public static final String ACCIONES = "acciones";
     public static final String ANOMALIA = "anomalia";
+    public static final String FK_MOTIVOS_NO_REP = "fk_motivos_no_rep";
+    public static final String OBS_REPARACION_IBERDROLA = "obs_reparacion_iberdrola";
+    public static final String COD_VISITA_PLATAFORMA = "cod_visita_plataforma";
 
     @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
     private int id_mantenimiento_terminado;
@@ -56,8 +60,6 @@ public class MantenimientoTerminado {
     private String observaciones_tecnico;
     @DatabaseField(columnName = CONTADOR_INTERNO)
     private int contador_interno;
-    @DatabaseField(columnName = CODIGO_INTERNO)
-    private String codigo_interno;
     @DatabaseField(columnName = REPARACION)
     private int reparacion;
     @DatabaseField(columnName = FK_TIPO_REPARACION)
@@ -106,15 +108,23 @@ public class MantenimientoTerminado {
     private boolean enviado;
     @DatabaseField(columnName = MAQUINA)
     private boolean maquina;
+    @DatabaseField(columnName = ACCIONES)
+    private boolean acciones;
     @DatabaseField(columnName = ANOMALIA)
     private boolean anomalia;
+    @DatabaseField(columnName = FK_MOTIVOS_NO_REP)
+    private int fk_motivos_no_rep;
+    @DatabaseField(columnName = OBS_REPARACION_IBERDROLA)
+    private String obs_reparacion_iberdrola;
+    @DatabaseField(columnName = COD_VISITA_PLATAFORMA)
+    private String cod_visita_plataforma;
 
     public MantenimientoTerminado() {
     }
 
     public MantenimientoTerminado(int id_mantenimiento_terminado, int fk_parte, String codigo_barras,
                                   int fk_estado_visita, int fk_tipo_visita, int fk_subtipo_visita, String observaciones_tecnico,
-                                  int contador_interno, String codigo_interno, int reparacion,
+                                  int contador_interno, int reparacion,
                                   int fk_tipo_reparacion, String fecha_reparacion, int fk_tiempo_mano_obra,
                                   String coste_materiales, String coste_mano_obra, String coste_mano_obra_adicional,
                                   String codigo_barras_reparacion,int limpieza_quemadores_caldera, int revision_vaso_expansion,
@@ -123,7 +133,9 @@ public class MantenimientoTerminado {
                                   int estanqueidad_conexion_aparatos, int estanqueidad_conducto_evacuacion_irg,
                                   int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
-                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,boolean anomalia) {
+                                  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
+                                  boolean acciones,boolean anomalia,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
+                                  String cod_visita_plataforma) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
@@ -132,7 +144,6 @@ public class MantenimientoTerminado {
         this.fk_subtipo_visita = fk_subtipo_visita;
         this.observaciones_tecnico = observaciones_tecnico;
         this.contador_interno = contador_interno;
-        this.codigo_interno = codigo_interno;
         this.reparacion = reparacion;
         this.fk_tipo_reparacion = fk_tipo_reparacion;
         this.fecha_reparacion = fecha_reparacion;
@@ -157,7 +168,11 @@ public class MantenimientoTerminado {
         this.revision_sistema_control = revision_sistema_control;
         this.enviado = enviado;
         this.maquina = maquina;
+        this.acciones = acciones;
         this.anomalia = anomalia;
+        this.fk_motivos_no_rep = fk_motivos_no_rep;
+        this.obs_reparacion_iberdrola = obs_reparacion_iberdrola;
+        this.cod_visita_plataforma = cod_visita_plataforma;
     }
 
     public int getId_mantenimiento_terminado() {
@@ -207,12 +222,6 @@ public class MantenimientoTerminado {
     }
     public void setContador_interno(int contador_interno) {
         this.contador_interno = contador_interno;
-    }
-    public String getCodigo_interno() {
-        return codigo_interno;
-    }
-    public void setCodigo_interno(String codigo_interno) {
-        this.codigo_interno = codigo_interno;
     }
     public int getReparacion() {
         return reparacion;
@@ -363,5 +372,29 @@ public class MantenimientoTerminado {
     }
     public void setAnomalia(boolean anomalia) {
         this.anomalia = anomalia;
+    }
+    public boolean isAcciones() {
+        return acciones;
+    }
+    public void setAcciones(boolean acciones) {
+        this.acciones = acciones;
+    }
+    public int getFk_motivos_no_rep() {
+        return fk_motivos_no_rep;
+    }
+    public void setFk_motivos_no_rep(int fk_motivos_no_rep) {
+        this.fk_motivos_no_rep = fk_motivos_no_rep;
+    }
+    public String getObs_reparacion_iberdrola() {
+        return obs_reparacion_iberdrola;
+    }
+    public void setObs_reparacion_iberdrola(String obs_reparacion_iberdrola) {
+        this.obs_reparacion_iberdrola = obs_reparacion_iberdrola;
+    }
+    public String getCod_visita_plataforma() {
+        return cod_visita_plataforma;
+    }
+    public void setCod_visita_plataforma(String cod_visita_plataforma) {
+        this.cod_visita_plataforma = cod_visita_plataforma;
     }
 }

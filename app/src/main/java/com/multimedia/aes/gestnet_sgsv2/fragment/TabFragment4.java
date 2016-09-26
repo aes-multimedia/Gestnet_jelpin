@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,16 +32,16 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaImagenes;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
-import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentIntegrator;
-import com.multimedia.aes.gestnet_sgsv2.com.google.zxing.integration.android.IntentResult;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.MotivosNoRep;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
@@ -62,7 +61,7 @@ import java.util.List;
 
 public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra;
+    private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra,spMotivoNoAcepta;
     private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB;
     private CheckBox cbContadorInterno, cbReparacion,cbAnomalias,cbAceptaRepSi,cbAceptaRepNo,cbSolicitudVisita,cbInSitu;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
@@ -84,6 +83,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     public static ListView lvImagenes;
     public static Context context;
     private MantenimientoTerminado mantenimientoTerminado;
+    private List<MotivosNoRep> motivosNoRep;
+    private String[] motivos;
 
 
     @Override
@@ -139,6 +140,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         llNoAceptaRep.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
+        spMotivoNoAcepta = (Spinner)vista.findViewById(R.id.spMotivoNoAcepta);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
@@ -156,6 +158,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         btnFoto.setOnClickListener(this);
         btnArchivo.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
+        spMotivoNoAcepta.setOnItemSelectedListener(this);
 
         llAceptaRep.setVisibility(View.GONE);
         llAnomalias.setVisibility(View.GONE);
@@ -210,6 +213,18 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            motivosNoRep = MotivosNoRepDAO.buscarTodosLosMotivosNoRep(getContext());
+            motivos = new String[motivosNoRep.size()+1];
+            motivos[0]="--Seleccione un valor--";
+            for (int i = 1; i < motivosNoRep.size()+1; i++) {
+                motivos[i]=motivosNoRep.get(i-1).getMotivo();
+            }
+            spMotivoNoAcepta.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, motivos));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         spTipoReparacion.setSelection(1);
         spTiempoManoObra.setSelection(3);
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
@@ -254,7 +269,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 cbAceptaRepSi.setChecked(false);
                 llAceptaRep.setVisibility(View.GONE);
                 llNoAceptaRep.setVisibility(View.VISIBLE);
-                etCodVisitaPlataformaA.setVisibility(View.VISIBLE);
             }else{
                 etCodVisitaPlataformaA.setVisibility(View.GONE);
                 llNoAceptaRep.setVisibility(View.GONE);
@@ -292,72 +306,42 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 cbAceptaRepSi.setChecked(false);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
-            guardarDatos();
-            if (mantenimientoTerminado.isMaquina()) {
-                if (mantenimientoTerminado.getFk_estado_visita() != -1) {
-                    if (mantenimientoTerminado.getFk_tipo_visita() != -1) {
-                       /* if (mantenimientoTerminado.getContador_interno() == 1 && mantenimientoTerminado.getCodigo_interno()==null) {
-                           // Toast.makeText(getContext(), "Seleccione codigo interno", Toast.LENGTH_LONG).show();
-                        }/* else*/ {
-                            if (mantenimientoTerminado.getReparacion() == 1) {
-                                if (mantenimientoTerminado.getFk_tipo_reparacion() != -1) {
-                                    if (mantenimientoTerminado.getFk_tiempo_mano_obra() != -1) {
-                                        if (mantenimientoTerminado.getCoste_materiales()!=null) {
-                                            if (mantenimientoTerminado.getCoste_mano_obra()!=null) {
-                                                MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
-                                                if (!arraylistImagenes.isEmpty()) {
-
-                                                    for (int i = 0; i < arraylistImagenes.size(); i++) {
-                                                        ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
-                                                    }
-                                                } else {
-                                                    ((Index) getContext()).ticket();
-                                                    try {
-                                                        MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
-                                                    } catch (SQLException e) {
-                                                        e.printStackTrace();
-                                                    }
-
-                                                }
-                                            } else {
-                                                Toast.makeText(getContext(), "Seleccione coste de mano de obra", Toast.LENGTH_LONG).show();
-                                            }
-                                        } else {
-                                            Toast.makeText(getContext(), "Seleccione coste de materiales", Toast.LENGTH_LONG).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(getContext(), "Seleccione tiempo de mano de obra", Toast.LENGTH_LONG).show();
-                                    }
-                                } else {
-                                    Toast.makeText(getContext(), "Seleccione tipo de reparacion", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
-                                if (!arraylistImagenes.isEmpty()) {
-                                    for (int i = 0; i < arraylistImagenes.size(); i++) {
-                                        ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
-                                    }
-                                } else {
-                                    ((Index) getContext()).ticket();
-                                    try {
-                                        MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getContext(), "Seleccione tipo visita", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), "Seleccione estado visita", Toast.LENGTH_LONG).show();
-                }
-            }else{
-                Toast.makeText(getContext(), "Seleccione minimo una maquina", Toast.LENGTH_LONG).show();
+            try {
+                guardarDatos();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
+            if (cbAnomalias.isChecked()){
+                if (cbAceptaRepSi.isChecked()||cbAceptaRepNo.isChecked()){
+                    if (cbInSitu.isChecked()||cbSolicitudVisita.isChecked()){
+                        if (mantenimientoTerminado.isMaquina()) {
+                            MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+                            if (!arraylistImagenes.isEmpty()) {
 
+                                for (int i = 0; i < arraylistImagenes.size(); i++) {
+                                    ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
+                                }
+                            } else {
+                                ((Index) getContext()).ticket();
+                                try {
+                                    MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Seleccione minimo una maquina", Toast.LENGTH_LONG).show();
+                        }
+
+                    }else{
+                        Toast.makeText(context, "¿In situ o solicitud de visita?", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(context, "¿Acepta reparación?", Toast.LENGTH_SHORT).show();
+                }
+            }
 
         }else if (view.getId()==R.id.btnImprimir){
             ((Index)getContext()).ticket();
@@ -477,7 +461,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView==spTipoVisita) {
-            if (i == 3) {
+            if (i == 2) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -489,7 +473,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 5) {
+            } else if (i == 4) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 5);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -501,7 +485,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 6) {
+            } else if (i == 5) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 6);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -516,6 +500,12 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             } else {
                 linearSubtipos.setVisibility(View.GONE);
             }
+        }else if(adapterView==spMotivoNoAcepta){
+            if (i==1||i==2){
+                etCodVisitaPlataformaA.setVisibility(View.VISIBLE);
+            }else{
+                etCodVisitaPlataformaA.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -524,7 +514,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
     }
 
-    public void guardarDatos(){
+    public void guardarDatos() throws SQLException {
         mantenimientoTerminado.setFk_parte(mantenimiento.getId_mantenimiento());
         int a = spEstadoVisita.getSelectedItemPosition();
         switch (a){
@@ -566,27 +556,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 break;
 
         }
-        int b = spTipoVisita.getSelectedItemPosition();
-        if (b!=0){
-            int id= -1;
-            try {
-                id = TiposVisitaDAO.buscarTipoVisitaPorNombre(getContext(),spTipoVisita.getSelectedItem().toString());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            mantenimientoTerminado.setFk_tipo_visita(id);
-        }
-        int t = spSubTipoVisita.getSelectedItemPosition();
-        if (t==3||t==5||t==6){
-            int id= -1;
-            try {
-                id = SubTiposVisitaDAO.buscarSubTipoVisitaPorCodigo(getContext(),spSubTipoVisita.getSelectedItem().toString());
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            mantenimientoTerminado.setFk_subtipo_visita(id);
-        }
 
         if (!etObservaciones.getText().toString().trim().equals("")){
             mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
@@ -595,6 +564,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             mantenimientoTerminado.setContador_interno(1);
         }
         if (cbReparacion.isChecked()){
+            mantenimientoTerminado.setAcciones(true);
             int c = spTipoReparacion.getSelectedItemPosition();
             if (c!=0){
                 int id= -1;
@@ -628,6 +598,42 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             mantenimientoTerminado.setCoste_mano_obra("0");
             mantenimientoTerminado.setCoste_mano_obra_adicional("0");
 
+        }
+        if (cbAnomalias.isChecked()){
+            int b = spTipoVisita.getSelectedItemPosition();
+            if (b!=0){
+                int id= -1;
+                try {
+                    id = TiposVisitaDAO.buscarTipoVisitaPorNombre(getContext(),spTipoVisita.getSelectedItem().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mantenimientoTerminado.setFk_tipo_visita(id);
+            }
+            int t = spSubTipoVisita.getSelectedItemPosition();
+            if (b==2||b==4||b==5){
+                int id= -1;
+                try {
+                    id = SubTiposVisitaDAO.buscarSubTipoVisitaPorCodigo(getContext(),spSubTipoVisita.getSelectedItem().toString());
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mantenimientoTerminado.setFk_subtipo_visita(id);
+            }
+            if (cbAceptaRepSi.isChecked()){
+                if (cbInSitu.isChecked()){
+                    mantenimientoTerminado.setObs_reparacion_iberdrola(etObservacionesInsitu.getText().toString());
+                }else if(cbSolicitudVisita.isChecked()){
+                    mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaB.getText().toString());
+                }
+            }else if (cbAceptaRepNo.isChecked()){
+                mantenimientoTerminado.setFk_motivos_no_rep(MotivosNoRepDAO.buscarMotivosNoRepMotivo(getContext(),spMotivoNoAcepta.getSelectedItem().toString()));
+                int v = spMotivoNoAcepta.getSelectedItemPosition();
+                if (v==1||v==2) {
+                    mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaA.getText().toString());
+                }
+            }
         }
         mantenimientoTerminado.setEnviado(false);
     }

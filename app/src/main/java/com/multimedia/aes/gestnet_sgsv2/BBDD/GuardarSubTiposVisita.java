@@ -3,8 +3,6 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -52,7 +50,7 @@ public class GuardarSubTiposVisita {
             }
         }
         if (bien){
-            ((Login)context).siguienteActivity();
+            new GuardarMotivosNoRep(context,Json);
         }else{
             ((Login)context).sacarMensaje("error sub tipo visita");
         }

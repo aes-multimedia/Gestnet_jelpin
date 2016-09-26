@@ -31,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:paddingBottom="20dp"
                 android:paddingLeft="20dp"
                 android:layout_below="@+id/scFinalizar"
                 android:layout_centerHorizontal="true"
@@ -114,81 +113,13 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
+                <CheckBox
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="10dp">
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:background="@drawable/fondo_linear_gris"
-                        android:layout_marginBottom="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Tipo Visita"
-                            android:id="@+id/textView24"
-                            android:textSize="18dp" />
-
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:id="@+id/spTipoVisita"
-                            android:background="@drawable/caldera_spiners"
-                            android:gravity="right"
-                            android:spinnerMode="dropdown"
-                            android:entries="@array/tipoVisita"
-                            android:layout_marginBottom="5dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:visibility="gone"
-                        android:id="@+id/linearSubtipos"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:background="@drawable/fondo_linear_gris">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Subtipo Visita"
-                            android:id="@+id/textView30"
-                            android:textSize="18dp"
-                            />
-
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:id="@+id/spSubTipoVisita"
-                            android:background="@drawable/caldera_spiners"
-                            android:gravity="right"
-                            android:spinnerMode="dropdown"
-                            android:entries="@array/tipoVisita" />
-                    </LinearLayout>
-
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Contador Interno"
-                        android:id="@+id/cbContadorInterno"
-                        android:checked="false"
-                        android:buttonTint="@color/colorAccent" />
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:text="Contador Interno"
+                    android:id="@+id/cbContadorInterno"
+                    android:checked="false"
+                    android:buttonTint="@color/colorAccent" />
 
                 <CheckBox
                     android:layout_width="wrap_content"
@@ -382,6 +313,70 @@
                 android:layout_marginLeft="10dp">
 
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fondo_linear_gris">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Tipo Visita"
+                            android:id="@+id/textView24"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spTipoVisita"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/tipoVisita"
+                            android:layout_marginBottom="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:visibility="gone"
+                        android:id="@+id/linearSubtipos"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:background="@drawable/fondo_linear_gris">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Subtipo Visita"
+                            android:id="@+id/textView30"
+                            android:textSize="18dp"
+                            />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:id="@+id/spSubTipoVisita"
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="right"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/tipoVisita" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -436,12 +431,29 @@
                     android:layout_height="match_parent"
                     android:id="@+id/LinearAceptaReparacion">
 
-                    <CheckBox
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="In Situ"
-                        android:buttonTint="@color/colorAccent"
-                        android:id="@+id/cbInSitu" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="In Situ"
+                            android:buttonTint="@color/colorAccent"
+                            android:id="@+id/cbInSitu"
+                            android:layout_weight="1" />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/checkSolcitudVisita"
+                            android:buttonTint="@color/colorAccent"
+                            android:checked="false"
+                            android:text="Solicitud de visita"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
 
                     <EditText
                         android:layout_width="match_parent"
@@ -453,26 +465,6 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:layout_marginBottom="5dp"
                         android:visibility="gone" />
-
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Solicitud de visita"
-                            android:id="@+id/textView53" />
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/checkSolcitudVisita"
-                            android:buttonTint="@color/colorAccent"
-                            android:checked="false" />
-                    </LinearLayout>
 
                     <EditText
                         android:layout_width="match_parent"
@@ -504,7 +496,6 @@
                         android:background="@drawable/caldera_spiners"
                         android:gravity="right"
                         android:spinnerMode="dropdown"
-                        android:entries="@array/tipoVisita"
                         android:layout_marginBottom="5dp" />
 
                     <EditText
@@ -514,7 +505,7 @@
                         android:minHeight="30dp"
                         android:layout_marginBottom="5dp"
                         android:id="@+id/etCodVisitaPlataformaA"
-                        />
+                        android:visibility="gone" />
 
                 </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +38,6 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,12 +48,13 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TabFragment2 extends Fragment implements View.OnClickListener {
+public class TabFragment2 extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
 
     private View vista;
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
     private EditText etModelo,etPotenciaFuego,etCodigo,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
-            etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida;
+            etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida,
+            etCo2Ambiente;
     private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
@@ -71,6 +72,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static AdaptadorListaEquipamientos adaptadorListaEquipamientos;
     private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
+    private LinearLayout llCo2;
 
 
     @Override
@@ -105,14 +107,17 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         etTempAmbienteLocal = (EditText)vista.findViewById(R.id.etTempAmbienteLocal);
         etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
+        etCo2Ambiente = (EditText)vista.findViewById(R.id.etCo2Ambiente);
 
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         lvEquipamientos = (ListView)vista.findViewById(R.id.lvEquipamientos);
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
+        llCo2 = (LinearLayout) vista.findViewById(R.id.llCo2);
         btnAñadirEquip.setOnClickListener(this);
         btnAñadirMaquina.setOnClickListener(this);
+        spTipoEquipamiento.setOnItemSelectedListener(this);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()+1];
@@ -192,6 +197,19 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spPotencia.setEnabled(false);
             spUso.setEnabled(false);
             etModelo.setEnabled(false);
+            etCodigo.setEnabled(false);
+            etC0.setEnabled(false);
+            etTempMaxACS.setEnabled(false);
+            etCaudalACS.setEnabled(false);
+            etPotenciaUtil.setEnabled(false);
+            etTempGasesComb.setEnabled(false);
+            etTempAmbienteLocal.setEnabled(false);
+            etTempAguaGeneCalorEntrada.setEnabled(false);
+            etTempAguaGeneCalorSalida.setEnabled(false);
+            spTipoEquipamiento.setEnabled(false);
+            etPotenciaFuego.setEnabled(false);
+            btnAñadirMaquina.setEnabled(false);
+            btnAñadirEquip.setEnabled(false);
         }else if (estado==3){
             spMarca.setEnabled(false);
             spTipo.setEnabled(false);
@@ -199,6 +217,19 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spPotencia.setEnabled(false);
             spUso.setEnabled(false);
             etModelo.setEnabled(false);
+            etCodigo.setEnabled(false);
+            etC0.setEnabled(false);
+            etTempMaxACS.setEnabled(false);
+            etCaudalACS.setEnabled(false);
+            etPotenciaUtil.setEnabled(false);
+            etTempGasesComb.setEnabled(false);
+            etTempAmbienteLocal.setEnabled(false);
+            etTempAguaGeneCalorEntrada.setEnabled(false);
+            etTempAguaGeneCalorSalida.setEnabled(false);
+            spTipoEquipamiento.setEnabled(false);
+            etPotenciaFuego.setEnabled(false);
+            btnAñadirMaquina.setEnabled(false);
+            btnAñadirEquip.setEnabled(false);
         }
         return vista;
     }
@@ -382,5 +413,21 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             return null;
         }
         return "";
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent==spTipoEquipamiento){
+            if (position==1){
+                llCo2.setVisibility(View.VISIBLE);
+            }else{
+                llCo2.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

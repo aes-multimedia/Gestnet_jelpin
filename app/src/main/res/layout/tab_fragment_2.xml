@@ -443,10 +443,34 @@
                     android:inputType="number"
                     android:ems="10"
                     android:id="@+id/etPotenciaFuego"
-                    android:autoText="false"
                     android:background="@drawable/edit_texts_naranja"
                     android:padding="5dp"
                     android:minHeight="30dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/llCo2"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Co2 Ambiente"
+                        android:id="@+id/textView339" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:id="@+id/etCo2Ambiente"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:padding="5dp"
+                        android:minHeight="30dp" />
+                </LinearLayout>
 
                 <Button
                     android:layout_width="wrap_content"
