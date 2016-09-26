@@ -26,7 +26,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -311,36 +310,22 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+                if (mantenimientoTerminado.isMaquina()) {
+                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+                    if (!arraylistImagenes.isEmpty()) {
 
-            if (cbAnomalias.isChecked()){
-                if (cbAceptaRepSi.isChecked()||cbAceptaRepNo.isChecked()){
-                    if (cbInSitu.isChecked()||cbSolicitudVisita.isChecked()){
-                        if (mantenimientoTerminado.isMaquina()) {
-                            MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
-                            if (!arraylistImagenes.isEmpty()) {
-
-                                for (int i = 0; i < arraylistImagenes.size(); i++) {
-                                    ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
-                                }
-                            } else {
-                                ((Index) getContext()).ticket();
-                                try {
-                                    MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }else{
-                            Toast.makeText(getContext(), "Seleccione minimo una maquina", Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < arraylistImagenes.size(); i++) {
+                            ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
+                        }
+                    } else {
+                        ((Index) getContext()).ticket();
+                        try {
+                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
 
-                    }else{
-                        Toast.makeText(context, "¿In situ o solicitud de visita?", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(context, "¿Acepta reparación?", Toast.LENGTH_SHORT).show();
-                }
             }
 
         }else if (view.getId()==R.id.btnImprimir){

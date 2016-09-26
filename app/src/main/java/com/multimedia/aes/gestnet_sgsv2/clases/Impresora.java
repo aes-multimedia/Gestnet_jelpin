@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -40,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -172,7 +174,7 @@ public class Impresora {
 			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
 				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita())+"\n";
-				anom+= SubTiposVisitaDAO.buscarSubTiposVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion();
+				anom+= SubTiposVisitaDAO.buscarSubTiposVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket();
 			}else{
 				anom = "otras anomalias";
 			}
@@ -191,12 +193,32 @@ public class Impresora {
 		}
 
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-		String obs = "Falta rejilla superior \n";
+		String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+		String acci = "";
+		if (mantenimientoTerminado.isAcciones()){
+			acci += TiposReparacionesDAO.buscarTiposReparacionesPorId(activity,mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
+			String dateSample = mantenimiento.getFecha_visita();
+			String oldFormat = "dd-MM-yyyy HH:mm:ss";
+			String newFormat = "dd/MM/yyyy";
+			SimpleDateFormat sdf1 = new SimpleDateFormat(oldFormat);
+			SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
+			String fecha1 = "";
+			try {
+				fecha = sdf2.format(sdf1.parse(dateSample));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			acci += "Fecha: "+fecha1+"\n";
+			acci += "Tiempo: Menos de una hora"+"\n";
+			acci += "Coste Materiales: 50"+"\n";
+			acci += "Importe Mano Obra: 0"+"\n";
+			acci += "Importe Adicional: 0"+"\n";
+		}
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
 				datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
-				anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
+				anomalias+comun+comuni+observaciones_tecnico+obs+acci+firma_tecnico;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(6000);
 	}
