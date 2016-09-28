@@ -15,7 +15,9 @@ import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -79,7 +81,8 @@ public class UploadService extends IntentService {
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
                     MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                     if (!mensajemantenimiento.equals("1")){
-                        String mensajeticket = subirTiket(rellenarJsonTiket(list.get(i).getFk_parte()));
+                        //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
+                        String mensajeticket = subirTiket(rellenarJsonTiket());
                         Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
                             String mensajeImagen = subirImagen(rellenarJsonImagenes(list.get(i).getFk_parte()));
@@ -125,6 +128,32 @@ public class UploadService extends IntentService {
         uc.setDoInput(true);
         uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
         uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
+        uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+        uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+        uc.setRequestMethod("POST");
+        uc.connect();
+        OutputStream os = uc.getOutputStream();
+        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+        osw.write(msg.toString());
+        osw.flush();
+        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+        String inputLine;
+        String contenido = "";
+        while ((inputLine = in.readLine()) != null) {
+            contenido += inputLine + "\n";
+        }
+        in.close();
+        osw.close();
+        return contenido;
+    }
+    private String subirCerrarIberdrola(JSONObject msg) throws JSONException, IOException {
+        Log.d("-----JSONCERRARIB-----", msg.toString());
+        URL urlws = new URL("http://"+host+"/api-sgs/v1/mantenimientos/cerrar");
+        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
+        uc.setDoOutput(true);
+        uc.setDoInput(true);
+        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+        //uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
         uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
         uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
         uc.setRequestMethod("POST");
@@ -276,7 +305,7 @@ public class UploadService extends IntentService {
         msg.put("usuarios_maquinas_equipamientos",jsonObject4);
         return msg;
     }
-    private JSONObject rellenarJsonTiket(int id) throws JSONException, IOException {
+    private JSONObject rellenarJsonTiket() throws JSONException, IOException {
         JSONObject jsonObjectTicket = new JSONObject();
         JSONObject msg = new JSONObject();
         JSONObject jsonObject = new JSONObject();
@@ -359,6 +388,63 @@ public class UploadService extends IntentService {
         msg.put("ticket",jsonObjectTicket);
         msg.put("logo",logo);
         msg.put("firma",firma);
+        return msg;
+    }
+    private JSONObject rellenarJsonCerrarIberdrola(int id) throws JSONException, SQLException {
+        mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorId(getBaseContext(),id);
+        mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getBaseContext(),mantenimientoTerminado.getFk_parte());
+        tecnico = TecnicoDAO.buscarTodosLosTecnicos(getBaseContext()).get(0);
+        maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
+        equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
+        Maquina maquina = maquinas.get(0);
+        JSONObject msg = new JSONObject();
+        msg.put("codigoContrato",mantenimiento.getNum_orden_endesa());
+        msg.put("codigoVisita",mantenimiento.getCod_visita());
+        msg.put("telefonoContacto1", mantenimiento.getTelefono1_usuario());
+        msg.put("telefonoContacto2", mantenimiento.getTelefono2_usuario());
+        msg.put("modeloCaldera", maquina.getModelo_maquina());
+        msg.put("uso", maquina.getFk_uso_maquina());
+        msg.put("potencia", maquina.getPotencia_util());
+        msg.put("anio", maquina.getPuesta_marcha_maquina());
+        msg.put("descripcionMarcaCaldera", MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getBaseContext(),maquina.getFk_marca_maquina()));
+        msg.put("estadoVisita", mantenimiento.getFk_estado_endesa());
+        msg.put("fechaVisita", mantenimiento.getFecha_visita());
+        msg.put("observacionesVisita", mantenimiento.getObservaciones());
+        msg.put("recepcionComprobante", "1");
+        msg.put("facturadoProveedor", "0");
+        msg.put("fechaFactura", "2016-09-26");
+        msg.put("numFactura", mantenimiento.getNum_factura());
+        msg.put("codigoBarrasVisita", "569821435156964121");
+        msg.put("cartaEnviada", "0");
+        msg.put("fechaEnvioCarta", "2016-09-26");
+        msg.put("tipoVisita", TiposVisitaDAO.buscarNombreTipoVisitaPorId(getBaseContext(),mantenimientoTerminado.getFk_tipo_visita()));
+        msg.put("idTecnico", tecnico.getId_tecnico());
+        msg.put("proveedor", "ICISA");
+        msg.put("observacionesTecnico", mantenimientoTerminado.getObservaciones_tecnico());
+        msg.put("contadorInterno", mantenimientoTerminado.getContador_interno());
+        String rep="";
+        String codBarr="";
+        if (mantenimientoTerminado.isInsitu()){
+            rep = "1";
+            codBarr="569821435156964121";
+        }else{
+            rep = "0";
+        }
+        msg.put("tieneReparacion", rep);
+        msg.put("idTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
+        msg.put("fechaReparacion", mantenimiento.getFecha_visita());
+        msg.put("idTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
+        msg.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
+        msg.put("importemanoObra", mantenimientoTerminado.getCoste_mano_obra());
+        msg.put("costeMaterialesCliente", mantenimientoTerminado.getCoste_materiales());
+        msg.put("fechaFacturaReparacion", mantenimiento.getFecha_visita());
+        msg.put("numeroFacturaReparacion", "");
+        msg.put("codigoBarrasReparacion", codBarr);
+        msg.put("tipoEquipamiento", equipamientoCalderas.get(0).getFk_tipo_equipamiento());
+        msg.put("potenciaEquipamiento", equipamientoCalderas.get(0).getPotencia_fuegos());
+        msg.put("tipoProceso", "");
+        msg.put("nombreFichero", "");
+        msg.put("contenidoFichero", "");
         return msg;
     }
     private JSONObject rellenarJsonImagenes(int id) throws JSONException, IOException, SQLException {

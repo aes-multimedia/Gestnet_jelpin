@@ -31,6 +31,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaImagenes;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataImagenes;
+import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
@@ -38,6 +39,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.EstadoVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.MotivosNoRep;
@@ -66,9 +68,11 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
+    private List<EstadoVisita> estadoVisitas;
+    private String[] estado;
     private TextView tvFechaVisita,tvFechaLimite,txtFinalizado,txtFech,txtCosteMateriales,txtImporteManoObra,txtImporteManoObraAdicional;
     private static Mantenimiento mantenimiento = null;
-    private LinearLayout llReparacion,llAnomalias,llAceptaRep,llNoAceptaRep;
+    private LinearLayout llReparacion,llAnomalias,llAceptaRep,llNoAceptaRep,llCerrada;
     private List<TiposVisita> listaTiposVisita=null;
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
@@ -136,6 +140,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         llAceptaRep=(LinearLayout)vista.findViewById(R.id.LinearAceptaReparacion);
         llAceptaRep.setVisibility(View.GONE);
         llNoAceptaRep=(LinearLayout)vista.findViewById(R.id.LinearNoAceptaRep);
+        llCerrada=(LinearLayout)vista.findViewById(R.id.llCerrada);
         llNoAceptaRep.setVisibility(View.GONE);
         spSubTipoVisita = (Spinner)vista.findViewById(R.id.spSubTipoVisita);
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
@@ -158,6 +163,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         btnArchivo.setOnClickListener(this);
         spTipoVisita.setOnItemSelectedListener(this);
         spMotivoNoAcepta.setOnItemSelectedListener(this);
+        spEstadoVisita.setOnItemSelectedListener(this);
 
         llAceptaRep.setVisibility(View.GONE);
         llAnomalias.setVisibility(View.GONE);
@@ -220,6 +226,18 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 motivos[i]=motivosNoRep.get(i-1).getMotivo();
             }
             spMotivoNoAcepta.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, motivos));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            estadoVisitas = EstadoVisitaDAO.buscarTodosLosEstadoVisita(getContext());
+            estado = new String[estadoVisitas.size()+1];
+            estado[0]="--Seleccione un valor--";
+            for (int i = 1; i < estadoVisitas.size()+1; i++) {
+                estado[i]=estadoVisitas.get(i-1).getNombre_estado_visita();
+            }
+            spEstadoVisita.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, estado));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -313,7 +331,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 if (mantenimientoTerminado.isMaquina()) {
                     MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                     if (!arraylistImagenes.isEmpty()) {
-
                         for (int i = 0; i < arraylistImagenes.size(); i++) {
                             ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
                         }
@@ -491,6 +508,12 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }else{
                 etCodVisitaPlataformaA.setVisibility(View.GONE);
             }
+        }else if(adapterView==spEstadoVisita){
+            if (i==5){
+                llCerrada.setVisibility(View.VISIBLE);
+            }else{
+                llCerrada.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -501,46 +524,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
     public void guardarDatos() throws SQLException {
         mantenimientoTerminado.setFk_parte(mantenimiento.getId_mantenimiento());
-        int a = spEstadoVisita.getSelectedItemPosition();
-        switch (a){
-            case 0:
-                mantenimientoTerminado.setFk_estado_visita(33);
-                break;
-            case 1:
-                mantenimientoTerminado.setFk_estado_visita(33);
-                break;
-            case 2:
-                mantenimientoTerminado.setFk_estado_visita(34);
-                break;
-            case 3:
-                mantenimientoTerminado.setFk_estado_visita(35);
-                break;
-            case 4:
-                mantenimientoTerminado.setFk_estado_visita(36);
-                break;
-            case 5:
-                mantenimientoTerminado.setFk_estado_visita(37);
-                break;
-            case 6:
-                mantenimientoTerminado.setFk_estado_visita(38);
-                break;
-            case 7:
-                mantenimientoTerminado.setFk_estado_visita(39);
-                break;
-            case 8:
-                mantenimientoTerminado.setFk_estado_visita(40);
-                break;
-            case 9:
-                mantenimientoTerminado.setFk_estado_visita(41);
-                break;
-            case 10:
-                mantenimientoTerminado.setFk_estado_visita(42);
-                break;
-            case 11:
-                mantenimientoTerminado.setFk_estado_visita(43);
-                break;
-
-        }
+        mantenimientoTerminado.setFk_estado_visita(EstadoVisitaDAO.buscarIdEstadoVisitaPorNombre(getContext(),spEstadoVisita.getSelectedItem().toString()));
 
         if (!etObservaciones.getText().toString().trim().equals("")){
             mantenimientoTerminado.setObservaciones_tecnico(etObservaciones.getText().toString());
@@ -607,8 +591,10 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 mantenimientoTerminado.setFk_subtipo_visita(id);
             }
             if (cbAceptaRepSi.isChecked()){
+                mantenimientoTerminado.setReparacion(1);
                 if (cbInSitu.isChecked()){
                     mantenimientoTerminado.setObs_reparacion_iberdrola(etObservacionesInsitu.getText().toString());
+                    mantenimientoTerminado.setInsitu(true);
                 }else if(cbSolicitudVisita.isChecked()){
                     mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaB.getText().toString());
                 }

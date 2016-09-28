@@ -75,11 +75,13 @@
             android:id="@+id/llImpreso"
             android:background="#fff"
             android:padding="10dp">
-
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtCodigoBarras" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/txtCodigoBarras"
+                android:visibility="visible" />
 
             <ImageView
                 android:layout_width="wrap_content"

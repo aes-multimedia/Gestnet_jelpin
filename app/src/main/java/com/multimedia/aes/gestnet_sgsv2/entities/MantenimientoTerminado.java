@@ -13,7 +13,6 @@ public class MantenimientoTerminado {
     public static final String FK_SUBTIPO_VISITA = "fk_subtipo_visita";
     public static final String OBSERVACIONES_TECNICO = "observaciones_tecnico";
     public static final String CONTADOR_INTERNO = "contador_interno";
-    public static final String CODIGO_INTERNO = "codigo_interno";
     public static final String REPARACION = "reparacion";
     public static final String FK_TIPO_REPARACION = "fk_tipo_reparacion";
     public static final String FECHA_REPARACION = "fecha_reparacion";
@@ -40,6 +39,7 @@ public class MantenimientoTerminado {
     public static final String MAQUINA = "maquina";
     public static final String ACCIONES = "acciones";
     public static final String ANOMALIA = "anomalia";
+    public static final String ISITU = "insitu";
     public static final String FK_MOTIVOS_NO_REP = "fk_motivos_no_rep";
     public static final String OBS_REPARACION_IBERDROLA = "obs_reparacion_iberdrola";
     public static final String COD_VISITA_PLATAFORMA = "cod_visita_plataforma";
@@ -112,6 +112,8 @@ public class MantenimientoTerminado {
     private boolean acciones;
     @DatabaseField(columnName = ANOMALIA)
     private boolean anomalia;
+    @DatabaseField(columnName = ISITU)
+    private boolean insitu;
     @DatabaseField(columnName = FK_MOTIVOS_NO_REP)
     private int fk_motivos_no_rep;
     @DatabaseField(columnName = OBS_REPARACION_IBERDROLA)
@@ -134,7 +136,7 @@ public class MantenimientoTerminado {
                                   int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
                                   int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
-                                  boolean acciones,boolean anomalia,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
+                                  boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
                                   String cod_visita_plataforma) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
@@ -170,6 +172,7 @@ public class MantenimientoTerminado {
         this.maquina = maquina;
         this.acciones = acciones;
         this.anomalia = anomalia;
+        this.insitu = insitu;
         this.fk_motivos_no_rep = fk_motivos_no_rep;
         this.obs_reparacion_iberdrola = obs_reparacion_iberdrola;
         this.cod_visita_plataforma = cod_visita_plataforma;
@@ -372,6 +375,12 @@ public class MantenimientoTerminado {
     }
     public void setAnomalia(boolean anomalia) {
         this.anomalia = anomalia;
+    }
+    public boolean isInsitu() {
+        return insitu;
+    }
+    public void setInsitu(boolean insitu) {
+        this.insitu = insitu;
     }
     public boolean isAcciones() {
         return acciones;

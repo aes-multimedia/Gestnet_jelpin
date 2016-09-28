@@ -35,7 +35,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
-													boolean acciones,boolean anomalia,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
+													boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
 													String cod_visita_plataforma) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
@@ -49,7 +49,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															comprobacion_niveles_agua, tipo_conducto_evacuacion,
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
 															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
-															acciones,anomalia,fk_motivos_no_rep,obs_reparacion_iberdrola,
+															acciones,anomalia,insitu,fk_motivos_no_rep,obs_reparacion_iberdrola,
 				cod_visita_plataforma);
 		return crearMantenimientoTerminado(m,context);
 	}
@@ -75,7 +75,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int comprobacion_niveles_agua, int tipo_conducto_evacuacion,
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
-																	  boolean acciones,boolean anomalia,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
+																	  boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
 																	  String cod_visita_plataforma) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
@@ -89,7 +89,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															comprobacion_niveles_agua, tipo_conducto_evacuacion,
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
 															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
-															acciones,anomalia,fk_motivos_no_rep, obs_reparacion_iberdrola,
+															acciones,anomalia,insitu,fk_motivos_no_rep, obs_reparacion_iberdrola,
 				cod_visita_plataforma);
 		return m;
 	}
@@ -144,6 +144,17 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 		UpdateBuilder<MantenimientoTerminado, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(MantenimientoTerminado.ID_MANTENIMIENTO_TERMINADO,id_mantenimiento);
 		updateBuilder.updateColumnValue(MantenimientoTerminado.ENVIADO,enviado);
+		updateBuilder.update();
+	}
+	public static void actualizarEnviado(Context context) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<MantenimientoTerminado, Integer> updateBuilder = dao.updateBuilder();
+		List<MantenimientoTerminado> listadoMantenimientoTerminado= dao.queryForEq(MantenimientoTerminado.ENVIADO, true);
+		for (int i = 0; i < listadoMantenimientoTerminado.size(); i++) {
+			updateBuilder.where().eq(MantenimientoTerminado.ID_MANTENIMIENTO_TERMINADO,listadoMantenimientoTerminado.get(i).getId_mantenimiento_terminado());
+			updateBuilder.updateColumnValue(MantenimientoTerminado.ENVIADO,false);
+		}
+
 		updateBuilder.update();
 	}
 }

@@ -87,20 +87,6 @@
         <item>Anomalia secundaria</item>
         <item>Defectos menores</item>
     </string-array>
-    <string-array name="estadosVisita">
-        <item>--Seleccione un valor--</item>
-        <item>Cancelada - Ausente por segunda vez</item>
-        <item>Cancelada - Cliente no desea visita</item>
-        <item>Cancelada - Cliente no localizable</item>
-        <item>Cancelada - Quiere darse de baja</item>
-        <item>Cerrada</item>
-        <item>Cerrada - Pendiente realizar reparación</item>
-        <item>En Ejecución</item>
-        <item>Pendiente</item>
-        <item>Programada</item>
-        <item>Sistema: Cancelada por sistema</item>
-        <item>Pendiente de contactar</item>
-    </string-array>
     <string-array name="tiempoReparacion">
         <item>--Seleccione un valor--</item>
         <item>2 horas o mas</item>

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,7 +47,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TabFragment2 extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     private View vista;
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
@@ -117,7 +116,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener,Adapt
         llCo2 = (LinearLayout) vista.findViewById(R.id.llCo2);
         btnAñadirEquip.setOnClickListener(this);
         btnAñadirMaquina.setOnClickListener(this);
-        spTipoEquipamiento.setOnItemSelectedListener(this);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()+1];
@@ -413,21 +411,5 @@ public class TabFragment2 extends Fragment implements View.OnClickListener,Adapt
             return null;
         }
         return "";
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent==spTipoEquipamiento){
-            if (position==1){
-                llCo2.setVisibility(View.VISIBLE);
-            }else{
-                llCo2.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

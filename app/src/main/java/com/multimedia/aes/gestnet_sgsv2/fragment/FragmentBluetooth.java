@@ -151,7 +151,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         try {
             txtImpreso.setText(generarTexto1());
             txtImpreso2.setText(generarTextoFin());
-            txtCodigoBarras.setText("569821435156964121");
+            txtCodigoBarras.setText("       569821435156964121       ");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -372,12 +372,16 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             }
         }
         String anomalias = anom+"\n\n";
-        String comun = "*Se comunica la cliente, y este"+"\n"+"declara quedar informado que la"+"\n"+
-                "correccion de las posibles"+"\n"+"anomalias detectadas durante"+"\n"+
-                "esta visita, sean principales o"+"\n"+"secundarias, es de su exclusiva"+"\n"+"responsabilidad segun Real"+"\n"+
-                "Decreto 919/2006,de 28 de julio."+"\n";
-        String comuni = "*En caso de existir anomalias"+"\n"+"principales no corregidas, estas"+"\n"+
-                "pueden ser informadas a la"+"\n"+"empresa distribuidora y/o"+"\n"+"autoridad competente."+"\n\n";
+        String comun = "";
+        String comuni = "";
+        if(mantenimientoTerminado.isAnomalia()) {
+            comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
+                    "correccion de las posibles" + "\n" + "anomalias detectadas durante" + "\n" +
+                    "esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
+                    "Decreto 919/2006,de 28 de julio." + "\n";
+            comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
+                    "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
+        }
         String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
         String obs = "\n";
         String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
@@ -424,13 +428,13 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             operaciones=operaciones+"\n"+"-Regulacion aparato.";
         }
         if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+"quemadores y caldera.";
+            operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera.";
         }
         if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
             operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
         }
         if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-            operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+"calefaccion.";
+            operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+" calefaccion.";
         }
         if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
             operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";

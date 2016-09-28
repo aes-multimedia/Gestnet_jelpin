@@ -21,7 +21,6 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -41,7 +40,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,14 +120,13 @@ public class Impresora {
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 
-		String datos_cliente = "569821435156964121" + "\n";
+		String datos_cliente = "\n"+"       569821435156964121       " + "\n";
 
 		String textoImpresion =datos_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(6000);
+		Thread.sleep(2000);
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-
 		Calendar cal = new GregorianCalendar();
 		Date date = cal.getTime();
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -142,7 +139,7 @@ public class Impresora {
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" "+mantenimiento.getProvincia()+" "+mantenimiento.getMunicipio();
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
 		String direccion = "Direccion: "+"\n"+dir+"\n\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "ICISA";
@@ -155,10 +152,10 @@ public class Impresora {
 		String tecnic = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
 		String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
-		String datos_averia = "",notificada = "";
+		String datos_averia ="";
+		String notificada = "";
 		if (mantenimiento.getFk_categoria_visita()!=1) {
 			datos_averia = "----------DATOS VISITA----------" + "\n";
-
 			String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE";
 			notificada = "" + noti + "\n\n";
 		}
@@ -173,52 +170,29 @@ public class Impresora {
 		}else {
 			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita())+"\n";
-				anom+= SubTiposVisitaDAO.buscarSubTiposVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket();
+				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
 			}else{
 				anom = "otras anomalias";
 			}
 		}
-
 		String anomalias = anom+"\n\n";
 		String comun = "";
 		String comuni = "";
 		if(mantenimientoTerminado.isAnomalia()) {
-			 comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
+			comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
 					"correccion de las posibles" + "\n" + "anomalias detectadas durante" + "\n" +
 					"esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
 					"Decreto 919/2006,de 28 de julio." + "\n";
-			 comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
-					"pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n";
+			comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
+					"pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
 		}
-
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-		String obs = mantenimientoTerminado.getObservaciones_tecnico()+"\n";
-		String acci = "";
-		if (mantenimientoTerminado.isAcciones()){
-			acci += TiposReparacionesDAO.buscarTiposReparacionesPorId(activity,mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
-			String dateSample = mantenimiento.getFecha_visita();
-			String oldFormat = "dd-MM-yyyy HH:mm:ss";
-			String newFormat = "dd/MM/yyyy";
-			SimpleDateFormat sdf1 = new SimpleDateFormat(oldFormat);
-			SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
-			String fecha1 = "";
-			try {
-				fecha = sdf2.format(sdf1.parse(dateSample));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			acci += "Fecha: "+fecha1+"\n";
-			acci += "Tiempo: Menos de una hora"+"\n";
-			acci += "Coste Materiales: 50"+"\n";
-			acci += "Importe Mano Obra: 0"+"\n";
-			acci += "Importe Adicional: 0"+"\n";
-		}
+		String obs = "\n";
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
 				datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
-				anomalias+comun+comuni+observaciones_tecnico+obs+acci+firma_tecnico;
+				anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(6000);
 	}
@@ -269,7 +243,6 @@ public class Impresora {
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(3000);
 	}
-
 	private void imprimirFirma(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		int img[][] = null;
 		int ancho = 1;
@@ -308,7 +281,7 @@ public class Impresora {
 	}
 	private String limpiarAcentos(String texto_entrada) {
 		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";
-		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCoE";
+		String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCCE";
 		String output = texto_entrada;
 		for (int i = 0; i < original.length(); i++) {
 			output = output.replace(original.charAt(i), ascii.charAt(i));
@@ -327,13 +300,13 @@ public class Impresora {
 			operaciones=operaciones+"\n"+"-Regulacion aparato.";
 		}
 		if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+"quemadores y caldera.";
+			operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera.";
 		}
 		if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
 			operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
 		}
 		if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-			operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+"calefaccion.";
+			operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+" calefaccion.";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
 			operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";
@@ -359,6 +332,7 @@ public class Impresora {
 		if (mantenimientoTerminado.getRevision_sistema_control()==1){
 			operaciones=operaciones+"\n"+"-Revision del sist. control";
 		}
+		operaciones+="\n";
 		return operaciones;
 	}
 
@@ -387,14 +361,15 @@ public class Impresora {
 		for (int i = 0; i < maquinas.size(); i++) {
 			String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
 			String cod = maquinas.get(i).getCodigo_maquina();
-			String tipo= codigo(cod);
-			String codigo = "Tipo: "+tipo+"\n";
+			String codigo = "Codigo: "+cod+"\n";
 			String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(activity,maquinas.get(i).getFk_marca_maquina());
+			String marca = "Marca: "+mar+"\n";
 			String mode = maquinas.get(i).getModelo_maquina();
-			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
-			String marca = mar+" "+mode+" "+pot+"\n";
+			String modelo = "Modelo: "+mode+"\n";
 			String añ = maquinas.get(i).getPuesta_marcha_maquina();
 			String año = "Fabricado: "+añ+"\n";
+			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
+			String potencia = "Potencia: "+pot+"\n\n";
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
 			String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
@@ -403,13 +378,12 @@ public class Impresora {
 			String pot_uti = maquinas.get(i).getPotencia_util();
 			String potencia_util = "Potencia util: "+pot_uti+"\n";
 			String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
-			String temp_agua_entrada = "Temp. agua entrada"+tem_agu_ent+"\n";
+			String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+"\n";
 			String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
-			String temp_agua_salida = "Temp. agua salida"+tem_agu_sal+"\n";
+			String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+"\n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
-			String temp_ambiente = "Temp. ambiente 26,7º\n";//esto hay que sacarlo de la bd
-			String temp_gases_combust = "Temp. gases combustion"+tem_gas_comb+"\n";
-			String rend_apar = "98.3 %";
+			String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+"\n";
+			String rend_apar = "98.3%";
 			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
 			String co_cor = "88 ppm";
 			String co_corregido = "CO corregido: "+co_cor+ "\n";
@@ -421,14 +395,14 @@ public class Impresora {
 			String co2 = "CO2: "+c2+ "\n";
 			String o02 = "5.1 %";
 			String o2 = "O2: "+o02+ "\n";
-			String lamb = "1.32	";
+			String lamb = "1.32";
 			String lambda = "Lambda: "+lamb+ "\n";
 			String perd_chim = "";
 			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
-			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+año+observaciones_tecnico+
-						   temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
-						   temp_gases_combust+temp_ambiente+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-						   lambda+perdidas_chimenea;
+			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
+					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
+					lambda+perdidas_chimenea;
 		}
 		if (equipamiento!=null){
 			for (int i = 0; i < equipamiento.size(); i++) {
@@ -454,6 +428,7 @@ public class Impresora {
 				}
 			}
 		}
+
 		return datos_maquinas;
 	}
 }
