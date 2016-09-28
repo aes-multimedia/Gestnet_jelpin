@@ -53,7 +53,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
     private EditText etModelo,etPotenciaFuego,etCodigo,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
             etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida,
-            etCo2Ambiente;
+            etCo2Ambiente,etRendimientoAparato,etCoCorregido,etCoAmbiente,etTiro,etCo2,etO2,etLambda;
     private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
@@ -107,6 +107,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
         etCo2Ambiente = (EditText)vista.findViewById(R.id.etCo2Ambiente);
+        etRendimientoAparato = (EditText)vista.findViewById(R.id.etRendimientoAparato);
+        etCoCorregido = (EditText)vista.findViewById(R.id.etCoCorregido);
+        etCoAmbiente = (EditText)vista.findViewById(R.id.etCoAmbiente);
+        etTiro = (EditText)vista.findViewById(R.id.etTiro);
+        etCo2 = (EditText)vista.findViewById(R.id.etCo2);
+        etO2 = (EditText)vista.findViewById(R.id.etO2);
+        etLambda = (EditText)vista.findViewById(R.id.etLambda);
 
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
@@ -238,7 +245,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (!etPotenciaFuego.getText().toString().trim().equals("")&&spTipoEquipamiento.getSelectedItemPosition()!=0){
                 alto+=height;
                 lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString()));
+                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString(),etCo2Ambiente.getText().toString()));
                 adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                 lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
             }else{
@@ -313,7 +320,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno + Grill")){
                     fk_equipamiento = 3;
                 }
-                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getId_mantenimiento());
+                String co2 = arraylistEquipamiento.get(i).co2_ambiente;
+                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),potencia,fk_equipamiento,mantenimiento.getId_mantenimiento(),co2);
             }
         }
         return mantenimientoTerminado;
@@ -350,6 +358,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                 m.setTemperatura_agua_generador_calor_entrada(etTempAguaGeneCalorEntrada.getText().toString());
                                                                 if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
                                                                     m.setTemperatura_agua_generador_calor_salida(etTempAguaGeneCalorSalida.getText().toString());
+                                                                    m.setRendimiento_aparato(etRendimientoAparato.getText().toString());
+                                                                    m.setCo_corregido(etCoCorregido.getText().toString());
+                                                                    m.setCo_ambiente(etCoAmbiente.getText().toString());
+                                                                    m.setTiro(etTiro.getText().toString());
+                                                                    m.setCo2(etCo2.getText().toString());
+                                                                    m.setO2(etO2.getText().toString());
+                                                                    m.setLambda(etLambda.getText().toString());
                                                                 }else{
                                                                     Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor salida", Toast.LENGTH_SHORT).show();
                                                                     return null;

@@ -55,7 +55,7 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
 
                 </LinearLayout>
 
@@ -219,7 +219,7 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -244,7 +244,7 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -269,7 +269,7 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -294,7 +294,7 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -319,9 +319,57 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
+                <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Temperatura ambiente local"
+                    android:id="@+id/textView45"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etTempAmbienteLocal"
+                    android:minHeight="30dp"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Rendimiento del aparato"
+                    android:id="@+id/textView451"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etRendimientoAparato"
+                    android:minHeight="30dp"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -332,19 +380,139 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Temperatura ambiente local"
-                        android:id="@+id/textView45"
+                        android:text="Co Corregido"
+                        android:id="@+id/textView452"
                         android:textSize="18dp" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/etTempAmbienteLocal"
+                        android:id="@+id/etCoCorregido"
                         android:minHeight="30dp"
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:padding="5dp"
-                        android:inputType="number" />
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Co Ambiente"
+                        android:id="@+id/textView453"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etCoAmbiente"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Tiro"
+                        android:id="@+id/textView454"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etTiro"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Co2"
+                        android:id="@+id/textView455"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etCo2"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="O2"
+                        android:id="@+id/textView456"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etO2"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Lambda"
+                        android:id="@+id/textView457"
+                        android:textSize="18dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etLambda"
+                        android:minHeight="30dp"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:inputType="numberDecimal" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -440,7 +608,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:ems="10"
                     android:id="@+id/etPotenciaFuego"
                     android:background="@drawable/edit_texts_naranja"
@@ -448,29 +616,30 @@
                     android:minHeight="30dp" />
 
                 <LinearLayout
-                    android:orientation="vertical"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/llCo2"
+                android:visibility="visible">
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/llCo2"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Co2 Ambiente"
+                    android:id="@+id/textView339" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Co2 Ambiente"
-                        android:id="@+id/textView339" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/etCo2Ambiente"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:padding="5dp"
+                    android:minHeight="30dp" />
+            </LinearLayout>
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:ems="10"
-                        android:id="@+id/etCo2Ambiente"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:padding="5dp"
-                        android:minHeight="30dp" />
-                </LinearLayout>
 
                 <Button
                     android:layout_width="wrap_content"

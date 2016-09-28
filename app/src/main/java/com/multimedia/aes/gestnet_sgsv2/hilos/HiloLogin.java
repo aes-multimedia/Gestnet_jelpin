@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
-    private String host = "192.168.0.228";
+    private String host = "192.168.56.101";
     private String mensaje="";
     private String login,pass;
     private Login activity;

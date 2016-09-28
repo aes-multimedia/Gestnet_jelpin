@@ -523,35 +523,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/fondo_linear_gris"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:paddingLeft="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Observaciones"
-                    android:id="@+id/textView25"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etObservaciones"
-                    android:minHeight="100dp"
-                    android:background="@drawable/edit_texts_naranja"
-                    android:layout_marginBottom="5dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:gravity="center" >
 
                 <LinearLayout
@@ -614,5 +585,34 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/fondo_linear_gris"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Observaciones"
+            android:id="@+id/textView25"
+            android:textSize="18dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etObservaciones"
+            android:minHeight="100dp"
+            android:background="@drawable/edit_texts_naranja"
+            android:layout_marginBottom="5dp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -22,6 +22,13 @@ public class Maquina {
     public static final String TEMPERATURA_AMBIENTE_LOCAL = "temperatura_ambiente_local";
     public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA = "temperatura_agua_generador_calor_entrada";
     public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA = "temperatura_agua_generador_calor_salida";
+    public static final String RENDIMIENTO_APARATO = "rendimiento_aparato";
+    public static final String CO_CORREGIDO = "co_corregido";
+    public static final String CO_AMBIENTE = "co_ambiente";
+    public static final String TIRO = "tiro";
+    public static final String CO2 = "co2";
+    public static final String O2 = "o2";
+    public static final String LAMBDA = "lambda";
 
     @DatabaseField(generatedId = true, columnName = ID_MAQUINA)
     private int id_maquina;
@@ -57,6 +64,20 @@ public class Maquina {
     private String temperatura_agua_generador_calor_entrada;
     @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA)
     private String temperatura_agua_generador_calor_salida;
+    @DatabaseField(columnName = RENDIMIENTO_APARATO)
+    private String rendimiento_aparato;
+    @DatabaseField(columnName = CO_CORREGIDO)
+    private String co_corregido;
+    @DatabaseField(columnName = CO_AMBIENTE)
+    private String co_ambiente;
+    @DatabaseField(columnName = TIRO)
+    private String tiro;
+    @DatabaseField(columnName = CO2)
+    private String co2;
+    @DatabaseField(columnName = O2)
+    private String o2;
+    @DatabaseField(columnName = LAMBDA)
+    private String lambda;
 
     public Maquina() {
     }
@@ -65,7 +86,8 @@ public class Maquina {
                    String puesta_marcha_maquina, String codigo_maquina, String c0_maquina,
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
                    String temperatura_gases_combustion, String temperatura_ambiente_local,
-                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+                   String rendimiento_aparato,String co_corregido,String co_ambiente,String tiro,String co2,String o2,String lambda) {
         this.id_maquina = id_maquina;
         this.fk_mantenimiento = fk_mantenimiento;
         this.fk_tipo_maquina = fk_tipo_maquina;
@@ -83,6 +105,13 @@ public class Maquina {
         this.temperatura_ambiente_local = temperatura_ambiente_local;
         this.temperatura_agua_generador_calor_entrada = temperatura_agua_generador_calor_entrada;
         this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
+        this.rendimiento_aparato = rendimiento_aparato;
+        this.co_corregido = co_corregido;
+        this.co_ambiente = co_ambiente;
+        this.tiro = tiro;
+        this.co2 = co2;
+        this.o2 = o2;
+        this.lambda = lambda;
     }
 
     public int getId_maquina() {
@@ -186,5 +215,61 @@ public class Maquina {
     }
     public void setTemperatura_agua_generador_calor_salida(String temperatura_agua_generador_calor_salida) {
         this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
+    }
+
+    public String getRendimiento_aparato() {
+        return rendimiento_aparato;
+    }
+
+    public void setRendimiento_aparato(String rendimiento_aparato) {
+        this.rendimiento_aparato = rendimiento_aparato;
+    }
+
+    public String getCo_corregido() {
+        return co_corregido;
+    }
+
+    public void setCo_corregido(String co_corregido) {
+        this.co_corregido = co_corregido;
+    }
+
+    public String getCo_ambiente() {
+        return co_ambiente;
+    }
+
+    public void setCo_ambiente(String co_ambiente) {
+        this.co_ambiente = co_ambiente;
+    }
+
+    public String getTiro() {
+        return tiro;
+    }
+
+    public void setTiro(String tiro) {
+        this.tiro = tiro;
+    }
+
+    public String getCo2() {
+        return co2;
+    }
+
+    public void setCo2(String co2) {
+        this.co2 = co2;
+    }
+
+    public String getO2() {
+        return o2;
+    }
+
+    public void setO2(String o2) {
+        this.o2 = o2;
+    }
+
+    public String getLambda() {
+        return lambda;
+    }
+
+    public void setLambda(String lambda) {
+        this.lambda = lambda;
     }
 }

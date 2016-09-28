@@ -47,7 +47,7 @@ import java.util.List;
 
 public class UploadService extends IntentService {
     private static final String TAG = UploadService.class.getSimpleName();
-    private String host = "192.168.0.228";
+    private String host = "192.168.56.101";
     private Tecnico tecnico = null;
     private List<EquipamientoCaldera> equipamientoCalderas = null;
     private MantenimientoTerminado mantenimientoTerminado = null;
