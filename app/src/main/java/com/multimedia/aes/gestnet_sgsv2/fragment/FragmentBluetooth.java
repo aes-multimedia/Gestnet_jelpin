@@ -329,6 +329,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String fecha = df.format(date);
         df = new SimpleDateFormat("hh:mm");
         String hora = df.format(date);
+        mantenimientoTerminado.setFecha_ticket(fecha);
+        mantenimientoTerminado.setHora_ticket(hora);
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
         String gps="Long:43.283594 Lat:-3.955325"+"\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";

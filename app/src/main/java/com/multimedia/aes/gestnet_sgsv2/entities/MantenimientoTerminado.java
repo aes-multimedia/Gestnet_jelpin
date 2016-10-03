@@ -43,6 +43,8 @@ public class MantenimientoTerminado {
     public static final String FK_MOTIVOS_NO_REP = "fk_motivos_no_rep";
     public static final String OBS_REPARACION_IBERDROLA = "obs_reparacion_iberdrola";
     public static final String COD_VISITA_PLATAFORMA = "cod_visita_plataforma";
+    public static final String FECHA_TICKET = "fecha_ticket";
+    public static final String HORA_TICKET = "hora_ticket";
 
     @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
     private int id_mantenimiento_terminado;
@@ -120,6 +122,10 @@ public class MantenimientoTerminado {
     private String obs_reparacion_iberdrola;
     @DatabaseField(columnName = COD_VISITA_PLATAFORMA)
     private String cod_visita_plataforma;
+    @DatabaseField(columnName = FECHA_TICKET)
+    private String fecha_ticket;
+    @DatabaseField(columnName = HORA_TICKET)
+    private String hora_ticket;
 
     public MantenimientoTerminado() {
     }
@@ -137,7 +143,7 @@ public class MantenimientoTerminado {
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
                                   int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
                                   boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
-                                  String cod_visita_plataforma) {
+                                  String cod_visita_plataforma,String fecha_ticket,String hora_ticket) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
@@ -176,6 +182,8 @@ public class MantenimientoTerminado {
         this.fk_motivos_no_rep = fk_motivos_no_rep;
         this.obs_reparacion_iberdrola = obs_reparacion_iberdrola;
         this.cod_visita_plataforma = cod_visita_plataforma;
+        this.fecha_ticket = fecha_ticket;
+        this.hora_ticket = hora_ticket;
     }
 
     public int getId_mantenimiento_terminado() {
@@ -405,5 +413,17 @@ public class MantenimientoTerminado {
     }
     public void setCod_visita_plataforma(String cod_visita_plataforma) {
         this.cod_visita_plataforma = cod_visita_plataforma;
+    }
+    public String getFecha_ticket() {
+        return fecha_ticket;
+    }
+    public void setFecha_ticket(String fecha_ticket) {
+        this.fecha_ticket = fecha_ticket;
+    }
+    public String getHora_ticket() {
+        return hora_ticket;
+    }
+    public void setHora_ticket(String hora_ticket) {
+        this.hora_ticket = hora_ticket;
     }
 }

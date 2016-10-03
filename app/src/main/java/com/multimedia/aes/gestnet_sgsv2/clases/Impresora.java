@@ -127,12 +127,8 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-		Calendar cal = new GregorianCalendar();
-		Date date = cal.getTime();
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		String fecha = df.format(date);
-		df = new SimpleDateFormat("hh:mm");
-		String hora = df.format(date);
+		String fecha = mantenimientoTerminado.getFecha_ticket();
+		String hora = mantenimientoTerminado.getHora_ticket();
 		String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
 		String gps="Long:43.283594 Lat:-3.955325"+"\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";

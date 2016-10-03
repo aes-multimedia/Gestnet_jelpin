@@ -84,8 +84,8 @@ public class UploadService extends IntentService {
                     MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                     if (!mensajemantenimiento.equals("1")){
                         //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
-                        String mensajeticket = subirTiket(rellenarJsonTiket());
-                        Log.d("-----MENSAJETICKET-----", mensajeticket);
+                        //String mensajeticket = subirTiket(rellenarJsonTiket());
+                        //Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
                             String mensajeImagen = subirImagen(rellenarJsonImagenes(list.get(i).getFk_parte()));
                             Log.d("-----MENSAJEIMAGEN-----", mensajeImagen);
@@ -316,9 +316,9 @@ public class UploadService extends IntentService {
         String firma = loadFirmaFromStorage();
         jsonObject.put("name","ticket");
         jsonObject.put("base64",base64);
-        String fecha = "22/06/2016";
-        String hora = "12:06";
-        String nombre_cliente = "Maria Garcia Hinojosa" + "\n";
+        String fecha = mantenimientoTerminado.getFecha_ticket();
+        String hora = mantenimientoTerminado.getHora_ticket();
+        String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String dn = "02365984K";
         String num_contrato = "000111522";
         String serv = "Mantenimiento Gas";
