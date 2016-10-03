@@ -356,7 +356,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String notificada = "";
         if (mantenimiento.getFk_categoria_visita()!=1) {
             datos_averia = "----------DATOS VISITA----------" + "\n";
-            String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE";
+            String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE.";
             notificada = "" + noti + "\n\n";
         }
         String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
@@ -366,14 +366,27 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
         if (!mantenimientoTerminado.isAnomalia()){
-            anom = "Sin Anomalias";
+            anom = "Sin Anomalias."+"\n";
         }else {
             anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
             if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-                anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita());
+                anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita())+"\n";
             }else{
-                anom = "otras anomalias";
+                anom = "Otras anomalias."+"\n";
             }
+            if (mantenimientoTerminado.getReparacion()==1){
+                anom+="Acepta reparacion."+"\n";
+                if (mantenimientoTerminado.isInsitu()){
+                    anom+="Reparacion insitu."+"\n";
+                    anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+                }else{
+                    anom+="Solicitud de visita: ";
+                    anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+                }
+            }else{
+                anom+="No acepta reparacion."+"\n";
+            }
+            anom+=""+"\n";
         }
         String anomalias = anom+"\n\n";
         String comun = "";
@@ -389,10 +402,32 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
         String obs = "";
         if (mantenimientoTerminado.isAcciones()){
-            obs += "Accion reak¡lizada"+TiposReparacionesDAO.buscarTiposReparacionesPorId(getContext(),mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
-            obs += mantenimientoTerminado.getFecha_reparacion()+"\n";
+            obs += "Accion realizada: "+TiposReparacionesDAO.buscarTiposReparacionesPorId(getContext(),mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
+            obs += "Fecha Rep.: "+mantenimientoTerminado.getFecha_reparacion()+"\n";
+            switch (mantenimientoTerminado.getFk_tiempo_mano_obra()){
+                case -1:
+                    obs += "Tiempo mano Obra: Menos de 1 hora"+"\n";
+                    break;
+                case 1:
+                    obs += "Tiempo mano Obra: 2 horas o mas"+"\n";
+                    break;
+                case 2:
+                    obs += "Tiempo mano Obra: De 1 a 2 horas"+"\n";
+                    break;
+                case 3:
+                    obs += "Tiempo mano Obra: Menos de 1 hora"+"\n";
+                    break;
+            }
+            obs += "Coste materiales: "+mantenimientoTerminado.getCoste_materiales()+"\n";
+            obs += "Importe mano obra: "+mantenimientoTerminado.getCoste_mano_obra()+"\n";
+            obs += "Importe mano obra adicional: "+mantenimientoTerminado.getCoste_mano_obra_adicional()+"\n";
+
 
         }
+        if (mantenimientoTerminado.getObservaciones_tecnico()!=null){
+            obs+= mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+        }
+
         String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
         String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
                 datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
