@@ -519,6 +519,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Observaciones"
+                android:id="@+id/textView25"
+                android:textSize="18dp"
+                android:layout_marginLeft="10dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etObservaciones"
+                android:minHeight="100dp"
+                android:background="@drawable/edit_texts_naranja"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp" />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -598,21 +616,6 @@
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Observaciones"
-            android:id="@+id/textView25"
-            android:textSize="18dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etObservaciones"
-            android:minHeight="100dp"
-            android:background="@drawable/edit_texts_naranja"
-            android:layout_marginBottom="5dp" />
     </LinearLayout>
 
 </LinearLayout>

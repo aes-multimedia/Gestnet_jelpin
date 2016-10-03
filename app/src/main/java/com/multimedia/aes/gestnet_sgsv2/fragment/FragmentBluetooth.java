@@ -38,6 +38,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
@@ -45,6 +46,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
+import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
 
 import org.json.JSONException;
@@ -385,7 +387,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
                     "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
         }
         String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-        String obs = "\n";
+        String obs = "";
+        if (mantenimientoTerminado.isAcciones()){
+            obs += "Accion reak¡lizada"+TiposReparacionesDAO.buscarTiposReparacionesPorId(getContext(),mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
+            obs += mantenimientoTerminado.getFecha_reparacion()+"\n";
+
+        }
         String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
         String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
                 datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+

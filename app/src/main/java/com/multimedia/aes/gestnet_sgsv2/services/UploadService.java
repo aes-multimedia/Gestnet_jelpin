@@ -47,8 +47,8 @@ import java.util.List;
 
 public class UploadService extends IntentService {
     private static final String TAG = UploadService.class.getSimpleName();
-    private String hostLocal = "192.168.0.228";
-    private String hostRed = "80.58.161.135";
+    private String ipInterna = "192.168.0.228";
+    private String ipExterna = "80.58.161.135";
     private String puerto = "8085";
     private Tecnico tecnico = null;
     private List<EquipamientoCaldera> equipamientoCalderas = null;
@@ -124,7 +124,7 @@ public class UploadService extends IntentService {
     }
     private String subirMantenimientos(JSONObject msg) throws JSONException, IOException {
         Log.d("-----JSON-----", msg.toString());
-        URL urlws = new URL("http://"+hostRed+":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -150,7 +150,7 @@ public class UploadService extends IntentService {
     }
     private String subirCerrarIberdrola(JSONObject msg) throws JSONException, IOException {
         Log.d("-----JSONCERRARIB-----", msg.toString());
-        URL urlws = new URL("http://"+hostRed+":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -176,7 +176,7 @@ public class UploadService extends IntentService {
     }
     private String subirTiket(JSONObject msg) throws JSONException, IOException {
         Log.d("JSON",msg.toString());
-        URL urlws = new URL("http://"+hostRed+":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -201,7 +201,7 @@ public class UploadService extends IntentService {
         return contenido;
     }
     private String subirImagen(JSONObject msg)throws JSONException, IOException{
-        URL urlws = new URL("http://"+hostRed+":"+puerto+"/api-sgs/v1/mantenimientos/foto");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -266,6 +266,8 @@ public class UploadService extends IntentService {
         jsonObject1.put("analisisProdCombustion", mantenimientoTerminado.getAnalisis_productos_combustion());
         jsonObject1.put("caudalACS", maquina.getCaudal_acs());
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
+        String base64 = loadTicketFromStorage();
+        jsonObject1.put("base64", base64);
 
         jsonObject2.put("fkEstadoVisita",mantenimientoTerminado.getFk_estado_visita());
         jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
