@@ -64,7 +64,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra,spMotivoNoAcepta;
     private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB;
-    private CheckBox cbContadorInterno, cbReparacion,cbAnomalias,cbAceptaRepSi,cbAceptaRepNo,cbSolicitudVisita,cbInSitu;
+    private CheckBox cbContadorInterno, cbReparacion,cbAceptaRepSi,cbAceptaRepNo,cbSolicitudVisita,cbInSitu;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
@@ -112,7 +112,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         etObservaciones = (EditText) vista.findViewById(R.id.etObservaciones);
         cbContadorInterno = (CheckBox) vista.findViewById(R.id.cbContadorInterno);
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
-        cbAnomalias = (CheckBox) vista.findViewById(R.id.cbAnomalias);
         cbAceptaRepSi=(CheckBox) vista.findViewById(R.id.checkSiAcepta);
         cbAceptaRepNo=(CheckBox) vista.findViewById(R.id.checkNoAcepta);
         cbSolicitudVisita=(CheckBox) vista.findViewById(R.id.checkSolcitudVisita);
@@ -150,7 +149,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
         cbReparacion.setOnClickListener(this);
         cbContadorInterno.setOnClickListener(this);
-        cbAnomalias.setOnClickListener(this);
 
         cbAceptaRepSi.setOnClickListener(this);
         cbAceptaRepNo.setOnClickListener(this);
@@ -309,19 +307,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
                 etCodVisitaPlataformaB.setVisibility(View.GONE);
             }
-
-        }
-        else if (view.getId()==R.id.cbAnomalias){
-            if (cbAnomalias.isChecked()){
-                llAnomalias.setVisibility(View.VISIBLE);
-                mantenimientoTerminado.setAnomalia(true);
-                cbAceptaRepSi.setChecked(false);
-                llAceptaRep.setVisibility(View.GONE);
-            }else{
-                llAnomalias.setVisibility(View.GONE);
-                mantenimientoTerminado.setAnomalia(false);
-                cbAceptaRepSi.setChecked(false);
-            }
         }else if (view.getId()==R.id.btnFinalizar) {
             try {
                 guardarDatos();
@@ -463,7 +448,11 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView==spTipoVisita) {
-            if (i == 2) {
+            if (i==1){
+                llAnomalias.setVisibility(View.GONE);
+                mantenimientoTerminado.setAnomalia(false);
+                cbAceptaRepSi.setChecked(false);
+            }else if (i == 3) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -475,7 +464,11 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 4) {
+                llAnomalias.setVisibility(View.VISIBLE);
+                mantenimientoTerminado.setAnomalia(true);
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
+            } else if (i == 5) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 5);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -487,7 +480,11 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
-            } else if (i == 5) {
+                llAnomalias.setVisibility(View.VISIBLE);
+                mantenimientoTerminado.setAnomalia(true);
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
+            } else if (i == 6) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 6);
                     subTiposVisita = new String[listaSubTiposVista.size()];
@@ -499,8 +496,16 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     e.printStackTrace();
                 }
                 linearSubtipos.setVisibility(View.VISIBLE);
+                llAnomalias.setVisibility(View.VISIBLE);
+                mantenimientoTerminado.setAnomalia(true);
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
             } else {
                 linearSubtipos.setVisibility(View.GONE);
+                llAnomalias.setVisibility(View.VISIBLE);
+                mantenimientoTerminado.setAnomalia(true);
+                cbAceptaRepSi.setChecked(false);
+                llAceptaRep.setVisibility(View.GONE);
             }
         }else if(adapterView==spMotivoNoAcepta){
             if (i==1||i==2){
@@ -568,7 +573,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             mantenimientoTerminado.setCoste_mano_obra_adicional("0");
 
         }
-        if (cbAnomalias.isChecked()){
+        if (mantenimientoTerminado.isAnomalia()){
             int b = spTipoVisita.getSelectedItemPosition();
             if (b!=0){
                 int id= -1;
