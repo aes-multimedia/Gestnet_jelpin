@@ -260,7 +260,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     arrayListMaquina.add(m);
                     adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
                     lvMaquinas.setAdapter(adaptadorListaMaquinas);
-                    spTipo.setSelection(0);
+                    /*spTipo.setSelection(0);
                     spMarca.setSelection(0);
                     spUso.setSelection(0);
                     spPotencia.setSelection(0);
@@ -276,7 +276,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     etTempGasesComb.setText("");
                     etTempAmbienteLocal.setText("");
                     etTempAguaGeneCalorEntrada.setText("");
-                    etTempAguaGeneCalorSalida.setText("");
+                    etTempAguaGeneCalorSalida.setText("");*/
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

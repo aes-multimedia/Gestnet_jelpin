@@ -502,8 +502,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llAceptaRep.setVisibility(View.GONE);
             } else {
                 linearSubtipos.setVisibility(View.GONE);
-                llAnomalias.setVisibility(View.VISIBLE);
-                mantenimientoTerminado.setAnomalia(true);
                 cbAceptaRepSi.setChecked(false);
                 llAceptaRep.setVisibility(View.GONE);
             }
@@ -585,7 +583,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 mantenimientoTerminado.setFk_tipo_visita(id);
             }
             int t = spSubTipoVisita.getSelectedItemPosition();
-            if (b==2||b==4||b==5){
+            if (b==3||b==5||b==6){
                 int id= -1;
                 try {
                     id = SubTiposVisitaDAO.buscarSubTipoVisitaPorCodigo(getContext(),spSubTipoVisita.getSelectedItem().toString());

@@ -333,8 +333,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String hora = df.format(date);
         mantenimientoTerminado.setFecha_ticket(fecha);
         mantenimientoTerminado.setHora_ticket(hora);
-        String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n\n";
-        String gps="Long:43.283594 Lat:-3.955325"+"\n";
+        String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n";
+        String gps="Long:43.283594 Lat:-3.955325"+"\n\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
@@ -359,11 +359,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE.";
             notificada = "" + noti + "\n\n";
         }
-        String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
+        String presupuesto = "--OPERACIONES REALIZADAS--" + "\n";
         String op = operaciones();
         String operaciones = op+"\n";
         String maquina = datosMaquinas()+"\n\n";
-        String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
+        String anomalias_detectadas = "---ANOMALIAS DETECTADAS---"+"\n";
         String anom = "";
         if (!mantenimientoTerminado.isAnomalia()){
             anom = "Sin Anomalias."+"\n";
@@ -399,7 +399,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
                     "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
         }
-        String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
+        String observaciones_tecnico="---OBSERVACIONES TECNICO---"+"\n";
         String obs = "";
         if (mantenimientoTerminado.isAcciones()){
             obs += "Accion realizada: "+TiposReparacionesDAO.buscarTiposReparacionesPorId(getContext(),mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
@@ -481,7 +481,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+" calefaccion.";
         }
         if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";
+            operaciones=operaciones+"\n"+"-Estanqueidad conexion"+"\n"+" aparatos.";
         }
         if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
             operaciones=operaciones+"\n"+"-Estanqueidad conducto evac."+"\n"+" e IRG.";
@@ -522,37 +522,35 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String potencia = "Potencia: "+pot+"\n\n";
             String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
             String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
-            String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
+            String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
             String caud_acs = maquinas.get(i).getCaudal_acs();
             String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
             String pot_uti = maquinas.get(i).getPotencia_util();
             String potencia_util = "Potencia util: "+pot_uti+"\n";
             String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
-            String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+"\n";
+            String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+" C \n";
             String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
-            String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+"\n";
+            String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+" C \n";
             String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
-            String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+"\n";
+            String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+" C \n";
             String rend_apar = "98.3%";
             String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-            String co_cor = "88 ppm";
-            String co_corregido = "CO corregido: "+co_cor+ "\n";
+            String co_cor = "88";
+            String co_corregido = "CO corregido: "+co_cor+ " ppm \n";
             String co_amb = maquinas.get(i).getC0_maquina();
-            String co_ambiente = "CO ambiente: "+co_amb+ "\n";
-            String tir = "-.014 mbar";
-            String tiro = "Tiro: "+tir+ "\n";
-            String c2 = "9.01 %";
-            String co2 = "CO2: "+c2+ "\n";
-            String o02 = "5.1 %";
-            String o2 = "O2: "+o02+ "\n";
+            String co_ambiente = "CO ambiente: "+co_amb+ " ppm \n";
+            String tir = "-.014";
+            String tiro = "Tiro: "+tir+ " mbar \n";
+            String c2 = "9.01";
+            String co2 = "CO2: "+c2+ " % \n";
+            String o02 = "5.1";
+            String o2 = "O2: "+o02+ " % \n";
             String lamb = "1.32";
-            String lambda = "Lambda: "+lamb+ "\n";
-            String perd_chim = "";
-            String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
+            String lambda = "Lambda: "+lamb+ "\n"+"\n";
             datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
                     temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
                     temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-                    lambda+perdidas_chimenea;
+                    lambda;
         }
         if (equipamiento!=null){
             for (int i = 0; i < equipamiento.size(); i++) {
