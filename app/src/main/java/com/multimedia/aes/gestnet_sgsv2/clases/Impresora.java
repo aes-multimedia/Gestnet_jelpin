@@ -162,14 +162,27 @@ public class Impresora {
 		String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
 		String anom = "";
 		if (!mantenimientoTerminado.isAnomalia()){
-			anom = "Sin Anomalias";
+			anom = "Sin Anomalias."+"\n";
 		}else {
 			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita());
+				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita())+"\n";
 			}else{
-				anom = "otras anomalias";
+				anom = "Otras anomalias."+"\n";
 			}
+			if (mantenimientoTerminado.getReparacion()==1){
+				anom+="Acepta reparacion."+"\n";
+				if (mantenimientoTerminado.isInsitu()){
+					anom+="Reparacion insitu."+"\n";
+					anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+				}else{
+					anom+="Solicitud de visita: ";
+					anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+				}
+			}else{
+				anom+="No acepta reparacion."+"\n";
+			}
+			anom+=""+"\n";
 		}
 		String anomalias = anom+"\n\n";
 		String comun = "";
@@ -368,37 +381,35 @@ public class Impresora {
 			String potencia = "Potencia: "+pot+"\n\n";
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
-			String temperatura_max_acs = "Temp. Max. ACS: "+"\n"+tem_max_acs+"\n";
+			String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
 			String caud_acs = maquinas.get(i).getCaudal_acs();
 			String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
 			String pot_uti = maquinas.get(i).getPotencia_util();
 			String potencia_util = "Potencia util: "+pot_uti+"\n";
 			String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
-			String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+"\n";
+			String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+" C \n";
 			String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
-			String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+"\n";
+			String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+" C \n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
-			String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+"\n";
+			String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+" C \n";
 			String rend_apar = "98.3%";
 			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-			String co_cor = "88 ppm";
-			String co_corregido = "CO corregido: "+co_cor+ "\n";
+			String co_cor = "88";
+			String co_corregido = "CO corregido: "+co_cor+ " ppm \n";
 			String co_amb = maquinas.get(i).getC0_maquina();
-			String co_ambiente = "CO ambiente: "+co_amb+ "\n";
-			String tir = "-.014 mbar";
-			String tiro = "Tiro: "+tir+ "\n";
-			String c2 = "9.01 %";
-			String co2 = "CO2: "+c2+ "\n";
-			String o02 = "5.1 %";
-			String o2 = "O2: "+o02+ "\n";
+			String co_ambiente = "CO ambiente: "+co_amb+ " ppm \n";
+			String tir = "-.014";
+			String tiro = "Tiro: "+tir+ " mbar \n";
+			String c2 = "9.01";
+			String co2 = "CO2: "+c2+ " % \n";
+			String o02 = "5.1";
+			String o2 = "O2: "+o02+ " % \n";
 			String lamb = "1.32";
-			String lambda = "Lambda: "+lamb+ "\n";
-			String perd_chim = "";
-			String perdidas_chimenea = "Perdidas por chimenea: "+perd_chim+ "\n"+"\n";
+			String lambda = "Lambda: "+lamb+ "\n"+"\n";
 			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-					lambda+perdidas_chimenea;
+					lambda;
 		}
 		if (equipamiento!=null){
 			for (int i = 0; i < equipamiento.size(); i++) {
@@ -410,7 +421,7 @@ public class Impresora {
 					case 1:
 						tip_equ = "Cocina"+"\n";
 						String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
-						String co2 = "Co2 Ambiente: 20";
+						String co2 = "Co2 Ambiente: 20"+"\n";
 						datos_maquinas+=datos_equipamiento+tip_equ+fuegos+observaciones_tecnico+co2;
 						break;
 					case 2:

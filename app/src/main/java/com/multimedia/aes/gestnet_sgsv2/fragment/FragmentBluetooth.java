@@ -325,14 +325,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         return btmp;
     }
     private String generarTexto1() throws SQLException {
-        Calendar cal = new GregorianCalendar();
-        Date date = cal.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = df.format(date);
-        df = new SimpleDateFormat("hh:mm");
-        String hora = df.format(date);
-        mantenimientoTerminado.setFecha_ticket(fecha);
-        mantenimientoTerminado.setHora_ticket(hora);
+        String fecha = mantenimientoTerminado.getFecha_ticket();
+        String hora = mantenimientoTerminado.getHora_ticket();
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n";
         String gps="Long:43.283594 Lat:-3.955325"+"\n\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
@@ -562,7 +556,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
                     case 1:
                         tip_equ = "Cocina"+"\n";
                         String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
-                        String co2 = "Co2 Ambiente: 20";
+                        String co2 = "Co2 Ambiente: 20"+"\n";
                         datos_maquinas+=datos_equipamiento+tip_equ+fuegos+observaciones_tecnico+co2;
                         break;
                     case 2:

@@ -55,7 +55,7 @@ public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
     }
 
     private String logeo() throws JSONException, IOException {
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
+        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);

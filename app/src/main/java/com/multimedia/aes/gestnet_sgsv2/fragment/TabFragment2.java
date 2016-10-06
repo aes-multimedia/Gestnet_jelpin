@@ -132,7 +132,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
-           /* String tipo = null;
+            String tipo = null;
             if (!mantenimiento.getTipo_maquina().equals("null")) {
                 tipo= mantenimiento.getTipo_maquina();
                 try {
@@ -146,7 +146,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
                 int spinnerPosition = myAdap.getPosition(myString);
                 spTipo.setSelection(spinnerPosition);
-            }*/
+            }
 
             listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
             marcas = new String[listaMarcas.size()+1];
@@ -156,6 +156,21 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
+            String marca = null;
+            if (!mantenimiento.getMarca_maquina().equals("null")) {
+                marca= mantenimiento.getMarca_maquina();
+                try {
+                    marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),Integer.parseInt(marca)).getNombre_marca_caldera();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (marca!=null) {
+                String myString = marca;
+                ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spMarca.setSelection(spinnerPosition);
+            }
 
             listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
             usos=new String[listaUso.size()+1];
@@ -165,6 +180,20 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
+            String uso = null;
+                int uso1 = mantenimiento.getUso_maquina();
+                try {
+                    uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            if (uso!=null) {
+                String myString = uso;
+                ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spUso.setSelection(spinnerPosition);
+            }
+
             listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
             potencias=new String[listaPotencia.size()+1];
             potencias[0]="--Seleccione un valor--";
@@ -172,6 +201,22 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 potencias[i]=listaPotencia.get(i-1).getPotencia();
             }
             spPotencia.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, potencias));
+
+            String potencia = null;
+            if (mantenimiento.getPotencia_maquina()!=0) {
+                int potencia1 = mantenimiento.getPotencia_maquina();
+                try {
+                    potencia = PotenciaDAO.buscarPotenciaPorId(getContext(),potencia1).getPotencia();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (potencia!=null) {
+                String myString = potencia;
+                ArrayAdapter myAdap = (ArrayAdapter) spPotencia.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spPotencia.setSelection(spinnerPosition);
+            }
 
             Date d = new Date();
             String s  = String.valueOf(DateFormat.format("yyyy", d.getTime()));
@@ -184,6 +229,19 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 a++;
             }
             spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
+
+            String puesta = null;
+            if (!mantenimiento.getPuesta_marcha_maquina().equals("null")) {
+                puesta = mantenimiento.getPuesta_marcha_maquina();
+                puesta = puesta.substring(0,4);
+                String hola = "";
+            }
+            if (puesta!=null) {
+                String myString = puesta;
+                ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spPuestaMarcha.setSelection(spinnerPosition);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

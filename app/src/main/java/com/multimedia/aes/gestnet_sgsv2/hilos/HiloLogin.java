@@ -59,7 +59,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         JSONObject msg = new JSONObject();
         msg.put("login",login);
         msg.put("pass",pass);
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
+        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);

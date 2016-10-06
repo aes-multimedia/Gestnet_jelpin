@@ -57,6 +57,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -314,6 +317,14 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 e.printStackTrace();
             }
                 if (mantenimientoTerminado.isMaquina()) {
+                    Calendar cal = new GregorianCalendar();
+                    Date date = cal.getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    String fecha = df.format(date);
+                    df = new SimpleDateFormat("hh:mm");
+                    String hora = df.format(date);
+                    mantenimientoTerminado.setFecha_ticket(fecha);
+                    mantenimientoTerminado.setHora_ticket(hora);
                     MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
                     if (!arraylistImagenes.isEmpty()) {
                         for (int i = 0; i < arraylistImagenes.size(); i++) {
