@@ -83,12 +83,15 @@ public class UploadService extends IntentService {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
                     String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
+                    String mensajeticket = subirTiket(rellenarJsonTiket());
+                    Log.d("-----MENSAJETICKET-----", mensajeticket);
                     rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
                     if (mensajemantenimiento.equals("1")){
-                        MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
-                        //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
-                        String mensajeticket = subirTiket(rellenarJsonTiket());
-                        Log.d("-----MENSAJETICKET-----", mensajeticket);
+                        //MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
+                        String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
+                        Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
+                        //String mensajeticket = subirTiket(rellenarJsonTiket());
+                        //Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
                             String mensajeImagen = subirImagen(rellenarJsonImagenes(list.get(i).getFk_parte()));
                             Log.d("-----MENSAJEIMAGEN-----", mensajeImagen);
