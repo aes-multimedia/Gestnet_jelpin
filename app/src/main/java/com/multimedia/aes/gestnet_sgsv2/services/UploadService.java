@@ -403,6 +403,7 @@ public class UploadService extends IntentService {
         Maquina maquina = maquinas.get(0);
         JSONObject msg = new JSONObject();
         msg.put("codigoContrato",mantenimiento.getNum_orden_endesa());
+        msg.put("fkParte",mantenimiento.getId_mantenimiento());
         msg.put("codigoVisita",mantenimiento.getCod_visita());
         msg.put("telefonoContacto1", mantenimiento.getTelefono1_usuario());
         msg.put("telefonoContacto2", mantenimiento.getTelefono2_usuario());
@@ -410,18 +411,25 @@ public class UploadService extends IntentService {
         msg.put("uso", maquina.getFk_uso_maquina());
         msg.put("potencia", maquina.getPotencia_util());
         msg.put("anio", maquina.getPuesta_marcha_maquina());
-        msg.put("descripcionMarcaCaldera", MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getBaseContext(),maquina.getFk_marca_maquina()));
+        msg.put("marcaCaldera ", MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getBaseContext(),maquina.getFk_marca_maquina()));
+        msg.put("fkTipoMaquina",maquina.getFk_tipo_maquina());
+        msg.put("fk_marcaCaldera ",maquina.getFk_marca_maquina());
         msg.put("estadoVisita", mantenimiento.getFk_estado_endesa());
         msg.put("fechaVisita", mantenimiento.getFecha_visita());
         msg.put("observacionesVisita", mantenimiento.getObservaciones());
-        msg.put("recepcionComprobante", "1");
-        msg.put("facturadoProveedor", "0");
+        if (mantenimientoTerminado.isAnomalia()) {
+            msg.put("recepcionComprobante", "1");
+            msg.put("facturadoProveedor", "1");
+        }else{
+            msg.put("recepcionComprobante", "0");
+            msg.put("facturadoProveedor", "0");
+        }
         msg.put("fechaFactura", "2016-09-26");
         msg.put("numFactura", mantenimiento.getNum_factura());
         msg.put("codigoBarrasVisita", "569821435156964121");
-        msg.put("cartaEnviada", "0");
+        msg.put("cartaEnviada", "1");
         msg.put("fechaEnvioCarta", "2016-09-26");
-        msg.put("tipoVisita", TiposVisitaDAO.buscarNombreTipoVisitaPorId(getBaseContext(),mantenimientoTerminado.getFk_tipo_visita()));
+        msg.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
         msg.put("idTecnico", tecnico.getId_tecnico());
         msg.put("proveedor", "ICISA");
         msg.put("observacionesTecnico", mantenimientoTerminado.getObservaciones_tecnico());
@@ -435,9 +443,9 @@ public class UploadService extends IntentService {
             rep = "0";
         }
         msg.put("tieneReparacion", rep);
-        msg.put("idTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
+        msg.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
         msg.put("fechaReparacion", mantenimiento.getFecha_visita());
-        msg.put("idTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
+        msg.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
         msg.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
         msg.put("importemanoObra", mantenimientoTerminado.getCoste_mano_obra());
         msg.put("costeMaterialesCliente", mantenimientoTerminado.getCoste_materiales());
