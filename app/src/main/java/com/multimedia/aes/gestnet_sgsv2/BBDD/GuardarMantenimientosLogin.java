@@ -248,7 +248,7 @@ public class GuardarMantenimientosLogin {
             String modelo_maquina = jsonObject1.getString("modelo");
             String marca_maquina = jsonObject1.getString("fk_marca");
             int uso_maquina;
-            if (jsonObject1.getString("fk_uso").equals("null")){
+            if (jsonObject1.getString("fk_uso").equals("null")||jsonObject1.getString("fk_uso").equals("")){
                 uso_maquina = 3;
             }else{
                 uso_maquina = jsonObject1.getInt("fk_uso");

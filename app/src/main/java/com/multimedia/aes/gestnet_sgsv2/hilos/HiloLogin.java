@@ -59,25 +59,57 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         JSONObject msg = new JSONObject();
         msg.put("login",login);
         msg.put("pass",pass);
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
+        URL urlwsExt = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
         uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
         uc.setRequestMethod("POST");
         uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
         String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+        int responseCode = uc.getResponseCode();
+
+       if(responseCode == 200) {
+            OutputStream os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+
+        }else{
+
+            HttpURLConnection ucExt = (HttpURLConnection) urlwsExt.openConnection();
+            ucExt.setDoOutput(true);
+            ucExt.setDoInput(true);
+            ucExt.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            ucExt.setRequestMethod("POST");
+            ucExt.connect();
+
+            //aqui hacer otra vez la excepcion para probar conexion
+
+            OutputStream os = ucExt.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(ucExt.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+            // response code is not OK
         }
-        in.close();
-        osw.close();
+
+
         return contenido;
     }
 }

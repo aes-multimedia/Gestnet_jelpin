@@ -470,8 +470,10 @@ public class UploadService extends IntentService {
         msg.put("fechaFacturaReparacion", "");
         msg.put("numeroFacturaReparacion", "");
         msg.put("codigoBarrasReparacion", codBarr);
-        msg.put("tipoEquipamiento", equipamientoCalderas.get(0).getFk_tipo_equipamiento());
-        msg.put("potenciaEquipamiento", equipamientoCalderas.get(0).getPotencia_fuegos());
+        if (equipamientoCalderas!=null) {
+            msg.put("tipoEquipamiento", equipamientoCalderas.get(0).getFk_tipo_equipamiento());
+            msg.put("potenciaEquipamiento", equipamientoCalderas.get(0).getPotencia_fuegos());
+        }
         msg.put("tipoProceso", "");
         msg.put("nombreFichero", "");
         msg.put("contenidoFichero", "");
