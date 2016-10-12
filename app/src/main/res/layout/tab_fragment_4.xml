@@ -143,7 +143,7 @@
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -275,7 +275,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="Importe Mano de Obra Adicional"
+                                android:text="Coste materiales cliente"
                                 android:id="@+id/textView49"
                                 android:textSize="18dp"
                                 android:layout_marginTop="10dp" />

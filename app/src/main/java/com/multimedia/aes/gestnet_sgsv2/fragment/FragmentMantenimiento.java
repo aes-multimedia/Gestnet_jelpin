@@ -38,7 +38,7 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Usuario"));
+        tabLayout.addTab(tabLayout.newTab().setText("Cliente"));
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
@@ -55,6 +55,7 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
                 (getFragmentManager(), tabLayout.getTabCount());

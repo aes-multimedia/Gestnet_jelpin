@@ -38,6 +38,15 @@ public class Mantenimiento {
     public static final String USO_MAQUINA = "uso_maquina";
     public static final String POTENCIA_MAQUINA = "potencia_maquina";
     public static final String PUESTA_MARCHA_MAQUINA = "puesta_marcha_maquina";
+    public static final String CODIGO_MAQUINA = "potencia_maquina";
+    public static final String CO_MAQUINA = "co_maquina";
+    public static final String TEMPERATURA_MAX_ACS_MAQUINA = "temperatura_max_acs_maquina";
+    public static final String CAUDAL_ACS_MAQUINA = "caudal_acs_maquina";
+    public static final String POTENCIA_UTIL_MAQUINA = "potencia_util_maquina";
+    public static final String TEMPERATURA_GASES_COMBUSTION_MAQUINA = "temperatura_gases_combustion_maquina";
+    public static final String TEMPERATURA_AMBIENTE_LOCAL_MAQUINA = "temperatura_ambiente_local_maquina";
+    public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA_MAQUINA = "temperatura_agua_generador_calor_entrada_maquina";
+    public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA_MAQUINA = "temperatura_agua_generador_calor_salida_maquina";
     public static final String FECHA_CREACION = "fecha_creacion";
     public static final String FECHA_AVISO = "fecha_aviso";
     public static final String FECHA_VISITA = "fecha_visita";
@@ -172,6 +181,24 @@ public class Mantenimiento {
     private int potencia_maquina;
     @DatabaseField(columnName = PUESTA_MARCHA_MAQUINA)
     private String puesta_marcha_maquina;
+    @DatabaseField(columnName = CODIGO_MAQUINA)
+    private int codigo_maquina;
+    @DatabaseField(columnName = CO_MAQUINA)
+    private String co_maquina;
+    @DatabaseField(columnName = TEMPERATURA_MAX_ACS_MAQUINA)
+    private String temperatura_max_acs_maquina;
+    @DatabaseField(columnName = CAUDAL_ACS_MAQUINA)
+    private String caudal_acs_maquina;
+    @DatabaseField(columnName = POTENCIA_UTIL_MAQUINA)
+    private String potencia_util_maquina;
+    @DatabaseField(columnName = TEMPERATURA_GASES_COMBUSTION_MAQUINA)
+    private String temperatura_gases_combustion_maquina;
+    @DatabaseField(columnName = TEMPERATURA_AMBIENTE_LOCAL_MAQUINA)
+    private String temperatura_ambiente_local_maquina;
+    @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA_MAQUINA)
+    private String temperatura_agua_generador_calor_entrada_maquina;
+    @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA_MAQUINA)
+    private String temperatura_agua_generador_calor_salida_maquina;
     @DatabaseField(columnName = FECHA_CREACION)
     private String fecha_creacion;
     @DatabaseField(columnName = FECHA_AVISO)
@@ -314,35 +341,42 @@ public class Mantenimiento {
     public Mantenimiento(){
     }
 
-
-    public Mantenimiento(int id_mantenimiento, String hash, String base64, int fk_user_creador, int fk_tecnico, int fk_usuario,
-                         int fk_empresa_usuario, String numero_usuario, String nombre_usuario, String dni_usuario,
-                         String telefono1_usuario, String telefono2_usuario, String telefono3_usuario,
-                         String telefono4_usuario, String telefono5_usuario, String email_usuario,
-                         String moroso_usuario, String observaciones_usuario,int fk_direccion,
-                         String direccion, String cod_postal, String provincia, String municipio,String latitud,String longitud,
-                         int fk_maquina,String tipo_maquina, String modelo_maquina,String marca_maquina,
-                         int uso_maquina,int potencia_maquina, String puesta_marcha_maquina, String fecha_creacion, String fecha_aviso,
-                         String fecha_visita, String visita_duplicada, String fecha_reparacion,
-                         String num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario,String descripcion_horario,
-                         String franja_horaria, int fk_franja_ip, int fk_estado, String observaciones,
-                         String observacionesAsignacion, String confirmado, String imprimir,
-                         String fecha_factura, String num_factura, String fecha_factura_rectificativa,
-                         String num_factura_rectificativa, int fk_pend_fact, String num_orden_endesa,
-                         String fecha_maxima_endesa, int fk_estado_endesa, String insistencia_endesa,
-                         String contrato_endesa, String producto_endesa, int fk_tipo_os,
-                         int fk_tipo_producto, String pagado_endesa, String ciclo_liq_endesa,
-                         String importe_pago_endesa, String fecha_pagado_endesa, String pagado_operario,
-                         String fecha_anulado, String fecha_modificacion_tecnico, int fk_remoto_central,
-                         String fac_nombre, String fac_direccion, String fac_cp, String fac_poblacion,
-                         String fac_provincia, String fac_DNI, String fac_email, String fac_telefonos,
-                         String otros_sintomas, String fecha_baja, String fac_baja_stock, String estado_android,
-                         int fk_tipo_urgencia, String fecha_cierre, String num_lote, String bEnBatch,
-                         String cod_visita, String fecha_envio_carta, String bCartaEnviada,
-                         String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo,
-                         String orden, String historico, int fk_tipo_urgencia_factura,
-                         String error_batch, int fk_batch_actual, int fk_efv, String scoring,
-                         int fk_categoria_visita, String contador_averias) {
+    public Mantenimiento(int id_mantenimiento, String hash, String base64, int fk_user_creador,
+                         int fk_tecnico, int fk_usuario, int fk_empresa_usuario, String numero_usuario,
+                         String nombre_usuario, String dni_usuario, String telefono1_usuario,
+                         String telefono2_usuario, String telefono3_usuario, String telefono4_usuario,
+                         String telefono5_usuario, String email_usuario, String moroso_usuario,
+                         String observaciones_usuario, int fk_direccion, String direccion,
+                         String cod_postal, String provincia, String municipio, String latitud,
+                         String longitud, int fk_maquina, String tipo_maquina, String modelo_maquina,
+                         String marca_maquina, int uso_maquina, int potencia_maquina,
+                         String puesta_marcha_maquina, int codigo_maquina, String co_maquina,
+                         String temperatura_max_acs_maquina, String caudal_acs_maquina,
+                         String potencia_util_maquina, String temperatura_gases_combustion_maquina,
+                         String temperatura_ambiente_local_maquina,
+                         String temperatura_agua_generador_calor_entrada_maquina,
+                         String temperatura_agua_generador_calor_salida_maquina,
+                         String fecha_creacion,
+                         String fecha_aviso, String fecha_visita, String visita_duplicada,
+                         String fecha_reparacion, String num_parte, int fk_tipo, int fk_user_asignacion,
+                         int fk_horario, String descripcion_horario, String franja_horaria,
+                         int fk_franja_ip, int fk_estado, String observaciones,
+                         String observacionesAsignacion, String confirmado,
+                         String imprimir, String fecha_factura, String num_factura,
+                         String fecha_factura_rectificativa, String num_factura_rectificativa,
+                         int fk_pend_fact, String num_orden_endesa, String fecha_maxima_endesa,
+                         int fk_estado_endesa, String insistencia_endesa, String contrato_endesa,
+                         String producto_endesa, int fk_tipo_os, int fk_tipo_producto, String pagado_endesa,
+                         String ciclo_liq_endesa, String importe_pago_endesa, String fecha_pagado_endesa,
+                         String pagado_operario, String fecha_anulado, String fecha_modificacion_tecnico,
+                         int fk_remoto_central, String fac_nombre, String fac_direccion, String fac_cp,
+                         String fac_poblacion, String fac_provincia, String fac_DNI, String fac_email,
+                         String fac_telefonos, String otros_sintomas, String fecha_baja, String fac_baja_stock,
+                         String estado_android, int fk_tipo_urgencia, String fecha_cierre, String num_lote,
+                         String bEnBatch, String cod_visita, String fecha_envio_carta, String bCartaEnviada,
+                         String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo, String orden,
+                         String historico, int fk_tipo_urgencia_factura, String error_batch, int fk_batch_actual,
+                         int fk_efv, String scoring, int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
         this.hash = hash;
         this.base64 = base64;
@@ -369,12 +403,21 @@ public class Mantenimiento {
         this.latitud = latitud;
         this.longitud = longitud;
         this.fk_maquina = fk_maquina;
-        this.tipo_maquina =tipo_maquina;
+        this.tipo_maquina = tipo_maquina;
         this.modelo_maquina = modelo_maquina;
         this.marca_maquina = marca_maquina;
         this.uso_maquina = uso_maquina;
         this.potencia_maquina = potencia_maquina;
         this.puesta_marcha_maquina = puesta_marcha_maquina;
+        this.codigo_maquina = codigo_maquina;
+        this.co_maquina = co_maquina;
+        this.temperatura_max_acs_maquina = temperatura_max_acs_maquina;
+        this.caudal_acs_maquina = caudal_acs_maquina;
+        this.potencia_util_maquina = potencia_util_maquina;
+        this.temperatura_gases_combustion_maquina = temperatura_gases_combustion_maquina;
+        this.temperatura_ambiente_local_maquina = temperatura_ambiente_local_maquina;
+        this.temperatura_agua_generador_calor_entrada_maquina = temperatura_agua_generador_calor_entrada_maquina;
+        this.temperatura_agua_generador_calor_salida_maquina = temperatura_agua_generador_calor_salida_maquina;
         this.fecha_creacion = fecha_creacion;
         this.fecha_aviso = fecha_aviso;
         this.fecha_visita = fecha_visita;
@@ -635,19 +678,71 @@ public class Mantenimiento {
     public void setUso_maquina(int uso_maquina) {
         this.uso_maquina = uso_maquina;
     }
-
     public int getPotencia_maquina() {
         return potencia_maquina;
     }
     public void setPotencia_maquina(int potencia_maquina) {
         this.potencia_maquina = potencia_maquina;
     }
-
     public String getPuesta_marcha_maquina() {
         return puesta_marcha_maquina;
     }
     public void setPuesta_marcha_maquina(String puesta_marcha_maquina) {
         this.puesta_marcha_maquina = puesta_marcha_maquina;
+    }
+    public int getCodigo_maquina() {
+        return codigo_maquina;
+    }
+    public void setCodigo_maquina(int codigo_maquina) {
+        this.codigo_maquina = codigo_maquina;
+    }
+    public String getCo_maquina() {
+        return co_maquina;
+    }
+    public void setCo_maquina(String co_maquina) {
+        this.co_maquina = co_maquina;
+    }
+    public String getTemperatura_max_acs_maquina() {
+        return temperatura_max_acs_maquina;
+    }
+    public void setTemperatura_max_acs_maquina(String temperatura_max_acs_maquina) {
+        this.temperatura_max_acs_maquina = temperatura_max_acs_maquina;
+    }
+    public String getCaudal_acs_maquina() {
+        return caudal_acs_maquina;
+    }
+    public void setCaudal_acs_maquina(String caudal_acs_maquina) {
+        this.caudal_acs_maquina = caudal_acs_maquina;
+    }
+    public String getPotencia_util_maquina() {
+        return potencia_util_maquina;
+    }
+    public void setPotencia_util_maquina(String potencia_util_maquina) {
+        this.potencia_util_maquina = potencia_util_maquina;
+    }
+    public String getTemperatura_gases_combustion_maquina() {
+        return temperatura_gases_combustion_maquina;
+    }
+    public void setTemperatura_gases_combustion_maquina(String temperatura_gases_combustion_maquina) {
+        this.temperatura_gases_combustion_maquina = temperatura_gases_combustion_maquina;
+    }
+    public String getTemperatura_ambiente_local_maquina() {
+        return temperatura_ambiente_local_maquina;
+    }
+    public void setTemperatura_ambiente_local_maquina(String temperatura_ambiente_local_maquina) {
+        this.temperatura_ambiente_local_maquina = temperatura_ambiente_local_maquina;
+    }
+    public String getTemperatura_agua_generador_calor_entrada_maquina() {
+        return temperatura_agua_generador_calor_entrada_maquina;
+    }
+    public void setTemperatura_agua_generador_calor_entrada_maquina(String temperatura_agua_generador_calor_entrada_maquina) {
+        this.temperatura_agua_generador_calor_entrada_maquina = temperatura_agua_generador_calor_entrada_maquina;
+    }
+    public String getTemperatura_agua_generador_calor_salida_maquina() {
+        return temperatura_agua_generador_calor_salida_maquina;
+    }
+    public void setTemperatura_agua_generador_calor_salida_maquina(String temperatura_agua_generador_calor_salida_maquina) {
+        this.temperatura_agua_generador_calor_salida_maquina = temperatura_agua_generador_calor_salida_maquina;
     }
     public String getFecha_creacion() {
         return fecha_creacion;

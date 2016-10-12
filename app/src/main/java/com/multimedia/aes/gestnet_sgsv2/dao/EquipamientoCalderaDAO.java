@@ -21,8 +21,8 @@ public class EquipamientoCalderaDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newEquipamientoCaldera(Context context,String potencia_fuegos, int fk_tipo_equipamiento, int fk_maquina,String co2) {
-		EquipamientoCaldera eq = montarEquipamientoCaldera(potencia_fuegos, fk_tipo_equipamiento, fk_maquina, co2);
+	public static boolean newEquipamientoCaldera(Context context,int codigo, String potencia_fuegos, String co2_ambiente, int fk_tipo_equipamiento, int fk_parte) {
+		EquipamientoCaldera eq = montarEquipamientoCaldera(codigo, potencia_fuegos, co2_ambiente, fk_tipo_equipamiento, fk_parte);
 		return crearEquipamientoCaldera(eq,context);
 	}
 	public static boolean crearEquipamientoCaldera(EquipamientoCaldera eq,Context context) {
@@ -35,8 +35,8 @@ public class EquipamientoCalderaDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static EquipamientoCaldera montarEquipamientoCaldera(String potencia_fuegos, int fk_tipo_equipamiento, int fk_maquina,String co2) {
-		EquipamientoCaldera eq =new EquipamientoCaldera(potencia_fuegos, fk_tipo_equipamiento, fk_maquina,co2);
+	public static EquipamientoCaldera montarEquipamientoCaldera(int codigo, String potencia_fuegos, String co2_ambiente, int fk_tipo_equipamiento, int fk_parte) {
+		EquipamientoCaldera eq =new EquipamientoCaldera(codigo, potencia_fuegos, co2_ambiente, fk_tipo_equipamiento, fk_parte);
 		return eq;
 	}
 

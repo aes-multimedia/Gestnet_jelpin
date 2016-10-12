@@ -8,12 +8,15 @@ public class EquipamientoCaldera {
 
     public static final String ID_EQUIPAMIENTO_CALDERA = "_id_equipamiento_caldera";
     public static final String POTENCIA_FUEGOS = "potencia_fuegos";
+    public static final String CODIGO = "codigo";
     public static final String CO2_AMBIENTE = "co2_ambiente";
     public static final String FK_TIPO_EQUIPAMIENTO = "fk_tipo_equipamiento";
     public static final String FK_PARTE = "fk_parte";
 
     @DatabaseField(generatedId = true, columnName = ID_EQUIPAMIENTO_CALDERA)
     private int id_equipamiento_caldera;
+    @DatabaseField(columnName = CODIGO)
+    private int codigo;
     @DatabaseField(columnName = POTENCIA_FUEGOS)
     private String potencia_fuegos;
     @DatabaseField(columnName = CO2_AMBIENTE)
@@ -26,13 +29,20 @@ public class EquipamientoCaldera {
     public EquipamientoCaldera() {
     }
 
-    public EquipamientoCaldera(String potencia_fuegos, int fk_tipo_equipamiento, int fk_parte,String co2_ambiente) {
+    public EquipamientoCaldera(int codigo, String potencia_fuegos, String co2_ambiente, int fk_tipo_equipamiento, int fk_parte) {
+        this.codigo = codigo;
         this.potencia_fuegos = potencia_fuegos;
+        this.co2_ambiente = co2_ambiente;
         this.fk_tipo_equipamiento = fk_tipo_equipamiento;
         this.fk_parte = fk_parte;
-        this.co2_ambiente = co2_ambiente;
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
     public int getId_equipamiento_caldera() {
         return id_equipamiento_caldera;
     }
@@ -57,11 +67,9 @@ public class EquipamientoCaldera {
     public void setFk_parte(int fk_parte) {
         this.fk_parte = fk_parte;
     }
-
     public String getCo2_ambiente() {
         return co2_ambiente;
     }
-
     public void setCo2_ambiente(String co2_ambiente) {
         this.co2_ambiente = co2_ambiente;
     }

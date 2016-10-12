@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_sgsv2.hilos;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
@@ -13,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
@@ -33,13 +36,13 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     protected Void doInBackground(Void... voids) {
         try {
             mensaje = logeo();
-        } catch (JSONException e) {
+       } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
-        } catch (IOException e) {
+        }  /*catch (IOException e) {
             mensaje = "IOException";
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
 
@@ -55,58 +58,62 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
 
     }
 
-    private String logeo() throws JSONException, IOException {
+    private String logeo() throws JSONException{
         JSONObject msg = new JSONObject();
         msg.put("login",login);
         msg.put("pass",pass);
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
-        URL urlwsExt = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.setRequestMethod("POST");
-        uc.connect();
+        URL urlws = null;
+        HttpURLConnection uc = null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                URL urlwsExt = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
+                uc = (HttpURLConnection) urlwsExt.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e1.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "IOEXCEPTION";
+            }
+        }
         String contenido = "";
-        int responseCode = uc.getResponseCode();
-
-       if(responseCode == 200) {
-            OutputStream os = uc.getOutputStream();
+        OutputStream os = null;
+        try {
+            os = uc.getOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
             osw.write(msg.toString());
             osw.flush();
             BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             String inputLine;
-
             while ((inputLine = in.readLine()) != null) {
                 contenido += inputLine + "\n";
             }
             in.close();
             osw.close();
-
-        }else{
-
-            HttpURLConnection ucExt = (HttpURLConnection) urlwsExt.openConnection();
-            ucExt.setDoOutput(true);
-            ucExt.setDoInput(true);
-            ucExt.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            ucExt.setRequestMethod("POST");
-            ucExt.connect();
-
-            //aqui hacer otra vez la excepcion para probar conexion
-
-            OutputStream os = ucExt.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-            osw.write(msg.toString());
-            osw.flush();
-            BufferedReader in = new BufferedReader(new InputStreamReader(ucExt.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                contenido += inputLine + "\n";
-            }
-            in.close();
-            osw.close();
-            // response code is not OK
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 

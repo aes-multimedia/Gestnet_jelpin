@@ -143,7 +143,7 @@ public class Impresora {
 		String cif_emp = "05954765L";
 		String cif = "CIF: "+cif_emp+"\n";
 		String num_emp_mant = "44556678";
-		String numero_empresa_mantenedora = "N. Empresa Mantenedora: "+"\n"+num_emp_mant+"\n";
+		String numero_empresa_mantenedora = "N. Emp. Mantenedora: "+"\n"+num_emp_mant+"\n";
 		String tec = tecnico.getNombre_usuario();
 		String tecnic = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
