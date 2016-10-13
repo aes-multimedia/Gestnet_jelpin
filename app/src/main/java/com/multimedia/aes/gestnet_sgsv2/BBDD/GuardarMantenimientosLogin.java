@@ -361,11 +361,36 @@ public class GuardarMantenimientosLogin {
             }else{
                 fac_direccion = jsonArray.getJSONObject(i).getString("fac_direccion");
             }
-            String fac_cp = jsonArray.getJSONObject(i).getString("fac_cp");
-            String fac_poblacion = jsonArray.getJSONObject(i).getString("fac_poblacion");
-            String fac_provincia = jsonArray.getJSONObject(i).getString("fac_provincia");
-            String fac_DNI = jsonArray.getJSONObject(i).getString("fac_DNI");
-            String fac_email = jsonArray.getJSONObject(i).getString("fac_email");
+            String fac_cp;
+            if (jsonArray.getJSONObject(i).getString("fac_cp").equals("null")){
+                fac_cp = "";
+            }else{
+                fac_cp = jsonArray.getJSONObject(i).getString("fac_cp");
+            }
+            String fac_poblacion;
+            if (jsonArray.getJSONObject(i).getString("fac_poblacion").equals("null")){
+                fac_poblacion = "";
+            }else{
+                fac_poblacion = jsonArray.getJSONObject(i).getString("fac_poblacion");
+            }
+            String fac_provincia;
+            if (jsonArray.getJSONObject(i).getString("fac_provincia").equals("null")){
+                fac_provincia = "";
+            }else{
+                fac_provincia = jsonArray.getJSONObject(i).getString("fac_provincia");
+            }
+            String fac_DNI;
+            if (jsonArray.getJSONObject(i).getString("fac_DNI").equals("null")){
+                fac_DNI = "";
+            }else{
+                fac_DNI = jsonArray.getJSONObject(i).getString("fac_DNI");
+            }
+            String fac_email;
+            if (jsonArray.getJSONObject(i).getString("fac_email").equals("null")){
+                fac_email = "";
+            }else{
+                fac_email = jsonArray.getJSONObject(i).getString("fac_email");
+            }
             String fac_telefonos = jsonArray.getJSONObject(i).getString("fac_telefonos");
             String otros_sintomas = jsonArray.getJSONObject(i).getString("otros_sintomas");
             String fecha_baja = jsonArray.getJSONObject(i).getString("fecha_baja");
