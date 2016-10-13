@@ -391,8 +391,18 @@ public class GuardarMantenimientosLogin {
             }else{
                 fac_email = jsonArray.getJSONObject(i).getString("fac_email");
             }
-            String fac_telefonos = jsonArray.getJSONObject(i).getString("fac_telefonos");
-            String otros_sintomas = jsonArray.getJSONObject(i).getString("otros_sintomas");
+            String fac_telefonos;
+            if (jsonArray.getJSONObject(i).getString("fac_telefonos").equals("null")){
+                fac_telefonos = "";
+            }else{
+                fac_telefonos = jsonArray.getJSONObject(i).getString("fac_telefonos");
+            }
+            String otros_sintomas;
+            if (jsonArray.getJSONObject(i).getString("otros_sintomas").equals("null")){
+                otros_sintomas = "";
+            }else{
+                otros_sintomas = jsonArray.getJSONObject(i).getString("otros_sintomas");
+            }
             String fecha_baja = jsonArray.getJSONObject(i).getString("fecha_baja");
             String fac_baja_stock = jsonArray.getJSONObject(i).getString("fac_baja_stock");
             String estado_android = jsonArray.getJSONObject(i).getString("estado_android");
@@ -463,12 +473,12 @@ public class GuardarMantenimientosLogin {
             String modelo_maquina = jsonObject1.getString("modelo");
             String marca_maquina = jsonObject1.getString("fk_marca");
             int uso_maquina;
-            if (jsonObject1.getString("fk_uso").equals("null")||jsonObject1.getString("fk_uso").equals("")){
-                uso_maquina = -1;
+            if (jsonObject1.getString("fk_uso").equals("null")||jsonObject1.getString("fk_uso").equals("")||jsonObject1.getString("fk_uso").equals("0")){
+                uso_maquina = 3;
             }else{
                 uso_maquina = jsonObject1.getInt("fk_uso");
                 if (uso_maquina>3){
-                    uso_maquina = -1;
+                    uso_maquina = 3;
                 }
             }
             int potencia_maquina = 0;
@@ -512,55 +522,55 @@ public class GuardarMantenimientosLogin {
 
             int codigo_maquina;
             if (jsonObject1.getString("codigo_maquina").equals("null")){
-                codigo_maquina=-1;
+                codigo_maquina=0;
             }else{
                 codigo_maquina=jsonObject1.getInt("codigo_maquina");
             }
             String co_maquina;
             if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")){
-                co_maquina="0";
+                co_maquina="";
             }else{
                 co_maquina=jsonObject1.getString("c0ppm");
             }
             String temperatura_max_acs_maquina;
             if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")){
-                temperatura_max_acs_maquina="0";
+                temperatura_max_acs_maquina="";
             }else{
                 temperatura_max_acs_maquina=jsonObject1.getString("tempMaxACS");
             }
             String caudal_acs_maquina;
             if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")){
-                caudal_acs_maquina="0";
+                caudal_acs_maquina="";
             }else{
                 caudal_acs_maquina=jsonObject1.getString("caudalACS");
             }
             String potencia_util_maquina;
             if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")){
-                potencia_util_maquina="0";
+                potencia_util_maquina="";
             }else{
                 potencia_util_maquina=jsonObject1.getString("potenciaUtil");
             }
             String temperatura_gases_combustion_maquina;
             if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")){
-                temperatura_gases_combustion_maquina="0";
+                temperatura_gases_combustion_maquina="";
             }else{
                 temperatura_gases_combustion_maquina=jsonObject1.getString("tempGasCombustion");
             }
             String temperatura_ambiente_local_maquina;
             if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")){
-                temperatura_ambiente_local_maquina="0";
+                temperatura_ambiente_local_maquina="";
             }else{
                 temperatura_ambiente_local_maquina=jsonObject1.getString("tempAmbLocal");
             }
             String temperatura_agua_generador_calor_entrada_maquina;
             if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")){
-                temperatura_agua_generador_calor_entrada_maquina="0";
+                temperatura_agua_generador_calor_entrada_maquina="";
             }else{
                 temperatura_agua_generador_calor_entrada_maquina=jsonObject1.getString("tempAguaGeneradorCalorEntrada");
             }
             String temperatura_agua_generador_calor_salida_maquina;
             if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")){
-                temperatura_agua_generador_calor_salida_maquina="0";
+                temperatura_agua_generador_calor_salida_maquina="";
             }else{
                 temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
             }

@@ -67,7 +67,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra,spMotivoNoAcepta;
     private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB;
-    private CheckBox cbContadorInterno, cbReparacion,cbAceptaRepSi,cbAceptaRepNo,cbSolicitudVisita,cbInSitu;
+    private CheckBox cbContadorInterno, cbReparacion,cbAceptaRepSi,cbAceptaRepNo,cbAceptaPrecinto,cbNoAceptaPrecinto;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
     private String[] tipos;
@@ -80,7 +80,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private List<SubTiposVisita> listaSubTiposVista=null;
     private String tiposVisita [];
     private TiposVisita tipoVisita;
-    private LinearLayout linearSubtipos;
+    private LinearLayout linearSubtipos,llMotivoNoAcepta,llCbPrecinto;
     private String subTiposVisita[];
     private ScrollView scFinalizar;
     public static AdaptadorListaImagenes adaptadorListaImagenes;
@@ -117,8 +117,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         cbReparacion = (CheckBox) vista.findViewById(R.id.cbReparacion);
         cbAceptaRepSi=(CheckBox) vista.findViewById(R.id.checkSiAcepta);
         cbAceptaRepNo=(CheckBox) vista.findViewById(R.id.checkNoAcepta);
-        cbSolicitudVisita=(CheckBox) vista.findViewById(R.id.checkSolcitudVisita);
-        cbInSitu=(CheckBox) vista.findViewById(R.id.cbInSitu);
+        cbAceptaPrecinto=(CheckBox) vista.findViewById(R.id.cbAceptaPrecinto);
+        cbNoAceptaPrecinto=(CheckBox) vista.findViewById(R.id.cbNoAceptaPrecinto);
         etCodVisitaPlataformaA=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaA);
         etCodVisitaPlataformaB=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaB);
 
@@ -148,6 +148,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         spTiempoManoObra = (Spinner)vista.findViewById(R.id.spTiempoManoObra);
         spMotivoNoAcepta = (Spinner)vista.findViewById(R.id.spMotivoNoAcepta);
         linearSubtipos = (LinearLayout)vista.findViewById(R.id.linearSubtipos);
+        llMotivoNoAcepta = (LinearLayout)vista.findViewById(R.id.llMotivoNoAcepta);
+        llCbPrecinto = (LinearLayout)vista.findViewById(R.id.llCbPrecinto);
         scFinalizar = (ScrollView)vista.findViewById(R.id.scFinalizar);
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
         cbReparacion.setOnClickListener(this);
@@ -155,8 +157,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
         cbAceptaRepSi.setOnClickListener(this);
         cbAceptaRepNo.setOnClickListener(this);
-        cbSolicitudVisita.setOnClickListener(this);
-        cbInSitu.setOnClickListener(this);
+        cbAceptaPrecinto.setOnClickListener(this);
+        cbNoAceptaPrecinto.setOnClickListener(this);
 
         btnFinalizar.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
@@ -279,6 +281,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 cbAceptaRepNo.setChecked(false);
                 llNoAceptaRep.setVisibility(View.GONE);
                 llAceptaRep.setVisibility(View.VISIBLE);
+                etObservacionesInsitu.setVisibility(View.VISIBLE);
+                etCodVisitaPlataformaB.setVisibility(View.VISIBLE);
             } else {
                 llAceptaRep.setVisibility(View.GONE);
             }
@@ -287,28 +291,11 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 cbAceptaRepSi.setChecked(false);
                 llAceptaRep.setVisibility(View.GONE);
                 llNoAceptaRep.setVisibility(View.VISIBLE);
-            }else{
-                etCodVisitaPlataformaA.setVisibility(View.GONE);
-                llNoAceptaRep.setVisibility(View.GONE);
-            }
-        }else if(view.getId()==R.id.cbInSitu){
-            if(cbInSitu.isChecked()){
-                cbSolicitudVisita.setChecked(false);
-               etObservacionesInsitu.setVisibility(View.VISIBLE);
-               etCodVisitaPlataformaB.setVisibility(View.GONE);
-
-            }else{
                 etObservacionesInsitu.setVisibility(View.GONE);
-            }
-        }
-        else if(view.getId()==R.id.checkSolcitudVisita){
-            if(cbSolicitudVisita.isChecked()){
-                etObservacionesInsitu.setVisibility(View.GONE);
-                etCodVisitaPlataformaB.setVisibility(View.VISIBLE);
-                cbInSitu.setChecked(false);
-            }else{
-
                 etCodVisitaPlataformaB.setVisibility(View.GONE);
+            }else{
+                llMotivoNoAcepta.setVisibility(View.GONE);
+                llNoAceptaRep.setVisibility(View.GONE);
             }
         }else if (view.getId()==R.id.btnFinalizar) {
             try {
@@ -347,6 +334,18 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             hacerFoto();
         }else if (view.getId()==R.id.btnArchivo){
             cogerFoto();
+        }else if (view.getId()==R.id.cbAceptaPrecinto){
+            if (cbAceptaPrecinto.isChecked()) {
+                cbNoAceptaPrecinto.setChecked(false);
+            }else{
+                cbNoAceptaPrecinto.setChecked(true);
+            }
+        }else if (view.getId()==R.id.cbNoAceptaPrecinto){
+            if (cbAceptaPrecinto.isChecked()) {
+                cbAceptaPrecinto.setChecked(false);
+            }else{
+                cbAceptaPrecinto.setChecked(true);
+            }
         }
 
 
@@ -463,6 +462,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llAnomalias.setVisibility(View.GONE);
                 mantenimientoTerminado.setAnomalia(false);
                 cbAceptaRepSi.setChecked(false);
+                linearSubtipos.setVisibility(View.GONE);
+                llAceptaRep.setVisibility(View.GONE);
             }else if (i == 3) {
                 try {
                     listaSubTiposVista = SubTiposVisitaDAO.buscarSubTiposVisitaPorTipo(getContext(), 3);
@@ -517,10 +518,15 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llAceptaRep.setVisibility(View.GONE);
             }
         }else if(adapterView==spMotivoNoAcepta){
-            if (i==1||i==2){
-                etCodVisitaPlataformaA.setVisibility(View.VISIBLE);
+            if (i==1||i==2||i==3){
+                llMotivoNoAcepta.setVisibility(View.VISIBLE);
+                if (spTipoVisita.getSelectedItemId()==5){
+                    llCbPrecinto.setVisibility(View.VISIBLE);
+                }else{
+                    llCbPrecinto.setVisibility(View.GONE);
+                }
             }else{
-                etCodVisitaPlataformaA.setVisibility(View.GONE);
+                llMotivoNoAcepta.setVisibility(View.GONE);
             }
         }else if(adapterView==spEstadoVisita){
             if (i==5){
@@ -606,12 +612,9 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }
             if (cbAceptaRepSi.isChecked()){
                 mantenimientoTerminado.setReparacion(1);
-                if (cbInSitu.isChecked()){
                     mantenimientoTerminado.setObs_reparacion_iberdrola(etObservacionesInsitu.getText().toString());
-                    mantenimientoTerminado.setInsitu(true);
-                }else if(cbSolicitudVisita.isChecked()){
+                    mantenimientoTerminado.setInsitu(false);
                     mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaB.getText().toString());
-                }
             }else if (cbAceptaRepNo.isChecked()){
                 mantenimientoTerminado.setFk_motivos_no_rep(MotivosNoRepDAO.buscarMotivosNoRepMotivo(getContext(),spMotivoNoAcepta.getSelectedItem().toString()));
                 int v = spMotivoNoAcepta.getSelectedItemPosition();

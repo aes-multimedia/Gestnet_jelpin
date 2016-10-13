@@ -364,7 +364,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }else {
             anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
             if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-                anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita())+"\n";
+                anom += SubTiposVisitaDAO.buscarSubTiposVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket()+"\n";
+
             }else{
                 anom = "Otras anomalias."+"\n";
             }

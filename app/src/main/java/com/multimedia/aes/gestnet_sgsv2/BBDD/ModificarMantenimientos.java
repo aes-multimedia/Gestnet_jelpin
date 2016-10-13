@@ -280,43 +280,105 @@ public class ModificarMantenimientos {
                     case "35":
                         potencia_maquina = 24;
                         break;
-
                 }
             }
             String puesta_marcha_maquina;
-            if (jsonObject1.getString("fk_uso").equals("null")){
+            if (jsonObject1.getString("puesta_marcha").equals("null")||jsonObject1.getString("puesta_marcha").equals("")){
                 puesta_marcha_maquina = "0000-00-00";
             }else{
                 puesta_marcha_maquina = jsonObject1.getString("puesta_marcha");
             }
-            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash,base64, fk_user_creador, fk_tecnico, fk_usuario,
-                    fk_empresa_usuario, numero_usuario, nombre_usuario, dni_usuario,
-                    telefono1_usuario, telefono2_usuario, telefono3_usuario,
-                    telefono4_usuario, telefono5_usuario, email_usuario,
-                    moroso_usuario, observaciones_usuario,
-                    fk_direccion, direccion, cod_postal, provincia, municipio, latitud, longitud, fk_maquina,
-                    tipo_maquina, modelo_maquina, marca_maquina, uso_maquina,potencia_maquina,
-                    puesta_marcha_maquina, fecha_creacion, fecha_aviso,
-                    fecha_visita, visita_duplicada, fecha_reparacion,
-                    num_parte, fk_tipo, fk_user_asignacion, fk_horario,descripcion_horario,
-                    franja_horaria, fk_franja_ip, fk_estado, observaciones,
-                    observacionesAsignacion, confirmado, imprimir,
-                    fecha_factura, num_factura, fecha_factura_rectificativa,
-                    num_factura_rectificativa, fk_pend_fact, num_orden_endesa,
-                    fecha_maxima_endesa, fk_estado_endesa, insistencia_endesa,
-                    contrato_endesa, producto_endesa, fk_tipo_os,
-                    fk_tipo_producto, pagado_endesa, ciclo_liq_endesa,
-                    importe_pago_endesa, fecha_pagado_endesa, pagado_operario,
-                    fecha_anulado, fecha_modificacion_tecnico, fk_remoto_central,
-                    fac_nombre, fac_direccion, fac_cp, fac_poblacion,
-                    fac_provincia, fac_DNI, fac_email, fac_telefonos,
-                    otros_sintomas, fecha_baja, fac_baja_stock, estado_android,
-                    fk_tipo_urgencia, fecha_cierre, num_lote, bEnBatch,
-                    cod_visita, fecha_envio_carta, bCartaEnviada,
-                    fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo,
-                    orden, historico, fk_tipo_urgencia_factura,
-                    error_batch, fk_batch_actual, fk_efv, scoring,
-                    fk_categoria_visita, contador_averias);
+
+            int codigo_maquina;
+            if (jsonObject1.getString("codigo_maquina").equals("null")){
+                codigo_maquina=-1;
+            }else{
+                codigo_maquina=jsonObject1.getInt("codigo_maquina");
+            }
+            String co_maquina;
+            if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")){
+                co_maquina="0";
+            }else{
+                co_maquina=jsonObject1.getString("c0ppm");
+            }
+            String temperatura_max_acs_maquina;
+            if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")){
+                temperatura_max_acs_maquina="0";
+            }else{
+                temperatura_max_acs_maquina=jsonObject1.getString("tempMaxACS");
+            }
+            String caudal_acs_maquina;
+            if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")){
+                caudal_acs_maquina="0";
+            }else{
+                caudal_acs_maquina=jsonObject1.getString("caudalACS");
+            }
+            String potencia_util_maquina;
+            if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")){
+                potencia_util_maquina="0";
+            }else{
+                potencia_util_maquina=jsonObject1.getString("potenciaUtil");
+            }
+            String temperatura_gases_combustion_maquina;
+            if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")){
+                temperatura_gases_combustion_maquina="0";
+            }else{
+                temperatura_gases_combustion_maquina=jsonObject1.getString("tempGasCombustion");
+            }
+            String temperatura_ambiente_local_maquina;
+            if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")){
+                temperatura_ambiente_local_maquina="0";
+            }else{
+                temperatura_ambiente_local_maquina=jsonObject1.getString("tempAmbLocal");
+            }
+            String temperatura_agua_generador_calor_entrada_maquina;
+            if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")){
+                temperatura_agua_generador_calor_entrada_maquina="0";
+            }else{
+                temperatura_agua_generador_calor_entrada_maquina=jsonObject1.getString("tempAguaGeneradorCalorEntrada");
+            }
+            String temperatura_agua_generador_calor_salida_maquina;
+            if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")){
+                temperatura_agua_generador_calor_salida_maquina="0";
+            }else{
+                temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
+            }
+            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, base64, fk_user_creador,
+                    fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
+                    nombre_usuario, dni_usuario, telefono1_usuario,
+                    telefono2_usuario, telefono3_usuario, telefono4_usuario,
+                    telefono5_usuario, email_usuario, moroso_usuario,
+                    observaciones_usuario, fk_direccion, direccion,
+                    cod_postal, provincia, municipio, latitud,
+                    longitud, fk_maquina, tipo_maquina, modelo_maquina,
+                    marca_maquina, uso_maquina, potencia_maquina,
+                    puesta_marcha_maquina, codigo_maquina, co_maquina,
+                    temperatura_max_acs_maquina, caudal_acs_maquina,
+                    potencia_util_maquina, temperatura_gases_combustion_maquina,
+                    temperatura_ambiente_local_maquina,
+                    temperatura_agua_generador_calor_entrada_maquina,
+                    temperatura_agua_generador_calor_salida_maquina,
+                    fecha_creacion,
+                    fecha_aviso, fecha_visita, visita_duplicada,
+                    fecha_reparacion, num_parte, fk_tipo, fk_user_asignacion,
+                    fk_horario, descripcion_horario, franja_horaria,
+                    fk_franja_ip, fk_estado, observaciones,
+                    observacionesAsignacion, confirmado,
+                    imprimir, fecha_factura, num_factura,
+                    fecha_factura_rectificativa, num_factura_rectificativa,
+                    fk_pend_fact, num_orden_endesa, fecha_maxima_endesa,
+                    fk_estado_endesa, insistencia_endesa, contrato_endesa,
+                    producto_endesa, fk_tipo_os, fk_tipo_producto, pagado_endesa,
+                    ciclo_liq_endesa, importe_pago_endesa, fecha_pagado_endesa,
+                    pagado_operario, fecha_anulado, fecha_modificacion_tecnico,
+                    fk_remoto_central, fac_nombre, fac_direccion, fac_cp,
+                    fac_poblacion, fac_provincia, fac_DNI, fac_email,
+                    fac_telefonos, otros_sintomas, fecha_baja, fac_baja_stock,
+                    estado_android, fk_tipo_urgencia, fecha_cierre, num_lote,
+                    bEnBatch, cod_visita, fecha_envio_carta, bCartaEnviada,
+                    fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo, orden,
+                    historico, fk_tipo_urgencia_factura, error_batch, fk_batch_actual,
+                    fk_efv, scoring, fk_categoria_visita, contador_averias);
             MantenimientoDAO.actualizarMantenimiento(context,m);
         }
 

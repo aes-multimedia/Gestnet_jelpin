@@ -38,7 +38,7 @@ public class Mantenimiento {
     public static final String USO_MAQUINA = "uso_maquina";
     public static final String POTENCIA_MAQUINA = "potencia_maquina";
     public static final String PUESTA_MARCHA_MAQUINA = "puesta_marcha_maquina";
-    public static final String CODIGO_MAQUINA = "potencia_maquina";
+    public static final String CODIGO_MAQUINA = "codigo_maquina";
     public static final String CO_MAQUINA = "co_maquina";
     public static final String TEMPERATURA_MAX_ACS_MAQUINA = "temperatura_max_acs_maquina";
     public static final String CAUDAL_ACS_MAQUINA = "caudal_acs_maquina";

@@ -51,7 +51,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     private View vista;
     private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
-    private EditText etModelo,etPotenciaFuego,etCodigo,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
+    private EditText etModelo,etPotenciaFuego,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
             etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida,
             etCo2Ambiente,etRendimientoAparato,etCoCorregido,etCoAmbiente,etTiro,etCo2,etO2,etLambda,etCodigoEquipamiento;
     private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
@@ -97,7 +97,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spTipoEquipamiento = (Spinner)vista.findViewById(R.id.spTipoEquipamiento);
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
         etPotenciaFuego = (EditText)vista.findViewById(R.id.etPotenciaFuego);
-        etCodigo = (EditText)vista.findViewById(R.id.etCodigo);
         etCodigoEquipamiento = (EditText)vista.findViewById(R.id.etCodigoEquipamiento);
         etC0 = (EditText)vista.findViewById(R.id.etC0);
         etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
@@ -180,7 +179,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
-            String uso = null;
+            /*String uso = null;
 
             if (mantenimiento.getUso_maquina()!=-1){
                 int uso1 = mantenimiento.getUso_maquina();
@@ -192,7 +191,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
                 int spinnerPosition = myAdap.getPosition(myString);
                 spUso.setSelection(spinnerPosition);
-            }
+            }*/
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -252,7 +251,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         if (!mantenimiento.getModelo_maquina().equals("null")&&!mantenimiento.getModelo_maquina().equals("")) {
             etModelo.setText(mantenimiento.getModelo_maquina());
         }
-        etCodigo.setText(mantenimiento.getCodigo_maquina()+"");
         etC0.setText(mantenimiento.getCo_maquina()+"");
         etTempMaxACS.setText(mantenimiento.getTemperatura_max_acs_maquina()+"");
         etCaudalACS.setText(mantenimiento.getCaudal_acs_maquina()+"");
@@ -273,7 +271,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spPotencia.setEnabled(false);
             spUso.setEnabled(false);
             etModelo.setEnabled(false);
-            etCodigo.setEnabled(false);
             etC0.setEnabled(false);
             etTempMaxACS.setEnabled(false);
             etCaudalACS.setEnabled(false);
@@ -293,7 +290,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spPotencia.setEnabled(false);
             spUso.setEnabled(false);
             etModelo.setEnabled(false);
-            etCodigo.setEnabled(false);
             etC0.setEnabled(false);
             etTempMaxACS.setEnabled(false);
             etCaudalACS.setEnabled(false);
@@ -316,7 +312,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (!etPotenciaFuego.getText().toString().trim().equals("")&&spTipoEquipamiento.getSelectedItemPosition()!=0){
                 alto+=height;
                 lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(Integer.parseInt(etCodigoEquipamiento.getText().toString()),etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString(),etCo2Ambiente.getText().toString()));
+                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString(),etCo2Ambiente.getText().toString()));
                 adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                 lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
             }else{
@@ -339,7 +335,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     spTipoEquipamiento.setSelection(0);
                     etModelo.setText("");
                     etPotenciaFuego.setText("");
-                    etCodigo.setText("");
                     etC0.setText("");
                     etTempMaxACS.setText("");
                     etCaudalACS.setText("");
@@ -392,8 +387,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     fk_equipamiento = 3;
                 }
                 String co2 = arraylistEquipamiento.get(i).co2_ambiente;
-                int codigo = arraylistEquipamiento.get(i).codigo;
-                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),codigo,potencia,co2,fk_equipamiento,mantenimiento.getId_mantenimiento());
+
+                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),1,potencia,co2,fk_equipamiento,mantenimiento.getId_mantenimiento());
             }
         }
         return mantenimientoTerminado;
@@ -405,107 +400,102 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     if (spPotencia.getSelectedItemPosition()!=0){
                         if (spUso.getSelectedItemPosition()!=0){
                             if (spPuestaMarcha.getSelectedItemPosition()!=0){
-                                if (!etCodigo.getText().toString().trim().equals("")){
-                                    if (!etC0.getText().toString().trim().equals("")){
-                                        if (!etTempMaxACS.getText().toString().trim().equals("")){
-                                            if (!etCaudalACS.getText().toString().trim().equals("")){
-                                                if (!etPotenciaUtil.getText().toString().trim().equals("")){
-                                                    if (!etTempGasesComb.getText().toString().trim().equals("")){
-                                                        if (!etTempAmbienteLocal.getText().toString().trim().equals("")){
-                                                            if (!etTempAguaGeneCalorEntrada.getText().toString().trim().equals("")){
-                                                                if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
-                                                                    if (!etRendimientoAparato.getText().toString().trim().equals("")){
-                                                                        if (!etCoCorregido.getText().toString().trim().equals("")){
-                                                                            if (!etCoAmbiente.getText().toString().trim().equals("")){
-                                                                                if (!etTiro.getText().toString().trim().equals("")){
-                                                                                    if (!etCo2.getText().toString().trim().equals("")){
-                                                                                        if (!etO2.getText().toString().trim().equals("")){
-                                                                                            if (!etLambda.getText().toString().trim().equals("")){
-                                                                                                m.setFk_mantenimiento(mantenimiento.getId_mantenimiento());
-                                                                                                m.setFk_tipo_maquina(TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString()));
-                                                                                                m.setFk_marca_maquina(MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString()));
-                                                                                                m.setModelo_maquina(etModelo.getText().toString());
-                                                                                                m.setFk_potencia_maquina(PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString()));
-                                                                                                m.setFk_uso_maquina(UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString()));
-                                                                                                m.setPuesta_marcha_maquina(spPuestaMarcha.getSelectedItem().toString());
-                                                                                                m.setCodigo_maquina(etCodigo.getText().toString());
-                                                                                                m.setC0_maquina(etC0.getText().toString());
-                                                                                                m.setTemperatura_max_acs(etTempMaxACS.getText().toString());
-                                                                                                m.setCaudal_acs(etCaudalACS.getText().toString());
-                                                                                                m.setPotencia_util(etPotenciaUtil.getText().toString());
-                                                                                                m.setTemperatura_gases_combustion(etTempGasesComb.getText().toString());
-                                                                                                m.setTemperatura_ambiente_local(etTempAmbienteLocal.getText().toString());
-                                                                                                m.setTemperatura_agua_generador_calor_entrada(etTempAguaGeneCalorEntrada.getText().toString());
-                                                                                                m.setTemperatura_agua_generador_calor_salida(etTempAguaGeneCalorSalida.getText().toString());
-                                                                                                m.setRendimiento_aparato(etRendimientoAparato.getText().toString());
-                                                                                                m.setCo_corregido(etCoCorregido.getText().toString());
-                                                                                                m.setCo_ambiente(etCoAmbiente.getText().toString());
-                                                                                                m.setTiro(etTiro.getText().toString());
-                                                                                                m.setCo2(etCo2.getText().toString());
-                                                                                                m.setO2(etO2.getText().toString());
-                                                                                                m.setLambda(etLambda.getText().toString());
-                                                                                            }else{
-                                                                                                Toast.makeText(getContext(), "Seleccione un lambda", Toast.LENGTH_SHORT).show();
-                                                                                                return null;
-                                                                                            }
+                                if (!etC0.getText().toString().trim().equals("")){
+                                    if (!etTempMaxACS.getText().toString().trim().equals("")){
+                                        if (!etCaudalACS.getText().toString().trim().equals("")){
+                                            if (!etPotenciaUtil.getText().toString().trim().equals("")){
+                                                if (!etTempGasesComb.getText().toString().trim().equals("")){
+                                                    if (!etTempAmbienteLocal.getText().toString().trim().equals("")){
+                                                        if (!etTempAguaGeneCalorEntrada.getText().toString().trim().equals("")){
+                                                            if (!etTempAguaGeneCalorSalida.getText().toString().trim().equals("")){
+                                                                if (!etRendimientoAparato.getText().toString().trim().equals("")){
+                                                                    if (!etCoCorregido.getText().toString().trim().equals("")){
+                                                                        if (!etCoAmbiente.getText().toString().trim().equals("")){
+                                                                            if (!etTiro.getText().toString().trim().equals("")){
+                                                                                if (!etCo2.getText().toString().trim().equals("")){
+                                                                                    if (!etO2.getText().toString().trim().equals("")){
+                                                                                        if (!etLambda.getText().toString().trim().equals("")){
+                                                                                            m.setFk_mantenimiento(mantenimiento.getId_mantenimiento());
+                                                                                            m.setFk_tipo_maquina(TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString()));
+                                                                                            m.setFk_marca_maquina(MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString()));
+                                                                                            m.setModelo_maquina(etModelo.getText().toString());
+                                                                                            m.setFk_potencia_maquina(PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString()));
+                                                                                            m.setFk_uso_maquina(UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString()));
+                                                                                            m.setPuesta_marcha_maquina(spPuestaMarcha.getSelectedItem().toString());
+                                                                                            m.setCodigo_maquina("01");
+                                                                                            m.setC0_maquina(etC0.getText().toString());
+                                                                                            m.setTemperatura_max_acs(etTempMaxACS.getText().toString());
+                                                                                            m.setCaudal_acs(etCaudalACS.getText().toString());
+                                                                                            m.setPotencia_util(etPotenciaUtil.getText().toString());
+                                                                                            m.setTemperatura_gases_combustion(etTempGasesComb.getText().toString());
+                                                                                            m.setTemperatura_ambiente_local(etTempAmbienteLocal.getText().toString());
+                                                                                            m.setTemperatura_agua_generador_calor_entrada(etTempAguaGeneCalorEntrada.getText().toString());
+                                                                                            m.setTemperatura_agua_generador_calor_salida(etTempAguaGeneCalorSalida.getText().toString());
+                                                                                            m.setRendimiento_aparato(etRendimientoAparato.getText().toString());
+                                                                                            m.setCo_corregido(etCoCorregido.getText().toString());
+                                                                                            m.setCo_ambiente(etCoAmbiente.getText().toString());
+                                                                                            m.setTiro(etTiro.getText().toString());
+                                                                                            m.setCo2(etCo2.getText().toString());
+                                                                                            m.setO2(etO2.getText().toString());
+                                                                                            m.setLambda(etLambda.getText().toString());
                                                                                         }else{
-                                                                                            Toast.makeText(getContext(), "Seleccione un O2", Toast.LENGTH_SHORT).show();
+                                                                                            Toast.makeText(getContext(), "Seleccione un lambda", Toast.LENGTH_SHORT).show();
                                                                                             return null;
                                                                                         }
                                                                                     }else{
-                                                                                        Toast.makeText(getContext(), "Seleccione un Co2", Toast.LENGTH_SHORT).show();
+                                                                                        Toast.makeText(getContext(), "Seleccione un O2", Toast.LENGTH_SHORT).show();
                                                                                         return null;
                                                                                     }
                                                                                 }else{
-                                                                                    Toast.makeText(getContext(), "Seleccione un tiro", Toast.LENGTH_SHORT).show();
+                                                                                    Toast.makeText(getContext(), "Seleccione un Co2", Toast.LENGTH_SHORT).show();
                                                                                     return null;
                                                                                 }
                                                                             }else{
-                                                                                Toast.makeText(getContext(), "Seleccione un Co ambiente", Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(getContext(), "Seleccione un tiro", Toast.LENGTH_SHORT).show();
                                                                                 return null;
                                                                             }
                                                                         }else{
-                                                                            Toast.makeText(getContext(), "Seleccione un Co corregido", Toast.LENGTH_SHORT).show();
+                                                                            Toast.makeText(getContext(), "Seleccione un Co ambiente", Toast.LENGTH_SHORT).show();
                                                                             return null;
                                                                         }
                                                                     }else{
-                                                                        Toast.makeText(getContext(), "Seleccione un rendimiento del aparato", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(getContext(), "Seleccione un Co corregido", Toast.LENGTH_SHORT).show();
                                                                         return null;
                                                                     }
                                                                 }else{
-                                                                    Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor salida", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(getContext(), "Seleccione un rendimiento del aparato", Toast.LENGTH_SHORT).show();
                                                                     return null;
                                                                 }
                                                             }else{
-                                                                Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor entrada", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor salida", Toast.LENGTH_SHORT).show();
                                                                 return null;
                                                             }
                                                         }else{
-                                                            Toast.makeText(getContext(), "Seleccione una temperatura ambiente local", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getContext(), "Seleccione una temperatura del generador de calor entrada", Toast.LENGTH_SHORT).show();
                                                             return null;
                                                         }
                                                     }else{
-                                                        Toast.makeText(getContext(), "Seleccione una temperatura de gases de combustion", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getContext(), "Seleccione una temperatura ambiente local", Toast.LENGTH_SHORT).show();
                                                         return null;
                                                     }
                                                 }else{
-                                                    Toast.makeText(getContext(), "Seleccione una potencia util", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), "Seleccione una temperatura de gases de combustion", Toast.LENGTH_SHORT).show();
                                                     return null;
                                                 }
                                             }else{
-                                                Toast.makeText(getContext(), "Seleccione un caudal acs", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), "Seleccione una potencia util", Toast.LENGTH_SHORT).show();
                                                 return null;
                                             }
                                         }else{
-                                            Toast.makeText(getContext(), "Seleccione una temperatura maxima de acs", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), "Seleccione un caudal acs", Toast.LENGTH_SHORT).show();
                                             return null;
                                         }
                                     }else{
-                                        Toast.makeText(getContext(), "Seleccione un CO", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Seleccione una temperatura maxima de acs", Toast.LENGTH_SHORT).show();
                                         return null;
                                     }
                                 }else{
-                                    Toast.makeText(getContext(), "Seleccione un codigo", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Seleccione un CO", Toast.LENGTH_SHORT).show();
                                     return null;
                                 }
                             }else{

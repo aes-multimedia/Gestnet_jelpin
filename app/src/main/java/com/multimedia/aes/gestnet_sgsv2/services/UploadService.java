@@ -88,8 +88,8 @@ public class UploadService extends IntentService {
                     rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
                     if (mensajemantenimiento.equals("1")){
                         //MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
-                        String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
-                        Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
+                        //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
+                        //Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
                         //String mensajeticket = subirTiket(rellenarJsonTiket());
                         //Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
@@ -130,7 +130,7 @@ public class UploadService extends IntentService {
     }
     private String subirMantenimientos(JSONObject msg) throws JSONException, IOException {
         Log.d("-----JSONMANT-----", msg.toString());
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -157,7 +157,7 @@ public class UploadService extends IntentService {
     }
     private String subirCerrarIberdrola(JSONObject msg) throws JSONException, IOException {
 
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -184,7 +184,7 @@ public class UploadService extends IntentService {
     }
     private String subirTiket(JSONObject msg) throws JSONException, IOException {
         Log.d("JSONTIKET",msg.toString());
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -210,7 +210,7 @@ public class UploadService extends IntentService {
         return contenido;
     }
     private String subirImagen(JSONObject msg)throws JSONException, IOException{
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
+        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
         HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
         uc.setDoOutput(true);
         uc.setDoInput(true);
@@ -245,23 +245,23 @@ public class UploadService extends IntentService {
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
+        JSONObject jsonObject6 = new JSONObject();
         JSONArray jsonObject4 = new JSONArray();
+
         jsonObject1.put("observaciones_visita", mantenimiento.getObservaciones_usuario());
-        jsonObject1.put("comprobante","0");
-        jsonObject1.put("facturadoProveedor","0");
+        jsonObject1.put("comprobante","1");
+        jsonObject1.put("facturadoProveedor","1");
         jsonObject1.put("codigoBarras", mantenimientoTerminado.getCodigo_barras());
-        jsonObject1.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
-        jsonObject1.put("fkSubTipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
-        jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
-        jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
-        jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
-        jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
         jsonObject1.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
-        jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
         jsonObject1.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
+        jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
         jsonObject1.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
         jsonObject1.put("costeManoDeObraAdicional", mantenimientoTerminado.getCoste_mano_obra_adicional());
-        jsonObject1.put("codigoBarrasReparacion", mantenimientoTerminado.getCodigo_barras_reparacion());
+        jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
+        jsonObject1.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
+        jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
+        jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
+        jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
         jsonObject1.put("limpiezaQuemadorCaldera", mantenimientoTerminado.getLimpieza_quemadores_caldera());
         jsonObject1.put("revisionVasoExpansion", mantenimientoTerminado.getRevision_vaso_expansion());
         jsonObject1.put("regulacionAparatos", mantenimientoTerminado.getRegulacion_aparatos());
@@ -271,34 +271,54 @@ public class UploadService extends IntentService {
         jsonObject1.put("estConexionAparatos", mantenimientoTerminado.getEstanqueidad_conexion_aparatos());
         jsonObject1.put("estConductoEvacuacionIRG", mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg());
         jsonObject1.put("compNivelesAgua", mantenimientoTerminado.getComprobacion_niveles_agua());
-        jsonObject1.put("tipoConductoEvacuacion", mantenimientoTerminado.getTipo_conducto_evacuacion());
         jsonObject1.put("revEstadoAislamientoTermico", mantenimientoTerminado.getRevision_estado_aislamiento_termico());
         jsonObject1.put("analisisProdCombustion", mantenimientoTerminado.getAnalisis_productos_combustion());
+        jsonObject1.put("tipoConductoEvacuacion", mantenimientoTerminado.getTipo_conducto_evacuacion());
         jsonObject1.put("caudalACS", maquina.getCaudal_acs());
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
+        jsonObject1.put("subtipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
         String base64 = loadTicketFromStorage();
         jsonObject1.put("base64", base64);
+        jsonObject1.put("bAceptaRepIB", mantenimientoTerminado.getReparacion());
+        jsonObject1.put("bRepInSituIB", "0");
+        jsonObject1.put("ObsRepInSituIB", mantenimientoTerminado.getObs_reparacion_iberdrola());
+        jsonObject1.put("bSolVisitaIB", "0");
+        jsonObject1.put("fk_motivo_norep_IB", mantenimientoTerminado.getFk_motivos_no_rep());
+        jsonObject1.put("cod_visita_plataformaIB", mantenimientoTerminado.getCod_visita_plataforma());
+
 
         jsonObject2.put("estadoVisita",mantenimientoTerminado.getFk_estado_visita());
         jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
         jsonObject2.put("cartaEnviada","0");
         jsonObject2.put("fechaEnvioCarta","0000-00-00");
 
-        jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
         jsonObject3.put("id_maquina",mantenimiento.getFk_maquina());
+        jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
         jsonObject3.put("fkMarca",maquina.getFk_marca_maquina());
         jsonObject3.put("potencia", PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquina.getFk_potencia_maquina()));
         jsonObject3.put("fkUso",maquina.getFk_uso_maquina());
         jsonObject3.put("puestaEnMarcha",maquina.getPuesta_marcha_maquina());
         jsonObject3.put("codigo",maquina.getCodigo_maquina());
         jsonObject3.put("c0ppm",maquina.getC0_maquina());
-        jsonObject3.put("tempMaxACS",maquina.getTemperatura_max_acs());
-        jsonObject3.put("caudalACS",maquina.getCaudal_acs());
-        jsonObject3.put("potenciaUtil",maquina.getPotencia_util());
-        jsonObject3.put("tempGasCombustion",maquina.getTemperatura_gases_combustion());
-        jsonObject3.put("tempAmbLocal",maquina.getTemperatura_ambiente_local());
-        jsonObject3.put("tempAguaGeneradorCalorEntrada",maquina.getTemperatura_agua_generador_calor_entrada());
-        jsonObject3.put("tempAguaGeneradorCalorSalida",maquina.getTemperatura_agua_generador_calor_salida());
+
+        jsonObject6.put("fk_maquina",maquina.getCaudal_acs());
+        jsonObject6.put("fk_parte",maquina.getCaudal_acs());
+        jsonObject6.put("tempMaxACS",maquina.getCaudal_acs());
+        jsonObject6.put("caudalACS",maquina.getCaudal_acs());
+        jsonObject6.put("potenciaUtil",maquina.getCaudal_acs());
+        jsonObject6.put("tempGasCombustion",maquina.getCaudal_acs());
+        jsonObject6.put("tempAmbLocal",maquina.getCaudal_acs());
+        jsonObject6.put("tempAguaGeneradorCalorEntrada",maquina.getCaudal_acs());
+        jsonObject6.put("tempAguaGeneradorCalorSalida",maquina.getCaudal_acs());
+        jsonObject6.put("coMaquina",maquina.getCaudal_acs());
+        jsonObject6.put("rdtoMaquina",maquina.getCaudal_acs());
+        jsonObject6.put("coCorregido",maquina.getCaudal_acs());
+        jsonObject6.put("coAmbiente",maquina.getCaudal_acs());
+        jsonObject6.put("tiro",maquina.getCaudal_acs());
+        jsonObject6.put("co2Testo",maquina.getCaudal_acs());
+        jsonObject6.put("o2Testo",maquina.getCaudal_acs());
+        jsonObject6.put("lambda",maquina.getCaudal_acs());
+
         try {
             equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(), mantenimiento.getId_mantenimiento());
         } catch (SQLException e) {
@@ -316,6 +336,7 @@ public class UploadService extends IntentService {
         msg.put("datos_adicionales",jsonObject1);
         msg.put("sat_partes",jsonObject2);
         msg.put("usuarios_maquinas",jsonObject3);
+        msg.put("sat_datos_maquina_parte",jsonObject6);
         msg.put("usuarios_maquinas_equipamientos",jsonObject4);
         return msg;
     }

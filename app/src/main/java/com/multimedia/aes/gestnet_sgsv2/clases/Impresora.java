@@ -166,7 +166,7 @@ public class Impresora {
 		}else {
 			anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(activity,mantenimientoTerminado.getFk_tipo_visita())+"\n";
 			if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-				anom += SubTiposVisitaDAO.buscarCodigoSubTipoVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita())+"\n";
+				anom += SubTiposVisitaDAO.buscarSubTiposVisitaPorId(activity,mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket()+"\n";
 			}else{
 				anom = "Otras anomalias."+"\n";
 			}

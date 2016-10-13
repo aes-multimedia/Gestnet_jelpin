@@ -107,7 +107,8 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/llCerrada">
+                android:id="@+id/llCerrada"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,7 +144,7 @@
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -324,7 +325,7 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:id="@+id/linearSubtipos"
                         android:background="@drawable/fondo_linear_gris">
 
@@ -353,7 +354,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/llAnomalias"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:paddingLeft="10dp"
                     android:paddingBottom="5dp"
                     android:background="@drawable/fondo_linear_gris"
@@ -425,30 +426,6 @@
                         android:layout_height="match_parent"
                         android:id="@+id/LinearAceptaReparacion">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="In Situ"
-                                android:buttonTint="@color/colorAccent"
-                                android:id="@+id/cbInSitu"
-                                android:layout_weight="1" />
-
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/checkSolcitudVisita"
-                                android:buttonTint="@color/colorAccent"
-                                android:checked="false"
-                                android:text="Solicitud de visita"
-                                android:layout_weight="1" />
-
-                        </LinearLayout>
-
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -474,7 +451,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/LinearNoAceptaRep">
+                        android:id="@+id/LinearNoAceptaRep"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -492,15 +470,55 @@
                             android:spinnerMode="dropdown"
                             android:layout_marginBottom="5dp" />
 
-                        <EditText
+                        <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/edit_texts_naranja"
-                            android:minHeight="30dp"
-                            android:layout_marginBottom="5dp"
-                            android:id="@+id/etCodVisitaPlataformaA"
-                            android:visibility="gone"
-                            android:inputType="number" />
+                            android:layout_height="match_parent"
+                            android:id="@+id/llMotivoNoAcepta"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:minHeight="30dp"
+                                android:layout_marginBottom="5dp"
+                                android:id="@+id/etCodVisitaPlataformaA"
+                                android:visibility="visible"
+                                android:inputType="number" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:text="Precintado"
+                                android:id="@+id/textView512" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/llCbPrecinto"
+                                android:visibility="gone">
+
+                                <CheckBox
+                                    android:text="Si"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/cbAceptaPrecinto"
+                                    android:layout_weight="1"
+                                    android:checked="true"
+                                    android:buttonTint="@color/colorAccent"/>
+
+                                <CheckBox
+                                    android:text="No"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/cbNoAceptaPrecinto"
+                                    android:layout_weight="1"
+                                    android:buttonTint="@color/colorAccent"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -592,19 +610,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/fondo_linear_gris"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp">
-
-    </LinearLayout>
 
 </LinearLayout>

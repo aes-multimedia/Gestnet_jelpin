@@ -37,32 +37,6 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Código"
-                        android:id="@+id/textView39"
-                        android:textSize="18dp" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/etCodigo"
-                        android:minHeight="30dp"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:gravity="left"
-                        android:padding="5dp"
-                        android:inputType="numberDecimal" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                    >
 
