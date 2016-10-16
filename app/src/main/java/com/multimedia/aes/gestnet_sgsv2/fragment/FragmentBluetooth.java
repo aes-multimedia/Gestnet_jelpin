@@ -223,7 +223,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             mBluetoothAdapter.startDiscovery();
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -237,7 +236,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             }
         }
     }
-
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);

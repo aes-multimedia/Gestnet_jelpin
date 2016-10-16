@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
@@ -37,9 +40,6 @@ public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
-        } catch (IOException e) {
-            mensaje = "IOException";
-            e.printStackTrace();
         }
         return null;
     }
@@ -54,27 +54,64 @@ public class HiloComprobarHash extends AsyncTask<Void,Void,Void>{
         }
     }
 
-    private String logeo() throws JSONException, IOException {
-        URL urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.addRequestProperty("apikey",apikey);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.setRequestMethod("POST");
-        uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(jsonObject.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
-        String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+    private String logeo() throws JSONException {
+        URL urlws = null;
+        HttpURLConnection uc = null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.addRequestProperty("apikey",apikey);
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/usuario/login");
+                uc = (HttpURLConnection) urlws.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.addRequestProperty("apikey",apikey);
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e.printStackTrace();
+                return "IOEXCEPTION";
+            }
         }
-        in.close();
-        osw.close();
+        String contenido = "";
+        try {
+            OutputStream os = uc.getOutputStream();
+            OutputStreamWriter osw = null;
+            osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(jsonObject.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return contenido;
     }
 }

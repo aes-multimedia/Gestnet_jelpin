@@ -42,6 +42,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -124,115 +126,277 @@ public class UploadService extends IntentService {
 
     @Override
     public void onDestroy() {
-        // Emisión para avisar que se terminó el servicio
         Intent localIntent = new Intent(Constantes.ACTION_PROGRESS_EXIT);
         LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
     }
-    private String subirMantenimientos(JSONObject msg) throws JSONException, IOException {
+    private String subirMantenimientos(JSONObject msg) throws JSONException{
         Log.d("-----JSONMANT-----", msg.toString());
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
-        uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("id", String.valueOf(mantenimiento.getFk_tecnico()));
-        uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
-        uc.setRequestMethod("POST");
-        uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
-        String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+        URL urlws = null;
+        HttpURLConnection uc = null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
+            uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("id", String.valueOf(mantenimiento.getFk_tecnico()));
+            uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+                uc = (HttpURLConnection) urlws.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
+                uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("id", String.valueOf(mantenimiento.getFk_tecnico()));
+                uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e.printStackTrace();
+                return "IOEXCEPTION";
+            }
         }
-        in.close();
-        osw.close();
-        return contenido;
-    }
-    private String subirCerrarIberdrola(JSONObject msg) throws JSONException, IOException {
 
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
-        uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
-        uc.setRequestMethod("POST");
-        uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
+        OutputStream os = null;
         String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+        try {
+            os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        in.close();
-        osw.close();
+
         return contenido;
     }
-    private String subirTiket(JSONObject msg) throws JSONException, IOException {
+    private String subirCerrarIberdrola(JSONObject msg) throws JSONException{
+
+        URL urlws = null;
+        HttpURLConnection uc= null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
+            uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
+                uc = (HttpURLConnection) urlws.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
+                uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e.printStackTrace();
+                return "IOEXCEPTION";
+            }
+        }
+
+        OutputStream os = null;
+        String contenido = "";
+        try {
+            os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return contenido;
+    }
+    private String subirTiket(JSONObject msg) throws JSONException {
         Log.d("JSONTIKET",msg.toString());
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.addRequestProperty("fk_parte", String.valueOf(mantenimiento.getId_mantenimiento()));
-        uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
-        uc.setRequestMethod("POST");
-        uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
-        String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+        URL urlws = null;
+        HttpURLConnection uc = null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.addRequestProperty("fk_parte", String.valueOf(mantenimiento.getId_mantenimiento()));
+            uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
+                uc = (HttpURLConnection) urlws.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.addRequestProperty("fk_parte", String.valueOf(mantenimiento.getId_mantenimiento()));
+                uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e.printStackTrace();
+                return "IOEXCEPTION";
+            }
         }
-        in.close();
-        osw.close();
+
+        OutputStream os = null;
+        String contenido = "";
+        try {
+            os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return contenido;
     }
-    private String subirImagen(JSONObject msg)throws JSONException, IOException{
-        URL urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
-        HttpURLConnection uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.addRequestProperty("fk_parte",String.valueOf(mantenimiento.getId_mantenimiento()));
-        uc.addRequestProperty("apikey",tecnico.getApikey());
-        uc.addRequestProperty("id",String.valueOf(tecnico.getId_tecnico()));
-        uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.setRequestMethod("POST");
-        uc.connect();
-        OutputStream os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
-        String contenido = "";
-        while ((inputLine = in.readLine()) != null) {
-            contenido += inputLine + "\n";
+    private String subirImagen(JSONObject msg)throws JSONException{
+        URL urlws = null;
+        HttpURLConnection uc = null;
+        try {
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.addRequestProperty("fk_parte",String.valueOf(mantenimiento.getId_mantenimiento()));
+            uc.addRequestProperty("apikey",tecnico.getApikey());
+            uc.addRequestProperty("id",String.valueOf(tecnico.getId_tecnico()));
+            uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.setRequestMethod("POST");
+            uc.connect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MALFORMEDURL";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return "PROTOCOLEXCEPTION";
+        } catch (IOException e) {
+            try {
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
+                uc = (HttpURLConnection) urlws.openConnection();
+                uc.setDoOutput(true);
+                uc.setDoInput(true);
+                uc.addRequestProperty("fk_parte",String.valueOf(mantenimiento.getId_mantenimiento()));
+                uc.addRequestProperty("apikey",tecnico.getApikey());
+                uc.addRequestProperty("id",String.valueOf(tecnico.getId_tecnico()));
+                uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
+                uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+                uc.setRequestMethod("POST");
+                uc.connect();
+            } catch (MalformedURLException e1) {
+                e.printStackTrace();
+                return "MALFORMEDURL";
+            } catch (ProtocolException e1) {
+                e.printStackTrace();
+                return "PROTOCOLEXCEPTION";
+            } catch (IOException e1) {
+                e.printStackTrace();
+                return "IOEXCEPTION";
+            }
         }
-        in.close();
-        osw.close();
+        OutputStream os = null;
+        String contenido = "";
+        try {
+            os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return contenido;
     }
     private JSONObject rellenarJsonMantenimientos(int id) throws JSONException, SQLException {

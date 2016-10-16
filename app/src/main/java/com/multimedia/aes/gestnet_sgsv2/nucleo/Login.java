@@ -58,7 +58,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     public void errorDeLogin(String mensaje) {
         ManagerProgressDialog.cerrarDialog();
-        Toast.makeText(Login.this, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(Login.this, mensaje, Toast.LENGTH_LONG).show();
+        Toast.makeText(Login.this, mensaje, Toast.LENGTH_LONG).show();
+        Toast.makeText(Login.this, mensaje, Toast.LENGTH_LONG).show();
     }
     public void loginOk(String mensaje){
         JSONObject jsonObject = new JSONObject();
