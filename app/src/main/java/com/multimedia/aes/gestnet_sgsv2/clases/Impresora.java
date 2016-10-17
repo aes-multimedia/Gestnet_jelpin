@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -196,7 +197,13 @@ public class Impresora {
 					"pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
 		}
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------";
-		String obs = "\n";
+		String obs = "";
+		if (mantenimientoTerminado.isAcciones()){
+			obs += "Accion realizada: "+ TiposReparacionesDAO.buscarTiposReparacionesPorId(activity,mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
+		}
+		if (mantenimientoTerminado.getObservaciones_tecnico()!=null){
+			obs+= mantenimientoTerminado.getObservaciones_tecnico()+"\n";
+		}
 		String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
 		String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
 				datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+

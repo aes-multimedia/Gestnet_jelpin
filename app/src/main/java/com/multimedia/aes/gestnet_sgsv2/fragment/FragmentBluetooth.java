@@ -396,26 +396,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String obs = "";
         if (mantenimientoTerminado.isAcciones()){
             obs += "Accion realizada: "+TiposReparacionesDAO.buscarTiposReparacionesPorId(getContext(),mantenimientoTerminado.getFk_tipo_reparacion()).getAbreviatura()+"\n";
-            obs += "Fecha Rep.: "+mantenimientoTerminado.getFecha_reparacion()+"\n";
-            switch (mantenimientoTerminado.getFk_tiempo_mano_obra()){
-                case -1:
-                    obs += "Tiempo mano Obra: Menos de 1 hora"+"\n";
-                    break;
-                case 1:
-                    obs += "Tiempo mano Obra: 2 horas o mas"+"\n";
-                    break;
-                case 2:
-                    obs += "Tiempo mano Obra: De 1 a 2 horas"+"\n";
-                    break;
-                case 3:
-                    obs += "Tiempo mano Obra: Menos de 1 hora"+"\n";
-                    break;
-            }
-            obs += "Coste materiales: "+mantenimientoTerminado.getCoste_materiales()+"\n";
-            obs += "Importe mano obra: "+mantenimientoTerminado.getCoste_mano_obra()+"\n";
-            obs += "Importe mano obra adicional: "+mantenimientoTerminado.getCoste_mano_obra_adicional()+"\n";
-
-
         }
         if (mantenimientoTerminado.getObservaciones_tecnico()!=null){
             obs+= mantenimientoTerminado.getObservaciones_tecnico()+"\n";

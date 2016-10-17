@@ -30,6 +30,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
@@ -50,10 +51,30 @@ import java.util.List;
 public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     private View vista;
-    private Spinner spTipo,spMarca,spUso,spPotencia,spPuestaMarcha,spTipoEquipamiento;
-    private EditText etModelo,etPotenciaFuego,etC0,etTempMaxACS,etCaudalACS,etPotenciaUtil,
-            etTempGasesComb,etTempAmbienteLocal,etTempAguaGeneCalorEntrada,etTempAguaGeneCalorSalida,
-            etCo2Ambiente,etRendimientoAparato,etCoCorregido,etCoAmbiente,etTiro,etCo2,etO2,etLambda,etCodigoEquipamiento;
+    private static Spinner spTipo;
+    private static Spinner spMarca;
+    private static Spinner spUso;
+    private static Spinner spPotencia;
+    private static Spinner spPuestaMarcha;
+    private static Spinner spTipoEquipamiento;
+    private static EditText etModelo;
+    private static EditText etPotenciaFuego;
+    private static EditText etC0;
+    private static EditText etTempMaxACS;
+    private static EditText etCaudalACS;
+    private static EditText etPotenciaUtil;
+    private static EditText etTempGasesComb;
+    private static EditText etTempAmbienteLocal;
+    private static EditText etTempAguaGeneCalorEntrada;
+    private static EditText etTempAguaGeneCalorSalida;
+    private static EditText etCo2Ambiente;
+    private EditText etRendimientoAparato;
+    private EditText etCoCorregido;
+    private EditText etCoAmbiente;
+    private EditText etTiro;
+    private EditText etCo2;
+    private EditText etO2;
+    private EditText etLambda;
     private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
@@ -97,7 +118,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spTipoEquipamiento = (Spinner)vista.findViewById(R.id.spTipoEquipamiento);
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
         etPotenciaFuego = (EditText)vista.findViewById(R.id.etPotenciaFuego);
-        etCodigoEquipamiento = (EditText)vista.findViewById(R.id.etCodigoEquipamiento);
         etC0 = (EditText)vista.findViewById(R.id.etC0);
         etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
         etCaudalACS = (EditText)vista.findViewById(R.id.etCaudalACS);
@@ -180,7 +200,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
             /*String uso = null;
-
             if (mantenimiento.getUso_maquina()!=-1){
                 int uso1 = mantenimiento.getUso_maquina();
                 uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
@@ -315,6 +334,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString(),etCo2Ambiente.getText().toString()));
                 adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                 lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+                spTipoEquipamiento.setSelection(0);
+                etPotenciaFuego.setText("");
+                etCo2Ambiente.setText("");
             }else{
                 Toast.makeText(getContext(), "Faltan datos en el equipamiento", Toast.LENGTH_SHORT).show();
             }
@@ -332,9 +354,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     spUso.setSelection(0);
                     spPotencia.setSelection(0);
                     spPuestaMarcha.setSelection(0);
-                    spTipoEquipamiento.setSelection(0);
                     etModelo.setText("");
-                    etPotenciaFuego.setText("");
                     etC0.setText("");
                     etTempMaxACS.setText("");
                     etCaudalACS.setText("");
@@ -350,7 +370,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
         }
     }
-    public static void borrarArrayProductos(int position, Context context){
+    public static void borrarArrayEquipamientos(int position, Context context){
         arraylistEquipamiento.remove(position);
         alto-=height;
         lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
@@ -523,5 +543,71 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             return null;
         }
         return "";
+    }
+
+    public static void rellenarDatosMaquina(Maquina maquina,Context context,int position) {
+        try {
+            int tipo= maquina.getFk_tipo_maquina();
+            String myString = TipoCalderaDAO.buscarTipoCalderaPorId(context,tipo).getNombre_tipo_caldera();
+            ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
+            int spinnerPosition = myAdap.getPosition(myString);
+            spTipo.setSelection(spinnerPosition);
+
+            int marca = maquina.getFk_marca_maquina();
+            myString = MarcaCalderaDAO.buscarMarcaCalderaPorId(context,marca).getNombre_marca_caldera();
+            myAdap = (ArrayAdapter) spMarca.getAdapter();
+            spinnerPosition = myAdap.getPosition(myString);
+            spMarca.setSelection(spinnerPosition);
+
+            int uso = maquina.getFk_uso_maquina();
+            myString = UsoCalderaDAO.buscarUsoCalderaPorId(context, uso).getNombre_uso_caldera();
+            myAdap = (ArrayAdapter) spUso.getAdapter();
+            spinnerPosition = myAdap.getPosition(myString);
+            spUso.setSelection(spinnerPosition);
+
+            int potencia = maquina.getFk_potencia_maquina();
+            myString = PotenciaDAO.buscarPotenciaPorId(context,potencia).getPotencia();
+            myAdap = (ArrayAdapter) spPotencia.getAdapter();
+            spinnerPosition = myAdap.getPosition(myString);
+            spPotencia.setSelection(spinnerPosition);
+
+            myString = maquina.getPuesta_marcha_maquina();
+            myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
+            spinnerPosition = myAdap.getPosition(myString);
+            spPuestaMarcha.setSelection(spinnerPosition);
+
+            etModelo.setText(maquina.getModelo_maquina());
+            etC0.setText(maquina.getC0_maquina());
+            etTempMaxACS.setText(maquina.getTemperatura_max_acs());
+            etCaudalACS.setText(maquina.getCaudal_acs());
+            etPotenciaUtil.setText(maquina.getPotencia_util());
+            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion());
+            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local());
+            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada());
+            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida());
+
+            arrayListMaquina.remove(position);
+            alto1-=height;
+            lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
+            adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
+            lvMaquinas.setAdapter(adaptadorListaMaquinas);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void rellenarDatosEquipamiento(DataEquipamientos equipamiento,Context context,int position){
+        String myString = equipamiento.descripcion;
+        ArrayAdapter myAdap = (ArrayAdapter) spTipoEquipamiento.getAdapter();
+        int spinnerPosition = myAdap.getPosition(myString);
+        spTipoEquipamiento.setSelection(spinnerPosition);
+
+        etPotenciaFuego.setText(equipamiento.potencia);
+        etCo2Ambiente.setText(equipamiento.co2_ambiente);
+
+        arraylistEquipamiento.remove(position);
+        alto-=height;
+        lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+        adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(context, R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+        lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
     }
 }
