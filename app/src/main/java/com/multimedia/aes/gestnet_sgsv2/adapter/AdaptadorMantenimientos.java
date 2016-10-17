@@ -57,7 +57,7 @@ public class AdaptadorMantenimientos extends ArrayAdapter {
         }else if (estado==1){
             ivEstado.setImageResource(R.drawable.circleiniciado);
         }else if (estado==2){
-            ivEstado.setImageResource(R.drawable.circlependiente);
+            ivEstado.setImageResource(R.drawable.circlesininiciar);
         }else if (estado==3){
             ivEstado.setImageResource(R.drawable.circlesininiciar);
         }

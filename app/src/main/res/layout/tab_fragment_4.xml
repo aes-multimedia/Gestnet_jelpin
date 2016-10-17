@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/llCerrada"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                         android:paddingLeft="10dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -424,7 +424,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/LinearAceptaReparacion">
+                        android:id="@+id/LinearAceptaReparacion"
+                        android:visibility="visible">
 
                         <EditText
                             android:layout_width="match_parent"
@@ -435,7 +436,7 @@
                             android:minHeight="100dp"
                             android:background="@drawable/edit_texts_naranja"
                             android:layout_marginBottom="5dp"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
 
                         <EditText
                             android:layout_width="match_parent"
@@ -444,7 +445,7 @@
                             android:layout_marginBottom="5dp"
                             android:minHeight="30dp"
                             android:id="@+id/etCodVisitaPlataformaB"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -452,7 +453,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/LinearNoAceptaRep"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -469,13 +470,19 @@
                             android:gravity="right"
                             android:spinnerMode="dropdown"
                             android:layout_marginBottom="5dp" />
-
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etObservMotivoNoRep"
+                            android:minHeight="100dp"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:layout_marginBottom="5dp" />
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/llMotivoNoAcepta"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <EditText
                                 android:layout_width="match_parent"
@@ -486,36 +493,46 @@
                                 android:id="@+id/etCodVisitaPlataformaA"
                                 android:visibility="visible"
                                 android:inputType="number" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="Precintado"
-                                android:id="@+id/textView512" />
 
                             <LinearLayout
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:id="@+id/llCbPrecinto"
-                                android:visibility="gone">
+                                android:visibility="visible">
 
-                                <CheckBox
-                                    android:text="Si"
-                                    android:layout_width="match_parent"
+                                <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/cbAceptaPrecinto"
-                                    android:layout_weight="1"
-                                    android:checked="true"
-                                    android:buttonTint="@color/colorAccent"/>
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:text="Precintado"
+                                    android:id="@+id/textView512"
+                                    android:layout_weight="1" />
 
-                                <CheckBox
-                                    android:text="No"
+                                <LinearLayout
+                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/cbNoAceptaPrecinto"
-                                    android:layout_weight="1"
-                                    android:buttonTint="@color/colorAccent"/>
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
+
+                                    <CheckBox
+                                        android:text="Si"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/cbAceptaPrecinto"
+                                        android:layout_weight="1"
+                                        android:checked="true"
+                                        android:buttonTint="@color/colorAccent"/>
+
+                                    <CheckBox
+                                        android:text="No"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/cbNoAceptaPrecinto"
+                                        android:layout_weight="1"
+                                        android:buttonTint="@color/colorAccent"/>
+                                </LinearLayout>
+
                             </LinearLayout>
 
                         </LinearLayout>

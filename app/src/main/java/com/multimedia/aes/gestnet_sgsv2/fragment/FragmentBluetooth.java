@@ -46,8 +46,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
-import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.Firmar;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.FirmarCliente;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,11 +59,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
@@ -82,7 +77,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private TextView txtImpreso,txtImpreso2,txtCodigoBarras;
     private LinearLayout llImpreso,llBotones;
     private Impresora impresora;
-    private ImageView ivLogo,ivFirma1;
+    private ImageView ivLogo,ivFirma1,ivFirma2;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private View vista;
     private ScrollView scTicket;
@@ -121,6 +116,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         txtCodigoBarras = (TextView) vista.findViewById(R.id.txtCodigoBarras);
         ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
         ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
+        ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
 
         scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
 
@@ -199,7 +195,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             openButton.setVisibility(View.GONE);
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
-            Intent i = new Intent(getContext(),Firmar.class);
+            Intent i = new Intent(getContext(),FirmarCliente.class);
             startActivityForResult(i,99);
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.VISIBLE);
@@ -225,14 +221,21 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 99) {
             if(resultCode == Activity.RESULT_OK){
-                Bitmap bitmap = loadFirmaFromStorage();
+                Bitmap bitmap = loadFirmaClienteFromStorage();
                 ivFirma1.setImageBitmap(bitmap);
+                Intent i = new Intent(getContext(),FirmarCliente.class);
+                startActivityForResult(i,89);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-
+            }
+        }else if (requestCode == 89) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bitmap = loadFirmaTecnicoFromStorage();
+                ivFirma2.setImageBitmap(bitmap);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
             }
         }
     }
@@ -421,10 +424,22 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
         return textoImpresion;
     }
-    private Bitmap loadFirmaFromStorage(){
+    private Bitmap loadFirmaClienteFromStorage(){
         Bitmap b=null;
         try {
-            File f=new File(path, "firma"+mantenimiento.getId_mantenimiento()+".png");
+            File f=new File(path, "firmaCliente"+mantenimiento.getId_mantenimiento()+".png");
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        return b;
+    }
+    private Bitmap loadFirmaTecnicoFromStorage(){
+        Bitmap b=null;
+        try {
+            File f=new File(path, "firmaTecnico"+mantenimiento.getId_mantenimiento()+".png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)

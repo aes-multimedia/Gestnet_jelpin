@@ -38,7 +38,7 @@
             android:name=".nucleo.Incidencias"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
-            android:name=".nucleo.Firmar"
+            android:name=".nucleo.FirmarCliente"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog" />
 

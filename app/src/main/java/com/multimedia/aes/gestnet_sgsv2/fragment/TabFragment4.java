@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -66,7 +67,7 @@ import java.util.List;
 public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private Spinner spEstadoVisita, spTipoVisita, spTipoReparacion,  spSubTipoVisita, spTiempoManoObra,spMotivoNoAcepta;
-    private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB;
+    private EditText etObservaciones, etObservacionesInsitu,etCodVisitaPlataformaA,etCodVisitaPlataformaB,etObservMotivoNoRep;
     private CheckBox cbContadorInterno, cbReparacion,cbAceptaRepSi,cbAceptaRepNo,cbAceptaPrecinto,cbNoAceptaPrecinto;
     private Button btnFinalizar,btnImprimir,btnArchivo,btnFoto;
     private List<TiposReparaciones> tiposReparacion;
@@ -121,6 +122,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         cbNoAceptaPrecinto=(CheckBox) vista.findViewById(R.id.cbNoAceptaPrecinto);
         etCodVisitaPlataformaA=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaA);
         etCodVisitaPlataformaB=(EditText)vista.findViewById(R.id.etCodVisitaPlataformaB);
+        etObservMotivoNoRep=(EditText)vista.findViewById(R.id.etObservMotivoNoRep);
 
         btnFinalizar =(Button) vista.findViewById(R.id.btnFinalizar);
         btnImprimir =(Button) vista.findViewById(R.id.btnImprimir);
@@ -316,6 +318,12 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     if (!arraylistImagenes.isEmpty()) {
                         for (int i = 0; i < arraylistImagenes.size(); i++) {
                             ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
+                            ((Index) getContext()).ticket();
+                            try {
+                                MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
                     } else {
                         ((Index) getContext()).ticket();
@@ -326,7 +334,10 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                         }
 
                     }
-            }
+                }else{
+                    Toast.makeText(context, "Falta Equipo", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Falta Equipo", Toast.LENGTH_LONG).show();
+                }
 
         }else if (view.getId()==R.id.btnImprimir){
             ((Index)getContext()).ticket();
@@ -413,7 +424,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
         adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
         lvImagenes.setAdapter(adaptadorListaImagenes);
     }
-
     public static void result(String path){
         File image = new File(path);
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
@@ -536,10 +546,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }
         }
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 
     public void guardarDatos() throws SQLException {

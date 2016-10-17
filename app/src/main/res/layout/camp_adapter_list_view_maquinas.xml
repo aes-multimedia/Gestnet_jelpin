@@ -23,7 +23,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Marca"
                 android:id="@+id/txtMarca"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1" />
@@ -34,7 +34,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Modelo"
                 android:id="@+id/txtModelo"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1" />
@@ -45,7 +45,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Potencia"
                 android:id="@+id/txtPotencia"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1" />

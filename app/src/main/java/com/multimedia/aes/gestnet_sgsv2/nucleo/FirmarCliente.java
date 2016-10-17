@@ -5,18 +5,12 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -27,17 +21,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 
-public class Firmar extends Activity implements View.OnClickListener {
+public class FirmarCliente extends Activity implements View.OnClickListener {
     private Button btnGuardar,btnBorrar;
-    private ImageView ivFirma;
     private FrameLayout frFirma;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2.nucleo/app_imageDir";
     private char chEuro = '€';
@@ -46,10 +34,9 @@ public class Firmar extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.firmar);
+        setContentView(R.layout.firmar_cliente);
         btnGuardar = (Button) findViewById(R.id.btnGuardar);
         btnBorrar = (Button) findViewById(R.id.btnBorrar);
-        ivFirma = (ImageView) findViewById(R.id.ivFirma);
         frFirma = (FrameLayout) findViewById(R.id.frFirma);
         btnGuardar.setOnClickListener(this);
         btnBorrar.setOnClickListener(this);
@@ -98,7 +85,7 @@ public class Firmar extends Activity implements View.OnClickListener {
     private String saveToInternalSorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        File mypath=new File(directory,"firma"+mantenimiento.getId_mantenimiento()+".png");
+        File mypath=new File(directory,"firmaCliente"+mantenimiento.getId_mantenimiento()+".png");
         FileOutputStream fos = null;
         try {
 

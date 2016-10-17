@@ -68,13 +68,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static EditText etTempAguaGeneCalorEntrada;
     private static EditText etTempAguaGeneCalorSalida;
     private static EditText etCo2Ambiente;
-    private EditText etRendimientoAparato;
-    private EditText etCoCorregido;
-    private EditText etCoAmbiente;
-    private EditText etTiro;
-    private EditText etCo2;
-    private EditText etO2;
-    private EditText etLambda;
+    private static EditText etRendimientoAparato;
+    private static EditText etCoCorregido;
+    private static EditText etCoAmbiente;
+    private static EditText etTiro;
+    private static EditText etCo2;
+    private static EditText etO2;
+    private static EditText etLambda;
     private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
@@ -199,18 +199,21 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
-            /*String uso = null;
-            if (mantenimiento.getUso_maquina()!=-1){
+            String uso = null;
+            if (mantenimiento.getUso_maquina()!=-1&&mantenimiento.getUso_maquina()<=3){
                 int uso1 = mantenimiento.getUso_maquina();
                 uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+                if (uso!=null) {
+                    String myString = uso;
+                    ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(myString);
+                    spUso.setSelection(spinnerPosition);
+                }
+            }else{
+                spUso.setSelection(3);
             }
 
-            if (uso!=null) {
-                String myString = uso;
-                ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spUso.setSelection(spinnerPosition);
-            }*/
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -361,6 +364,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                     etPotenciaUtil.setText("");
                     etTempGasesComb.setText("");
                     etTempAmbienteLocal.setText("");
+                    etRendimientoAparato.setText("");
+                    etCoCorregido.setText("");
+                    etCoAmbiente.setText("");
+                    etTiro.setText("");
+                    etCo2.setText("");
+                    etO2.setText("");
+                    etLambda.setText("");
                     etTempAguaGeneCalorEntrada.setText("");
                     etTempAguaGeneCalorSalida.setText("");
                 }
@@ -585,7 +595,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local());
             etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada());
             etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida());
-
+            etRendimientoAparato.setText(maquina.getRendimiento_aparato());
+            etCoCorregido.setText(maquina.getCo_corregido());
+            etCoAmbiente.setText(maquina.getCo_ambiente());
+            etTiro.setText(maquina.getTiro());
+            etCo2.setText(maquina.getCo2());
+            etO2.setText(maquina.getO2());
+            etLambda.setText(maquina.getLambda());
             arrayListMaquina.remove(position);
             alto1-=height;
             lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));

@@ -527,49 +527,49 @@ public class GuardarMantenimientosLogin {
                 codigo_maquina=jsonObject1.getInt("codigo_maquina");
             }
             String co_maquina;
-            if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")){
+            if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")||jsonObject1.getString("c0ppm").equals("0")){
                 co_maquina="";
             }else{
                 co_maquina=jsonObject1.getString("c0ppm");
             }
             String temperatura_max_acs_maquina;
-            if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")){
+            if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")||jsonObject1.getString("tempMaxACS").equals("0")){
                 temperatura_max_acs_maquina="";
             }else{
                 temperatura_max_acs_maquina=jsonObject1.getString("tempMaxACS");
             }
             String caudal_acs_maquina;
-            if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")){
+            if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")||jsonObject1.getString("caudalACS").equals("0")){
                 caudal_acs_maquina="";
             }else{
                 caudal_acs_maquina=jsonObject1.getString("caudalACS");
             }
             String potencia_util_maquina;
-            if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")){
+            if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")||jsonObject1.getString("potenciaUtil").equals("0")){
                 potencia_util_maquina="";
             }else{
                 potencia_util_maquina=jsonObject1.getString("potenciaUtil");
             }
             String temperatura_gases_combustion_maquina;
-            if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")){
+            if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")||jsonObject1.getString("tempGasCombustion").equals("0")){
                 temperatura_gases_combustion_maquina="";
             }else{
                 temperatura_gases_combustion_maquina=jsonObject1.getString("tempGasCombustion");
             }
             String temperatura_ambiente_local_maquina;
-            if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")){
+            if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")||jsonObject1.getString("tempAmbLocal").equals("0")){
                 temperatura_ambiente_local_maquina="";
             }else{
                 temperatura_ambiente_local_maquina=jsonObject1.getString("tempAmbLocal");
             }
             String temperatura_agua_generador_calor_entrada_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")){
+            if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("0")){
                 temperatura_agua_generador_calor_entrada_maquina="";
             }else{
                 temperatura_agua_generador_calor_entrada_maquina=jsonObject1.getString("tempAguaGeneradorCalorEntrada");
             }
             String temperatura_agua_generador_calor_salida_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")){
+            if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("0")){
                 temperatura_agua_generador_calor_salida_maquina="";
             }else{
                 temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
