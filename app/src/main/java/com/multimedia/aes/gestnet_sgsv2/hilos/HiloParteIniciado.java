@@ -1,7 +1,6 @@
 package com.multimedia.aes.gestnet_sgsv2.hilos;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
@@ -18,18 +17,19 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class HiloLogin extends AsyncTask<Void,Void,Void>{
+public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
     private String ipInterna = "192.168.0.228";
     private String ipExterna = "80.58.161.135";
     private String puerto = "8085";
+    private String apikey="",id_parte="",id_user="";
     private String mensaje="";
-    private String login,pass;
     private Login activity;
 
-    public HiloLogin(String login, String pass, Login activity) {
-        this.login = login;
-        this.pass = pass;
+    public HiloParteIniciado(Login activity,String apikey,String id_parte,String id_user) {
         this.activity = activity;
+        this.apikey=apikey;
+        this.id_parte=id_parte;
+        this.id_user=id_user;
     }
 
     @Override
@@ -56,9 +56,6 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     }
 
     private String logeo() throws JSONException{
-        JSONObject msg = new JSONObject();
-        msg.put("login",login);
-        msg.put("pass",pass);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
@@ -66,8 +63,11 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
+            uc.addRequestProperty("apikey",apikey);
+            uc.addRequestProperty("fk_parte",id_parte);
+            uc.addRequestProperty("fk_user",id_user);
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            uc.setRequestMethod("POST");
+            uc.setRequestMethod("GET");
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -81,8 +81,11 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
                 uc = (HttpURLConnection) urlwsExt.openConnection();
                 uc.setDoOutput(true);
                 uc.setDoInput(true);
+                uc.addRequestProperty("apikey",apikey);
+                uc.addRequestProperty("fk_parte",id_parte);
+                uc.addRequestProperty("fk_user",id_user);
                 uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-                uc.setRequestMethod("POST");
+                uc.setRequestMethod("GET");
                 uc.connect();
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
@@ -92,28 +95,20 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
                 return "PROTOCOLEXCEPTION";
             } catch (IOException e1) {
                 e1.printStackTrace();
-                return "IOEXCEPTION";
+                return "No se ha podido actualizar en GESTNET,  se intentara mas tarde";
             }
         }
         String contenido = "";
-        OutputStream os = null;
         try {
-            os = uc.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-            osw.write(msg.toString());
-            osw.flush();
             BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 contenido += inputLine + "\n";
             }
             in.close();
-            osw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return contenido;
     }
 }
