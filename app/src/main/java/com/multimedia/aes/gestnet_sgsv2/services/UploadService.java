@@ -415,7 +415,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("observaciones_visita", mantenimiento.getObservaciones_usuario());
         jsonObject1.put("comprobante","1");
         jsonObject1.put("facturadoProveedor","1");
-        jsonObject1.put("codigoBarras", mantenimientoTerminado.getCodigo_barras());
+        jsonObject1.put("codigoBarras", mantenimiento.getCod_barras());
         jsonObject1.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
         jsonObject1.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
         jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());

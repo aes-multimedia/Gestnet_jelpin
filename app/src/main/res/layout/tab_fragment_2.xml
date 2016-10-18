@@ -569,7 +569,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:id="@+id/spTipoEquipamiento"
-                    android:entries="@array/equipamientos"
                     android:background="@drawable/caldera_spiners" />
 
                 <TextView

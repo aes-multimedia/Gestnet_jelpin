@@ -17,7 +17,6 @@ public class Equipamiento {
     private int id_equipamiento;
     @DatabaseField(columnName = FK_MAQUINA)
     private int fk_maquina;
-
     @DatabaseField(columnName = FK_TIPO_EQUIPAMIENTO)
     private int fk_tipo_equipamiento;
     @DatabaseField(columnName = POTENCIA_FUEGOS)

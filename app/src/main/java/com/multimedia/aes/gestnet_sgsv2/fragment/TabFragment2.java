@@ -40,6 +40,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoEquipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
 
 import org.json.JSONException;
@@ -83,11 +84,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private List<MarcaCaldera> listaMarcas=null;
     private List<UsoCaldera> listaUso=null;
     private List<Potencia> listaPotencia=null;
+    private List<TipoEquipamiento> listaEquipamientos=null;
     private String[] tipos;
     private String[] marcas;
     private String[] usos;
     private String[] potencias;
     private String[] puestaMarcha;
+    private String[] equip;
     private Mantenimiento mantenimiento = null;
     private static int alto=0,alto1=0, height;
     private static ListView lvEquipamientos,lvMaquinas;
@@ -277,6 +280,17 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         }
         if (!mantenimiento.getModelo_maquina().equals("null")&&!mantenimiento.getModelo_maquina().equals("")) {
             etModelo.setText(mantenimiento.getModelo_maquina());
+        }
+        try {
+            listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
+            equip=new String[listaEquipamientos.size()+1];
+            equip[0]="--Seleccione un valor--";
+            for (int i = 1; i < listaEquipamientos.size()+1; i++) {
+                equip[i]=listaEquipamientos.get(i-1).getNombre_tipo_equipamiento();
+            }
+            spTipoEquipamiento.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, equip));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         etC0.setText(mantenimiento.getCo_maquina()+"");
         etTempMaxACS.setText(mantenimiento.getTemperatura_max_acs_maquina()+"");

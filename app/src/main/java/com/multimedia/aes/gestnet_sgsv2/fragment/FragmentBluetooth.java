@@ -47,6 +47,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.FirmarCliente;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.FirmarTecnico;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -226,7 +227,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if(resultCode == Activity.RESULT_OK){
                 Bitmap bitmap = loadFirmaClienteFromStorage();
                 ivFirma1.setImageBitmap(bitmap);
-                Intent i = new Intent(getContext(),FirmarCliente.class);
+                Intent i = new Intent(getContext(),FirmarTecnico.class);
                 startActivityForResult(i,89);
             }
             if (resultCode == Activity.RESULT_CANCELED) {

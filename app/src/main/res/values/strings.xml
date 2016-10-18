@@ -93,12 +93,6 @@
         <item>De 1 a 2 horas</item>
         <item>Menos de 1 hora</item>
     </string-array>
-    <string-array name="equipamientos">
-        <item>--Seleccione un valor--</item>
-        <item>Cocina</item>
-        <item>Horno</item>
-        <item>Horno + Grill</item>
-    </string-array>
 
 
 
