@@ -62,5 +62,4 @@ public abstract class ManagerProgressDialog {
     public static ProgressDialog getDialog(){
         return p;
     }
-
 }

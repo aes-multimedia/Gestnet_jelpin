@@ -24,12 +24,15 @@ import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaMaquinas;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoEquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
@@ -93,6 +96,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private LinearLayout llCo2;
+    private List<Equipamiento> equipamientos= null;
 
 
     @Override
@@ -102,6 +106,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+            equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),mantenimiento.getFk_maquina());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -324,6 +329,22 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             etPotenciaFuego.setEnabled(false);
             btnAñadirMaquina.setEnabled(false);
             btnAñadirEquip.setEnabled(false);
+        }
+        for (int i = 0; i < equipamientos.size(); i++) {
+            String tipo_equipamiento = null;
+            try {
+                tipo_equipamiento = TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(getContext(),equipamientos.get(i).getFk_tipo_equipamiento());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (tipo_equipamiento!=null){
+                alto+=height;
+                lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(),tipo_equipamiento,equipamientos.get(i).getCo2_equipamiento()));
+                adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+                lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+            }
+
         }
         return vista;
     }

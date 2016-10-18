@@ -65,7 +65,6 @@ public class GuardarTecnicoLogin {
         }
         String apikey = jsonObject.getString("apikey");
         if (TecnicoDAO.newTecnico(context, id_tecnico, nombre_usuario, login_usuario, email, num_tecnico, fk_empresa, fk_almacen, fk_compañia, fk_departamento, apikey)){
-            ManagerProgressDialog.guardarDatosAveria(context);
             new GuardarAveriasLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error en tecnico");

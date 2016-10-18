@@ -326,7 +326,6 @@ public class GuardarAveriasLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosMantenimiento(context);
             new GuardarMantenimientosLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error en averia");

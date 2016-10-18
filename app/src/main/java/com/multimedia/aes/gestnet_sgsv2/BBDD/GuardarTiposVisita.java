@@ -49,7 +49,6 @@ public class GuardarTiposVisita {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatoSubTipoVisita(context);
             new GuardarSubTiposVisita(context,Json);
         }else{
             ((Login)context).sacarMensaje("error uso subtipo visita");

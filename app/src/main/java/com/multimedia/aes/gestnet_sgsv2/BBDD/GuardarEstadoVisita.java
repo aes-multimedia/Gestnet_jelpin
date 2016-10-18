@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -47,7 +48,7 @@ public class GuardarEstadoVisita {
             }
         }
         if (bien){
-            ((Login)context).siguienteActivity();
+            new GuardarEquipamientos(context,Json);
         }else{
             ((Login)context).sacarMensaje("error sub tipo visita");
         }

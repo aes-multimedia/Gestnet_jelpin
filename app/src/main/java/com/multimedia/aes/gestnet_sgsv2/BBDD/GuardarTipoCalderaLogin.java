@@ -45,7 +45,6 @@ public class GuardarTipoCalderaLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosMarcaCaldera(context);
             new GuardarMarcaCalderaLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error tipo caldera");

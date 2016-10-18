@@ -46,7 +46,6 @@ public class GuardarUsoCalderaLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosPotencia(context);
             new GuardarPotenciaLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error uso caldera");

@@ -50,7 +50,6 @@ public class GuardarEstadosLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosTipoReparacion(context);
             new GuardarTipoReparacionesLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error potencia");

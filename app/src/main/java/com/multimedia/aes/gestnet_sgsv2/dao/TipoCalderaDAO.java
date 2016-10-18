@@ -51,7 +51,7 @@ public class TipoCalderaDAO extends DBHelperMOS {
 	public static void borrarTipoCalderaPorID(Context context, int id) throws SQLException {
 		cargarDao(context);
 		DeleteBuilder<TipoCaldera, Integer> deleteBuilder = dao.deleteBuilder();
-		deleteBuilder.where().eq(Tecnico.ID_TECNICO, id);
+		deleteBuilder.where().eq(TipoCaldera.ID_TIPO_CALDERA, id);
 		deleteBuilder.delete();
 	}
 

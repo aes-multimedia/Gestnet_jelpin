@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;

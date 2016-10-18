@@ -51,7 +51,6 @@ public class GuardarTipoReparacionesLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosTipoVisita(context);
             new GuardarTiposVisita(context,Json);
         }else{
             ((Login)context).sacarMensaje("error uso tipo visita");

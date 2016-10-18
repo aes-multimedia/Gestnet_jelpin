@@ -617,7 +617,6 @@ public class GuardarMantenimientosLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosTipoCaldera(context);
             new GuardarTipoCalderaLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error mantenimiento");

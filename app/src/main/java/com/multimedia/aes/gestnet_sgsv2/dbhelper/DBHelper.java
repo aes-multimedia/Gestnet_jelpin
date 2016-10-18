@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.EstadoVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
@@ -19,6 +20,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.SubTiposVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.TipoEquipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEstado;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposReparaciones;
 import com.multimedia.aes.gestnet_sgsv2.entities.TiposVisita;
@@ -84,6 +86,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return BBDDConstantes.tipoCalderaDao;
 	}
+	public Dao<TipoEquipamiento, Integer> getTipoEquipamientoDAO() throws SQLException {
+		if (BBDDConstantes.tipoEquipamientoDao == null) {
+			BBDDConstantes.tipoEquipamientoDao = getDao(TipoEquipamiento.class);
+		}
+		return BBDDConstantes.tipoEquipamientoDao;
+	}
 	public Dao<MarcaCaldera, Integer> getMarcaCalderaDAO() throws SQLException {
 		if (BBDDConstantes.marcaCalderaDao == null) {
 			BBDDConstantes.marcaCalderaDao = getDao(MarcaCaldera.class);
@@ -148,6 +156,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.equipamientoCalderaDao = getDao(EquipamientoCaldera.class);
 		}
 		return BBDDConstantes.equipamientoCalderaDao;
+	}
+	public Dao<Equipamiento, Integer> getEquipamientoDAO() throws SQLException {
+		if (BBDDConstantes.equipamientoDao == null) {
+			BBDDConstantes.equipamientoDao = getDao(Equipamiento.class);
+		}
+		return BBDDConstantes.equipamientoDao;
 	}
 	public Dao<Maquina, Integer> getMaquinaDAO() throws SQLException {
 		if (BBDDConstantes.maquinaDao == null) {

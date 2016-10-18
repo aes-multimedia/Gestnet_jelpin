@@ -716,6 +716,8 @@
     <string name="halfCut_value">do half cut or not</string>
     <string name="special_tape_title">Special tape paper(PT Only)</string>
     <string name="special_tape_value">is special tape paper</string>
+    <string name="datos_estado_visita">guardando estados visita</string>
+    <string name="datos_motivos_no_rep">guardando motivos no reparacion</string>
     <!--///////////////////////////////////////////////////////////////////-->
 
 

@@ -45,7 +45,6 @@ public class GuardarMarcaCalderaLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarDatosUsoCaldera(context);
             new GuardarUsoCalderaLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error marca caldera");

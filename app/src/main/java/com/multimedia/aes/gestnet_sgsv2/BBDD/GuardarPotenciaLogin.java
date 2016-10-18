@@ -45,7 +45,6 @@ public class GuardarPotenciaLogin {
             }
         }
         if (bien){
-            ManagerProgressDialog.guardarTiposEstado(context);
             new GuardarEstadosLogin(context,Json);
         }else{
             ((Login)context).sacarMensaje("error tipo estados");
