@@ -62,7 +62,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimiento/android");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/android");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -70,7 +70,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
             uc.addRequestProperty("id",String.valueOf(id_user));
             uc.addRequestProperty("fk_parte",String.valueOf(id_parte));
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            uc.setRequestMethod("GET");
+            uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
             return "PROTOCOLEXCEPTION";
         } catch (IOException e) {
             try {
-                URL urlwsExt = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimiento/android");
+                URL urlwsExt = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/android");
                 uc = (HttpURLConnection) urlwsExt.openConnection();
                 uc.setDoOutput(true);
                 uc.setDoInput(true);
@@ -88,7 +88,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
                 uc.addRequestProperty("id",String.valueOf(id_user));
                 uc.addRequestProperty("id_parte",String.valueOf(id_parte));
                 uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-                uc.setRequestMethod("GET");
+                uc.setRequestMethod("POST");
                 uc.connect();
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
