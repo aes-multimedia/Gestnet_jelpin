@@ -34,6 +34,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.hilos.HiloParteIniciado;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
 
@@ -272,6 +273,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         if (view.getId() == R.id.btnIniciarParte){
             try {
                 MantenimientoDAO.actualizarEstadoAndroid(getContext(),1,mantenimiento.getId_mantenimiento());
+                new HiloParteIniciado(getActivity(),mantenimiento.getId_mantenimiento()).execute();
                 ((Index)getContext()).activar();
             } catch (SQLException e) {
                 e.printStackTrace();

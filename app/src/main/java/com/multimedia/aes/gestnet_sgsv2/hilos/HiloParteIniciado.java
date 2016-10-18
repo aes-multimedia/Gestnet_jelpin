@@ -1,8 +1,10 @@
 package com.multimedia.aes.gestnet_sgsv2.hilos;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONException;
@@ -23,17 +25,18 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
     private String ipInterna = "192.168.0.228";
     private String ipExterna = "80.58.161.135";
     private String puerto = "8085";
-    private String apikey="",id_parte="";
-    private int id_user;
+    private String apikey="";
+    private int id_user,id_parte;
     private String mensaje="";
-    private Login activity;
+    private Context context;
 
-    public HiloParteIniciado(Login activity,String apikey,String id_parte) {
-        this.activity = activity;
-        this.apikey=apikey;
+    public HiloParteIniciado(Context context,int id_parte) {
         this.id_parte=id_parte;
+        this.context=context;
         try {
-            id_user = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0).getId_tecnico();
+            Tecnico t = TecnicoDAO.buscarTodosLosTecnicos(context).get(0);
+            id_user = t.getId_tecnico();
+            apikey = t.getApikey();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,13 +56,6 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (mensaje.indexOf('}')!=-1){
-            activity.loginOk(mensaje);
-        }else{
-            activity.errorDeLogin(mensaje);
-        }
-
-
     }
 
     private String logeo() throws JSONException{
@@ -72,7 +68,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
             uc.setDoInput(true);
             uc.addRequestProperty("apikey",apikey);
             uc.addRequestProperty("id",String.valueOf(id_user));
-            uc.addRequestProperty("fk_parte",id_parte);
+            uc.addRequestProperty("fk_parte",String.valueOf(id_parte));
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
             uc.setRequestMethod("GET");
             uc.connect();
@@ -90,7 +86,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
                 uc.setDoInput(true);
                 uc.addRequestProperty("apikey",apikey);
                 uc.addRequestProperty("id",String.valueOf(id_user));
-                uc.addRequestProperty("id_parte",id_parte);
+                uc.addRequestProperty("id_parte",String.valueOf(id_parte));
                 uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                 uc.setRequestMethod("GET");
                 uc.connect();
