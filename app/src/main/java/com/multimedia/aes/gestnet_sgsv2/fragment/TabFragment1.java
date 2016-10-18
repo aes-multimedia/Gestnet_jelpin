@@ -264,7 +264,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etNombre.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }
-        txtCodigoBarras.setText("Codigo barras: 569821435156964121");
+        txtCodigoBarras.setText("Codigo barras: "+mantenimiento.getCod_barras());
         return vista;
     }
 
@@ -370,8 +370,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             geoUri = "http://maps.google.com/maps?q=loc:" + mantenimiento.getLatitud() + "," + mantenimiento.getLongitud()+ " (" + mantenimiento.getNombre_usuario() + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
             getContext().startActivity(intent);
-        }else if (view.getId() ==R.id.btnBrother){
-            print();
         }
     }
     public void llamar(String tel) {
@@ -382,107 +380,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             getContext().startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel)));
         }catch(Exception e){
             e.printStackTrace();
-        }
-    }
-    private Bitmap ponerCodigoBarras(){
-        byte[] a = Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
-        Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
-        return bit;
-    }
-    /*public void print(){
-        Thread trd = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Uri path = Uri.parse("file:///android_res/raw/rj4030_102mm.bin");
-                String externalStorageDir = Environment.getExternalStorageDirectory().toString();
-
-                MsgDialog mDialog = new MsgDialog(getContext());
-                MsgHandle mHandle = new MsgHandle(getContext(), mDialog);
-                 Printer printer = new Printer();
-                //ImagePrint printer = new ImagePrint(getContext(), mHandle, mDialog);
-                PrinterInfo printerInfo = new PrinterInfo();
-                printerInfo.printerModel = PrinterInfo.Model.RJ_4030;
-
-                printerInfo.port = PrinterInfo.Port.BLUETOOTH;
-                printerInfo.customPaper = path.toString();
-                printerInfo.macAddress = "00:03:7A:53:D1:A4";
-                printer.setPrinterInfo(printerInfo);
-                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                boolean t = bluetoothAdapter.checkBluetoothAddress("00:03:7A:53:D1:A4");
-                printer.setBluetooth(bluetoothAdapter);
-                PrinterStatus p = printer.getPrinterStatus();
-                printer.printImage(ponerCodigoBarras());
-            }
-        });
-        //trd.start();
-    }*/
- /* public void print(){
-         //MsgDialog mDialog = new MsgDialog(getContext());
-         // MsgHandle mHandle = new MsgHandle(getContext(), mDialog);
-         // ImagePrint myPrint = new ImagePrint(getContext(), mHandle, mDialog);
-
-
-        // when use bluetooth print set the adapter
-         // BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-          //myPrint.setBluetoothAdapter(bluetoothAdapter);
-
-         // myPrint.getPrinterStatus();
-
-      Uri path = Uri.parse("file:///android_res/raw/rj4030_102mm.bin");
-      String externalStorageDir = Environment.getExternalStorageDirectory().toString();
-
-      MsgDialog mDialog = new MsgDialog(getContext());
-      MsgHandle mHandle = new MsgHandle(getContext(), mDialog);
-      Printer printer = new Printer();
-      //ImagePrint printer = new ImagePrint(getContext(), mHandle, mDialog);
-      PrinterInfo printerInfo = new PrinterInfo();
-      printerInfo.printerModel = PrinterInfo.Model.RJ_4030;
-
-      printerInfo.port = PrinterInfo.Port.BLUETOOTH;
-
-      printerInfo.customPaper = path.toString();
-      printerInfo.macAddress = "00:03:7A:53:D1:A4";
-      printer.setPrinterInfo(printerInfo);
-      BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-      boolean t = bluetoothAdapter.checkBluetoothAddress("00:03:7A:53:D1:A4");
-      printer.setBluetooth(bluetoothAdapter);
-      PrinterStatus p = printer.getPrinterStatus();
-      printer.printImage(ponerCodigoBarras());
-    }*/
-
-    void print()
-    {
-        Printer myPrinter = new Printer();
-        PrinterInfo myPrinterInfo = new PrinterInfo();
-        PrinterStatus printResult = new PrinterStatus();
-
-        try{
-            // Retrieve printer informations
-            Uri path = Uri.parse("file:///android_res/raw/rj4030_102mm.bin");
-            String externalStorageDir = Environment.getExternalStorageDirectory().toString();
-            PrinterInfo printerInfo = new PrinterInfo();
-            printerInfo.printerModel = PrinterInfo.Model.RJ_4030;
-
-            printerInfo.port = PrinterInfo.Port.BLUETOOTH;
-            printerInfo.customPaper = externalStorageDir + "/customPaperFileSet/rj4030_102mm.bin";
-
-            printerInfo.customPaper = "temp.bin";
-
-
-            //printerInfo.customPaper = path.toString();
-            printerInfo.macAddress = "00:03:7A:53:D1:A4";
-            myPrinter.setPrinterInfo(printerInfo);
-            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            boolean t = bluetoothAdapter.checkBluetoothAddress("00:03:7A:53:D1:A4");
-            myPrinter.setBluetooth(bluetoothAdapter);
-            PrinterStatus p = myPrinter.getPrinterStatus();
-            String srcPath = externalStorageDir + "/frances.jpg";
-
-            // Print file
-           // String path = Environment.getExternalStorageDirectory().toString() + "/abc.jpg";
-             myPrinter.printImage(ponerCodigoBarras());
-
-        }catch(Exception e){
         }
     }
 }

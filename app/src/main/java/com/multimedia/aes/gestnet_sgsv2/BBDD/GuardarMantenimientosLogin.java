@@ -49,11 +49,11 @@ public class GuardarMantenimientosLogin {
             }else{
                 hash = jsonArray.getJSONObject(i).getString("hash");
             }
-            String base64;
-            if (jsonArray.getJSONObject(i).getString("code64").equals("null")){
-                base64 = "";
+            String cod_barras;
+            if (jsonArray.getJSONObject(i).getString("cod_barras").equals("null")){
+                cod_barras = "";
             }else{
-                base64 = jsonArray.getJSONObject(i).getString("code64");
+                cod_barras = jsonArray.getJSONObject(i).getString("cod_barras");
             }
             int fk_user_creador;
             if (jsonArray.getJSONObject(i).getString("fk_user_creador").equals("null")||jsonArray.getJSONObject(i).getString("fk_user_creador").equals("")){
@@ -575,7 +575,7 @@ public class GuardarMantenimientosLogin {
                 temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
             }
 
-            if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, hash, base64, fk_user_creador,
+            if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, hash, cod_barras, fk_user_creador,
                     fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
                     nombre_usuario, dni_usuario, telefono1_usuario,
                     telefono2_usuario, telefono3_usuario, telefono4_usuario,

@@ -8,7 +8,7 @@ public class Mantenimiento {
 
     public static final String ID_MANTENIMIENTO = "_id_mantenimiento";
     public static final String HASH = "hash";
-    public static final String BASE64 = "base64";
+    public static final String COD_BARRAS = "cod_barras";
     public static final String FK_USER_CREADOR = "fk_user_creador";
     public static final String FK_TECNICO = "fk_tecnico";
     public static final String FK_USUARIO = "fk_usuario";
@@ -121,8 +121,8 @@ public class Mantenimiento {
     private int id_mantenimiento;
     @DatabaseField(columnName = HASH)
     private String hash;
-    @DatabaseField(columnName = BASE64)
-    private String base64;
+    @DatabaseField(columnName = COD_BARRAS)
+    private String cod_barras;
     @DatabaseField(columnName = FK_USER_CREADOR)
     private int fk_user_creador;
     @DatabaseField(columnName = FK_TECNICO)
@@ -341,7 +341,7 @@ public class Mantenimiento {
     public Mantenimiento(){
     }
 
-    public Mantenimiento(int id_mantenimiento, String hash, String base64, int fk_user_creador,
+    public Mantenimiento(int id_mantenimiento, String hash, String cod_barras, int fk_user_creador,
                          int fk_tecnico, int fk_usuario, int fk_empresa_usuario, String numero_usuario,
                          String nombre_usuario, String dni_usuario, String telefono1_usuario,
                          String telefono2_usuario, String telefono3_usuario, String telefono4_usuario,
@@ -379,7 +379,7 @@ public class Mantenimiento {
                          int fk_efv, String scoring, int fk_categoria_visita, String contador_averias) {
         this.id_mantenimiento = id_mantenimiento;
         this.hash = hash;
-        this.base64 = base64;
+        this.cod_barras = cod_barras;
         this.fk_user_creador = fk_user_creador;
         this.fk_tecnico = fk_tecnico;
         this.fk_usuario = fk_usuario;
@@ -501,11 +501,11 @@ public class Mantenimiento {
     public void setHash(String hash) {
         this.hash = hash;
     }
-    public String getBase64() {
-        return base64;
+    public String getCod_barras() {
+        return cod_barras;
     }
-    public void setBase64(String base64) {
-        this.base64 = base64;
+    public void setCod_barras(String cod_barras) {
+        this.cod_barras = cod_barras;
     }
     public int getFk_user_creador() {
         return fk_user_creador;

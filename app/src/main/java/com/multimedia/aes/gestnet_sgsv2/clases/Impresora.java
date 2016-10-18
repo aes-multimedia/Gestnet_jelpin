@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Base64;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
@@ -41,10 +40,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import jpos.JposException;
@@ -111,8 +106,9 @@ public class Impresora {
 			generarCodigoBarras(pps);
 			imprimirImagenEncabezado(pps);
 			generarTexto1(pps);
+			imprimirFirmaTecnico(pps);
 			generarTextoFin(pps);
-			imprimirFirma(pps);
+			imprimirFirmaCliente(pps);
 			generarSaltoFinal(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
@@ -120,8 +116,8 @@ public class Impresora {
 		}
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
-
-		String datos_cliente = "\n"+"       569821435156964121       " + "\n";
+		String cod_barras = mantenimiento.getCod_barras();
+		String datos_cliente = "\n"+"   "+cod_barras+"   " + "\n";
 
 		String textoImpresion =datos_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
@@ -231,10 +227,10 @@ public class Impresora {
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(2000);
 	}
-	private Bitmap loadImageFromStorage(){
+	private Bitmap loadImageClienteFromStorage(){
 		Bitmap b=null;
 		try {
-			File f=new File(path, "firma"+mantenimiento.getId_mantenimiento()+".png");
+			File f=new File(path, "firmaCliente"+mantenimiento.getId_mantenimiento()+".png");
 			b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 		}
@@ -244,11 +240,10 @@ public class Impresora {
 		}
 		return b;
 	}
-	private void imprimirCodigoBarras(POSPrinterService pps) throws InterruptedException, IOException, JposException {
+	private void imprimirFirmaCliente(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		int img[][] = null;
 		int ancho = 1;
-		byte[] a =Base64.decode(mantenimiento.getBase64(),Base64.DEFAULT);
-		Bitmap bit = BitmapFactory.decodeByteArray(a, 0, a.length);
+		Bitmap bit = loadImageClienteFromStorage();
 		img = new int[bit.getWidth()][bit.getHeight()];
 		ancho = bit.getWidth();
 		for (int i = 0; i < bit.getHeight(); i++) {
@@ -257,19 +252,32 @@ public class Impresora {
 			}
 		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(3000);
+		Thread.sleep(4000);
 	}
-	private void imprimirFirma(POSPrinterService pps) throws IOException, JposException, InterruptedException {
+	private Bitmap loadImageTecnicoFromStorage(){
+		Bitmap b=null;
+		try {
+			File f=new File(path, "firmaTecnico"+mantenimiento.getId_mantenimiento()+".png");
+			b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		return b;
+	}
+	private void imprimirFirmaTecnico(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		int img[][] = null;
 		int ancho = 1;
-			Bitmap bit = loadImageFromStorage();
-			img = new int[bit.getWidth()][bit.getHeight()];
-			ancho = bit.getWidth();
-			for (int i = 0; i < bit.getHeight(); i++) {
-				for (int j = 0; j < bit.getWidth(); j++) {
-					img[j][i] = bit.getPixel(j, i);
-				}
+		Bitmap bit = loadImageTecnicoFromStorage();
+		img = new int[bit.getWidth()][bit.getHeight()];
+		ancho = bit.getWidth();
+		for (int i = 0; i < bit.getHeight(); i++) {
+			for (int j = 0; j < bit.getWidth(); j++) {
+				img[j][i] = bit.getPixel(j, i);
 			}
+		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(4000);
 	}

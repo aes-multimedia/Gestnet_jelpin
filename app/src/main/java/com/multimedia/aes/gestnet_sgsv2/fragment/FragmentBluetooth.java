@@ -149,7 +149,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         try {
             txtImpreso.setText(generarTexto1());
             txtImpreso2.setText(generarTextoFin());
-            txtCodigoBarras.setText("       569821435156964121       ");
+            String cod_barras = mantenimiento.getCod_barras();
+            txtCodigoBarras.setText("   "+cod_barras+"   ");
         } catch (SQLException e) {
             e.printStackTrace();
         }
