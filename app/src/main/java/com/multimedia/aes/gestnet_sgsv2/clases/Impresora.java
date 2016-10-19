@@ -223,48 +223,48 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private String operaciones(){
-		String operaciones = "";
+		String operaciones = "\n";
 		if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
-			operaciones=operaciones+"-Limpieza quemador";
+			operaciones=operaciones+"-Limpieza quemador"+"\n";
 		}
 		if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
-			operaciones=operaciones+"\n"+"-Revision vaso exp.";
+			operaciones=operaciones+"-Revision vaso exp."+"\n";
 		}
 		if (mantenimientoTerminado.getRegulacion_aparatos()==1){
-			operaciones=operaciones+"\n"+"-Regulacion aparato.";
+			operaciones=operaciones+"-Regulacion aparato."+"\n";
 		}
 		if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera.";
+			operaciones=operaciones+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera."+"\n";
 		}
 		if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
-			operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
+			operaciones=operaciones+"-Revision del equipo de gas."+"\n";
 		}
 		if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-			operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+" calefaccion.";
+			operaciones=operaciones+"-Revision circuito hidraulico"+"\n"+" calefaccion."+"\n";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad conexion aparatos.";
+			operaciones=operaciones+"-Estanqueidad conexion aparatos."+"\n";
 		}
 		if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
-			operaciones=operaciones+"\n"+"-Estanqueidad conducto evac."+"\n"+" e IRG.";
+			operaciones=operaciones+"-Estanqueidad conducto evac."+"\n"+" e IRG."+"\n";
 		}
 		if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
-			operaciones=operaciones+"\n"+"-Revision niveles agua";
+			operaciones=operaciones+"-Revision niveles agua"+"\n";
 		}
 		if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
-			operaciones=operaciones+"\n"+"-Tiro evacuacion.";
+			operaciones=operaciones+"-Tiro evacuacion."+"\n";
 		}
 		if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
-			operaciones=operaciones+"\n"+"-Revision aislamiento termico.";
+			operaciones=operaciones+"-Revision aislamiento termico."+"\n";
 		}
 		if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
-			operaciones=operaciones+"\n"+"-Analisis PDC";
+			operaciones=operaciones+"-Analisis PDC"+"\n";
 		}
 		if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
-			operaciones=operaciones+"\n"+"-Caudal ACS y calculo pot. util";
+			operaciones=operaciones+"-Caudal ACS y calculo pot. util"+"\n";
 		}
 		if (mantenimientoTerminado.getRevision_sistema_control()==1){
-			operaciones=operaciones+"\n"+"-Revision del sist. control";
+			operaciones=operaciones+"-Revision del sist. control"+"\n";
 		}
 		operaciones+="\n";
 		return operaciones;
@@ -283,23 +283,25 @@ public class Impresora {
 			String año = "Fabricado: "+añ+"\n";
 			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
 			String potencia = "Potencia: "+pot+"\n";
+			String datos_equipamientos = "";
 			if (equipamiento!=null){
+				datos_equipamientos+="Equipamientos:"+"\n";
 				for (int j = 0; j < equipamiento.size(); j++) {
 					int equ = equipamiento.get(j).getFk_tipo_equipamiento();
 					String tip_equ = "";
-					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n"+"\n";
+					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
 					switch (equ){
 						case 1:
 							tip_equ = "Cocina"+"\n";
-							datos_maquinas+=tip_equ+fuegos;
+							datos_equipamientos+=tip_equ+fuegos;
 							break;
 						case 2:
 							tip_equ = "Horno"+"\n";
-							datos_maquinas+=tip_equ+fuegos;
+							datos_equipamientos+=tip_equ+fuegos;
 							break;
 						case 3:
 							tip_equ = "Horno + Grill"+"\n";
-							datos_maquinas+=tip_equ+fuegos;
+							datos_equipamientos+=tip_equ+fuegos;
 							break;
 					}
 				}
@@ -331,7 +333,7 @@ public class Impresora {
 			String o2 = "O2: "+o02+ " % \n";
 			String lamb = "1.32";
 			String lambda = "Lambda: "+lamb+ "\n"+"\n";
-			datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
 					lambda;

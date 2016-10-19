@@ -475,6 +475,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String potencia = "Potencia: "+pot+"\n";
             String datos_equipamientos = "";
             if (equipamiento!=null){
+                datos_equipamientos+="\n";
                 for (int j = 0; j < equipamiento.size(); j++) {
                     int equ = equipamiento.get(j).getFk_tipo_equipamiento();
                     String tip_equ = "";
