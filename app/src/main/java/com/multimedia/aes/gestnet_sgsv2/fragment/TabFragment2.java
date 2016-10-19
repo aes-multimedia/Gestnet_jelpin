@@ -344,21 +344,23 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             btnAñadirMaquina.setEnabled(false);
             btnAñadirEquip.setEnabled(false);
         }
-        for (int i = 0; i < equipamientos.size(); i++) {
-            String tipo_equipamiento = null;
-            try {
-                tipo_equipamiento = TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(getContext(),equipamientos.get(i).getFk_tipo_equipamiento());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (tipo_equipamiento!=null){
-                alto+=height;
-                lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(),tipo_equipamiento,equipamientos.get(i).getCo2_equipamiento()));
-                adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
-                lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
-            }
+        if (equipamientos!=null) {
+            for (int i = 0; i < equipamientos.size(); i++) {
+                String tipo_equipamiento = null;
+                try {
+                    tipo_equipamiento = TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(getContext(), equipamientos.get(i).getFk_tipo_equipamiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (tipo_equipamiento != null) {
+                    alto += height;
+                    lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento, equipamientos.get(i).getCo2_equipamiento()));
+                    adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+                    lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+                }
 
+            }
         }
         return vista;
     }

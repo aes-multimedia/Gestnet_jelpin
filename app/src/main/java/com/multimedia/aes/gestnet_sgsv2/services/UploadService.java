@@ -89,7 +89,7 @@ public class UploadService extends IntentService {
                     Log.d("-----MENSAJETICKET-----", mensajeticket);
                     rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
                     if (mensajemantenimiento.equals("1")){
-                        //MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
+                        MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                         //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
                         //Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
                         //String mensajeticket = subirTiket(rellenarJsonTiket());
@@ -123,7 +123,6 @@ public class UploadService extends IntentService {
             e.printStackTrace();
         }
     }
-
     @Override
     public void onDestroy() {
         Intent localIntent = new Intent(Constantes.ACTION_PROGRESS_EXIT);
@@ -706,7 +705,7 @@ public class UploadService extends IntentService {
     private String loadFirmaFromStorage(){
         Bitmap b=null;
         try {
-            File f=new File(path, "firma"+mantenimiento.getId_mantenimiento()+".png");
+            File f=new File(path, "firmaCliente"+mantenimiento.getId_mantenimiento()+".png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         }
         catch (FileNotFoundException e)
