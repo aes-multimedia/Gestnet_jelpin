@@ -121,6 +121,7 @@ public class UploadService extends IntentService {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
         }
     }
     @Override

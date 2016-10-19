@@ -207,9 +207,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
             closeButton.setVisibility(View.GONE);
-            Bitmap bitmap = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            llImpreso.draw(canvas);
+
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
         }else if (view.getId() == R.id.btnOtra) {
@@ -235,6 +233,9 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if (resultCode == Activity.RESULT_OK) {
                 Bitmap bitmap = loadFirmaTecnicoFromStorage();
                 ivFirma2.setImageBitmap(bitmap);
+                Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap1);
+                llImpreso.draw(canvas);
                 saveToInternalSorage(bitmap);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
