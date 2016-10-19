@@ -48,7 +48,7 @@ public class GuardarEquipamientos {
                     int fk_tipo_equipamiento = jsonArray2.getJSONObject(k).getInt("fk_tipo_equipamiento");
                     String potencia_fuegos = jsonArray2.getJSONObject(k).getString("potencia_fuegos");
                     String codigo_equipamiento = jsonArray2.getJSONObject(k).getString("codigo_equipamiento");
-                    String co2_equipamiento = jsonArray2.getJSONObject(k).getString("co2_equipamiento");
+                    String co2_equipamiento = "34";
                     if (EquipamientoDAO.newEquipamiento(context,id,fk_maquina,fk_tipo_equipamiento,potencia_fuegos,codigo_equipamiento,co2_equipamiento)){
                         bien=true;
                     }else{

@@ -331,13 +331,13 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String fecha = mantenimientoTerminado.getFecha_ticket();
         String hora = mantenimientoTerminado.getHora_ticket();
         String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n";
-        String gps="Long:43.283594 Lat:-3.955325"+"\n\n";
+        String gps="Long:43.283594 Lat:-3.955325"+"\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";
         String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
-        String direccion = "Direccion: "+"\n"+dir+"\n\n";
+        String direccion = "Direccion: "+"\n"+dir+"\n";
         String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
         String emp = "ICISA";
         String empresa = "Empresa: "+emp+"\n";
@@ -348,18 +348,18 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String tec = tecnico.getNombre_usuario();
         String tecnic = "Tecnico: "+tec+"\n";
         String num_insta = "659898741";
-        String numero_instalador = "N. Instalador: "+num_insta+"\n\n";
+        String numero_instalador = "N. Instalador: "+num_insta+"\n";
         String datos_averia ="";
         String notificada = "";
         if (mantenimiento.getFk_categoria_visita()!=1) {
             datos_averia = "----------DATOS VISITA----------" + "\n";
             String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE.";
-            notificada = "" + noti + "\n\n";
+            notificada = "" + noti + "\n";
         }
         String presupuesto = "--OPERACIONES REALIZADAS--" + "\n";
         String op = operaciones();
         String operaciones = op+"\n";
-        String maquina = datosMaquinas()+"\n\n";
+        String maquina = datosMaquinas()+"\n";
         String anomalias_detectadas = "---ANOMALIAS DETECTADAS---"+"\n";
         String anom = "";
         if (!mantenimientoTerminado.isAnomalia()){
@@ -386,7 +386,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             }
             anom+=""+"\n";
         }
-        String anomalias = anom+"\n\n";
+        String anomalias = anom+"\n";
         String comun = "";
         String comuni = "";
         if(mantenimientoTerminado.isAnomalia()) {
@@ -395,7 +395,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
                     "esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
                     "Decreto 919/2006,de 28 de julio." + "\n";
             comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
-                    "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n\n";
+                    "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n";
         }
         String observaciones_tecnico="---OBSERVACIONES TECNICO---"+"\n";
         String obs = "";
@@ -406,12 +406,129 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             obs+= mantenimientoTerminado.getObservaciones_tecnico()+"\n";
         }
 
-        String firma_tecnico = "Firma Tecnico:"+"\n\n\n\n\n\n\n";
+        String firma_tecnico = "Firma Tecnico:"+"\n";
         String textoImpresion =fecha_hora+gps+datos_cliente+nombre_cliente+numero_contrato+direccion+
                 datos_tecnico+empresa+cif+numero_empresa_mantenedora+tecnic+numero_instalador+
                 datos_averia+notificada+presupuesto+operaciones+maquina+anomalias_detectadas+
                 anomalias+comun+comuni+observaciones_tecnico+obs+firma_tecnico;
         return textoImpresion;
+    }
+    private String operaciones(){
+        String operaciones = "";
+        if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
+            operaciones=operaciones+"-Limpieza quemador"+"\n";
+        }
+        if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
+            operaciones=operaciones+"-Revision vaso exp."+"\n";
+        }
+        if (mantenimientoTerminado.getRegulacion_aparatos()==1){
+            operaciones=operaciones+"-Regulacion aparato."+"\n";
+        }
+        if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
+            operaciones=operaciones+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera."+"\n";
+        }
+        if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
+            operaciones=operaciones+"-Revision del equipo de gas."+"\n";
+        }
+        if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
+            operaciones=operaciones+"-Revision circuito hidraulico"+"\n"+" calefaccion."+"\n";
+        }
+        if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
+            operaciones=operaciones+"-Estanqueidad conexion"+"\n"+" aparatos."+"\n";
+        }
+        if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
+            operaciones=operaciones+"-Estanqueidad conducto evac."+"\n"+" e IRG."+"\n";
+        }
+        if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
+            operaciones=operaciones+"-Revision niveles agua"+"\n";
+        }
+        if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
+            operaciones=operaciones+"-Tiro evacuacion."+"\n";
+        }
+        if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
+            operaciones=operaciones+"-Revision aislamiento termico."+"\n";
+        }
+        if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
+            operaciones=operaciones+"-Analisis PDC"+"\n";
+        }
+        if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
+            operaciones=operaciones+"-Caudal ACS y calculo pot. util"+"\n";
+        }
+        if (mantenimientoTerminado.getRevision_sistema_control()==1){
+            operaciones=operaciones+"-Revision del sist. control"+"\n";
+        }
+        return operaciones;
+    }
+    private String datosMaquinas() throws SQLException {
+        String datos_maquinas = "";
+        for (int i = 0; i < maquinas.size(); i++) {
+            String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
+            String cod = maquinas.get(i).getCodigo_maquina();
+            String codigo = "Codigo: "+cod+"\n";
+            String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquinas.get(i).getFk_marca_maquina());
+            String marca = "Marca: "+mar+"\n";
+            String mode = maquinas.get(i).getModelo_maquina();
+            String modelo = "Modelo: "+mode+"\n";
+            String añ = maquinas.get(i).getPuesta_marcha_maquina();
+            String año = "Fabricado: "+añ+"\n";
+            String pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
+            String potencia = "Potencia: "+pot+"\n";
+            String datos_equipamientos = "";
+            if (equipamiento!=null){
+                for (int j = 0; j < equipamiento.size(); j++) {
+                    int equ = equipamiento.get(j).getFk_tipo_equipamiento();
+                    String tip_equ = "";
+                    String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n"+"\n";
+                    switch (equ){
+                        case 1:
+                            tip_equ = "Cocina"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                        case 2:
+                            tip_equ = "Horno"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                        case 3:
+                            tip_equ = "Horno + Grill"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                    }
+                }
+            }
+            String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
+            String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
+            String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
+            String caud_acs = maquinas.get(i).getCaudal_acs();
+            String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
+            String pot_uti = maquinas.get(i).getPotencia_util();
+            String potencia_util = "Potencia util: "+pot_uti+"\n";
+            String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
+            String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+" C \n";
+            String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
+            String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+" C \n";
+            String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
+            String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+" C \n";
+            String rend_apar = "98.3%";
+            String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
+            String co_cor = "88";
+            String co_corregido = "CO corregido: "+co_cor+ " ppm \n";
+            String co_amb = maquinas.get(i).getC0_maquina();
+            String co_ambiente = "CO ambiente: "+co_amb+ " ppm \n";
+            String tir = "-.014";
+            String tiro = "Tiro: "+tir+ " mbar \n";
+            String c2 = "9.01";
+            String co2 = "CO2: "+c2+ " % \n";
+            String o02 = "5.1";
+            String o2 = "O2: "+o02+ " % \n";
+            String lamb = "1.32";
+            String lambda = "Lambda: "+lamb+ "\n";
+            datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
+                    temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
+                    temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
+                    lambda;
+        }
+
+        return datos_maquinas;
     }
     private String generarTextoFin(){
         String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
@@ -450,123 +567,5 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         return b;
     }
-    private String operaciones(){
-        String operaciones = "";
-        if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
-            operaciones=operaciones+"-Limpieza quemador";
-        }
-        if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
-            operaciones=operaciones+"\n"+"-Revision vaso exp.";
-        }
-        if (mantenimientoTerminado.getRegulacion_aparatos()==1){
-            operaciones=operaciones+"\n"+"-Regulacion aparato.";
-        }
-        if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad cierre entre"+"\n"+" quemadores y caldera.";
-        }
-        if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
-            operaciones=operaciones+"\n"+"-Revision del equipo de gas.";
-        }
-        if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
-            operaciones=operaciones+"\n"+"-Revision circuito hidraulico"+"\n"+" calefaccion.";
-        }
-        if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad conexion"+"\n"+" aparatos.";
-        }
-        if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
-            operaciones=operaciones+"\n"+"-Estanqueidad conducto evac."+"\n"+" e IRG.";
-        }
-        if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
-            operaciones=operaciones+"\n"+"-Revision niveles agua";
-        }
-        if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
-            operaciones=operaciones+"\n"+"-Tiro evacuacion.";
-        }
-        if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
-            operaciones=operaciones+"\n"+"-Revision aislamiento termico.";
-        }
-        if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
-            operaciones=operaciones+"\n"+"-Analisis PDC";
-        }
-        if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
-            operaciones=operaciones+"\n"+"-Caudal ACS y calculo pot. util";
-        }
-        if (mantenimientoTerminado.getRevision_sistema_control()==1){
-            operaciones=operaciones+"\n"+"-Revision del sist. control";
-        }
-        return operaciones;
-    }
-    private String datosMaquinas() throws SQLException {
-        String datos_maquinas = "";
-        for (int i = 0; i < maquinas.size(); i++) {
-            String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
-            String cod = maquinas.get(i).getCodigo_maquina();
-            String codigo = "Codigo: "+cod+"\n";
-            String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquinas.get(i).getFk_marca_maquina());
-            String marca = "Marca: "+mar+"\n";
-            String mode = maquinas.get(i).getModelo_maquina();
-            String modelo = "Modelo: "+mode+"\n";
-            String añ = maquinas.get(i).getPuesta_marcha_maquina();
-            String año = "Fabricado: "+añ+"\n";
-            String pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
-            String potencia = "Potencia: "+pot+"\n\n";
-            String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
-            String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
-            String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
-            String caud_acs = maquinas.get(i).getCaudal_acs();
-            String caudal_acs = "Caudal ACS: "+caud_acs+"\n";
-            String pot_uti = maquinas.get(i).getPotencia_util();
-            String potencia_util = "Potencia util: "+pot_uti+"\n";
-            String tem_agu_ent = maquinas.get(i).getTemperatura_agua_generador_calor_entrada();
-            String temp_agua_entrada = "Temp. agua entrada: "+tem_agu_ent+" C \n";
-            String tem_agu_sal = maquinas.get(i).getTemperatura_agua_generador_calor_salida();
-            String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+" C \n";
-            String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
-            String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+" C \n";
-            String rend_apar = "98.3%";
-            String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-            String co_cor = "88";
-            String co_corregido = "CO corregido: "+co_cor+ " ppm \n";
-            String co_amb = maquinas.get(i).getC0_maquina();
-            String co_ambiente = "CO ambiente: "+co_amb+ " ppm \n";
-            String tir = "-.014";
-            String tiro = "Tiro: "+tir+ " mbar \n";
-            String c2 = "9.01";
-            String co2 = "CO2: "+c2+ " % \n";
-            String o02 = "5.1";
-            String o2 = "O2: "+o02+ " % \n";
-            String lamb = "1.32";
-            String lambda = "Lambda: "+lamb+ "\n"+"\n";
-            datos_maquinas+=datos_maquinas+datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
-                    temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
-                    temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-                    lambda;
-        }
-        if (equipamiento!=null){
-            for (int i = 0; i < equipamiento.size(); i++) {
-                String datos_equipamiento = "--------DATOS INSTALACION-------" + "\n";
-                int equ = equipamiento.get(i).getFk_tipo_equipamiento();
-                String tip_equ = "";
-                String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(i).getPotencia_fuegos()+"\n"+"\n";
-                switch (equ){
-                    case 1:
-                        tip_equ = "Cocina"+"\n";
-                        String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
-                        String co2 = "Co2 Ambiente: 20"+"\n";
-                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos+observaciones_tecnico+co2;
-                        break;
-                    case 2:
-                        tip_equ = "Horno"+"\n";
-                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
-                        break;
-                    case 3:
-                        tip_equ = "Horno + Grill"+"\n";
-                        datos_maquinas+=datos_equipamiento+tip_equ+fuegos;
-                        break;
-                }
-            }
-        }
 
-        return datos_maquinas;
-    }
 }
