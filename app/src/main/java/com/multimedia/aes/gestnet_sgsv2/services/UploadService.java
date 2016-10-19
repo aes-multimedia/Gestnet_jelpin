@@ -87,7 +87,7 @@ public class UploadService extends IntentService {
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
                     String mensajeticket = subirTiket(rellenarJsonTiket());
                     Log.d("-----MENSAJETICKET-----", mensajeticket);
-                    rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
+                    //rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
                     if (mensajemantenimiento.equals("1")){
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                         //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
