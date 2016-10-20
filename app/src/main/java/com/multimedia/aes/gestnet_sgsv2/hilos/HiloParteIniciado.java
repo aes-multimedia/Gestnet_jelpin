@@ -53,7 +53,6 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        Log.d("----INICIAR----",mensaje);
         super.onPostExecute(aVoid);
     }
 
