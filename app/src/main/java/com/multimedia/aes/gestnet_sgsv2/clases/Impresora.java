@@ -331,10 +331,12 @@ public class Impresora {
 			String o2 = "O2: "+o02+ " % \n";
 			String lamb = "1.32";
 			String lambda = "Lambda: "+lamb+ "\n";
+			String num_serie_tex= "";
+			String numero_serie_texto = "Num.Serie Equip.Texto: "+num_serie_tex+"\n";
 			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-					lambda;
+					lambda+numero_serie_texto;
 		}
 
 		return datos_maquinas;
