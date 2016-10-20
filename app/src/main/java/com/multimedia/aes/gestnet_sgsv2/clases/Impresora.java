@@ -194,12 +194,12 @@ public class Impresora {
 		String comun = "";
 		String comuni = "";
 		if(mantenimientoTerminado.isAnomalia()) {
-			comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
-					"correccion de las posibles" + "\n" + "anomalias detectadas durante" + "\n" +
-					"esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
-					"Decreto 919/2006,de 28 de julio." + "\n";
-			comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
-					"pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n";
+			comun = "*Se comunica la cliente, y este" + "\n" + " declara quedar informado que la" + "\n" +
+					" correccion de las posibles" + "\n" + " anomalias detectadas durante" + "\n" +
+					" esta visita, sean principales o" + "\n" + " secundarias, es de su exclusiva" + "\n" + " responsabilidad segun Real" + "\n" +
+					" Decreto 919/2006,de 28 de julio" + "\n";
+			comuni = "*En caso de existir anomalias" + "\n" + " principales no corregidas," + "\n" +
+					" estas pueden ser informadas a" + "\n" + " la empresa distribuidora y/o" + "\n" + " autoridad competente." + "\n";
 		}
 		String observaciones_tecnico="-----OBSERVACIONES TECNICO------"+"\n";
 		String obs = "";
