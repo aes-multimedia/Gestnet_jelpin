@@ -133,7 +133,7 @@ public class Impresora {
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getMunicipio();
 		String direccion = "Direccion: "+"\n"+dir+"\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "ICISA";
@@ -176,6 +176,17 @@ public class Impresora {
 				anom+="No acepta reparacion."+"\n";
 				String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(activity,mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo();
 				anom+=mot+"\n";
+				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+				if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
+					anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+					String preci = "Acepta Precinto: ";
+					if (mantenimientoTerminado.getPrecintado()==1){
+						preci+="Si";
+					}else{
+						preci+="No";
+					}
+					anom+=preci+"\n";
+				}
 			}
 			anom+=""+"\n";
 		}
@@ -221,7 +232,7 @@ public class Impresora {
 		Thread.sleep(2000);
 	}
 	private String operaciones(){
-		String operaciones = "\n";
+		String operaciones = "";
 		if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
 			operaciones=operaciones+"-Limpieza quemador"+"\n";
 		}

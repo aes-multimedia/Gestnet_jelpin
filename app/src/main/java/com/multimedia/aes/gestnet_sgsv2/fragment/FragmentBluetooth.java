@@ -337,7 +337,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-        String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+        String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getMunicipio();
         String direccion = "Direccion: "+"\n"+dir+"\n";
         String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
         String emp = "ICISA";
@@ -361,7 +361,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String op = operaciones();
         String operaciones = op+"\n";
         String maquina = datosMaquinas()+"\n";
-        String anomalias_detectadas = "---ANOMALIAS DETECTADAS---"+"\n";
+        String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
         if (!mantenimientoTerminado.isAnomalia()){
             anom = "Sin Anomalias."+"\n";
@@ -369,18 +369,28 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
             if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
                 anom += SubTiposVisitaDAO.buscarSubTiposVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket()+"\n";
-
             }else{
                 anom = "Otras anomalias."+"\n";
             }
             if (mantenimientoTerminado.getReparacion()==1){
                 anom+="Acepta reparacion."+"\n";
-                    anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-                    anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+                anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+                anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
             }else{
                 anom+="No acepta reparacion."+"\n";
-                String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(),mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo();
+                String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(),mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo()+"\n";
                 anom+=mot+"\n";
+                anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+                if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
+                    anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+                    String preci = "Acepta Precinto: ";
+                    if (mantenimientoTerminado.getPrecintado()==1){
+                        preci+="Si";
+                    }else{
+                        preci+="No";
+                    }
+                    anom+=preci+"\n";
+                }
             }
             anom+=""+"\n";
         }
@@ -388,12 +398,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String comun = "";
         String comuni = "";
         if(mantenimientoTerminado.isAnomalia()) {
-            comun = "*Se comunica la cliente, y este" + "\n" + "declara quedar informado que la" + "\n" +
-                    "correccion de las posibles" + "\n" + "anomalias detectadas durante" + "\n" +
-                    "esta visita, sean principales o" + "\n" + "secundarias, es de su exclusiva" + "\n" + "responsabilidad segun Real" + "\n" +
-                    "Decreto 919/2006,de 28 de julio." + "\n";
-            comuni = "*En caso de existir anomalias" + "\n" + "principales no corregidas, estas" + "\n" +
-                    "pueden ser informadas a la" + "\n" + "empresa distribuidora y/o" + "\n" + "autoridad competente." + "\n";
+            comun = "*Se comunica la cliente, y este" + "\n" + " declara quedar informado que la" + "\n" +
+                    " correccion de las posibles" + "\n" + " anomalias detectadas durante" + "\n" +
+                    " esta visita, sean principales o" + "\n" + " secundarias, es de su exclusiva" + "\n" + " responsabilidad segun Real" + "\n" +
+                    " Decreto 919/2006,de 28 de julio." + "\n";
+            comuni = "*En caso de existir anomalias" + "\n" + " principales no corregidas," + "\n" +
+                    " estas pueden ser informadas a" + "\n" + " la empresa distribuidora y/o" + "\n" + " autoridad competente." + "\n";
         }
         String observaciones_tecnico="---OBSERVACIONES TECNICO---"+"\n";
         String obs = "";
