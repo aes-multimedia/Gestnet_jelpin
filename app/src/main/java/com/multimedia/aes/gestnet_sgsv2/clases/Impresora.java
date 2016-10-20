@@ -282,6 +282,28 @@ public class Impresora {
 			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
 			String potencia = "Potencia: "+pot+"\n";
 			String datos_equipamientos = "";
+			if (equipamiento!=null){
+				datos_equipamientos+="Equipamientos:"+"\n";
+				for (int j = 0; j < equipamiento.size(); j++) {
+					int equ = equipamiento.get(j).getFk_tipo_equipamiento();
+					String tip_equ = "";
+					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
+					switch (equ){
+						case 0:
+							tip_equ = "Cocina"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+						case 1:
+							tip_equ = "Horno"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+						case 2:
+							tip_equ = "Horno + Grill"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+					}
+				}
+			}
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
 			String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
@@ -309,32 +331,10 @@ public class Impresora {
 			String o2 = "O2: "+o02+ " % \n";
 			String lamb = "1.32";
 			String lambda = "Lambda: "+lamb+ "\n";
-			if (equipamiento!=null){
-				datos_equipamientos+="Equipamientos:"+"\n";
-				for (int j = 0; j < equipamiento.size(); j++) {
-					int equ = equipamiento.get(j).getFk_tipo_equipamiento();
-					String tip_equ = "";
-					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
-					switch (equ){
-						case 0:
-							tip_equ = "Cocina"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-						case 1:
-							tip_equ = "Horno"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-						case 2:
-							tip_equ = "Horno + Grill"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-					}
-				}
-			}
-			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
+			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-					lambda+datos_equipamientos;
+					lambda;
 		}
 
 		return datos_maquinas;
