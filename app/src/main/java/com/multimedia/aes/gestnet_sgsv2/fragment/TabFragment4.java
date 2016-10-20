@@ -172,9 +172,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
         llAceptaRep.setVisibility(View.GONE);
         llAnomalias.setVisibility(View.GONE);
-
-
-
         String dateSample = mantenimiento.getFecha_visita();
         String oldFormat = "dd-MM-yyyy HH:mm:ss";
         String newFormat = "dd/MM/yyyy";
@@ -284,6 +281,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 llNoAceptaRep.setVisibility(View.GONE);
                 llAceptaRep.setVisibility(View.VISIBLE);
                 etObservacionesInsitu.setVisibility(View.VISIBLE);
+                etObservMotivoNoRep.setText("");
+                etCodVisitaPlataformaA.setText("");
                 etCodVisitaPlataformaB.setVisibility(View.VISIBLE);
             } else {
                 llAceptaRep.setVisibility(View.GONE);
@@ -293,6 +292,8 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                 cbAceptaRepSi.setChecked(false);
                 llAceptaRep.setVisibility(View.GONE);
                 llNoAceptaRep.setVisibility(View.VISIBLE);
+                etCodVisitaPlataformaB.setText("");
+                etObservacionesInsitu.setText("");
                 etObservacionesInsitu.setVisibility(View.GONE);
                 etCodVisitaPlataformaB.setVisibility(View.GONE);
             }else{
@@ -549,7 +550,6 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
-
     public void guardarDatos() throws SQLException {
         mantenimientoTerminado.setFk_parte(mantenimiento.getId_mantenimiento());
         mantenimientoTerminado.setFk_estado_visita(EstadoVisitaDAO.buscarIdEstadoVisitaPorNombre(getContext(),spEstadoVisita.getSelectedItem().toString()));
@@ -620,14 +620,20 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             }
             if (cbAceptaRepSi.isChecked()){
                 mantenimientoTerminado.setReparacion(1);
-                    mantenimientoTerminado.setObs_reparacion_iberdrola(etObservacionesInsitu.getText().toString());
-                    mantenimientoTerminado.setInsitu(false);
-                    mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaB.getText().toString());
+                mantenimientoTerminado.setObs_reparacion_iberdrola(etObservacionesInsitu.getText().toString());
+                mantenimientoTerminado.setInsitu(false);
+                mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaB.getText().toString());
             }else if (cbAceptaRepNo.isChecked()){
                 mantenimientoTerminado.setFk_motivos_no_rep(MotivosNoRepDAO.buscarMotivosNoRepMotivo(getContext(),spMotivoNoAcepta.getSelectedItem().toString()));
                 int v = spMotivoNoAcepta.getSelectedItemPosition();
-                if (v==1||v==2) {
+                if (v==1||v==2||v==3) {
                     mantenimientoTerminado.setCod_visita_plataforma(etCodVisitaPlataformaA.getText().toString());
+                    mantenimientoTerminado.setObs_reparacion_iberdrola(etObservMotivoNoRep.getText().toString());
+                    if (cbAceptaPrecinto.isChecked()){
+                        mantenimientoTerminado.setPrecintado(1);
+                    }else{
+                        mantenimientoTerminado.setPrecintado(0);
+                    }
                 }
             }
         }

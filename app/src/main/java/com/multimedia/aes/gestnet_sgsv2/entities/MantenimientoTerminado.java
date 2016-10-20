@@ -45,6 +45,7 @@ public class MantenimientoTerminado {
     public static final String COD_VISITA_PLATAFORMA = "cod_visita_plataforma";
     public static final String FECHA_TICKET = "fecha_ticket";
     public static final String HORA_TICKET = "hora_ticket";
+    public static final String PRECINTADO = "precintado";
 
     @DatabaseField(generatedId = true, columnName = ID_MANTENIMIENTO_TERMINADO)
     private int id_mantenimiento_terminado;
@@ -126,6 +127,8 @@ public class MantenimientoTerminado {
     private String fecha_ticket;
     @DatabaseField(columnName = HORA_TICKET)
     private String hora_ticket;
+    @DatabaseField(columnName = PRECINTADO)
+    private int precintado;
 
     public MantenimientoTerminado() {
     }
@@ -143,7 +146,7 @@ public class MantenimientoTerminado {
                                   int revision_estado_aislamiento_termico, int analisis_productos_combustion,
                                   int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
                                   boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
-                                  String cod_visita_plataforma,String fecha_ticket,String hora_ticket) {
+                                  String cod_visita_plataforma,String fecha_ticket,String hora_ticket,int precintado) {
         this.id_mantenimiento_terminado = id_mantenimiento_terminado;
         this.fk_parte = fk_parte;
         this.codigo_barras = codigo_barras;
@@ -184,6 +187,7 @@ public class MantenimientoTerminado {
         this.cod_visita_plataforma = cod_visita_plataforma;
         this.fecha_ticket = fecha_ticket;
         this.hora_ticket = hora_ticket;
+        this.precintado = precintado;
     }
 
     public int getId_mantenimiento_terminado() {
@@ -425,5 +429,11 @@ public class MantenimientoTerminado {
     }
     public void setHora_ticket(String hora_ticket) {
         this.hora_ticket = hora_ticket;
+    }
+    public int getPrecintado() {
+        return precintado;
+    }
+    public void setPrecintado(int precintado) {
+        this.precintado = precintado;
     }
 }

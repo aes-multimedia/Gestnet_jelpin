@@ -107,6 +107,7 @@ public class UploadService extends IntentService {
 
                     Thread.sleep(3000);
                 }
+                Toast.makeText(getBaseContext(), "Partes subidos correctamente", Toast.LENGTH_SHORT).show();
                 // Quitar de primer plano
                 stopForeground(true);
             }else{

@@ -17,6 +17,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
@@ -117,7 +118,7 @@ public class Impresora {
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String cod_barras = mantenimiento.getCod_barras();
-		String datos_cliente = "\n"+"   "+cod_barras+"   " + "\n";
+		String datos_cliente = "   "+cod_barras+"   " + "\n";
 
 		String textoImpresion =datos_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
@@ -132,7 +133,7 @@ public class Impresora {
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+		String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
 		String direccion = "Direccion: "+"\n"+dir+"\n";
 		String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
 		String emp = "ICISA";
@@ -169,15 +170,12 @@ public class Impresora {
 			}
 			if (mantenimientoTerminado.getReparacion()==1){
 				anom+="Acepta reparacion."+"\n";
-				if (mantenimientoTerminado.isInsitu()){
-					anom+="Reparacion insitu."+"\n";
-					anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-				}else{
-					anom+="Solicitud de visita: ";
-					anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-				}
+				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
+				anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
 			}else{
 				anom+="No acepta reparacion."+"\n";
+				String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(activity,mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo();
+				anom+=mot+"\n";
 			}
 			anom+=""+"\n";
 		}
@@ -284,28 +282,6 @@ public class Impresora {
 			String pot = PotenciaDAO.buscarNombrePotenciaPorId(activity,maquinas.get(i).getFk_potencia_maquina());
 			String potencia = "Potencia: "+pot+"\n";
 			String datos_equipamientos = "";
-			if (equipamiento!=null){
-				datos_equipamientos+="Equipamientos:"+"\n";
-				for (int j = 0; j < equipamiento.size(); j++) {
-					int equ = equipamiento.get(j).getFk_tipo_equipamiento();
-					String tip_equ = "";
-					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
-					switch (equ){
-						case 1:
-							tip_equ = "Cocina"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-						case 2:
-							tip_equ = "Horno"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-						case 3:
-							tip_equ = "Horno + Grill"+"\n";
-							datos_equipamientos+=tip_equ+fuegos;
-							break;
-					}
-				}
-			}
 			String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
 			String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
 			String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
@@ -332,11 +308,33 @@ public class Impresora {
 			String o02 = "5.1";
 			String o2 = "O2: "+o02+ " % \n";
 			String lamb = "1.32";
-			String lambda = "Lambda: "+lamb+ "\n"+"\n";
-			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
+			String lambda = "Lambda: "+lamb+ "\n";
+			if (equipamiento!=null){
+				datos_equipamientos+="Equipamientos:"+"\n";
+				for (int j = 0; j < equipamiento.size(); j++) {
+					int equ = equipamiento.get(j).getFk_tipo_equipamiento();
+					String tip_equ = "";
+					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
+					switch (equ){
+						case 0:
+							tip_equ = "Cocina"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+						case 1:
+							tip_equ = "Horno"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+						case 2:
+							tip_equ = "Horno + Grill"+"\n";
+							datos_equipamientos+=tip_equ+fuegos;
+							break;
+					}
+				}
+			}
+			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-					lambda;
+					lambda+datos_equipamientos;
 		}
 
 		return datos_maquinas;

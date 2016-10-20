@@ -36,7 +36,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 													int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 													int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
 													boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
-													String cod_visita_plataforma,String fecha_ticket,String hora_ticket) {
+													String cod_visita_plataforma,String fecha_ticket,String hora_ticket,int precintado) {
 		MantenimientoTerminado m = montarMantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 															contador_interno, reparacion,
@@ -50,7 +50,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
 															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
 															acciones,anomalia,insitu,fk_motivos_no_rep,obs_reparacion_iberdrola,
-															cod_visita_plataforma,fecha_ticket,hora_ticket);
+															cod_visita_plataforma,fecha_ticket,hora_ticket, precintado);
 		return crearMantenimientoTerminado(m,context);
 	}
 	public static boolean crearMantenimientoTerminado(MantenimientoTerminado m,Context context) {
@@ -76,7 +76,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 																	  int revision_estado_aislamiento_termico, int analisis_productos_combustion,
 																	  int caudal_acs_calculo_potencia, int revision_sistema_control,boolean enviado,boolean maquina,
 																	  boolean acciones,boolean anomalia,boolean insitu,int fk_motivos_no_rep,String obs_reparacion_iberdrola,
-																	  String cod_visita_plataforma,String fecha_ticket,String hora_ticket) {
+																	  String cod_visita_plataforma,String fecha_ticket,String hora_ticket,int precintado) {
 		MantenimientoTerminado m =new MantenimientoTerminado(id_mantenimiento_terminado, fk_parte, codigo_barras,
 															fk_estado_visita, fk_tipo_visita, fk_subtipo_visita, observaciones_tecnico,
 															contador_interno, reparacion,
@@ -90,7 +90,7 @@ public class MantenimientoTerminadoDAO extends DBHelperMOS {
 															revision_estado_aislamiento_termico, analisis_productos_combustion,
 															caudal_acs_calculo_potencia, revision_sistema_control,enviado,maquina,
 															acciones,anomalia,insitu,fk_motivos_no_rep, obs_reparacion_iberdrola,
-															cod_visita_plataforma,fecha_ticket,hora_ticket);
+															cod_visita_plataforma,fecha_ticket,hora_ticket, precintado);
 		return m;
 	}
 

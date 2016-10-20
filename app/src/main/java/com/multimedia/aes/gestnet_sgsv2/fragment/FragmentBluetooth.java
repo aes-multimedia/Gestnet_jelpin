@@ -35,6 +35,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
@@ -330,13 +331,13 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private String generarTexto1() throws SQLException {
         String fecha = mantenimientoTerminado.getFecha_ticket();
         String hora = mantenimientoTerminado.getHora_ticket();
-        String fecha_hora = "\n\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n";
+        String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n";
         String gps="Long:43.283594 Lat:-3.955325"+"\n";
         String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";
-        String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+"\n"+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
+        String dir = mantenimiento.getDireccion()+"\n"+mantenimiento.getCod_postal()+" - "+mantenimiento.getProvincia()+"\n"+mantenimiento.getMunicipio();
         String direccion = "Direccion: "+"\n"+dir+"\n";
         String datos_tecnico = "---------DATOS TECNICO----------" + "\n";
         String emp = "ICISA";
@@ -374,15 +375,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             }
             if (mantenimientoTerminado.getReparacion()==1){
                 anom+="Acepta reparacion."+"\n";
-                if (mantenimientoTerminado.isInsitu()){
-                    anom+="Reparacion insitu."+"\n";
                     anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-                }else{
-                    anom+="Solicitud de visita: ";
                     anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-                }
             }else{
                 anom+="No acepta reparacion."+"\n";
+                String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(),mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo();
+                anom+=mot+"\n";
             }
             anom+=""+"\n";
         }
@@ -474,28 +472,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
             String potencia = "Potencia: "+pot+"\n";
             String datos_equipamientos = "";
-            if (equipamiento!=null){
-                datos_equipamientos+="\n";
-                for (int j = 0; j < equipamiento.size(); j++) {
-                    int equ = equipamiento.get(j).getFk_tipo_equipamiento();
-                    String tip_equ = "";
-                    String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n"+"\n";
-                    switch (equ){
-                        case 1:
-                            tip_equ = "Cocina"+"\n";
-                            datos_equipamientos+=tip_equ+fuegos;
-                            break;
-                        case 2:
-                            tip_equ = "Horno"+"\n";
-                            datos_equipamientos+=tip_equ+fuegos;
-                            break;
-                        case 3:
-                            tip_equ = "Horno + Grill"+"\n";
-                            datos_equipamientos+=tip_equ+fuegos;
-                            break;
-                    }
-                }
-            }
             String observaciones_tecnico = "-----------RESULTADO------------" + "\n";
             String tem_max_acs = maquinas.get(i).getTemperatura_max_acs();
             String temperatura_max_acs = "Temp. Max. ACS: "+tem_max_acs+" C \n";
@@ -523,10 +499,32 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String o2 = "O2: "+o02+ " % \n";
             String lamb = "1.32";
             String lambda = "Lambda: "+lamb+ "\n";
-            datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
+            if (equipamiento!=null&&i==0){
+                datos_equipamientos+="";
+                for (int j = 0; j < equipamiento.size(); j++) {
+                    int equ = equipamiento.get(j).getFk_tipo_equipamiento();
+                    String tip_equ = "";
+                    String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
+                    switch (equ){
+                        case 0:
+                            tip_equ = "Cocina"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                        case 1:
+                            tip_equ = "Horno"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                        case 2:
+                            tip_equ = "Horno + Grill"+"\n";
+                            datos_equipamientos+=tip_equ+fuegos;
+                            break;
+                    }
+                }
+            }
+            datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+observaciones_tecnico+
                     temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
                     temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
-                    lambda;
+                    lambda+datos_equipamientos;
         }
 
         return datos_maquinas;

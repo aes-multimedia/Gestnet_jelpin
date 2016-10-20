@@ -2,19 +2,17 @@ package com.multimedia.aes.gestnet_sgsv2.hilos;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
-import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -45,7 +43,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = logeo();
+            mensaje = iniciar();
        } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -55,10 +53,11 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        Log.d("----INICIAR----",mensaje);
         super.onPostExecute(aVoid);
     }
 
-    private String logeo() throws JSONException{
+    private String iniciar() throws JSONException{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

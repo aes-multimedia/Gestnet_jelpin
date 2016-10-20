@@ -436,7 +436,8 @@
                             android:minHeight="100dp"
                             android:background="@drawable/edit_texts_naranja"
                             android:layout_marginBottom="5dp"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                            android:hint="Observaciones" />
 
                         <EditText
                             android:layout_width="match_parent"
@@ -445,7 +446,8 @@
                             android:layout_marginBottom="5dp"
                             android:minHeight="30dp"
                             android:id="@+id/etCodVisitaPlataformaB"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                            android:hint="Codigo" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -476,7 +478,8 @@
                             android:id="@+id/etObservMotivoNoRep"
                             android:minHeight="100dp"
                             android:background="@drawable/edit_texts_naranja"
-                            android:layout_marginBottom="5dp" />
+                            android:layout_marginBottom="5dp"
+                            android:hint="Observaciones" />
                         <LinearLayout
                             android:orientation="vertical"
                             android:layout_width="match_parent"
@@ -492,7 +495,8 @@
                                 android:layout_marginBottom="5dp"
                                 android:id="@+id/etCodVisitaPlataformaA"
                                 android:visibility="visible"
-                                android:inputType="number" />
+                                android:inputType="number"
+                                android:hint="Codigo" />
 
                             <LinearLayout
                                 android:orientation="vertical"
