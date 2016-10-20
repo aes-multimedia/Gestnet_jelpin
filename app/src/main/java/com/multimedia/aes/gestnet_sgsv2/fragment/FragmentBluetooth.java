@@ -345,7 +345,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String cif_emp = "05954765L";
         String cif = "CIF: "+cif_emp+"\n";
         String num_emp_mant = "44556678";
-        String numero_empresa_mantenedora = "N. Emp. Mantenedora: "+"\n"+num_emp_mant+"\n";
+        String numero_empresa_mantenedora = "N. Emp. Mantenedora: "+num_emp_mant+"\n";
         String tec = tecnico.getNombre_usuario();
         String tecnic = "Tecnico: "+tec+"\n";
         String num_insta = "659898741";
@@ -383,11 +383,11 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
                 anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
                 if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
                     anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-                    String preci = "Acepta Precinto: ";
+                    String preci = "";
                     if (mantenimientoTerminado.getPrecintado()==1){
-                        preci+="Si";
-                    }else{
-                        preci+="No";
+                        preci+="Acepta Precinto: Si";
+                    }else if(mantenimientoTerminado.getPrecintado()==0) {
+                        preci+="Acepta Precinto: No";
                     }
                     anom+=preci+"\n";
                 }

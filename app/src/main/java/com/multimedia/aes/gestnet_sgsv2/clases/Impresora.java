@@ -127,7 +127,7 @@ public class Impresora {
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String fecha = mantenimientoTerminado.getFecha_ticket();
 		String hora = mantenimientoTerminado.getHora_ticket();
-		String fecha_hora = "\n"+"FECHA Y HORA: "+fecha+"-"+hora + "\n";
+		String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n";
 		String gps="Long:43.283594 Lat:-3.955325";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
@@ -141,7 +141,7 @@ public class Impresora {
 		String cif_emp = "05954765L";
 		String cif = "CIF: "+cif_emp+"\n";
 		String num_emp_mant = "44556678";
-		String numero_empresa_mantenedora = "N. Emp. Mantenedora: "+"\n"+num_emp_mant+"\n";
+		String numero_empresa_mantenedora = "N. Emp. Mantenedora: "+num_emp_mant+"\n";
 		String tec = tecnico.getNombre_usuario();
 		String tecnic = "Tecnico: "+tec+"\n";
 		String num_insta = "659898741";
@@ -179,11 +179,11 @@ public class Impresora {
 				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
 				if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
 					anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-					String preci = "Acepta Precinto: ";
+					String preci = "";
 					if (mantenimientoTerminado.getPrecintado()==1){
-						preci+="Si";
-					}else{
-						preci+="No";
+						preci+="Acepta Precinto: Si";
+					}else if (mantenimientoTerminado.getPrecintado()==0){
+						preci+="Acepta Precinto: No";
 					}
 					anom+=preci+"\n";
 				}
