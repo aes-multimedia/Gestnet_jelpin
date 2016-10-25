@@ -588,6 +588,7 @@ public class UploadService extends IntentService {
         msg.put("ticket",jsonObjectTicket);
         msg.put("logo",logo);
         msg.put("firma",firma);
+        Log.d("---TICKET---",msg.toString());
         return msg;
     }
     private JSONObject rellenarJsonCerrarIberdrola(int id) throws JSONException, SQLException {
@@ -622,7 +623,7 @@ public class UploadService extends IntentService {
         }
         msg.put("fechaFactura", "");
         msg.put("numFactura", mantenimiento.getNum_factura());
-        msg.put("codigoBarrasVisita", "569821435156964121");
+        msg.put("codigoBarrasVisita", mantenimiento.getCod_barras());
         msg.put("cartaEnviada", "");
         msg.put("fechaEnvioCarta", "");
         msg.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());

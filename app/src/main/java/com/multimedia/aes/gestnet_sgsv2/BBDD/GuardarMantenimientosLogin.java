@@ -457,21 +457,91 @@ public class GuardarMantenimientosLogin {
             String contador_averias = jsonArray.getJSONObject(i).getString("contador_averias");
             JSONObject jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("cliente").getJSONObject(0);
             int fk_empresa_usuario = jsonObject1.getInt("fk_empresa");
-            String numero_usuario = jsonObject1.getString("numero_usuario");
-            String nombre_usuario = jsonObject1.getString("nombre_usuario");
-            String dni_usuario = jsonObject1.getString("DNI");
-            String telefono1_usuario = jsonObject1.getString("telefono1");
-            String telefono2_usuario = jsonObject1.getString("telefono2");
-            String telefono3_usuario = jsonObject1.getString("telefono3");
-            String telefono4_usuario = jsonObject1.getString("telefono4");
-            String telefono5_usuario = jsonObject1.getString("otros_telefonos");
-            String email_usuario = jsonObject1.getString("email");
-            String moroso_usuario = jsonObject1.getString("moroso");
-            String observaciones_usuario = jsonObject1.getString("observaciones");
+            String numero_usuario;
+            if (jsonObject1.getString("numero_usuario").equals("null")){
+                numero_usuario  ="";
+            }else{
+                numero_usuario = jsonObject1.getString("numero_usuario");
+            }
+            String nombre_usuario;
+            if (jsonObject1.getString("nombre_usuario").equals("null")){
+                nombre_usuario  ="";
+            }else{
+                nombre_usuario = jsonObject1.getString("nombre_usuario");
+            }
+            String dni_usuario;
+            if (jsonObject1.getString("DNI").equals("null")){
+                dni_usuario  ="";
+            }else{
+                dni_usuario = jsonObject1.getString("DNI");
+            }
+            String telefono1_usuario;
+            if (jsonObject1.getString("telefono1").equals("null")||jsonObject1.getString("telefono1").equals("0")){
+                telefono1_usuario  ="";
+            }else{
+                telefono1_usuario = jsonObject1.getString("telefono1");
+            }
+            String telefono2_usuario;
+            if (jsonObject1.getString("telefono2").equals("null")||jsonObject1.getString("telefono1").equals("0")){
+                telefono2_usuario  ="";
+            }else{
+                telefono2_usuario = jsonObject1.getString("telefono2");
+            }
+            String telefono3_usuario;
+            if (jsonObject1.getString("telefono3").equals("null")||jsonObject1.getString("telefono1").equals("0")){
+                telefono3_usuario  ="";
+            }else{
+                telefono3_usuario = jsonObject1.getString("telefono3");
+            }
+            String telefono4_usuario;
+            if (jsonObject1.getString("telefono4").equals("null")||jsonObject1.getString("telefono1").equals("0")){
+                telefono4_usuario  ="";
+            }else{
+                telefono4_usuario = jsonObject1.getString("telefono4");
+            }
+            String telefono5_usuario;
+            if (jsonObject1.getString("otros_telefonos").equals("null")||jsonObject1.getString("telefono1").equals("0")){
+                telefono5_usuario  ="";
+            }else{
+                telefono5_usuario = jsonObject1.getString("otros_telefonos");
+            }
+            String email_usuario;
+            if (jsonObject1.getString("email").equals("null")){
+                email_usuario  ="";
+            }else{
+                email_usuario = jsonObject1.getString("email");
+            }
+            String moroso_usuario;
+            if (jsonObject1.getString("moroso").equals("null")){
+                moroso_usuario  ="";
+            }else{
+                moroso_usuario = jsonObject1.getString("moroso");
+            }
+            String observaciones_usuario;
+            if (jsonObject1.getString("observaciones").equals("null")){
+                observaciones_usuario  ="";
+            }else{
+                observaciones_usuario = jsonObject1.getString("observaciones");
+            }
             jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
-            String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
-            String modelo_maquina = jsonObject1.getString("modelo");
-            String marca_maquina = jsonObject1.getString("fk_marca");
+            String tipo_maquina;
+            if (jsonObject1.getString("fk_tipo_caldera").equals("null")){
+                tipo_maquina  ="";
+            }else{
+                tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
+            }
+            String modelo_maquina;
+            if (jsonObject1.getString("modelo").equals("null")){
+                modelo_maquina  ="";
+            }else{
+                modelo_maquina = jsonObject1.getString("modelo");
+            }
+            String marca_maquina;
+            if (jsonObject1.getString("fk_marca").equals("null")){
+                marca_maquina  ="";
+            }else{
+                marca_maquina = jsonObject1.getString("fk_marca");
+            }
             int uso_maquina;
             if (jsonObject1.getString("fk_uso").equals("null")||jsonObject1.getString("fk_uso").equals("")||jsonObject1.getString("fk_uso").equals("0")){
                 uso_maquina = 3;

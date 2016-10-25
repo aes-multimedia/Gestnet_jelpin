@@ -178,7 +178,7 @@ public class Impresora {
 				anom+=mot+"\n";
 				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
 				if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
-					anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+					anom+="num. soli.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
 					String preci = "";
 					if (mantenimientoTerminado.getPrecintado()==1){
 						preci+="Acepta Precinto: Si";
@@ -188,9 +188,9 @@ public class Impresora {
 					anom+=preci+"\n";
 				}
 			}
-			anom+=""+"\n";
+			anom+="";
 		}
-		String anomalias = anom+"\n\n";
+		String anomalias = anom+"\n";
 		String comun = "";
 		String comuni = "";
 		if(mantenimientoTerminado.isAnomalia()) {
@@ -275,7 +275,6 @@ public class Impresora {
 		if (mantenimientoTerminado.getRevision_sistema_control()==1){
 			operaciones=operaciones+"-Revision del sist. control"+"\n";
 		}
-		operaciones+="\n";
 		return operaciones;
 	}
 	private String datosMaquinas() throws SQLException {
@@ -328,22 +327,22 @@ public class Impresora {
 			String temp_agua_salida = "Temp. agua salida: "+tem_agu_sal+" C \n";
 			String tem_gas_comb = maquinas.get(i).getTemperatura_gases_combustion();
 			String temp_gases_combust = "Temp. gases combustion: "+tem_gas_comb+" C \n";
-			String rend_apar = "98.3%";
-			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ "\n";
-			String co_cor = "88";
+			String rend_apar = maquinas.get(i).getRendimiento_aparato();
+			String rendimiento_aparato = "Rendimiento aparato: "+rend_apar+ " %"+"\n";
+			String co_cor = maquinas.get(i).getCo_corregido();
 			String co_corregido = "CO corregido: "+co_cor+ " ppm \n";
 			String co_amb = maquinas.get(i).getC0_maquina();
 			String co_ambiente = "CO ambiente: "+co_amb+ " ppm \n";
-			String tir = "-.014";
+			String tir = maquinas.get(i).getTiro();
 			String tiro = "Tiro: "+tir+ " mbar \n";
-			String c2 = "9.01";
+			String c2 = maquinas.get(i).getCo2();
 			String co2 = "CO2: "+c2+ " % \n";
-			String o02 = "5.1";
+			String o02 = maquinas.get(i).getO2();
 			String o2 = "O2: "+o02+ " % \n";
-			String lamb = "1.32";
+			String lamb = maquinas.get(i).getLambda();
 			String lambda = "Lambda: "+lamb+ "\n";
 			String num_serie_tex= "";
-			String numero_serie_texto = "Num.Serie Equip.Texto: "+num_serie_tex+"\n";
+			String numero_serie_texto = "Num.Serie Equip.Testo: "+num_serie_tex+"\n";
 			datos_maquinas+=datos_instalacion+codigo+marca+modelo+año+potencia+datos_equipamientos+observaciones_tecnico+
 					temperatura_max_acs+caudal_acs+potencia_util+temp_agua_entrada+temp_agua_salida+
 					temp_gases_combust+rendimiento_aparato+co_corregido+co_ambiente+tiro+co2+o2+
