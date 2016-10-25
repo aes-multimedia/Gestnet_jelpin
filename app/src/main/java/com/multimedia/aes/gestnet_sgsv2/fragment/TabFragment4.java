@@ -636,6 +636,17 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     }
                 }
             }
+        }else{
+            int b = spTipoVisita.getSelectedItemPosition();
+            if (b!=0){
+                int id= -1;
+                try {
+                    id = TiposVisitaDAO.buscarTipoVisitaPorNombre(getContext(),spTipoVisita.getSelectedItem().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                mantenimientoTerminado.setFk_tipo_visita(id);
+            }
         }
         mantenimientoTerminado.setEnviado(false);
     }

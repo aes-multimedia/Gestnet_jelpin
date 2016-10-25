@@ -443,7 +443,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
         jsonObject1.put("subtipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
         String base64 = loadTicketFromStorage();
-        jsonObject1.put("base64", base64);
+        //jsonObject1.put("base64", base64);
         jsonObject1.put("bAceptaRepIB", mantenimientoTerminado.getReparacion());
         jsonObject1.put("bRepInSituIB", "0");
         jsonObject1.put("ObsRepInSituIB", mantenimientoTerminado.getObs_reparacion_iberdrola());
@@ -454,8 +454,8 @@ public class UploadService extends IntentService {
 
         jsonObject2.put("estadoVisita",mantenimientoTerminado.getFk_estado_visita());
         jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
-        jsonObject2.put("cartaEnviada","0");
-        jsonObject2.put("fechaEnvioCarta","0000-00-00");
+        jsonObject2.put("cartaEnviada","");
+        jsonObject2.put("fechaEnvioCarta","");
 
         jsonObject3.put("id_maquina",mantenimiento.getFk_maquina());
         jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
@@ -503,6 +503,7 @@ public class UploadService extends IntentService {
         msg.put("usuarios_maquinas",jsonObject3);
         msg.put("sat_datos_maquina_parte",jsonObject6);
         msg.put("usuarios_maquinas_equipamientos",jsonObject4);
+        Log.d("JSON",msg.toString());
         return msg;
     }
     private JSONObject rellenarJsonTiket() throws JSONException, IOException {
