@@ -142,7 +142,7 @@ public class UploadService extends IntentService {
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
             uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
             uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-            uc.addRequestProperty("id", String.valueOf(mantenimiento.getFk_tecnico()));
+            uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
             uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
             uc.setRequestMethod("POST");
             uc.connect();
@@ -161,7 +161,7 @@ public class UploadService extends IntentService {
                 uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                 uc.addRequestProperty("fk_parte", String.valueOf(mantenimientoTerminado.getFk_parte()));
                 uc.addRequestProperty("id_tecnico", String.valueOf(tecnico.getId_tecnico()));
-                uc.addRequestProperty("id", String.valueOf(mantenimiento.getFk_tecnico()));
+                uc.addRequestProperty("id", String.valueOf(tecnico.getId_tecnico()));
                 uc.addRequestProperty("apikey", String.valueOf(tecnico.getApikey()));
                 uc.setRequestMethod("POST");
                 uc.connect();
@@ -513,12 +513,14 @@ public class UploadService extends IntentService {
         String logo = loadLogoFromStorage();
         String firma = loadFirmaFromStorage();
         jsonObject.put("name","ticket");
+        jsonObject.put("cod_barras",mantenimiento.getCod_barras());
+        jsonObject.put("num_orden",mantenimiento.getNum_orden_endesa());
         jsonObject.put("base64",base64);
         String fecha = mantenimientoTerminado.getFecha_ticket();
         String hora = mantenimientoTerminado.getHora_ticket();
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
-        String dn = "02365984K";
-        String num_contrato = "000111522";
+        String dn = mantenimiento.getDni_usuario();
+        String num_contrato = mantenimiento.getNum_parte();
         String serv = "Mantenimiento Gas";
         String dir = "Calle Ribadavia 11,2-A,"+"\n"+"Madrid,Madrid,20156";
         String emp = "IBERDROLA";

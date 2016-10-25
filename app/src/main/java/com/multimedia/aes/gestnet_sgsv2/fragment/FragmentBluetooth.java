@@ -359,7 +359,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         String presupuesto = "--OPERACIONES REALIZADAS--" + "\n";
         String op = operaciones();
-        String operaciones = op+"\n";
+        String operaciones = op;
         String maquina = datosMaquinas()+"\n";
         String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
@@ -375,14 +375,14 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if (mantenimientoTerminado.getReparacion()==1){
                 anom+="Acepta reparacion."+"\n";
                 anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-                anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+                anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
             }else{
                 anom+="No acepta reparacion."+"\n";
                 String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(),mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo()+"\n";
                 anom+=mot+"\n";
                 anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
                 if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
-                    anom+="Num. soli.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+                    anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
                     String preci = "";
                     if (mantenimientoTerminado.getPrecintado()==1){
                         preci+="Acepta Precinto: Si";
@@ -398,8 +398,8 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String comun = "";
         String comuni = "";
         if(mantenimientoTerminado.isAnomalia()) {
-            comun = "*Se comunica la cliente, y este" + "\n" + " declara quedar informado que la" + "\n" +
-                    " correccion de las posibles" + "\n" + " anomalias detectadas durante" + "\n" +
+            comun = "*Se comunica la cliente, y este" + "\n" + " declara quedar informado que" + "\n" +
+                    " la correccion de las posibles" + "\n" + " anomalias detectadas durante" + "\n" +
                     " esta visita, sean principales o" + "\n" + " secundarias, es de su exclusiva" + "\n" + " responsabilidad segun Real" + "\n" +
                     " Decreto 919/2006,de 28 de julio." + "\n";
             comuni = "*En caso de existir anomalias" + "\n" + " principales no corregidas," + "\n" +

@@ -118,17 +118,17 @@ public class Impresora {
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String cod_barras = mantenimiento.getCod_barras();
-		String datos_cliente = "   "+cod_barras+"   " + "\n";
+		String datos_cliente = "\n\n"+"   "+cod_barras+"   " + "\n";
 
 		String textoImpresion =datos_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 	}
 	private void generarTexto1(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String fecha = mantenimientoTerminado.getFecha_ticket();
 		String hora = mantenimientoTerminado.getHora_ticket();
 		String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n";
-		String gps="Long:43.283594 Lat:-3.955325";
+		String gps="Long:43.283594 Lat:-3.955325"+"\n";
 		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
@@ -155,7 +155,7 @@ public class Impresora {
 		}
 		String presupuesto = "-----OPERACIONES REALIZADAS-----" + "\n";
 		String op = operaciones();
-		String operaciones = op+"\n";
+		String operaciones = op;
 		String maquina = datosMaquinas()+"\n";
 		String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
 		String anom = "";
@@ -171,14 +171,14 @@ public class Impresora {
 			if (mantenimientoTerminado.getReparacion()==1){
 				anom+="Acepta reparacion."+"\n";
 				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-				anom+=mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+				anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
 			}else{
 				anom+="No acepta reparacion."+"\n";
 				String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(activity,mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo();
 				anom+=mot+"\n";
 				anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
 				if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
-					anom+="num. soli.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
+					anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
 					String preci = "";
 					if (mantenimientoTerminado.getPrecintado()==1){
 						preci+="Acepta Precinto: Si";
@@ -430,7 +430,7 @@ public class Impresora {
 			bitmap.close();
 		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 	}
 	private String limpiarAcentos(String texto_entrada) {
 		String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";

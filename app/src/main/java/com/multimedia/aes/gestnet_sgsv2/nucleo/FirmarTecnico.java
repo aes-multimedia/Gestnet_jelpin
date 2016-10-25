@@ -34,7 +34,7 @@ public class FirmarTecnico extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.firmar_cliente);
+        setContentView(R.layout.firmar_tecnico);
         btnGuardar = (Button) findViewById(R.id.btnGuardar);
         btnBorrar = (Button) findViewById(R.id.btnBorrar);
         frFirma = (FrameLayout) findViewById(R.id.frFirma);

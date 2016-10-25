@@ -161,7 +161,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
             String tipo = null;
-            if (!mantenimiento.getTipo_maquina().equals("null")) {
+            if (mantenimiento.getTipo_maquina().equals("null")||mantenimiento.getTipo_maquina().equals("")) {
+            }else{
                 tipo= mantenimiento.getTipo_maquina();
                 tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),Integer.parseInt(tipo)).getNombre_tipo_caldera();
             }
@@ -184,7 +185,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
             String marca = null;
-            if (!mantenimiento.getMarca_maquina().equals("null")) {
+            if (mantenimiento.getMarca_maquina().equals("null")||mantenimiento.getMarca_maquina().equals("")) {
+            }else{
                 marca= mantenimiento.getMarca_maquina();
                 marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),Integer.parseInt(marca)).getNombre_marca_caldera();
             }
@@ -267,10 +269,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
 
         String puesta = null;
-        if (!mantenimiento.getPuesta_marcha_maquina().equals("null")) {
+        if (mantenimiento.getPuesta_marcha_maquina().equals("null")||mantenimiento.getPuesta_marcha_maquina().equals("")) {
+        }else{
             puesta = mantenimiento.getPuesta_marcha_maquina();
             puesta = puesta.substring(0,4);
-            String hola = "";
         }
         if (puesta!=null) {
             String myString = puesta;
