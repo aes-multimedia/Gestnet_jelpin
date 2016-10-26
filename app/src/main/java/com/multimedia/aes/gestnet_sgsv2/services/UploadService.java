@@ -443,8 +443,9 @@ public class UploadService extends IntentService {
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
         jsonObject1.put("subtipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
         String base64 = loadTicketFromStorage();
-        //jsonObject1.put("base64", base64);
+        jsonObject1.put("base64", base64);
         jsonObject1.put("bAceptaRepIB", mantenimientoTerminado.getReparacion());
+        jsonObject1.put("bPrecinteIB", mantenimientoTerminado.getPrecintado());
         jsonObject1.put("bRepInSituIB", "0");
         jsonObject1.put("ObsRepInSituIB", mantenimientoTerminado.getObs_reparacion_iberdrola());
         jsonObject1.put("bSolVisitaIB", "0");
