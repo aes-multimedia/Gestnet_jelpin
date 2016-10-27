@@ -467,23 +467,23 @@ public class UploadService extends IntentService {
         jsonObject3.put("codigo",maquina.getCodigo_maquina());
         jsonObject3.put("c0ppm",maquina.getC0_maquina());
 
-        jsonObject6.put("id_maquina",maquina.getCaudal_acs());
-        jsonObject6.put("fk_parte",maquina.getCaudal_acs());
-        jsonObject6.put("tempMaxACS",maquina.getCaudal_acs());
+        jsonObject6.put("fk_maquina",maquina.getId_maquina());
+        jsonObject6.put("fk_parte",maquina.getFk_mantenimiento());
+        jsonObject6.put("tempMaxACS",maquina.getTemperatura_max_acs());
         jsonObject6.put("caudalACS",maquina.getCaudal_acs());
-        jsonObject6.put("potenciaUtil",maquina.getCaudal_acs());
-        jsonObject6.put("tempGasCombustion",maquina.getCaudal_acs());
-        jsonObject6.put("tempAmbLocal",maquina.getCaudal_acs());
-        jsonObject6.put("tempAguaGeneradorCalorEntrada",maquina.getCaudal_acs());
-        jsonObject6.put("tempAguaGeneradorCalorSalida",maquina.getCaudal_acs());
-        jsonObject6.put("coMaquina",maquina.getCaudal_acs());
-        jsonObject6.put("rdtoMaquina",maquina.getCaudal_acs());
-        jsonObject6.put("coCorregido",maquina.getCaudal_acs());
-        jsonObject6.put("coAmbiente",maquina.getCaudal_acs());
-        jsonObject6.put("tiro",maquina.getCaudal_acs());
-        jsonObject6.put("co2Testo",maquina.getCaudal_acs());
-        jsonObject6.put("o2Testo",maquina.getCaudal_acs());
-        jsonObject6.put("lambda",maquina.getCaudal_acs());
+        jsonObject6.put("potenciaUtil",maquina.getPotencia_util());
+        jsonObject6.put("tempGasCombustion",maquina.getTemperatura_gases_combustion());
+        jsonObject6.put("tempAmbLocal",maquina.getTemperatura_ambiente_local());
+        jsonObject6.put("tempAguaGeneradorCalorEntrada",maquina.getTemperatura_agua_generador_calor_entrada());
+        jsonObject6.put("tempAguaGeneradorCalorSalida",maquina.getTemperatura_agua_generador_calor_salida());
+        jsonObject6.put("coMaquina",maquina.getC0_maquina());
+        jsonObject6.put("rdtoMaquina",maquina.getRendimiento_aparato());
+        jsonObject6.put("coCorregido",maquina.getCo_corregido());
+        jsonObject6.put("coAmbiente",maquina.getCo_ambiente());
+        jsonObject6.put("tiro",maquina.getTiro());
+        jsonObject6.put("co2Testo",maquina.getCo2());
+        jsonObject6.put("o2Testo",maquina.getO2());
+        jsonObject6.put("lambda",maquina.getLambda());
 
         try {
             equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(), mantenimiento.getId_mantenimiento());
