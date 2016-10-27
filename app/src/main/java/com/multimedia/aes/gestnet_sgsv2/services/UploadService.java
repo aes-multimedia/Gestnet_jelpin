@@ -483,7 +483,7 @@ public class UploadService extends IntentService {
         jsonObject6.put("tiro",maquina.getTiro());
         jsonObject6.put("co2Testo",maquina.getCo2());
         jsonObject6.put("o2Testo",maquina.getO2());
-        jsonObject6.put("bPrincipal",maquina.getO2());
+        jsonObject6.put("bPrincipal","");
         jsonObject6.put("lambda",maquina.getLambda());
 
         try {
