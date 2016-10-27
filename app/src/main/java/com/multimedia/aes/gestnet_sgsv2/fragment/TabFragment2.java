@@ -373,7 +373,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (!etPotenciaFuego.getText().toString().trim().equals("")&&spTipoEquipamiento.getSelectedItemPosition()!=0){
                 alto+=height;
                 lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getItemAtPosition(spTipoEquipamiento.getSelectedItemPosition()).toString(),etCo2Ambiente.getText().toString()));
+                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getSelectedItem().toString(),etCo2Ambiente.getText().toString()));
                 adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                 lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 spTipoEquipamiento.setSelection(0);
@@ -434,7 +434,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         lvMaquinas.setAdapter(adaptadorListaMaquinas);
     }
 
-    public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado){
+    public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado) throws SQLException {
         if (!arrayListMaquina.isEmpty()){
             for (int i = 0; i < arrayListMaquina.size(); i++) {
                 MaquinaDAO.newMaquina(getContext(),arrayListMaquina.get(i));
@@ -447,14 +447,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         if (!arraylistEquipamiento.isEmpty()){
             for (int i = 0; i < arraylistEquipamiento.size(); i++) {
                 String potencia = arraylistEquipamiento.get(i).potencia;
-                int fk_equipamiento = 0;
-                if (arraylistEquipamiento.get(i).descripcion.equals("Cocina")){
-                    fk_equipamiento = 1;
-                }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno")){
-                    fk_equipamiento = 2;
-                }else if (arraylistEquipamiento.get(i).descripcion.equals("Horno + Grill")){
-                    fk_equipamiento = 3;
-                }
+                int fk_equipamiento = TipoEquipamientoDAO.buscarTipoEquipamientoPorNombre(getContext(),arraylistEquipamiento.get(i).descripcion);
                 String co2 = arraylistEquipamiento.get(i).co2_ambiente;
 
                 EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),1,potencia,co2,fk_equipamiento,mantenimiento.getId_mantenimiento());

@@ -453,7 +453,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("cod_visita_plataformaIB", mantenimientoTerminado.getCod_visita_plataforma());
 
 
-        jsonObject2.put("estadoVisita",mantenimientoTerminado.getFk_estado_visita());
+        jsonObject2.put("fkEstadoVisita",mantenimientoTerminado.getFk_estado_visita());
         jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
         jsonObject2.put("cartaEnviada","");
         jsonObject2.put("fechaEnvioCarta","");
@@ -467,7 +467,7 @@ public class UploadService extends IntentService {
         jsonObject3.put("codigo",maquina.getCodigo_maquina());
         jsonObject3.put("c0ppm",maquina.getC0_maquina());
 
-        jsonObject6.put("fk_maquina",maquina.getCaudal_acs());
+        jsonObject6.put("id_maquina",maquina.getCaudal_acs());
         jsonObject6.put("fk_parte",maquina.getCaudal_acs());
         jsonObject6.put("tempMaxACS",maquina.getCaudal_acs());
         jsonObject6.put("caudalACS",maquina.getCaudal_acs());

@@ -78,7 +78,11 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getPosition()==1){
-                    mantenimientoTerminado = tab2.guardarDatos(mantenimientoTerminado);
+                    try {
+                        mantenimientoTerminado = tab2.guardarDatos(mantenimientoTerminado);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }else if (tab.getPosition()==2){
                     mantenimientoTerminado = tab3.guardarDatos(mantenimientoTerminado);
                 }

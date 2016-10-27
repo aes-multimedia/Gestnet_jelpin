@@ -298,15 +298,15 @@ public class Impresora {
 					String tip_equ = "";
 					String fuegos = "N. Fuegos/Potencia: "+equipamiento.get(j).getPotencia_fuegos()+"\n";
 					switch (equ){
-						case 0:
+						case 1:
 							tip_equ = "Cocina"+"\n";
 							datos_equipamientos+=tip_equ+fuegos;
 							break;
-						case 1:
+						case 2:
 							tip_equ = "Horno"+"\n";
 							datos_equipamientos+=tip_equ+fuegos;
 							break;
-						case 2:
+						case 3:
 							tip_equ = "Horno + Grill"+"\n";
 							datos_equipamientos+=tip_equ+fuegos;
 							break;
