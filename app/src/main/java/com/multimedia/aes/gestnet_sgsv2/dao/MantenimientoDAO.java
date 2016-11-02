@@ -29,15 +29,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   String telefono5_usuario, String email_usuario, String moroso_usuario,
 										   String observaciones_usuario, int fk_direccion, String direccion,
 										   String cod_postal, String provincia, String municipio, String latitud,
-										   String longitud, int fk_maquina, String tipo_maquina, String modelo_maquina,
-										   String marca_maquina, int uso_maquina, int potencia_maquina,
-										   String puesta_marcha_maquina, int codigo_maquina, String co_maquina,
-										   String temperatura_max_acs_maquina, String caudal_acs_maquina,
-										   String potencia_util_maquina, String temperatura_gases_combustion_maquina,
-										   String temperatura_ambiente_local_maquina,
-										   String temperatura_agua_generador_calor_entrada_maquina,
-										   String temperatura_agua_generador_calor_salida_maquina,
-										   String fecha_creacion,
+										   String longitud,String fecha_creacion,
 										   String fecha_aviso, String fecha_visita, String visita_duplicada,
 										   String fecha_reparacion, String num_parte, int fk_tipo, int fk_user_asignacion,
 										   int fk_horario, String descripcion_horario, String franja_horaria,
@@ -65,15 +57,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 											telefono5_usuario, email_usuario, moroso_usuario,
 											observaciones_usuario, fk_direccion, direccion,
 											cod_postal, provincia, municipio, latitud,
-											longitud, fk_maquina, tipo_maquina, modelo_maquina,
-											marca_maquina, uso_maquina, potencia_maquina,
-											puesta_marcha_maquina, codigo_maquina, co_maquina,
-											temperatura_max_acs_maquina, caudal_acs_maquina,
-											potencia_util_maquina, temperatura_gases_combustion_maquina,
-											temperatura_ambiente_local_maquina,
-											temperatura_agua_generador_calor_entrada_maquina,
-											temperatura_agua_generador_calor_salida_maquina,
-											fecha_creacion,
+											longitud,fecha_creacion,
 											fecha_aviso, fecha_visita, visita_duplicada,
 											fecha_reparacion, num_parte, fk_tipo, fk_user_asignacion,
 											fk_horario, descripcion_horario, franja_horaria,
@@ -113,15 +97,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 													String telefono5_usuario, String email_usuario, String moroso_usuario,
 													String observaciones_usuario, int fk_direccion, String direccion,
 													String cod_postal, String provincia, String municipio, String latitud,
-													String longitud, int fk_maquina, String tipo_maquina, String modelo_maquina,
-													String marca_maquina, int uso_maquina, int potencia_maquina,
-													String puesta_marcha_maquina, int codigo_maquina, String co_maquina,
-													String temperatura_max_acs_maquina, String caudal_acs_maquina,
-													String potencia_util_maquina, String temperatura_gases_combustion_maquina,
-													String temperatura_ambiente_local_maquina,
-													String temperatura_agua_generador_calor_entrada_maquina,
-													String temperatura_agua_generador_calor_salida_maquina,
-													String fecha_creacion,
+													String longitud,String fecha_creacion,
 													String fecha_aviso, String fecha_visita, String visita_duplicada,
 													String fecha_reparacion, String num_parte, int fk_tipo, int fk_user_asignacion,
 													int fk_horario, String descripcion_horario, String franja_horaria,
@@ -149,15 +125,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										telefono5_usuario, email_usuario, moroso_usuario,
 										observaciones_usuario, fk_direccion, direccion,
 										cod_postal, provincia, municipio, latitud,
-										longitud, fk_maquina, tipo_maquina, modelo_maquina,
-										marca_maquina, uso_maquina, potencia_maquina,
-										puesta_marcha_maquina, codigo_maquina, co_maquina,
-										temperatura_max_acs_maquina, caudal_acs_maquina,
-										potencia_util_maquina, temperatura_gases_combustion_maquina,
-										temperatura_ambiente_local_maquina,
-										temperatura_agua_generador_calor_entrada_maquina,
-										temperatura_agua_generador_calor_salida_maquina,
-										fecha_creacion,
+										longitud,fecha_creacion,
 										fecha_aviso, fecha_visita, visita_duplicada,
 										fecha_reparacion, num_parte, fk_tipo, fk_user_asignacion,
 										fk_horario, descripcion_horario, franja_horaria,
@@ -270,11 +238,6 @@ public class MantenimientoDAO extends DBHelperMOS {
 		String cod_postal = mantenimiento.getCod_postal();
 		String provincia = mantenimiento.getProvincia();
 		String municipio = mantenimiento.getMunicipio();
-		int fk_maquina = mantenimiento.getFk_maquina();
-		String tipo_maquina = mantenimiento.getTipo_maquina();
-		String modelo_maquina = mantenimiento.getModelo_maquina();
-		String marca_maquina = mantenimiento.getMarca_maquina();
-		int uso_maquina = mantenimiento.getUso_maquina();
 		String fecha_creacion = mantenimiento.getFecha_creacion();
 		String fecha_aviso = mantenimiento.getFecha_aviso();
 		String fecha_visita = mantenimiento.getFecha_visita();
@@ -367,11 +330,6 @@ public class MantenimientoDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Mantenimiento.COD_POSTAL, cod_postal);
 		updateBuilder.updateColumnValue(Mantenimiento.PROVINCIA, provincia);
 		updateBuilder.updateColumnValue(Mantenimiento.MUNICIPIO, municipio);
-		updateBuilder.updateColumnValue(Mantenimiento.FK_MAQUINA, fk_maquina);
-		updateBuilder.updateColumnValue(Mantenimiento.TIPO_MAQUINA, tipo_maquina);
-		updateBuilder.updateColumnValue(Mantenimiento.MODELO_MAQUINA, modelo_maquina);
-		updateBuilder.updateColumnValue(Mantenimiento.MARCA_MAQUINA, marca_maquina);
-		updateBuilder.updateColumnValue(Mantenimiento.USO_MAQUINA,uso_maquina );
 		updateBuilder.updateColumnValue(Mantenimiento.FECHA_CREACION, fecha_creacion);
 		updateBuilder.updateColumnValue(Mantenimiento.FECHA_AVISO, fecha_aviso);
 		updateBuilder.updateColumnValue(Mantenimiento.FECHA_VISITA, fecha_visita);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -523,129 +524,6 @@ public class GuardarMantenimientosLogin {
             }else{
                 observaciones_usuario = jsonObject1.getString("observaciones");
             }
-            //////////////////////////////////////////////////////////////////////////////////////////////
-            jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
-            String tipo_maquina;
-            if (jsonObject1.getString("fk_tipo_caldera").equals("null")){
-                tipo_maquina  ="";
-            }else{
-                tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
-            }
-            String modelo_maquina;
-            if (jsonObject1.getString("modelo").equals("null")){
-                modelo_maquina  ="";
-            }else{
-                modelo_maquina = jsonObject1.getString("modelo");
-            }
-            String marca_maquina;
-            if (jsonObject1.getString("fk_marca").equals("null")){
-                marca_maquina  ="";
-            }else{
-                marca_maquina = jsonObject1.getString("fk_marca");
-            }
-            int uso_maquina;
-            if (jsonObject1.getString("fk_uso").equals("null")||jsonObject1.getString("fk_uso").equals("")||jsonObject1.getString("fk_uso").equals("0")){
-                uso_maquina = 3;
-            }else{
-                uso_maquina = jsonObject1.getInt("fk_uso");
-                if (uso_maquina>3){
-                    uso_maquina = 3;
-                }
-            }
-            int potencia_maquina = 0;
-            if (jsonObject1.getString("potencia").equals("null")||jsonObject1.getString("potencia").equals("")){
-                potencia_maquina = 0;
-            }else{
-                switch (jsonObject1.getString("potencia")){
-                    case "20":
-                        potencia_maquina = 11;
-                        break;
-                    case "23":
-                        potencia_maquina = 12;
-                        break;
-                    case "24":
-                        potencia_maquina = 13;
-                        break;
-                    case "27":
-                        potencia_maquina = 16;
-                        break;
-                    case "28":
-                        potencia_maquina = 17;
-                        break;
-                    case "32":
-                        potencia_maquina = 22;
-                        break;
-                    case "34":
-                        potencia_maquina = 23;
-                        break;
-                    case "35":
-                        potencia_maquina = 24;
-                        break;
-
-                }
-            }
-            String puesta_marcha_maquina;
-            if (jsonObject1.getString("puesta_marcha").equals("null")||jsonObject1.getString("puesta_marcha").equals("")){
-                puesta_marcha_maquina = "0000-00-00";
-            }else{
-                puesta_marcha_maquina = jsonObject1.getString("puesta_marcha");
-            }
-
-            int codigo_maquina;
-            if (jsonObject1.getString("codigo_maquina").equals("null")){
-                codigo_maquina=0;
-            }else{
-                codigo_maquina=jsonObject1.getInt("codigo_maquina");
-            }
-            String co_maquina;
-            if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")||jsonObject1.getString("c0ppm").equals("0")){
-                co_maquina="";
-            }else{
-                co_maquina=jsonObject1.getString("c0ppm");
-            }
-            String temperatura_max_acs_maquina;
-            if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")||jsonObject1.getString("tempMaxACS").equals("0")){
-                temperatura_max_acs_maquina="";
-            }else{
-                temperatura_max_acs_maquina=jsonObject1.getString("tempMaxACS");
-            }
-            String caudal_acs_maquina;
-            if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")||jsonObject1.getString("caudalACS").equals("0")){
-                caudal_acs_maquina="";
-            }else{
-                caudal_acs_maquina=jsonObject1.getString("caudalACS");
-            }
-            String potencia_util_maquina;
-            if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")||jsonObject1.getString("potenciaUtil").equals("0")){
-                potencia_util_maquina="";
-            }else{
-                potencia_util_maquina=jsonObject1.getString("potenciaUtil");
-            }
-            String temperatura_gases_combustion_maquina;
-            if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")||jsonObject1.getString("tempGasCombustion").equals("0")){
-                temperatura_gases_combustion_maquina="";
-            }else{
-                temperatura_gases_combustion_maquina=jsonObject1.getString("tempGasCombustion");
-            }
-            String temperatura_ambiente_local_maquina;
-            if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")||jsonObject1.getString("tempAmbLocal").equals("0")){
-                temperatura_ambiente_local_maquina="";
-            }else{
-                temperatura_ambiente_local_maquina=jsonObject1.getString("tempAmbLocal");
-            }
-            String temperatura_agua_generador_calor_entrada_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("0")){
-                temperatura_agua_generador_calor_entrada_maquina="";
-            }else{
-                temperatura_agua_generador_calor_entrada_maquina=jsonObject1.getString("tempAguaGeneradorCalorEntrada");
-            }
-            String temperatura_agua_generador_calor_salida_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("0")){
-                temperatura_agua_generador_calor_salida_maquina="";
-            }else{
-                temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
-            }
-
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, hash, cod_barras, fk_user_creador,
                     fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
                     nombre_usuario, dni_usuario, telefono1_usuario,
@@ -653,15 +531,7 @@ public class GuardarMantenimientosLogin {
                     telefono5_usuario, email_usuario, moroso_usuario,
                     observaciones_usuario, fk_direccion, direccion,
                     cod_postal, provincia, municipio, latitud,
-                    longitud, fk_maquina, tipo_maquina, modelo_maquina,
-                    marca_maquina, uso_maquina, potencia_maquina,
-                    puesta_marcha_maquina, codigo_maquina, co_maquina,
-                    temperatura_max_acs_maquina, caudal_acs_maquina,
-                    potencia_util_maquina, temperatura_gases_combustion_maquina,
-                    temperatura_ambiente_local_maquina,
-                    temperatura_agua_generador_calor_entrada_maquina,
-                    temperatura_agua_generador_calor_salida_maquina,
-                    fecha_creacion,
+                    longitud,fecha_creacion,
                     fecha_aviso, fecha_visita, visita_duplicada,
                     fecha_reparacion, num_parte, fk_tipo, fk_user_asignacion,
                     fk_horario, descripcion_horario, franja_horaria,

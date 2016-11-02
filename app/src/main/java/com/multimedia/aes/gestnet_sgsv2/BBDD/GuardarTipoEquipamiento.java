@@ -46,7 +46,7 @@ public class GuardarTipoEquipamiento {
             }
         }
         if (bien){
-            ((Login)context).siguienteActivity();
+            new GuardarMaquinaMantenimiento(context,Json);
         }else{
             ((Login)context).sacarMensaje("error tipo equipamiento");
         }

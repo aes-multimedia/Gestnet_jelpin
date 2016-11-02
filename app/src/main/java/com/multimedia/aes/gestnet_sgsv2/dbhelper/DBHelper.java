@@ -14,6 +14,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
+import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.MotivosNoRep;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
@@ -168,6 +169,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.maquinaDao = getDao(Maquina.class);
 		}
 		return BBDDConstantes.maquinaDao;
+	}
+	public Dao<MaquinaMantenimiento, Integer> getMaquinaMantenimientoDAO() throws SQLException {
+		if (BBDDConstantes.maquinaMantenimientoDao == null) {
+			BBDDConstantes.maquinaMantenimientoDao = getDao(MaquinaMantenimiento.class);
+		}
+		return BBDDConstantes.maquinaMantenimientoDao;
 	}
 	public Dao<MotivosNoRep, Integer> getMotivosNoRepDAO() throws SQLException {
 		if (BBDDConstantes.motivosNoRepDao == null) {

@@ -458,7 +458,7 @@ public class UploadService extends IntentService {
         jsonObject2.put("cartaEnviada","");
         jsonObject2.put("fechaEnvioCarta","");
 
-        jsonObject3.put("id_maquina",mantenimiento.getFk_maquina());
+        jsonObject3.put("id_maquina",maquina.getId_maquina());
         jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
         jsonObject3.put("fkMarca",maquina.getFk_marca_maquina());
         jsonObject3.put("potencia", PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquina.getFk_potencia_maquina()));
@@ -495,7 +495,7 @@ public class UploadService extends IntentService {
             for (int i = 0; i < equipamientoCalderas.size(); i++) {
                 JSONObject jsonObject5 = new JSONObject();
                 jsonObject5.put("potencia", equipamientoCalderas.get(i).getPotencia_fuegos());
-                jsonObject5.put("fk_maquina", mantenimiento.getFk_maquina());
+                jsonObject5.put("fk_maquina", maquina.getId_maquina());
                 jsonObject5.put("idTipoEquipamientos", equipamientoCalderas.get(i).getFk_tipo_equipamiento());
                 jsonObject4.put(jsonObject5);
             }

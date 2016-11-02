@@ -33,7 +33,10 @@ import com.multimedia.aes.gestnet_sgsv2.Mapa;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloDatosCliente;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloParteIniciado;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
@@ -46,6 +49,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -57,12 +61,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private Button btnIniciarParte,btnConfirmarObsTel,btnBrother;
     private Mantenimiento mantenimiento = null;
     private ImageButton ibLocation,ibIr;
-
-
     private ImageView mImageView;
     private Bitmap mBitmap;
     private Button mBtnPrint;
     private ArrayList<String> mFiles = new ArrayList<String>();
+    private MaquinaMantenimiento maquina=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+            maquina = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -194,22 +198,16 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else{
             txtTipoUrgencia.setText("BONIFICABLE");
         }
-        if (mantenimiento.getTipo_maquina().equals("1")){
-            txtTipo.setText("Estanca");
-        }else if (mantenimiento.getTipo_maquina().equals("2")){
-            txtTipo.setText("Atmosferica");
-        }else if (mantenimiento.getTipo_maquina().equals("6")){
-            txtTipo.setText("Condensacion");
-        }else if (mantenimiento.getTipo_maquina().equals("7")){
-            txtTipo.setText("Estilo Mixto");
-        }else if (mantenimiento.getTipo_maquina().equals("8")){
-            txtTipo.setText("Calentador Gas");
-        }else{
-            txtTipo.setText("Otras");
+        String tipo=null;
+        try {
+            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        txtTipo.setText(tipo);
 
-        txtModelo.setText(mantenimiento.getModelo_maquina());
-        txtMarca.setText(mantenimiento.getMarca_maquina());
+        txtModelo.setText(maquina.getModelo_maquina());
+        txtMarca.setText(maquina.getFk_marca_maquina());
         etNombre.setText(mantenimiento.getNombre_usuario());
         etDni.setText(mantenimiento.getDni_usuario());
         txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());

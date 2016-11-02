@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MotivosNoRepDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.SubTiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
@@ -280,7 +281,7 @@ public class Impresora {
 		String datos_maquinas = "";
 		for (int i = 0; i < maquinas.size(); i++) {
 			String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
-			String cod = maquinas.get(i).getCodigo_maquina();
+			String cod = TipoCalderaDAO.buscarTipoCalderaPorId(activity,maquinas.get(i).getFk_tipo_maquina()).getNombre_tipo_caldera();
 			String codigo = "Codigo: "+cod+"\n";
 			String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(activity,maquinas.get(i).getFk_marca_maquina());
 			String marca = "Marca: "+mar+"\n";
