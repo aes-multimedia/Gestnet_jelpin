@@ -457,6 +457,13 @@ public class MantenimientoDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Mantenimiento.NOMBRE_USUARIO,nombre);
 		updateBuilder.update();
 	}
+	public static void actualizarDniUsuario(Context context, String dni, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.DNI_USUARIO,dni);
+		updateBuilder.update();
+	}
 	public static void actualizarTelefono1(Context context, String tlf1, int id_mantenimiento) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();

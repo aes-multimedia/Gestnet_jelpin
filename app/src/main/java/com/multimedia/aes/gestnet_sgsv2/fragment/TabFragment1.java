@@ -34,6 +34,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.hilos.HiloDatosCliente;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloParteIniciado;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
 
@@ -51,7 +52,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
             txtTipo,txtMarca,txtModelo,txtDireccion, txtCodigoBarras;
-    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre;
+    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre,etDni;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5;
     private Button btnIniciarParte,btnConfirmarObsTel,btnBrother;
     private Mantenimiento mantenimiento = null;
@@ -98,6 +99,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         etTelefono4 = (EditText)vista.findViewById(R.id.etTelefono4);
         etTelefono5 = (EditText)vista.findViewById(R.id.etTelefono5);
         etNombre = (EditText)vista.findViewById(R.id.etNombre);
+        etDni = (EditText)vista.findViewById(R.id.etDni);
 
         btnIniciarParte = (Button)vista.findViewById(R.id.btnIniciarParte);
         btnConfirmarObsTel = (Button)vista.findViewById(R.id.btnConfirmarObsTel);
@@ -209,6 +211,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         txtModelo.setText(mantenimiento.getModelo_maquina());
         txtMarca.setText(mantenimiento.getMarca_maquina());
         etNombre.setText(mantenimiento.getNombre_usuario());
+        etDni.setText(mantenimiento.getDni_usuario());
         txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());
 
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());
@@ -250,6 +253,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etTelefono4.setEnabled(false);
             etTelefono5.setEnabled(false);
             etNombre.setEnabled(false);
+            etDni.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }else if (estado==3){
             btnIniciarParte.setText("PARTE CERRADO");
@@ -262,6 +266,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             etTelefono4.setEnabled(false);
             etTelefono5.setEnabled(false);
             etNombre.setEnabled(false);
+            etDni.setEnabled(false);
             btnConfirmarObsTel.setVisibility(View.GONE);
         }
         txtCodigoBarras.setText("Codigo barras: "+mantenimiento.getCod_barras());
@@ -282,6 +287,13 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             if (!mantenimiento.getNombre_usuario().equals(etNombre.getText())&&!etNombre.getText().toString().trim().equals("")){
                 try {
                     MantenimientoDAO.actualizarNombreUsuario(getContext(),etNombre.getText().toString(),mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!mantenimiento.getDni_usuario().equals(etDni.getText())&&!etDni.getText().toString().trim().equals("")){
+                try {
+                    MantenimientoDAO.actualizarDniUsuario(getContext(),etDni.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -328,6 +340,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
+            new HiloDatosCliente(getContext(),mantenimiento.getId_mantenimiento()).execute();
             Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
         }else if (view.getId() == R.id.ivLlamar1){
             if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){

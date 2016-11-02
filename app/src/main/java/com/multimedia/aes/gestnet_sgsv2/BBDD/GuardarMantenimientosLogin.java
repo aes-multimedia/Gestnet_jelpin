@@ -523,6 +523,7 @@ public class GuardarMantenimientosLogin {
             }else{
                 observaciones_usuario = jsonObject1.getString("observaciones");
             }
+            //////////////////////////////////////////////////////////////////////////////////////////////
             jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
             String tipo_maquina;
             if (jsonObject1.getString("fk_tipo_caldera").equals("null")){

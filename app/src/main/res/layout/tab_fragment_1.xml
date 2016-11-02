@@ -280,7 +280,19 @@
                     android:id="@+id/etNombre"
                     android:background="@drawable/edit_texts_naranja"
                     android:layout_marginTop="10dp"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:hint="Nombre" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/etDni"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:hint="DNI" />
 
                 <LinearLayout
                     android:orientation="horizontal"
