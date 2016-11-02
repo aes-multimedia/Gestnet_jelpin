@@ -27,6 +27,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
@@ -37,6 +38,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
+import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
@@ -100,6 +102,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private LinearLayout llCo2;
     private List<Equipamiento> equipamientos= null;
+    private List<MaquinaMantenimiento>maquinaMantenimientos=null;
+    private MaquinaMantenimiento maquina = null;
 
 
     @Override
@@ -109,7 +113,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
-            equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),mantenimiento.getFk_maquina());
+            maquinaMantenimientos = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
+            maquina = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
+            equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),maquina.getId_maquina());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -160,12 +166,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
-            String tipo = null;
-            if (mantenimiento.getTipo_maquina().equals("null")||mantenimiento.getTipo_maquina().equals("")) {
-            }else{
-                tipo= mantenimiento.getTipo_maquina();
-                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),Integer.parseInt(tipo)).getNombre_tipo_caldera();
-            }
+            String tipo;
+            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo()).getNombre_tipo_caldera();
             if (tipo!=null) {
                 String myString = tipo;
                 ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
@@ -185,11 +187,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
             String marca = null;
-            if (mantenimiento.getMarca_maquina().equals("null")||mantenimiento.getMarca_maquina().equals("")) {
-            }else{
-                marca= mantenimiento.getMarca_maquina();
-                marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),Integer.parseInt(marca)).getNombre_marca_caldera();
-            }
+            marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina()).getNombre_marca_caldera();
             if (marca!=null) {
                 String myString = marca;
                 ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
@@ -210,20 +208,14 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
 
             String uso = null;
-            if (mantenimiento.getUso_maquina()!=-1&&mantenimiento.getUso_maquina()<=3){
-                int uso1 = mantenimiento.getUso_maquina();
-                uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
-                if (uso!=null) {
-                    String myString = uso;
-                    ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
-                    int spinnerPosition = myAdap.getPosition(myString);
-                    spUso.setSelection(spinnerPosition);
-                }
-            }else{
-                spUso.setSelection(3);
+            int uso1 = maquina.getFk_uso_maquina();
+            uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+            if (uso!=null) {
+                String myString = uso;
+                ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spUso.setSelection(spinnerPosition);
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -239,8 +231,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spPotencia.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, potencias));
 
             String potencia = null;
-            if (mantenimiento.getPotencia_maquina()!=0) {
-                int potencia1 = mantenimiento.getPotencia_maquina();
+            if (maquina.getFk_potencia_maquina()!=0) {
+                int potencia1 = maquina.getFk_potencia_maquina();
                 try {
                     potencia = PotenciaDAO.buscarPotenciaPorId(getContext(),potencia1).getPotencia();
                 } catch (SQLException e) {
@@ -269,9 +261,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
 
         String puesta = null;
-        if (mantenimiento.getPuesta_marcha_maquina().equals("null")||mantenimiento.getPuesta_marcha_maquina().equals("")) {
+        if (maquina.getPuesta_marcha_maquina().equals("null")||maquina.getPuesta_marcha_maquina().equals("")) {
         }else{
-            puesta = mantenimiento.getPuesta_marcha_maquina();
+            puesta = maquina.getPuesta_marcha_maquina();
             puesta = puesta.substring(0,4);
         }
         if (puesta!=null) {
@@ -280,8 +272,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             int spinnerPosition = myAdap.getPosition(myString);
             spPuestaMarcha.setSelection(spinnerPosition);
         }
-        if (!mantenimiento.getModelo_maquina().equals("null")&&!mantenimiento.getModelo_maquina().equals("")) {
-            etModelo.setText(mantenimiento.getModelo_maquina());
+        if (!maquina.getModelo_maquina().equals("null")&&!maquina.getModelo_maquina().equals("")) {
+            etModelo.setText(maquina.getModelo_maquina());
         }
         try {
             listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
@@ -294,14 +286,14 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        etC0.setText(mantenimiento.getCo_maquina()+"");
-        etTempMaxACS.setText(mantenimiento.getTemperatura_max_acs_maquina()+"");
-        etCaudalACS.setText(mantenimiento.getCaudal_acs_maquina()+"");
-        etPotenciaUtil.setText(mantenimiento.getPotencia_util_maquina()+"");
-        etTempGasesComb.setText(mantenimiento.getTemperatura_gases_combustion_maquina()+"");
-        etTempAmbienteLocal.setText(mantenimiento.getTemperatura_ambiente_local_maquina()+"");
-        etTempAguaGeneCalorEntrada.setText(mantenimiento.getTemperatura_agua_generador_calor_entrada_maquina());
-        etTempAguaGeneCalorSalida.setText(mantenimiento.getTemperatura_agua_generador_calor_salida_maquina());
+        etC0.setText(maquina.getC0_maquina()+"");
+        etTempMaxACS.setText(maquina.getTemperatura_max_acs()+"");
+        etCaudalACS.setText(maquina.getCaudal_acs()+"");
+        etPotenciaUtil.setText(maquina.getPotencia_util()+"");
+        etTempGasesComb.setText(maquina.getTemperatura_gases_combustion()+"");
+        etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local()+"");
+        etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada());
+        etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida());
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
 

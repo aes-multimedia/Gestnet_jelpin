@@ -128,7 +128,6 @@ public class GuardarMaquinaMantenimiento {
                         temperatura_gases_combustion, temperatura_ambiente_local,
                         temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
                         rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal)){
-
                 }
             }
 

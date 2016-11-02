@@ -49,6 +49,12 @@ public class ModificarMantenimientos {
             }else{
                 fk_user_creador = jsonArray.getJSONObject(i).getInt("fk_user_creador");
             }
+            String cod_barras;
+            if (jsonArray.getJSONObject(i).getString("cod_barras").equals("null")){
+                cod_barras = "";
+            }else{
+                cod_barras = jsonArray.getJSONObject(i).getString("cod_barras");
+            }
             int fk_tecnico;
             if (jsonArray.getJSONObject(i).getString("fk_tecnico").equals("null")){
                 fk_tecnico = -1;
@@ -241,124 +247,14 @@ public class ModificarMantenimientos {
             String email_usuario = jsonObject1.getString("email");
             String moroso_usuario = jsonObject1.getString("moroso");
             String observaciones_usuario = jsonObject1.getString("observaciones");
-            jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(0);
-            String tipo_maquina = jsonObject1.getString("fk_tipo_caldera");
-            String modelo_maquina = jsonObject1.getString("modelo");
-            String marca_maquina = jsonObject1.getString("nombre");
-            int uso_maquina;
-            if (jsonObject1.getString("fk_uso").equals("null")){
-                uso_maquina = 3;
-            }else{
-                uso_maquina = jsonObject1.getInt("fk_uso");
-            }
-            int potencia_maquina = 0;
-            if (jsonObject1.getString("potencia").equals("null")||jsonObject1.getString("potencia").equals("")){
-                potencia_maquina = 0;
-            }else{
-                switch (jsonObject1.getString("potencia")){
-                    case "20":
-                        potencia_maquina = 11;
-                        break;
-                    case "23":
-                        potencia_maquina = 12;
-                        break;
-                    case "24":
-                        potencia_maquina = 13;
-                        break;
-                    case "27":
-                        potencia_maquina = 16;
-                        break;
-                    case "28":
-                        potencia_maquina = 17;
-                        break;
-                    case "32":
-                        potencia_maquina = 22;
-                        break;
-                    case "34":
-                        potencia_maquina = 23;
-                        break;
-                    case "35":
-                        potencia_maquina = 24;
-                        break;
-                }
-            }
-            String puesta_marcha_maquina;
-            if (jsonObject1.getString("puesta_marcha").equals("null")||jsonObject1.getString("puesta_marcha").equals("")){
-                puesta_marcha_maquina = "0000-00-00";
-            }else{
-                puesta_marcha_maquina = jsonObject1.getString("puesta_marcha");
-            }
-
-            int codigo_maquina;
-            if (jsonObject1.getString("codigo_maquina").equals("null")){
-                codigo_maquina=-1;
-            }else{
-                codigo_maquina=jsonObject1.getInt("codigo_maquina");
-            }
-            String co_maquina;
-            if (jsonObject1.getString("c0ppm").equals("null")||jsonObject1.getString("c0ppm").equals("")){
-                co_maquina="0";
-            }else{
-                co_maquina=jsonObject1.getString("c0ppm");
-            }
-            String temperatura_max_acs_maquina;
-            if (jsonObject1.getString("tempMaxACS").equals("null")||jsonObject1.getString("tempMaxACS").equals("")){
-                temperatura_max_acs_maquina="0";
-            }else{
-                temperatura_max_acs_maquina=jsonObject1.getString("tempMaxACS");
-            }
-            String caudal_acs_maquina;
-            if (jsonObject1.getString("caudalACS").equals("null")||jsonObject1.getString("caudalACS").equals("")){
-                caudal_acs_maquina="0";
-            }else{
-                caudal_acs_maquina=jsonObject1.getString("caudalACS");
-            }
-            String potencia_util_maquina;
-            if (jsonObject1.getString("potenciaUtil").equals("null")||jsonObject1.getString("potenciaUtil").equals("")){
-                potencia_util_maquina="0";
-            }else{
-                potencia_util_maquina=jsonObject1.getString("potenciaUtil");
-            }
-            String temperatura_gases_combustion_maquina;
-            if (jsonObject1.getString("tempGasCombustion").equals("null")||jsonObject1.getString("tempGasCombustion").equals("")){
-                temperatura_gases_combustion_maquina="0";
-            }else{
-                temperatura_gases_combustion_maquina=jsonObject1.getString("tempGasCombustion");
-            }
-            String temperatura_ambiente_local_maquina;
-            if (jsonObject1.getString("tempAmbLocal").equals("null")||jsonObject1.getString("tempAmbLocal").equals("")){
-                temperatura_ambiente_local_maquina="0";
-            }else{
-                temperatura_ambiente_local_maquina=jsonObject1.getString("tempAmbLocal");
-            }
-            String temperatura_agua_generador_calor_entrada_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorEntrada").equals("")){
-                temperatura_agua_generador_calor_entrada_maquina="0";
-            }else{
-                temperatura_agua_generador_calor_entrada_maquina=jsonObject1.getString("tempAguaGeneradorCalorEntrada");
-            }
-            String temperatura_agua_generador_calor_salida_maquina;
-            if (jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("null")||jsonObject1.getString("tempAguaGeneradorCalorSalida").equals("")){
-                temperatura_agua_generador_calor_salida_maquina="0";
-            }else{
-                temperatura_agua_generador_calor_salida_maquina=jsonObject1.getString("tempAguaGeneradorCalorSalida");
-            }
-            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, base64, fk_user_creador,
+            Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, cod_barras, fk_user_creador,
                     fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
                     nombre_usuario, dni_usuario, telefono1_usuario,
                     telefono2_usuario, telefono3_usuario, telefono4_usuario,
                     telefono5_usuario, email_usuario, moroso_usuario,
                     observaciones_usuario, fk_direccion, direccion,
                     cod_postal, provincia, municipio, latitud,
-                    longitud, fk_maquina, tipo_maquina, modelo_maquina,
-                    marca_maquina, uso_maquina, potencia_maquina,
-                    puesta_marcha_maquina, codigo_maquina, co_maquina,
-                    temperatura_max_acs_maquina, caudal_acs_maquina,
-                    potencia_util_maquina, temperatura_gases_combustion_maquina,
-                    temperatura_ambiente_local_maquina,
-                    temperatura_agua_generador_calor_entrada_maquina,
-                    temperatura_agua_generador_calor_salida_maquina,
-                    fecha_creacion,
+                    longitud,fecha_creacion,
                     fecha_aviso, fecha_visita, visita_duplicada,
                     fecha_reparacion, num_parte, fk_tipo, fk_user_asignacion,
                     fk_horario, descripcion_horario, franja_horaria,
@@ -371,7 +267,7 @@ public class ModificarMantenimientos {
                     producto_endesa, fk_tipo_os, fk_tipo_producto, pagado_endesa,
                     ciclo_liq_endesa, importe_pago_endesa, fecha_pagado_endesa,
                     pagado_operario, fecha_anulado, fecha_modificacion_tecnico,
-                    fk_remoto_central, fac_nombre, fac_direccion, fac_cp,
+                    fk_remoto_central,  fac_nombre, fac_direccion, fac_cp,
                     fac_poblacion, fac_provincia, fac_DNI, fac_email,
                     fac_telefonos, otros_sintomas, fecha_baja, fac_baja_stock,
                     estado_android, fk_tipo_urgencia, fecha_cierre, num_lote,
