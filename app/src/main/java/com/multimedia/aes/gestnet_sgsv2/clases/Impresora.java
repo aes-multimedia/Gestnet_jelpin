@@ -119,7 +119,7 @@ public class Impresora {
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String cod_barras = mantenimiento.getCod_barras();
-		String datos_cliente = "\n\n"+"   "+cod_barras+"   " + "\n";
+		String datos_cliente = "   "+cod_barras+"   " + "\n";
 		String textoImpresion =datos_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));
 		Thread.sleep(1000);

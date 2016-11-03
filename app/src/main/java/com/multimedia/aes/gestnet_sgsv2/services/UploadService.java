@@ -444,8 +444,6 @@ public class UploadService extends IntentService {
         jsonObject1.put("caudalACS", maquina.getCaudal_acs());
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
         jsonObject1.put("subtipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
-        String base64 = loadTicketFromStorage();
-        jsonObject1.put("base64", base64);
         jsonObject1.put("bAceptaRepIB", mantenimientoTerminado.getReparacion());
         jsonObject1.put("bPrecinteIB", mantenimientoTerminado.getPrecintado());
         jsonObject1.put("bRepInSituIB", "0");
@@ -463,6 +461,7 @@ public class UploadService extends IntentService {
         jsonObject3.put("id_maquina",maquina.getId_maquina());
         jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
         jsonObject3.put("fkMarca",maquina.getFk_marca_maquina());
+        jsonObject3.put("modelo",maquina.getModelo_maquina());
         jsonObject3.put("potencia", PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquina.getFk_potencia_maquina()));
         jsonObject3.put("fkUso",maquina.getFk_uso_maquina());
         jsonObject3.put("puestaEnMarcha",maquina.getPuesta_marcha_maquina());
@@ -487,9 +486,9 @@ public class UploadService extends IntentService {
         jsonObject6.put("o2Testo",maquina.getO2());
         jsonObject6.put("lambda",maquina.getLambda());
         jsonObject6.put("bPrincipal","1");
-
         for (int i = 0; i < maquinas.size(); i++) {
             JSONObject jsonObject7 = new JSONObject();
+            jsonObject7.put("id_maquina",maquinas.get(i).getId_maquina());
             jsonObject7.put("fk_direccion",mantenimiento.getFk_direccion());
             jsonObject7.put("potencia",PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquinas.get(i).getFk_potencia_maquina()));
             jsonObject7.put("fk_tipo_caldera",maquinas.get(i).getFk_tipo_maquina());
