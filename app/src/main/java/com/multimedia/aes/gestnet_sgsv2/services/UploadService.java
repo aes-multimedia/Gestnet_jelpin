@@ -423,7 +423,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
         jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
         jsonObject1.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
-        jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
+        jsonObject1.put("observacionesTecnico", mantenimientoTerminado.getObservaciones_tecnico());
         jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
         jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
         jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
@@ -441,7 +441,7 @@ public class UploadService extends IntentService {
         jsonObject1.put("revEstadoAislamientoTermico", mantenimientoTerminado.getRevision_estado_aislamiento_termico());
         jsonObject1.put("analisisProdCombustion", mantenimientoTerminado.getAnalisis_productos_combustion());
         jsonObject1.put("tipoConductoEvacuacion", mantenimientoTerminado.getTipo_conducto_evacuacion());
-        jsonObject1.put("caudalACS", maquina.getCaudal_acs());
+        jsonObject1.put("caudalACS", mantenimientoTerminado.getCaudal_acs_calculo_potencia());
         jsonObject1.put("revSistemaControl", mantenimientoTerminado.getRevision_sistema_control());
         jsonObject1.put("subtipoVisita", mantenimientoTerminado.getFk_subtipo_visita());
         jsonObject1.put("bAceptaRepIB", mantenimientoTerminado.getReparacion());
