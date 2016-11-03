@@ -34,6 +34,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
@@ -200,14 +201,42 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
         String tipo=null;
         try {
-            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquina.getFk_tipo_maquina())!=null) {
+                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        txtTipo.setText(tipo);
-
-        txtModelo.setText(maquina.getModelo_maquina());
-        txtMarca.setText(maquina.getFk_marca_maquina());
+        if (tipo == null){
+            txtTipo.setVisibility(View.GONE);
+        }else{
+            txtTipo.setVisibility(View.VISIBLE);
+            txtTipo.setText(tipo);
+        }
+        if (maquina.getModelo_maquina().toString().equals("")||maquina.getModelo_maquina().toString().equals("null")){
+            txtModelo.setVisibility(View.GONE);
+        }else {
+            txtModelo.setVisibility(View.VISIBLE);
+            txtModelo.setText(maquina.getModelo_maquina());
+        }
+        String marca = null;
+        try {
+            if (MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina())!=null) {
+                marca = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (marca==null){
+            txtMarca.setVisibility(View.GONE);
+        }else{
+            txtMarca.setVisibility(View.VISIBLE);
+            txtMarca.setText(marca);
+        }
+        if (tipo==null&&marca==null&&(maquina.getModelo_maquina().toString().equals("")||maquina.getModelo_maquina().toString().equals("null"))){
+            txtMarca.setVisibility(View.VISIBLE);
+            txtMarca.setText("No hay datos del equipo");
+        }
         etNombre.setText(mantenimiento.getNombre_usuario());
         etDni.setText(mantenimiento.getDni_usuario());
         txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());
@@ -282,56 +311,56 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
         }else if (view.getId() == R.id.btnConfirmarObsTel){
-            if (!mantenimiento.getNombre_usuario().equals(etNombre.getText())&&!etNombre.getText().toString().trim().equals("")){
+            if (!mantenimiento.getNombre_usuario().equals(etNombre.getText())){
                 try {
                     MantenimientoDAO.actualizarNombreUsuario(getContext(),etNombre.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getDni_usuario().equals(etDni.getText())&&!etDni.getText().toString().trim().equals("")){
+            if (!mantenimiento.getDni_usuario().equals(etDni.getText())){
                 try {
                     MantenimientoDAO.actualizarDniUsuario(getContext(),etDni.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getTelefono1_usuario().equals(etTelefono1.getText())&&!etTelefono1.getText().toString().trim().equals("")){
+            if (!mantenimiento.getTelefono1_usuario().equals(etTelefono1.getText())){
                 try {
                     MantenimientoDAO.actualizarTelefono1(getContext(),etTelefono1.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getTelefono2_usuario().equals(etTelefono2.getText())&&!etTelefono2.getText().toString().trim().equals("")){
+            if (!mantenimiento.getTelefono2_usuario().equals(etTelefono2.getText())){
                 try {
                     MantenimientoDAO.actualizarTelefono2(getContext(),etTelefono2.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getTelefono3_usuario().equals(etTelefono3.getText())&&!etTelefono3.getText().toString().trim().equals("")){
+            if (!mantenimiento.getTelefono3_usuario().equals(etTelefono3.getText())){
                 try {
                     MantenimientoDAO.actualizarTelefono3(getContext(),etTelefono3.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getTelefono4_usuario().equals(etTelefono4.getText())&&!etTelefono4.getText().toString().trim().equals("")){
+            if (!mantenimiento.getTelefono4_usuario().equals(etTelefono4.getText())){
                 try {
                     MantenimientoDAO.actualizarTelefono4(getContext(),etTelefono4.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getTelefono5_usuario().equals(etTelefono5.getText())&&!etTelefono5.getText().toString().trim().equals("")){
+            if (!mantenimiento.getTelefono5_usuario().equals(etTelefono5.getText())){
                 try {
                     MantenimientoDAO.actualizarTelefono5(getContext(),etTelefono5.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (!mantenimiento.getObservaciones_usuario().equals(etObservaciones.getText())&&!etObservaciones.getText().toString().trim().equals("")){
+            if (!mantenimiento.getObservaciones_usuario().equals(etObservaciones.getText())){
                 try {
                     MantenimientoDAO.actualizarObservacionesCliente(getContext(),etObservaciones.getText().toString(),mantenimiento.getId_mantenimiento());
                 } catch (SQLException e) {

@@ -521,7 +521,7 @@ public class UploadService extends IntentService {
         msg.put("usuarios_maquinas",jsonObject3);
         msg.put("sat_datos_maquina_parte",jsonObject6);
         msg.put("usuarios_maquinas_equipamientos",jsonArray);
-        Log.d("JSON",msg.toString());
+        Log.d("JSON11111111",msg.toString());
         return msg;
     }
     private JSONObject rellenarJsonTiket() throws JSONException, IOException {

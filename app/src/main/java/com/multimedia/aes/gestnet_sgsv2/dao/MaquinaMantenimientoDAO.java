@@ -109,7 +109,7 @@ public class MaquinaMantenimientoDAO extends DBHelperMOS {
 	}
 	public static MaquinaMantenimiento buscarMaquinaMantenimientoPorbprincipal(Context context, int id) throws SQLException {
 		cargarDao(context);
-		List<MaquinaMantenimiento> listadoMaquina= dao.queryForEq(MaquinaMantenimiento.ID_MAQUINA, id);
+		List<MaquinaMantenimiento> listadoMaquina= dao.queryForEq(MaquinaMantenimiento.FK_PARTE, id);
 		MaquinaMantenimiento m=null;
 		for (int i = 0; i < listadoMaquina.size(); i++) {
 			if (listadoMaquina.get(i).getbPrincipal()==1){

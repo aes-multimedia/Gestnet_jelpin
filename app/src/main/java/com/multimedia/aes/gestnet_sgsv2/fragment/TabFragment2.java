@@ -166,8 +166,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
-            String tipo;
-            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo()).getNombre_tipo_caldera();
+            String tipo=null;
+            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo())!=null){
+                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo()).getNombre_tipo_caldera();
+            }
             if (tipo!=null) {
                 String myString = tipo;
                 ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
@@ -187,7 +189,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
 
             String marca = null;
-            marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina()).getNombre_marca_caldera();
+            if (MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina())!=null){
+                marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina()).getNombre_marca_caldera();
+            }
             if (marca!=null) {
                 String myString = marca;
                 ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
@@ -209,7 +213,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
             String uso = null;
             int uso1 = maquina.getFk_uso_maquina();
-            uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+            if (UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1)!=null){
+                uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+            }
             if (uso!=null) {
                 String myString = uso;
                 ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();

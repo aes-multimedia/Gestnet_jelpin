@@ -127,7 +127,7 @@ public class HiloDatosCliente extends AsyncTask<Void,Void,Void>{
         return contenido;
     }
     private JSONObject rellenarJsonCliente() throws JSONException {
-        JSONObject jsonObject=null;
+        JSONObject jsonObject=new JSONObject();
         jsonObject.put("id_cliente",mantenimiento.getFk_usuario());
         jsonObject.put("dni",mantenimiento.getDni_usuario());
         jsonObject.put("observaciones",mantenimiento.getObservaciones_usuario());
