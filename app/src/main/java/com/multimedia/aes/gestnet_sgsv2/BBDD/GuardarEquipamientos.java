@@ -50,18 +50,22 @@ public class GuardarEquipamientos {
                 }
                 if (bPrincipal==1) {
                     JSONArray jsonArray2 = jsonArray1.getJSONObject(j).getJSONArray("equipamientosMaquina");
-                    for (int k = 0; k < jsonArray2.length(); k++) {
-                        int id = jsonArray2.getJSONObject(k).getInt("id_equipamiento");
-                        if (EquipamientoDAO.buscarEquipamientoPorId(context, id) == null) {
-                            int fk_maquina = jsonArray2.getJSONObject(k).getInt("fk_maquina");
-                            int fk_tipo_equipamiento = jsonArray2.getJSONObject(k).getInt("fk_tipo_equipamiento");
-                            String potencia_fuegos = jsonArray2.getJSONObject(k).getString("potencia_fuegos");
-                            String codigo_equipamiento = jsonArray2.getJSONObject(k).getString("codigo_equipamiento");
-                            String co2_equipamiento = "34";
-                            if (EquipamientoDAO.newEquipamiento(context, id, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento)) {
-                                bien = true;
-                            } else {
-                                bien = false;
+                    if (jsonArray2.toString().equals("[]")) {
+                        bien = true;
+                    }else{
+                        for (int k = 0; k < jsonArray2.length(); k++) {
+                            int id = jsonArray2.getJSONObject(k).getInt("id_equipamiento");
+                            if (EquipamientoDAO.buscarEquipamientoPorId(context, id) == null) {
+                                int fk_maquina = jsonArray2.getJSONObject(k).getInt("fk_maquina");
+                                int fk_tipo_equipamiento = jsonArray2.getJSONObject(k).getInt("fk_tipo_equipamiento");
+                                String potencia_fuegos = jsonArray2.getJSONObject(k).getString("potencia_fuegos");
+                                String codigo_equipamiento = jsonArray2.getJSONObject(k).getString("codigo_equipamiento");
+                                String co2_equipamiento = "34";
+                                if (EquipamientoDAO.newEquipamiento(context, id, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento)) {
+                                    bien = true;
+                                } else {
+                                    bien = false;
+                                }
                             }
                         }
                     }

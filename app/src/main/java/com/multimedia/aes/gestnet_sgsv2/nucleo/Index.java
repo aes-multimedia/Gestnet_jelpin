@@ -27,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
@@ -112,7 +113,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }else{
                 rellenarArrayMantenimientoFecha(dia);
             }
-            arrayListAveria = new ArrayList(AveriaDAO.buscarTodasLasAverias(this));
+            //arrayListAveria = new ArrayList(AveriaDAO.buscarTodasLasAverias(this));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -140,8 +141,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void rellenarArrayMantenimientoFecha(String fecha) throws SQLException {
         if (MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha)!=null) {
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha));
+        }else if (MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime())!=null){
+            arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime()));
+            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
+
         }else{
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
         }
     }
 

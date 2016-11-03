@@ -45,7 +45,7 @@ public class GuardarMaquinaMantenimiento {
             }
             jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("maquina");
             for (int j = 0; j < jsonArray1.length(); j++) {
-                jsonObject1 = jsonArray.getJSONObject(i).getJSONArray("maquina").getJSONObject(i);
+                jsonObject1 = jsonArray1.getJSONObject(j);
                 int id_maquina;
                 if (jsonObject1.getString("id_maquina").equals("null")){
                     id_maquina  =0;
@@ -128,6 +128,9 @@ public class GuardarMaquinaMantenimiento {
                         temperatura_gases_combustion, temperatura_ambiente_local,
                         temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
                         rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal)){
+                    bien=true;
+                }else{
+                    bien=false;
                 }
             }
 
