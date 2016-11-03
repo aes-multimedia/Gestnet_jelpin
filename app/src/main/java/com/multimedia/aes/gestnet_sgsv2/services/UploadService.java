@@ -53,6 +53,7 @@ public class UploadService extends IntentService {
     private static final String TAG = UploadService.class.getSimpleName();
     private String ipInterna = "192.168.0.228";
     private String ipExterna = "80.58.161.135";
+    private String ipSgs = "82.144.105.90";
     private String puerto = "8085";
     private Tecnico tecnico = null;
     private List<EquipamientoCaldera> equipamientoCalderas = null;
@@ -84,12 +85,12 @@ public class UploadService extends IntentService {
                     Intent localIntent = new Intent(Constantes.ACTION_RUN_ISERVICE)
                             .putExtra(Constantes.EXTRA_PROGRESS, i);
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
-                    //String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
-                    //Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
+                    String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
+                    Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
                     //String mensajeticket = subirTiket(rellenarJsonTiket());
                     //Log.d("-----MENSAJETICKET-----", mensajeticket);
                     rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
-                    /*if (mensajemantenimiento.equals("1")){
+                    if (mensajemantenimiento.equals("1")){
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                         //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
                         //Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
@@ -104,7 +105,7 @@ public class UploadService extends IntentService {
 
                     }else{
                         Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
-                    }*/
+                    }
 
                     Thread.sleep(3000);
                 }
@@ -121,10 +122,10 @@ public class UploadService extends IntentService {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }/* catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
     @Override
     public void onDestroy() {
@@ -136,7 +137,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/carga_datos");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -204,7 +205,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc= null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
+            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/cerrar");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -272,7 +273,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
+            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/carga_imagen");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -339,7 +340,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
+            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/foto");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

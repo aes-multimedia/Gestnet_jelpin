@@ -21,6 +21,7 @@ import java.net.URL;
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private String ipInterna = "192.168.0.228";
     private String ipExterna = "80.58.161.135";
+    private String ipSgs = "82.144.105.90";
     private String puerto = "8085";
     private String mensaje="";
     private String login,pass;
@@ -62,7 +63,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/login");
+            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/usuario/login");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
