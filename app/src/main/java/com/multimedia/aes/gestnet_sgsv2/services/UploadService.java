@@ -61,6 +61,7 @@ public class UploadService extends IntentService {
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
     private ArrayList<Imagenes> arraylistImagenes = new ArrayList<>();
     private List<Maquina> maquinas;
+    private Maquina maquina;
 
     public UploadService() {
         super("UploadService");
@@ -405,13 +406,14 @@ public class UploadService extends IntentService {
         mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getBaseContext(),mantenimientoTerminado.getFk_parte());
         tecnico = TecnicoDAO.buscarTodosLosTecnicos(getBaseContext()).get(0);
         maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
-        Maquina maquina = maquinas.get(0);
+        maquina = maquinas.get(0);
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
         JSONObject jsonObject6 = new JSONObject();
-        JSONArray jsonObject4 = new JSONArray();
+        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArray1 = new JSONArray();
 
         jsonObject1.put("observaciones_visita", mantenimiento.getObservaciones_usuario());
         jsonObject1.put("comprobante","1");
@@ -419,14 +421,14 @@ public class UploadService extends IntentService {
         jsonObject1.put("codigoBarras", mantenimiento.getCod_barras());
         jsonObject1.put("fkTipoReparacion", mantenimientoTerminado.getFk_tipo_reparacion());
         jsonObject1.put("fkTiempoManoObra", mantenimientoTerminado.getFk_tiempo_mano_obra());
-        jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
-        jsonObject1.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
-        jsonObject1.put("costeManoDeObraAdicional", mantenimientoTerminado.getCoste_mano_obra_adicional());
         jsonObject1.put("reparacion", mantenimientoTerminado.getReparacion());
         jsonObject1.put("fkTipoVisita", mantenimientoTerminado.getFk_tipo_visita());
         jsonObject1.put("observacionesTecnico", mantenimiento.getObservaciones());
         jsonObject1.put("contadorInterno", mantenimientoTerminado.getContador_interno());
         jsonObject1.put("empresa", mantenimiento.getFk_empresa_usuario());
+        jsonObject1.put("fechaReparacion", mantenimientoTerminado.getFecha_reparacion());
+        jsonObject1.put("costeMateriales", mantenimientoTerminado.getCoste_materiales());
+        jsonObject1.put("costeManoDeObraAdicional", mantenimientoTerminado.getCoste_mano_obra_adicional());
         jsonObject1.put("limpiezaQuemadorCaldera", mantenimientoTerminado.getLimpieza_quemadores_caldera());
         jsonObject1.put("revisionVasoExpansion", mantenimientoTerminado.getRevision_vaso_expansion());
         jsonObject1.put("regulacionAparatos", mantenimientoTerminado.getRegulacion_aparatos());
@@ -483,8 +485,21 @@ public class UploadService extends IntentService {
         jsonObject6.put("tiro",maquina.getTiro());
         jsonObject6.put("co2Testo",maquina.getCo2());
         jsonObject6.put("o2Testo",maquina.getO2());
-        jsonObject6.put("bPrincipal","");
         jsonObject6.put("lambda",maquina.getLambda());
+        jsonObject6.put("bPrincipal","1");
+
+        for (int i = 0; i < maquinas.size(); i++) {
+            JSONObject jsonObject7 = new JSONObject();
+            jsonObject7.put("fk_direccion",mantenimiento.getFk_direccion());
+            jsonObject7.put("potencia",PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquinas.get(i).getFk_potencia_maquina()));
+            jsonObject7.put("fk_tipo_caldera",maquinas.get(i).getFk_tipo_maquina());
+            jsonObject7.put("fk_tipo_combustion",4);
+            jsonObject7.put("modelo",maquinas.get(i).getModelo_maquina());
+            jsonObject7.put("fk_uso",maquinas.get(i).getFk_uso_maquina());
+            jsonObject7.put("puesta_marcha",maquinas.get(i).getPuesta_marcha_maquina());
+            jsonObject7.put("fk_marca",maquinas.get(i).getFk_marca_maquina());
+            jsonArray1.put(jsonObject7);
+        }
 
         try {
             equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(), mantenimiento.getId_mantenimiento());
@@ -497,14 +512,15 @@ public class UploadService extends IntentService {
                 jsonObject5.put("potencia", equipamientoCalderas.get(i).getPotencia_fuegos());
                 jsonObject5.put("fk_maquina", maquina.getId_maquina());
                 jsonObject5.put("idTipoEquipamientos", equipamientoCalderas.get(i).getFk_tipo_equipamiento());
-                jsonObject4.put(jsonObject5);
+                jsonArray.put(jsonObject5);
             }
         }
         msg.put("datos_adicionales",jsonObject1);
         msg.put("sat_partes",jsonObject2);
+        msg.put("maquinas",jsonArray1);
         msg.put("usuarios_maquinas",jsonObject3);
         msg.put("sat_datos_maquina_parte",jsonObject6);
-        msg.put("usuarios_maquinas_equipamientos",jsonObject4);
+        msg.put("usuarios_maquinas_equipamientos",jsonArray);
         Log.d("JSON",msg.toString());
         return msg;
     }
