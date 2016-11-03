@@ -167,8 +167,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
             String tipo=null;
-            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo())!=null){
-                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), mantenimiento.getFk_tipo()).getNombre_tipo_caldera();
+            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina())!=null){
+                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
             }
             if (tipo!=null) {
                 String myString = tipo;

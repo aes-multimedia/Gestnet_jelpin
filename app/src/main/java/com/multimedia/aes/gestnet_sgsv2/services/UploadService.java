@@ -84,12 +84,12 @@ public class UploadService extends IntentService {
                     Intent localIntent = new Intent(Constantes.ACTION_RUN_ISERVICE)
                             .putExtra(Constantes.EXTRA_PROGRESS, i);
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
-                    String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
-                    Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
-                    String mensajeticket = subirTiket(rellenarJsonTiket());
-                    Log.d("-----MENSAJETICKET-----", mensajeticket);
-                    //rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
-                    if (mensajemantenimiento.equals("1")){
+                    //String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
+                    //Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
+                    //String mensajeticket = subirTiket(rellenarJsonTiket());
+                    //Log.d("-----MENSAJETICKET-----", mensajeticket);
+                    rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
+                    /*if (mensajemantenimiento.equals("1")){
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
                         //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
                         //Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
@@ -104,7 +104,7 @@ public class UploadService extends IntentService {
 
                     }else{
                         Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                     Thread.sleep(3000);
                 }
@@ -121,10 +121,10 @@ public class UploadService extends IntentService {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }/* catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getBaseContext(), "Fallo en carga de datos, compruebe su conexion", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
     @Override
     public void onDestroy() {
@@ -681,9 +681,6 @@ public class UploadService extends IntentService {
             msg.put("tipoEquipamiento", equipamientoCalderas.get(0).getFk_tipo_equipamiento());
             msg.put("potenciaEquipamiento", equipamientoCalderas.get(0).getPotencia_fuegos());
         }
-        msg.put("tipoProceso", "");
-        msg.put("nombreFichero", "");
-        msg.put("contenidoFichero", "");
         Log.d("-----JSONCERRARIB-----", msg.toString());
         return msg;
     }
