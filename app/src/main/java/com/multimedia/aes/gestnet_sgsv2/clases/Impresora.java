@@ -105,6 +105,7 @@ public class Impresora {
 	public void realizarImpresion() {
 		POSPrinterService pps = new POSPrinterService();
 		try {
+			generarSaltoPrincipio(pps);
 			generarCodigoBarras(pps);
 			imprimirImagenEncabezado(pps);
 			generarTexto1(pps);
@@ -116,6 +117,11 @@ public class Impresora {
 		} catch (IOException | JposException | SQLException | InterruptedException e) {
 			Toast.makeText(activity, R.string.err_durante_impr, Toast.LENGTH_SHORT).show();
 		}
+	}
+	private void generarSaltoPrincipio(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
+		String salto = "" + "\n";
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(salto));
+		Thread.sleep(1000);
 	}
 	private void generarCodigoBarras(POSPrinterService pps) throws JposException, SQLException, IOException, InterruptedException {
 		String cod_barras = mantenimiento.getCod_barras();
