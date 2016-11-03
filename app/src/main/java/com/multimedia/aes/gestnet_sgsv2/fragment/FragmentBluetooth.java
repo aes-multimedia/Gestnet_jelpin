@@ -365,7 +365,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
         if (!mantenimientoTerminado.isAnomalia()){
-            anom = "Sin Anomalias."+"\n";
+            anom = "Sin Defectos."+"\n";
         }else {
             anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
             if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){

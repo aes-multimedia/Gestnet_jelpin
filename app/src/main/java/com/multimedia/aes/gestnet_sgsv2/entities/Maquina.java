@@ -30,7 +30,7 @@ public class Maquina {
     public static final String O2 = "o2";
     public static final String LAMBDA = "lambda";
 
-    @DatabaseField(generatedId = true, columnName = ID_MAQUINA)
+    @DatabaseField(id = true, columnName = ID_MAQUINA)
     private int id_maquina;
     @DatabaseField(columnName = FK_MANTENIMIENTO)
     private int fk_mantenimiento;

@@ -292,14 +292,38 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        etC0.setText(maquina.getC0_maquina()+"");
-        etTempMaxACS.setText(maquina.getTemperatura_max_acs()+"");
-        etCaudalACS.setText(maquina.getCaudal_acs()+"");
-        etPotenciaUtil.setText(maquina.getPotencia_util()+"");
-        etTempGasesComb.setText(maquina.getTemperatura_gases_combustion()+"");
-        etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local()+"");
-        etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada());
-        etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida());
+        if (maquina.getC0_maquina().toString().equals("")||maquina.getC0_maquina().toString().equals("null")||maquina.getC0_maquina().toString().equals("0")){
+        }else{
+            etC0.setText(maquina.getC0_maquina()+"");
+        }
+        if (maquina.getTemperatura_max_acs().toString().equals("")||maquina.getTemperatura_max_acs().toString().equals("null")||maquina.getTemperatura_max_acs().toString().equals("0")){
+        }else{
+            etTempMaxACS.setText(maquina.getTemperatura_max_acs()+"");
+        }
+        if (maquina.getCaudal_acs().toString().equals("")||maquina.getCaudal_acs().toString().equals("null")||maquina.getCaudal_acs().toString().equals("0")){
+        }else{
+            etCaudalACS.setText(maquina.getCaudal_acs()+"");
+        }
+        if (maquina.getPotencia_util().toString().equals("")||maquina.getPotencia_util().toString().equals("null")||maquina.getPotencia_util().toString().equals("0")){
+        }else{
+            etPotenciaUtil.setText(maquina.getPotencia_util()+"");
+        }
+        if (maquina.getTemperatura_gases_combustion().toString().equals("")||maquina.getTemperatura_gases_combustion().toString().equals("null")||maquina.getTemperatura_gases_combustion().toString().equals("0")){
+        }else{
+            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion()+"");
+        }
+        if (maquina.getTemperatura_ambiente_local().toString().equals("")||maquina.getTemperatura_ambiente_local().toString().equals("null")||maquina.getTemperatura_ambiente_local().toString().equals("0")){
+        }else{
+            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local()+"");
+        }
+        if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")){
+        }else{
+            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada()+"");
+        }
+        if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")){
+        }else{
+            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida()+"");
+        }
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
 
@@ -475,6 +499,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                 if (!etCo2.getText().toString().trim().equals("")){
                                                                                     if (!etO2.getText().toString().trim().equals("")){
                                                                                         if (!etLambda.getText().toString().trim().equals("")){
+                                                                                            m.setId_maquina(maquina.getId_maquina());
                                                                                             m.setFk_mantenimiento(mantenimiento.getId_mantenimiento());
                                                                                             m.setFk_tipo_maquina(TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString()));
                                                                                             m.setFk_marca_maquina(MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString()));
