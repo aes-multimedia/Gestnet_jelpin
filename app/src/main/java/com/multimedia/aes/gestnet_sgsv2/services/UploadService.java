@@ -87,8 +87,8 @@ public class UploadService extends IntentService {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
                     String mensajemantenimiento = subirMantenimientos(rellenarJsonMantenimientos(list.get(i).getId_mantenimiento_terminado()));
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
-                    //String mensajeticket = subirTiket(rellenarJsonTiket());
-                    //Log.d("-----MENSAJETICKET-----", mensajeticket);
+                    String mensajeticket = subirTiket(rellenarJsonTiket());
+                    Log.d("-----MENSAJETICKET-----", mensajeticket);
                     rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
                     if (mensajemantenimiento.equals("1")){
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
@@ -137,7 +137,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/carga_datos");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -205,7 +205,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc= null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/cerrar");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/cerrar");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -273,7 +273,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/carga_imagen");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_imagen");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -340,7 +340,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/foto");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/foto");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

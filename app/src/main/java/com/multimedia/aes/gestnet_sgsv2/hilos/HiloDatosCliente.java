@@ -67,7 +67,7 @@ public class HiloDatosCliente extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/usuario/observaciones");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/usuario/observaciones");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -102,7 +102,7 @@ public class HiloDatosCliente extends AsyncTask<Void,Void,Void>{
                 e1.printStackTrace();
                 return "PROTOCOLEXCEPTION";
             } catch (IOException e1) {
-                e1.printStackTrace();
+                e.printStackTrace();
                 return "No se ha podido actualizar en GESTNET,  se intentara mas tarde";
             }
         }

@@ -61,7 +61,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipSgs+"/api-sgs/v1/mantenimientos/android");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/android");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -96,7 +96,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
                 e1.printStackTrace();
                 return "PROTOCOLEXCEPTION";
             } catch (IOException e1) {
-                e1.printStackTrace();
+                e.printStackTrace();
                 return "No se ha podido actualizar en GESTNET,  se intentara mas tarde";
             }
         }
