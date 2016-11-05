@@ -2,9 +2,8 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
 
-import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.TipoEquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -13,12 +12,12 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarMaquinaMantenimiento {
+public class GuardarMaquina {
     private static String Json;
     private static Context context;
     private static boolean bien;
 
-    public GuardarMaquinaMantenimiento(Context context, String json) {
+    public GuardarMaquina(Context context, String json) {
         this.context = context;
         Json = json;
         try {
@@ -46,11 +45,11 @@ public class GuardarMaquinaMantenimiento {
             jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("maquina");
             for (int j = 0; j < jsonArray1.length(); j++) {
                 jsonObject1 = jsonArray1.getJSONObject(j);
-                int id_maquina;
+                int fk_maquina;
                 if (jsonObject1.getString("id_maquina").equals("null")){
-                    id_maquina  =0;
+                    fk_maquina  =0;
                 }else{
-                    id_maquina = jsonObject1.getInt("id_maquina");
+                    fk_maquina = jsonObject1.getInt("id_maquina");
                 }
 
                 int fk_tipo_maquina;
@@ -121,7 +120,7 @@ public class GuardarMaquinaMantenimiento {
                 String o2="0";
                 String lambda="0";
 
-                if (MaquinaMantenimientoDAO.newMaquinaMantenimiento(context,id_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
+                if (MaquinaDAO.newMaquinaMantenimiento(context,fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
                         modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
                         puesta_marcha_maquina, codigo_maquina, c0_maquina,
                         temperatura_max_acs, caudal_acs, potencia_util,

@@ -2,10 +2,7 @@ package com.multimedia.aes.gestnet_sgsv2.BBDD;
 
 import android.content.Context;
 
-import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoEquipamientoDAO;
-import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
-import com.multimedia.aes.gestnet_sgsv2.entities.TipoEquipamiento;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Login;
 
 import org.json.JSONArray;
@@ -46,7 +43,7 @@ public class GuardarTipoEquipamiento {
             }
         }
         if (bien){
-            new GuardarMaquinaMantenimiento(context,Json);
+            new GuardarMaquina(context,Json);
         }else{
             ((Login)context).sacarMensaje("error tipo equipamiento");
         }

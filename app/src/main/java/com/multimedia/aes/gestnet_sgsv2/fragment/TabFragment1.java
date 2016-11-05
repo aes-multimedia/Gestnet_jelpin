@@ -2,17 +2,13 @@ package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +21,16 @@ import android.widget.Toast;
 
 
 //BROTHER
-import com.brother.ptouch.sdk.Printer;
-import com.brother.ptouch.sdk.PrinterInfo;
-import com.brother.ptouch.sdk.PrinterStatus;
 
 import com.multimedia.aes.gestnet_sgsv2.Mapa;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloDatosCliente;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloParteIniciado;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.Index;
@@ -50,7 +43,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -66,7 +58,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private Bitmap mBitmap;
     private Button mBtnPrint;
     private ArrayList<String> mFiles = new ArrayList<String>();
-    private MaquinaMantenimiento maquina=null;
+    private Maquina maquina=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +67,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
-            maquina = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
+            maquina = MaquinaDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {

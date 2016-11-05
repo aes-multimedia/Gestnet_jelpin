@@ -3,10 +3,11 @@ package com.multimedia.aes.gestnet_sgsv2.entities;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "mos_maquinas")
+@DatabaseTable(tableName = "mos_maquinas_mantenimientos")
 public class Maquina {
     public static final String ID_MAQUINA = "_id_maquina";
-    public static final String FK_MANTENIMIENTO = "fk_mantenimiento";
+    public static final String FK_MAQUINA = "fk_maquina";
+    public static final String FK_PARTE = "fk_parte";
     public static final String FK_TIPO_MAQUINA = "fk_tipo_maquina";
     public static final String FK_MARCA_MAQUINA = "fk_marca_maquina";
     public static final String MODELO_MAQUINA = "modelo_maquina";
@@ -29,11 +30,14 @@ public class Maquina {
     public static final String CO2 = "co2";
     public static final String O2 = "o2";
     public static final String LAMBDA = "lambda";
+    public static final String BPRINCIPAL = "bPrincipal";
 
-    @DatabaseField(id = true, columnName = ID_MAQUINA)
+    @DatabaseField(generatedId = true, columnName = ID_MAQUINA)
     private int id_maquina;
-    @DatabaseField(columnName = FK_MANTENIMIENTO)
-    private int fk_mantenimiento;
+    @DatabaseField(columnName = FK_MAQUINA)
+    private int fk_maquina;
+    @DatabaseField(columnName = FK_PARTE)
+    private int fk_parte;
     @DatabaseField(columnName = FK_TIPO_MAQUINA)
     private int fk_tipo_maquina;
     @DatabaseField(columnName = FK_MARCA_MAQUINA)
@@ -78,18 +82,20 @@ public class Maquina {
     private String o2;
     @DatabaseField(columnName = LAMBDA)
     private String lambda;
+    @DatabaseField(columnName = BPRINCIPAL)
+    private int bPrincipal;
 
     public Maquina() {
     }
-    public Maquina(int id_maquina, int fk_mantenimiento, int fk_tipo_maquina, int fk_marca_maquina,
+    public Maquina(int fk_maquina, int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
                    String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina,
                    String puesta_marcha_maquina, String codigo_maquina, String c0_maquina,
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
                    String temperatura_gases_combustion, String temperatura_ambiente_local,
                    String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-                   String rendimiento_aparato,String co_corregido,String co_ambiente,String tiro,String co2,String o2,String lambda) {
-        this.id_maquina = id_maquina;
-        this.fk_mantenimiento = fk_mantenimiento;
+                   String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
+        this.fk_maquina = fk_maquina;
+        this.fk_parte = fk_parte;
         this.fk_tipo_maquina = fk_tipo_maquina;
         this.fk_marca_maquina = fk_marca_maquina;
         this.modelo_maquina = modelo_maquina;
@@ -112,19 +118,26 @@ public class Maquina {
         this.co2 = co2;
         this.o2 = o2;
         this.lambda = lambda;
+        this.bPrincipal = bPrincipal;
     }
 
+    public int getFk_maquina() {
+        return fk_maquina;
+    }
+    public void setFk_maquina(int fk_maquina) {
+        this.fk_maquina = fk_maquina;
+    }
+    public int getFk_parte() {
+        return fk_parte;
+    }
+    public void setFk_parte(int fk_parte) {
+        this.fk_parte = fk_parte;
+    }
     public int getId_maquina() {
         return id_maquina;
     }
     public void setId_maquina(int id_maquina) {
         this.id_maquina = id_maquina;
-    }
-    public int getFk_mantenimiento() {
-        return fk_mantenimiento;
-    }
-    public void setFk_mantenimiento(int fk_mantenimiento) {
-        this.fk_mantenimiento = fk_mantenimiento;
     }
     public int getFk_tipo_maquina() {
         return fk_tipo_maquina;
@@ -216,60 +229,52 @@ public class Maquina {
     public void setTemperatura_agua_generador_calor_salida(String temperatura_agua_generador_calor_salida) {
         this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
     }
-
     public String getRendimiento_aparato() {
         return rendimiento_aparato;
     }
-
     public void setRendimiento_aparato(String rendimiento_aparato) {
         this.rendimiento_aparato = rendimiento_aparato;
     }
-
     public String getCo_corregido() {
         return co_corregido;
     }
-
     public void setCo_corregido(String co_corregido) {
         this.co_corregido = co_corregido;
     }
-
     public String getCo_ambiente() {
         return co_ambiente;
     }
-
     public void setCo_ambiente(String co_ambiente) {
         this.co_ambiente = co_ambiente;
     }
-
     public String getTiro() {
         return tiro;
     }
-
     public void setTiro(String tiro) {
         this.tiro = tiro;
     }
-
     public String getCo2() {
         return co2;
     }
-
     public void setCo2(String co2) {
         this.co2 = co2;
     }
-
     public String getO2() {
         return o2;
     }
-
     public void setO2(String o2) {
         this.o2 = o2;
     }
-
     public String getLambda() {
         return lambda;
     }
-
     public void setLambda(String lambda) {
         this.lambda = lambda;
+    }
+    public int getbPrincipal() {
+        return bPrincipal;
+    }
+    public void setbPrincipal(int bPrincipal) {
+        this.bPrincipal = bPrincipal;
     }
 }

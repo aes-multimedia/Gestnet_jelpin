@@ -10,11 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
-import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
-import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment2;
 
 import java.sql.SQLException;

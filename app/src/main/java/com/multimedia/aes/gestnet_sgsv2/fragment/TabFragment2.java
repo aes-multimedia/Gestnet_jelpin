@@ -27,18 +27,15 @@ import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaMantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoEquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
-import com.multimedia.aes.gestnet_sgsv2.entities.MaquinaMantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MarcaCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
@@ -102,8 +99,8 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private LinearLayout llCo2;
     private List<Equipamiento> equipamientos= null;
-    private List<MaquinaMantenimiento>maquinaMantenimientos=null;
-    private MaquinaMantenimiento maquina = null;
+    private List<Maquina>maquinas=null;
+    private static Maquina maquina = null;
 
 
     @Override
@@ -113,9 +110,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
-            maquinaMantenimientos = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
-            maquina = MaquinaMantenimientoDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
+            maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
             equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),maquina.getId_maquina());
+            maquina= maquinas.get(0);
+            maquinas.remove(0);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -386,6 +384,15 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
             }
         }
+        if (!maquinas.isEmpty()||maquinas!=null) {
+            for (int i = 0; i < maquinas.size(); i++) {
+                alto1 += height;
+                lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
+                arrayListMaquina.add(maquinas.get(i));
+                adaptadorListaMaquinas = new AdaptadorListaMaquinas(getContext(), R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
+                lvMaquinas.setAdapter(adaptadorListaMaquinas);
+            }
+        }
         return vista;
     }
 
@@ -406,6 +413,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             }
         }else if (view.getId()==R.id.btnAñadirMaquina){
             Maquina m = new Maquina();
+            if (maquina!=null){
+                m=maquina;
+            }
             try {
                 if (llenarMaquina(m)!=null){
                     alto1+=height;
@@ -458,22 +468,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
 
     public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado) throws SQLException {
         if (!arrayListMaquina.isEmpty()){
-            for (int i = 0; i < arrayListMaquina.size(); i++) {
-                MaquinaDAO.newMaquina(getContext(),arrayListMaquina.get(i));
-            }
             arrayListMaquina.clear();
             mantenimientoTerminado.setMaquina(true);
         }else{
             mantenimientoTerminado.setMaquina(false);
-        }
-        if (!arraylistEquipamiento.isEmpty()){
-            for (int i = 0; i < arraylistEquipamiento.size(); i++) {
-                String potencia = arraylistEquipamiento.get(i).potencia;
-                int fk_equipamiento = TipoEquipamientoDAO.buscarTipoEquipamientoPorNombre(getContext(),arraylistEquipamiento.get(i).descripcion);
-                String co2 = arraylistEquipamiento.get(i).co2_ambiente;
-
-                EquipamientoCalderaDAO.newEquipamientoCaldera(getContext(),1,potencia,co2,fk_equipamiento,mantenimiento.getId_mantenimiento());
-            }
         }
         return mantenimientoTerminado;
     }
@@ -499,30 +497,51 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                 if (!etCo2.getText().toString().trim().equals("")){
                                                                                     if (!etO2.getText().toString().trim().equals("")){
                                                                                         if (!etLambda.getText().toString().trim().equals("")){
-                                                                                            m.setId_maquina(maquina.getId_maquina());
-                                                                                            m.setFk_mantenimiento(mantenimiento.getId_mantenimiento());
-                                                                                            m.setFk_tipo_maquina(TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString()));
-                                                                                            m.setFk_marca_maquina(MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString()));
-                                                                                            m.setModelo_maquina(etModelo.getText().toString());
-                                                                                            m.setFk_potencia_maquina(PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString()));
-                                                                                            m.setFk_uso_maquina(UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString()));
-                                                                                            m.setPuesta_marcha_maquina(spPuestaMarcha.getSelectedItem().toString());
-                                                                                            m.setCodigo_maquina("01");
-                                                                                            m.setC0_maquina(etC0.getText().toString());
-                                                                                            m.setTemperatura_max_acs(etTempMaxACS.getText().toString());
-                                                                                            m.setCaudal_acs(etCaudalACS.getText().toString());
-                                                                                            m.setPotencia_util(etPotenciaUtil.getText().toString());
-                                                                                            m.setTemperatura_gases_combustion(etTempGasesComb.getText().toString());
-                                                                                            m.setTemperatura_ambiente_local(etTempAmbienteLocal.getText().toString());
-                                                                                            m.setTemperatura_agua_generador_calor_entrada(etTempAguaGeneCalorEntrada.getText().toString());
-                                                                                            m.setTemperatura_agua_generador_calor_salida(etTempAguaGeneCalorSalida.getText().toString());
-                                                                                            m.setRendimiento_aparato(etRendimientoAparato.getText().toString());
-                                                                                            m.setCo_corregido(etCoCorregido.getText().toString());
-                                                                                            m.setCo_ambiente(etCoAmbiente.getText().toString());
-                                                                                            m.setTiro(etTiro.getText().toString());
-                                                                                            m.setCo2(etCo2.getText().toString());
-                                                                                            m.setO2(etO2.getText().toString());
-                                                                                            m.setLambda(etLambda.getText().toString());
+                                                                                            int fk_parte=mantenimiento.getId_mantenimiento();
+                                                                                            int fk_tipo_maquina=TipoCalderaDAO.buscarTipoCalderaPorNombre(getContext(),spTipo.getSelectedItem().toString());
+                                                                                            int fk_marca_maquina=MarcaCalderaDAO.buscarMarcaCalderaPorNombre(getContext(),spMarca.getSelectedItem().toString());
+                                                                                            String modelo_maquina=etModelo.getText().toString();
+                                                                                            int fk_potencia_maquina=PotenciaDAO.buscarPotenciaPorNombre(getContext(),spPotencia.getSelectedItem().toString());
+                                                                                            int fk_uso_maquina=UsoCalderaDAO.buscarUsoCalderaPorNombre(getContext(),spUso.getSelectedItem().toString());
+                                                                                            String puesta_marcha_maquina=spPuestaMarcha.getSelectedItem().toString();
+                                                                                            String codigo_maquina="00";
+                                                                                            String c0_maquina=etC0.getText().toString();
+                                                                                            String temperatura_max_acs=etTempMaxACS.getText().toString();
+                                                                                            String caudal_acs=etCaudalACS.getText().toString();
+                                                                                            String potencia_util=etPotenciaUtil.getText().toString();
+                                                                                            String temperatura_gases_combustion=etTempGasesComb.getText().toString();
+                                                                                            String temperatura_ambiente_local=etTempAmbienteLocal.getText().toString();
+                                                                                            String temperatura_agua_generador_calor_entrada=etTempAguaGeneCalorEntrada.getText().toString();
+                                                                                            String temperatura_agua_generador_calor_salida=etTempAguaGeneCalorSalida.getText().toString();
+                                                                                            String rendimiento_aparato=etRendimientoAparato.getText().toString();
+                                                                                            String co_corregido=etCoCorregido.getText().toString();
+                                                                                            String co_ambiente=etCoAmbiente.getText().toString();
+                                                                                            String tiro=etTiro.getText().toString();
+                                                                                            String co2=etCo2.getText().toString();
+                                                                                            String o2=etO2.getText().toString();
+                                                                                            String lambda=etLambda.getText().toString();
+                                                                                            int bPrincipal=0;
+                                                                                            if (maquina==null){
+                                                                                                int fk_maquina=0;
+                                                                                                MaquinaDAO.newMaquina(getContext(),fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
+                                                                                                        modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
+                                                                                                        puesta_marcha_maquina, codigo_maquina, c0_maquina,
+                                                                                                        temperatura_max_acs, caudal_acs, potencia_util,
+                                                                                                        temperatura_gases_combustion, temperatura_ambiente_local,
+                                                                                                        temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
+                                                                                                        rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+                                                                                            }else{
+                                                                                                int fk_maquina=maquina.getFk_maquina();
+                                                                                                int id_maquina = maquina.getId_maquina();
+                                                                                                MaquinaDAO.actualizarMaquina(getContext(),id_maquina,fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
+                                                                                                        modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
+                                                                                                        puesta_marcha_maquina, codigo_maquina, c0_maquina,
+                                                                                                        temperatura_max_acs, caudal_acs, potencia_util,
+                                                                                                        temperatura_gases_combustion, temperatura_ambiente_local,
+                                                                                                        temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
+                                                                                                        rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+                                                                                            }
+                                                                                            maquina=null;
                                                                                         }else{
                                                                                             Toast.makeText(getContext(), "Seleccione un lambda", Toast.LENGTH_SHORT).show();
                                                                                             return null;
@@ -610,61 +629,72 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         return "";
     }
 
-    public static void rellenarDatosMaquina(Maquina maquina,Context context,int position) {
+    public static void rellenarDatosMaquina(Maquina ma, Context context, int position) {
+        maquina=ma;
+        String myString;
+        ArrayAdapter myAdap;
+        int spinnerPosition;
         try {
-            int tipo= maquina.getFk_tipo_maquina();
-            String myString = TipoCalderaDAO.buscarTipoCalderaPorId(context,tipo).getNombre_tipo_caldera();
-            ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
-            int spinnerPosition = myAdap.getPosition(myString);
+            int tipo = ma.getFk_tipo_maquina();
+            myString = TipoCalderaDAO.buscarTipoCalderaPorId(context, tipo).getNombre_tipo_caldera();
+            myAdap = (ArrayAdapter) spTipo.getAdapter();
+            spinnerPosition = myAdap.getPosition(myString);
             spTipo.setSelection(spinnerPosition);
-
-            int marca = maquina.getFk_marca_maquina();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            int marca = ma.getFk_marca_maquina();
             myString = MarcaCalderaDAO.buscarMarcaCalderaPorId(context,marca).getNombre_marca_caldera();
             myAdap = (ArrayAdapter) spMarca.getAdapter();
             spinnerPosition = myAdap.getPosition(myString);
             spMarca.setSelection(spinnerPosition);
-
-            int uso = maquina.getFk_uso_maquina();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            int uso = ma.getFk_uso_maquina();
             myString = UsoCalderaDAO.buscarUsoCalderaPorId(context, uso).getNombre_uso_caldera();
             myAdap = (ArrayAdapter) spUso.getAdapter();
             spinnerPosition = myAdap.getPosition(myString);
             spUso.setSelection(spinnerPosition);
-
-            int potencia = maquina.getFk_potencia_maquina();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            int potencia = ma.getFk_potencia_maquina();
             myString = PotenciaDAO.buscarPotenciaPorId(context,potencia).getPotencia();
             myAdap = (ArrayAdapter) spPotencia.getAdapter();
             spinnerPosition = myAdap.getPosition(myString);
             spPotencia.setSelection(spinnerPosition);
-
-            myString = maquina.getPuesta_marcha_maquina();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+            myString = ma.getPuesta_marcha_maquina();
             myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
             spinnerPosition = myAdap.getPosition(myString);
             spPuestaMarcha.setSelection(spinnerPosition);
-
-            etModelo.setText(maquina.getModelo_maquina());
-            etC0.setText(maquina.getC0_maquina());
-            etTempMaxACS.setText(maquina.getTemperatura_max_acs());
-            etCaudalACS.setText(maquina.getCaudal_acs());
-            etPotenciaUtil.setText(maquina.getPotencia_util());
-            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion());
-            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local());
-            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada());
-            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida());
-            etRendimientoAparato.setText(maquina.getRendimiento_aparato());
-            etCoCorregido.setText(maquina.getCo_corregido());
-            etCoAmbiente.setText(maquina.getCo_ambiente());
-            etTiro.setText(maquina.getTiro());
-            etCo2.setText(maquina.getCo2());
-            etO2.setText(maquina.getO2());
-            etLambda.setText(maquina.getLambda());
+            etModelo.setText(ma.getModelo_maquina());
+            etC0.setText(ma.getC0_maquina());
+            etTempMaxACS.setText(ma.getTemperatura_max_acs());
+            etCaudalACS.setText(ma.getCaudal_acs());
+            etPotenciaUtil.setText(ma.getPotencia_util());
+            etTempGasesComb.setText(ma.getTemperatura_gases_combustion());
+            etTempAmbienteLocal.setText(ma.getTemperatura_ambiente_local());
+            etTempAguaGeneCalorEntrada.setText(ma.getTemperatura_agua_generador_calor_entrada());
+            etTempAguaGeneCalorSalida.setText(ma.getTemperatura_agua_generador_calor_salida());
+            etRendimientoAparato.setText(ma.getRendimiento_aparato());
+            etCoCorregido.setText(ma.getCo_corregido());
+            etCoAmbiente.setText(ma.getCo_ambiente());
+            etTiro.setText(ma.getTiro());
+            etCo2.setText(ma.getCo2());
+            etO2.setText(ma.getO2());
+            etLambda.setText(ma.getLambda());
             arrayListMaquina.remove(position);
             alto1-=height;
             lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
             adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
             lvMaquinas.setAdapter(adaptadorListaMaquinas);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
     public static void rellenarDatosEquipamiento(DataEquipamientos equipamiento,Context context,int position){
         String myString = equipamiento.descripcion;
