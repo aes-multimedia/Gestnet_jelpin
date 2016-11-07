@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_sgsv2.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -41,6 +43,7 @@ import com.multimedia.aes.gestnet_sgsv2.entities.Potencia;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.TipoEquipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.UsoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.nucleo.Testo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +81,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private static EditText etCo2;
     private static EditText etO2;
     private static EditText etLambda;
-    private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina;
+    private Button btnDespiece,btnAñadirEquip,btnAñadirMaquina,btnDatosTesto;
     private List<TipoCaldera> listaTipos=null;
     private List<MarcaCaldera> listaMarcas=null;
     private List<UsoCaldera> listaUso=null;
@@ -110,10 +113,14 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+            maquinas = MaquinaDAO.buscarTodasLasMaquinas(getContext());
             maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
-            equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),maquina.getId_maquina());
-            maquina= maquinas.get(0);
-            maquinas.remove(0);
+            if (maquinas!=null){
+                maquina= maquinas.get(0);
+                maquinas.remove(0);
+                equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),maquina.getId_maquina());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -150,11 +157,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         btnDespiece = (Button)vista.findViewById(R.id.btnDespiece);
         btnAñadirEquip = (Button)vista.findViewById(R.id.btnAñadirEquip);
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
+        btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
         lvEquipamientos = (ListView)vista.findViewById(R.id.lvEquipamientos);
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         llCo2 = (LinearLayout) vista.findViewById(R.id.llCo2);
         btnAñadirEquip.setOnClickListener(this);
         btnAñadirMaquina.setOnClickListener(this);
+        btnDatosTesto.setOnClickListener(this);
         try {
             listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
             tipos = new String[listaTipos.size()+1];
@@ -449,8 +458,22 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
+        }else if (view.getId()==R.id.btnDatosTesto){
+            Intent i = new Intent(getContext(), Testo.class);
+            startActivityForResult(i,101);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 101) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result=data.getStringExtra("result");
+                etLambda.setText(result);
+            }
+        }
+    }
+
     public static void borrarArrayEquipamientos(int position, Context context){
         arraylistEquipamiento.remove(position);
         alto-=height;
@@ -465,7 +488,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
         lvMaquinas.setAdapter(adaptadorListaMaquinas);
     }
-
     public MantenimientoTerminado guardarDatos(MantenimientoTerminado mantenimientoTerminado) throws SQLException {
         if (!arrayListMaquina.isEmpty()){
             arrayListMaquina.clear();
@@ -628,7 +650,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         }
         return "";
     }
-
     public static void rellenarDatosMaquina(Maquina ma, Context context, int position) {
         maquina=ma;
         String myString;

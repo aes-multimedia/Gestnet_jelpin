@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nucleo.FirmarCliente"
+    tools:context=".nucleo.FirmarTecnico"
     android:orientation="vertical"
     android:weightSum="1">
 
-    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_centerHorizontal="true"

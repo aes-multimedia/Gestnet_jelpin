@@ -68,7 +68,6 @@ public class BBDDConstantes {
 	public static Dao<EquipamientoCaldera, Integer> equipamientoCalderaDao;
 	public static Dao<Equipamiento, Integer> equipamientoDao;
 	public static Dao<Maquina, Integer> maquinaDao;
-	public static Dao<Maquina, Integer> maquinaMantenimientoDao;
 	public static Dao<MotivosNoRep, Integer> motivosNoRepDao;
 	public static Dao<EstadoVisita, Integer> estadoVisitaDao;
 
@@ -90,7 +89,6 @@ public class BBDDConstantes {
 		equipamientoCalderaDao = null;
 		equipamientoDao = null;
 		maquinaDao = null;
-		maquinaMantenimientoDao = null;
 		motivosNoRepDao = null;
 		estadoVisitaDao = null;
 	}
@@ -112,7 +110,6 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, MantenimientoTerminado.class);
 		TableUtils.createTable(connectionSource, EquipamientoCaldera.class);
 		TableUtils.createTable(connectionSource, Equipamiento.class);
-		TableUtils.createTable(connectionSource, Maquina.class);
 		TableUtils.createTable(connectionSource, Maquina.class);
 		TableUtils.createTable(connectionSource, MotivosNoRep.class);
 		TableUtils.createTable(connectionSource, EstadoVisita.class);
@@ -137,7 +134,6 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, EquipamientoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, Equipamiento.class, true);
 		TableUtils.dropTable(connectionSource, Maquina.class, true);
-		TableUtils.dropTable(connectionSource, Maquina.class, true);
 		TableUtils.dropTable(connectionSource, MotivosNoRep.class, true);
 		TableUtils.dropTable(connectionSource, EstadoVisita.class, true);
 
@@ -161,7 +157,6 @@ public class BBDDConstantes {
 		EquipamientoCalderaDAO.borrarTodosLosEquipamientoCaldera(context);
 		EquipamientoDAO.borrarTodosLosEquipamientos(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
-		MaquinaDAO.borrarTodasLasMaquinaMantenimiento(context);
 		MotivosNoRepDAO.borrarTodosLosMotivosNoRep(context);
 		EstadoVisitaDAO.borrarTodosLosEstadoVisita(context);
 

@@ -27,6 +27,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.hilos.HiloConectarImpr;
 import com.sewoo.jpos.POSPrinterService;
@@ -75,7 +76,7 @@ public class Impresora {
 			mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(activity,id);
 			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,id);
 			tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
-			maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(activity,mantenimiento.getId_mantenimiento());
+			maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(activity,mantenimiento.getId_mantenimiento());
 			equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(activity,mantenimiento.getId_mantenimiento());
 		} catch (JSONException e) {
 			e.printStackTrace();

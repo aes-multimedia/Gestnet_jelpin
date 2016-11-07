@@ -15,7 +15,7 @@ public class MaquinaDAO extends DBHelperMOS {
 	static Dao<Maquina, Integer> dao;
 
 	public static void cargarDao(Context context) throws SQLException {
-		dao = getHelper(context).getMaquinaMantenimientoDAO();
+		dao = getHelper(context).getMaquinaDAO();
 	}
 
 	//__________FUNCIONES DE CREACIÓN________________________//

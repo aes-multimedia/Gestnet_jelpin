@@ -9,8 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -41,30 +42,35 @@
             android:name=".nucleo.FirmarCliente"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        ç<activity
-        android:name=".nucleo.FirmarTecnico"
-        android:screenOrientation="portrait"
-        android:theme="@style/Theme.AppCompat.Dialog" />
+
+        <activity
+            android:name=".nucleo.FirmarTecnico"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Dialog" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".nucleo.Camara"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".Mapa"
-            android:label="@string/title_activity_mapa"></activity>
+            android:label="@string/title_activity_mapa" />
+
         <service
             android:name=".services.ConectionService"
             android:enabled="true"
-            android:exported="true" >
-        </service>
+            android:exported="true"></service>
         <service
             android:name=".services.UploadService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
+
+        <activity android:name=".nucleo.Testo"
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -120,7 +120,7 @@ public class GuardarMaquina {
                 String o2="0";
                 String lambda="0";
 
-                if (MaquinaDAO.newMaquinaMantenimiento(context,fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
+                if (MaquinaDAO.newMaquina(context,fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
                         modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
                         puesta_marcha_maquina, codigo_maquina, c0_maquina,
                         temperatura_max_acs, caudal_acs, potencia_util,

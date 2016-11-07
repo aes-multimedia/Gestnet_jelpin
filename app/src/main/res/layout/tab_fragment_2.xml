@@ -344,6 +344,22 @@
                     android:padding="5dp"
                     android:inputType="numberDecimal" />
             </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:text="Datos de Analisis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnDatosTesto"
+                        android:background="@drawable/botones"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -529,7 +545,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Añadir Maquina"
-                    android:id="@+id/btnAñadirMaquina" />
+                    android:id="@+id/btnAñadirMaquina"
+                    android:background="@drawable/botones"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
 
                 <ListView
                     android:layout_width="wrap_content"
@@ -619,7 +640,10 @@
                     android:layout_height="wrap_content"
                     android:text="Añadir Equipamiento"
                     android:id="@+id/btnAñadirEquip"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/botones"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp" />
 
                 <ListView
                     android:layout_width="wrap_content"

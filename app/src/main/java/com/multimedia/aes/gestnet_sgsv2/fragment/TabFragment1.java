@@ -67,7 +67,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
-            maquina = MaquinaDAO.buscarMaquinaMantenimientoPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
+            maquina = MaquinaDAO.buscarMaquinaPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {

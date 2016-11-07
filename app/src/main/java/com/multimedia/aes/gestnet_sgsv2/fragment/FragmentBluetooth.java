@@ -46,6 +46,7 @@ import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
+import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 import com.multimedia.aes.gestnet_sgsv2.entities.Tecnico;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.FirmarCliente;
 import com.multimedia.aes.gestnet_sgsv2.nucleo.FirmarTecnico;
@@ -99,7 +100,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
             mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(getContext(),id);
             tecnico = TecnicoDAO.buscarTodosLosTecnicos(getContext()).get(0);
-            maquinas = MaquinaDAO.buscarMaquinaPorFkMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
+            maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
             equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();

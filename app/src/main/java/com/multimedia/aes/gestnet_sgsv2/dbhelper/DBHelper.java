@@ -169,12 +169,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return BBDDConstantes.maquinaDao;
 	}
-	public Dao<Maquina, Integer> getMaquinaMantenimientoDAO() throws SQLException {
-		if (BBDDConstantes.maquinaMantenimientoDao == null) {
-			BBDDConstantes.maquinaMantenimientoDao = getDao(Maquina.class);
-		}
-		return BBDDConstantes.maquinaMantenimientoDao;
-	}
 	public Dao<MotivosNoRep, Integer> getMotivosNoRepDAO() throws SQLException {
 		if (BBDDConstantes.motivosNoRepDao == null) {
 			BBDDConstantes.motivosNoRepDao = getDao(MotivosNoRep.class);
