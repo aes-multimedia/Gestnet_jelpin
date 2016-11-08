@@ -186,7 +186,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 	}
 	public static List<Mantenimiento> buscarMantenimientosPorFechas(Context context, String fecha)throws SQLException {
 		cargarDao(context);
-		List<Mantenimiento> listadoMantenimiento= dao.queryBuilder().where().between(Mantenimiento.FECHA_VISITA,fecha+" 00:00:00",fecha+" 23:59:59").query();
+		List<Mantenimiento> listadoMantenimiento= dao.queryBuilder().orderBy(Mantenimiento.FK_HORARIO,true).where().between(Mantenimiento.FECHA_VISITA,fecha+" 00:00:00",fecha+" 23:59:59").query();
 		if(listadoMantenimiento.isEmpty()) {
 			return null;
 		}else{
