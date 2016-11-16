@@ -143,13 +143,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha));
         }else if (MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime())!=null){
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime()));
-            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
-
         }else{
             arrayListMantenimiento.addAll(MantenimientoDAO.buscarTodosLosMantenimientos(this));
-            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "No hay mantenimientos ese dia", Toast.LENGTH_LONG).show();
         }
     }
 

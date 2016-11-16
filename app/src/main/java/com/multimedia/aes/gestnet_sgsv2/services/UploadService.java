@@ -455,7 +455,6 @@ public class UploadService extends IntentService {
         jsonObject2.put("fechaVisita",mantenimiento.getFecha_visita());
         jsonObject2.put("cartaEnviada","");
         jsonObject2.put("fechaEnvioCarta","");
-
         jsonObject3.put("id_maquina",maquina.getFk_maquina());
         jsonObject3.put("fkTipoCaldera",maquina.getFk_tipo_maquina());
         jsonObject3.put("fkMarca",maquina.getFk_marca_maquina());

@@ -87,6 +87,40 @@ public class Maquina {
 
     public Maquina() {
     }
+    public Maquina(int id_maquina,int fk_maquina, int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
+                   String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina,
+                   String puesta_marcha_maquina, String codigo_maquina, String c0_maquina,
+                   String temperatura_max_acs, String caudal_acs, String potencia_util,
+                   String temperatura_gases_combustion, String temperatura_ambiente_local,
+                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+                   String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
+        this.id_maquina = id_maquina;
+        this.fk_maquina = fk_maquina;
+        this.fk_parte = fk_parte;
+        this.fk_tipo_maquina = fk_tipo_maquina;
+        this.fk_marca_maquina = fk_marca_maquina;
+        this.modelo_maquina = modelo_maquina;
+        this.fk_potencia_maquina = fk_potencia_maquina;
+        this.fk_uso_maquina = fk_uso_maquina;
+        this.puesta_marcha_maquina = puesta_marcha_maquina;
+        this.codigo_maquina = codigo_maquina;
+        this.c0_maquina = c0_maquina;
+        this.temperatura_max_acs = temperatura_max_acs;
+        this.caudal_acs = caudal_acs;
+        this.potencia_util = potencia_util;
+        this.temperatura_gases_combustion = temperatura_gases_combustion;
+        this.temperatura_ambiente_local = temperatura_ambiente_local;
+        this.temperatura_agua_generador_calor_entrada = temperatura_agua_generador_calor_entrada;
+        this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
+        this.rendimiento_aparato = rendimiento_aparato;
+        this.co_corregido = co_corregido;
+        this.co_ambiente = co_ambiente;
+        this.tiro = tiro;
+        this.co2 = co2;
+        this.o2 = o2;
+        this.lambda = lambda;
+        this.bPrincipal = bPrincipal;
+    }
     public Maquina(int fk_maquina, int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
                    String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina,
                    String puesta_marcha_maquina, String codigo_maquina, String c0_maquina,
