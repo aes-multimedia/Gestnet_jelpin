@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 
@@ -26,6 +27,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
             cbRevCaldCont,cbVeriHidraCalef,cbEstanConexApar,cbEstanCondEvacIRG,cbComprNivAgua,
             cbTipoCondEvac,cbReviEstadoAislaTerm,cbAnalProduComb,cbCaudACSCalcPotUtil,cbReviSistContro;
     private Mantenimiento mantenimiento = null;
+    private MantenimientoTerminado mantenimientoTerminado = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,13 +50,59 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
             mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getContext(),id);
+            mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(getContext(),mantenimiento.getId_mantenimiento());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==2) {
+            if (mantenimientoTerminado!=null) {
+                if (mantenimientoTerminado.getLimpieza_quemadores_caldera() == 1) {
+                    cbLimpQuemCal.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_vaso_expansion() == 1) {
+                    cbRevVasoExpan.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRegulacion_aparatos() == 1) {
+                    cbRegulApara.setChecked(true);
+                }
+                if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera() == 1) {
+                    cbCompEstanCierrQuemCalen.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_calderas_contadores() == 1) {
+                    cbRevCaldCont.setChecked(true);
+                }
+                if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion() == 1) {
+                    cbVeriHidraCalef.setChecked(true);
+                }
+                if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos() == 1) {
+                    cbEstanConexApar.setChecked(true);
+                }
+                if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg() == 1) {
+                    cbEstanCondEvacIRG.setChecked(true);
+                }
+                if (mantenimientoTerminado.getComprobacion_niveles_agua() == 1) {
+                    cbComprNivAgua.setChecked(true);
+                }
+                if (mantenimientoTerminado.getTipo_conducto_evacuacion() == 1) {
+                    cbTipoCondEvac.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_estado_aislamiento_termico() == 1) {
+                    cbReviEstadoAislaTerm.setChecked(true);
+                }
+                if (mantenimientoTerminado.getAnalisis_productos_combustion() == 1) {
+                    cbAnalProduComb.setChecked(true);
+                }
+                if (mantenimientoTerminado.getCaudal_acs_calculo_potencia() == 1) {
+                    cbCaudACSCalcPotUtil.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_sistema_control() == 1) {
+                    cbReviSistContro.setChecked(true);
+                }
+            }
             cbLimpQuemCal.setEnabled(false);
             cbRevVasoExpan.setEnabled(false);
             cbRegulApara.setEnabled(false);
@@ -69,7 +117,52 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
             cbAnalProduComb.setEnabled(false);
             cbCaudACSCalcPotUtil.setEnabled(false);
             cbReviSistContro.setEnabled(false);
+
         }else if(estado==2){
+            if (mantenimientoTerminado!=null) {
+                if (mantenimientoTerminado.getLimpieza_quemadores_caldera() == 1) {
+                    cbLimpQuemCal.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_vaso_expansion() == 1) {
+                    cbRevVasoExpan.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRegulacion_aparatos() == 1) {
+                    cbRegulApara.setChecked(true);
+                }
+                if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera() == 1) {
+                    cbCompEstanCierrQuemCalen.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_calderas_contadores() == 1) {
+                    cbRevCaldCont.setChecked(true);
+                }
+                if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion() == 1) {
+                    cbVeriHidraCalef.setChecked(true);
+                }
+                if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos() == 1) {
+                    cbEstanConexApar.setChecked(true);
+                }
+                if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg() == 1) {
+                    cbEstanCondEvacIRG.setChecked(true);
+                }
+                if (mantenimientoTerminado.getComprobacion_niveles_agua() == 1) {
+                    cbComprNivAgua.setChecked(true);
+                }
+                if (mantenimientoTerminado.getTipo_conducto_evacuacion() == 1) {
+                    cbTipoCondEvac.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_estado_aislamiento_termico() == 1) {
+                    cbReviEstadoAislaTerm.setChecked(true);
+                }
+                if (mantenimientoTerminado.getAnalisis_productos_combustion() == 1) {
+                    cbAnalProduComb.setChecked(true);
+                }
+                if (mantenimientoTerminado.getCaudal_acs_calculo_potencia() == 1) {
+                    cbCaudACSCalcPotUtil.setChecked(true);
+                }
+                if (mantenimientoTerminado.getRevision_sistema_control() == 1) {
+                    cbReviSistContro.setChecked(true);
+                }
+            }
             cbLimpQuemCal.setEnabled(false);
             cbRevVasoExpan.setEnabled(false);
             cbRegulApara.setEnabled(false);
@@ -84,6 +177,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener {
             cbAnalProduComb.setEnabled(false);
             cbCaudACSCalcPotUtil.setEnabled(false);
             cbReviSistContro.setEnabled(false);
+
         }
 
         return vista;

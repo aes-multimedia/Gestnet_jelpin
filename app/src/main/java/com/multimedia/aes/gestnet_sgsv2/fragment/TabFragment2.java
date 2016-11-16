@@ -385,6 +385,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             etPotenciaFuego.setEnabled(false);
             btnAñadirMaquina.setEnabled(false);
             btnAñadirEquip.setEnabled(false);
+            etRendimientoAparato.setEnabled(false);
+            etCoCorregido.setEnabled(false);
+            etCoAmbiente.setEnabled(false);
+            etTiro.setEnabled(false);
+            etCo2.setEnabled(false);
+            etO2.setEnabled(false);
+            etLambda.setEnabled(false);
         }else if (estado==3){
             spMarca.setEnabled(false);
             spTipo.setEnabled(false);
@@ -404,6 +411,13 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             etPotenciaFuego.setEnabled(false);
             btnAñadirMaquina.setEnabled(false);
             btnAñadirEquip.setEnabled(false);
+            etRendimientoAparato.setEnabled(false);
+            etCoCorregido.setEnabled(false);
+            etCoAmbiente.setEnabled(false);
+            etTiro.setEnabled(false);
+            etCo2.setEnabled(false);
+            etO2.setEnabled(false);
+            etLambda.setEnabled(false);
         }
         if (equipamientos!=null) {
             for (int i = 0; i < equipamientos.size(); i++) {

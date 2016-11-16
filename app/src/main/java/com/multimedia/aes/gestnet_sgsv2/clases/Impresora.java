@@ -227,11 +227,25 @@ public class Impresora {
 		String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
 		String obs = mantenimiento.getObservaciones_usuario();
 		String observaciones = "Observaciones: "+obs+"\n";
-		String nom = mantenimiento.getNombre_usuario();
-		String nombre = "Nombre: "+nom+"\n";
-		String dn = mantenimiento.getDni_usuario();
-		String dni = "Dni: "+dn+"\n";
-		String firma_cliente="Firma Cliente"+"\n";
+		String nom;
+		String nombre;
+		String dn;
+		String dni;
+		String firma_cliente;
+		if (mantenimiento.getbNoTitular()==1){
+			nom = mantenimiento.getNombre_firma();
+			nombre = "Nombre: "+nom+"\n";
+			dn = mantenimiento.getDni_firma();
+			dni = "Dni: "+dn+"\n";
+			firma_cliente="Firma Cliente"+"\n";
+		}else{
+			nom = mantenimiento.getNombre_usuario();
+			nombre = "Nombre: "+nom+"\n";
+			dn = mantenimiento.getDni_usuario();
+			dni = "Dni: "+dn+"\n";
+			firma_cliente="Firma Cliente"+"\n";
+		}
+
 
 		String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, limpiarAcentos(textoImpresion));

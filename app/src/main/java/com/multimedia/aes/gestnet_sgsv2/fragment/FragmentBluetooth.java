@@ -209,6 +209,10 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
             closeButton.setVisibility(View.GONE);
+            Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap1);
+            llImpreso.draw(canvas);
+            saveToInternalSorage(bitmap1);
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
         }else if (view.getId() == R.id.btnOtra) {
@@ -218,12 +222,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             getContext().registerReceiver(bReciever, filter);
             mBluetoothAdapter.startDiscovery();
         }
-    }
-    private void guardarTichet(){
-        Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap1);
-        llImpreso.draw(canvas);
-        saveToInternalSorage(bitmap1);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -240,7 +238,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if (resultCode == Activity.RESULT_OK) {
                 Bitmap bitmap = loadFirmaTecnicoFromStorage();
                 ivFirma2.setImageBitmap(bitmap);
-                guardarTichet();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
             }
@@ -549,11 +546,24 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String conforme_cliente="--------CONFORME CLIENTE--------"+"\n";
         String obs = mantenimiento.getObservaciones_usuario();
         String observaciones = "Observaciones: "+obs+"\n";
-        String nom = mantenimiento.getNombre_usuario();
-        String nombre = "Nombre: "+nom+"\n";
-        String dn = mantenimiento.getDni_usuario();
-        String dni = "Dni: "+dn+"\n";
-        String firma_cliente="Firma Cliente"+"\n";
+        String nom;
+        String nombre;
+        String dn;
+        String dni;
+        String firma_cliente;
+        if (mantenimiento.getbNoTitular()==1){
+            nom = mantenimiento.getNombre_firma();
+            nombre = "Nombre: "+nom+"\n";
+            dn = mantenimiento.getDni_firma();
+            dni = "Dni: "+dn+"\n";
+            firma_cliente="Firma Cliente"+"\n";
+        }else{
+            nom = mantenimiento.getNombre_usuario();
+            nombre = "Nombre: "+nom+"\n";
+            dn = mantenimiento.getDni_usuario();
+            dni = "Dni: "+dn+"\n";
+            firma_cliente="Firma Cliente"+"\n";
+        }
 
         String textoImpresion =conforme_cliente+observaciones+nombre+dni+firma_cliente;
         return textoImpresion;

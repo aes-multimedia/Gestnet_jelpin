@@ -247,6 +247,9 @@ public class ModificarMantenimientos {
             String email_usuario = jsonObject1.getString("email");
             String moroso_usuario = jsonObject1.getString("moroso");
             String observaciones_usuario = jsonObject1.getString("observaciones");
+            String nombre_firma="";
+            String dni_firma="";
+            byte  bNoTitular=0;
             Mantenimiento m = new Mantenimiento(id_mantenimiento, hash, cod_barras, fk_user_creador,
                     fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
                     nombre_usuario, dni_usuario, telefono1_usuario,
@@ -274,7 +277,7 @@ public class ModificarMantenimientos {
                     bEnBatch, cod_visita, fecha_envio_carta, bCartaEnviada,
                     fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo, orden,
                     historico, fk_tipo_urgencia_factura, error_batch, fk_batch_actual,
-                    fk_efv, scoring, fk_categoria_visita, contador_averias);
+                    fk_efv, scoring, fk_categoria_visita, contador_averias,nombre_firma,dni_firma,bNoTitular);
             MantenimientoDAO.actualizarMantenimiento(context,m);
         }
 

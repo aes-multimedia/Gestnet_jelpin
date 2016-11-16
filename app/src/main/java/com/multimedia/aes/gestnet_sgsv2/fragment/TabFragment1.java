@@ -308,7 +308,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         if (view.getId() == R.id.btnIniciarParte){
             try {
                 MantenimientoDAO.actualizarEstadoAndroid(getContext(),1,mantenimiento.getId_mantenimiento());
-                new HiloParteIniciado(getActivity(),mantenimiento.getId_mantenimiento()).execute();
+                new HiloParteIniciado(getContext(),mantenimiento.getId_mantenimiento()).execute();
                 ((Index)getContext()).activar();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -463,9 +463,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             getContext().startActivity(intent);
         }else if (view.getId()==R.id.cbTitular){
             if (cbTitular.isChecked()){
-                llTitular.setVisibility(View.GONE);
-            }else{
                 llTitular.setVisibility(View.VISIBLE);
+            }else{
+                llTitular.setVisibility(View.GONE);
             }
         }
     }

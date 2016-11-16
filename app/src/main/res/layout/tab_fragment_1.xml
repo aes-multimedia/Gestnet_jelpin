@@ -504,12 +504,6 @@
 
             </LinearLayout>
 
-            <CheckBox
-                android:text="CheckBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkBox" />
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"

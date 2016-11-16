@@ -51,9 +51,13 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
         }
         return null;
     }
+    
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
         super.onPostExecute(aVoid);
     }
 
@@ -85,7 +89,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
                 uc.setDoInput(true);
                 uc.addRequestProperty("apikey",apikey);
                 uc.addRequestProperty("id",String.valueOf(id_user));
-                uc.addRequestProperty("id_parte",String.valueOf(id_parte));
+                uc.addRequestProperty("fk_parte",String.valueOf(id_parte));
                 uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
                 uc.setRequestMethod("POST");
                 uc.connect();
