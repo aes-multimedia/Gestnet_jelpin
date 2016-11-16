@@ -73,7 +73,7 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
                 tab4 = adapter.getTab4();
                 if (tab.getPosition()==3){
                     tab4.setMantenimientoTerminado(mantenimientoTerminado);
-                }else if (tab.getPosition()==2&&mantenimientoTerminado!=null){
+                }else if (tab.getPosition()==2){
                     tab2.renovar();
                 }
             }

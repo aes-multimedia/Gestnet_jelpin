@@ -293,13 +293,10 @@ public class Mantenimiento {
     private int fk_categoria_visita;
     @DatabaseField(columnName = CONTADOR_AVERIAS)
     private String contador_averias;
-
     @DatabaseField(columnName = NOMBRE_FIRMA)
     private String nombre_firma;
-
     @DatabaseField(columnName = DNI_FIRMA)
     private String dni_firma;
-
     @DatabaseField(columnName = B_NO_TITULAR)
     private byte bNoTitular;
 

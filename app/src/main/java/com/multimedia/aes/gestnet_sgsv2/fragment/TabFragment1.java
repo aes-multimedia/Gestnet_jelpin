@@ -13,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private TextView txtNumOrdenIberdrola,txtTipoIntervencion,txtVenta,txtTipoVisita,
             txtTipoMantenimiento,txtContadorAverias,txtContrato,txtFechaLlamada,txtTipoUrgencia,
             txtTipo,txtMarca,txtModelo,txtDireccion, txtCodigoBarras;
-    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre,etDni;
+    private EditText etObservaciones,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etTelefono5,etNombre,etDni,etNombreFirmante,etDniFirmante;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4,ivLlamar5;
     private Button btnIniciarParte,btnConfirmarObsTel,btnBrother;
     private Mantenimiento mantenimiento = null;
@@ -59,6 +61,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private Button mBtnPrint;
     private ArrayList<String> mFiles = new ArrayList<String>();
     private Maquina maquina=null;
+    private CheckBox cbTitular;
+    private LinearLayout llTitular;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +101,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         etTelefono5 = (EditText)vista.findViewById(R.id.etTelefono5);
         etNombre = (EditText)vista.findViewById(R.id.etNombre);
         etDni = (EditText)vista.findViewById(R.id.etDni);
+        etNombreFirmante = (EditText)vista.findViewById(R.id.etNombreFirmante);
+        etDniFirmante = (EditText)vista.findViewById(R.id.etDniFirmante);
 
         btnIniciarParte = (Button)vista.findViewById(R.id.btnIniciarParte);
         btnConfirmarObsTel = (Button)vista.findViewById(R.id.btnConfirmarObsTel);
@@ -111,6 +117,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
         ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
 
+        cbTitular = (CheckBox) vista.findViewById(R.id.cbTitular);
+
+        llTitular = (LinearLayout) vista. findViewById(R.id.llTitular);
+
         btnIniciarParte.setOnClickListener(this);
         btnConfirmarObsTel.setOnClickListener(this);
         btnBrother.setOnClickListener(this);
@@ -121,6 +131,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         ivLlamar5.setOnClickListener(this);
         ibLocation.setOnClickListener(this);
         ibIr.setOnClickListener(this);
+        cbTitular.setOnClickListener(this);
 
         txtNumOrdenIberdrola.setText(mantenimiento.getNum_orden_endesa());
         if (mantenimiento.getFk_tipo()==1){
@@ -359,8 +370,56 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
-            new HiloDatosCliente(getContext(),mantenimiento.getId_mantenimiento()).execute();
-            Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
+            if (cbTitular.isChecked()){
+                try {
+                    MantenimientoDAO.actualizarbTitular(getContext(),(byte) 1,mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (!mantenimiento.getNombre_firma().equals(etNombreFirmante.getText())){
+                    try {
+                        MantenimientoDAO.actualizarNombreFirmante(getContext(),etNombreFirmante.getText().toString(),mantenimiento.getId_mantenimiento());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!mantenimiento.getDni_firma().equals(etDniFirmante.getText())){
+                    try {
+                        MantenimientoDAO.actualizarDniFirmante(getContext(),etDniFirmante.getText().toString(),mantenimiento.getId_mantenimiento());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                try {
+                    MantenimientoDAO.actualizarbTitular(getContext(),(byte) 0,mantenimiento.getId_mantenimiento());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!etDni.getText().equals("")){
+                if (!etNombre.getText().equals("")){
+                    if (cbTitular.isChecked()){
+                        if (!etDniFirmante.getText().equals("")){
+                            if (!etNombreFirmante.getText().equals("")){
+                                new HiloDatosCliente(getContext(),mantenimiento.getId_mantenimiento()).execute();
+                                Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getContext(), "Rellena nombre del firmante", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(getContext(), "Rellena dni del firmante", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        new HiloDatosCliente(getContext(),mantenimiento.getId_mantenimiento()).execute();
+                        Toast.makeText(getContext(), "Actualizado", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(), "Rellena nombre del titular", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(getContext(), "Rellena dni del titular", Toast.LENGTH_SHORT).show();
+            }
         }else if (view.getId() == R.id.ivLlamar1){
             if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
                 Toast.makeText(getContext(), "Movil no valido", Toast.LENGTH_SHORT).show();
@@ -402,6 +461,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             geoUri = "http://maps.google.com/maps?q=loc:" + mantenimiento.getLatitud() + "," + mantenimiento.getLongitud()+ " (" + mantenimiento.getNombre_usuario() + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
             getContext().startActivity(intent);
+        }else if (view.getId()==R.id.cbTitular){
+            if (cbTitular.isChecked()){
+                llTitular.setVisibility(View.GONE);
+            }else{
+                llTitular.setVisibility(View.VISIBLE);
+            }
         }
     }
     public void llamar(String tel) {

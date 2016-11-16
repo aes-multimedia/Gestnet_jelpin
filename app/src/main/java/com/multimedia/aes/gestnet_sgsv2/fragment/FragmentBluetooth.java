@@ -209,10 +209,6 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             scTicket.setVisibility(View.VISIBLE);
         } else if (view.getId() == R.id.close) {
             closeButton.setVisibility(View.GONE);
-            Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap1);
-            llImpreso.draw(canvas);
-            saveToInternalSorage(bitmap1);
             impresora = new Impresora(getActivity(),mmDevice);
             impresora.imprimir();
         }else if (view.getId() == R.id.btnOtra) {
@@ -222,6 +218,12 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             getContext().registerReceiver(bReciever, filter);
             mBluetoothAdapter.startDiscovery();
         }
+    }
+    private void guardarTichet(){
+        Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap1);
+        llImpreso.draw(canvas);
+        saveToInternalSorage(bitmap1);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -238,6 +240,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             if (resultCode == Activity.RESULT_OK) {
                 Bitmap bitmap = loadFirmaTecnicoFromStorage();
                 ivFirma2.setImageBitmap(bitmap);
+                guardarTichet();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
             }
@@ -334,7 +337,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         String hora = mantenimientoTerminado.getHora_ticket();
         String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n";
         String gps="Long:43.283594 Lat:-3.955325"+"\n";
-        String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
+        String datos_cliente = "---------DATOS TITULAR----------" + "\n";
         String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
         String num_contrato = mantenimiento.getNum_orden_endesa();
         String numero_contrato = "N. Contrato: "+num_contrato + "\n";

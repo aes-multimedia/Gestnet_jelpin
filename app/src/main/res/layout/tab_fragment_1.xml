@@ -274,6 +274,41 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp">
 
+                <CheckBox
+                    android:text="No firma titular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorAccent"
+                    android:id="@+id/cbTitular"
+                    android:checked="false" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/llTitular"
+                    android:visibility="gone">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etNombreFirmante"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:hint="Nombre Firmante" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:ems="10"
+                        android:id="@+id/etDniFirmante"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:hint="DNI Firmante" />
+                </LinearLayout>
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -281,7 +316,7 @@
                     android:background="@drawable/edit_texts_naranja"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
-                    android:hint="Nombre" />
+                    android:hint="Nombre Titular" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -292,7 +327,7 @@
                     android:background="@drawable/edit_texts_naranja"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
-                    android:hint="DNI" />
+                    android:hint="DNI Titular" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -468,6 +503,12 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <CheckBox
+                android:text="CheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox" />
 
             <LinearLayout
                 android:orientation="vertical"

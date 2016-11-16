@@ -308,7 +308,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 		String contador_averias = mantenimiento.getContador_averias();
 		String nombre_firma=mantenimiento.getNombre_firma();
 		String dni_firma=mantenimiento.getDni_firma();
-		String bNoTitular=mantenimiento.getbNoTitular();
+		byte bNoTitular=mantenimiento.getbNoTitular();
 		cargarDao(context);
 		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id);
@@ -469,6 +469,27 @@ public class MantenimientoDAO extends DBHelperMOS {
 		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
 		updateBuilder.updateColumnValue(Mantenimiento.OBSERVACIONES_USUARIO,obs);
+		updateBuilder.update();
+	}
+	public static void actualizarNombreFirmante(Context context, String nom, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.NOMBRE_FIRMA,nom);
+		updateBuilder.update();
+	}
+	public static void actualizarDniFirmante(Context context, String dni, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.DNI_FIRMA,dni);
+		updateBuilder.update();
+	}
+	public static void actualizarbTitular(Context context, byte btit, int id_mantenimiento) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id_mantenimiento);
+		updateBuilder.updateColumnValue(Mantenimiento.B_NO_TITULAR,btit);
 		updateBuilder.update();
 	}
 }

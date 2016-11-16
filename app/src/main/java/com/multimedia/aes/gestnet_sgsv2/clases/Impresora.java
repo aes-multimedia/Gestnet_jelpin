@@ -135,7 +135,7 @@ public class Impresora {
 		String hora = mantenimientoTerminado.getHora_ticket();
 		String fecha_hora = "FECHA Y HORA: "+fecha+"-"+hora + "\n";
 		String gps="Long:43.283594 Lat:-3.955325"+"\n";
-		String datos_cliente = "---------DATOS CLIENTE----------" + "\n";
+		String datos_cliente = "---------DATOS TITULAR----------" + "\n";
 		String nombre_cliente = mantenimiento.getNombre_usuario() + "\n";
 		String num_contrato = mantenimiento.getNum_orden_endesa();
 		String numero_contrato = "N. Contrato: "+num_contrato + "\n";

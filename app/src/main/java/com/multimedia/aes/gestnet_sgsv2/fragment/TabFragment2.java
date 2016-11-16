@@ -324,9 +324,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             } else {
                 etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local() + "");
             }
-            if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")) {
+            if (maquina.getRendimiento_aparato().toString().equals("") || maquina.getRendimiento_aparato().toString().equals("null") || maquina.getRendimiento_aparato().toString().equals("0")) {
             } else {
-                etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada() + "");
+                etRendimientoAparato.setText(maquina.getRendimiento_aparato() + "");
             }
             if (maquina.getCo_corregido().toString().equals("") || maquina.getCo_corregido().toString().equals("null") || maquina.getCo_corregido().toString().equals("0")) {
             } else {
@@ -351,6 +351,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (maquina.getLambda().toString().equals("") || maquina.getLambda().toString().equals("null") || maquina.getLambda().toString().equals("0")) {
             } else {
                 etLambda.setText(maquina.getLambda() + "");
+            }
+            if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")) {
+            } else {
+                etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada() + "");
             }
             if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")) {
             } else {
@@ -768,6 +772,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
     }
     public void renovar(){
+        arrayListMaquina.clear();
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
             int id = jsonObject.getInt("id");
