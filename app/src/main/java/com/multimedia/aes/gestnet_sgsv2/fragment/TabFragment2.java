@@ -118,7 +118,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (maquinas!=null){
                 maquina= MaquinaDAO.buscarMaquinaPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
                 maquinas.remove(0);
-                equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),maquina.getId_maquina());
+                if (maquina!=null) {
+                    equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(), maquina.getId_maquina());
+                }
             }
 
         } catch (JSONException e) {
@@ -162,196 +164,198 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         btnAñadirEquip.setOnClickListener(this);
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
-        try {
-            listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
-            tipos = new String[listaTipos.size()+1];
-            tipos[0]="--Seleccione un valor--";
-            for (int i = 1; i < listaTipos.size()+1; i++) {
-                tipos[i]=listaTipos.get(i-1).getNombre_tipo_caldera();
-            }
-            spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
-
-            String tipo=null;
-            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina())!=null){
-                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
-            }
-            if (tipo!=null) {
-                String myString = tipo;
-                ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spTipo.setSelection(spinnerPosition);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
-            marcas = new String[listaMarcas.size()+1];
-            marcas[0]="--Seleccione un valor--";
-            for (int i = 1; i < listaMarcas.size()+1; i++) {
-                marcas[i]=listaMarcas.get(i-1).getNombre_marca_caldera();
-            }
-            spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
-
-            String marca = null;
-            if (MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina())!=null){
-                marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina()).getNombre_marca_caldera();
-            }
-            if (marca!=null) {
-                String myString = marca;
-                ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spMarca.setSelection(spinnerPosition);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
-            usos=new String[listaUso.size()+1];
-            usos[0]="--Seleccione un valor--";
-            for (int i = 1; i < listaUso.size()+1; i++) {
-                usos[i]=listaUso.get(i-1).getNombre_uso_caldera();
-            }
-            spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
-
-            String uso = null;
-            int uso1 = maquina.getFk_uso_maquina();
-            if (UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1)!=null){
-                uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
-            }
-            if (uso!=null) {
-                String myString = uso;
-                ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spUso.setSelection(spinnerPosition);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
-            potencias=new String[listaPotencia.size()+1];
-            potencias[0]="--Seleccione un valor--";
-            for (int i = 1; i < listaPotencia.size()+1; i++) {
-                potencias[i]=listaPotencia.get(i-1).getPotencia();
-            }
-            spPotencia.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, potencias));
-
-            String potencia = null;
-            if (maquina.getFk_potencia_maquina()!=0) {
-                int potencia1 = maquina.getFk_potencia_maquina();
-                try {
-                    potencia = PotenciaDAO.buscarPotenciaPorId(getContext(),potencia1).getPotencia();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        if (maquina!=null) {
+            try {
+                listaTipos = TipoCalderaDAO.buscarTodosLosTipoCaldera(getContext());
+                tipos = new String[listaTipos.size() + 1];
+                tipos[0] = "--Seleccione un valor--";
+                for (int i = 1; i < listaTipos.size() + 1; i++) {
+                    tipos[i] = listaTipos.get(i - 1).getNombre_tipo_caldera();
                 }
-            }
-            if (potencia!=null) {
-                String myString = potencia;
-                ArrayAdapter myAdap = (ArrayAdapter) spPotencia.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spPotencia.setSelection(spinnerPosition);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Date d = new Date();
-        String s  = String.valueOf(DateFormat.format("yyyy", d.getTime()));
-        int año = Integer.parseInt(s);
-        puestaMarcha=new String[67];
-        puestaMarcha[0]="--Seleccione un valor--";
-        int a = 1;
-        for (int i = año-65; i <= año; i++) {
-            puestaMarcha[a]=String.valueOf(i);
-            a++;
-        }
-        spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
+                spTipo.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, tipos));
 
-        String puesta = null;
-        if (maquina.getPuesta_marcha_maquina().equals("null")||maquina.getPuesta_marcha_maquina().equals("")) {
-        }else{
-            puesta = maquina.getPuesta_marcha_maquina();
-            puesta = puesta.substring(0,4);
-        }
-        if (puesta!=null) {
-            String myString = puesta;
-            ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
-            int spinnerPosition = myAdap.getPosition(myString);
-            spPuestaMarcha.setSelection(spinnerPosition);
-        }
-        if (!maquina.getModelo_maquina().equals("null")&&!maquina.getModelo_maquina().equals("")) {
-            etModelo.setText(maquina.getModelo_maquina());
-        }
-        try {
-            listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
-            equip=new String[listaEquipamientos.size()+1];
-            equip[0]="--Seleccione un valor--";
-            for (int i = 1; i < listaEquipamientos.size()+1; i++) {
-                equip[i]=listaEquipamientos.get(i-1).getNombre_tipo_equipamiento();
+                String tipo = null;
+                if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()) != null) {
+                    tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+                }
+                if (tipo != null) {
+                    String myString = tipo;
+                    ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(myString);
+                    spTipo.setSelection(spinnerPosition);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            spTipoEquipamiento.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, equip));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (maquina.getC0_maquina().toString().equals("")||maquina.getC0_maquina().toString().equals("null")||maquina.getC0_maquina().toString().equals("0")){
-        }else{
-            etC0.setText(maquina.getC0_maquina()+"");
-        }
-        if (maquina.getTemperatura_max_acs().toString().equals("")||maquina.getTemperatura_max_acs().toString().equals("null")||maquina.getTemperatura_max_acs().toString().equals("0")){
-        }else{
-            etTempMaxACS.setText(maquina.getTemperatura_max_acs()+"");
-        }
-        if (maquina.getCaudal_acs().toString().equals("")||maquina.getCaudal_acs().toString().equals("null")||maquina.getCaudal_acs().toString().equals("0")){
-        }else{
-            etCaudalACS.setText(maquina.getCaudal_acs()+"");
-        }
-        if (maquina.getPotencia_util().toString().equals("")||maquina.getPotencia_util().toString().equals("null")||maquina.getPotencia_util().toString().equals("0")){
-        }else{
-            etPotenciaUtil.setText(maquina.getPotencia_util()+"");
-        }
-        if (maquina.getTemperatura_gases_combustion().toString().equals("")||maquina.getTemperatura_gases_combustion().toString().equals("null")||maquina.getTemperatura_gases_combustion().toString().equals("0")){
-        }else{
-            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion()+"");
-        }
-        if (maquina.getTemperatura_ambiente_local().toString().equals("")||maquina.getTemperatura_ambiente_local().toString().equals("null")||maquina.getTemperatura_ambiente_local().toString().equals("0")){
-        }else{
-            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local()+"");
-        }
-        if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")){
-        }else{
-            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada()+"");
-        }
-        if (maquina.getCo_corregido().toString().equals("")||maquina.getCo_corregido().toString().equals("null")||maquina.getCo_corregido().toString().equals("0")){
-        }else{
-            etCoCorregido.setText(maquina.getCo_corregido()+"");
-        }
-        if (maquina.getCo_ambiente().toString().equals("")||maquina.getCo_ambiente().toString().equals("null")||maquina.getCo_ambiente().toString().equals("0")){
-        }else{
-            etCoAmbiente.setText(maquina.getCo_ambiente()+"");
-        }
-        if (maquina.getTiro().toString().equals("")||maquina.getTiro().toString().equals("null")||maquina.getTiro().toString().equals("0")){
-        }else{
-            etTiro.setText(maquina.getTiro()+"");
-        }
-        if (maquina.getCo2().toString().equals("")||maquina.getCo2().toString().equals("null")||maquina.getCo2().toString().equals("0")){
-        }else{
-            etCo2.setText(maquina.getCo2()+"");
-        }
-        if (maquina.getO2().toString().equals("")||maquina.getO2().toString().equals("null")||maquina.getO2().toString().equals("0")){
-        }else{
-            etO2.setText(maquina.getO2()+"");
-        }
-        if (maquina.getLambda().toString().equals("")||maquina.getLambda().toString().equals("null")||maquina.getLambda().toString().equals("0")){
-        }else{
-            etLambda.setText(maquina.getLambda()+"");
-        }
-        if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")){
-        }else{
-            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida()+"");
+            try {
+                listaMarcas = MarcaCalderaDAO.buscarTodosLosMarcaCaldera(getContext());
+                marcas = new String[listaMarcas.size() + 1];
+                marcas[0] = "--Seleccione un valor--";
+                for (int i = 1; i < listaMarcas.size() + 1; i++) {
+                    marcas[i] = listaMarcas.get(i - 1).getNombre_marca_caldera();
+                }
+                spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, marcas));
+
+                String marca = null;
+                if (MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina()) != null) {
+                    marca = MarcaCalderaDAO.buscarMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina()).getNombre_marca_caldera();
+                }
+                if (marca != null) {
+                    String myString = marca;
+                    ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(myString);
+                    spMarca.setSelection(spinnerPosition);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                listaUso = UsoCalderaDAO.buscarTodosLosUsoCaldera(getContext());
+                usos = new String[listaUso.size() + 1];
+                usos[0] = "--Seleccione un valor--";
+                for (int i = 1; i < listaUso.size() + 1; i++) {
+                    usos[i] = listaUso.get(i - 1).getNombre_uso_caldera();
+                }
+                spUso.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, usos));
+
+                String uso = null;
+                int uso1 = maquina.getFk_uso_maquina();
+                if (UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1) != null) {
+                    uso = UsoCalderaDAO.buscarUsoCalderaPorId(getContext(), uso1).getNombre_uso_caldera();
+                }
+                if (uso != null) {
+                    String myString = uso;
+                    ArrayAdapter myAdap = (ArrayAdapter) spUso.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(myString);
+                    spUso.setSelection(spinnerPosition);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+            try {
+                listaPotencia = PotenciaDAO.buscarTodosLosPotencia(getContext());
+                potencias = new String[listaPotencia.size() + 1];
+                potencias[0] = "--Seleccione un valor--";
+                for (int i = 1; i < listaPotencia.size() + 1; i++) {
+                    potencias[i] = listaPotencia.get(i - 1).getPotencia();
+                }
+                spPotencia.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, potencias));
+
+                String potencia = null;
+                if (maquina.getFk_potencia_maquina() != 0) {
+                    int potencia1 = maquina.getFk_potencia_maquina();
+                    try {
+                        potencia = PotenciaDAO.buscarPotenciaPorId(getContext(), potencia1).getPotencia();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (potencia != null) {
+                    String myString = potencia;
+                    ArrayAdapter myAdap = (ArrayAdapter) spPotencia.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(myString);
+                    spPotencia.setSelection(spinnerPosition);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Date d = new Date();
+            String s = String.valueOf(DateFormat.format("yyyy", d.getTime()));
+            int año = Integer.parseInt(s);
+            puestaMarcha = new String[67];
+            puestaMarcha[0] = "--Seleccione un valor--";
+            int a = 1;
+            for (int i = año - 65; i <= año; i++) {
+                puestaMarcha[a] = String.valueOf(i);
+                a++;
+            }
+            spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
+
+            String puesta = null;
+            if (maquina.getPuesta_marcha_maquina().equals("null") || maquina.getPuesta_marcha_maquina().equals("")) {
+            } else {
+                puesta = maquina.getPuesta_marcha_maquina();
+                puesta = puesta.substring(0, 4);
+            }
+            if (puesta != null) {
+                String myString = puesta;
+                ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
+                int spinnerPosition = myAdap.getPosition(myString);
+                spPuestaMarcha.setSelection(spinnerPosition);
+            }
+            if (!maquina.getModelo_maquina().equals("null") && !maquina.getModelo_maquina().equals("")) {
+                etModelo.setText(maquina.getModelo_maquina());
+            }
+            try {
+                listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
+                equip = new String[listaEquipamientos.size() + 1];
+                equip[0] = "--Seleccione un valor--";
+                for (int i = 1; i < listaEquipamientos.size() + 1; i++) {
+                    equip[i] = listaEquipamientos.get(i - 1).getNombre_tipo_equipamiento();
+                }
+                spTipoEquipamiento.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, equip));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (maquina.getC0_maquina().toString().equals("") || maquina.getC0_maquina().toString().equals("null") || maquina.getC0_maquina().toString().equals("0")) {
+            } else {
+                etC0.setText(maquina.getC0_maquina() + "");
+            }
+            if (maquina.getTemperatura_max_acs().toString().equals("") || maquina.getTemperatura_max_acs().toString().equals("null") || maquina.getTemperatura_max_acs().toString().equals("0")) {
+            } else {
+                etTempMaxACS.setText(maquina.getTemperatura_max_acs() + "");
+            }
+            if (maquina.getCaudal_acs().toString().equals("") || maquina.getCaudal_acs().toString().equals("null") || maquina.getCaudal_acs().toString().equals("0")) {
+            } else {
+                etCaudalACS.setText(maquina.getCaudal_acs() + "");
+            }
+            if (maquina.getPotencia_util().toString().equals("") || maquina.getPotencia_util().toString().equals("null") || maquina.getPotencia_util().toString().equals("0")) {
+            } else {
+                etPotenciaUtil.setText(maquina.getPotencia_util() + "");
+            }
+            if (maquina.getTemperatura_gases_combustion().toString().equals("") || maquina.getTemperatura_gases_combustion().toString().equals("null") || maquina.getTemperatura_gases_combustion().toString().equals("0")) {
+            } else {
+                etTempGasesComb.setText(maquina.getTemperatura_gases_combustion() + "");
+            }
+            if (maquina.getTemperatura_ambiente_local().toString().equals("") || maquina.getTemperatura_ambiente_local().toString().equals("null") || maquina.getTemperatura_ambiente_local().toString().equals("0")) {
+            } else {
+                etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local() + "");
+            }
+            if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")) {
+            } else {
+                etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada() + "");
+            }
+            if (maquina.getCo_corregido().toString().equals("") || maquina.getCo_corregido().toString().equals("null") || maquina.getCo_corregido().toString().equals("0")) {
+            } else {
+                etCoCorregido.setText(maquina.getCo_corregido() + "");
+            }
+            if (maquina.getCo_ambiente().toString().equals("") || maquina.getCo_ambiente().toString().equals("null") || maquina.getCo_ambiente().toString().equals("0")) {
+            } else {
+                etCoAmbiente.setText(maquina.getCo_ambiente() + "");
+            }
+            if (maquina.getTiro().toString().equals("") || maquina.getTiro().toString().equals("null") || maquina.getTiro().toString().equals("0")) {
+            } else {
+                etTiro.setText(maquina.getTiro() + "");
+            }
+            if (maquina.getCo2().toString().equals("") || maquina.getCo2().toString().equals("null") || maquina.getCo2().toString().equals("0")) {
+            } else {
+                etCo2.setText(maquina.getCo2() + "");
+            }
+            if (maquina.getO2().toString().equals("") || maquina.getO2().toString().equals("null") || maquina.getO2().toString().equals("0")) {
+            } else {
+                etO2.setText(maquina.getO2() + "");
+            }
+            if (maquina.getLambda().toString().equals("") || maquina.getLambda().toString().equals("null") || maquina.getLambda().toString().equals("0")) {
+            } else {
+                etLambda.setText(maquina.getLambda() + "");
+            }
+            if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")) {
+            } else {
+                etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida() + "");
+            }
         }
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){
@@ -564,9 +568,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                             String co2=etCo2.getText().toString();
                                                                                             String o2=etO2.getText().toString();
                                                                                             String lambda=etLambda.getText().toString();
-                                                                                            int bPrincipal=0;
                                                                                             if (maquina==null){
                                                                                                 int fk_maquina=0;
+                                                                                                int bPrincipal=0;
                                                                                                 m = MaquinaDAO.newMaquinaRet(getContext(),fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
                                                                                                         modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
                                                                                                         puesta_marcha_maquina, codigo_maquina, c0_maquina,
@@ -578,6 +582,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                             }else{
                                                                                                 int fk_maquina=maquina.getFk_maquina();
                                                                                                 int id_maquina = maquina.getId_maquina();
+                                                                                                int bPrincipal=maquina.getbPrincipal();
                                                                                                 MaquinaDAO.actualizarMaquina(getContext(),id_maquina,fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
                                                                                                         modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
                                                                                                         puesta_marcha_maquina, codigo_maquina, c0_maquina,
