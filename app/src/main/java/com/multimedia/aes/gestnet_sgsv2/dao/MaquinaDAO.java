@@ -36,6 +36,22 @@ public class MaquinaDAO extends DBHelperMOS {
 				rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
 		return crearMaquina(m,context);
 	}
+	public static Maquina newMaquinaRet(Context context,int fk_maquina,int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
+									 String modelo_maquina, int fk_potencia_maquina, int fk_uso_maquina,
+									 String puesta_marcha_maquina, String codigo_maquina, String c0_maquina,
+									 String temperatura_max_acs, String caudal_acs, String potencia_util,
+									 String temperatura_gases_combustion, String temperatura_ambiente_local,
+									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+									 String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda,int bPrincipal) {
+		Maquina m = montarMaquina(fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
+				modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
+				puesta_marcha_maquina, codigo_maquina, c0_maquina,
+				temperatura_max_acs, caudal_acs, potencia_util,
+				temperatura_gases_combustion, temperatura_ambiente_local,
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
+				rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+		return crearMaquinaRet(m,context);
+	}
 	public static boolean crearMaquina(Maquina m, Context context) {
 		try {
 			cargarDao(context);
@@ -44,6 +60,16 @@ public class MaquinaDAO extends DBHelperMOS {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	public static Maquina crearMaquinaRet(Maquina m, Context context) {
+		try {
+			cargarDao(context);
+			dao.create(m);
+			return m;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	public static Maquina montarMaquina(int fk_maquina, int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
