@@ -49,7 +49,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										   String bEnBatch, String cod_visita, String fecha_envio_carta, String bCartaEnviada,
 										   String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo, String orden,
 										   String historico, int fk_tipo_urgencia_factura, String error_batch, int fk_batch_actual,
-										   int fk_efv, String scoring, int fk_categoria_visita, String contador_averias) {
+										   int fk_efv, String scoring, int fk_categoria_visita, String contador_averias,String nombre_firma,String dni_firma,byte bNoTitular) {
 		Mantenimiento m = montarMantenimiento(id_mantenimiento, hash, cod_barras, fk_user_creador,
 											fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
 											nombre_usuario, dni_usuario, telefono1_usuario,
@@ -77,7 +77,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 											bEnBatch, cod_visita, fecha_envio_carta, bCartaEnviada,
 											fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo, orden,
 											historico, fk_tipo_urgencia_factura, error_batch, fk_batch_actual,
-											fk_efv, scoring, fk_categoria_visita, contador_averias);
+											fk_efv, scoring, fk_categoria_visita, contador_averias,nombre_firma,dni_firma,bNoTitular);
 		return crearMantenimiento(m,context);
 	}
 	public static boolean crearMantenimiento(Mantenimiento m,Context context) {
@@ -117,7 +117,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 													String bEnBatch, String cod_visita, String fecha_envio_carta, String bCartaEnviada,
 													String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo, String orden,
 													String historico, int fk_tipo_urgencia_factura, String error_batch, int fk_batch_actual,
-													int fk_efv, String scoring, int fk_categoria_visita, String contador_averias) {
+													int fk_efv, String scoring, int fk_categoria_visita, String contador_averias,String nombre_firma,String dni_firma, byte bNoTitular) {
 		Mantenimiento m =new Mantenimiento(id_mantenimiento, hash, cod_barras, fk_user_creador,
 										fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
 										nombre_usuario, dni_usuario, telefono1_usuario,
@@ -145,7 +145,7 @@ public class MantenimientoDAO extends DBHelperMOS {
 										bEnBatch, cod_visita, fecha_envio_carta, bCartaEnviada,
 										fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo, orden,
 										historico, fk_tipo_urgencia_factura, error_batch, fk_batch_actual,
-										fk_efv, scoring, fk_categoria_visita, contador_averias);
+										fk_efv, scoring, fk_categoria_visita, contador_averias,nombre_firma,dni_firma,bNoTitular);
 		return m;
 	}
 
@@ -306,6 +306,9 @@ public class MantenimientoDAO extends DBHelperMOS {
 		String scoring = mantenimiento.getScoring();
 		int fk_categoria_visita = mantenimiento.getFk_categoria_visita();
 		String contador_averias = mantenimiento.getContador_averias();
+		String nombre_firma=mantenimiento.getNombre_firma();
+		String dni_firma=mantenimiento.getDni_firma();
+		String bNoTitular=mantenimiento.getbNoTitular();
 		cargarDao(context);
 		UpdateBuilder<Mantenimiento, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Mantenimiento.ID_MANTENIMIENTO,id);
@@ -398,6 +401,10 @@ public class MantenimientoDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Mantenimiento.SCORING, scoring);
 		updateBuilder.updateColumnValue(Mantenimiento.FK_CATEGORIA_VISITA, fk_categoria_visita);
 		updateBuilder.updateColumnValue(Mantenimiento.CONTADOR_AVERIAS, contador_averias);
+		updateBuilder.updateColumnValue(Mantenimiento.NOMBRE_FIRMA, nombre_firma);
+		updateBuilder.updateColumnValue(Mantenimiento.DNI_FIRMA, dni_firma);
+
+		updateBuilder.updateColumnValue(Mantenimiento.B_NO_TITULAR,bNoTitular);
 		updateBuilder.update();
 	}
 

@@ -524,6 +524,10 @@ public class GuardarMantenimientosLogin {
             }else{
                 observaciones_usuario = jsonObject1.getString("observaciones");
             }
+            String nombre_firma="";
+            String dni_firma="";
+            byte  bNoTitular=0;
+
             if (MantenimientoDAO.newMantenimiento(context,id_mantenimiento, hash, cod_barras, fk_user_creador,
                     fk_tecnico, fk_usuario, fk_empresa_usuario, numero_usuario,
                     nombre_usuario, dni_usuario, telefono1_usuario,
@@ -551,7 +555,7 @@ public class GuardarMantenimientosLogin {
                     bEnBatch, cod_visita, fecha_envio_carta, bCartaEnviada,
                     fecha_otro_dia, fecha_ausente_limite, fk_carga_archivo, orden,
                     historico, fk_tipo_urgencia_factura, error_batch, fk_batch_actual,
-                    fk_efv, scoring, fk_categoria_visita, contador_averias)){
+                    fk_efv, scoring, fk_categoria_visita, contador_averias,nombre_firma,dni_firma,bNoTitular)){
                 bien=true;
             }else{
                 bien=false;

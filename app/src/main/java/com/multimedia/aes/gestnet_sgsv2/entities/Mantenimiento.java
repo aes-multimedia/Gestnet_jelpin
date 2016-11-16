@@ -100,6 +100,10 @@ public class Mantenimiento {
     public static final String SCORING = "scoring";
     public static final String FK_CATEGORIA_VISITA = "fk_categoria_visita";
     public static final String CONTADOR_AVERIAS = "contador_averias";
+    public static final String NOMBRE_FIRMA = "nombre_firma";
+    public static final String DNI_FIRMA = "dni_firma";
+    public static final String B_NO_TITULAR="bNoTitular";
+
 
     @DatabaseField(id = true, columnName = ID_MANTENIMIENTO)
     private int id_mantenimiento;
@@ -290,6 +294,15 @@ public class Mantenimiento {
     @DatabaseField(columnName = CONTADOR_AVERIAS)
     private String contador_averias;
 
+    @DatabaseField(columnName = NOMBRE_FIRMA)
+    private String nombre_firma;
+
+    @DatabaseField(columnName = DNI_FIRMA)
+    private String dni_firma;
+
+    @DatabaseField(columnName = B_NO_TITULAR)
+    private byte bNoTitular;
+
     public Mantenimiento(){
     }
 
@@ -320,7 +333,7 @@ public class Mantenimiento {
                          String bEnBatch, String cod_visita, String fecha_envio_carta, String bCartaEnviada,
                          String fecha_otro_dia, String fecha_ausente_limite, int fk_carga_archivo, String orden,
                          String historico, int fk_tipo_urgencia_factura, String error_batch, int fk_batch_actual,
-                         int fk_efv, String scoring, int fk_categoria_visita, String contador_averias) {
+                         int fk_efv, String scoring, int fk_categoria_visita, String contador_averias, String nombre_firma, String dni_firma,byte bNoTitular) {
         this.id_mantenimiento = id_mantenimiento;
         this.hash = hash;
         this.cod_barras = cod_barras;
@@ -415,6 +428,9 @@ public class Mantenimiento {
         this.scoring = scoring;
         this.fk_categoria_visita = fk_categoria_visita;
         this.contador_averias = contador_averias;
+        this.nombre_firma= nombre_firma;
+        this.dni_firma = dni_firma;
+        this.bNoTitular=bNoTitular;
     }
 
     public int getId_mantenimiento() {
@@ -988,4 +1004,23 @@ public class Mantenimiento {
     public void setContador_averias(String contador_averias) {
         this.contador_averias = contador_averias;
     }
+    public String getNombre_firma() {
+        return nombre_firma;
+    }
+    public void setNombre_firma(String nombre_firma) {
+        this.nombre_firma = nombre_firma;
+    }
+    public String getDni_firma() {
+        return dni_firma;
+    }
+    public void setDni_firma(String dni_firma) {
+        this.dni_firma = dni_firma;
+    }
+    public byte getbNoTitular() {
+        return bNoTitular;
+    }
+    public void setbNoTitular(String bNoTitutlar) {
+        this. bNoTitular = bNoTitular;
+    }
+
 }
