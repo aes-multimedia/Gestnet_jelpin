@@ -73,7 +73,7 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
                 tab4 = adapter.getTab4();
                 if (tab.getPosition()==3){
                     tab4.setMantenimientoTerminado(mantenimientoTerminado);
-                }else if (tab.getPosition()==2){
+                }else if (tab.getPosition()==1){
                     tab2.renovar();
                 }
             }
@@ -93,7 +93,9 @@ public class FragmentMantenimiento extends Fragment implements View.OnClickListe
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if (tab.getPosition()==1){
+                    tab2.renovar();
+                }
             }
         });
         return vista;

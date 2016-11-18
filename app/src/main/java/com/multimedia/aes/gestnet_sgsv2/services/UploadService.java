@@ -47,6 +47,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class UploadService extends IntentService {
     private static final String TAG = UploadService.class.getSimpleName();
@@ -474,8 +475,11 @@ public class UploadService extends IntentService {
         for (int i = 0; i < maquinas.size(); i++) {
             JSONObject jsonObject6 = new JSONObject();
             JSONObject jsonObject7 = new JSONObject();
+            Random r = new Random();
+            String rand = String.valueOf(r.nextInt(4));
             jsonObject7.put("fk_direccion",mantenimiento.getFk_direccion());
             jsonObject7.put("id_maquina",maquinas.get(i).getFk_maquina());
+            jsonObject7.put("identificador_android",mantenimiento.getId_mantenimiento()+rand);
             jsonObject7.put("fkTipoCaldera",maquinas.get(i).getFk_tipo_maquina());
             jsonObject7.put("fkMarca",maquinas.get(i).getFk_marca_maquina());
             jsonObject7.put("potencia",PotenciaDAO.buscarNombrePotenciaPorId(getBaseContext(),maquinas.get(i).getFk_potencia_maquina()));

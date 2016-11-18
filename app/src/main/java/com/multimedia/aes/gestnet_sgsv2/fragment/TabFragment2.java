@@ -786,6 +786,9 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
     }
     public void renovar(){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        height = display.getHeight();
+        height=height/16;
         arrayListMaquina.clear();
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
@@ -938,61 +941,65 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (maquina.getC0_maquina().toString().equals("")||maquina.getC0_maquina().toString().equals("null")||maquina.getC0_maquina().toString().equals("0")){
-        }else{
-            etC0.setText(maquina.getC0_maquina()+"");
+        if (maquina.getC0_maquina().toString().equals("") || maquina.getC0_maquina().toString().equals("null") || maquina.getC0_maquina().toString().equals("0")) {
+        } else {
+            etC0.setText(maquina.getC0_maquina() + "");
         }
-        if (maquina.getTemperatura_max_acs().toString().equals("")||maquina.getTemperatura_max_acs().toString().equals("null")||maquina.getTemperatura_max_acs().toString().equals("0")){
-        }else{
-            etTempMaxACS.setText(maquina.getTemperatura_max_acs()+"");
+        if (maquina.getTemperatura_max_acs().toString().equals("") || maquina.getTemperatura_max_acs().toString().equals("null") || maquina.getTemperatura_max_acs().toString().equals("0")) {
+        } else {
+            etTempMaxACS.setText(maquina.getTemperatura_max_acs() + "");
         }
-        if (maquina.getCaudal_acs().toString().equals("")||maquina.getCaudal_acs().toString().equals("null")||maquina.getCaudal_acs().toString().equals("0")){
-        }else{
-            etCaudalACS.setText(maquina.getCaudal_acs()+"");
+        if (maquina.getCaudal_acs().toString().equals("") || maquina.getCaudal_acs().toString().equals("null") || maquina.getCaudal_acs().toString().equals("0")) {
+        } else {
+            etCaudalACS.setText(maquina.getCaudal_acs() + "");
         }
-        if (maquina.getPotencia_util().toString().equals("")||maquina.getPotencia_util().toString().equals("null")||maquina.getPotencia_util().toString().equals("0")){
-        }else{
-            etPotenciaUtil.setText(maquina.getPotencia_util()+"");
+        if (maquina.getPotencia_util().toString().equals("") || maquina.getPotencia_util().toString().equals("null") || maquina.getPotencia_util().toString().equals("0")) {
+        } else {
+            etPotenciaUtil.setText(maquina.getPotencia_util() + "");
         }
-        if (maquina.getTemperatura_gases_combustion().toString().equals("")||maquina.getTemperatura_gases_combustion().toString().equals("null")||maquina.getTemperatura_gases_combustion().toString().equals("0")){
-        }else{
-            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion()+"");
+        if (maquina.getTemperatura_gases_combustion().toString().equals("") || maquina.getTemperatura_gases_combustion().toString().equals("null") || maquina.getTemperatura_gases_combustion().toString().equals("0")) {
+        } else {
+            etTempGasesComb.setText(maquina.getTemperatura_gases_combustion() + "");
         }
-        if (maquina.getTemperatura_ambiente_local().toString().equals("")||maquina.getTemperatura_ambiente_local().toString().equals("null")||maquina.getTemperatura_ambiente_local().toString().equals("0")){
-        }else{
-            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local()+"");
+        if (maquina.getTemperatura_ambiente_local().toString().equals("") || maquina.getTemperatura_ambiente_local().toString().equals("null") || maquina.getTemperatura_ambiente_local().toString().equals("0")) {
+        } else {
+            etTempAmbienteLocal.setText(maquina.getTemperatura_ambiente_local() + "");
         }
-        if (maquina.getCo_corregido().toString().equals("")||maquina.getCo_corregido().toString().equals("null")||maquina.getCo_corregido().toString().equals("0")){
-        }else{
-            etCoCorregido.setText(maquina.getCo_corregido()+"");
+        if (maquina.getRendimiento_aparato().toString().equals("") || maquina.getRendimiento_aparato().toString().equals("null") || maquina.getRendimiento_aparato().toString().equals("0")) {
+        } else {
+            etRendimientoAparato.setText(maquina.getRendimiento_aparato() + "");
         }
-        if (maquina.getCo_ambiente().toString().equals("")||maquina.getCo_ambiente().toString().equals("null")||maquina.getCo_ambiente().toString().equals("0")){
-        }else{
-            etCoAmbiente.setText(maquina.getCo_ambiente()+"");
+        if (maquina.getCo_corregido().toString().equals("") || maquina.getCo_corregido().toString().equals("null") || maquina.getCo_corregido().toString().equals("0")) {
+        } else {
+            etCoCorregido.setText(maquina.getCo_corregido() + "");
         }
-        if (maquina.getTiro().toString().equals("")||maquina.getTiro().toString().equals("null")||maquina.getTiro().toString().equals("0")){
-        }else{
-            etTiro.setText(maquina.getTiro()+"");
+        if (maquina.getCo_ambiente().toString().equals("") || maquina.getCo_ambiente().toString().equals("null") || maquina.getCo_ambiente().toString().equals("0")) {
+        } else {
+            etCoAmbiente.setText(maquina.getCo_ambiente() + "");
         }
-        if (maquina.getCo2().toString().equals("")||maquina.getCo2().toString().equals("null")||maquina.getCo2().toString().equals("0")){
-        }else{
-            etCo2.setText(maquina.getCo2()+"");
+        if (maquina.getTiro().toString().equals("") || maquina.getTiro().toString().equals("null") || maquina.getTiro().toString().equals("0")) {
+        } else {
+            etTiro.setText(maquina.getTiro() + "");
         }
-        if (maquina.getO2().toString().equals("")||maquina.getO2().toString().equals("null")||maquina.getO2().toString().equals("0")){
-        }else{
-            etO2.setText(maquina.getO2()+"");
+        if (maquina.getCo2().toString().equals("") || maquina.getCo2().toString().equals("null") || maquina.getCo2().toString().equals("0")) {
+        } else {
+            etCo2.setText(maquina.getCo2() + "");
         }
-        if (maquina.getLambda().toString().equals("")||maquina.getLambda().toString().equals("null")||maquina.getLambda().toString().equals("0")){
-        }else{
-            etLambda.setText(maquina.getLambda()+"");
+        if (maquina.getO2().toString().equals("") || maquina.getO2().toString().equals("null") || maquina.getO2().toString().equals("0")) {
+        } else {
+            etO2.setText(maquina.getO2() + "");
         }
-        if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")){
-        }else{
-            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada()+"");
+        if (maquina.getLambda().toString().equals("") || maquina.getLambda().toString().equals("null") || maquina.getLambda().toString().equals("0")) {
+        } else {
+            etLambda.setText(maquina.getLambda() + "");
         }
-        if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null")||maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")){
-        }else{
-            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida()+"");
+        if (maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_entrada().toString().equals("0")) {
+        } else {
+            etTempAguaGeneCalorEntrada.setText(maquina.getTemperatura_agua_generador_calor_entrada() + "");
+        }
+        if (maquina.getTemperatura_agua_generador_calor_salida().toString().equals("") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("null") || maquina.getTemperatura_agua_generador_calor_salida().toString().equals("0")) {
+        } else {
+            etTempAguaGeneCalorSalida.setText(maquina.getTemperatura_agua_generador_calor_salida() + "");
         }
         int estado = Integer.parseInt(mantenimiento.getEstado_android());
         if (estado==0){

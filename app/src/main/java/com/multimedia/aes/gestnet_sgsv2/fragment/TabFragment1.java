@@ -202,41 +202,47 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }else{
             txtTipoUrgencia.setText("BONIFICABLE");
         }
-        String tipo=null;
-        try {
-            if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquina.getFk_tipo_maquina())!=null) {
-                tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+        if (maquina!=null) {
+            String tipo = null;
+            try {
+                if (TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()) != null) {
+                    tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (tipo == null){
-            txtTipo.setVisibility(View.GONE);
-        }else{
-            txtTipo.setVisibility(View.VISIBLE);
-            txtTipo.setText(tipo);
-        }
-        if (maquina.getModelo_maquina().toString().equals("")||maquina.getModelo_maquina().toString().equals("null")){
-            txtModelo.setVisibility(View.GONE);
-        }else {
-            txtModelo.setVisibility(View.VISIBLE);
-            txtModelo.setText(maquina.getModelo_maquina());
-        }
-        String marca = null;
-        try {
-            if (MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquina.getFk_marca_maquina())!=null) {
-                marca = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina());
+            if (tipo == null) {
+                txtTipo.setVisibility(View.GONE);
+            } else {
+                txtTipo.setVisibility(View.VISIBLE);
+                txtTipo.setText(tipo);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (marca==null){
-            txtMarca.setVisibility(View.GONE);
+            if (maquina.getModelo_maquina().toString().equals("") || maquina.getModelo_maquina().toString().equals("null")) {
+                txtModelo.setVisibility(View.GONE);
+            } else {
+                txtModelo.setVisibility(View.VISIBLE);
+                txtModelo.setText(maquina.getModelo_maquina());
+            }
+            String marca = null;
+            try {
+                if (MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina()) != null) {
+                    marca = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(), maquina.getFk_marca_maquina());
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (marca == null) {
+                txtMarca.setVisibility(View.GONE);
+            } else {
+                txtMarca.setVisibility(View.VISIBLE);
+                txtMarca.setText(marca);
+            }
+
+            if (tipo == null && marca == null && (maquina.getModelo_maquina().toString().equals("") || maquina.getModelo_maquina().toString().equals("null"))) {
+                txtMarca.setVisibility(View.VISIBLE);
+                txtMarca.setText("No hay datos del equipo");
+            }
         }else{
-            txtMarca.setVisibility(View.VISIBLE);
-            txtMarca.setText(marca);
-        }
-        if (tipo==null&&marca==null&&(maquina.getModelo_maquina().toString().equals("")||maquina.getModelo_maquina().toString().equals("null"))){
             txtMarca.setVisibility(View.VISIBLE);
             txtMarca.setText("No hay datos del equipo");
         }
