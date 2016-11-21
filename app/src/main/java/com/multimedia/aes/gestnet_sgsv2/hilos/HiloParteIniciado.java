@@ -55,9 +55,7 @@ public class HiloParteIniciado extends AsyncTask<Void,Void,Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+        Log.e("PARTEINI",mensaje);
         super.onPostExecute(aVoid);
     }
 

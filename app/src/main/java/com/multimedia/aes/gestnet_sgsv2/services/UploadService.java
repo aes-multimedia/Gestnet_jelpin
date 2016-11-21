@@ -137,7 +137,7 @@ public class UploadService extends IntentService {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+            urlws = new URL("http://"+ ipInterna +":"+puerto+"/api-sgs/v1/mantenimientos/pruebas");
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -156,7 +156,7 @@ public class UploadService extends IntentService {
             return "PROTOCOLEXCEPTION";
         } catch (IOException e) {
             try {
-                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/carga_datos");
+                urlws = new URL("http://"+ ipExterna +":"+puerto+"/api-sgs/v1/mantenimientos/pruebas");
                 uc = (HttpURLConnection) urlws.openConnection();
                 uc.setDoOutput(true);
                 uc.setDoInput(true);
@@ -476,7 +476,7 @@ public class UploadService extends IntentService {
             JSONObject jsonObject6 = new JSONObject();
             JSONObject jsonObject7 = new JSONObject();
             Random r = new Random();
-            String rand = String.valueOf(r.nextInt(4));
+            String rand = String.valueOf(r.nextInt(9999));
             jsonObject7.put("fk_direccion",mantenimiento.getFk_direccion());
             jsonObject7.put("id_maquina",maquinas.get(i).getFk_maquina());
             jsonObject7.put("identificador_android",mantenimiento.getId_mantenimiento()+rand);
