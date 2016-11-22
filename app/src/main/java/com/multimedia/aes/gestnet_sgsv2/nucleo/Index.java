@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -140,11 +141,37 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     public void rellenarArrayMantenimientoFecha(String fecha) throws SQLException {
         if (MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha)!=null) {
-            arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha));
+            List<Mantenimiento>m=MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha);
+            if (m==null){
+                Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this,Login.class);
+                startActivity(i);
+                finish();
+            }else {
+                arrayListMantenimiento.addAll(m);
+            }
         }else if (MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime())!=null){
-            arrayListMantenimiento.addAll(MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime()));
+            List<Mantenimiento>m=MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime());
+            if (m==null){
+                Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this,Login.class);
+                startActivity(i);
+                finish();
+            }else {
+                arrayListMantenimiento.addAll(m);
+            }
         }else{
-            arrayListMantenimiento.addAll(MantenimientoDAO.buscarTodosLosMantenimientos(this));
+            List<Mantenimiento>m=MantenimientoDAO.buscarTodosLosMantenimientos(this);
+            if (m==null){
+                Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
+                BBDDConstantes.borrarDatosTablas(this);
+                GestorSharedPreferences.clearSharedPreferencesTecnico(this);
+                Intent i = new Intent(this,Login.class);
+                startActivity(i);
+                finish();
+            }else {
+                arrayListMantenimiento.addAll(m);
+            }
         }
     }
 
