@@ -8,7 +8,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_sgsv2.constants.BBDDConstantes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.EstadoVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -150,12 +149,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.mantenimientoTerminadoDao = getDao(MantenimientoTerminado.class);
 		}
 		return BBDDConstantes.mantenimientoTerminadoDao;
-	}
-	public Dao<EquipamientoCaldera, Integer> getEquipamientoCalderaDAO() throws SQLException {
-		if (BBDDConstantes.equipamientoCalderaDao == null) {
-			BBDDConstantes.equipamientoCalderaDao = getDao(EquipamientoCaldera.class);
-		}
-		return BBDDConstantes.equipamientoCalderaDao;
 	}
 	public Dao<Equipamiento, Integer> getEquipamientoDAO() throws SQLException {
 		if (BBDDConstantes.equipamientoDao == null) {

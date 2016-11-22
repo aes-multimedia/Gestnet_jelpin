@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
-import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
@@ -44,7 +44,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dialog.ManagerProgressDialog;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
@@ -89,7 +89,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
     private Tecnico tecnico;
     private MantenimientoTerminado mantenimientoTerminado;
     private List<Maquina> maquinas;
-    private List<EquipamientoCaldera> equipamiento;
+    private List<Equipamiento> equipamiento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(getContext(),id);
             tecnico = TecnicoDAO.buscarTodosLosTecnicos(getContext()).get(0);
             maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
-            equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getContext(),mantenimiento.getId_mantenimiento());
+            equipamiento = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(),MaquinaDAO.buscarMaquinaPorbprincipal(getContext(),mantenimiento.getId_mantenimiento()).getFk_maquina());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {

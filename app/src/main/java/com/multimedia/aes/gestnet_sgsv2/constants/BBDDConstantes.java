@@ -6,7 +6,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.multimedia.aes.gestnet_sgsv2.dao.AveriaDAO;
-import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
@@ -26,7 +25,6 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.UsoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Averia;
 import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.EstadoVisita;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -65,7 +63,6 @@ public class BBDDConstantes {
 	public static Dao<SubTiposVisita, Integer> subTiposVisitasDao;
 	public static Dao<Imagenes, Integer> imagenesDao;
 	public static Dao<MantenimientoTerminado, Integer> mantenimientoTerminadoDao;
-	public static Dao<EquipamientoCaldera, Integer> equipamientoCalderaDao;
 	public static Dao<Equipamiento, Integer> equipamientoDao;
 	public static Dao<Maquina, Integer> maquinaDao;
 	public static Dao<MotivosNoRep, Integer> motivosNoRepDao;
@@ -86,7 +83,6 @@ public class BBDDConstantes {
 		subTiposVisitasDao = null;
 		imagenesDao = null;
 		mantenimientoTerminadoDao = null;
-		equipamientoCalderaDao = null;
 		equipamientoDao = null;
 		maquinaDao = null;
 		motivosNoRepDao = null;
@@ -108,7 +104,6 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, SubTiposVisita.class);
 		TableUtils.createTable(connectionSource, Imagenes.class);
 		TableUtils.createTable(connectionSource, MantenimientoTerminado.class);
-		TableUtils.createTable(connectionSource, EquipamientoCaldera.class);
 		TableUtils.createTable(connectionSource, Equipamiento.class);
 		TableUtils.createTable(connectionSource, Maquina.class);
 		TableUtils.createTable(connectionSource, MotivosNoRep.class);
@@ -131,7 +126,6 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, SubTiposVisita.class, true);
 		TableUtils.dropTable(connectionSource, Imagenes.class, true);
 		TableUtils.dropTable(connectionSource, MantenimientoTerminado.class, true);
-		TableUtils.dropTable(connectionSource, EquipamientoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, Equipamiento.class, true);
 		TableUtils.dropTable(connectionSource, Maquina.class, true);
 		TableUtils.dropTable(connectionSource, MotivosNoRep.class, true);
@@ -154,7 +148,6 @@ public class BBDDConstantes {
 		SubTiposVisitaDAO.borrarTodosLosSubTiposVisita(context);
 		ImagenesDAO.borrarTodasLasImagenes(context);
 		MantenimientoTerminadoDAO.borrarTodosLosMantenimientoTerminados(context);
-		EquipamientoCalderaDAO.borrarTodosLosEquipamientoCaldera(context);
 		EquipamientoDAO.borrarTodosLosEquipamientos(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
 		MotivosNoRepDAO.borrarTodosLosMotivosNoRep(context);

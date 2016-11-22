@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
-import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
@@ -21,7 +20,6 @@ import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
@@ -91,11 +89,10 @@ public class UploadService extends IntentService {
                     Log.d("-MENSAJEMANTENIMIENTO-", mensajemantenimiento);
                     String mensajeticket = subirTiket(rellenarJsonTiket());
                     Log.d("-----MENSAJETICKET-----", mensajeticket);
-                    rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()).toString();
+                    String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
+                    Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
                     if (mensajemantenimiento.equals("1")){
                         MantenimientoTerminadoDAO.actualizarEnviado(getBaseContext(),true,list.get(i).getId_mantenimiento_terminado());
-                        //String mensajeCerrarIberdrola = subirCerrarIberdrola(rellenarJsonCerrarIberdrola(list.get(i).getId_mantenimiento_terminado()));
-                        //Log.d("-----MENSAJEIER-----", mensajeCerrarIberdrola);
                         //String mensajeticket = subirTiket(rellenarJsonTiket());
                         //Log.d("-----MENSAJETICKET-----", mensajeticket);
                         if (ImagenesDAO.buscarImagenPorFk_parte(getBaseContext(),list.get(i).getFk_parte())!=null){
@@ -503,7 +500,7 @@ public class UploadService extends IntentService {
                 if (equipamiento!=null) {
                     for (int j = 0; j < equipamiento.size(); j++) {
                         JSONObject jsonObject5 = new JSONObject();
-                        jsonObject5.put("id_equipamiento", "");
+                        jsonObject5.put("id_equipamiento", equipamiento.get(j).getFk_equipamiento());
                         jsonObject5.put("fk_maquina", maquinas.get(i).getFk_maquina());
                         jsonObject5.put("potencia", equipamiento.get(j).getPotencia_fuegos());
                         jsonObject5.put("idTipoEquipamientos", equipamiento.get(j).getFk_tipo_equipamiento());

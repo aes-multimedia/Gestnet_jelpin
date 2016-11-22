@@ -25,8 +25,6 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaEquipamientos;
 import com.multimedia.aes.gestnet_sgsv2.adapter.AdaptadorListaMaquinas;
-import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
-import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
@@ -438,20 +436,11 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         }
         if (equipamientos!=null) {
             for (int i = 0; i < equipamientos.size(); i++) {
-                String tipo_equipamiento = null;
-                try {
-                    tipo_equipamiento = TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(getContext(), equipamientos.get(i).getFk_tipo_equipamiento());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                if (tipo_equipamiento != null) {
-                    alto += height;
-                    lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                    arraylistEquipamiento.add(equipamientos.get(i));
-                    adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
-                    lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
-                }
-
+                alto += height;
+                lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                arraylistEquipamiento.add(equipamientos.get(i));
+                adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+                lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
             }
         }
         if (!maquinas.isEmpty()||maquinas!=null) {
@@ -746,11 +735,11 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 if (equipamiento==null){
                     int fk_equipamiento=0;
                     e = EquipamientoDAO.newEquipamientoRet(getContext(),fk_equipamiento,fkMaquina,fkTipoEquipamiento,potenciaFuegos,codigo,co2);
+                    EquipamientoDAO.buscarTodosLosEquipamientos(getContext());
                 }else{
                     int fk_equipamiento = equipamiento.getFk_equipamiento();
                     EquipamientoDAO.actualizarEquipamiento(getContext(),fkTipoEquipamiento,potenciaFuegos,fk_equipamiento);
-                    e.setFk_tipo_equipamiento(fkTipoEquipamiento);
-                    e.setPotencia_fuegos(potenciaFuegos);
+                    e=new Equipamiento(fk_equipamiento,fkMaquina,fkTipoEquipamiento,potenciaFuegos,codigo,co2);
                 }
                 equipamiento=null;
             }else{

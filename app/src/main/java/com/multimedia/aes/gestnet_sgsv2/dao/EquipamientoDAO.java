@@ -7,8 +7,6 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_sgsv2.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
-import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -22,12 +20,12 @@ public class EquipamientoDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newEquipamiento(Context context,int id_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
-		Equipamiento eq = montarEquipamiento(id_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
+	public static boolean newEquipamiento(Context context,int fk_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
+		Equipamiento eq = montarEquipamiento(fk_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
 		return crearEquipamiento(eq,context);
 	}
-	public static Equipamiento newEquipamientoRet(Context context,int id_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
-		Equipamiento eq = montarEquipamiento(id_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
+	public static Equipamiento newEquipamientoRet(Context context,int fk_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
+		Equipamiento eq = montarEquipamiento(fk_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
 		return crearEquipamientoRet(eq,context);
 	}
 	public static boolean crearEquipamiento(Equipamiento eq,Context context) {
@@ -50,8 +48,8 @@ public class EquipamientoDAO extends DBHelperMOS {
 			return null;
 		}
 	}
-	public static Equipamiento montarEquipamiento(int id_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
-		Equipamiento eq =new Equipamiento(id_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
+	public static Equipamiento montarEquipamiento(int fk_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
+		Equipamiento eq =new Equipamiento(fk_equipamiento, fk_maquina, fk_tipo_equipamiento, potencia_fuegos, codigo_equipamiento, co2_equipamiento);
 		return eq;
 	}
 

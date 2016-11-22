@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
-import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
@@ -25,7 +25,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposVisitaDAO;
-import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.MantenimientoTerminado;
 import com.multimedia.aes.gestnet_sgsv2.entities.Maquina;
@@ -62,7 +62,7 @@ public class Impresora {
 	private Tecnico tecnico;
 	private MantenimientoTerminado mantenimientoTerminado;
 	private List<Maquina> maquinas;
-	private List<EquipamientoCaldera> equipamiento;
+	private List<Equipamiento> equipamiento;
 
 	public Impresora(Activity activity, BluetoothDevice mmDevice) {
 		super();
@@ -78,7 +78,7 @@ public class Impresora {
 			mantenimientoTerminado = MantenimientoTerminadoDAO.buscarMantenimientoTerminadoPorfkParte(activity,id);
 			tecnico = TecnicoDAO.buscarTodosLosTecnicos(activity).get(0);
 			maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(activity,mantenimiento.getId_mantenimiento());
-			equipamiento = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(activity,mantenimiento.getId_mantenimiento());
+			equipamiento = EquipamientoDAO.buscarEquipamientoPorIdMaquina(activity,MaquinaDAO.buscarMaquinaPorbprincipal(activity,mantenimiento.getId_mantenimiento()).getFk_maquina());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

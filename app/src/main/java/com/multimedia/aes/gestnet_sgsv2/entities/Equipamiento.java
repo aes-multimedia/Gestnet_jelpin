@@ -30,15 +30,6 @@ public class Equipamiento {
     private String co2_equipamiento;
 
     public Equipamiento(){}
-    public Equipamiento(int id_equipamiento,int fk_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
-        this.id_equipamiento = id_equipamiento;
-        this.fk_equipamiento = fk_equipamiento;
-        this.fk_maquina = fk_maquina;
-        this.fk_tipo_equipamiento = fk_tipo_equipamiento;
-        this.potencia_fuegos = potencia_fuegos;
-        this.codigo_equipamiento = codigo_equipamiento;
-        this.co2_equipamiento = co2_equipamiento;
-    }
     public Equipamiento(int fk_equipamiento, int fk_maquina, int fk_tipo_equipamiento, String potencia_fuegos, String codigo_equipamiento, String co2_equipamiento) {
         this.fk_equipamiento = fk_equipamiento;
         this.fk_maquina = fk_maquina;
