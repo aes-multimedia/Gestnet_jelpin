@@ -144,9 +144,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             List<Mantenimiento>m=MantenimientoDAO.buscarMantenimientosPorFechas(this, fecha);
             if (m==null){
                 Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,Login.class);
-                startActivity(i);
-                finish();
             }else {
                 arrayListMantenimiento.addAll(m);
             }
@@ -154,9 +151,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             List<Mantenimiento>m=MantenimientoDAO.buscarMantenimientosPorFechas(this, getDateTime());
             if (m==null){
                 Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(this,Login.class);
-                startActivity(i);
-                finish();
             }else {
                 arrayListMantenimiento.addAll(m);
             }
@@ -164,11 +158,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             List<Mantenimiento>m=MantenimientoDAO.buscarTodosLosMantenimientos(this);
             if (m==null){
                 Toast.makeText(this, "No hay partes para hoy", Toast.LENGTH_SHORT).show();
-                BBDDConstantes.borrarDatosTablas(this);
-                GestorSharedPreferences.clearSharedPreferencesTecnico(this);
-                Intent i = new Intent(this,Login.class);
-                startActivity(i);
-                finish();
             }else {
                 arrayListMantenimiento.addAll(m);
             }

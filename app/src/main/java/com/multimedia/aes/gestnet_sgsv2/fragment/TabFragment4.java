@@ -306,6 +306,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            if (mantenimientoTerminado.getFk_estado_visita()==37) {
                 if (mantenimientoTerminado.isMaquina()) {
                     Calendar cal = new GregorianCalendar();
                     Date date = cal.getTime();
@@ -315,7 +316,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                     String hora = df.format(date);
                     mantenimientoTerminado.setFecha_ticket(fecha);
                     mantenimientoTerminado.setHora_ticket(hora);
-                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(),mantenimientoTerminado);
+                    MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(), mantenimientoTerminado);
                     if (!arraylistImagenes.isEmpty()) {
                         for (int i = 0; i < arraylistImagenes.size(); i++) {
                             ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
@@ -335,10 +336,41 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
                         }
 
                     }
-                }else{
+                } else {
                     Toast.makeText(context, "Falta Equipo", Toast.LENGTH_LONG).show();
                     Toast.makeText(context, "Falta Equipo", Toast.LENGTH_LONG).show();
                 }
+
+            }else{
+                Calendar cal = new GregorianCalendar();
+                Date date = cal.getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                String fecha = df.format(date);
+                df = new SimpleDateFormat("hh:mm");
+                String hora = df.format(date);
+                mantenimientoTerminado.setFecha_ticket(fecha);
+                mantenimientoTerminado.setHora_ticket(hora);
+                MantenimientoTerminadoDAO.newMantenimientoTerminado(getContext(), mantenimientoTerminado);
+                if (!arraylistImagenes.isEmpty()) {
+                    for (int i = 0; i < arraylistImagenes.size(); i++) {
+                        ImagenesDAO.newImagen(getContext(), arraylistImagenes.get(i).nombre, arraylistImagenes.get(i).ruta, mantenimiento.getId_mantenimiento());
+                        ((Index) getContext()).ticket();
+                        try {
+                            MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    ((Index) getContext()).ticket();
+                    try {
+                        MantenimientoDAO.actualizarEstadoAndroid(getContext(), 3, mantenimiento.getId_mantenimiento());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
 
         }else if (view.getId()==R.id.btnImprimir){
             ((Index)getContext()).ticket();

@@ -31,6 +31,7 @@ import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_sgsv2.clases.Impresora;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.EstadoVisitaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MaquinaDAO;
@@ -358,42 +359,55 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
             String noti = "Visita realizada cumpliendo los" + "\n" + "requisitos de la IT.3 del RITE.";
             notificada = "" + noti + "\n";
         }
-        String presupuesto = "--OPERACIONES REALIZADAS--" + "\n";
-        String op = operaciones();
+        int cont = operaciones_conteo(0);
+        String presupuesto;
+        String op;
+        if (cont>0) {
+            presupuesto = "--OPERACIONES REALIZADAS--" + "\n";
+            op = operaciones();
+        }else{
+            presupuesto = "";
+            op = "";
+        }
         String operaciones = op;
         String maquina = datosMaquinas()+"\n";
-        String anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
         String anom = "";
-        if (!mantenimientoTerminado.isAnomalia()){
-            anom = "Sin Defectos."+"\n";
-        }else {
-            anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(),mantenimientoTerminado.getFk_tipo_visita())+"\n";
-            if (mantenimientoTerminado.getFk_subtipo_visita()!=-1){
-                anom += SubTiposVisitaDAO.buscarSubTiposVisitaPorId(getContext(),mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket()+"\n";
-            }else{
-                anom = "Otras anomalias."+"\n";
-            }
-            if (mantenimientoTerminado.getReparacion()==1){
-                anom+="Acepta reparacion."+"\n";
-                anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-                anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-            }else{
-                anom+="No acepta reparacion."+"\n";
-                String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(),mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo()+"\n";
-                anom+=mot+"\n";
-                anom+=mantenimientoTerminado.getObs_reparacion_iberdrola()+"\n";
-                if (mantenimientoTerminado.getFk_motivos_no_rep()!=4){
-                    anom+="Num. Sol.: "+mantenimientoTerminado.getCod_visita_plataforma()+"\n";
-                    String preci = "";
-                    if (mantenimientoTerminado.getPrecintado()==1){
-                        preci+="Acepta Precinto: Si";
-                    }else if(mantenimientoTerminado.getPrecintado()==0) {
-                        preci+="Acepta Precinto: No";
-                    }
-                    anom+=preci+"\n";
+        String anomalias_detectadas="";
+        if (mantenimientoTerminado.getFk_estado_visita()==37) {
+            anomalias_detectadas = "ANOMALIAS DETECTADAS: "+"\n";
+            if (!mantenimientoTerminado.isAnomalia()) {
+                anom = "Sin Defectos." + "\n";
+            } else {
+                anom = TiposVisitaDAO.buscarNombreTipoVisitaPorId(getContext(), mantenimientoTerminado.getFk_tipo_visita()) + "\n";
+                if (mantenimientoTerminado.getFk_subtipo_visita() != -1) {
+                    anom += SubTiposVisitaDAO.buscarSubTiposVisitaPorId(getContext(), mantenimientoTerminado.getFk_subtipo_visita()).getDescripcion_ticket() + "\n";
+                } else {
+                    anom = "Otras anomalias." + "\n";
                 }
+                if (mantenimientoTerminado.getReparacion() == 1) {
+                    anom += "Acepta reparacion." + "\n";
+                    anom += mantenimientoTerminado.getObs_reparacion_iberdrola() + "\n";
+                    anom += "Num. Sol.: " + mantenimientoTerminado.getCod_visita_plataforma() + "\n";
+                } else {
+                    anom += "No acepta reparacion." + "\n";
+                    String mot = MotivosNoRepDAO.buscarMotivosNoRepPorId(getContext(), mantenimientoTerminado.getFk_motivos_no_rep()).getMotivo() + "\n";
+                    anom += mot + "\n";
+                    anom += mantenimientoTerminado.getObs_reparacion_iberdrola() + "\n";
+                    if (mantenimientoTerminado.getFk_motivos_no_rep() != 4) {
+                        anom += "Num. Sol.: " + mantenimientoTerminado.getCod_visita_plataforma() + "\n";
+                        String preci = "";
+                        if (mantenimientoTerminado.getPrecintado() == 1) {
+                            preci += "Acepta Precinto: Si";
+                        } else if (mantenimientoTerminado.getPrecintado() == 0) {
+                            preci += "Acepta Precinto: No";
+                        }
+                        anom += preci + "\n";
+                    }
+                }
+                anom += "";
             }
-            anom+="";
+        }else{
+            anom= EstadoVisitaDAO.buscarEstadoVisitaPorId(getContext(),mantenimientoTerminado.getFk_estado_visita()).getNombre_estado_visita();
         }
         String anomalias = anom+"\n";
         String comun = "";
@@ -468,22 +482,74 @@ public class FragmentBluetooth extends Fragment implements AdapterView.OnItemCli
         }
         return operaciones;
     }
+    private int operaciones_conteo(int cont){
+        String operaciones = "";
+        if (mantenimientoTerminado.getLimpieza_quemadores_caldera()==1){
+           cont++;
+        }
+        if (mantenimientoTerminado.getRevision_vaso_expansion()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getRegulacion_aparatos()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getComprobar_estanqueidad_cierre_quemadores_caldera()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getRevision_calderas_contadores()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getVerificacion_circuito_hidraulico_calefaccion()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getEstanqueidad_conexion_aparatos()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getEstanqueidad_conducto_evacuacion_irg()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getComprobacion_niveles_agua()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getTipo_conducto_evacuacion()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getRevision_estado_aislamiento_termico()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getAnalisis_productos_combustion()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getCaudal_acs_calculo_potencia()==1){
+            cont++;        }
+        if (mantenimientoTerminado.getRevision_sistema_control()==1){
+            cont++;        }
+        return cont;
+    }
     private String datosMaquinas() throws SQLException {
         String datos_maquinas = "";
         for (int i = 0; i < maquinas.size(); i++) {
             String datos_instalacion = "--------DATOS INSTALACION-------" + "\n";
-            String cod = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquinas.get(i).getFk_tipo_maquina()).getNombre_tipo_caldera();
+            String cod;
+            if (maquinas.get(i).getFk_tipo_maquina()==0){
+                cod = "";
+            }else{
+                cod = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(),maquinas.get(i).getFk_tipo_maquina()).getNombre_tipo_caldera();
+            }
             String codigo = "Codigo: "+cod+"\n";
-            String mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquinas.get(i).getFk_marca_maquina());
+            String mar;
+            if (maquinas.get(i).getFk_marca_maquina()==0){
+                mar = "";
+            }else{
+                mar = MarcaCalderaDAO.buscarNombreMarcaCalderaPorId(getContext(),maquinas.get(i).getFk_marca_maquina());
+            }
             String marca = "Marca: "+mar+"\n";
             String mode = maquinas.get(i).getModelo_maquina();
             String modelo = "Modelo: "+mode+"\n";
             String añ = maquinas.get(i).getPuesta_marcha_maquina();
+            if (añ.equals("0000-00-00")){
+                añ="";
+            }
             String año = "Fabricado: "+añ+"\n";
-            String pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
+            String pot;
+            if (maquinas.get(i).getFk_potencia_maquina()==0){
+                pot = "";
+            }else{
+                pot = PotenciaDAO.buscarNombrePotenciaPorId(getContext(),maquinas.get(i).getFk_potencia_maquina());
+            }
+
             String potencia = "Potencia: "+pot+"\n";
             String datos_equipamientos = "";
-            if (equipamiento!=null&&i==0){
+            if (equipamiento!=null&&maquinas.get(i).getbPrincipal()==1){
                 datos_equipamientos+="";
                 for (int j = 0; j < equipamiento.size(); j++) {
                     int equ = equipamiento.get(j).getFk_tipo_equipamiento();

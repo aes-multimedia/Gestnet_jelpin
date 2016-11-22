@@ -239,15 +239,21 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             }
 
             if (tipo == null && marca == null && (maquina.getModelo_maquina().toString().equals("") || maquina.getModelo_maquina().toString().equals("null"))) {
+                txtModelo.setVisibility(View.GONE);
+                txtTipo.setVisibility(View.GONE);
                 txtMarca.setVisibility(View.VISIBLE);
                 txtMarca.setText("No hay datos del equipo");
             }
         }else{
             txtMarca.setVisibility(View.VISIBLE);
+            txtModelo.setVisibility(View.GONE);
+            txtTipo.setVisibility(View.GONE);
             txtMarca.setText("No hay datos del equipo");
         }
         etNombre.setText(mantenimiento.getNombre_usuario());
         etDni.setText(mantenimiento.getDni_usuario());
+        etNombreFirmante.setText(mantenimiento.getNombre_firma());
+        etDniFirmante.setText(mantenimiento.getDni_firma());
         txtDireccion.setText(mantenimiento.getDireccion()+" \n "+mantenimiento.getCod_postal()+" \n "+mantenimiento.getProvincia()+" \n "+mantenimiento.getMunicipio());
 
         etObservaciones.setText(mantenimiento.getObservaciones_usuario());

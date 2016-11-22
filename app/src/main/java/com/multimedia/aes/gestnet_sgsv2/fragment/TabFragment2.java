@@ -559,6 +559,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                 if (!etRendimientoAparato.getText().toString().trim().equals("")){
                                                                     if (!etCoCorregido.getText().toString().trim().equals("")){
                                                                         if (!etCoAmbiente.getText().toString().trim().equals("")){
+                                                                            if (!etCo2Ambiente.getText().toString().trim().equals("")){
                                                                             if (!etTiro.getText().toString().trim().equals("")){
                                                                                 if (!etCo2.getText().toString().trim().equals("")){
                                                                                     if (!etO2.getText().toString().trim().equals("")){
@@ -635,6 +636,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                 return null;
                                                                             }
                                                                         }else{
+                                                                            Toast.makeText(getContext(), "Seleccione un Co2 ambiente", Toast.LENGTH_SHORT).show();
+                                                                            return null;
+                                                                        }
+                                                                    }else{
                                                                             Toast.makeText(getContext(), "Seleccione un Co ambiente", Toast.LENGTH_SHORT).show();
                                                                             return null;
                                                                         }

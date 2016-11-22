@@ -40,13 +40,11 @@
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".nucleo.FirmarCliente"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:screenOrientation="landscape" />
 
         <activity
             android:name=".nucleo.FirmarTecnico"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:screenOrientation="landscape"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
