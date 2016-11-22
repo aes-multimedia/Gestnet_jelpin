@@ -11,17 +11,20 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_sgsv2.R;
 import com.multimedia.aes.gestnet_sgsv2.clases.DataEquipamientos;
+import com.multimedia.aes.gestnet_sgsv2.dao.TipoEquipamientoDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.fragment.TabFragment2;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class AdaptadorListaEquipamientos extends ArrayAdapter implements View.OnClickListener {
     private Context context;
     private int view;
-    private ArrayList<DataEquipamientos> arrayList;
+    private ArrayList<Equipamiento> arrayList;
 
-    public AdaptadorListaEquipamientos(Context context, int view, ArrayList<DataEquipamientos> arrayList) {
+    public AdaptadorListaEquipamientos(Context context, int view, ArrayList<Equipamiento> arrayList) {
         super(context, view, arrayList);
         this.context = context;
         this.view = view;
@@ -42,8 +45,13 @@ public class AdaptadorListaEquipamientos extends ArrayAdapter implements View.On
         llEquipamiento.setTag(position);
         btnBorrar.setOnClickListener(this);
         llEquipamiento.setOnClickListener(this);
-        txtProducto.setText(arrayList.get(position).descripcion);
-        txtNumLinea.setText(arrayList.get(position).potencia);
+        try {
+            txtProducto.setText(TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(getContext(),arrayList.get(position).getFk_tipo_equipamiento()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        txtNumLinea.setText(arrayList.get(position).getPotencia_fuegos());
         return item;
     }
 
@@ -52,7 +60,11 @@ public class AdaptadorListaEquipamientos extends ArrayAdapter implements View.On
         if (v.getId()==R.id.btnBorrar){
             TabFragment2.borrarArrayEquipamientos((int)v.getTag(),context);
         }else if(v.getId()==R.id.llEquipamiento){
-            TabFragment2.rellenarDatosEquipamiento(arrayList.get((int)v.getTag()),context,(int)v.getTag());
+            try {
+                TabFragment2.rellenarDatosEquipamiento(arrayList.get((int)v.getTag()),context,(int)v.getTag());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -97,11 +97,12 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     private Mantenimiento mantenimiento = null;
     private static int alto=0,alto1=0, height;
     private static ListView lvEquipamientos,lvMaquinas;
-    private static ArrayList<DataEquipamientos> arraylistEquipamiento = new ArrayList<>();
+    private static ArrayList<Equipamiento> arraylistEquipamiento = new ArrayList<>();
     private static AdaptadorListaEquipamientos adaptadorListaEquipamientos;
     private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private List<Equipamiento> equipamientos= null;
+    private static Equipamiento equipamiento = null;
     private List<Maquina>maquinas=null;
     private static Maquina maquina = null;
 
@@ -119,7 +120,11 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 maquina= MaquinaDAO.buscarMaquinaPorbprincipal(getContext(),mantenimiento.getId_mantenimiento());
                 maquinas.remove(0);
                 if (maquina!=null) {
-                    equipamientos = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getContext(), maquina.getId_maquina());
+                    equipamientos = EquipamientoDAO.buscarTodosLosEquipamientos(getContext());
+                    if (equipamientos!=null){
+                        equipamiento = equipamientos.get(0);
+                        equipamientos.remove(0);
+                    }
                 }
             }
 
@@ -289,16 +294,28 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (!maquina.getModelo_maquina().equals("null") && !maquina.getModelo_maquina().equals("")) {
                 etModelo.setText(maquina.getModelo_maquina());
             }
-            try {
-                listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
-                equip = new String[listaEquipamientos.size() + 1];
-                equip[0] = "--Seleccione un valor--";
-                for (int i = 1; i < listaEquipamientos.size() + 1; i++) {
-                    equip[i] = listaEquipamientos.get(i - 1).getNombre_tipo_equipamiento();
+            if (equipamiento!=null){
+                try {
+                    listaEquipamientos = TipoEquipamientoDAO.buscarTodosLosTipoEquipamiento(getContext());
+                    equip = new String[listaEquipamientos.size() + 1];
+                    equip[0] = "--Seleccione un valor--";
+                    for (int i = 1; i < listaEquipamientos.size() + 1; i++) {
+                        equip[i] = listaEquipamientos.get(i - 1).getNombre_tipo_equipamiento();
+                    }
+                    spTipoEquipamiento.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, equip));
+
+                    String tip = TipoEquipamientoDAO.buscarTipoEquipamientoPorId(getContext(),equipamiento.getFk_tipo_equipamiento()).getNombre_tipo_equipamiento();
+                    if (tip != null) {
+                        String myString = tip;
+                        ArrayAdapter myAdap = (ArrayAdapter) spTipoEquipamiento.getAdapter();
+                        int spinnerPosition = myAdap.getPosition(myString);
+                        spTipoEquipamiento.setSelection(spinnerPosition);
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                spTipoEquipamiento.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, equip));
-            } catch (SQLException e) {
-                e.printStackTrace();
+                etPotenciaFuego.setText(equipamiento.getPotencia_fuegos());
             }
             if (maquina.getC0_maquina().toString().equals("") || maquina.getC0_maquina().toString().equals("null") || maquina.getC0_maquina().toString().equals("0")) {
             } else {
@@ -430,7 +447,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 if (tipo_equipamiento != null) {
                     alto += height;
                     lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento));
+                    arraylistEquipamiento.add(equipamientos.get(i));
                     adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                     lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 }
@@ -452,17 +469,26 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.btnAñadirEquip){
-            if (!etPotenciaFuego.getText().toString().trim().equals("")&&spTipoEquipamiento.getSelectedItemPosition()!=0){
-                alto+=height;
-                lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getSelectedItem().toString()));
-                adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
-                lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
-                spTipoEquipamiento.setSelection(0);
-                etPotenciaFuego.setText("");
-            }else{
-                Toast.makeText(getContext(), "Faltan datos en el equipamiento", Toast.LENGTH_SHORT).show();
+            Equipamiento e = new Equipamiento();
+            if (equipamiento!=null){
+                e=equipamiento;
             }
+            try {
+                e = llenarEquipamiento(e);
+                if (e!=null){
+                    alto+=height;
+                    lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
+                    arraylistEquipamiento.add(e);
+                    adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
+                    lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
+                    spTipoEquipamiento.setSelection(0);
+                    etPotenciaFuego.setText("");
+                }
+
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
         }else if (view.getId()==R.id.btnAñadirMaquina){
             Maquina m = new Maquina();
             if (maquina!=null){
@@ -709,6 +735,35 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         }
         return m;
     }
+    private Equipamiento llenarEquipamiento(Equipamiento e)throws SQLException{
+        if (spTipoEquipamiento.getSelectedItemPosition()!=0){
+            if (!etPotenciaFuego.getText().toString().trim().equals("")){
+                int fkTipoEquipamiento = TipoEquipamientoDAO.buscarTipoEquipamientoPorNombre(getContext(),spTipoEquipamiento.getSelectedItem().toString());
+                String potenciaFuegos = etPotenciaFuego.getText().toString();
+                int fkMaquina = MaquinaDAO.buscarMaquinaPorbprincipal(getContext(),mantenimiento.getId_mantenimiento()).getFk_maquina();
+                String codigo = "";
+                String co2 = "";
+                if (equipamiento==null){
+                    int fk_equipamiento=0;
+                    e = EquipamientoDAO.newEquipamientoRet(getContext(),fk_equipamiento,fkMaquina,fkTipoEquipamiento,potenciaFuegos,codigo,co2);
+                }else{
+                    int fk_equipamiento = equipamiento.getFk_equipamiento();
+                    EquipamientoDAO.actualizarEquipamiento(getContext(),fkTipoEquipamiento,potenciaFuegos,fk_equipamiento);
+                    e.setFk_tipo_equipamiento(fkTipoEquipamiento);
+                    e.setPotencia_fuegos(potenciaFuegos);
+                }
+                equipamiento=null;
+            }else{
+                Toast.makeText(getContext(), "Falta Potencia/Fuegos", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }else{
+            Toast.makeText(getContext(), "Falta tipo equipamiento", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        return e;
+    }
     public static void rellenarDatosMaquina(Maquina ma, Context context, int position) {
         maquina=ma;
         String myString;
@@ -777,13 +832,14 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina);
             lvMaquinas.setAdapter(adaptadorListaMaquinas);
     }
-    public static void rellenarDatosEquipamiento(DataEquipamientos equipamiento,Context context,int position){
-        String myString = equipamiento.descripcion;
+    public static void rellenarDatosEquipamiento(Equipamiento eq,Context context,int position) throws SQLException {
+        equipamiento=eq;
+        String myString = TipoEquipamientoDAO.buscarNombreTipoEquipamientoPorId(context,equipamiento.getFk_tipo_equipamiento());
         ArrayAdapter myAdap = (ArrayAdapter) spTipoEquipamiento.getAdapter();
         int spinnerPosition = myAdap.getPosition(myString);
         spTipoEquipamiento.setSelection(spinnerPosition);
 
-        etPotenciaFuego.setText(equipamiento.potencia);
+        etPotenciaFuego.setText(equipamiento.getPotencia_fuegos());
 
         arraylistEquipamiento.remove(position);
         alto-=height;
@@ -1066,7 +1122,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 if (tipo_equipamiento != null) {
                     alto += height;
                     lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento));
+                    arraylistEquipamiento.add(equipamientos.get(i));
                     adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                     lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 }

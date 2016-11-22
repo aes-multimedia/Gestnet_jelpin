@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_sgsv2.constants.Constantes;
 import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoCalderaDAO;
+import com.multimedia.aes.gestnet_sgsv2.dao.EquipamientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.ImagenesDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.MantenimientoTerminadoDAO;
@@ -19,6 +20,7 @@ import com.multimedia.aes.gestnet_sgsv2.dao.MarcaCalderaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.PotenciaDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TecnicoDAO;
 import com.multimedia.aes.gestnet_sgsv2.dao.TiposReparacionesDAO;
+import com.multimedia.aes.gestnet_sgsv2.entities.Equipamiento;
 import com.multimedia.aes.gestnet_sgsv2.entities.EquipamientoCaldera;
 import com.multimedia.aes.gestnet_sgsv2.entities.Imagenes;
 import com.multimedia.aes.gestnet_sgsv2.entities.Mantenimiento;
@@ -56,7 +58,7 @@ public class UploadService extends IntentService {
     private String ipSgs = "82.144.105.90";
     private String puerto = "8085";
     private Tecnico tecnico = null;
-    private List<EquipamientoCaldera> equipamientoCalderas = null;
+    private List<Equipamiento> equipamiento = null;
     private MantenimientoTerminado mantenimientoTerminado = null;
     private Mantenimiento mantenimiento = null;
     private String path = "/data/data/com.multimedia.aes.gestnet_sgsv2/app_imageDir";
@@ -493,18 +495,18 @@ public class UploadService extends IntentService {
             jsonObject7.put("modelo",maquinas.get(i).getModelo_maquina());
             if (maquinas.get(i).getbPrincipal()==1){
                 try {
-                    equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(), mantenimiento.getId_mantenimiento());
+                    equipamiento = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getBaseContext(), maquinas.get(i).getFk_maquina());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 JSONArray jsonArray = new JSONArray();
-                if (equipamientoCalderas!=null) {
-                    for (int j = 0; j < equipamientoCalderas.size(); j++) {
+                if (equipamiento!=null) {
+                    for (int j = 0; j < equipamiento.size(); j++) {
                         JSONObject jsonObject5 = new JSONObject();
                         jsonObject5.put("id_equipamiento", "");
                         jsonObject5.put("fk_maquina", maquinas.get(i).getFk_maquina());
-                        jsonObject5.put("potencia", equipamientoCalderas.get(j).getPotencia_fuegos());
-                        jsonObject5.put("idTipoEquipamientos", equipamientoCalderas.get(j).getFk_tipo_equipamiento());
+                        jsonObject5.put("potencia", equipamiento.get(j).getPotencia_fuegos());
+                        jsonObject5.put("idTipoEquipamientos", equipamiento.get(j).getFk_tipo_equipamiento());
                         jsonArray.put(jsonObject5);
                     }
 
@@ -525,6 +527,7 @@ public class UploadService extends IntentService {
             jsonObject6.put("rdtoMaquina",maquinas.get(i).getRendimiento_aparato());
             jsonObject6.put("coCorregido",maquinas.get(i).getCo_corregido());
             jsonObject6.put("coAmbiente",maquinas.get(i).getCo_ambiente());
+            jsonObject6.put("co2amb",maquinas.get(i).getCo2_ambiente());
             jsonObject6.put("tiro",maquinas.get(i).getTiro());
             jsonObject6.put("co2Testo",maquinas.get(i).getCo2());
             jsonObject6.put("o2Testo",maquinas.get(i).getO2());
@@ -634,7 +637,7 @@ public class UploadService extends IntentService {
         mantenimiento = MantenimientoDAO.buscarMantenimientoPorId(getBaseContext(),mantenimientoTerminado.getFk_parte());
         tecnico = TecnicoDAO.buscarTodosLosTecnicos(getBaseContext()).get(0);
         maquinas = MaquinaDAO.buscarMaquinaPorIdMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
-        equipamientoCalderas = EquipamientoCalderaDAO.buscarEquipamientoCalderaPorIdMantenimiento(getBaseContext(),mantenimiento.getId_mantenimiento());
+        equipamiento = EquipamientoDAO.buscarEquipamientoPorIdMaquina(getBaseContext(),MaquinaDAO.buscarMaquinaPorbprincipal(getBaseContext(),mantenimiento.getId_mantenimiento()).getFk_maquina());
         Maquina maquina = maquinas.get(0);
         JSONObject msg = new JSONObject();
         msg.put("codigoContrato",mantenimiento.getNum_orden_endesa());
@@ -695,9 +698,9 @@ public class UploadService extends IntentService {
         msg.put("fechaFacturaReparacion", "");
         msg.put("numeroFacturaReparacion", "");
         msg.put("codigoBarrasReparacion", codBarr);
-        if (equipamientoCalderas!=null) {
-            msg.put("tipoEquipamiento", equipamientoCalderas.get(0).getFk_tipo_equipamiento());
-            msg.put("potenciaEquipamiento", equipamientoCalderas.get(0).getPotencia_fuegos());
+        if (equipamiento!=null) {
+            msg.put("tipoEquipamiento", equipamiento.get(0).getFk_tipo_equipamiento());
+            msg.put("potenciaEquipamiento", equipamiento.get(0).getPotencia_fuegos());
         }
         Log.d("-----JSONCERRARIB-----", msg.toString());
         return msg;
