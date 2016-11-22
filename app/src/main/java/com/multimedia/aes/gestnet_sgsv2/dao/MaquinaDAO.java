@@ -26,14 +26,14 @@ public class MaquinaDAO extends DBHelperMOS {
 												  String temperatura_max_acs, String caudal_acs, String potencia_util,
 												  String temperatura_gases_combustion, String temperatura_ambiente_local,
 												  String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-												  String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda,int bPrincipal) {
+												  String rendimiento_aparato, String co_corregido, String co_ambiente,String co2_ambiente, String tiro, String co2, String o2, String lambda,int bPrincipal) {
 		Maquina m = montarMaquina(fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
 				modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
 				puesta_marcha_maquina, codigo_maquina, c0_maquina,
 				temperatura_max_acs, caudal_acs, potencia_util,
 				temperatura_gases_combustion, temperatura_ambiente_local,
 				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-				rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+				rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal);
 		return crearMaquina(m,context);
 	}
 	public static Maquina newMaquinaRet(Context context,int fk_maquina,int fk_parte, int fk_tipo_maquina, int fk_marca_maquina,
@@ -42,14 +42,14 @@ public class MaquinaDAO extends DBHelperMOS {
 									 String temperatura_max_acs, String caudal_acs, String potencia_util,
 									 String temperatura_gases_combustion, String temperatura_ambiente_local,
 									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-									 String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda,int bPrincipal) {
+									 String rendimiento_aparato, String co_corregido, String co_ambiente,String co2_ambiente, String tiro, String co2, String o2, String lambda,int bPrincipal) {
 		Maquina m = montarMaquina(fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
 				modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
 				puesta_marcha_maquina, codigo_maquina, c0_maquina,
 				temperatura_max_acs, caudal_acs, potencia_util,
 				temperatura_gases_combustion, temperatura_ambiente_local,
 				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-				rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+				rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal);
 		return crearMaquinaRet(m,context);
 	}
 	public static boolean crearMaquina(Maquina m, Context context) {
@@ -78,14 +78,14 @@ public class MaquinaDAO extends DBHelperMOS {
 													 String temperatura_max_acs, String caudal_acs, String potencia_util,
 													 String temperatura_gases_combustion, String temperatura_ambiente_local,
 													 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-													 String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
+													 String rendimiento_aparato, String co_corregido, String co_ambiente,String co2_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
 		Maquina m =new Maquina(fk_maquina,fk_parte, fk_tipo_maquina, fk_marca_maquina,
 				modelo_maquina, fk_potencia_maquina, fk_uso_maquina,
 				puesta_marcha_maquina, codigo_maquina, c0_maquina,
 				temperatura_max_acs, caudal_acs, potencia_util,
 				temperatura_gases_combustion, temperatura_ambiente_local,
 				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-				rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+				rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal);
 		return m;
 	}
 

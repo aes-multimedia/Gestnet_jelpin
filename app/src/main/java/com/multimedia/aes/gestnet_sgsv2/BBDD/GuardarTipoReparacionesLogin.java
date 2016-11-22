@@ -20,7 +20,7 @@ public class GuardarTipoReparacionesLogin {
 
     private static String Json;
     private static Context context;
-    private static boolean bien;
+    private static boolean bien=true;
 
     public GuardarTipoReparacionesLogin(Context context, String json) {
         this.context = context;

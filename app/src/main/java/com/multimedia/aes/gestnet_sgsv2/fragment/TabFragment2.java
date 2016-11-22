@@ -430,7 +430,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 if (tipo_equipamiento != null) {
                     alto += height;
                     lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento, equipamientos.get(i).getCo2_equipamiento()));
+                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento));
                     adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                     lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 }
@@ -455,7 +455,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             if (!etPotenciaFuego.getText().toString().trim().equals("")&&spTipoEquipamiento.getSelectedItemPosition()!=0){
                 alto+=height;
                 lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getSelectedItem().toString(),etCo2Ambiente.getText().toString()));
+                arraylistEquipamiento.add(new DataEquipamientos(etPotenciaFuego.getText().toString(),spTipoEquipamiento.getSelectedItem().toString()));
                 adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                 lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 spTipoEquipamiento.setSelection(0);
@@ -582,6 +582,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                             String rendimiento_aparato=etRendimientoAparato.getText().toString();
                                                                                             String co_corregido=etCoCorregido.getText().toString();
                                                                                             String co_ambiente=etCoAmbiente.getText().toString();
+                                                                                            String co2_ambiente=etCo2Ambiente.getText().toString();
                                                                                             String tiro=etTiro.getText().toString();
                                                                                             String co2=etCo2.getText().toString();
                                                                                             String o2=etO2.getText().toString();
@@ -595,7 +596,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                                         temperatura_max_acs, caudal_acs, potencia_util,
                                                                                                         temperatura_gases_combustion, temperatura_ambiente_local,
                                                                                                         temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-                                                                                                        rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+                                                                                                        rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal);
 
                                                                                             }else{
                                                                                                 int fk_maquina=maquina.getFk_maquina();
@@ -614,7 +615,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                                                                                                         temperatura_max_acs, caudal_acs, potencia_util,
                                                                                                         temperatura_gases_combustion, temperatura_ambiente_local,
                                                                                                         temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-                                                                                                        rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal);
+                                                                                                        rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal);
                                                                                             }
                                                                                             maquina=null;
                                                                                         }else{
@@ -764,6 +765,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
             etCo2.setText(ma.getCo2());
             etO2.setText(ma.getO2());
             etLambda.setText(ma.getLambda());
+            etCo2Ambiente.setText(ma.getCo2_ambiente());
             arrayListMaquina.remove(position);
             alto1-=height;
             lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto1));
@@ -777,7 +779,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         spTipoEquipamiento.setSelection(spinnerPosition);
 
         etPotenciaFuego.setText(equipamiento.potencia);
-        etCo2Ambiente.setText(equipamiento.co2_ambiente);
 
         arraylistEquipamiento.remove(position);
         alto-=height;
@@ -977,6 +978,10 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
         } else {
             etCoAmbiente.setText(maquina.getCo_ambiente() + "");
         }
+        if (maquina.getCo2_ambiente().toString().equals("") || maquina.getCo2_ambiente().toString().equals("null") || maquina.getCo2_ambiente().toString().equals("0")) {
+        } else {
+            etCo2Ambiente.setText(maquina.getCo2_ambiente() + "");
+        }
         if (maquina.getTiro().toString().equals("") || maquina.getTiro().toString().equals("null") || maquina.getTiro().toString().equals("0")) {
         } else {
             etTiro.setText(maquina.getTiro() + "");
@@ -1056,7 +1061,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener {
                 if (tipo_equipamiento != null) {
                     alto += height;
                     lvEquipamientos.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT, alto));
-                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento, equipamientos.get(i).getCo2_equipamiento()));
+                    arraylistEquipamiento.add(new DataEquipamientos(equipamientos.get(i).getPotencia_fuegos(), tipo_equipamiento));
                     adaptadorListaEquipamientos = new AdaptadorListaEquipamientos(getContext(), R.layout.camp_adapter_list_view_equipamientos, arraylistEquipamiento);
                     lvEquipamientos.setAdapter(adaptadorListaEquipamientos);
                 }

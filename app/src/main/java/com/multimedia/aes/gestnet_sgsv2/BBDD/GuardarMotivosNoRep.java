@@ -19,7 +19,7 @@ public class GuardarMotivosNoRep {
 
     private static String Json;
     private static Context context;
-    private static boolean bien;
+    private static boolean bien=true;
 
     public GuardarMotivosNoRep(Context context, String json) {
         this.context = context;

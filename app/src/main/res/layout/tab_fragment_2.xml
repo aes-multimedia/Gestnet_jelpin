@@ -457,7 +457,33 @@
                         android:gravity="left"
                         android:padding="5dp"
                         android:inputType="numberDecimal" />
+
                 </LinearLayout>
+
+                <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_vertical_margin" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Co2 Ambiente"
+                        android:id="@+id/textView339"
+                        android:textSize="18dp" />
+                    <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/etCo2Ambiente"
+                    android:minHeight="30dp"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:gravity="left"
+                    android:padding="5dp"/>
+                </LinearLayout>
+
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
@@ -610,31 +636,6 @@
                     android:background="@drawable/edit_texts_naranja"
                     android:padding="5dp"
                     android:minHeight="30dp" />
-
-                <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/llCo2"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Co2 Ambiente"
-                    android:id="@+id/textView339" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="10"
-                    android:id="@+id/etCo2Ambiente"
-                    android:background="@drawable/edit_texts_naranja"
-                    android:padding="5dp"
-                    android:minHeight="30dp" />
-            </LinearLayout>
 
 
                 <Button

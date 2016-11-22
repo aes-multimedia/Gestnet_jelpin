@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class GuardarTipoCalderaLogin {
     private static String Json;
     private static Context context;
-    private static boolean bien;
+    private static boolean bien=true;
 
     public GuardarTipoCalderaLogin(Context context, String json) {
         this.context = context;

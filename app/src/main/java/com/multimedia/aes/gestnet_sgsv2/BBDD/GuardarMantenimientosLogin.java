@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class GuardarMantenimientosLogin {
     private static String Json;
     private static Context context;
-    private static boolean bien;
+    private static boolean bien=true;
 
     public GuardarMantenimientosLogin(Context context, String json) {
         this.context = context;

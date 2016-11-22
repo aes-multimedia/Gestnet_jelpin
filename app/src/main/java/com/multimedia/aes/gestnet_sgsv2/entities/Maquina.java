@@ -26,6 +26,7 @@ public class Maquina {
     public static final String RENDIMIENTO_APARATO = "rendimiento_aparato";
     public static final String CO_CORREGIDO = "co_corregido";
     public static final String CO_AMBIENTE = "co_ambiente";
+    public static final String CO2_AMBIENTE = "co2_ambiente";
     public static final String TIRO = "tiro";
     public static final String CO2 = "co2";
     public static final String O2 = "o2";
@@ -74,6 +75,8 @@ public class Maquina {
     private String co_corregido;
     @DatabaseField(columnName = CO_AMBIENTE)
     private String co_ambiente;
+    @DatabaseField(columnName = CO2_AMBIENTE)
+    private String co2_ambiente;
     @DatabaseField(columnName = TIRO)
     private String tiro;
     @DatabaseField(columnName = CO2)
@@ -93,7 +96,7 @@ public class Maquina {
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
                    String temperatura_gases_combustion, String temperatura_ambiente_local,
                    String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-                   String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
+                   String rendimiento_aparato, String co_corregido, String co_ambiente,String co2_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
         this.id_maquina = id_maquina;
         this.fk_maquina = fk_maquina;
         this.fk_parte = fk_parte;
@@ -115,6 +118,7 @@ public class Maquina {
         this.rendimiento_aparato = rendimiento_aparato;
         this.co_corregido = co_corregido;
         this.co_ambiente = co_ambiente;
+        this.co2_ambiente = co2_ambiente;
         this.tiro = tiro;
         this.co2 = co2;
         this.o2 = o2;
@@ -127,7 +131,7 @@ public class Maquina {
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
                    String temperatura_gases_combustion, String temperatura_ambiente_local,
                    String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
-                   String rendimiento_aparato, String co_corregido, String co_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
+                   String rendimiento_aparato, String co_corregido, String co_ambiente,String co2_ambiente, String tiro, String co2, String o2, String lambda, int bPrincipal) {
         this.fk_maquina = fk_maquina;
         this.fk_parte = fk_parte;
         this.fk_tipo_maquina = fk_tipo_maquina;
@@ -148,6 +152,7 @@ public class Maquina {
         this.rendimiento_aparato = rendimiento_aparato;
         this.co_corregido = co_corregido;
         this.co_ambiente = co_ambiente;
+        this.co2_ambiente = co2_ambiente;
         this.tiro = tiro;
         this.co2 = co2;
         this.o2 = o2;
@@ -280,6 +285,12 @@ public class Maquina {
     }
     public void setCo_ambiente(String co_ambiente) {
         this.co_ambiente = co_ambiente;
+    }
+    public String getCo2_ambiente() {
+        return co2_ambiente;
+    }
+    public void setCo2_ambiente(String co2_ambiente) {
+        this.co2_ambiente = co2_ambiente;
     }
     public String getTiro() {
         return tiro;

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class GuardarMaquina {
     private static String Json;
     private static Context context;
-    private static boolean bien;
+    private static boolean bien=true;
 
     public GuardarMaquina(Context context, String json) {
         this.context = context;
@@ -115,6 +115,7 @@ public class GuardarMaquina {
                 String rendimiento_aparato="0";
                 String co_corregido="0";
                 String co_ambiente="0";
+                String co2_ambiente="0";
                 String tiro="0";
                 String co2="0";
                 String o2="0";
@@ -126,7 +127,7 @@ public class GuardarMaquina {
                         temperatura_max_acs, caudal_acs, potencia_util,
                         temperatura_gases_combustion, temperatura_ambiente_local,
                         temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,
-                        rendimiento_aparato, co_corregido, co_ambiente, tiro, co2, o2, lambda,bPrincipal)){
+                        rendimiento_aparato, co_corregido, co_ambiente,co2_ambiente, tiro, co2, o2, lambda,bPrincipal)){
                     bien=true;
                 }else{
                     bien=false;
