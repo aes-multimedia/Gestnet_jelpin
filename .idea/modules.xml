@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Gestnet_SGSv2.iml" filepath="$PROJECT_DIR$/Gestnet_SGSv2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Gestnet_SGSV2.iml" filepath="$PROJECT_DIR$/Gestnet_SGSV2.iml" />
       <module fileurl="file://$PROJECT_DIR$/SML_Android_1.042/SML_Android_1.042.iml" filepath="$PROJECT_DIR$/SML_Android_1.042/SML_Android_1.042.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
