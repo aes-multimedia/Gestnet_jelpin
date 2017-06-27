@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.multimedia.aes.gestnet_sgsv2.nucleo.PreLogin">
+    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin">
 
     <ImageView
         android:layout_width="200dp"

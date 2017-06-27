@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.multimedia.aes.gestnet_sgsv2">
+    package="com.multimedia.aes.gestnet_nucleo">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -19,15 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
         <activity
-            android:name=".nucleo.Login"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.Index"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity
-            android:name=".nucleo.PreLogin"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,14 +36,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".nucleo.Incidencias"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Incidencias"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
-            android:name=".nucleo.FirmarCliente"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.FirmarCliente"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".nucleo.FirmarTecnico"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.FirmarTecnico"
             android:screenOrientation="landscape"/>
 
         <meta-data
@@ -51,21 +51,18 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".nucleo.Camara"
+            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Camara"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Mapa"
-            android:label="@string/title_activity_mapa" />
 
         <service
-            android:name=".services.ConectionService"
+            android:name="com.multimedia.aes.gestnet_nucleo.services.ConectionService"
             android:enabled="true"
             android:exported="true"></service>
         <service
-            android:name=".services.UploadService"
+            android:name="com.multimedia.aes.gestnet_nucleo.services.UploadService"
             android:exported="false"></service>
 
-        <activity android:name=".nucleo.Testo"
+        <activity android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Testo"
             android:theme="@style/Theme.AppCompat.Dialog"
             android:screenOrientation="portrait" />
 

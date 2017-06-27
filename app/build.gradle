@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.multimedia.aes.gestnet_sgsv2"
+        applicationId "com.multimedia.aes.gestnet_nucleo"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -25,11 +25,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':SML_Android_1.042')
     compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'com.google.android.gms:play-services:9.4.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.google.android.gms:play-services:11.0.1'
+    compile 'com.android.support:multidex:1.0.1'
     compile files('libs/BrotherPrintLibrary.jar')
     compile files('libs/MobilePrintLib.jar')
 }

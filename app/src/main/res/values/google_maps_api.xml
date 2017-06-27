@@ -7,7 +7,7 @@
     https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=BE:6C:A0:A0:AA:89:85:22:00:F3:00:9E:75:F6:CF:DF:80:99:22:EA%3Bcom.multimedia.aes.gestnet_sgsv2.fragment
 
     You can also add your credentials to an existing key, using this line:
-    BE:6C:A0:A0:AA:89:85:22:00:F3:00:9E:75:F6:CF:DF:80:99:22:EA;com.multimedia.aes.gestnet_sgsv2.fragment
+    BE:6C:A0:A0:AA:89:85:22:00:F3:00:9E:75:F6:CF:DF:80:99:22:EA;gestnet_nucleoo.fragment
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key
