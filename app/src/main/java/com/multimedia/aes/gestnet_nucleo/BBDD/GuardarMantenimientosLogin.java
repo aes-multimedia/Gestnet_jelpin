@@ -3,7 +3,6 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_nucleo.dao.MantenimientoDAO;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;

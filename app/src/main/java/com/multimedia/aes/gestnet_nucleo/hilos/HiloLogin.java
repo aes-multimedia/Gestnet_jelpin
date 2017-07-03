@@ -2,8 +2,6 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 
 import android.os.AsyncTask;
 
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

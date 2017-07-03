@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
-import com.multimedia.aes.gestnet_nucleo.constants.BBDDConstantes;
-import com.multimedia.aes.gestnet_nucleo.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.entidades.Mantenimiento;
 
 import java.sql.SQLException;
 

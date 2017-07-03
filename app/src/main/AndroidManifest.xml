@@ -18,53 +18,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Login"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Index"
-            android:label="@string/title_activity_index"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Incidencias"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.FirmarCliente"
-            android:screenOrientation="landscape" />
-
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.FirmarTecnico"
-            android:screenOrientation="landscape"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Camara"
-            android:screenOrientation="portrait" />
-
-        <service
-            android:name="com.multimedia.aes.gestnet_nucleo.services.ConectionService"
-            android:enabled="true"
-            android:exported="true"></service>
-        <service
-            android:name="com.multimedia.aes.gestnet_nucleo.services.UploadService"
-            android:exported="false"></service>
-
-        <activity android:name="com.multimedia.aes.gestnet_nucleo.nucleo.Testo"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="portrait" />
 
     </application>
 

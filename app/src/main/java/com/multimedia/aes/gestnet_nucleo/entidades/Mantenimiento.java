@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.entities;
+package com.multimedia.aes.gestnet_nucleo.entidades;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

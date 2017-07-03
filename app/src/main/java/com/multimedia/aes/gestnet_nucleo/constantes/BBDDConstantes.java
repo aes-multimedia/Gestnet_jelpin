@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.constants;
+package com.multimedia.aes.gestnet_nucleo.constantes;
 
 import android.content.Context;
 
@@ -23,7 +23,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.TipoEstadoDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.TiposReparacionesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.TiposVisitaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsoCalderaDAO;
-import com.multimedia.aes.gestnet_nucleo.entities.Mantenimiento;
+import com.multimedia.aes.gestnet_nucleo.entidades.Mantenimiento;
 
 import java.sql.SQLException;
 
