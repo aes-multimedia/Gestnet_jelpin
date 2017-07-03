@@ -1,6 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,27 +10,28 @@ import android.widget.EditText;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 
-public class PreLogin extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
-    private EditText etCodCliente;
-    private Button btnEnviarCodCliente;
+    private EditText etUsuario,etContraseña;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pre_login);
+        setContentView(R.layout.login);
         inicializarVariables();
     }
-
     private void inicializarVariables() {
         ////EDITTEXTS////
-        etCodCliente = (EditText)findViewById(R.id.etCodCliente);
-        etCodCliente.addTextChangedListener(this);
+        etUsuario = (EditText)findViewById(R.id.etUsuario);
+        etUsuario.addTextChangedListener(this);
+        etContraseña = (EditText)findViewById(R.id.etContraseña);
+        etContraseña.addTextChangedListener(this);
         ////BUTTONS////
-        btnEnviarCodCliente = (Button)findViewById(R.id.btnEnviarCodCliente);
-        btnEnviarCodCliente.setOnClickListener(this);
-        btnEnviarCodCliente.setClickable(false);
-        btnEnviarCodCliente.setAlpha(0.5f);
+        btnLogin = (Button)findViewById(R.id.btnEnviarCodCliente);
+        btnLogin.setOnClickListener(this);
+        btnLogin.setClickable(false);
+        btnLogin.setAlpha(0.5f);
     }
 
     //////////@OVERRIDE METODS//////////
@@ -43,12 +43,12 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (etCodCliente.getText().toString().trim().isEmpty()){
-            btnEnviarCodCliente.setClickable(false);
-            btnEnviarCodCliente.setAlpha(0.5f);
+        if (!etUsuario.getText().toString().trim().isEmpty()&&!etContraseña.getText().toString().isEmpty()){
+            btnLogin.setClickable(false);
+            btnLogin.setAlpha(0.5f);
         }else{
-            btnEnviarCodCliente.setClickable(true);
-            btnEnviarCodCliente.setAlpha(1f);
+            btnLogin.setClickable(true);
+            btnLogin.setAlpha(1f);
         }
     }
     @Override
@@ -57,9 +57,8 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
     }
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.btnEnviarCodCliente){
-            Intent i = new Intent(this,Login.class);
-            startActivity(i);
+        if (v.getId()==R.id.btnLogin){
+
         }
     }
 }

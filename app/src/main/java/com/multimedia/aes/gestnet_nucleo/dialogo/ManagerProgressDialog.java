@@ -11,9 +11,6 @@ public abstract class ManagerProgressDialog {
         p.setCancelable(false);
         p.show();
     }
-    public static void cogerDatosServidor(Context context){
-        p.setMessage(context.getResources().getString(R.string.coger_datos));
-    }
     public static void cerrarDialog(){
         p.dismiss();
     }
