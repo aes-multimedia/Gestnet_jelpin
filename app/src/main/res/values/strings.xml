@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Gestnet_Nucleo</string>
+    <string name="cod_cliente">Codigo del Cliente</string>
+    <string name="enviar">Enviar</string>
 
 </resources>
 
