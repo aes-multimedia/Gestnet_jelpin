@@ -18,8 +18,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
-    private String ipInterna = "192.168.0.228";
-    private String ipExterna = "80.58.161.135";
     private String mensaje="";
     private String codCliente;
 
