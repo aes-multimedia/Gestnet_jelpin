@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<group android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/documentos"
             android:icon="@drawable/ic_documentos"
             android:title="@string/documentos"
             />
         <item
-            android:id="@+id/averias"
-            android:icon="@drawable/ic_averias"
-            android:title="@string/averias" />
-        <item
             android:id="@+id/almacen"
             android:icon="@drawable/ic_almacen"
             android:title="@string/almacen" />
-        <item
-            android:id="@+id/ajustes"
-            android:icon="@drawable/ic_ajustes"
-            android:title="@string/ajustes" />
     </group>
 
     <item android:title="">
@@ -31,6 +23,6 @@
                 android:icon="@drawable/ic_cerrar_sesion"
                 android:title="@string/cerrar_sesion" />
         </menu>
-    </item>-->
+    </item>
 
 </menu>
