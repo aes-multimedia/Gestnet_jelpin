@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,7 +29,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         etContraseña = (EditText)findViewById(R.id.etContraseña);
         etContraseña.addTextChangedListener(this);
         ////BUTTONS////
-        btnLogin = (Button)findViewById(R.id.btnEnviarCodCliente);
+        btnLogin = (Button)findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
         btnLogin.setClickable(false);
         btnLogin.setAlpha(0.5f);
@@ -43,7 +44,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        if (!etUsuario.getText().toString().trim().isEmpty()&&!etContraseña.getText().toString().isEmpty()){
+        if (etUsuario.getText().toString().trim().isEmpty()&&!etContraseña.getText().toString().isEmpty()){
             btnLogin.setClickable(false);
             btnLogin.setAlpha(0.5f);
         }else{
@@ -58,7 +59,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnLogin){
-
+            Intent i = new Intent(this,Index.class);
+            startActivity(i);
         }
     }
 }
