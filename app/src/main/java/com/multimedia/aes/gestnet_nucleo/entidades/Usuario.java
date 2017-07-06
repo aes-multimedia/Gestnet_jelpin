@@ -3,7 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.entidades;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "mos_clientes")
+@DatabaseTable(tableName = "mos_usuarios")
 public class Usuario {
 
     public static final String ID_USUARIO = "_id_usuario";
