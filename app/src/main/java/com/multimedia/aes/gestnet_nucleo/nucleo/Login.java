@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -35,12 +40,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         btnLogin.setAlpha(0.5f);
     }
 
+    public void iniciarIndex(String msg){
+        try {
+            JSONObject jsonObject = new JSONObject(msg);
+            int estado = jsonObject.getInt("estado");
+            if (estado==1){
+                Intent i = new Intent(this,Index.class);
+                startActivity(i);
+            }else{
+                errorHilo(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void errorHilo(String msg) {
+        Dialogo.dialogoError(msg,this);
+    }
     //////////@OVERRIDE METODS//////////
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
-    ////Desabilita el boton si el campo codigo cliente esta vacio
+    ////Desabilita el boton si los campos usuario y contraseña estan vacios
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -59,8 +81,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnLogin){
-            Intent i = new Intent(this,Index.class);
-            startActivity(i);
+            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
         }
     }
 }

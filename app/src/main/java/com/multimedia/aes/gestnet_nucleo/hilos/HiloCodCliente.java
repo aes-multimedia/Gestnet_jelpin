@@ -1,8 +1,10 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,9 +22,11 @@ import java.net.URL;
 public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     private String mensaje="";
     private String codCliente;
+    private Context context;
 
-    public HiloCodCliente(String codVisita) {
-        this.codCliente =codVisita;
+    public HiloCodCliente(String codCliente,Context context) {
+        this.codCliente =codCliente;
+        this.context=context;
     }
 
     @Override
@@ -40,9 +44,9 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
+            ((PreLogin)context).guardarCliente(mensaje);
         }else{
-            
+            ((PreLogin)context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
 
     }
@@ -63,19 +67,19 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, URL malformada");
+            error.put("estado",5);
+            error.put("mensaje","Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error de protocolo");
+            error.put("estado",5);
+            error.put("mensaje","Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, IOException");
+            error.put("estado",5);
+            error.put("mensaje","Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -95,8 +99,8 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error de lectura");
+            error.put("estado",5);
+            error.put("mensaje","Error de conexión, error de lectura");
             contenido = error.toString();
         }
 

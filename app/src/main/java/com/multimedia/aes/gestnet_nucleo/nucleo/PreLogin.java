@@ -9,7 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarCliente;
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloCodCliente;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class PreLogin extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -32,6 +42,34 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         btnEnviarCodCliente.setOnClickListener(this);
         btnEnviarCodCliente.setClickable(false);
         btnEnviarCodCliente.setAlpha(0.5f);
+        try {
+            Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+            if (c!=null){
+                irLogin();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void irLogin(){
+        Intent i = new Intent(this,Login.class);
+        startActivity(i);
+    }
+    public void guardarCliente(String msg){
+        try {
+            JSONObject jsonObject = new JSONObject(msg);
+            int estado = jsonObject.getInt("estado");
+            if (estado==1){
+                new GuardarCliente(this,msg);
+            }else{
+                sacarMensaje(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void sacarMensaje(String msg) {
+        Dialogo.dialogoError(msg,this);
     }
 
     //////////@OVERRIDE METODS//////////
@@ -58,8 +96,7 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnEnviarCodCliente){
-            Intent i = new Intent(this,Login.class);
-            startActivity(i);
+            new HiloCodCliente(etCodCliente.getText().toString().trim(),this).execute();
         }
     }
 }

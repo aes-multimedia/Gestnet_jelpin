@@ -1,8 +1,10 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,10 +22,12 @@ import java.net.URL;
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private String mensaje="";
     private String login,pass;
+    private Context context;
 
-    public HiloLogin(String login, String pass) {
+    public HiloLogin(String login, String pass, Context context) {
         this.login = login;
         this.pass = pass;
+        this.context = context;
     }
 
     @Override
@@ -41,11 +45,10 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
+            ((Login)context).iniciarIndex(mensaje);
         }else{
-
+            ((Login)context).errorHilo("No se ha devuelto correctamente de la api");
         }
-
 
     }
 

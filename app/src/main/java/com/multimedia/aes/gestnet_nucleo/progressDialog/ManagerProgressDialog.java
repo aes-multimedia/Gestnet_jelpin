@@ -1,8 +1,7 @@
-package com.multimedia.aes.gestnet_nucleo.dialogo;
+package com.multimedia.aes.gestnet_nucleo.progressDialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import com.multimedia.aes.gestnet_nucleo.R;
 
 public abstract class ManagerProgressDialog {
     private static ProgressDialog p;
