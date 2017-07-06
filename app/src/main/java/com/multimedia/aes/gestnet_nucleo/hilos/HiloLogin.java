@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
@@ -18,16 +20,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private String mensaje="";
     private String login,pass;
     private Context context;
+    private Cliente cliente;
 
     public HiloLogin(String login, String pass, Context context) {
         this.login = login;
         this.pass = pass;
         this.context = context;
+        try {
+            cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -56,6 +65,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         JSONObject msg = new JSONObject();
         msg.put("login",login);
         msg.put("pass",pass);
+        msg.put("codigoCliente",cliente.getId_cliente());
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

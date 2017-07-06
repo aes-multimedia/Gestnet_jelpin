@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorAverias;
+import com.multimedia.aes.gestnet_nucleo.entidades.Averia;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +49,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias;
     private LinearLayout cuerpo;
+    private AdaptadorAverias adaptadorAverias;
+    private ArrayList<Averia> arrayListAveria = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +64,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setTitle("Gestnet Nucleo");
+        setTitle("Averias");
         srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
         lvIndex = (ListView) findViewById(R.id.lvIndex);
@@ -68,6 +72,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
+        Averia a = new Averia(1,"Calle Falsa 123","25698","Madrid-Madrid");
+        arrayListAveria.add(a);
+        adaptadorAverias = new AdaptadorAverias(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
+        lvIndex.setAdapter(adaptadorAverias);
     }
 
     @Override
