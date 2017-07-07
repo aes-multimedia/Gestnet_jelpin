@@ -44,10 +44,7 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         btnEnviarCodCliente.setAlpha(0.5f);
         try {
             if (ClienteDAO.buscarTodosLosClientes(this)!=null) {
-                Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
-                if (c != null) {
-                    irLogin();
-                }
+                irLogin();
             }
         } catch (SQLException e) {
             e.printStackTrace();

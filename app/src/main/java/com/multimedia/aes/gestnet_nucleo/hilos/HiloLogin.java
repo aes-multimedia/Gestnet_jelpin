@@ -54,9 +54,9 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-            ((Login)context).iniciarIndex(mensaje);
+            ((Login)context).guardarUsuario(mensaje);
         }else{
-            ((Login)context).errorHilo("No se ha devuelto correctamente de la api");
+            ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
 
     }

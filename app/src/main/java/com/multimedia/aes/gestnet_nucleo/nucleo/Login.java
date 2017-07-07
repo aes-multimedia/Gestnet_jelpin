@@ -9,12 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -26,6 +31,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         inicializarVariables();
+        try {
+            if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
+                irIndex();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     private void inicializarVariables() {
         ////EDITTEXTS////
@@ -39,22 +51,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         btnLogin.setClickable(false);
         btnLogin.setAlpha(0.5f);
     }
-
-    public void iniciarIndex(String msg){
+    public void guardarUsuario(String msg){
         try {
             JSONObject jsonObject = new JSONObject(msg);
             int estado = jsonObject.getInt("estado");
             if (estado==1){
-                Intent i = new Intent(this,Index.class);
-                startActivity(i);
+                new GuardarUsuario(this,msg);
             }else{
-                errorHilo(jsonObject.getString("mensaje"));
+                sacarMensaje(jsonObject.getString("mensaje"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    public void errorHilo(String msg) {
+    public void irIndex() {
+        Intent i = new Intent(this,Index.class);
+        startActivity(i);
+    }
+    public void sacarMensaje(String msg) {
         Dialogo.dialogoError(msg,this);
     }
     //////////@OVERRIDE METODS//////////
@@ -84,4 +98,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
         }
     }
+
+
+
 }
