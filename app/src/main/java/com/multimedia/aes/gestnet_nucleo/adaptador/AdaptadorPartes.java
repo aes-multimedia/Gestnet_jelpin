@@ -9,17 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
-import com.multimedia.aes.gestnet_nucleo.entidades.Averia;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.util.ArrayList;
 
-public class AdaptadorAverias extends ArrayAdapter {
+public class AdaptadorPartes extends ArrayAdapter {
 
     private Context context;
     private int view;
-    private ArrayList<Averia> arrayList;
+    private ArrayList<Parte> arrayList;
 
-    public AdaptadorAverias(Context context, int view, ArrayList<Averia> arrayList) {
+    public AdaptadorPartes(Context context, int view, ArrayList<Parte> arrayList) {
         super(context, view, arrayList);
         this.context = context;
         this.view = view;

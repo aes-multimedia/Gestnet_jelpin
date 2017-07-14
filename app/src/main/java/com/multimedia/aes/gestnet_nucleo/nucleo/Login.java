@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarCliente;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
@@ -54,9 +57,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void guardarUsuario(String msg){
         try {
             JSONObject jsonObject = new JSONObject(msg);
+            Log.d("prueba",jsonObject.getString("usuario"));
             int estado = jsonObject.getInt("estado");
             if (estado==1){
                 new GuardarUsuario(this,msg);
+                new GuardarCliente(this,msg);
             }else{
                 sacarMensaje(jsonObject.getString("mensaje"));
             }

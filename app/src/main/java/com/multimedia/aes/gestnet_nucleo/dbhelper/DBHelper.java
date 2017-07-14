@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
@@ -56,5 +57,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.usuarioDao = getDao(Usuario.class);
 		}
 		return BBDDConstantes.usuarioDao;
+	}
+
+	public Dao<Parte, Integer> getParteDAO() throws SQLException {
+		if (BBDDConstantes.parteDao == null) {
+			BBDDConstantes.parteDao = getDao(Parte.class);
+		}
+		return BBDDConstantes.parteDao;
 	}
 }

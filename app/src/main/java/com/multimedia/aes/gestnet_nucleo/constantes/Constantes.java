@@ -5,5 +5,6 @@ public class Constantes {
     public static final String IP_EXTERNA = "80.58.161.135:8085";
     public static final String URL_COD_CLIENTE = "http://"+IP_INTERNA+"/api-gesnet/v1/login/codigo";
     public static final String URL_LOGIN = "http://"+IP_INTERNA+"/api-gesnet/v1/login/login";
+    public static final String URL_PARTES = "http://"+IP_INTERNA+"/api-gesnet-datos/v1/partes/listar";
 
 }
