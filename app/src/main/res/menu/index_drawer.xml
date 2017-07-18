@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/averias"
+            android:icon="@drawable/ic_averias"
+            android:title="@string/averias"
+            />
+        <item
             android:id="@+id/documentos"
             android:icon="@drawable/ic_documentos"
             android:title="@string/documentos"

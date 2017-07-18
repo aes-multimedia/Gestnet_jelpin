@@ -63,7 +63,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="@string/contraseña"
-            android:inputType="textVisiblePassword"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:visibility="visible" />
 

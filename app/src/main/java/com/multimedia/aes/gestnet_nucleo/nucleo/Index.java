@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
+import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
@@ -31,6 +33,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
@@ -85,22 +88,26 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == R.id.averias) {
+            recreate();
+        }else if (id == R.id.documentos){
 
-        /*if (id == R.id.documentos) {
-        } else if (id == R.id.averias) {
-            /*JSONObject jsonObject = new JSONObject();
+        }else if (id == R.id.almacen){
+
+        }else if (id == R.id.cambiarFecha){
+
+        }else if (id == R.id.cerrar_sesion){
             try {
-                jsonObject.put("parte", 1);
-                GestorSharedPreferences.clearSharedPreferencesPartes(this);
-                GestorSharedPreferences.setJsonPartes(GestorSharedPreferences.getSharedPreferencesPartes(this), jsonObject);
-            } catch (JSONException e) {
+                BBDDConstantes.borrarDatosTablas(this);
+                Intent i = new Intent(this, PreLogin.class);
+                startActivity(i);
+                finish();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-            recreate();
-        /*} else if (id == R.id.almacen) {*/
 
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -111,7 +118,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void guardarParte(String msg){
         try {
             JSONObject jsonObject = new JSONObject(msg);
-            Log.d("prueba",jsonObject.getString("usuario"));
             int estado = jsonObject.getInt("estado");
             if (estado==1){
                 new GuardarParte(this,msg);
