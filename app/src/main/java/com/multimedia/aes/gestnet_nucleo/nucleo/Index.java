@@ -2,6 +2,8 @@ package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +25,7 @@ import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
 
 import org.json.JSONException;
@@ -59,10 +62,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
-      //  Parte a = new Parte(1,"Calle Falsa 123","25698","Madrid-Madrid");
-      //  arrayListAveria.add(a);
-       // adaptadorAverias = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListAveria);
-    //    lvIndex.setAdapter(adaptadorAverias);
+        Parte a = new Parte();
+        a.setFecha_aviso("24/05/17");
+        a.setHorario("12:00-13:00");
+        a.setNum_parte(5555);
+        a.setId_parte(1);
+        arrayListAveria.add(a);
+        adaptadorAverias = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListAveria);
+        lvIndex.setAdapter(adaptadorAverias);
     }
 
     @Override
@@ -117,7 +124,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        JSONObject jsonObject = new JSONObject();
+        srl.setVisibility(View.GONE);
+        Class fragmentClass = FragmentPartes.class;
+        Fragment fragment;
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -126,8 +144,5 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.btnLogin){
-            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
-        }
     }
 }

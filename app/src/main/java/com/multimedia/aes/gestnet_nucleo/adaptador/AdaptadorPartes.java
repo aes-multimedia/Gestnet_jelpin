@@ -40,7 +40,7 @@ public class AdaptadorPartes extends ArrayAdapter {
         direccion.setText(String.valueOf(arrayList.get(position).getFecha_aviso()));
         cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getHorario()));
         provincia.setText("("+ String.valueOf(arrayList.get(position).getNum_parte())+")");
-        global.setTag(String.valueOf(arrayList.get(position).getObservaciones()));
+        global.setTag(String.valueOf(arrayList.get(position).getId_parte()));
         return item;
     }
 }

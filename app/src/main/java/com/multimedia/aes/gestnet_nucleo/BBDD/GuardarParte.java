@@ -16,11 +16,9 @@ public class GuardarParte {
     private static String json;
     private static Context context;
     private static boolean bien=false;
-    private static List<Parte> partes;
 
-    public GuardarParte(Context context, String json, List<Parte> partes) {
+    public GuardarParte(Context context, String json) {
         this.context = context;
-        this.partes=partes;
         GuardarParte.json = json;
         try {
             guardarJsonParte();
