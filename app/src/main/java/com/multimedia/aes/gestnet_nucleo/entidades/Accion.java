@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "mos_acciones")
-public class Acciones {
+public class Accion {
 
     public static final String ID_ACCION = "_id_protocolos";
     public static final String FK_PROTOCOLO = "fk_protocolo";
@@ -24,9 +24,9 @@ public class Acciones {
     private String periocidad_accion;
     @DatabaseField(columnName = TIPO_ACCION)
     private String tipo_accion;
-    public Acciones(){}
-    public Acciones(int id_protocolos, int fk_protocolo, String descripcion_accion, String periocidad_accion,
-                    String tipo_accion) {
+    public Accion(){}
+    public Accion(int id_protocolos, int fk_protocolo, String descripcion_accion, String periocidad_accion,
+                  String tipo_accion) {
         this.id_protocolos = id_protocolos;
         this.fk_protocolo = fk_protocolo;
         this.descripcion_accion = descripcion_accion;

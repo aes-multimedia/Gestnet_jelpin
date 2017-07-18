@@ -4,22 +4,22 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "mos_protocolos")
-public class Protocolos {
+public class Protocolo {
 
-    public static final String ID_PROTOCOLOS = "_id_protocolos";
-    public static final String NOMBRE_PROTOCOLOS = "nombre_protocolos";
+    public static final String ID_PROTOCOLO = "_id_protocolos";
+    public static final String NOMBRE_PROTOCOLO = "nombre_protocolos";
     public static final String BGENERAL = "b_general";
 
 
 
-    @DatabaseField(id = true, columnName = ID_PROTOCOLOS)
+    @DatabaseField(id = true, columnName = ID_PROTOCOLO)
     private int id_protocolos;
-    @DatabaseField(columnName = NOMBRE_PROTOCOLOS)
+    @DatabaseField(columnName = NOMBRE_PROTOCOLO)
     private String nombre_protocolos;
     @DatabaseField(columnName = BGENERAL)
     private String b_general;
-    public Protocolos(){}
-    public Protocolos(int id_protocolos, String nombre_protocolos, String b_general) {
+    public Protocolo(){}
+    public Protocolo(int id_protocolos, String nombre_protocolos, String b_general) {
         this.id_protocolos = id_protocolos;
         this.nombre_protocolos = nombre_protocolos;
         this.b_general = b_general;
