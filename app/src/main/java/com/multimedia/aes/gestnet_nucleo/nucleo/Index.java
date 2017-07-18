@@ -46,7 +46,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setTitle(R.string.averias);
         try {
             arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
