@@ -10,9 +10,32 @@
     <string name="title_activity_index">Gestnet_Nucleo</string>
     <string name="cambiar_fecha">Cambiar Fecha</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
-    <string name="almacen">Almacen</string>
+    <string name="almacen">Almacén</string>
     <string name="documentos">Documentos</string>
-    <string name="averias">Averias</string>
-
+    <string name="averias">Averías</string>
+    <string name="fecha_llamada">Fecha visita: </string>
+    <string name="contrato">Num. Contrato: </string>
+    <string name="venta">Venta: </string>
+    <string name="tipo_urgencia">Tipo urgencia: </string>
+    <string name="contador_averias">Num. averías: </string>
+    <string name="num_orden_iberdrola">Num. orden: </string>
+    <string name="telefonos">Teléfonos: </string>
+    <string name="telefono_1">Teléfono 1</string>
+    <string name="telefono_2">Teléfono 2</string>
+    <string name="telefono_3">Teléfono 3</string>
+    <string name="telefono_4">Teléfono 4</string>
+    <string name="otros_telefonos">Otros teléfonos</string>
+    <string name="confirmar_telefono">ACTUALIZAR DATOS DEL USUARIO</string>
+    <string name="observaciones">Obs. Visita Fallida: </string>
+    <string name="visita_fallida">Visita Fallida</string>
+    <string name="iniciar_parte">INICIAR PARTE</string>
+    <string name="datos_parte">Datos del Parte</string>
+    <string name="datos_equipo">Datos del Equipo</string>
+    <string name="datos_cliente">Datos del Cliente</string>
+    <string name="dni_firmante">DNI Firmante</string>
+    <string name="nombre_firmante">Nombre Firmante</string>
+    <string name="nombre_titular">Nombre Titular</string>
+    <string name="dni_titular">DNI Titular</string>
+    <string name="no_firma_titular">No firma titular</string>
 </resources>
 
