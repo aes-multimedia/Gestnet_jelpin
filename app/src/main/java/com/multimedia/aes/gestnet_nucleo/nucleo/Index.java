@@ -119,6 +119,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
