@@ -103,8 +103,6 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
             error.put("mensaje","Error de conexión, error de lectura");
             contenido = error.toString();
         }
-
-
         return contenido;
     }
 }

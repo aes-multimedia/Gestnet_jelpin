@@ -11,27 +11,21 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarCliente;
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,12 +36,24 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private SwipeRefreshLayout srl;
     private ImageView ivIncidencias;
     private LinearLayout cuerpo;
-    private AdaptadorPartes adaptadorAverias;
-    private ArrayList<Parte> arrayListAveria = new ArrayList<>();
+    private AdaptadorPartes adaptadorPartes;
+    private ArrayList<Parte> arrayListParte = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
+        inicializarVariables();
+        setTitle(R.string.averias);
+        try {
+            arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+        lvIndex.setAdapter(adaptadorPartes);
+    }
+    private void inicializarVariables(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,7 +63,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        setTitle("Averias");
         srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
         lvIndex = (ListView) findViewById(R.id.lvIndex);
@@ -65,16 +70,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
-        Parte a = new Parte();
-        a.setFecha_aviso("24/05/17");
-        a.setHorario("12:00-13:00");
-        a.setNum_parte(5555);
-        a.setId_parte(1);
-        arrayListAveria.add(a);
-        adaptadorAverias = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListAveria);
-        lvIndex.setAdapter(adaptadorAverias);
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -115,20 +111,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void sacarMensaje(String msg) {
         Dialogo.dialogoError(msg,this);
     }
-    public void guardarParte(String msg){
-        try {
-            JSONObject jsonObject = new JSONObject(msg);
-            int estado = jsonObject.getInt("estado");
-            if (estado==1){
-                new GuardarParte(this,msg);
-            }else{
-                sacarMensaje(jsonObject.getString("mensaje"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    @Override
+        @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentPartes.class;

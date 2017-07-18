@@ -49,6 +49,7 @@
             android:hint="@string/cod_cliente"
             android:inputType="textVisiblePassword"
             android:padding="10dp"
+            android:text="CLI0677"
             android:visibility="visible" />
 
         <Button

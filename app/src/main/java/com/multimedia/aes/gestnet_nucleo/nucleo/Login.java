@@ -9,15 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarCliente;
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     private EditText etUsuario,etContraseña;
     private Button btnLogin;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         inicializarVariables();
         try {
             if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
-                irIndex();
+                usuario= UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+                if (ParteDAO.buscarTodosLosPartes(this)!=null){
+                    irIndex();
+                }else{
+                    obtenerPartes();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,7 +68,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             int estado = jsonObject.getInt("estado");
             if (estado==1){
                 new GuardarUsuario(this,msg);
-                new GuardarCliente(this,msg);
             }else{
                 sacarMensaje(jsonObject.getString("mensaje"));
             }
@@ -69,6 +75,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             e.printStackTrace();
         }
     }
+    public void obtenerPartes(){
+        new HiloPartes(this,usuario.getFk_entidad()).execute();
+    }
+    public void guardarPartes(String msg){
+        try {
+            JSONObject jsonObject = new JSONObject(msg);
+            if (jsonObject.getInt("estado")==1){
+                new GuardarParte(this,msg);
+            }else{
+                sacarMensaje(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        }
     public void irIndex() {
         Intent i = new Intent(this,Index.class);
         startActivity(i);
