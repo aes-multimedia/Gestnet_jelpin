@@ -61,7 +61,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
       //  Parte a = new Parte(1,"Calle Falsa 123","25698","Madrid-Madrid");
       //  arrayListAveria.add(a);
-       // adaptadorAverias = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_averia, arrayListAveria);
+       // adaptadorAverias = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListAveria);
     //    lvIndex.setAdapter(adaptadorAverias);
     }
 

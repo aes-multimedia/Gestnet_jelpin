@@ -2,10 +2,8 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 
 import android.content.Context;
 
-import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
-import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,13 +11,13 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 
 public class GuardarUsuario {
-    private static String Json;
+    private static String json;
     private static Context context;
     private static boolean bien=false;
 
     public GuardarUsuario(Context context, String json) {
         this.context = context;
-        Json = json;
+        GuardarUsuario.json = json;
         try {
             guardarJsonUsuario();
         } catch (JSONException e) {
@@ -30,7 +28,7 @@ public class GuardarUsuario {
     }
 
     public static void guardarJsonUsuario() throws JSONException, SQLException {
-        JSONObject jsonObject = new JSONObject(Json);
+        JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("usuario");
         int id = jsonObject.getInt("id_usuario");
         int fk_cliente  = jsonObject.getInt("fk_cliente");

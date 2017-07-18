@@ -6,20 +6,19 @@ import android.content.Context;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
 
 public class GuardarCliente {
-    private static String Json;
+    private static String json;
     private static Context context;
     private static boolean bien=false;
 
     public GuardarCliente(Context context, String json) {
         this.context = context;
-        Json = json;
+        GuardarCliente.json = json;
         try {
             guardarJsonCliente();
         } catch (JSONException e) {
@@ -30,7 +29,7 @@ public class GuardarCliente {
     }
 
     public static void guardarJsonCliente() throws JSONException, SQLException {
-        JSONObject jsonObject = new JSONObject(Json);
+        JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("cliente");
         int id = jsonObject.getInt("id_cliente");
         String nombre = jsonObject.getString("cliente");

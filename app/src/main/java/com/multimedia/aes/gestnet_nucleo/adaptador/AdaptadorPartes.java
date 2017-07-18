@@ -37,10 +37,10 @@ public class AdaptadorPartes extends ArrayAdapter {
         TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
         TextView cp = (TextView) item.findViewById(R.id.txtCP);
         LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
-        direccion.setText(String.valueOf(arrayList.get(position).getDireccion_averia()));
-        cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getCp_averia()));
-        provincia.setText("("+ String.valueOf(arrayList.get(position).getProvincia_averia())+")");
-        global.setTag(String.valueOf(arrayList.get(position).getId_averia()));
+        direccion.setText(String.valueOf(arrayList.get(position).getFecha_aviso()));
+        cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getHorario()));
+        provincia.setText("("+ String.valueOf(arrayList.get(position).getNum_parte())+")");
+        global.setTag(String.valueOf(arrayList.get(position).getObservaciones()));
         return item;
     }
 }
