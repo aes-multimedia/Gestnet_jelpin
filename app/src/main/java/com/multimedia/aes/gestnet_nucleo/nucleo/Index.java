@@ -111,13 +111,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void sacarMensaje(String msg) {
         Dialogo.dialogoError(msg,this);
     }
-        @Override
+
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", (Integer) view.getTag());
+
         srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentPartes.class;
         Fragment fragment;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+            fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
         } catch (InstantiationException e) {

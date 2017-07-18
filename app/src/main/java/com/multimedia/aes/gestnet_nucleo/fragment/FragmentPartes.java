@@ -15,6 +15,8 @@ import android.widget.Button;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.PageAdapter;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,12 +33,27 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
     private TabFragment2 tab2;
     private TabFragment3 tab3;
     private TabFragment4 tab4;
+    private Parte parte;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Cliente"));
+
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            // TODO en caso de que idParte sea 0
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // TODO 
+        }
+
         tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
         tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
         tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
