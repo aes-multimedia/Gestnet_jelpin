@@ -682,17 +682,17 @@ public class GuardarParte {
                     cp_direccion = jsonArray.getJSONObject(i).getJSONObject("direccion").getString("cp");
                 }
                 String municipio_direccion="";
-                /*if (jsonArray.getJSONObject(i).getJSONObject("direccion").getString("municipio").equals("null")) {
+                if (jsonArray.getJSONObject(i).getJSONObject("direccion").getString("municipio").equals("null")) {
                     municipio_direccion = "";
                 } else {
                     municipio_direccion = jsonArray.getJSONObject(i).getJSONObject("direccion").getString("municipio");
-                }*/
+                }
                 String provincia_direccion="";
-                /*if (jsonArray.getJSONObject(i).getJSONObject("direccion").getString("provincia").equals("null")) {
+                if (jsonArray.getJSONObject(i).getJSONObject("direccion").getString("provincia").equals("null")) {
                     provincia_direccion = "";
                 } else {
                     provincia_direccion = jsonArray.getJSONObject(i).getJSONObject("direccion").getString("provincia");
-                }*/
+                }
                 String latitud_direccion;
                 if (jsonArray.getJSONObject(i).getJSONObject("direccion").getString("lat").equals("null")) {
                     latitud_direccion = "";

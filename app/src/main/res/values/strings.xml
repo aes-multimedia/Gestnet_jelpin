@@ -37,5 +37,7 @@
     <string name="nombre_titular">Nombre Titular</string>
     <string name="dni_titular">DNI Titular</string>
     <string name="no_firma_titular">No firma titular</string>
+    <string name="averias">Averias</string>
+    <string name="añadir_analisis">Añadir Analisis</string>
 </resources>
 

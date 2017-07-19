@@ -46,7 +46,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setTitle(R.string.averias);
         try {
             arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -125,6 +124,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

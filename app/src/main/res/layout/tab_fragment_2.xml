@@ -4,4 +4,772 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Datos de la Equipo"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/llMaquina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fondo_linear_gris"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tipo"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spTipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Marca"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spMarca"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Uso"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spUso"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Potencia"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spPotencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Puesta en marcha"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spPuestaMarcha"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:spinnerMode="dropdown" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Modelo"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etModelo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView41"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperatura Max ACS"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etTempMaxACS"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView42"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Caudal de ACS"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etCaudalACS"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView43"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Potencia Util"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etPotenciaUtil"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView46"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperatura agua del generador de calor (entrada-salida)"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etTempAguaGeneCalorEntrada"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+
+                        <EditText
+                            android:id="@+id/etTempAguaGeneCalorSalida"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnDatosTesto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/botones"
+                    android:text="Datos de Analisis" />
+
+                <LinearLayout
+                    android:id="@+id/llDatosTesto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fondo_linear_gris"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView44"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperatura gases PDC"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etTempGasesComb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView452"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Co Corregido"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etCoCorregido"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView456"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="O2"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etO2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView40"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="C0"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etC0"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView457"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lambda"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etLambda"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView455"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Co2"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etCo2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView45"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperatura ambiente local"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etTempAmbienteLocal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView454"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tiro"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etTiro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView451"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rendimiento del aparato"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etRendimientoAparato"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView453"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Co Ambiente"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etCoAmbiente"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView339"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Co2 Ambiente"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <EditText
+                            android:id="@+id/etCo2Ambiente"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:inputType="numberSigned|numberDecimal"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/cbCampana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorAccent"
+                        android:checked="false"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="Medicion con campana"
+                        android:textSize="19sp" />
+
+                    <LinearLayout
+                        android:id="@+id/llMaxMinPotencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/cbMaximaPotencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorAccent"
+                            android:checked="false"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="Maxima Potencia"
+                            android:textSize="19sp" />
+
+                        <CheckBox
+                            android:id="@+id/cbMinimaPotencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorAccent"
+                            android:checked="false"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="Minima Potencia"
+                            android:textSize="19sp" />
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/etNombreMedicion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:hint="Nombre medición"
+                        android:inputType="text"
+                        android:minHeight="30dp"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:id="@+id/txtSn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/btnAñadirAnalisis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/botones"
+                        android:padding="5dp"
+                        android:text="@string/añadir_analisis" />
+
+                    <ListView
+                        android:id="@+id/lvAnalisis"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/fondo_linear_gris"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/llAnalisisFinalizacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:text="Analisis para el cierre"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/spAnalisisFinalizacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnAñadirMaquina"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/botones"
+                        android:gravity="center"
+                        android:text="Añadir Maquina" />
+
+                    <ListView
+                        android:id="@+id/lvMaquinas"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnDespiece"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/botones"
+                android:gravity="center"
+                android:text="Ver despiece equipo"
+                android:textColor="#FFF"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/llSoloCocina"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/fondo_linear_gris"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:paddingBottom="20dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/etCoAmbienteSoloCocina"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:ems="10"
+                    android:hint="Co Ambiente"
+                    android:inputType="numberDecimal"
+                    android:minHeight="30dp"
+                    android:padding="5dp" />
+
+                <Button
+                    android:id="@+id/btnCoAmbienteTesto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/botones"
+                    android:text="Co Ambiente TESTO" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
