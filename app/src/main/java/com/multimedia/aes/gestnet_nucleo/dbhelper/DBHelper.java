@@ -8,6 +8,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.entidades.Accion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Protocolo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -78,5 +79,11 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.protocoloDao = getDao(Protocolo.class);
 		}
 		return BBDDConstantes.protocoloDao;
+	}
+	public Dao<Configuracion, Integer> getConfiguracionDAO() throws SQLException {
+		if (BBDDConstantes.configuracionDao == null) {
+			BBDDConstantes.configuracionDao = getDao(Configuracion.class);
+		}
+		return BBDDConstantes.configuracionDao;
 	}
 }
