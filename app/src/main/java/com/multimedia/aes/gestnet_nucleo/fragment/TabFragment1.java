@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
@@ -43,6 +45,19 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        inicializarVariables();
+
+
+
         return vista;
     }
     @Override

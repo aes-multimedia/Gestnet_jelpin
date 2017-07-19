@@ -61,7 +61,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
-                (getFragmentManager(), tabLayout.getTabCount());
+                (getFragmentManager(), tabLayout.getTabCount(), bundle);
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
