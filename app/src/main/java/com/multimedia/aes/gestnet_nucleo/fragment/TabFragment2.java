@@ -28,7 +28,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener, Adap
     private Button btnAñadirMaquina,btnDatosTesto,btnCoAmbienteTesto,btnAñadirAnalisis;
     private TextView txtSn;
     private static ListView lvMaquinas,lvAnalisis;
-    private static CheckBox cbCampana, cbSoloCocina,cbMaximaPotencia,cbMinimaPotencia;
+    private static CheckBox cbCampana, cbMaximaPotencia,cbMinimaPotencia;
     private static LinearLayout llDatosTesto,llMaxMinPotencia,llAnalisisFinalizacion;
     private LinearLayout llMaquina,llSoloCocina;
     private static int alto=0,alto1=0,alto2=0, height=0;
@@ -64,7 +64,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener, Adap
         etCoAmbienteSoloCocina = (EditText)vista.findViewById(R.id.etCoAmbienteSoloCocina);
         etNombreMedicion = (EditText)vista.findViewById(R.id.etNombreMedicion);
         cbCampana = (CheckBox)vista.findViewById(R.id.cbCampana);
-        cbSoloCocina = (CheckBox)vista.findViewById(R.id.cbSoloCocina);
         cbMaximaPotencia = (CheckBox)vista.findViewById(R.id.cbMaximaPotencia);
         cbMinimaPotencia = (CheckBox)vista.findViewById(R.id.cbMinimaPotencia);
         llDatosTesto = (LinearLayout)vista.findViewById(R.id.llDatosTesto);
@@ -83,7 +82,6 @@ public class TabFragment2 extends Fragment implements View.OnClickListener, Adap
         btnDatosTesto.setOnClickListener(this);
         btnCoAmbienteTesto.setOnClickListener(this);
         btnAñadirAnalisis.setOnClickListener(this);
-        cbSoloCocina.setOnClickListener(this);
         cbMaximaPotencia.setOnClickListener(this);
         cbMinimaPotencia.setOnClickListener(this);
         cbCampana.setOnClickListener(this);
