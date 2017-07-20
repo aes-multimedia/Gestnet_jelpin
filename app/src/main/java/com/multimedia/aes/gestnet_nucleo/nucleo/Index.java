@@ -114,7 +114,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Bundle bundle = new Bundle();
-        bundle.putInt("id", (Integer) view.getTag());
+        bundle.putInt("id", Integer.parseInt((String) view.getTag()));
 
         srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentPartes.class;
