@@ -1,6 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,9 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -29,25 +29,24 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private Button btnIniciarParte,btnConfirmarObsTel,btnVisitaFallida;
     private Parte parte = null;
     private ImageButton ibLocation,ibIr;
-    private ImageView mImageView;
-    private Bitmap mBitmap;
-    private Button mBtnPrint;
-    private ArrayList<String> mFiles = new ArrayList<String>();
-    //private Maquina maquina=null;
     private CheckBox cbTitular;
     private LinearLayout llTitular,llBotonera;
-    private static final int MY_PERMISSIONS_REQUEST_CALL = 1 ;
-    private static final int MY_PERMISSIONS_REQUEST_INTERNET = 2 ;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 3 ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        inicializarVariables();
+        darValoresVariables();
         return vista;
-    }
-    @Override
-    public void onClick(View view) {
-
     }
 
     private void inicializarVariables() {
@@ -107,5 +106,44 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         ibLocation.setOnClickListener(this);
         ibIr.setOnClickListener(this);
         cbTitular.setOnClickListener(this);
+    }
+    public void darValoresVariables(){
+        txtFechaLlamada.setText(parte.getFecha_visita());
+        txtContrato.setText(parte.getContrato_endesa());
+        txtTipoVisita.setText(parte.getFk_tipo_instalacion()+"");
+        txtTipoMantenimiento.setText(parte.getFk_tipo()+"");
+        txtNumOrdenIberdrola.setText(parte.getNum_orden_endesa());
+        txtTipo.setText(parte.getFk_maquina()+"");
+        etNombre.setText(parte.getNombre_cliente());
+        etDni.setText(parte.getDni_cliente());
+        String direccion = "";
+        if (!parte.getTipo_via().equals("")&&!parte.getTipo_via().equals(null)){
+            direccion+=parte.getTipo_via();
+        }
+        if (!parte.getVia().equals("")&&!parte.getVia().equals(null)){
+            direccion+=" "+parte.getVia();
+        }
+        if (!parte.getNumero_direccion().equals("")&&!parte.getNumero_direccion().equals(null)){
+            direccion+=", "+parte.getNumero_direccion();
+        }
+        if (!parte.getEscalera_direccion().equals("")&&!parte.getEscalera_direccion().equals(null)){
+            direccion+=" ,"+parte.getEscalera_direccion();
+        }
+        if (!parte.getPiso_direccion().equals("")&&!parte.getPiso_direccion().equals(null)){
+            direccion+=", "+parte.getPiso_direccion();
+        }
+        if (!parte.getPuerta_direccion().equals("")&&!parte.getPuerta_direccion().equals(null)){
+            direccion+=", "+parte.getPuerta_direccion();
+        }
+        txtDireccion.setText(direccion);
+        etTelefono1.setText(parte.getTelefono1_cliente());
+        etTelefono2.setText(parte.getTelefono2_cliente());
+        etTelefono3.setText(parte.getTelefono3_cliente());
+        etTelefono4.setText(parte.getTelefono4_cliente());
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

@@ -44,14 +44,11 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             int idParte = bundle.getInt("id", 0);
-            // TODO en caso de que idParte sea 0
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else {
-            // TODO 
         }
 
         tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
@@ -61,7 +58,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
-                (getFragmentManager(), tabLayout.getTabCount());
+                (getFragmentManager(), tabLayout.getTabCount(),parte.getId_parte());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

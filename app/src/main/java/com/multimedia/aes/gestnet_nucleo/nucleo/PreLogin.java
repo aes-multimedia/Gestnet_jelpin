@@ -53,6 +53,7 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
     public void irLogin(){
         Intent i = new Intent(this,Login.class);
         startActivity(i);
+        finish();
     }
     public void guardarCliente(String msg){
         try {

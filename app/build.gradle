@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.multimedia.aes.gestnet_nucleo"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         multiDexEnabled true

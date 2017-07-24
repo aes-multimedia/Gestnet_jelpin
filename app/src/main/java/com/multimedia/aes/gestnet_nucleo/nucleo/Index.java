@@ -45,7 +45,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         try {
-            arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+            if (ParteDAO.buscarTodosLosPartes(this)!=null){
+                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -114,8 +116,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Bundle bundle = new Bundle();
-        bundle.putInt("id", (Integer) view.getTag());
-
+        bundle.putInt("id", Integer.parseInt(String.valueOf(view.getTag())));
         srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentPartes.class;
         Fragment fragment;

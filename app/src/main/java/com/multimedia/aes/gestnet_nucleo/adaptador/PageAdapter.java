@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,10 +17,15 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     private TabFragment2 tab2;
     private TabFragment3 tab3;
     private TabFragment4 tab4;
+    private int id;
+    private Bundle b;
 
-    public PageAdapter(FragmentManager fm, int NumOfTabs) {
+    public PageAdapter(FragmentManager fm, int NumOfTabs,int id) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        this.id=id;
+        b = new Bundle();
+        b.putInt("id",id);
     }
 
     @Override
@@ -28,15 +34,19 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 tab1 = new TabFragment1();
+                tab1.setArguments(b);
                 return tab1;
             case 1:
                 tab2 = new TabFragment2();
+                tab2.setArguments(b);
                 return tab2;
             case 2:
                 tab3 = new TabFragment3();
+                tab3.setArguments(b);
                 return tab3;
             case 3:
                 tab4 = new TabFragment4();
+                tab4.setArguments(b);
                 return tab4;
             default:
                 return null;
