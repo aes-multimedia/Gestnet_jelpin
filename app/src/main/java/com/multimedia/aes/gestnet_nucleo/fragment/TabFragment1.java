@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class TabFragment1 extends Fragment implements View.OnClickListener {
     private View vista;
@@ -35,6 +37,19 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        inicializarVariables();
+
+
+
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             int idParte = bundle.getInt("id", 0);
