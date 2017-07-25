@@ -9,6 +9,7 @@ import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.entidades.Accion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
+import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Protocolo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -85,5 +86,11 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.configuracionDao = getDao(Configuracion.class);
 		}
 		return BBDDConstantes.configuracionDao;
+	}
+	public Dao<Maquina, Integer> getMaquinaDAO() throws SQLException {
+		if (BBDDConstantes.maquinaDao == null) {
+			BBDDConstantes.maquinaDao = getDao(Configuracion.class);
+		}
+		return BBDDConstantes.maquinaDao;
 	}
 }

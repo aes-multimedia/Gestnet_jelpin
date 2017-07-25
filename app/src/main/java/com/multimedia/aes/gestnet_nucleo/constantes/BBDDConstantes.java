@@ -9,12 +9,14 @@ import com.j256.ormlite.table.TableUtils;
 import com.multimedia.aes.gestnet_nucleo.dao.AccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Accion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
+import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Protocolo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -32,6 +34,7 @@ public class BBDDConstantes {
 	public static Dao<Accion, Integer> accionDao;
 	public static Dao<Protocolo, Integer> protocoloDao;
 	public static Dao<Configuracion, Integer> configuracionDao;
+	public static Dao<Maquina, Integer> maquinaDao;
 
 	public static void cerrarDao() {
 		clienteDao = null;
@@ -40,6 +43,7 @@ public class BBDDConstantes {
 		accionDao=null;
 		protocoloDao=null;
 		configuracionDao=null;
+		maquinaDao=null;
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -49,6 +53,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, Accion.class);
 		TableUtils.createTable(connectionSource, Protocolo.class);
 		TableUtils.createTable(connectionSource, Configuracion.class);
+		TableUtils.createTable(connectionSource, Maquina.class);
 	}
 
 	public static void borrarTablas(ConnectionSource connectionSource) throws SQLException {
@@ -58,6 +63,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Accion.class, true);
 		TableUtils.dropTable(connectionSource, Protocolo.class, true);
 		TableUtils.dropTable(connectionSource, Configuracion.class, true);
+		TableUtils.dropTable(connectionSource, Maquina.class, true);
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
@@ -67,5 +73,6 @@ public class BBDDConstantes {
 		AccionDAO.borrarTodasLasAcciones(context);
 		ProtocoloDAO.borrarTodosLosProtocolo(context);
 		ConfiguracionDAO.borrarTodasLasConfiguraciones(context);
+		MaquinaDAO.borrarTodasLasMaquinas(context);
 	}
 }
