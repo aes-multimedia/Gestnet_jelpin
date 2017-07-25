@@ -22,8 +22,9 @@ public class AccionDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newAccion(Context context) {
-		Accion a = montarAccion();
+	public static boolean newAccion(Context context,int id_accion, int fk_protocolo, String descripcion_accion, String periocidad_accion,
+									String tipo_accion) {
+		Accion a = montarAccion(id_accion, fk_protocolo, descripcion_accion, periocidad_accion, tipo_accion);
 		return crearAccion(a, context);
 	}
 
@@ -38,8 +39,9 @@ public class AccionDAO extends DBHelperMOS {
 		}
 	}
 
-	public static Accion montarAccion() {
-		Accion a = new Accion();
+	public static Accion montarAccion(int id_accion, int fk_protocolo, String descripcion_accion, String periocidad_accion,
+									  String tipo_accion) {
+		Accion a = new Accion(id_accion, fk_protocolo, descripcion_accion, periocidad_accion, tipo_accion);
 		return a;
 	}
 

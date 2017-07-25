@@ -50,7 +50,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
 
 
-        Bundle bundle = this.getArguments();
+        bundle = this.getArguments();
         if(bundle != null) {
             int idParte = bundle.getInt("id", 0);
             try {

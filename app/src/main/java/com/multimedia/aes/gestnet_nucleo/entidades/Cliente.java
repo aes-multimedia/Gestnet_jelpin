@@ -14,18 +14,12 @@ public class Cliente {
     public static final String COD_CLIENTE = "cod_cliente";
 
 
-    @DatabaseField(id = true, columnName = ID_CLIENTE)
-    private int id_cliente;
-    @DatabaseField(columnName = NOMBRE_CLIENTE)
-    private String nombre_cliente;
-    @DatabaseField(columnName = COLOR_CLIENTE)
-    private String color_cliente;
-    @DatabaseField(columnName = LOGO_CLIENTE)
-    private String logo_cliente;
-    @DatabaseField(columnName = IP_CLIENTE)
-    private String ip_cliente;
-    @DatabaseField(columnName = COD_CLIENTE)
-    private String cod_cliente;
+    @DatabaseField(id = true, columnName = ID_CLIENTE)  private int id_cliente;
+    @DatabaseField(columnName = NOMBRE_CLIENTE)         private String nombre_cliente;
+    @DatabaseField(columnName = COLOR_CLIENTE)          private String color_cliente;
+    @DatabaseField(columnName = LOGO_CLIENTE)           private String logo_cliente;
+    @DatabaseField(columnName = IP_CLIENTE)             private String ip_cliente;
+    @DatabaseField(columnName = COD_CLIENTE)            private String cod_cliente;
 
     public Cliente (){}
     public Cliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente) {

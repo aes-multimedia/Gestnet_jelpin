@@ -12,12 +12,10 @@ public class Protocolo {
 
 
 
-    @DatabaseField(id = true, columnName = ID_PROTOCOLO)
-    private int id_protocolos;
-    @DatabaseField(columnName = NOMBRE_PROTOCOLO)
-    private String nombre_protocolos;
-    @DatabaseField(columnName = BGENERAL)
-    private String b_general;
+    @DatabaseField(id = true, columnName = ID_PROTOCOLO)    private int id_protocolos;
+    @DatabaseField(columnName = NOMBRE_PROTOCOLO)           private String nombre_protocolos;
+    @DatabaseField(columnName = BGENERAL)                   private String b_general;
+
     public Protocolo(){}
     public Protocolo(int id_protocolos, String nombre_protocolos, String b_general) {
         this.id_protocolos = id_protocolos;

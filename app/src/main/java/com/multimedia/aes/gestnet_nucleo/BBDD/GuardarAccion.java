@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 
 import android.content.Context;
 
+import com.multimedia.aes.gestnet_nucleo.dao.AccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
@@ -29,14 +30,14 @@ public class GuardarAccion {
 
     public static void guardarJsonCliente() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
-        jsonObject = jsonObject.getJSONObject("cliente");
-        int id = jsonObject.getInt("id_cliente");
-        String nombre = jsonObject.getString("cliente");
-        String color = jsonObject.getString("color");
-        String logo = jsonObject.getString("logo");
-        String ip = jsonObject.getString("IP");
-        String cod_cliente = jsonObject.getString("cod_cliente");
-        if (ClienteDAO.newCliente(context,id,nombre,color,logo,ip,cod_cliente)){
+        jsonObject = jsonObject.getJSONObject("accion");
+        int id_accion = 0;
+        int fk_protocolo = 0;
+        String descripcion_accion = "";
+        String periocidad_accion = "";
+        String tipo_accion = "";
+
+        if (AccionDAO.newAccion(context, id_accion, fk_protocolo, descripcion_accion, periocidad_accion, tipo_accion)){
             bien = true;
         }
         if (bien){

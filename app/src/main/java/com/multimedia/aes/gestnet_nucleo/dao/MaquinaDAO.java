@@ -21,8 +21,22 @@ public class MaquinaDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newMaquina(Context context) {
-		Maquina m = montarMaquina();
+	public static boolean newMaquina(Context context,int id_maquina, int fk_direccion, int fk_modelo, int fk_marca, int fk_tipo_combustion,
+									 int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,
+									 int fk_estado, int fk_contrato_mantenimiento, int fk_gama, int fk_tipo_gama,
+									 String fecha_creacion, String modelo, String num_serie, String num_producto, String aparato,
+									 String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
+									 String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
+									 String garantia_extendida, String factura_compra, String refrigerante,
+									 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal) {
+		Maquina m = montarMaquina(id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
+				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
+				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
+				fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
+				puesta_marcha,   fecha_compra,   fecha_fin_garantia,
+				mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
+				garantia_extendida,   factura_compra,   refrigerante,
+				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal);
 		return crearMaquina(m, context);
 	}
 
@@ -37,8 +51,22 @@ public class MaquinaDAO extends DBHelperMOS {
 		}
 	}
 
-	public static Maquina montarMaquina() {
-		Maquina m = new Maquina();
+	public static Maquina montarMaquina(int id_maquina, int fk_direccion, int fk_modelo, int fk_marca, int fk_tipo_combustion,
+										int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,
+										int fk_estado, int fk_contrato_mantenimiento, int fk_gama, int fk_tipo_gama,
+										String fecha_creacion, String modelo, String num_serie, String num_producto, String aparato,
+										String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
+										String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
+										String garantia_extendida, String factura_compra, String refrigerante,
+										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal) {
+		Maquina m = new Maquina(id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
+				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
+				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
+				fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
+				puesta_marcha,   fecha_compra,   fecha_fin_garantia,
+				mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
+				garantia_extendida,   factura_compra,   refrigerante,
+				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal);
 		return m;
 	}
 

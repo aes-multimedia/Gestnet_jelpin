@@ -31,12 +31,42 @@ public class GuardarCliente {
     public static void guardarJsonCliente() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("cliente");
-        int id = jsonObject.getInt("id_cliente");
-        String nombre = jsonObject.getString("cliente");
-        String color = jsonObject.getString("color");
-        String logo = jsonObject.getString("logo");
-        String ip = jsonObject.getString("IP");
-        String cod_cliente = jsonObject.getString("cod_cliente");
+        int id;
+        if (jsonObject.getString("id_cliente").equals("null") || jsonObject.getString("id_cliente").equals("")) {
+            id = -1;
+        } else {
+            id = jsonObject.getInt("id_cliente");
+        }
+        String nombre;
+        if (jsonObject.getString("cliente").equals("null")) {
+            nombre = "";
+        } else {
+            nombre = jsonObject.getString("cliente");
+        }
+        String color;
+        if (jsonObject.getString("color").equals("null")) {
+            color = "";
+        } else {
+            color = jsonObject.getString("color");
+        }
+        String logo;
+        if (jsonObject.getString("logo").equals("null")) {
+            logo = "";
+        } else {
+            logo = jsonObject.getString("logo");
+        }
+        String ip;
+        if (jsonObject.getString("IP").equals("null")) {
+            ip = "";
+        } else {
+            ip = jsonObject.getString("IP");
+        }
+        String cod_cliente;
+        if (jsonObject.getString("cod_cliente").equals("null")) {
+            cod_cliente = "";
+        } else {
+            cod_cliente = jsonObject.getString("cod_cliente");
+        }
         if (ClienteDAO.newCliente(context,id,nombre,color,logo,ip,cod_cliente)){
             bien = true;
         }

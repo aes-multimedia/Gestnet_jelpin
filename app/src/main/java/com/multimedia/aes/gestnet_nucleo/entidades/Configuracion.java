@@ -55,100 +55,53 @@ public class Configuracion {
     public static final String CONTADOR_KM = "contador_km";
 
 
-    @DatabaseField(id = true, columnName = ID_CONFIGURACION)
-    private int id_configuracion;
-    @DatabaseField(columnName = HORARIOS)
-    private boolean horarios;
-    @DatabaseField(columnName = OPERARIOS)
-    private boolean operarios;
-    @DatabaseField(columnName = DEFINICIONES)
-    private boolean definiciones;
-    @DatabaseField(columnName = EQUIPOS)
-    private boolean equipos;
-    @DatabaseField(columnName = EMPRESAS)
-    private boolean empresas;
-    @DatabaseField(columnName = MARCAS)
-    private boolean marcas;
-    @DatabaseField(columnName = TIPOS_TRABAJO)
-    private boolean tipos_trabajo;
-    @DatabaseField(columnName = TIPOS_PRESUPUESTO)
-    private boolean tipos_presupuesto;
-    @DatabaseField(columnName = CUENTA_BANCARIA)
-    private boolean cuenta_bancaria;
-    @DatabaseField(columnName = FK_COMBUSTION)
-    private boolean fk_combustion;
-    @DatabaseField(columnName = GARANTIA)
-    private boolean garantia;
-    @DatabaseField(columnName = PEDIR)
-    private boolean pedir;
-    @DatabaseField(columnName = USAR)
-    private boolean usar;
-    @DatabaseField(columnName = PRESUPUESTAR)
-    private boolean presupuestar;
-    @DatabaseField(columnName = OPERACION_FINALIZACION)
-    private boolean operacion_finalizacion;
-    @DatabaseField(columnName = PRECIOS_MANO_OBRA)
-    private boolean precios_mano_obra;
-    @DatabaseField(columnName = FORMA_PAGO)
-    private boolean formaPago;
-    @DatabaseField(columnName = DISP_SERVICIO)
-    private boolean disp_servicio;
-    @DatabaseField(columnName = ANALISIS_COMBUSTION)
-    private boolean analisis_combustion;
-    @DatabaseField(columnName = PUESTA_MARCHA)
-    private boolean puesta_marcha;
-    @DatabaseField(columnName = SERVICIO_URGENCIA)
-    private boolean servicio_urgencia;
-    @DatabaseField(columnName = KMS_FINALIZACION)
-    private boolean kms_finalizacion;
-    @DatabaseField(columnName = TRASPASO_MATERIAL)
-    private boolean traspaso_material;
-    @DatabaseField(columnName = PARTE_USUARIO)
-    private boolean parte_usuario;
-    @DatabaseField(columnName = PARTE_AVERIA)
-    private boolean parte_averia;
-    @DatabaseField(columnName = PARTE_INSTALACION)
-    private boolean parte_instalacion;
-    @DatabaseField(columnName = PARTE_MATERIALES)
-    private boolean parte_materiales;
-    @DatabaseField(columnName = PARTE_FINALIZACION)
-    private boolean parte_finalizacion;
-    @DatabaseField(columnName = PARTE_GALERIA)
-    private boolean parte_galeria;
-    @DatabaseField(columnName = MENU_ASIGNACION)
-    private boolean menu_asignacion;
-    @DatabaseField(columnName = MENU_DOCUMENTOS)
-    private boolean menu_documentos;
-    @DatabaseField(columnName = MENU_ALMACEN)
-    private boolean menu_almacen;
-    @DatabaseField(columnName = MENU_CIERRE)
-    private boolean menu_cierre;
-    @DatabaseField(columnName = MENU_UBICACION)
-    private boolean menu_ubicacion;
-    @DatabaseField(columnName = MENU_DATOS_COMPLETOS)
-    private boolean menu_datos_completos;
-    @DatabaseField(columnName = MENU_INFORMAR)
-    private boolean menu_informar;
-    @DatabaseField(columnName = MENU_DATOS_ACTUALIZADOS)
-    private boolean menu_datos_actualizados;
-    @DatabaseField(columnName = MENU_PRESUPUESTO)
-    private boolean menu_presupuesto;
-    @DatabaseField(columnName = REQUIERE_FIRMA)
-    private boolean requiere_firma;
-    @DatabaseField(columnName = USUARIO_CONF)
-    private boolean usuario_conf;
-    @DatabaseField(columnName = PASS_CONF)
-    private boolean pass_conf;
-    @DatabaseField(columnName = INTERSAT)
-    private boolean intersat;
-    @DatabaseField(columnName = GAS_NATURAL)
-    private boolean gas_natural;
-    @DatabaseField(columnName = JLSAT)
-    private boolean jlsat;
-    @DatabaseField(columnName = DURACION_AUTOMATICA)
-    private boolean duracion_automatica;
-    @DatabaseField(columnName = CONTADOR_KM)
-    private boolean contador_km;
+    @DatabaseField(id = true, columnName = ID_CONFIGURACION)    private int id_configuracion;
+    @DatabaseField(columnName = HORARIOS)                       private boolean horarios;
+    @DatabaseField(columnName = OPERARIOS)                      private boolean operarios;
+    @DatabaseField(columnName = DEFINICIONES)                   private boolean definiciones;
+    @DatabaseField(columnName = EQUIPOS)                        private boolean equipos;
+    @DatabaseField(columnName = EMPRESAS)                       private boolean empresas;
+    @DatabaseField(columnName = MARCAS)                         private boolean marcas;
+    @DatabaseField(columnName = TIPOS_TRABAJO)                  private boolean tipos_trabajo;
+    @DatabaseField(columnName = TIPOS_PRESUPUESTO)              private boolean tipos_presupuesto;
+    @DatabaseField(columnName = CUENTA_BANCARIA)                private boolean cuenta_bancaria;
+    @DatabaseField(columnName = FK_COMBUSTION)                  private boolean fk_combustion;
+    @DatabaseField(columnName = GARANTIA)                       private boolean garantia;
+    @DatabaseField(columnName = PEDIR)                          private boolean pedir;
+    @DatabaseField(columnName = USAR)                           private boolean usar;
+    @DatabaseField(columnName = PRESUPUESTAR)                   private boolean presupuestar;
+    @DatabaseField(columnName = OPERACION_FINALIZACION)         private boolean operacion_finalizacion;
+    @DatabaseField(columnName = PRECIOS_MANO_OBRA)              private boolean precios_mano_obra;
+    @DatabaseField(columnName = FORMA_PAGO)                     private boolean formaPago;
+    @DatabaseField(columnName = DISP_SERVICIO)                  private boolean disp_servicio;
+    @DatabaseField(columnName = ANALISIS_COMBUSTION)            private boolean analisis_combustion;
+    @DatabaseField(columnName = PUESTA_MARCHA)                  private boolean puesta_marcha;
+    @DatabaseField(columnName = SERVICIO_URGENCIA)              private boolean servicio_urgencia;
+    @DatabaseField(columnName = KMS_FINALIZACION)               private boolean kms_finalizacion;
+    @DatabaseField(columnName = TRASPASO_MATERIAL)              private boolean traspaso_material;
+    @DatabaseField(columnName = PARTE_USUARIO)                  private boolean parte_usuario;
+    @DatabaseField(columnName = PARTE_AVERIA)                   private boolean parte_averia;
+    @DatabaseField(columnName = PARTE_INSTALACION)              private boolean parte_instalacion;
+    @DatabaseField(columnName = PARTE_MATERIALES)               private boolean parte_materiales;
+    @DatabaseField(columnName = PARTE_FINALIZACION)             private boolean parte_finalizacion;
+    @DatabaseField(columnName = PARTE_GALERIA)                  private boolean parte_galeria;
+    @DatabaseField(columnName = MENU_ASIGNACION)                private boolean menu_asignacion;
+    @DatabaseField(columnName = MENU_DOCUMENTOS)                private boolean menu_documentos;
+    @DatabaseField(columnName = MENU_ALMACEN)                   private boolean menu_almacen;
+    @DatabaseField(columnName = MENU_CIERRE)                    private boolean menu_cierre;
+    @DatabaseField(columnName = MENU_UBICACION)                 private boolean menu_ubicacion;
+    @DatabaseField(columnName = MENU_DATOS_COMPLETOS)           private boolean menu_datos_completos;
+    @DatabaseField(columnName = MENU_INFORMAR)                  private boolean menu_informar;
+    @DatabaseField(columnName = MENU_DATOS_ACTUALIZADOS)        private boolean menu_datos_actualizados;
+    @DatabaseField(columnName = MENU_PRESUPUESTO)               private boolean menu_presupuesto;
+    @DatabaseField(columnName = REQUIERE_FIRMA)                 private boolean requiere_firma;
+    @DatabaseField(columnName = USUARIO_CONF)                   private boolean usuario_conf;
+    @DatabaseField(columnName = PASS_CONF)                      private boolean pass_conf;
+    @DatabaseField(columnName = INTERSAT)                       private boolean intersat;
+    @DatabaseField(columnName = GAS_NATURAL)                    private boolean gas_natural;
+    @DatabaseField(columnName = JLSAT)                          private boolean jlsat;
+    @DatabaseField(columnName = DURACION_AUTOMATICA)            private boolean duracion_automatica;
+    @DatabaseField(columnName = CONTADOR_KM)                    private boolean contador_km;
 
     public Configuracion(){}
     public Configuracion(int id_configuracion, boolean horarios, boolean operarios, boolean definiciones,

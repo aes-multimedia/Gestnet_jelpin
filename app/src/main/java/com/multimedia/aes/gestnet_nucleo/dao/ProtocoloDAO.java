@@ -21,8 +21,8 @@ public class ProtocoloDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newProtocolo(Context context) {
-		Protocolo p = montarProtocolo();
+	public static boolean newProtocolo(Context context, int id_protocolos, String nombre_protocolos, String b_general) {
+		Protocolo p = montarProtocolo(id_protocolos, nombre_protocolos, b_general);
 		return crearProtocolo(p, context);
 	}
 
@@ -37,8 +37,8 @@ public class ProtocoloDAO extends DBHelperMOS {
 		}
 	}
 
-	public static Protocolo montarProtocolo() {
-		Protocolo p = new Protocolo();
+	public static Protocolo montarProtocolo(int id_protocolos, String nombre_protocolos, String b_general) {
+		Protocolo p = new Protocolo(id_protocolos, nombre_protocolos, b_general);
 		return p;
 	}
 
