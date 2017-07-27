@@ -10,6 +10,9 @@ public abstract class ManagerProgressDialog {
         p.setCancelable(false);
         p.show();
     }
+    public static void setMensaje(String msg){
+        p.setMessage(msg);
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }

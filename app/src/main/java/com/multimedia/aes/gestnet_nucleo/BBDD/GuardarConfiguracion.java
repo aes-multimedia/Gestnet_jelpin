@@ -2,9 +2,8 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 
 import android.content.Context;
 
-import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
-import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +19,7 @@ public class GuardarConfiguracion {
         this.context = context;
         GuardarConfiguracion.json = json;
         try {
-            guardarJsonCliente();
+            guardarJsonConfiguracion();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -28,7 +27,7 @@ public class GuardarConfiguracion {
         }
     }
 
-    public static void guardarJsonCliente() throws JSONException, SQLException {
+    public static void guardarJsonConfiguracion() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("configuracion");
         int id_configuracion;
@@ -515,9 +514,9 @@ public class GuardarConfiguracion {
             bien = true;
         }
         if (bien){
-            ((PreLogin)context).irLogin();
+            ((Login)context).irIndex();
         }else{
-            ((PreLogin)context).sacarMensaje("error cliente");
+            ((Login)context).sacarMensaje("error al guardar la configuracion");
         }
     }
 }

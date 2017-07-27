@@ -6,19 +6,17 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import com.multimedia.aes.gestnet_nucleo.dao.AccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
-import com.multimedia.aes.gestnet_nucleo.entidades.Accion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.entidades.Protocolo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
@@ -31,8 +29,7 @@ public class BBDDConstantes {
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;
 	public static Dao<Parte, Integer> parteDao;
-	public static Dao<Accion, Integer> accionDao;
-	public static Dao<Protocolo, Integer> protocoloDao;
+	public static Dao<ProtocoloAccion, Integer> protocoloDao;
 	public static Dao<Configuracion, Integer> configuracionDao;
 	public static Dao<Maquina, Integer> maquinaDao;
 
@@ -40,7 +37,6 @@ public class BBDDConstantes {
 		clienteDao = null;
 		usuarioDao = null;
 		parteDao=null;
-		accionDao=null;
 		protocoloDao=null;
 		configuracionDao=null;
 		maquinaDao=null;
@@ -50,8 +46,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, Cliente.class);
 		TableUtils.createTable(connectionSource, Usuario.class);
 		TableUtils.createTable(connectionSource, Parte.class);
-		TableUtils.createTable(connectionSource, Accion.class);
-		TableUtils.createTable(connectionSource, Protocolo.class);
+		TableUtils.createTable(connectionSource, ProtocoloAccion.class);
 		TableUtils.createTable(connectionSource, Configuracion.class);
 		TableUtils.createTable(connectionSource, Maquina.class);
 	}
@@ -60,8 +55,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Cliente.class, true);
 		TableUtils.dropTable(connectionSource, Usuario.class, true);
 		TableUtils.dropTable(connectionSource, Parte.class, true);
-		TableUtils.dropTable(connectionSource, Accion.class, true);
-		TableUtils.dropTable(connectionSource, Protocolo.class, true);
+		TableUtils.dropTable(connectionSource, ProtocoloAccion.class, true);
 		TableUtils.dropTable(connectionSource, Configuracion.class, true);
 		TableUtils.dropTable(connectionSource, Maquina.class, true);
 	}
@@ -70,8 +64,14 @@ public class BBDDConstantes {
 		ClienteDAO.borrarTodosLosClientes(context);
 		UsuarioDAO.borrarTodosLosUsuarios(context);
 		ParteDAO.borrarTodosLosPartes(context);
-		AccionDAO.borrarTodasLasAcciones(context);
-		ProtocoloDAO.borrarTodosLosProtocolo(context);
+		ProtocoloAccionDAO.borrarTodosLosProtocolo(context);
+		ConfiguracionDAO.borrarTodasLasConfiguraciones(context);
+		MaquinaDAO.borrarTodasLasMaquinas(context);
+	}
+	public static void borrarDatosError(Context context) throws SQLException {
+		UsuarioDAO.borrarTodosLosUsuarios(context);
+		ParteDAO.borrarTodosLosPartes(context);
+		ProtocoloAccionDAO.borrarTodosLosProtocolo(context);
 		ConfiguracionDAO.borrarTodasLasConfiguraciones(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
 	}

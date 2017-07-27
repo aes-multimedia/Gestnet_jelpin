@@ -6,12 +6,11 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
-import com.multimedia.aes.gestnet_nucleo.entidades.Accion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.entidades.Protocolo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
@@ -69,15 +68,9 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 		return BBDDConstantes.parteDao;
 	}
-	public Dao<Accion, Integer> getAccionDAO() throws SQLException {
-		if (BBDDConstantes.accionDao == null) {
-			BBDDConstantes.accionDao = getDao(Accion.class);
-		}
-		return BBDDConstantes.accionDao;
-	}
-	public Dao<Protocolo, Integer> getProtocoloDAO() throws SQLException {
+	public Dao<ProtocoloAccion, Integer> getProtocoloDAO() throws SQLException {
 		if (BBDDConstantes.protocoloDao == null) {
-			BBDDConstantes.protocoloDao = getDao(Protocolo.class);
+			BBDDConstantes.protocoloDao = getDao(ProtocoloAccion.class);
 		}
 		return BBDDConstantes.protocoloDao;
 	}

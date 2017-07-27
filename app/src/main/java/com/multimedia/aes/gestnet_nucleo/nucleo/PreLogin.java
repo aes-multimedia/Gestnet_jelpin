@@ -15,6 +15,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCodCliente;
+import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,12 +52,19 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         }
     }
     public void irLogin(){
+        if (ManagerProgressDialog.getDialog()!=null){
+            ManagerProgressDialog.cerrarDialog();
+        }
         Intent i = new Intent(this,Login.class);
         startActivity(i);
         finish();
     }
     public void guardarCliente(String msg){
         try {
+            if (ManagerProgressDialog.getDialog()==null){
+                ManagerProgressDialog.abrirDialog(this);
+            }
+            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
             JSONObject jsonObject = new JSONObject(msg);
             int estado = jsonObject.getInt("estado");
             if (estado==1){
@@ -69,6 +77,9 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         }
     }
     public void sacarMensaje(String msg) {
+        if (ManagerProgressDialog.getDialog()!=null){
+            ManagerProgressDialog.cerrarDialog();
+        }
         Dialogo.dialogoError(msg,this);
     }
 
@@ -96,6 +107,10 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnEnviarCodCliente){
+            if (ManagerProgressDialog.getDialog()==null){
+                ManagerProgressDialog.abrirDialog(this);
+            }
+            ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             new HiloCodCliente(etCodCliente.getText().toString().trim(),this).execute();
         }
     }

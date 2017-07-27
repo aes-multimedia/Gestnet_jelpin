@@ -7,58 +7,65 @@
     android:id="@+id/global">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_margin="10dp"
         android:gravity="left|center_vertical"
-        android:weightSum="10"
-        android:background="#fff">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="10:00"
-            android:id="@+id/txtHora"
-            android:textSize="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="5dp" />
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="7"
+            android:id="@+id/llHorario"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="7.25"
+            android:background="@drawable/fondo_verde"
             android:gravity="center"
-            android:paddingLeft="10dp">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/txtHora"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="10:00"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Direccion"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="2.75"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
                 android:id="@+id/txtDireccion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Direccion"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13dp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Direccion"
                 android:id="@+id/txtCP"
-                android:textSize="13dp"
-                android:layout_marginTop="5dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Direccion"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="13dp" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Direccion"
                 android:id="@+id/txtProvincia"
-                android:textSize="13dp"
-                android:layout_marginTop="5dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Direccion"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="13dp" />
 
         </LinearLayout>
 

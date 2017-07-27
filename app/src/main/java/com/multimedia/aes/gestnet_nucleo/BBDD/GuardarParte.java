@@ -791,11 +791,10 @@ public class GuardarParte {
             }
         }
         if (bien){
-            //new GuardarMaquina(context,Json,mantenimientos);
-            ((Login)context).irIndex();
+            new GuardarMaquina(context,json);
         }else{
             if (estado==1){
-                ((Login)context).sacarMensaje("error mantenimientos");
+                ((Login)context).sacarMensaje("error al guardar partes");
             }/*else if (estado==2){
                 ((Index)context).sacarMensaje("error mantenimientos");
             }else if (estado==3){
