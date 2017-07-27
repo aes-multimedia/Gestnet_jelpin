@@ -59,10 +59,29 @@ public class GuardarProtocoloAccion {
                     }
                 }
                 if (!esta) {
+
+
+
+
                     int fk_maquina;
+                    if(jsonArray.getJSONObject(i).getString("fk_maquina").equals("null") ||  jsonArray.getJSONObject(i).getString("fk_maquina").equals("0")){
+                        fk_maquina=-1;
+                    }else fk_maquina=jsonArray.getJSONObject(i).getInt("fk_maquina");
                     int fk_protocolo;
-                    int descripcion;
-                    int nombre_protocolo;
+                    if(jsonArray.getJSONObject(i).getString("fk_protocolo").equals("null") ||  jsonArray.getJSONObject(i).getString("fk_protocolo").equals("0")){
+                        fk_protocolo=-1;
+                    }else fk_protocolo=jsonArray.getJSONObject(i).getInt("fk_protocolo");
+                    String descripcion;
+                    if(jsonArray.getJSONObject(i).getString("descripcion").equals("null")){
+                        descripcion = "";
+                    }else descripcion=jsonArray.getJSONObject(i).getString("descripcion");
+
+                    String nombre_protocolo;
+
+                    if(jsonArray.getJSONObject(i).getString("nombre_protocolo").equals("null")){
+                        nombre_protocolo = "";
+                    }else nombre_protocolo=jsonArray.getJSONObject(i).getString("nombre_protocolo");
+
                     if (ProtocoloAccionDAO.newProtocolo(context,id_protocolo_accion,fk_maquina,fk_protocolo,descripcion,nombre_protocolo)) {
                         bien = true;
                     }

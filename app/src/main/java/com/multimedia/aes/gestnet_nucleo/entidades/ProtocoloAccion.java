@@ -17,11 +17,11 @@ public class ProtocoloAccion {
     @DatabaseField(id = true, columnName = ID_PROTOCOLO_ACCION)    private int id_protocolo_accion;
     @DatabaseField(columnName = FK_MAQUINA)           private int fk_maquina;
     @DatabaseField(columnName = FK_PROTOCOLO)                   private int fk_protocolo;
-    @DatabaseField(columnName = DESCRIPCION)                   private int descripcion;
-    @DatabaseField(columnName = NOMBRE_PROTOCOLO)                   private int nombre_protocolo;
+    @DatabaseField(columnName = DESCRIPCION)                   private String descripcion;
+    @DatabaseField(columnName = NOMBRE_PROTOCOLO)                   private String nombre_protocolo;
 
     public ProtocoloAccion(){}
-    public ProtocoloAccion(int id_protocolo_accion, int fk_maquina, int fk_protocolo, int descripcion, int nombre_protocolo) {
+    public ProtocoloAccion(int id_protocolo_accion, int fk_maquina, int fk_protocolo, String descripcion, String nombre_protocolo) {
         this.id_protocolo_accion = id_protocolo_accion;
         this.fk_maquina = fk_maquina;
         this.fk_protocolo = fk_protocolo;
@@ -53,19 +53,19 @@ public class ProtocoloAccion {
         this.fk_protocolo = fk_protocolo;
     }
 
-    public int getDescripcion() {
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(int descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public int getNombre_protocolo() {
+    public String getNombre_protocolo() {
         return nombre_protocolo;
     }
 
-    public void setNombre_protocolo(int nombre_protocolo) {
+    public void setNombre_protocolo(String nombre_protocolo) {
         this.nombre_protocolo = nombre_protocolo;
     }
 }
