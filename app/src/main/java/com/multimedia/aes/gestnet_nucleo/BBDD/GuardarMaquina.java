@@ -276,7 +276,7 @@ public class GuardarMaquina {
 
         }
         if (bien){
-            new GuardarConfiguracion(context,json);
+            new GuardarProtocoloAccion(context,json);
         }else{
             if (estado==1){
                 ((Login)context).sacarMensaje("error al guardar maquinas");

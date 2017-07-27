@@ -40,7 +40,6 @@ public class GuardarProtocoloAccion {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("acciones");
             for (int j = 0; j < jsonArray1.length(); j++) {
-
                 int id_protocolo_accion;
                 if (jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("")) {
                     id_protocolo_accion = -1;
@@ -70,9 +69,9 @@ public class GuardarProtocoloAccion {
             }
         }
         if (bien){
-            ((PreLogin)context).irLogin();
+            new GuardarConfiguracion(context,json);
         }else{
-            ((PreLogin)context).sacarMensaje("error cliente");
+            ((PreLogin)context).sacarMensaje("error al guardar protocolos");
         }
     }
 }
