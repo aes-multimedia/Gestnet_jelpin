@@ -15,6 +15,10 @@
             android:id="@+id/almacen"
             android:icon="@drawable/ic_almacen"
             android:title="@string/almacen" />
+        <item
+            android:id="@+id/cierre_dia"
+            android:icon="@drawable/ic_cierre_dia"
+            android:title="@string/cierre_dia" />
     </group>
 
     <item android:title="">

@@ -40,6 +40,13 @@
     <string name="añadir_analisis">Añadir Analisis</string>
     <string name="obtener_datos">Obteniendo datos del servidor</string>
     <string name="guardar_datos">Guardando datos</string>
+    <string name="cierre_dia">Cierre del Día</string>
+    <string name="num_parte">Num. Parte: </string>
+    <string name="creado_por">Creado Por:</string>
+    <string name="maquina">Máquina:</string>
+    <string name="tipo_intervencion">Tipo Intervención:</string>
+    <string name="situacion_equipo">Situación del Equipo:</string>
+    <string name="sintomas">Síntomas:</string>
 
 </resources>
 
