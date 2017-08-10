@@ -245,6 +245,7 @@
                     android:background="@android:color/black"
                     android:orientation="horizontal"
                     android:padding="0.5dp">
+
                     <EditText
                         android:id="@+id/etDni"
 
