@@ -247,6 +247,7 @@
                     android:padding="0.5dp">
                     <EditText
                         android:id="@+id/etDni"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
