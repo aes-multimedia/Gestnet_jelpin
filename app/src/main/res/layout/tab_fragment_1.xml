@@ -38,7 +38,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
-                    android:padding="0.5">
+                    android:padding="0.5dp">
 
                 </LinearLayout>
 
@@ -224,7 +224,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
-                    android:padding="0.5">
+                    android:padding="0.5dp">
 
                 </LinearLayout>
 
