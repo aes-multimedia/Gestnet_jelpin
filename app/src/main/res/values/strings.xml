@@ -47,6 +47,8 @@
     <string name="tipo_intervencion">Tipo Intervención:</string>
     <string name="situacion_equipo">Situación del Equipo:</string>
     <string name="sintomas">Síntomas:</string>
+    <string name="direccion_titular">Direccion titular</string>
+    <string name="direccion">direccion:</string>
 
 </resources>
 

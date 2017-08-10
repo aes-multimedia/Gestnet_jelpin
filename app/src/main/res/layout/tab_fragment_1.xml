@@ -24,7 +24,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textView23"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/datos_parte"
@@ -50,7 +50,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -76,7 +75,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -102,7 +100,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -128,7 +126,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -156,6 +154,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -182,7 +181,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -190,14 +189,6 @@
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/txtSintomas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="@string/sintomas"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -222,17 +213,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:background="@android:color/black"
-                    android:orientation="horizontal"
-                    android:padding="0.5dp">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <EditText
@@ -245,6 +225,29 @@
                         android:hint="@string/nombre_titular"
                         android:minHeight="30dp"
                         android:padding="5dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal"
+                    android:padding="0.5dp">
+                    <EditText
+                        android:id="@+id/etDni"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:hint="@string/dni_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -254,6 +257,20 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
+
+                    <EditText
+                        android:id="@+id/etDireccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:enabled="false"
+                        android:gravity="left"
+                        android:hint="@string/nombre_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp"
+                        android:text="@string/direccion_titular" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -262,6 +279,19 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etTelefono1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="true"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:hint="@string/nombre_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp"
+                        android:text="@string/telefono_1"/>
+
 
                 </LinearLayout>
 
@@ -271,6 +301,19 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etTelefono2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="true"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:gravity="left"
+                        android:hint="@string/nombre_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp"
+                        android:text="@string/telefono_2"/>
+
 
                 </LinearLayout>
 
@@ -282,6 +325,19 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
+
+                    <EditText
+                        android:id="@+id/etTelefono3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:enabled="true"
+                        android:gravity="left"
+                        android:hint="@string/nombre_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp"
+                        android:text="@string/telefono_3" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -291,10 +347,57 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
+
+                    <EditText
+                        android:id="@+id/etTelefono4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:enabled="true"
+                        android:gravity="left"
+                        android:hint="@string/nombre_titular"
+                        android:minHeight="30dp"
+                        android:padding="5dp"
+                        android:text="@string/telefono_4" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnIniciarParte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/botones"
+                    android:text="Iniciar Parte" />
+
+                <Button
+                    android:id="@+id/btnClienteAusente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/botones"
+                    android:text="Cliente ausente" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/txtSintomas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text="@string/sintomas"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
 
 </LinearLayout>
