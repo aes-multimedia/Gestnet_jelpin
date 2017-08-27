@@ -44,6 +44,7 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
+         //   mensaje="{\"estado\":1,\"mensaje\":\"1\"}";
             ((PreLogin)context).guardarCliente(mensaje);
         }else{
             ((PreLogin)context).sacarMensaje("No se ha devuelto correctamente de la api");

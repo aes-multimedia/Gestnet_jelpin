@@ -115,6 +115,8 @@ public class Parte {
     public static final String TELEFONO4_CLIENTE="telefono4_cliente";
     public static final String EMAIL_CLIENTE="email_cliente";
     public static final String OBSERVACIONES_CLIENTE="observaciones_cliente";
+    public static final  String USER_CREADOR = "user_creador";
+    public static final  String TIPO = "tipo";
 
 
     @DatabaseField(id = true, columnName = ID_PARTE)    private int id_parte;
@@ -207,6 +209,8 @@ public class Parte {
     @DatabaseField(columnName = OTROS_MATAUX)                   private String otros_mataux;
     @DatabaseField(columnName = BINSPECCIONVISUAL)              private boolean binspeccionvisual;
     @DatabaseField(columnName = BOTROSMATAUX)                   private boolean botrosmataux;
+    @DatabaseField(columnName = USER_CREADOR)                   private String user_creador;
+    @DatabaseField(columnName = TIPO)                            private String tipo;
     //DATOS DE LA DIRECCION
     @DatabaseField(columnName = TIPO_VIA)                       private String tipo_via;
     @DatabaseField(columnName = VIA)                            private String via;
@@ -228,6 +232,7 @@ public class Parte {
     @DatabaseField(columnName = TELEFONO4_CLIENTE)              private String telefono4_cliente;
     @DatabaseField(columnName = EMAIL_CLIENTE)                  private String email_cliente;
     @DatabaseField(columnName = OBSERVACIONES_CLIENTE)          private String observaciones_cliente;
+
 
 
     public Parte(){}
@@ -261,7 +266,7 @@ public class Parte {
                  String latitud_direccion, String longitud_direccion, String nombre_cliente,
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                 String observaciones_cliente) {
+                 String observaciones_cliente,String user_creador,String tipo) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -370,6 +375,8 @@ public class Parte {
         this.telefono4_cliente = telefono4_cliente;
         this.email_cliente = email_cliente;
         this.observaciones_cliente = observaciones_cliente;
+        this.user_creador = user_creador;
+        this.tipo=tipo;
     }
 
     public int getId_parte() {
@@ -1019,5 +1026,21 @@ public class Parte {
     }
     public void setObservaciones_cliente(String observaciones_cliente) {
         this.observaciones_cliente = observaciones_cliente;
+    }
+
+    public String getUser_creador() {
+        return user_creador;
+    }
+
+    public void setUser_creador(String user_creador) {
+        this.user_creador = user_creador;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

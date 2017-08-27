@@ -41,6 +41,7 @@ public class GuardarMaquina {
         JSONObject jsonObject = new JSONObject(json);
         int estado = Integer.parseInt(jsonObject.getString("estado"));
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
+
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("maquina");
             for (int j = 0; j < jsonArray1.length(); j++){
@@ -258,6 +259,12 @@ public class GuardarMaquina {
                             bEsInstalacion = true;
                         }
                     }
+                    String situacion;
+                    if (jsonArray1.getJSONObject(j).getString("situacion").equals("null")) {
+                        situacion = "";
+                    } else {
+                        situacion = jsonArray1.getJSONObject(j).getString("situacion");
+                    }
                     if (MaquinaDAO.newMaquina(context,id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
                             fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
                             fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -265,7 +272,7 @@ public class GuardarMaquina {
                             puesta_marcha,   fecha_compra,   fecha_fin_garantia,
                             mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
                             garantia_extendida,   factura_compra,   refrigerante,
-                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal)) {
+                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion)) {
                         bien = true;
                     } else {
                         bien = false;

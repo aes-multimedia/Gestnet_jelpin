@@ -49,6 +49,36 @@
     <string name="sintomas">Síntomas:</string>
     <string name="direccion_titular">Direccion titular</string>
     <string name="direccion">direccion:</string>
+    <string name="txt_duracion">Duración:</string>
+    <string name="añadir_duracion">añadir tiempo</string>
+    <string name="plus">+</string>
+    <string name="mano_obra">Mano de obra:</string>
+    <string name="forma_pago">Forma de pago:</string>
+    <string name="disposicion_servicio">Disposicion de servicio:</string>
+    <string name="puesta_marcha">Puesta en marcha:</string>
+    <string name="servicio_urgencia">Servicio Urgencia:</string>
+    <string name="Kms">Kms.:</string>
+    <string name="A">A</string>
+    <string name="operacion_efectuada">Operacion efectuada:</string>
+    <string name="Otros">Otros</string>
+    <string name="con_valor">con valor</string>
+    <string name="añdir">Añadir</string>
+    <string-array name="forma_pago">
+        <item>--Seleccione forma de pago--</item>
+        <item>Contado</item>
+        <item>Financiación</item>
+        <item>Tarjeta</item>
+        <item>Impagado</item>
+        <item>Transferencia</item>
+    </string-array>
+    <string-array name="disposicion_servicio">
+        <item>--Seleccione disposicion--</item>
+        <item>Zona centrica A</item>
+        <item>Resto de provincia</item>
+        <item>Tarjeta</item>
+        <item>Impagado</item>
+        <item>Transferencia</item>
+    </string-array>
 
 </resources>
 

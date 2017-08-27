@@ -754,6 +754,20 @@ public class GuardarParte {
                     observaciones_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("observaciones");
                 }
 
+                String user_creador;
+               if (jsonArray.getJSONObject(i).getString("userCreador").equals("null")) {
+                    user_creador = "";
+                } else {
+                    user_creador = jsonArray.getJSONObject(i).getString("userCreador");
+                }
+
+                String tipo;
+                if (jsonArray.getJSONObject(i).getString("tipo").equals("null")) {
+                    tipo = "";
+                } else {
+                    tipo = jsonArray.getJSONObject(i).getString("tipo");
+                }
+
                 if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                         fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                         fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -783,7 +797,7 @@ public class GuardarParte {
                         latitud_direccion, longitud_direccion, nombre_cliente,
                         dni_cliente, telefono1_cliente, telefono2_cliente,
                         telefono3_cliente, telefono4_cliente, email_cliente,
-                        observaciones_cliente)) {
+                        observaciones_cliente,user_creador,tipo)) {
                     bien = true;
                 } else {
                     bien = false;

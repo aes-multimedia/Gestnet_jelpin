@@ -27,7 +27,7 @@ public class MaquinaDAO extends DBHelperMOS {
 									 String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
 									 String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
 									 String garantia_extendida, String factura_compra, String refrigerante,
-									 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal) {
+									 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal,String situacion) {
 		Maquina m = montarMaquina(id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -35,7 +35,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				puesta_marcha,   fecha_compra,   fecha_fin_garantia,
 				mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
 				garantia_extendida,   factura_compra,   refrigerante,
-				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal);
+				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion);
 		return crearMaquina(m, context);
 	}
 
@@ -57,7 +57,7 @@ public class MaquinaDAO extends DBHelperMOS {
 										String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
 										String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
 										String garantia_extendida, String factura_compra, String refrigerante,
-										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal) {
+										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal,String situacion) {
 		Maquina m = new Maquina(id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -65,7 +65,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				puesta_marcha,   fecha_compra,   fecha_fin_garantia,
 				mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
 				garantia_extendida,   factura_compra,   refrigerante,
-				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal);
+				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion);
 		return m;
 	}
 

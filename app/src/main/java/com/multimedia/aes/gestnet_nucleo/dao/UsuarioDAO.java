@@ -76,6 +76,17 @@ public class UsuarioDAO extends DBHelperMOS {
 		}
 	}
 
+
+	public static Usuario buscarUsuarioPorFkEntidad(Context context, int id) throws SQLException {
+		cargarDao(context);
+		List<Usuario> listadoUsuarios= dao.queryForEq(Usuario.FK_ENTIDAD, id);
+		if(listadoUsuarios.isEmpty()) {
+			return null;
+		}else{
+			return listadoUsuarios.get(0);
+		}
+	}
+
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 

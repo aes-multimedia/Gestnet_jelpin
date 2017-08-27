@@ -57,7 +57,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         ////BUTTONS////
         btnLogin = (Button)findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-        btnLogin.setClickable(false);
+        btnLogin.setClickable(true);
         btnLogin.setAlpha(0.5f);
     }
     public void guardarUsuario(String msg){
@@ -156,7 +156,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             if (ManagerProgressDialog.getDialog()!=null){
                 ManagerProgressDialog.abrirDialog(this);
             }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
+            //ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
         }
     }

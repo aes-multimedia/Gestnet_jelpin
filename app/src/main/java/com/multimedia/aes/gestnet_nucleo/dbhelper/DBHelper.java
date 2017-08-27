@@ -8,6 +8,8 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
@@ -85,5 +87,21 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 			BBDDConstantes.maquinaDao = getDao(Maquina.class);
 		}
 		return BBDDConstantes.maquinaDao;
+	}
+
+
+	public Dao<DatosAdicionales, Integer> getDatosAdicionalesDAO() throws SQLException {
+		if (BBDDConstantes.datosAdicionalesDao == null) {
+			BBDDConstantes.datosAdicionalesDao = getDao(DatosAdicionales.class);
+		}
+		return BBDDConstantes.datosAdicionalesDao;
+	}
+
+	public Dao<Disposiciones,Integer> getDisposicionesDAO() throws SQLException {
+		if (BBDDConstantes.disposicionesDao == null) {
+			BBDDConstantes.disposicionesDao = getDao(Disposiciones.class);
+		}
+
+		return BBDDConstantes.disposicionesDao;
 	}
 }

@@ -59,7 +59,7 @@ public class ParteDAO extends DBHelperMOS{
                                    String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                    String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                    String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                   String observaciones_cliente) {
+                                   String observaciones_cliente,String user_creador,String tipo) {
         Parte p = montarParte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -89,7 +89,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente);
+                observaciones_cliente,user_creador,tipo);
         return crearParte(p,context);
     }
     public static boolean crearParte(Parte p,Context context) {
@@ -131,7 +131,7 @@ public class ParteDAO extends DBHelperMOS{
                                     String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                     String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                     String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                    String observaciones_cliente) {
+                                    String observaciones_cliente,String user_creador,String tipo) {
         Parte p =new Parte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -161,7 +161,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente);
+                observaciones_cliente,user_creador,tipo);
         return p;
     }
 
@@ -300,6 +300,8 @@ public class ParteDAO extends DBHelperMOS{
         String otros_mataux=parte.getOtros_mataux();
         boolean binspeccionvisual=parte.isBinspeccionvisual();
         boolean botrosmataux=parte.isBotrosmataux();
+        String user_creador=parte.getUser_creador();
+        String tipo=parte.getTipo();
 
 
 
@@ -402,6 +404,8 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(parte.OTROS_MATAUX, otros_mataux);
         updateBuilder.updateColumnValue(parte.BINSPECCIONVISUAL, binspeccionvisual);
         updateBuilder.updateColumnValue(parte.BOTROSMATAUX, botrosmataux);
+        updateBuilder.updateColumnValue(parte.USER_CREADOR, user_creador);
+        updateBuilder.updateColumnValue(parte.TIPO, tipo);
 
 
 

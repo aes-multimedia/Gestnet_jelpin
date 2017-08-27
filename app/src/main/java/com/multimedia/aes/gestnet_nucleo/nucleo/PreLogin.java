@@ -41,7 +41,7 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         ////BUTTONS////
         btnEnviarCodCliente = (Button)findViewById(R.id.btnEnviarCodCliente);
         btnEnviarCodCliente.setOnClickListener(this);
-        btnEnviarCodCliente.setClickable(false);
+        btnEnviarCodCliente.setClickable(true);
         btnEnviarCodCliente.setAlpha(0.5f);
         try {
             if (ClienteDAO.buscarTodosLosClientes(this)!=null) {

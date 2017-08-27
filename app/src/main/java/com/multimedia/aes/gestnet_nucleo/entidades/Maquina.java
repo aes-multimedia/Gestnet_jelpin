@@ -39,6 +39,7 @@ public class Maquina {
     public static final String NOMBRE_INSTALACION  = "nombre_instalacion";
     public static final String EN_PROPIEDAD  = "en_propiedad";
     public static final String ESPRINCIPAL  = "esPrincipal";
+    public static final String SITUACION  = "situacion";
 
 
     @DatabaseField(id = true, columnName = ID_MAQUINA)      private int id_maquina;
@@ -74,6 +75,7 @@ public class Maquina {
     @DatabaseField(columnName = NOMBRE_INSTALACION)         private String nombre_instalacion;
     @DatabaseField(columnName = EN_PROPIEDAD)               private String en_propiedad;
     @DatabaseField(columnName = ESPRINCIPAL)                private String esPrincipal;
+    @DatabaseField(columnName = SITUACION)                private String situacion;
     public Maquina(){}
     public Maquina(int id_maquina, int fk_direccion, int fk_modelo, int fk_marca, int fk_tipo_combustion,
                    int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,
@@ -82,7 +84,7 @@ public class Maquina {
                    String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
                    String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
                    String garantia_extendida, String factura_compra, String refrigerante,
-                   boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal) {
+                   boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal,String situacion) {
         this.id_maquina = id_maquina;
         this.fk_direccion = fk_direccion;
         this.fk_modelo = fk_modelo;
@@ -116,6 +118,8 @@ public class Maquina {
         this.nombre_instalacion = nombre_instalacion;
         this.en_propiedad = en_propiedad;
         this.esPrincipal = esPrincipal;
+        this.situacion = situacion;
+
     }
 
     public int getId_maquina() {
@@ -315,5 +319,13 @@ public class Maquina {
     }
     public void setEsPrincipal(String esPrincipal) {
         this.esPrincipal = esPrincipal;
+    }
+
+    public String getSituacion() {
+        return situacion;
+    }
+
+    public void setSituacion(String situacion) {
+        this.situacion = situacion;
     }
 }
