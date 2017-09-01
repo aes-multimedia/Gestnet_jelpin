@@ -10,6 +10,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
+import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
@@ -103,5 +104,13 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 
 		return BBDDConstantes.disposicionesDao;
+	}
+
+	public Dao<FormasPago,Integer> getFormasPagoDAO() throws SQLException {
+		if (BBDDConstantes.formasPagoDao == null) {
+			BBDDConstantes.formasPagoDao = getDao(FormasPago.class);
+		}
+
+		return BBDDConstantes.formasPagoDao;
 	}
 }
