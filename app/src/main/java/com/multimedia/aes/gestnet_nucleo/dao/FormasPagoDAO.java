@@ -1,0 +1,108 @@
+package com.multimedia.aes.gestnet_nucleo.dao;
+
+import android.content.Context;
+import android.database.SQLException;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
+
+import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
+
+import java.util.List;
+
+/**
+ * Created by acp on 01/09/2017.
+ */
+
+public class FormasPagoDAO extends DBHelperMOS {
+    static Dao<FormasPago, Integer> dao;
+
+    public static void cargarDao(Context context) throws SQLException, java.sql.SQLException {
+        dao = getHelper(context).getFormasPagoDAO();
+    }
+
+
+    //__________FUNCIONES DE CREACIÓN________________________//
+
+    public static boolean newFomasPago(Context context, int id_forma_pago, String forma_pago, int financiado, boolean mostrar_cuenta, boolean sumar_dias, boolean bAparecerEnInforme, boolean mostrarcuenta )throws java.sql.SQLException {
+        FormasPago d = montarFormasPago( id_forma_pago, forma_pago,  financiado,  mostrar_cuenta,  sumar_dias,  bAparecerEnInforme,  mostrarcuenta);
+        return crearFormasPago(d,context);
+    }
+    public static boolean crearFormasPago(FormasPago d, Context context) throws java.sql.SQLException {
+        try {
+            cargarDao(context);
+            dao.create(d);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static FormasPago montarFormasPago(int id_forma_pago, String forma_pago, int financiado, boolean mostrar_cuenta, boolean sumar_dias, boolean bAparecerEnInforme, boolean mostrarcuenta ) {
+        FormasPago d =new FormasPago( id_forma_pago, forma_pago,  financiado,  mostrar_cuenta,  sumar_dias,  bAparecerEnInforme,  mostrarcuenta);
+        return d;
+    }
+
+    //__________FUNCIONES DE BORRADO______________________//
+
+    public static void borrarTodasLasFormasPago(Context context) throws SQLException {
+        try {
+            cargarDao(context);
+            DeleteBuilder<FormasPago, Integer> deleteBuilder = dao.deleteBuilder();
+            deleteBuilder.delete();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void borrarFormasPagoPorID(Context context, int id) throws SQLException {
+        try { cargarDao(context);
+            DeleteBuilder<FormasPago, Integer> deleteBuilder = dao.deleteBuilder();
+
+            deleteBuilder.where().eq(FormasPago.ID_FORMA_PAGO, id);
+            deleteBuilder.delete();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //__________FUNCIONES DE BUSQUEDA______________________//
+
+
+    public static List<FormasPago> buscarTodasLasFormasPago(Context context) throws SQLException {
+        try {
+            cargarDao(context);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        List<FormasPago> listadoFormasPago= null;
+        try {
+            listadoFormasPago = dao.queryForAll();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        if(listadoFormasPago.isEmpty()) {
+            return null;
+        }else{
+            return listadoFormasPago;
+        }
+    }
+    public static FormasPago buscarFormasPagoPorId(Context context, int id) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<FormasPago> listadoFormasPago= null;
+        try {
+            listadoFormasPago = dao.queryForEq(FormasPago.ID_FORMA_PAGO, id);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        if(listadoFormasPago.isEmpty()) {
+            return null;
+        }else{
+            return listadoFormasPago.get(0);
+        }
+    }
+
+    //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
+
+}
