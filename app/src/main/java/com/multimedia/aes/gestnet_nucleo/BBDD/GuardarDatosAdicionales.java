@@ -512,7 +512,8 @@ public class GuardarDatosAdicionales {
                 }
 
                 if (bien){
-                 ((Login)context).irIndex();
+                    new GuardarFormasPago(context,json);
+
 
                 }else{
                     ((Login)context).sacarMensaje("error al guardar la configuracion");

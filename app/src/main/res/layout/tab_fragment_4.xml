@@ -74,13 +74,12 @@
                     android:textColor="@color/cast_expanded_controller_background_color"
                     android:textSize="18dp" />
 
-                <EditText
-                    android:id="@+id/editText5"
+                <Spinner
+                    android:id="@+id/spManoObra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_texts_naranja"
-                    android:inputType="numberDecimal"
+                    android:background="@drawable/caldera_spiners"
                     android:padding="3dp" />
 
             </LinearLayout>

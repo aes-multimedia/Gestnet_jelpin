@@ -18,6 +18,7 @@ public class ManoObra {
     @DatabaseField(columnName = PRECIO) private String precio;
     @DatabaseField(columnName = COSTE) private String coste;
 
+    public ManoObra(){}
 
     public ManoObra(int id_mano, String concepto, String precio, String coste) {
         this.id_mano = id_mano;

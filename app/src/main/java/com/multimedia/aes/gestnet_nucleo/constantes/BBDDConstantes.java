@@ -9,7 +9,9 @@ import com.j256.ormlite.table.TableUtils;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
@@ -90,8 +92,10 @@ public class BBDDConstantes {
 		ProtocoloAccionDAO.borrarTodosLosProtocolo(context);
 		ConfiguracionDAO.borrarTodasLasConfiguraciones(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
+		ManoObraDAO.borrarTodasLasManoDeObra(context);
 		DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(context);
 		FormasPagoDAO.borrarTodasLasFormasPago(context);
+		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 
 	}
 	public static void borrarDatosError(Context context) throws SQLException {
@@ -101,7 +105,9 @@ public class BBDDConstantes {
 		ConfiguracionDAO.borrarTodasLasConfiguraciones(context);
 		MaquinaDAO.borrarTodasLasMaquinas(context);
 		DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(context);
+		ManoObraDAO.borrarTodasLasManoDeObra(context);
 		FormasPagoDAO.borrarTodasLasFormasPago(context);
+		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 
 	}
 }

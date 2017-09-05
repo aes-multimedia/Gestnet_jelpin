@@ -5,6 +5,7 @@ import android.database.SQLException;
 
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -129,6 +130,15 @@ public class GuardarFormasPago {
                 }
 
             }
+
+            if(bien){
+               new GuardarManoObra(context,json);
+            }
+                else{
+                    ((Login)context).sacarMensaje("error al guardar las formas de pago");
+                }
+
+
         }
 
 

@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.dao;
 
 import android.content.Context;
 import android.database.SQLException;
+import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -82,6 +83,7 @@ public class DisposicionesDAO extends DBHelperMOS {
             e.printStackTrace();
         }
         if(listadoDisposiciones.isEmpty()) {
+
             return null;
         }else{
             return listadoDisposiciones;

@@ -17,8 +17,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
+import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
+import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -26,8 +33,13 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private TextView tvDuracion;
     private Button btnAñadirDuracion;
     private String tiempoDuracion;
-    private ArrayList<String> formasPago;
-    private Spinner spFormaPago,spDisposicionServicio;
+    private Spinner spFormaPago,spDisposicionServicio,spManoObra;
+
+
+    private ArrayList <FormasPago> formasPagos = new ArrayList<>();
+    private ArrayList <ManoObra> manosObra = new ArrayList<>();
+    private ArrayList <Disposiciones> disposicionesServicio = new ArrayList<>();
+    private String[] arrayFormasPago,arrayManosObra,arrayDisposiciones;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,14 +56,51 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     }
 
     private void inicializar(){
+
+
         tvDuracion = (TextView) vista.findViewById(R.id.tvDuracion);
         btnAñadirDuracion = (Button)vista.findViewById(R.id.btnAñadirDuracion);
         btnAñadirDuracion.setOnClickListener(this);
         spFormaPago = ( Spinner)vista.findViewById(R.id.spFormaPago) ;
-        ArrayAdapter<String> spFormasDePago = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.forma_pago));
-        spFormaPago.setAdapter(spFormasDePago);
+       // spFormaPago.setOnClickListener(this);
         spDisposicionServicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
-        spDisposicionServicio.setAdapter(spFormasDePago);  ///CAMBIAR
+     //   spDisposicionServicio.setOnClickListener(this);
+        spManoObra = (Spinner) vista.findViewById(R.id.spManoObra);
+
+        darValores();
+
+
+    }
+
+
+    private void darValores(){
+
+        //SPINNER FORMAS PAGO
+        formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
+        arrayFormasPago = new String[formasPagos.size()+ 1];
+        arrayFormasPago[0]= "--Seleciones un valor--";
+        for (int i = 1; i < formasPagos.size() + 1; i++) {
+            arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
+        }
+        spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+
+        //SPINNER MANOS DE OBRA
+        manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
+        arrayManosObra = new String[manosObra.size()+ 1];
+        arrayManosObra[0]= "--Seleciones un valor--";
+        for (int i = 1; i < manosObra.size() + 1; i++) {
+            arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
+        }
+        spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
+
+        //SPINNER DISPOSICIONES SERVICIO
+        disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
+        arrayDisposiciones = new String[disposicionesServicio.size()+ 1];
+        arrayDisposiciones[0]= "--Seleciones un valor--";
+        for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
+            arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
+        }
+        spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
 
 
     }
