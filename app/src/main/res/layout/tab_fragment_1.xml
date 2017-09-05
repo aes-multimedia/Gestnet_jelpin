@@ -276,7 +276,6 @@
                         android:background="@drawable/edit_texts_naranja"
                         android:gravity="left"
                         android:hint="@string/dni_titular"
-                        android:minHeight="30dp"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -297,7 +296,6 @@
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_1"
-                        android:minHeight="30dp"
                         android:padding="5dp" />
 
 

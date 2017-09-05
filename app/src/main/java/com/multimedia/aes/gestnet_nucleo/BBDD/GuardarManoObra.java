@@ -55,7 +55,9 @@ public class GuardarManoObra {
             } else {
                 id_mano = jsonArray.getJSONObject(i).getInt("id_mano");
             }
-
+            if (ManoObraDAO.buscarTodasLasManoDeObra(context) != null) {
+                manoObras = ManoObraDAO.buscarTodasLasManoDeObra(context);
+            }
             if (manoObras != null) {
                 for (int k = 0; k < manoObras.size(); k++) {
                     if (manoObras.get(k).getId_mano() == id_mano) {

@@ -54,7 +54,7 @@
                     android:id="@+id/btnAñadirDuracion"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/boton_circular"
+                    android:background="@drawable/fondo_naranja"
                     android:text="@string/plus"
                     app:srcCompat="@color/colorAccent" />
             </LinearLayout>

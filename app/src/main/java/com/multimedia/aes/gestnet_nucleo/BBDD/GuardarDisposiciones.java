@@ -28,9 +28,7 @@ public class GuardarDisposiciones {
         this.context = context;
         this.json = json;
         try {
-            if (DisposicionesDAO.buscarTodasLasDisposiciones(context) != null) {
-                disposiciones = DisposicionesDAO.buscarTodasLasDisposiciones(context);
-            }
+
             guardarJsonParte();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,7 +54,9 @@ public class GuardarDisposiciones {
             } else {
                 id_disposicion_servicio = jsonArray.getJSONObject(i).getInt("id_disposicion_servicio");
             }
-
+            if (DisposicionesDAO.buscarTodasLasDisposiciones(context)!=null){
+                disposiciones.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(context));
+            }
             if (disposiciones != null) {
                 for (int k = 0; k < disposiciones.size(); k++) {
                     if (disposiciones.get(k).getId_disposicion_servicio() == id_disposicion_servicio) {

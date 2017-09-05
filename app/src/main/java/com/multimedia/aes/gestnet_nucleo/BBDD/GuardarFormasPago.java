@@ -59,7 +59,9 @@ public class GuardarFormasPago {
             } else {
                 id_forma_pago = jsonArray.getJSONObject(i).getInt("id_forma_pago");
             }
-
+            if (FormasPagoDAO.buscarTodasLasFormasPago(context) != null) {
+                formas = FormasPagoDAO.buscarTodasLasFormasPago(context);
+            }
             if (formas != null) {
                 for (int k = 0; k < formas.size(); k++) {
                     if (formas.get(k).getId_forma_pago() == id_forma_pago) {

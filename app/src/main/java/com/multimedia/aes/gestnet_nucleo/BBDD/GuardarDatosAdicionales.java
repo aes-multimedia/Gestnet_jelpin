@@ -30,9 +30,7 @@ public class GuardarDatosAdicionales {
         this.context = context;
         this.json = json;
         try {
-            if (DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context) != null) {
-                datos = DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context);
-            }
+
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -54,6 +52,9 @@ public class GuardarDatosAdicionales {
         } else {
             id_rel = jsonObject2.getInt("id_rel");
         }
+            if (DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context) != null) {
+                datos = DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context);
+            }
         boolean esta = false;
         if (datos != null) {
             for (int k = 0; k < datos.size(); k++) {

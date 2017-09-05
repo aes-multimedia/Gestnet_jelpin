@@ -25,7 +25,6 @@ public class GuardarProtocoloAccion {
         this.context = context;
         GuardarProtocoloAccion.json = json;
         try {
-            protocoloAcciones = ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context);
             guardarJsonProtocoloAccion();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -45,6 +44,9 @@ public class GuardarProtocoloAccion {
                     id_protocolo_accion = -1;
                 } else {
                     id_protocolo_accion = jsonArray1.getJSONObject(j).getInt("fk_accion_protocolo");
+                }
+                if (ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context)!=null){
+                    protocoloAcciones.addAll(ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context));
                 }
                 boolean esta = false;
                 if (protocoloAcciones != null) {

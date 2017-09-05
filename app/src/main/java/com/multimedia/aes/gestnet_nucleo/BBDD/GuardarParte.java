@@ -46,6 +46,9 @@ public class GuardarParte {
             } else {
                 id_parte = jsonArray.getJSONObject(i).getInt("id_parte");
             }
+            if (ParteDAO.buscarTodosLosPartes(context)!=null){
+                partes = ParteDAO.buscarTodosLosPartes(context);
+            }
             boolean esta = false;
             if (partes != null) {
                 for (int j = 0; j < partes.size(); j++) {
