@@ -20,26 +20,27 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newProtocolo(Context context, int id_protocolo_accion, int fk_maquina, int fk_protocolo, String descripcion, String nombre_protocolo) {
-		ProtocoloAccion p = montarProtocolo(id_protocolo_accion, fk_maquina, fk_protocolo, descripcion, nombre_protocolo);
-		return crearProtocolo(p, context);
+	public static boolean ProtocoloAccion(Context context,int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) throws java.sql.SQLException {
+		ProtocoloAccion d = montarProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_protocolo, nombre_protocolo,id_accion, tipo_accion, descripcion);
+		return crearProtocoloAccion(d, context);
 	}
 
-	public static boolean crearProtocolo(ProtocoloAccion p, Context context) {
+	public static boolean crearProtocoloAccion(ProtocoloAccion d, Context context) throws java.sql.SQLException {
 		try {
 			cargarDao(context);
-			dao.create(p);
+			dao.create(d);
 			return true;
-		} catch (SQLException e) {
+		} catch (android.database.SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public static ProtocoloAccion montarProtocolo(int id_protocolo_accion, int fk_maquina, int fk_protocolo, String descripcion, String nombre_protocolo) {
-		ProtocoloAccion p = new ProtocoloAccion(id_protocolo_accion, fk_maquina, fk_protocolo, descripcion, nombre_protocolo);
-		return p;
+	public static ProtocoloAccion montarProtocoloAccion(int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) {
+		ProtocoloAccion d = new ProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_protocolo, nombre_protocolo,id_accion, tipo_accion,descripcion);
+		return d;
 	}
+
 
 	//__________FUNCIONES DE BORRADO______________________//
 
@@ -59,23 +60,94 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	//__________FUNCIONES DE BUSQUEDA______________________//
 
 
-	public static List<ProtocoloAccion> buscarTodosLosProtocolo(Context context) throws SQLException {
-		cargarDao(context);
-		List<ProtocoloAccion> listadoProtocoloAccions = dao.queryForAll();
-		if (listadoProtocoloAccions.isEmpty()) {
+	public static List<ProtocoloAccion> buscarTodosLosProtocoloAccion(Context context) throws android.database.SQLException {
+		try {
+			cargarDao(context);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		try {
+			listadoProtocoloAccion = dao.queryForAll();
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		if (listadoProtocoloAccion.isEmpty()) {
 			return null;
 		} else {
-			return listadoProtocoloAccions;
+			return listadoProtocoloAccion;
 		}
 	}
 
-	public static ProtocoloAccion buscarProtocoloPorId(Context context, int id) throws SQLException {
+	public static ProtocoloAccion buscarProtocoloAccionPorIdProtocoloAccion(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
-		List<ProtocoloAccion> listadoProtocoloAccions = dao.queryForEq(ProtocoloAccion.ID_PROTOCOLO_ACCION, id);
-		if (listadoProtocoloAccions.isEmpty()) {
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		try {
+			listadoProtocoloAccion = dao.queryForEq(ProtocoloAccion.ID_PROTOCOLO_ACCION, id);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		if (listadoProtocoloAccion.isEmpty()) {
 			return null;
 		} else {
-			return listadoProtocoloAccions.get(0);
+			return listadoProtocoloAccion.get(0);
+		}
+	}
+
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorIdAccion(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+		try {
+			cargarDao(context);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		try {
+			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.ID_ACCION, id);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		if (listadoProtocoloAccion.isEmpty()) {
+			return null;
+		} else {
+			return listadoProtocoloAccion;
+		}
+	}
+
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkProtocolo(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+		try {
+			cargarDao(context);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		try {
+			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PROTOCOLO, id);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		if (listadoProtocoloAccion.isEmpty()) {
+			return null;
+		} else {
+			return listadoProtocoloAccion;
+		}
+	}
+
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkMaquina(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+		try {
+			cargarDao(context);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		try {
+			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_MAQUINA, id);
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+		if (listadoProtocoloAccion.isEmpty()) {
+			return null;
+		} else {
+			return listadoProtocoloAccion;
 		}
 	}
 

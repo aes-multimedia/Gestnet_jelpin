@@ -19,16 +19,15 @@ public class GuardarMaquina {
 
     private static String json;
     private static Context context;
-    private static boolean bien=false;
+    private static boolean bien=true;
     private static List<Maquina> maquinas;
+    private static int contador=0;
 
     public GuardarMaquina(Context context, String json) {
         this.context = context;
         this.json = json;
         try {
-            if (MaquinaDAO.buscarTodasLasMaquinas(context)!=null){
-                maquinas = MaquinaDAO.buscarTodasLasMaquinas(context);
-            }
+
             guardarJsonMaquina();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -51,10 +50,14 @@ public class GuardarMaquina {
                 } else {
                     id_maquina = jsonArray1.getJSONObject(j).getInt("id_maquina");
                 }
+                if (MaquinaDAO.buscarTodasLasMaquinas(context)!=null){
+                    maquinas = MaquinaDAO.buscarTodasLasMaquinas(context);
+                }
                 boolean esta = false;
                 if (maquinas != null) {
                     for (int k = 0; k < maquinas.size(); k++) {
                         if (maquinas.get(k).getId_maquina() == id_maquina) {
+                            contador ++;
                             esta = true;
                             break;
                         } else {
@@ -286,12 +289,9 @@ public class GuardarMaquina {
             new GuardarProtocoloAccion(context,json);
         }else{
             if (estado==1){
-                ((Login)context).sacarMensaje("error al guardar maquinas");
-            }/*else if (estado==2){
-                ((Index)context).sacarMensaje("error mantenimientos");
-            }else if (estado==3){
-                ((BuscarParte)context).sacarMensaje("error mantenimientos");
-            }*/
+
+                ((Login)context).sacarMensaje("error al guardar maquinas"+contador);
+            }
         }
     }
 }

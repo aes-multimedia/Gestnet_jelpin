@@ -96,13 +96,13 @@ public class GuardarDisposiciones {
 
             }
 
-            if (bien) {
-                ((Login) context).irIndex();
-            } else {
-                ((Login) context).sacarMensaje("error al guardar las disposiciones");
-            }
 
 
+        } if (bien) {
+            ((Login) context).irIndex();
+        } else {
+            ((Login) context).sacarMensaje("error al guardar las disposiciones");
         }
+
     }
 }

@@ -63,6 +63,7 @@
     <string name="Otros">Otros</string>
     <string name="con_valor">con valor</string>
     <string name="añdir">Añadir</string>
+    <string name="seleccion_protocolo">Seleccione un protocolo:</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>

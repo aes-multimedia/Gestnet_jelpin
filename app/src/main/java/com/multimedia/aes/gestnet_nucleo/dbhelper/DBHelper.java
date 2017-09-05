@@ -121,4 +121,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
 		return BBDDConstantes.manoObrasDao;
 	}
+
+	public Dao<ProtocoloAccion,Integer> getProtocoloAccionDAO() throws SQLException {
+		if (BBDDConstantes.protocoloDao == null) {
+			BBDDConstantes.protocoloDao = getDao(ProtocoloAccion.class);
+		}
+
+		return BBDDConstantes.protocoloDao;
+	}
 }

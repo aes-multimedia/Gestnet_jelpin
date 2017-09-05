@@ -6,7 +6,6 @@ import android.database.SQLException;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
-import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.List;
@@ -59,7 +58,7 @@ public class ManoObraDAO extends DBHelperMOS {
         try { cargarDao(context);
             DeleteBuilder<ManoObra, Integer> deleteBuilder = dao.deleteBuilder();
 
-            deleteBuilder.where().eq(FormasPago.ID_FORMA_PAGO, id);
+            deleteBuilder.where().eq(ManoObra.ID_MANO, id);
             deleteBuilder.delete();
         } catch (java.sql.SQLException e) {
             e.printStackTrace();

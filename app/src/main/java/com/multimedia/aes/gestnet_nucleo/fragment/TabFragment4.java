@@ -76,33 +76,38 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private void darValores(){
 
         //SPINNER FORMAS PAGO
-        formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
-        arrayFormasPago = new String[formasPagos.size()+ 1];
-        arrayFormasPago[0]= "--Seleciones un valor--";
-        for (int i = 1; i < formasPagos.size() + 1; i++) {
-            arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
+        if (FormasPagoDAO.buscarTodasLasFormasPago(getContext())!=null){
+            formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
+            arrayFormasPago = new String[formasPagos.size()+ 1];
+            arrayFormasPago[0]= "--Seleciones un valor--";
+            for (int i = 1; i < formasPagos.size() + 1; i++) {
+                arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
+            }
+            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+
         }
-        spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+
 
         //SPINNER MANOS DE OBRA
-        manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
-        arrayManosObra = new String[manosObra.size()+ 1];
-        arrayManosObra[0]= "--Seleciones un valor--";
-        for (int i = 1; i < manosObra.size() + 1; i++) {
-            arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
+        if(ManoObraDAO.buscarTodasLasManoDeObra(getContext())!=null) {
+            manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
+            arrayManosObra = new String[manosObra.size() + 1];
+            arrayManosObra[0] = "--Seleciones un valor--";
+            for (int i = 1; i < manosObra.size() + 1; i++) {
+                arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
+            }
+            spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
         }
-        spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
-
         //SPINNER DISPOSICIONES SERVICIO
-        disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
-        arrayDisposiciones = new String[disposicionesServicio.size()+ 1];
-        arrayDisposiciones[0]= "--Seleciones un valor--";
-        for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
-            arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
+        if(DisposicionesDAO.buscarTodasLasDisposiciones(getContext())!=null){
+            disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
+            arrayDisposiciones = new String[disposicionesServicio.size()+ 1];
+            arrayDisposiciones[0]= "--Seleciones un valor--";
+            for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
+                arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
+            }
+            spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
         }
-        spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
-
-
     }
 
     @Override

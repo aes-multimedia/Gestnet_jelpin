@@ -114,9 +114,9 @@ public class GuardarFormasPago {
                 }else{
                     bAparecerEnInforme=true;
                 }
-                if (jsonArray.getJSONObject(i).getString("mostrarcuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrarcuenta").equals("")) {
+                if (jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("")) {
                     mostrarcuenta = false;
-                } else if(jsonArray.getJSONObject(i).getString("mostrarcuenta").equals("0")){
+                } else if(jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("0")){
                     mostrarcuenta = false;
 
                 }else{
@@ -131,16 +131,16 @@ public class GuardarFormasPago {
 
             }
 
-            if(bien){
-               new GuardarManoObra(context,json);
-            }
-                else{
-                    ((Login)context).sacarMensaje("error al guardar las formas de pago");
-                }
-
-
         }
 
+
+        if(bien){
+
+            new GuardarManoObra(context,json);
+        }
+        else{
+            ((Login)context).sacarMensaje("error al guardar las formas de pago");
+        }
 
     }
 

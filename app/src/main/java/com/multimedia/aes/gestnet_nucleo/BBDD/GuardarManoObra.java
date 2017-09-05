@@ -97,15 +97,16 @@ public class GuardarManoObra {
 
             }
 
-            if(bien){
-              new GuardarDisposiciones(context,json);
-            }
-            else{
-                ((Login)context).sacarMensaje("error al guardar las manos de obra");
-            }
 
 
 
+
+        }
+        if(bien){
+            new GuardarDisposiciones(context,json);
+        }
+        else{
+            ((Login)context).sacarMensaje("error al guardar las manos de obra");
         }
     }
 }
