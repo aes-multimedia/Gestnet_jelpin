@@ -118,6 +118,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     }
     public void sacarMensaje(String msg) {
         Dialogo.dialogoError(msg,this);
+        if (ManagerProgressDialog.getDialog()!=null){
+            ManagerProgressDialog.cerrarDialog();
+        }
+        srl.setRefreshing(false);
     }
     public void guardarPartes(String msg){
         try {

@@ -34,24 +34,37 @@ public class AdaptadorPartes extends ArrayAdapter {
             item = inflater.inflate(view, null);
         }
         TextView direccion = (TextView) item.findViewById(R.id.txtDireccion);
-        TextView provincia = (TextView) item.findViewById(R.id.txtProvincia);
         TextView cp = (TextView) item.findViewById(R.id.txtCP);
         TextView hora = (TextView) item.findViewById(R.id.txtHora);
         LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
         String dir = "";
-        if (arrayList.get(position).getTipo_via()!=""&&arrayList.get(position).getTipo_via()!="null"){
-            dir+=arrayList.get(position).getTipo_via();
+        if (!arrayList.get(position).getTipo_via().trim().equals("")&&!arrayList.get(position).getTipo_via().trim().equals("null")){
+            dir+=arrayList.get(position).getTipo_via()+" ";
         }
-        if (arrayList.get(position).getVia()!=""&&arrayList.get(position).getVia()!="null"){
-            dir+=arrayList.get(position).getTipo_via();
+        if (!arrayList.get(position).getVia().trim().equals("")&&!arrayList.get(position).getVia().trim().equals("null")){
+            dir+=arrayList.get(position).getVia()+" ";
         }
-        if (arrayList.get(position).getTipo_via()!=""&&arrayList.get(position).getTipo_via()!="null"){
-            dir+=arrayList.get(position).getTipo_via();
+        if (!arrayList.get(position).getNumero_direccion().trim().equals("")&&!arrayList.get(position).getNumero_direccion().trim().equals("null")){
+            dir+="Nº "+arrayList.get(position).getNumero_direccion()+" ";
         }
-        direccion.setText(String.valueOf(arrayList.get(position).getFecha_aviso()));
-        cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getHorario()));
+        if (!arrayList.get(position).getEscalera_direccion().trim().equals("")&&!arrayList.get(position).getEscalera_direccion().trim().equals("null")){
+            dir+="Esc. "+arrayList.get(position).getEscalera_direccion()+" ";
+        }
+        if (!arrayList.get(position).getPiso_direccion().trim().equals("")&&!arrayList.get(position).getPiso_direccion().trim().equals("null")){
+            dir+="Piso "+arrayList.get(position).getPiso_direccion()+" ";
+        }
+        if (!arrayList.get(position).getPuerta_direccion().trim().equals("")&&!arrayList.get(position).getPuerta_direccion().trim().equals("null")){
+            dir+=arrayList.get(position).getPuerta_direccion()+" ";
+        }
+        if (!arrayList.get(position).getMunicipio_direccion().trim().equals("")&&!arrayList.get(position).getMunicipio_direccion().trim().equals("null")){
+            dir+="("+arrayList.get(position).getMunicipio_direccion()+"-";
+        }
+        if (!arrayList.get(position).getProvincia_direccion().trim().equals("")&&!arrayList.get(position).getProvincia_direccion().trim().equals("null")){
+            dir+=arrayList.get(position).getProvincia_direccion()+")";
+        }
+        direccion.setText(dir);
+        cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getCp_direccion()));
         hora.setText(String.valueOf(arrayList.get(position).getHorario()));
-        provincia.setText("("+ String.valueOf(arrayList.get(position).getNum_parte())+")");
         global.setTag(String.valueOf(arrayList.get(position).getId_parte()));
         return item;
     }

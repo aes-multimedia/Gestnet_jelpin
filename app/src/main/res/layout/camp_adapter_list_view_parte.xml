@@ -58,15 +58,6 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="13dp" />
 
-            <TextView
-                android:id="@+id/txtProvincia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Direccion"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="13dp" />
-
         </LinearLayout>
 
     </LinearLayout>

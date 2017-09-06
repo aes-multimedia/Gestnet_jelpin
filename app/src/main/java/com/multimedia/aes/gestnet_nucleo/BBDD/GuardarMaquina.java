@@ -301,12 +301,10 @@ public class GuardarMaquina {
         if (bien){
             new GuardarProtocoloAccion(context,json);
         }else{
-            if (estado==1){
-                if (context.getClass()==Login.class){
-                    ((Login)context).sacarMensaje("error al guardar maquinas");
-                }else if (context.getClass()==Index.class){
-                    ((Index)context).sacarMensaje("error al guardar maquinas");
-                }
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar maquinas");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar maquinas");
             }
         }
     }
