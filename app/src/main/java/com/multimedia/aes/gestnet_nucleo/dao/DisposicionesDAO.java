@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
 
 import java.util.List;
@@ -105,5 +107,13 @@ public class DisposicionesDAO extends DBHelperMOS {
     }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
+    public static void actualizarDisposiciones(Context context, int id_disposicion_servicio, String nombre_disposicion, int coste_disposicion, int precio_disposicion) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<Disposiciones, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Disposiciones.ID_DISPOSICION_SERVICIO,id_disposicion_servicio);
+        updateBuilder.updateColumnValue(Disposiciones.NOMBRE_DISPOSICION,nombre_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.COSTE_DISPOSICION,coste_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.PRECIO_DISPOSICION,precio_disposicion);
+        updateBuilder.update();
+    }
 }

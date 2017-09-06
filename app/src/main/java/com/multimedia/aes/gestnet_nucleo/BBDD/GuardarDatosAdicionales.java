@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public class GuardarDatosAdicionales {
     private static String json;
     private static Context context;
     private static boolean bien = false;
-    private static  List<DatosAdicionales> datos;
+    private static ArrayList<DatosAdicionales> datos = new ArrayList<>();
 
     public GuardarDatosAdicionales(Context context, String json) {
         this.context = context;
@@ -53,7 +55,7 @@ public class GuardarDatosAdicionales {
             id_rel = jsonObject2.getInt("id_rel");
         }
             if (DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context) != null) {
-                datos = DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context);
+                datos.addAll(DatosAdicionalesDAO.buscarTodosLosDatosAdicionales(context));
             }
         boolean esta = false;
         if (datos != null) {
@@ -66,7 +68,6 @@ public class GuardarDatosAdicionales {
                 }
             }
         }
-        if (!esta) {
             int fk_parte;
             if (jsonObject2.getString("fk_parte").equals("null") || jsonObject2.getString("fk_parte").equals("")) {
                 fk_parte = -1;
@@ -485,7 +486,7 @@ public class GuardarDatosAdicionales {
                     cobrar_analisis_combustion = true;
                 }
             }
-
+        if (!esta) {
             if (DatosAdicionalesDAO.newDatosAdicionales(context,id_rel, fk_parte, fk_forma_pago, sintomas_averia, operacion_efectuada, observaciones, preeu_disposicion_servicio_si_no, preeu_disposicion_servicio,
                     preeu_mano_de_obra_si_no, preeu_mano_de_obra_precio, preeu_mano_de_obra,
                     preeu_materiales_si_no, preeu_materiales, preeu_puesta_marcha_si_no,
@@ -507,17 +508,43 @@ public class GuardarDatosAdicionales {
             } else {
                 bien = false;
             }
-
+        }else{
+            DatosAdicionalesDAO.actualizarDatosAdicionales(context,id_rel, fk_parte, fk_forma_pago, sintomas_averia, operacion_efectuada, observaciones, preeu_disposicion_servicio_si_no, preeu_disposicion_servicio,
+                    preeu_mano_de_obra_si_no, preeu_mano_de_obra_precio, preeu_mano_de_obra,
+                    preeu_materiales_si_no, preeu_materiales, preeu_puesta_marcha_si_no,
+                    preeu_puesta_marcha, preeu_servicio_urgencia_si_no, preeu_servicio_urgencia,
+                    preeu_km_si_no, preeu_km_precio, preeu_km, preeu_km_precio_total,
+                    preeu_analisis_combustion, preeu_adicional, preeu_adicional_coste,
+                    preeu_otros_si_no, preeu_otros_nombre, preeu_adicional_coste_nombre,
+                    preeu_iva_aplicado, total_ppto, bAceptaPresupuesto, ctrlgas_rencal_porco2,
+                    ctrlgas_rencal_poro2, ctrlgas_rencal_ppmcocorreg, ctrlgas_rencal_thumosgrados,
+                    ctrlgas_rencal_tambientegrados, ctrlgas_rencal_porexcaire, ctrlgas_rencal_porrendimiento,
+                    regque_inyector, regque_aireprimario, regque_presionbomba, regque_aire_linea,
+                    bControlarAireVentilacion, fact_materiales, fact_disposicion_servicio,
+                    fact_manodeobra_precio, fact_manodeobra, fact_puesta_en_marcha,
+                    fact_analisis_combustion, fact_servicio_urgencia, fact_km, fact_km_precio,
+                    fact_km_precio_total, fact_adicional, fact_adicional_coste, fact_otros_nombre,
+                    fact_adicional_coste_nombre, fact_por_iva_aplicado, fact_total_con_iva, retencion,
+                    retencion_porc, matem_hora_entrada, matem_hora_salida, observacionesPago, cobrar_analisis_combustion);
+            bien = true;
         }
 
                 }
 
                 if (bien){
-                    new GuardarFormasPago(context,json);
 
+                    if (context.getClass()==Login.class){
+                        new GuardarFormasPago(context,json);
+                    }else if (context.getClass()==Index.class){
+                        ((Index)context).datosActualizados();
+                    }
 
                 }else{
-                    ((Login)context).sacarMensaje("error al guardar la configuracion");
+                    if (context.getClass()==Login.class){
+                        ((Login)context).sacarMensaje("error al guardar la configuracion");
+                    }else if (context.getClass()==Index.class){
+                        ((Index)context).sacarMensaje("error al guardar la configuracion");
+                    }
                 }
             }
     }

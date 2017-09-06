@@ -5,12 +5,14 @@ import android.database.SQLException;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,15 +24,12 @@ public class GuardarManoObra {
     private static String json;
     private static Context context;
     private static boolean bien = false;
-    private static List<ManoObra> manoObras;
+    private static ArrayList<ManoObra> manoObras = new ArrayList<>();
 
     public GuardarManoObra(Context context, String json) throws java.sql.SQLException {
         this.context = context;
         this.json = json;
         try {
-            if (ManoObraDAO.buscarTodasLasManoDeObra(context) != null) {
-                manoObras = ManoObraDAO.buscarTodasLasManoDeObra(context);
-            }
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -56,7 +55,7 @@ public class GuardarManoObra {
                 id_mano = jsonArray.getJSONObject(i).getInt("id_mano");
             }
             if (ManoObraDAO.buscarTodasLasManoDeObra(context) != null) {
-                manoObras = ManoObraDAO.buscarTodasLasManoDeObra(context);
+                manoObras.addAll(ManoObraDAO.buscarTodasLasManoDeObra(context));
             }
             if (manoObras != null) {
                 for (int k = 0; k < manoObras.size(); k++) {
@@ -68,39 +67,35 @@ public class GuardarManoObra {
                     }
                 }
             }
+            if (jsonArray.getJSONObject(i).getString("concepto").equals("null") || jsonArray.getJSONObject(i).getString("concepto").equals("")) {
+                concepto = "";
+            } else {
+                concepto = jsonArray.getJSONObject(i).getString("concepto");
+            }
 
+            if (jsonArray.getJSONObject(i).getString("precio").equals("null") || jsonArray.getJSONObject(i).getString("precio").equals("")) {
+                precio = "";
+            } else {
+                precio = jsonArray.getJSONObject(i).getString("precio");
+            }
+
+            if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {
+                coste = "";
+            } else {
+                coste = jsonArray.getJSONObject(i).getString("coste");
+            }
 
 
             if (!esta) {
-
-                if (jsonArray.getJSONObject(i).getString("concepto").equals("null") || jsonArray.getJSONObject(i).getString("concepto").equals("")) {
-                    concepto = "";
-                } else {
-                    concepto = jsonArray.getJSONObject(i).getString("concepto");
-                }
-
-                if (jsonArray.getJSONObject(i).getString("precio").equals("null") || jsonArray.getJSONObject(i).getString("precio").equals("")) {
-                    precio = "";
-                } else {
-                    precio = jsonArray.getJSONObject(i).getString("precio");
-                }
-
-                if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {
-                    coste = "";
-                } else {
-                    coste = jsonArray.getJSONObject(i).getString("coste");
-                }
-
                 if (ManoObraDAO.newManoObra(context,id_mano,concepto,precio,coste)) {
                     bien = true;
                 } else {
                     bien = false;
                 }
 
+            }else{
+                ManoObraDAO.actualizarManoObra(context,id_mano,concepto,precio,coste);
             }
-
-
-
 
 
         }
@@ -108,7 +103,11 @@ public class GuardarManoObra {
             new GuardarDisposiciones(context,json);
         }
         else{
-            ((Login)context).sacarMensaje("error al guardar las manos de obra");
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar las manos de obra");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar las manos de obra");
+            }
         }
     }
 }

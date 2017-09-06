@@ -207,11 +207,8 @@ public class ParteDAO extends DBHelperMOS{
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-    public static void actualizarParte(Context context, Parte parte ) throws SQLException
-    {
+    public static void actualizarParte(Context context, Parte parte ) throws SQLException {
         int id = parte.getId_parte();
-
-
         int fk_user_creador=parte.getFk_user_creador();
         int fk_compania=parte.getFk_compania();
         int fk_tecnico=parte.getFk_tecnico();
@@ -302,16 +299,6 @@ public class ParteDAO extends DBHelperMOS{
         boolean botrosmataux=parte.isBotrosmataux();
         String user_creador=parte.getUser_creador();
         String tipo=parte.getTipo();
-
-
-
-
-
-
-
-
-
-
         cargarDao(context);
         UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(parte.ID_PARTE,id);
@@ -411,7 +398,156 @@ public class ParteDAO extends DBHelperMOS{
 
         updateBuilder.update();
     }
+    public static void actualizarParte(Context context, int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario,
+                                       int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
+                                       String fecha_visita, boolean visita_duplicada, String fecha_reparacion, int num_parte,
+                                       int fk_tipo, int fk_user_asignacion, int fk_horario, String horario, String duracion,
+                                       String firmante, String sobre, int franja_horaria, int fk_estado, int fk_estado_interno,
+                                       String observaciones, String observacionesasignacion, int confirmado, String entregado_por,
+                                       String recogido_por, String comentarios_entrega, int fk_fabricante, String aprobado_fabricante,
+                                       boolean imprimir, String fecha_factura, String num_factura, String fecha_factura_rectificativa,
+                                       String num_factura_rectificativa, int fk_pend_fact, String num_orden_endesa,
+                                       String fecha_maxima_endesa, int fk_estado_endesa, int insistencia_endesa,
+                                       String contrato_endesa, String producto_endesa, int fk_tipo_os, int fk_tipo_producto,
+                                       boolean pagado_endesa, String ciclo_liq_endesa, double importe_pago_endesa,
+                                       String fecha_pagado_endesa, boolean pagado_operario, String fecha_anulado,
+                                       String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre,
+                                       String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia,
+                                       String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas,
+                                       String fecha_baja, boolean fac_baja_stock, boolean estado_android, boolean urgencias,
+                                       String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion,
+                                       int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos,
+                                       int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora,
+                                       String persona_contacto, String tel_contacto, String cnae, int fk_compania_parte,
+                                       String fecha_cierre, String num_presupuesto, String defectos, int fk_periocidad,
+                                       double franquicia, String inspeccion_visual, String otros_mataux, boolean binspeccionvisual,
+                                       boolean botrosmataux, String tipo_via, String via, String numero_direccion,
+                                       String escalera_direccion, String piso_direccion, String puerta_direccion,
+                                       String cp_direccion, String municipio_direccion, String provincia_direccion,
+                                       String latitud_direccion, String longitud_direccion, String nombre_cliente,
+                                       String dni_cliente, String telefono1_cliente, String telefono2_cliente,
+                                       String telefono3_cliente, String telefono4_cliente, String email_cliente,
+                                       String observaciones_cliente,String user_creador,String tipo) throws SQLException
+    {
 
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.FK_USER_CREADOR, fk_user_creador);
+        updateBuilder.updateColumnValue(Parte.FK_COMPANIA, fk_compania);
+        updateBuilder.updateColumnValue(Parte.FK_TECNICO, fk_tecnico);
+        updateBuilder.updateColumnValue(Parte.FK_USUARIO, fk_usuario);
+        updateBuilder.updateColumnValue(Parte.FK_DIRECCION, fk_direccion);
+        updateBuilder.updateColumnValue(Parte.FK_MAQUINA, fk_maquina);
+        updateBuilder.updateColumnValue(Parte.FECHA_CREACION, fecha_creacion);
+        updateBuilder.updateColumnValue(Parte.FECHA_AVISO, fecha_aviso);
+        updateBuilder.updateColumnValue(Parte.FECHA_VISITA, fecha_visita);
+        updateBuilder.updateColumnValue(Parte.VISITA_DUPLICADA, visita_duplicada);
+        updateBuilder.updateColumnValue(Parte.FECHA_REPARACION, fecha_reparacion);
+        updateBuilder.updateColumnValue(Parte.NUM_PARTE, num_parte);
+        updateBuilder.updateColumnValue(Parte.FK_TIPO, fk_tipo);
+        updateBuilder.updateColumnValue(Parte.FK_USER_ASIGNACION, fk_user_asignacion);
+        updateBuilder.updateColumnValue(Parte.FK_HORARIO, fk_horario);
+        updateBuilder.updateColumnValue(Parte.HORARIO, horario);
+        updateBuilder.updateColumnValue(Parte.DURACION, duracion);
+        updateBuilder.updateColumnValue(Parte.FIRMANTE, firmante);
+        updateBuilder.updateColumnValue(Parte.SOBRE, sobre);
+        updateBuilder.updateColumnValue(Parte.FRANJA_HORARIA, franja_horaria);
+        updateBuilder.updateColumnValue(Parte.FK_ESTADO, fk_estado);
+        updateBuilder.updateColumnValue(Parte.FK_ESTADO_INTERNO, fk_estado_interno);
+        updateBuilder.updateColumnValue(Parte.OBSERVACIONES, observaciones);
+        updateBuilder.updateColumnValue(Parte.OBSERVACIONESASIGNACION, observacionesasignacion);
+        updateBuilder.updateColumnValue(Parte.CONFIRMADO, confirmado);
+        updateBuilder.updateColumnValue(Parte.ENTREGADO_POR, entregado_por);
+        updateBuilder.updateColumnValue(Parte.RECOGIDO_POR, recogido_por);
+        updateBuilder.updateColumnValue(Parte.COMENTARIOS_ENTREGA, comentarios_entrega);
+        updateBuilder.updateColumnValue(Parte.FK_FABRICANTE, fk_fabricante);
+        updateBuilder.updateColumnValue(Parte.APROBADO_FABRICANTE, aprobado_fabricante);
+        updateBuilder.updateColumnValue(Parte.IMPRIMIR, imprimir);
+        updateBuilder.updateColumnValue(Parte.FECHA_FACTURA, fecha_factura);
+        updateBuilder.updateColumnValue(Parte.NUM_FACTURA, num_factura);
+        updateBuilder.updateColumnValue(Parte.FECHA_FACTURA_RECTIFICATIVA, fecha_factura_rectificativa);
+        updateBuilder.updateColumnValue(Parte.NUM_FACTURA_RECTIFICATIVA, num_factura_rectificativa);
+        updateBuilder.updateColumnValue(Parte.FK_PEND_FACT, fk_pend_fact);
+        updateBuilder.updateColumnValue(Parte.NUM_ORDEN_ENDESA, num_orden_endesa);
+        updateBuilder.updateColumnValue(Parte.FECHA_MAXIMA_ENDESA, fecha_maxima_endesa);
+        updateBuilder.updateColumnValue(Parte.FK_ESTADO_ENDESA, fk_estado_endesa);
+        updateBuilder.updateColumnValue(Parte.INSISTENCIA_ENDESA, insistencia_endesa);
+        updateBuilder.updateColumnValue(Parte.CONTRATO_ENDESA, contrato_endesa);
+        updateBuilder.updateColumnValue(Parte.PRODUCTO_ENDESA, producto_endesa);
+        updateBuilder.updateColumnValue(Parte.FK_TIPO_OS0, fk_tipo_os);
+        updateBuilder.updateColumnValue(Parte.FK_TIPO_PRODUCTO, fk_tipo_producto);
+        updateBuilder.updateColumnValue(Parte.PAGADO_ENDESA, pagado_endesa);
+        updateBuilder.updateColumnValue(Parte.CICLO_LIQ_ENDESA, ciclo_liq_endesa);
+        updateBuilder.updateColumnValue(Parte.IMPORTE_PAGO_ENDESA, importe_pago_endesa);
+        updateBuilder.updateColumnValue(Parte.FECHA_PAGADO_ENDESA, fecha_pagado_endesa);
+        updateBuilder.updateColumnValue(Parte.PAGADO_OPERARIO, pagado_operario);
+        updateBuilder.updateColumnValue(Parte.FECHA_ANULADO, fecha_anulado);
+        updateBuilder.updateColumnValue(Parte.FECHA_MODIFICACION_TECNICO, fecha_modificacion_tecnico);
+        updateBuilder.updateColumnValue(Parte.FK_REMOTO_CENTRAL, fk_remoto_central);
+        updateBuilder.updateColumnValue(Parte.FAC_NOMBRE, fac_nombre);
+        updateBuilder.updateColumnValue(Parte.FAC_DIRECCION, fac_direccion);
+        updateBuilder.updateColumnValue(Parte.FAC_CP, fac_cp);
+        updateBuilder.updateColumnValue(Parte.FAC_DIRECCION, fac_direccion);
+        updateBuilder.updateColumnValue(Parte.FAC_POBLACION, fac_poblacion);
+        updateBuilder.updateColumnValue(Parte.FAC_PROVINCIA, fac_provincia);
+        updateBuilder.updateColumnValue(Parte.FAC_DNI, fac_dni);
+        updateBuilder.updateColumnValue(Parte.FAC_EMAIL, fac_email);
+        updateBuilder.updateColumnValue(Parte.FAC_TELEFONOS, fac_telefonos);
+        updateBuilder.updateColumnValue(Parte.OTROS_SINTOMAS, otros_sintomas);
+        updateBuilder.updateColumnValue(Parte.FECHA_BAJA, fecha_baja);
+        updateBuilder.updateColumnValue(Parte.FAC_BAJA_STOCK, fac_baja_stock);
+        updateBuilder.updateColumnValue(Parte.ESTADO_ANDROID, estado_android);
+        updateBuilder.updateColumnValue(Parte.URGENCIAS, urgencias);
+        updateBuilder.updateColumnValue(Parte.LOTE, lote);
+        updateBuilder.updateColumnValue(Parte.VALIDAR, validar);
+        updateBuilder.updateColumnValue(Parte.LIQUIDADO_A_PROVEEDOR, liquidado_a_proveedor);
+        updateBuilder.updateColumnValue(Parte.FK_INSTALACION, fk_instalacion);
+        updateBuilder.updateColumnValue(Parte.FK_EMERGENCIA, fk_emergencia);
+        updateBuilder.updateColumnValue(Parte.MOTIVO_CAMBIO_FECHA_MAXIMA, motivo_cambio_fecha_maxima);
+        updateBuilder.updateColumnValue(Parte.BTODOSLOSEQUIPOS, btodoslosequipos);
+        updateBuilder.updateColumnValue(Parte.FK_TIPO_INSTALACION, fk_tipo_instalacion);
+        updateBuilder.updateColumnValue(Parte.PARTE_FINALIZADO_ANDROID, parte_finalizado_android);
+        updateBuilder.updateColumnValue(Parte.COMERCIALIZADORA, comercializadora);
+        updateBuilder.updateColumnValue(Parte.PERSONA_CONTACTO, persona_contacto);
+        updateBuilder.updateColumnValue(Parte.TEL_CONTACTO, tel_contacto);
+        updateBuilder.updateColumnValue(Parte.CNAE, cnae);
+        updateBuilder.updateColumnValue(Parte.FK_COMPANIA_PARTE, fk_compania_parte);
+        updateBuilder.updateColumnValue(Parte.FECHA_CIERRE, fecha_cierre);
+        updateBuilder.updateColumnValue(Parte.NUM_PRESUPUESTO, num_presupuesto);
+        updateBuilder.updateColumnValue(Parte.DEFECTOS, defectos);
+        updateBuilder.updateColumnValue(Parte.FK_PERIOCIDAD, fk_periocidad);
+        updateBuilder.updateColumnValue(Parte.FRANQUICIA, franquicia);
+        updateBuilder.updateColumnValue(Parte.INSPECCION_VISUAL, inspeccion_visual);
+        updateBuilder.updateColumnValue(Parte.OTROS_MATAUX, otros_mataux);
+        updateBuilder.updateColumnValue(Parte.BINSPECCIONVISUAL, binspeccionvisual);
+        updateBuilder.updateColumnValue(Parte.BOTROSMATAUX, botrosmataux);
+        updateBuilder.updateColumnValue(Parte.TIPO_VIA, tipo_via);
+        updateBuilder.updateColumnValue(Parte.VIA, via);
+        updateBuilder.updateColumnValue(Parte.NUMERO_DIRECCION, numero_direccion);
+        updateBuilder.updateColumnValue(Parte.ESCALERA_DIRECCION, escalera_direccion);
+        updateBuilder.updateColumnValue(Parte.PISO_DIRECCION, piso_direccion);
+        updateBuilder.updateColumnValue(Parte.PUERTA_DIRECCION, puerta_direccion);
+        updateBuilder.updateColumnValue(Parte.CP_DIRECCION, cp_direccion);
+        updateBuilder.updateColumnValue(Parte.MUNICIPIO_DIRECCION, municipio_direccion);
+        updateBuilder.updateColumnValue(Parte.PROVINCIA_DIRECCION, provincia_direccion);
+        updateBuilder.updateColumnValue(Parte.LATITUD_DIRECCION, latitud_direccion);
+        updateBuilder.updateColumnValue(Parte.LONGITUD_DIRECCION, longitud_direccion);
+        updateBuilder.updateColumnValue(Parte.NOMBRE_CLIENTE, nombre_cliente);
+        updateBuilder.updateColumnValue(Parte.DNI_CLIENTE, dni_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO1_CLIENTE, telefono1_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO2_CLIENTE, telefono2_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO3_CLIENTE, telefono3_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO4_CLIENTE, telefono4_cliente);
+        updateBuilder.updateColumnValue(Parte.EMAIL_CLIENTE, email_cliente);
+        updateBuilder.updateColumnValue(Parte.OBSERVACIONES_CLIENTE, observaciones_cliente);
+        updateBuilder.updateColumnValue(Parte.USER_CREADOR, user_creador);
+        updateBuilder.updateColumnValue(Parte.TIPO, tipo);
+
+
+
+        updateBuilder.update();
+    }
 
 
 

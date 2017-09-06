@@ -79,8 +79,7 @@ public class ClienteDAO extends DBHelperMOS {
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-	public static void actualizarCliente(Context context, Cliente cliente ) throws SQLException
-	{
+	public static void actualizarCliente(Context context, Cliente cliente ) throws SQLException {
 		int id = cliente.getId_cliente();
 		String nombre  = cliente.getNombre_cliente();
 		String color = cliente.getColor_cliente();
@@ -90,12 +89,23 @@ public class ClienteDAO extends DBHelperMOS {
 
 		cargarDao(context);
 		UpdateBuilder<Cliente, Integer> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq(cliente.ID_CLIENTE,id);
-		updateBuilder.updateColumnValue(cliente.NOMBRE_CLIENTE, nombre);
-		updateBuilder.updateColumnValue(cliente.COLOR_CLIENTE, color);
-		updateBuilder.updateColumnValue(cliente.LOGO_CLIENTE, logo);
-		updateBuilder.updateColumnValue(cliente.IP_CLIENTE, ip);
-		updateBuilder.updateColumnValue(cliente.COD_CLIENTE, cod_cliente);
+		updateBuilder.where().eq(Cliente.ID_CLIENTE,id);
+		updateBuilder.updateColumnValue(Cliente.NOMBRE_CLIENTE, nombre);
+		updateBuilder.updateColumnValue(Cliente.COLOR_CLIENTE, color);
+		updateBuilder.updateColumnValue(Cliente.LOGO_CLIENTE, logo);
+		updateBuilder.updateColumnValue(Cliente.IP_CLIENTE, ip);
+		updateBuilder.updateColumnValue(Cliente.COD_CLIENTE, cod_cliente);
+		updateBuilder.update();
+	}
+	public static void actualizarCliente(Context context, int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente ) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Cliente, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Cliente.ID_CLIENTE,id_cliente);
+		updateBuilder.updateColumnValue(Cliente.NOMBRE_CLIENTE, nombre_cliente);
+		updateBuilder.updateColumnValue(Cliente.COLOR_CLIENTE, color_cliente);
+		updateBuilder.updateColumnValue(Cliente.LOGO_CLIENTE, logo_cliente);
+		updateBuilder.updateColumnValue(Cliente.IP_CLIENTE, ip_cliente);
+		updateBuilder.updateColumnValue(Cliente.COD_CLIENTE, cod_cliente);
 		updateBuilder.update();
 	}
 

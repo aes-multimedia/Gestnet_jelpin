@@ -5,7 +5,9 @@ import android.database.SQLException;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.List;
@@ -103,5 +105,13 @@ public class ManoObraDAO extends DBHelperMOS {
     }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
+    public static void actualizarManoObra(Context context, int id_mano, String concepto, String precio, String coste ) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<ManoObra, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(ManoObra.ID_MANO,id_mano);
+        updateBuilder.updateColumnValue(ManoObra.CONCEPTO,concepto);
+        updateBuilder.updateColumnValue(ManoObra.PRECIO,precio);
+        updateBuilder.updateColumnValue(ManoObra.COSTE,coste);
+        updateBuilder.update();
+    }
 }

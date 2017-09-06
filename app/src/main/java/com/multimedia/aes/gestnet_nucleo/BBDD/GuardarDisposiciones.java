@@ -5,12 +5,14 @@ import android.database.SQLException;
 
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ public class GuardarDisposiciones {
     private static String json;
     private static Context context;
     private static boolean bien = false;
-    private static List<Disposiciones> disposiciones;
+    private static ArrayList<Disposiciones> disposiciones = new ArrayList<>();
 
     public GuardarDisposiciones(Context context, String json) throws java.sql.SQLException, JSONException {
         this.context = context;
@@ -67,41 +69,50 @@ public class GuardarDisposiciones {
                     }
                 }
             }
+            if (jsonArray.getJSONObject(i).getString("nombre_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("nombre_disposicion").equals("")) {
+                nombre_disposicion = "";
+            } else {
+                nombre_disposicion = jsonArray.getJSONObject(i).getString("nombre_disposicion");
+            }
 
+            if (jsonArray.getJSONObject(i).getString("coste_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("coste_disposicion").equals("")) {
+                coste_disposicion = 0;
+            } else {
+                coste_disposicion = jsonArray.getJSONObject(i).getInt("coste_disposicion");
+            }
+
+            if (jsonArray.getJSONObject(i).getString("precio_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("precio_disposicion").equals("")) {
+                precio_disposicion = 0;
+            } else {
+                precio_disposicion = jsonArray.getJSONObject(i).getInt("precio_disposicion");
+            }
             if (!esta) {
-
-                if (jsonArray.getJSONObject(i).getString("nombre_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("nombre_disposicion").equals("")) {
-                    nombre_disposicion = "";
-                } else {
-                    nombre_disposicion = jsonArray.getJSONObject(i).getString("nombre_disposicion");
-                }
-
-                if (jsonArray.getJSONObject(i).getString("coste_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("coste_disposicion").equals("")) {
-                    coste_disposicion = 0;
-                } else {
-                    coste_disposicion = jsonArray.getJSONObject(i).getInt("coste_disposicion");
-                }
-
-                if (jsonArray.getJSONObject(i).getString("precio_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("precio_disposicion").equals("")) {
-                    precio_disposicion = 0;
-                } else {
-                    precio_disposicion = jsonArray.getJSONObject(i).getInt("precio_disposicion");
-                }
-
                 if (DisposicionesDAO.newDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion)) {
                     bien = true;
                 } else {
                     bien = false;
                 }
 
+            }else{
+                DisposicionesDAO.actualizarDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion);
             }
 
 
 
         } if (bien) {
-            ((Login) context).irIndex();
+            if (context.getClass()==Login.class){
+                ((Login) context).irIndex();
+            }else if (context.getClass()==Index.class){
+                ((Index) context).datosActualizados();
+            }
+
         } else {
-            ((Login) context).sacarMensaje("error al guardar las disposiciones");
+            if (context.getClass()==Login.class){
+                ((Login) context).sacarMensaje("error al guardar las disposiciones");
+            }else if (context.getClass()==Index.class){
+                ((Index) context).sacarMensaje("error al guardar las disposiciones");
+            }
+
         }
 
     }

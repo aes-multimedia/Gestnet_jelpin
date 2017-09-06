@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 import android.content.Context;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
@@ -516,7 +517,11 @@ public class GuardarConfiguracion {
         if (bien){
             new GuardarDatosAdicionales(context,json);
         }else{
-            ((Login)context).sacarMensaje("error al guardar la configuracion");
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar la configuracion");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar la configuracion");
+            }
         }
     }
 }

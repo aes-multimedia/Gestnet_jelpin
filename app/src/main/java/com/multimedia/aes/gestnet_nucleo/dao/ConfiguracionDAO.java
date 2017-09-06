@@ -130,5 +130,69 @@ public class ConfiguracionDAO extends DBHelperMOS {
 	}
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
+	public static void actualizarConfiguracion(Context context, int id_configuracion, boolean horarios, boolean operarios, boolean definiciones,
+											   boolean equipos, boolean empresas, boolean marcas, boolean tipos_trabajo,
+											   boolean tipos_presupuesto, boolean cuenta_bancaria, boolean fk_combustion,
+											   boolean garantia, boolean pedir, boolean usar, boolean presupuestar,
+											   boolean operacion_finalizacion, boolean precios_mano_obra, boolean formaPago,
+											   boolean disp_servicio, boolean analisis_combustion, boolean puesta_marcha,
+											   boolean servicio_urgencia, boolean kms_finalizacion, boolean traspaso_material,
+											   boolean parte_usuario, boolean parte_averia, boolean parte_instalacion,
+											   boolean parte_materiales, boolean parte_finalizacion, boolean parte_galeria,
+											   boolean menu_asignacion, boolean menu_documentos, boolean menu_almacen,
+											   boolean menu_cierre, boolean menu_ubicacion, boolean menu_datos_completos,
+											   boolean menu_informar, boolean menu_datos_actualizados, boolean menu_presupuesto,
+											   boolean requiere_firma, boolean usuario_conf, boolean pass_conf, boolean intersat,
+											   boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Configuracion, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Configuracion.ID_CONFIGURACION,id_configuracion);
+		updateBuilder.updateColumnValue(Configuracion.HORARIOS,horarios);
+		updateBuilder.updateColumnValue(Configuracion.OPERARIOS,operarios);
+		updateBuilder.updateColumnValue(Configuracion.DEFINICIONES,definiciones);
+		updateBuilder.updateColumnValue(Configuracion.EQUIPOS,equipos);
+		updateBuilder.updateColumnValue(Configuracion.EMPRESAS,empresas);
+		updateBuilder.updateColumnValue(Configuracion.MARCAS,marcas);
+		updateBuilder.updateColumnValue(Configuracion.TIPOS_TRABAJO,tipos_trabajo);
+		updateBuilder.updateColumnValue(Configuracion.TIPOS_PRESUPUESTO,tipos_presupuesto);
+		updateBuilder.updateColumnValue(Configuracion.CUENTA_BANCARIA,cuenta_bancaria);
+		updateBuilder.updateColumnValue(Configuracion.FK_COMBUSTION,fk_combustion);
+		updateBuilder.updateColumnValue(Configuracion.GARANTIA,garantia);
+		updateBuilder.updateColumnValue(Configuracion.PEDIR,pedir);
+		updateBuilder.updateColumnValue(Configuracion.USAR,usar);
+		updateBuilder.updateColumnValue(Configuracion.PRESUPUESTAR,presupuestar);
+		updateBuilder.updateColumnValue(Configuracion.OPERACION_FINALIZACION,operacion_finalizacion);
+		updateBuilder.updateColumnValue(Configuracion.PRECIOS_MANO_OBRA,precios_mano_obra);
+		updateBuilder.updateColumnValue(Configuracion.FORMA_PAGO,formaPago);
+		updateBuilder.updateColumnValue(Configuracion.DISP_SERVICIO,disp_servicio);
+		updateBuilder.updateColumnValue(Configuracion.ANALISIS_COMBUSTION,analisis_combustion);
+		updateBuilder.updateColumnValue(Configuracion.PUESTA_MARCHA,puesta_marcha);
+		updateBuilder.updateColumnValue(Configuracion.SERVICIO_URGENCIA,servicio_urgencia);
+		updateBuilder.updateColumnValue(Configuracion.KMS_FINALIZACION,kms_finalizacion);
+		updateBuilder.updateColumnValue(Configuracion.TRASPASO_MATERIAL,traspaso_material);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_USUARIO,parte_usuario);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_AVERIA,parte_averia);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_INSTALACION,parte_instalacion);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_MATERIALES,parte_materiales);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_FINALIZACION,parte_finalizacion);
+		updateBuilder.updateColumnValue(Configuracion.PARTE_GALERIA,parte_galeria);
+		updateBuilder.updateColumnValue(Configuracion.MENU_ASIGNACION,menu_asignacion);
+		updateBuilder.updateColumnValue(Configuracion.MENU_DOCUMENTOS,menu_documentos);
+		updateBuilder.updateColumnValue(Configuracion.MENU_ALMACEN,menu_almacen);
+		updateBuilder.updateColumnValue(Configuracion.MENU_CIERRE,menu_cierre);
+		updateBuilder.updateColumnValue(Configuracion.MENU_UBICACION,menu_ubicacion);
+		updateBuilder.updateColumnValue(Configuracion.MENU_DATOS_COMPLETOS,menu_datos_completos);
+		updateBuilder.updateColumnValue(Configuracion.MENU_INFORMAR,menu_informar);
+		updateBuilder.updateColumnValue(Configuracion.MENU_DATOS_ACTUALIZADOS,menu_datos_actualizados);
+		updateBuilder.updateColumnValue(Configuracion.MENU_PRESUPUESTO,menu_presupuesto);
+		updateBuilder.updateColumnValue(Configuracion.REQUIERE_FIRMA,requiere_firma);
+		updateBuilder.updateColumnValue(Configuracion.USUARIO_CONF,usuario_conf);
+		updateBuilder.updateColumnValue(Configuracion.PASS_CONF,pass_conf);
+		updateBuilder.updateColumnValue(Configuracion.INTERSAT,intersat);
+		updateBuilder.updateColumnValue(Configuracion.GAS_NATURAL,gas_natural);
+		updateBuilder.updateColumnValue(Configuracion.JLSAT,jlsat);
+		updateBuilder.updateColumnValue(Configuracion.DURACION_AUTOMATICA,duracion_automatica);
+		updateBuilder.updateColumnValue(Configuracion.CONTADOR_KM,contador_km);
+		updateBuilder.update();
+	}
 }

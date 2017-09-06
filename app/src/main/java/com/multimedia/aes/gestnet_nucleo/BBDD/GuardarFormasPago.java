@@ -5,12 +5,14 @@ import android.database.SQLException;
 
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,15 +25,12 @@ public class GuardarFormasPago {
     private static String json;
     private static Context context;
     private static boolean bien = false;
-    private static List<FormasPago> formas;
+    private static ArrayList<FormasPago> formas = new ArrayList<>();
 
     public GuardarFormasPago(Context context, String json) throws java.sql.SQLException {
         this.context = context;
         this.json = json;
         try {
-            if (FormasPagoDAO.buscarTodasLasFormasPago(context) != null) {
-                formas = FormasPagoDAO.buscarTodasLasFormasPago(context);
-            }
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,7 +59,7 @@ public class GuardarFormasPago {
                 id_forma_pago = jsonArray.getJSONObject(i).getInt("id_forma_pago");
             }
             if (FormasPagoDAO.buscarTodasLasFormasPago(context) != null) {
-                formas = FormasPagoDAO.buscarTodasLasFormasPago(context);
+                formas.addAll(FormasPagoDAO.buscarTodasLasFormasPago(context));
             }
             if (formas != null) {
                 for (int k = 0; k < formas.size(); k++) {
@@ -72,65 +71,64 @@ public class GuardarFormasPago {
                     }
                 }
             }
+            if (jsonArray.getJSONObject(i).getString("forma_pago").equals("null") || jsonArray.getJSONObject(i).getString("forma_pago").equals("")) {
+                forma_pago = "";
+            } else {
+                forma_pago = jsonArray.getJSONObject(i).getString("forma_pago");
+            }
 
+
+            if (jsonArray.getJSONObject(i).getString("financiado").equals("null") || jsonArray.getJSONObject(i).getString("financiado").equals("")) {
+                financiado = -1;
+            } else {
+                financiado = jsonArray.getJSONObject(i).getInt("financiado");
+            }
+
+
+
+
+            if (jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("")) {
+                mostrar_cuenta = false;
+            } else if(jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("0")){
+                mostrar_cuenta = false;
+
+            }else{
+                mostrar_cuenta=true;
+            }
+            if (jsonArray.getJSONObject(i).getString("sumar_dias").equals("null") || jsonArray.getJSONObject(i).getString("sumar_dias").equals("")) {
+                sumar_dias = false;
+            } else if(jsonArray.getJSONObject(i).getString("sumar_dias").equals("0")){
+                sumar_dias = false;
+
+            }else{
+                sumar_dias=true;
+            }
+
+            if (jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("null") || jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("")) {
+                bAparecerEnInforme = false;
+            } else if(jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("0")){
+                bAparecerEnInforme = false;
+
+            }else{
+                bAparecerEnInforme=true;
+            }
+            if (jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("")) {
+                mostrarcuenta = false;
+            } else if(jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("0")){
+                mostrarcuenta = false;
+
+            }else{
+                mostrarcuenta=true;
+            }
             if (!esta) {
-
-                if (jsonArray.getJSONObject(i).getString("forma_pago").equals("null") || jsonArray.getJSONObject(i).getString("forma_pago").equals("")) {
-                    forma_pago = "";
-                } else {
-                    forma_pago = jsonArray.getJSONObject(i).getString("forma_pago");
-                }
-
-
-                if (jsonArray.getJSONObject(i).getString("financiado").equals("null") || jsonArray.getJSONObject(i).getString("financiado").equals("")) {
-                    financiado = -1;
-                } else {
-                    financiado = jsonArray.getJSONObject(i).getInt("financiado");
-                }
-
-
-
-
-                if (jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("")) {
-                    mostrar_cuenta = false;
-                } else if(jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("0")){
-                    mostrar_cuenta = false;
-
-                }else{
-                    mostrar_cuenta=true;
-                }
-                if (jsonArray.getJSONObject(i).getString("sumar_dias").equals("null") || jsonArray.getJSONObject(i).getString("sumar_dias").equals("")) {
-                    sumar_dias = false;
-                } else if(jsonArray.getJSONObject(i).getString("sumar_dias").equals("0")){
-                    sumar_dias = false;
-
-                }else{
-                    sumar_dias=true;
-                }
-
-                if (jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("null") || jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("")) {
-                    bAparecerEnInforme = false;
-                } else if(jsonArray.getJSONObject(i).getString("bAparecerEnInforme").equals("0")){
-                    bAparecerEnInforme = false;
-
-                }else{
-                    bAparecerEnInforme=true;
-                }
-                if (jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("null") || jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("")) {
-                    mostrarcuenta = false;
-                } else if(jsonArray.getJSONObject(i).getString("mostrar_cuenta").equals("0")){
-                    mostrarcuenta = false;
-
-                }else{
-                    mostrarcuenta=true;
-                }
-
                 if (FormasPagoDAO.newFomasPago(context,id_forma_pago,forma_pago,financiado,mostrar_cuenta,sumar_dias,bAparecerEnInforme,mostrarcuenta)) {
                     bien = true;
                 } else {
                     bien = false;
                 }
 
+            }else{
+                FormasPagoDAO.actualizarFormasPago(context,id_forma_pago,forma_pago,financiado,mostrar_cuenta,sumar_dias,bAparecerEnInforme,mostrarcuenta);
             }
 
         }
@@ -141,7 +139,11 @@ public class GuardarFormasPago {
             new GuardarManoObra(context,json);
         }
         else{
-            ((Login)context).sacarMensaje("error al guardar las formas de pago");
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar las formas de pago");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar las formas de pago");
+            }
         }
 
     }

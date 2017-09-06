@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GuardarParte {
@@ -18,15 +20,12 @@ public class GuardarParte {
     private static String json;
     private static Context context;
     private static boolean bien=false;
-    private static List<Parte> partes;
+    private static ArrayList<Parte> partes = new ArrayList<>();
 
     public GuardarParte(Context context, String json) {
         this.context = context;
         this.json = json;
         try {
-            if (ParteDAO.buscarTodosLosPartes(context)!=null){
-                partes = ParteDAO.buscarTodosLosPartes(context);
-            }
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -47,20 +46,25 @@ public class GuardarParte {
                 id_parte = jsonArray.getJSONObject(i).getInt("id_parte");
             }
             if (ParteDAO.buscarTodosLosPartes(context)!=null){
-                partes = ParteDAO.buscarTodosLosPartes(context);
+                partes.addAll(ParteDAO.buscarTodosLosPartes(context));
             }
             boolean esta = false;
+            boolean estaEmpezado = false;
             if (partes != null) {
                 for (int j = 0; j < partes.size(); j++) {
                     if (partes.get(j).getId_parte() == id_parte) {
                         esta = true;
+                        if (partes.get(j).getFk_estado()!=2) {
+                            estaEmpezado = true;
+                        }
                         break;
                     } else {
+                        estaEmpezado = false;
                         esta = false;
                     }
                 }
             }
-            if (!esta) {
+            if (!estaEmpezado) {
                 int fk_user_creador;
                 if (jsonArray.getJSONObject(i).getString("fk_user_creador").equals("null") || jsonArray.getJSONObject(i).getString("fk_user_creador").equals("")) {
                     fk_user_creador = -1;
@@ -770,48 +774,87 @@ public class GuardarParte {
                 } else {
                     tipo = jsonArray.getJSONObject(i).getString("tipo");
                 }
-
-                if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
-                        fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
-                        fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
-                        fk_tipo, fk_user_asignacion, fk_horario, horario, duracion,
-                        firmante, sobre, franja_horaria, fk_estado, fk_estado_interno,
-                        observaciones, observacionesasignacion, confirmado, entregado_por,
-                        recogido_por, comentarios_entrega, fk_fabricante, aprobado_fabricante,
-                        imprimir, fecha_factura, num_factura, fecha_factura_rectificativa,
-                        num_factura_rectificativa, fk_pend_fact, num_orden_endesa,
-                        fecha_maxima_endesa, fk_estado_endesa, insistencia_endesa,
-                        contrato_endesa, producto_endesa, fk_tipo_os, fk_tipo_producto,
-                        pagado_endesa, ciclo_liq_endesa, importe_pago_endesa,
-                        fecha_pagado_endesa, pagado_operario, fecha_anulado,
-                        fecha_modificacion_tecnico, fk_remoto_central, fac_nombre,
-                        fac_direccion, fac_cp, fac_poblacion, fac_provincia,
-                        fac_dni, fac_email, fac_telefonos, otros_sintomas,
-                        fecha_baja, fac_baja_stock, estado_android, urgencias,
-                        lote, validar, liquidado_a_proveedor, fk_instalacion,
-                        fk_emergencia, motivo_cambio_fecha_maxima, btodoslosequipos,
-                        fk_tipo_instalacion, parte_finalizado_android, comercializadora,
-                        persona_contacto, tel_contacto, cnae, fk_compania_parte,
-                        fecha_cierre, num_presupuesto, defectos, fk_periocidad,
-                        franquicia, inspeccion_visual, otros_mataux, binspeccionvisual,
-                        botrosmataux, tipo_via, via, numero_direccion,
-                        escalera_direccion, piso_direccion, puerta_direccion,
-                        cp_direccion, municipio_direccion, provincia_direccion,
-                        latitud_direccion, longitud_direccion, nombre_cliente,
-                        dni_cliente, telefono1_cliente, telefono2_cliente,
-                        telefono3_cliente, telefono4_cliente, email_cliente,
-                        observaciones_cliente,user_creador,tipo)) {
-                    bien = true;
-                } else {
-                    bien = false;
+                if (esta){
+                    ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
+                            fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
+                            fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
+                            fk_tipo, fk_user_asignacion, fk_horario, horario, duracion,
+                            firmante, sobre, franja_horaria, fk_estado, fk_estado_interno,
+                            observaciones, observacionesasignacion, confirmado, entregado_por,
+                            recogido_por, comentarios_entrega, fk_fabricante, aprobado_fabricante,
+                            imprimir, fecha_factura, num_factura, fecha_factura_rectificativa,
+                            num_factura_rectificativa, fk_pend_fact, num_orden_endesa,
+                            fecha_maxima_endesa, fk_estado_endesa, insistencia_endesa,
+                            contrato_endesa, producto_endesa, fk_tipo_os, fk_tipo_producto,
+                            pagado_endesa, ciclo_liq_endesa, importe_pago_endesa,
+                            fecha_pagado_endesa, pagado_operario, fecha_anulado,
+                            fecha_modificacion_tecnico, fk_remoto_central, fac_nombre,
+                            fac_direccion, fac_cp, fac_poblacion, fac_provincia,
+                            fac_dni, fac_email, fac_telefonos, otros_sintomas,
+                            fecha_baja, fac_baja_stock, estado_android, urgencias,
+                            lote, validar, liquidado_a_proveedor, fk_instalacion,
+                            fk_emergencia, motivo_cambio_fecha_maxima, btodoslosequipos,
+                            fk_tipo_instalacion, parte_finalizado_android, comercializadora,
+                            persona_contacto, tel_contacto, cnae, fk_compania_parte,
+                            fecha_cierre, num_presupuesto, defectos, fk_periocidad,
+                            franquicia, inspeccion_visual, otros_mataux, binspeccionvisual,
+                            botrosmataux, tipo_via, via, numero_direccion,
+                            escalera_direccion, piso_direccion, puerta_direccion,
+                            cp_direccion, municipio_direccion, provincia_direccion,
+                            latitud_direccion, longitud_direccion, nombre_cliente,
+                            dni_cliente, telefono1_cliente, telefono2_cliente,
+                            telefono3_cliente, telefono4_cliente, email_cliente,
+                            observaciones_cliente,user_creador,tipo);
+                    bien=true;
+                }else{
+                    if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
+                            fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
+                            fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
+                            fk_tipo, fk_user_asignacion, fk_horario, horario, duracion,
+                            firmante, sobre, franja_horaria, fk_estado, fk_estado_interno,
+                            observaciones, observacionesasignacion, confirmado, entregado_por,
+                            recogido_por, comentarios_entrega, fk_fabricante, aprobado_fabricante,
+                            imprimir, fecha_factura, num_factura, fecha_factura_rectificativa,
+                            num_factura_rectificativa, fk_pend_fact, num_orden_endesa,
+                            fecha_maxima_endesa, fk_estado_endesa, insistencia_endesa,
+                            contrato_endesa, producto_endesa, fk_tipo_os, fk_tipo_producto,
+                            pagado_endesa, ciclo_liq_endesa, importe_pago_endesa,
+                            fecha_pagado_endesa, pagado_operario, fecha_anulado,
+                            fecha_modificacion_tecnico, fk_remoto_central, fac_nombre,
+                            fac_direccion, fac_cp, fac_poblacion, fac_provincia,
+                            fac_dni, fac_email, fac_telefonos, otros_sintomas,
+                            fecha_baja, fac_baja_stock, estado_android, urgencias,
+                            lote, validar, liquidado_a_proveedor, fk_instalacion,
+                            fk_emergencia, motivo_cambio_fecha_maxima, btodoslosequipos,
+                            fk_tipo_instalacion, parte_finalizado_android, comercializadora,
+                            persona_contacto, tel_contacto, cnae, fk_compania_parte,
+                            fecha_cierre, num_presupuesto, defectos, fk_periocidad,
+                            franquicia, inspeccion_visual, otros_mataux, binspeccionvisual,
+                            botrosmataux, tipo_via, via, numero_direccion,
+                            escalera_direccion, piso_direccion, puerta_direccion,
+                            cp_direccion, municipio_direccion, provincia_direccion,
+                            latitud_direccion, longitud_direccion, nombre_cliente,
+                            dni_cliente, telefono1_cliente, telefono2_cliente,
+                            telefono3_cliente, telefono4_cliente, email_cliente,
+                            observaciones_cliente,user_creador,tipo)) {
+                        bien = true;
+                    } else {
+                        bien = false;
+                    }
                 }
+
             }
         }
         if (bien){
             new GuardarMaquina(context,json);
         }else{
             if (estado==1){
-                ((Login)context).sacarMensaje("error al guardar partes");
+                if (context.getClass()==Login.class){
+                    ((Login)context).sacarMensaje("error al guardar partes");
+                }else if (context.getClass()==Index.class){
+                    ((Index)context).sacarMensaje("error al guardar partes");
+                }
+
             }/*else if (estado==2){
                 ((Index)context).sacarMensaje("error mantenimientos");
             }else if (estado==3){

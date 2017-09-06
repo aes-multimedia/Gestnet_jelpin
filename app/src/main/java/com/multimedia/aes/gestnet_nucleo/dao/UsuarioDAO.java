@@ -112,4 +112,17 @@ public class UsuarioDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(usuario.API_KEY, api_key);
 		updateBuilder.update();
 	}
+	public static void actualizarUsuario(Context context, int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key) throws SQLException
+	{
+		cargarDao(context);
+		UpdateBuilder<Usuario, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Usuario.ID_USUARIO,id_usuario);
+		updateBuilder.updateColumnValue(Usuario.FK_CLIENTE, fk_cleinte);
+		updateBuilder.updateColumnValue(Usuario.FK_ENTIDAD, fk_entidad);
+		updateBuilder.updateColumnValue(Usuario.FK_USER, fk_user);
+		updateBuilder.updateColumnValue(Usuario.NOMBRE_USUARIO, nombre_usuario);
+		updateBuilder.updateColumnValue(Usuario.ESTADO_ACTIVO, estado_activo);
+		updateBuilder.updateColumnValue(Usuario.API_KEY, api_key);
+		updateBuilder.update();
+	}
 }

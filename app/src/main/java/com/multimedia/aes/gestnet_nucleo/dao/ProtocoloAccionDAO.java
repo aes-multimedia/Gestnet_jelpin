@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean ProtocoloAccion(Context context,int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) throws java.sql.SQLException {
+	public static boolean newProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion) throws java.sql.SQLException {
 		ProtocoloAccion d = montarProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_protocolo, nombre_protocolo,id_accion, tipo_accion, descripcion);
 		return crearProtocoloAccion(d, context);
 	}
@@ -152,6 +154,18 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	}
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
+	public static void actualizarProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<ProtocoloAccion, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION,id_protocolo_accion);
+		updateBuilder.updateColumnValue(ProtocoloAccion.VALOR,valor);
+		updateBuilder.updateColumnValue(ProtocoloAccion.FK_MAQUINA,fk_maquina);
+		updateBuilder.updateColumnValue(ProtocoloAccion.FK_PROTOCOLO,fk_protocolo);
+		updateBuilder.updateColumnValue(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre_protocolo);
+		updateBuilder.updateColumnValue(ProtocoloAccion.ID_ACCION,id_accion);
+		updateBuilder.updateColumnValue(ProtocoloAccion.TIPO_ACCION,tipo_accion);
+		updateBuilder.updateColumnValue(ProtocoloAccion.DESCRIPCION,descripcion);
+		updateBuilder.update();
+	}
 
 }

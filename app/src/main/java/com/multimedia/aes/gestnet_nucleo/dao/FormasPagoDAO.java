@@ -5,8 +5,10 @@ import android.database.SQLException;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 
 import java.util.List;
@@ -104,5 +106,16 @@ public class FormasPagoDAO extends DBHelperMOS {
     }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-
+    public static void actualizarFormasPago(Context context, int id_forma_pago, String forma_pago, int financiado, boolean mostrar_cuenta, boolean sumar_dias, boolean bAparecerEnInforme, boolean mostrarcuenta) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<FormasPago, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(FormasPago.ID_FORMA_PAGO,id_forma_pago);
+        updateBuilder.updateColumnValue(FormasPago.FORMA_PAGO,forma_pago);
+        updateBuilder.updateColumnValue(FormasPago.FINANCIADO,financiado);
+        updateBuilder.updateColumnValue(FormasPago.MOSTRAR_CUENTA,mostrar_cuenta);
+        updateBuilder.updateColumnValue(FormasPago.SUMAR_DIAS,sumar_dias);
+        updateBuilder.updateColumnValue(FormasPago.B_APARECER_EN_INFORME,bAparecerEnInforme);
+        updateBuilder.updateColumnValue(FormasPago.MOSTRARCUENTA,mostrarcuenta);
+        updateBuilder.update();
+    }
 }

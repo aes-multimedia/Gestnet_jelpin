@@ -17,15 +17,22 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
+import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -112,7 +119,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void sacarMensaje(String msg) {
         Dialogo.dialogoError(msg,this);
     }
-
+    public void guardarPartes(String msg){
+        try {
+            if (ManagerProgressDialog.getDialog()==null){
+                ManagerProgressDialog.abrirDialog(this);
+            }
+            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
+            JSONObject jsonObject = new JSONObject(msg);
+            if (jsonObject.getInt("estado")==1){
+                new GuardarParte(this,msg);
+            }else{
+                sacarMensaje(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void datosActualizados(){
+        srl.setRefreshing(false);
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Bundle bundle = new Bundle();
@@ -135,6 +160,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onRefresh() {
+        try {
+
+            Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            srl.setRefreshing(true);
+            new HiloPartes(this,u.getId_usuario()).execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

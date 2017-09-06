@@ -74,6 +74,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 sacarMensaje(jsonObject.getString("mensaje"));
             }
         } catch (JSONException e) {
+            Dialogo.dialogoError("Error en login",this);
             if (ManagerProgressDialog.getDialog()!=null){
                 ManagerProgressDialog.cerrarDialog();
             }
@@ -109,7 +110,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        }
+    }
     public void irIndex() {
         if(ManagerProgressDialog.getDialog()!=null){
             ManagerProgressDialog.cerrarDialog();
