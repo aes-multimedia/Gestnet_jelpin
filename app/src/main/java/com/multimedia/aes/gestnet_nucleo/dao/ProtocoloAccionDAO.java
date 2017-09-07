@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.dao;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -63,13 +64,9 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 
 
 	public static List<ProtocoloAccion> buscarTodosLosProtocoloAccion(Context context) throws android.database.SQLException {
-		try {
-			cargarDao(context);
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-		}
 		List<ProtocoloAccion> listadoProtocoloAccion = null;
 		try {
+			cargarDao(context);
 			listadoProtocoloAccion = dao.queryForAll();
 		} catch (java.sql.SQLException e) {
 			e.printStackTrace();
@@ -116,39 +113,32 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	}
 
 	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkProtocolo(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
-		try {
-			cargarDao(context);
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-		}
+		cargarDao(context);
 		List<ProtocoloAccion> listadoProtocoloAccion = null;
-		try {
-			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PROTOCOLO, id);
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-		}
+		listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PROTOCOLO, id);
+		if (listadoProtocoloAccion.isEmpty()) {
+			return null;
+		} else {
+			return listadoProtocoloAccion;
+        }
+	}
+
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+		cargarDao(context);
+		List<ProtocoloAccion> listadoProtocoloAccion = null;
+		listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
 		if (listadoProtocoloAccion.isEmpty()) {
 			return null;
 		} else {
 			return listadoProtocoloAccion;
 		}
 	}
-
-	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
-		try {
-			cargarDao(context);
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-		}
-		List<ProtocoloAccion> listadoProtocoloAccion = null;
-		try {
-			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
-		} catch (java.sql.SQLException e) {
-			e.printStackTrace();
-		}
-		if (listadoProtocoloAccion.isEmpty()) {
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorNombreProtocoloFkParte(Context context, String nombre, int fk_maquina) throws android.database.SQLException, java.sql.SQLException {
+		cargarDao(context);
+		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_MAQUINA,fk_maquina).query();
+		if(listadoProtocoloAccion.isEmpty()) {
 			return null;
-		} else {
+		}else{
 			return listadoProtocoloAccion;
 		}
 	}
