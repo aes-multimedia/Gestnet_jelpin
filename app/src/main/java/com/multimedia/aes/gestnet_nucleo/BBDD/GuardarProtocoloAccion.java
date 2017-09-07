@@ -65,6 +65,12 @@ public class GuardarProtocoloAccion {
                 }else{
                     fk_maquina = jsonArray1.getJSONObject(j).getInt("fk_maquina");
                 }
+                int fk_parte;
+                if(jsonArray1.getJSONObject(j).getString("fk_parte").equals("null") ||  jsonArray1.getJSONObject(j).getString("fk_parte").equals("0")){
+                    fk_parte = -1;
+                }else{
+                    fk_parte = jsonArray1.getJSONObject(j).getInt("fk_parte");
+                }
 
                 boolean valor;
                 if(jsonArray1.getJSONObject(j).getString("valor").equals("null") ||  jsonArray1.getJSONObject(j).getString("valor").equals("0") ||  jsonArray1.getJSONObject(j).getString("valor").equals("")){
@@ -107,11 +113,11 @@ public class GuardarProtocoloAccion {
                     nombre_protocolo = jsonArray1.getJSONObject(j).getString("nombre_protocolo");
                 }
                 if (!esta) {
-                    if (ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion)) {
+                    if (ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion)) {
                         bien = true;
                     }
                 }else{
-                    ProtocoloAccionDAO.actualizarProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion);
+                    ProtocoloAccionDAO.actualizarProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion);
                 }
             }
         }

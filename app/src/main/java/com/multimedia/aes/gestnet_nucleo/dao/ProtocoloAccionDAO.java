@@ -22,8 +22,8 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion) throws java.sql.SQLException {
-		ProtocoloAccion d = montarProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_protocolo, nombre_protocolo,id_accion, tipo_accion, descripcion);
+	public static boolean newProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion) throws java.sql.SQLException {
+		ProtocoloAccion d = montarProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_parte, fk_protocolo, nombre_protocolo,id_accion, tipo_accion, descripcion);
 		return crearProtocoloAccion(d, context);
 	}
 
@@ -38,8 +38,8 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		}
 	}
 
-	public static ProtocoloAccion montarProtocoloAccion(int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) {
-		ProtocoloAccion d = new ProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_protocolo, nombre_protocolo,id_accion, tipo_accion,descripcion);
+	public static ProtocoloAccion montarProtocoloAccion(int id_protocolo_accion, boolean valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) {
+		ProtocoloAccion d = new ProtocoloAccion(id_protocolo_accion,valor, fk_maquina,fk_parte,fk_protocolo, nombre_protocolo,id_accion, tipo_accion,descripcion);
 		return d;
 	}
 
@@ -154,12 +154,13 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	}
 
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-	public static void actualizarProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) throws SQLException {
+	public static void actualizarProtocoloAccion(Context context, int id_protocolo_accion, boolean valor, int fk_maquina,int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<ProtocoloAccion, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION,id_protocolo_accion);
 		updateBuilder.updateColumnValue(ProtocoloAccion.VALOR,valor);
 		updateBuilder.updateColumnValue(ProtocoloAccion.FK_MAQUINA,fk_maquina);
+		updateBuilder.updateColumnValue(ProtocoloAccion.FK_PARTE,fk_parte);
 		updateBuilder.updateColumnValue(ProtocoloAccion.FK_PROTOCOLO,fk_protocolo);
 		updateBuilder.updateColumnValue(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre_protocolo);
 		updateBuilder.updateColumnValue(ProtocoloAccion.ID_ACCION,id_accion);
