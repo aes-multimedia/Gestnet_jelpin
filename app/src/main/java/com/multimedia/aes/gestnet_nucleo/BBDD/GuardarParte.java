@@ -848,12 +848,14 @@ public class GuardarParte {
         if (bien){
             new GuardarMaquina(context,json);
         }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar partes");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar partes");
-            }
+            if (estado==1){
+                if (context.getClass()==Login.class){
+                    ((Login)context).sacarMensaje("error al guardar partes");
+                }else if (context.getClass()==Index.class){
+                    ((Index)context).sacarMensaje("error al guardar partes");
+                }
 
+            }
         }
     }
 }

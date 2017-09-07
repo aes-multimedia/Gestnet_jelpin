@@ -134,7 +134,7 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		}
 	}
 
-	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkMaquina(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
 		try {
 			cargarDao(context);
 		} catch (java.sql.SQLException e) {
@@ -142,7 +142,7 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		}
 		List<ProtocoloAccion> listadoProtocoloAccion = null;
 		try {
-			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_MAQUINA, id);
+			listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
 		} catch (java.sql.SQLException e) {
 			e.printStackTrace();
 		}
