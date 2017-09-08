@@ -71,12 +71,11 @@ public class GuardarProtocoloAccion {
                 }else{
                     fk_parte = jsonArray1.getJSONObject(j).getInt("fk_parte");
                 }
-
-                boolean valor;
-                if(jsonArray1.getJSONObject(j).getString("valor").equals("null") ||  jsonArray1.getJSONObject(j).getString("valor").equals("0") ||  jsonArray1.getJSONObject(j).getString("valor").equals("")){
-                    valor = false;
+                String valor;
+                if(jsonArray1.getJSONObject(j).getString("valor").equals("null")){
+                    valor = "";
                 }else{
-                    valor = true;
+                    valor = jsonArray1.getJSONObject(j).getString("valor");
                 }
                 boolean tipo_accion;
                 if(jsonArray1.getJSONObject(j).getString("tipo_accion").equals("null") ||  jsonArray1.getJSONObject(j).getString("tipo_accion").equals("0") ||  jsonArray1.getJSONObject(j).getString("tipo_accion").equals("")){

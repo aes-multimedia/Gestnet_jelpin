@@ -1,23 +1,21 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.content.Context;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pools;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -35,6 +33,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
     private Spinner spProtocolos;
     private Parte parte = null;
     private LinearLayout llPadre;
+    private Button btnFinalizar;
 
 
     private void darValores() throws java.sql.SQLException {
@@ -76,11 +75,12 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
     private void crearLinearProtocolo(String protocolo){
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);
+        btnFinalizar.setVisibility(View.VISIBLE);
         String [] a = protocolo.split("-");
         try {
-            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(),a[0],Integer.parseInt(a[1]))!=null){
+            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1]))!=null){
                 ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
-                protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(),a[0],Integer.parseInt(a[1])));
+                protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1])));
                 for (int i = 0; i < protocolos.size(); i++) {
                     LinearLayout linearLayout = new LinearLayout(getContext());
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -90,17 +90,22 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
                         checkBox.setHintTextColor(Color.parseColor("#ff9002"));
                         checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
                         checkBox.setText(protocolos.get(i).getDescripcion());
-                        //checkBox.setBackgroundResource(R.drawable.fondo_naranja);
+                        if (protocolos.get(i).getValor().equals("1")){
+                            checkBox.setChecked(true);
+                        }else{
+                            checkBox.setChecked(false);
+                        }
                         linearLayout.addView(checkBox);
                     }else{
                         TextView textView = new TextView(getContext());
                         textView.setTextSize(18);
                         textView.setTextColor(Color.BLACK);
                         textView.setText(protocolos.get(i).getDescripcion());
-
                         linearLayout.addView(textView);
                         EditText editText = new EditText(getContext());
                         editText.setBackgroundResource(R.drawable.edit_texts_naranja);
+                        editText.setText(protocolos.get(i).getValor());
+                        editText.setPadding(5,5,5,5);
                         linearLayout.addView(editText);
                     }
                     llPadre.addView(linearLayout);
@@ -117,7 +122,8 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
         spProtocolos=(Spinner)vista.findViewById(R.id.spProtocolos);
         spProtocolos.setOnItemSelectedListener(this);
         llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
-
+        btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
+        btnFinalizar.setOnClickListener(this);
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             int idParte = bundle.getInt("id", 0);
@@ -139,6 +145,56 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
     }
     @Override
     public void onClick(View view) {
+        if (view.getId()==R.id.btnFinalizar){
+            final int childCount = llPadre.getChildCount();
+            String [] a = spProtocolos.getSelectedItem().toString().split("-");
+            String nombre = a[0];
+            int fk_maquina = Integer.parseInt(a[1]);
+            for (int i = 0; i < childCount; i++) {
+                View v = llPadre.getChildAt(i);
+                LinearLayout ll = (LinearLayout)v;
+                final int childCount1 = (ll.getChildCount());
+                for (int j = 0; j <childCount1; j++) {
+                    View view1 = ll.getChildAt(j);
+                    String valor = "";
+                    String descripcion = "";
+                    if (view1 instanceof EditText){
+                        EditText et = (EditText)view1;
+                        valor = et.getText().toString();
+                        View v1 = ll.getChildAt(j-1);
+                        TextView txt = (TextView)v1;
+                        descripcion = txt.getText().toString();
+                        try {
+                            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
+                                int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
+                                ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                            }
+
+                        } catch (java.sql.SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }else if (view1 instanceof CheckBox){
+                        CheckBox cb = (CheckBox)view1;
+                        descripcion = cb.getText().toString();
+                        if (cb.isChecked()){
+                            valor = "1";
+                        }else{
+                            valor = "0";
+                        }
+                        try {
+                            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
+                                int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
+                                ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                            }
+
+                        } catch (java.sql.SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        }
 
 
     }
@@ -151,6 +207,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
         }else{
             llPadre.removeAllViews();
             llPadre.setVisibility(View.GONE);
+            btnFinalizar.setVisibility(View.GONE);
         }
     }
 

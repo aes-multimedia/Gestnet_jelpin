@@ -23,7 +23,7 @@ public class ProtocoloAccion {
 
     @DatabaseField(columnName = FK_MAQUINA)           private int fk_maquina;
     @DatabaseField(columnName = FK_PARTE)           private int fk_parte;
-    @DatabaseField(columnName = VALOR)           private boolean valor;
+    @DatabaseField(columnName = VALOR)           private String valor;
     @DatabaseField(columnName = FK_PROTOCOLO)                   private int fk_protocolo;
     @DatabaseField(columnName = NOMBRE_PROTOCOLO)                   private String nombre_protocolo;
     @DatabaseField(columnName = ID_ACCION)                   private int id_accion;
@@ -33,7 +33,7 @@ public class ProtocoloAccion {
 
     public ProtocoloAccion(){}
 
-    public ProtocoloAccion(int id_protocolo_accion, boolean valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion,boolean tipo_accion, String descripcion) {
+    public ProtocoloAccion(int id_protocolo_accion, String valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion) {
         this.id_protocolo_accion = id_protocolo_accion;
         this.valor = valor;
         this.fk_maquina = fk_maquina;
@@ -51,10 +51,10 @@ public class ProtocoloAccion {
     public void setId_protocolo_accion(int id_protocolo_accion) {
         this.id_protocolo_accion = id_protocolo_accion;
     }
-    public boolean isValor() {
+    public String getValor() {
         return valor;
     }
-    public void setValor(boolean valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
     public int getFk_maquina() {
