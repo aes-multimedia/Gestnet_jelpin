@@ -14,9 +14,11 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
@@ -32,13 +34,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private EditText etUsuario,etContraseña;
     private Button btnLogin;
     private Usuario usuario;
+    private Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        inicializarVariables();
+
         try {
+            inicializarVariables();
             if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
                 if (ParteDAO.buscarTodosLosPartes(this)!=null){
                     irIndex();
@@ -48,7 +52,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             e.printStackTrace();
         }
     }
-    private void inicializarVariables() {
+    private void inicializarVariables()throws SQLException{
         ////EDITTEXTS////
         etUsuario = (EditText)findViewById(R.id.etUsuario);
         etUsuario.addTextChangedListener(this);
@@ -59,6 +63,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         btnLogin.setOnClickListener(this);
         btnLogin.setClickable(true);
         btnLogin.setAlpha(0.5f);
+        cliente = ClienteDAO.buscarTodosLosClientes(this).get(0);
+
     }
     public void guardarUsuario(String msg){
         try {
@@ -89,7 +95,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             }
             ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-            new HiloPartes(this,usuario.getFk_entidad()).execute();
+
+            new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente()).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -158,7 +165,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 ManagerProgressDialog.abrirDialog(this);
             }
             //ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
-            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),this).execute();
+
+            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
         }
     }
 

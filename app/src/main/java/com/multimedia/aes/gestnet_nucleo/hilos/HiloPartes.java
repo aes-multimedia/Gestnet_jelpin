@@ -23,13 +23,14 @@ import java.net.URL;
 
 public class HiloPartes extends AsyncTask<Void,Void,Void>{
 
-    private String mensaje="";
+    private String mensaje="",ipCliente;
     private int idUser;
     private Context context;
 
-    public HiloPartes(Context context,int idUser) {
+    public HiloPartes(Context context,int idUser,String ipCliente) {
         this.idUser=idUser;
         this.context = context;
+        this.ipCliente=ipCliente;
     }
 
     @Override
@@ -69,7 +70,8 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_PARTES);
+            String url="http://"+ipCliente+Constantes.URL_PARTES;
+            urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

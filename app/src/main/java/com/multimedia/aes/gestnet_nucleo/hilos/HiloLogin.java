@@ -28,10 +28,12 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private String login,pass;
     private Context context;
     private Cliente cliente;
+    private String ipCliente;
 
-    public HiloLogin(String login, String pass, Context context) {
+    public HiloLogin(String login, String pass,String ipCliente, Context context) {
         this.login = login;
         this.pass = pass;
+        this.ipCliente=ipCliente;
         this.context = context;
         try {
             cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
@@ -70,6 +72,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
+            String url="http://"+ipCliente+Constantes.URL_LOGIN;
             urlws = new URL(Constantes.URL_LOGIN);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

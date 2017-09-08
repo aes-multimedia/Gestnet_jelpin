@@ -22,9 +22,11 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
@@ -167,8 +169,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
 
             Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
             srl.setRefreshing(true);
-            new HiloPartes(this,u.getId_usuario()).execute();
+            new HiloPartes(this,u.getId_usuario(),c.getIp_cliente()).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
