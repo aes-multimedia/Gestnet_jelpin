@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 
@@ -194,6 +195,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
                 }
 
             }
+            Dialogo.dialogoError("Datos Guardados",getContext());
         }
 
 

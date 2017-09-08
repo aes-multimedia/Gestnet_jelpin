@@ -33,7 +33,8 @@
                 <Spinner
                     android:id="@+id/spProtocolos"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="40dp"
+                    android:background="@drawable/caldera_spiners" />
             </LinearLayout>
 
             <LinearLayout
