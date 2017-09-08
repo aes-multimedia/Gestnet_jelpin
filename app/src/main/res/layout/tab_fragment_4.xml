@@ -325,6 +325,11 @@
 
                 </LinearLayout>
 
+                <ListView
+                    android:id="@+id/lvOtros"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
                 <Button
                     android:id="@+id/btnAñadirOtro"
                     android:layout_width="match_parent"
