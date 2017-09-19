@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -142,7 +143,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
     }
     public void datosActualizados(){
+        if (ManagerProgressDialog.getDialog()!=null){
+            ManagerProgressDialog.cerrarDialog();
+        }
         srl.setRefreshing(false);
+        Dialogo.dialogoError("Todo actualizado",this);
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -170,7 +175,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
             Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
             srl.setRefreshing(true);
-            new HiloPartes(this,u.getId_usuario(),c.getIp_cliente()).execute();
+            new HiloPartes(this,u.getFk_entidad(),c.getIp_cliente()).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
