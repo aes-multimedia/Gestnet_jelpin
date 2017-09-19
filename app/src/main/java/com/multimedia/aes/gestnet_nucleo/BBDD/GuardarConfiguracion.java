@@ -515,7 +515,11 @@ public class GuardarConfiguracion {
             bien = true;
         }
         if (bien){
-            new GuardarDatosAdicionales(context,json);
+            if (context.getClass()==Login.class){
+                new GuardarDatosAdicionales(context,json);
+            }else if (context.getClass()==Index.class){
+                ((Index)context).datosActualizados();
+            }
         }else{
             if (context.getClass()==Login.class){
                 ((Login)context).sacarMensaje("error al guardar la configuracion");

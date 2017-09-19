@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.multimedia.aes.gestnet_sgsv5.nucleo.Login;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     private static final String TAG = "GCMRelated";
     Context ctx;
     GoogleCloudMessaging gcm;
-    String SENDER_ID = "124253559063";
+    String SENDER_ID = "1090232239984";
     String regid = null;
     private int appVersion;
     public RegisterApp(Context ctx, GoogleCloudMessaging gcm, int appVersion){

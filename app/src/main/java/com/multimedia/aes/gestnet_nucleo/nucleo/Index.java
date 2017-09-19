@@ -167,7 +167,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @Override
     public void onRefresh() {
         try {
-
             Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
             Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
             srl.setRefreshing(true);
