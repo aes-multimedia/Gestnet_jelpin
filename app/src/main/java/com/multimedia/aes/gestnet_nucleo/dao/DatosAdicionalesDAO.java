@@ -3,7 +3,6 @@ package com.multimedia.aes.gestnet_nucleo.dao;
 import android.content.Context;
 
 import android.database.SQLException;
-import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -185,7 +184,6 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         cargarDao(context);
         List<DatosAdicionales> listadoDatos= dao.queryForAll();
         if(listadoDatos.isEmpty()) {
-            Toast.makeText(context,"no",Toast.LENGTH_SHORT).show();
             return null;
         }else{
             return listadoDatos;

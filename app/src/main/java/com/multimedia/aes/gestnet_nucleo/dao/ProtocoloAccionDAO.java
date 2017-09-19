@@ -1,7 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.dao;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
