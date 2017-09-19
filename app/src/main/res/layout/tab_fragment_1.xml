@@ -193,7 +193,7 @@
                         android:id="@+id/txtSintomas"
                         android:layout_width="154dp"
                         android:layout_height="match_parent"
-                        android:text="TextView"
+                        android:text="Sintomas"
                         android:textColor="@color/cast_expanded_controller_background_color" />
 
                 </LinearLayout>
@@ -395,14 +395,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/txtSintomas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:text="@string/sintomas"
-        android:textColor="@android:color/black"
-        android:textSize="15sp" />
 
 </LinearLayout>

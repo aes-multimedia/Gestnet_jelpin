@@ -105,8 +105,8 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
                         linearLayout.addView(textView);
                         EditText editText = new EditText(getContext());
                         editText.setBackgroundResource(R.drawable.edit_texts_naranja);
-                        editText.setText(protocolos.get(i).getValor());
                         editText.setPadding(5,5,5,5);
+                        editText.setText(protocolos.get(i).getValor());
                         linearLayout.addView(editText);
                     }
                     llPadre.addView(linearLayout);
