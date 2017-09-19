@@ -536,7 +536,11 @@ public class GuardarDatosAdicionales {
         }
 
         if (bien){
+            if (context.getClass()==Login.class){
                 new GuardarFormasPago(context,json);
+            }else if (context.getClass()==Index.class) {
+                ((Index) context).datosActualizados();
+            }
         }else{
             if (context.getClass()==Login.class){
                 ((Login)context).sacarMensaje("error al guardar datos adicionales");
