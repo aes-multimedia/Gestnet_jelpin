@@ -24,17 +24,19 @@ import java.net.URL;
 import java.sql.SQLException;
 
 public class HiloLogin extends AsyncTask<Void,Void,Void>{
-    private String mensaje="";
+    private String mensaje="",tokken = "",imei = "";
     private String login,pass;
     private Context context;
     private Cliente cliente;
     private String ipCliente;
 
-    public HiloLogin(String login, String pass,String ipCliente, Context context) {
+    public HiloLogin(String login, String pass,String ipCliente, Context context,String tokken,String imei) {
         this.login = login;
         this.pass = pass;
         this.ipCliente=ipCliente;
         this.context = context;
+        this.tokken = tokken;
+        this.imei=imei;
         try {
             cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
         } catch (SQLException e) {

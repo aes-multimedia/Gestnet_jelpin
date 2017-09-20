@@ -275,7 +275,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             }
             //ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
 
-            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
+            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this,regid,getImei(this,this)).execute();
         }
     }
 
