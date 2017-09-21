@@ -147,6 +147,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             ManagerProgressDialog.cerrarDialog();
         }
         srl.setRefreshing(false);
+        arrayListParte.clear();
+        try {
+            if (ParteDAO.buscarTodosLosPartes(this)!=null){
+                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+        lvIndex.setAdapter(adaptadorPartes);
         Dialogo.dialogoError("Todo actualizado",this);
     }
     @Override
