@@ -10,6 +10,7 @@ import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment1;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment3;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment4;
+import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
@@ -17,6 +18,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     private TabFragment2 tab2;
     private TabFragment3 tab3;
     private TabFragment4 tab4;
+    private TabFragment5 tab5;
     private final Bundle bundle;
 
     public PageAdapter(FragmentManager fm, int NumOfTabs, Bundle bundle) {
@@ -45,6 +47,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 tab4 = new TabFragment4();
                 tab4.setArguments(bundle);
                 return tab4;
+            case 4:
+                tab5 = new TabFragment5();
+                tab5.setArguments(bundle);
+                return tab5;
             default:
                 return null;
         }
@@ -66,5 +72,8 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     }
     public TabFragment4 getTab4() {
         return tab4;
+    }
+    public TabFragment5 getTab5() {
+        return tab5;
     }
 }

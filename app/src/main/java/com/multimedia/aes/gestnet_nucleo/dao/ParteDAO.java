@@ -193,6 +193,17 @@ public class ParteDAO extends DBHelperMOS{
             return listadoPartes;
         }
     }
+
+    public static List<Parte> buscarTodosLosPartesPorFecha(Context context,String fecha) throws SQLException {
+        cargarDao(context);
+        List<Parte> listadoPartes= dao.queryForEq(Parte.FECHA_VISITA,fecha);
+        if(listadoPartes.isEmpty()) {
+            return null;
+        }else{
+            return listadoPartes;
+        }
+    }
+
     public static Parte buscarPartePorId(Context context, int id) throws SQLException {
         cargarDao(context);
         List<Parte> listadoPartes= dao.queryForEq(Parte.ID_PARTE, id);

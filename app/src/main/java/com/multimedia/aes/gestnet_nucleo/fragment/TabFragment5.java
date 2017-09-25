@@ -1,29 +1,18 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
@@ -34,10 +23,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment5 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private TextView tvDuracion;
     private Button btnAñadirDuracion;
@@ -49,62 +37,20 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private ArrayList <ManoObra> manosObra = new ArrayList<>();
     private ArrayList <Disposiciones> disposicionesServicio = new ArrayList<>();
     private String[] arrayFormasPago,arrayManosObra,arrayDisposiciones;
-    private boolean bool=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_4, container, false);
-       /* final FloatingActionButton fab = (FloatingActionButton) vista.findViewById(R.id.fab);
-       final Snackbar snackbar = Snackbar.make(vista, "WiFi change detected; updating information...", Snackbar.LENGTH_INDEFINITE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if (view.getId() == fab.getId()) {
-                    bool = !bool;
-                    if (bool)
-                        snackbar.show();
-                    else
-                        snackbar.dismiss();
-                }
-
-
-            }
-
-        });*/
         inicializar();
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                vista.findViewById(R.id.navigation);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                        switch (item.getItemId()) {
-                            case R.id.action_item1:
-                              Toast.makeText(vista.getContext(),"uno",Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.action_item2:
-                                Toast.makeText(vista.getContext(),"dos",Toast.LENGTH_SHORT).show();
 
-                                break;
-                            case R.id.action_item3:
-                                Toast.makeText(vista.getContext(),"tres",Toast.LENGTH_SHORT).show();
-
-                                break;
-                        }
-
-                        return true;
-                    }
-                });
 
 
 
         return vista;
-
     }
-
 
     private void inicializar(){
 

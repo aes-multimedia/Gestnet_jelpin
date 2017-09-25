@@ -33,6 +33,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
     private TabFragment2 tab2;
     private TabFragment3 tab3;
     private TabFragment4 tab4;
+    private TabFragment5 tab5;
     private Parte parte;
     @Nullable
     @Override
@@ -57,6 +58,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
         tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
         tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
+        tabLayout.addTab(tabLayout.newTab().setText("Pruebas"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
@@ -73,6 +75,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab2 = adapter.getTab2();
                 tab3 = adapter.getTab3();
                 tab4 = adapter.getTab4();
+                tab5 = adapter.getTab5();
                 if (tab.getPosition()==0){
 
                 }else if (tab.getPosition()==1){
@@ -80,6 +83,8 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==2){
 
                 }else if (tab.getPosition()==3){
+
+                }else if (tab.getPosition()==4){
 
                 }
             }
@@ -93,6 +98,8 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==2){
 
                 }else if (tab.getPosition()==3){
+
+                }else if (tab.getPosition()==4){
 
                 }
             }

@@ -1,6 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
-import android.app.ProgressDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
@@ -39,6 +41,8 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
@@ -48,6 +52,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private LinearLayout cuerpo;
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +100,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         int id = item.getItemId();
         if (id == R.id.averias) {
             recreate();
@@ -103,6 +109,60 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }else if (id == R.id.almacen){
 
         }else if (id == R.id.cambiarFecha){
+            try {
+
+              final Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+              final Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+                List<Parte> part = ParteDAO.buscarTodosLosPartes(this);
+                //if (part==null){
+                    Calendar mcurrentDate = Calendar.getInstance();
+                    int mYear = mcurrentDate.get(Calendar.YEAR);
+                    int mMonth = mcurrentDate.get(Calendar.MONTH);
+                    int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog mDatePicker;
+                    mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                            selectedmonth = selectedmonth + 1;
+                            String day = selectedday+"";
+                            String month = selectedmonth+"";
+                            if (selectedday<10){
+                                day="0"+selectedday;
+                            }
+                            if (selectedmonth<10){
+                                month = "0"+selectedmonth;
+                            }
+                            String year=selectedyear+"";
+                            JSONObject js = new JSONObject();
+                            try {
+                                js.put("dia",day+"-"+month+"-"+year);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            String fecha = year+"-"+month+"-"+day;
+
+                            new HiloPorFecha(Index.this,u.getFk_entidad(), fecha,c.getIp_cliente()).execute();
+
+                            //  ManagerProgressDialog.abrirDialog(Index.this);
+                            // ManagerProgressDialog.cogerDatosServidor(Index.this);
+                        }
+                    }, mYear, mMonth, mDay);
+                    mDatePicker.setTitle("Select Date");
+                    mDatePicker.show();
+               // }else{
+                   // Dialogo.dialogHaySinSubir(this);
+              //  }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+
+
 
         }else if (id == R.id.cerrar_sesion){
             try {
@@ -150,7 +210,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         arrayListParte.clear();
         try {
             if (ParteDAO.buscarTodosLosPartes(this)!=null){
-                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));///EN PRINCIPIO SALDRIAN LOS PARTES ANTIGUOS + LOS DE LA FECHA SELECCIONADA, HABRIA QUE SOLVENTARLO-.
             }
         } catch (SQLException e) {
             e.printStackTrace();
