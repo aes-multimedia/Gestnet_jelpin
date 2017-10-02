@@ -40,7 +40,7 @@ public class TabFragment5 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_4, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment_5, container, false);
 
         inicializar();
 

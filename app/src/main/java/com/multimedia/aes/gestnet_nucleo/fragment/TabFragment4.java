@@ -49,29 +49,10 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
     private ArrayList <ManoObra> manosObra = new ArrayList<>();
     private ArrayList <Disposiciones> disposicionesServicio = new ArrayList<>();
     private String[] arrayFormasPago,arrayManosObra,arrayDisposiciones;
-    private boolean bool=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment_4, container, false);
-       /* final FloatingActionButton fab = (FloatingActionButton) vista.findViewById(R.id.fab);
-       final Snackbar snackbar = Snackbar.make(vista, "WiFi change detected; updating information...", Snackbar.LENGTH_INDEFINITE);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (view.getId() == fab.getId()) {
-                    bool = !bool;
-                    if (bool)
-                        snackbar.show();
-                    else
-                        snackbar.dismiss();
-                }
-
-
-            }
-
-        });*/
         inicializar();
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 vista.findViewById(R.id.navigation);

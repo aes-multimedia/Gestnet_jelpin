@@ -35,6 +35,8 @@ public class ClienteDAO extends DBHelperMOS {
 			return false;
 		}
 	}
+
+
 	public static Cliente montarCliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente) {
 		Cliente c =new Cliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente);
 		return c;
