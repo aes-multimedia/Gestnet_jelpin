@@ -69,6 +69,9 @@
     <string name="seleccion_protocolo">Seleccione un protocolo:</string>
     <string name="finalizar">Finalizar</string>
     <string name="txt_buscar">Buscar</string>
+    <string name="etNombreMaterial" />
+    <string name="etPrecioMaterial" />
+    <string name="cancelar">cancelar</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>

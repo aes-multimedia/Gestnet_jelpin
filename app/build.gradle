@@ -25,6 +25,7 @@ dependencies {
     compile project(':SML_Android_1.042')
     compile files('libs/BrotherPrintLibrary.jar')
     compile files('libs/MobilePrintLib.jar')
+
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:design:25.3.1'
     compile 'com.j256.ormlite:ormlite-core:4.48'
@@ -32,8 +33,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:11.0.2'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:23.1.0'
     compile 'com.github.clans:fab:1.6.2'
-
 }
 apply plugin: 'com.google.gms.google-services'
