@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/"
+            android:id="@+id/tyty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="4dp"
