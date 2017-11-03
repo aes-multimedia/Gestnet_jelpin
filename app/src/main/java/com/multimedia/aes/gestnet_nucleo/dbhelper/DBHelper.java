@@ -6,6 +6,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
@@ -128,5 +129,13 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 
 		return BBDDConstantes.protocoloDao;
+	}
+
+	public Dao<Articulo,Integer> getArticuloDAO() throws SQLException {
+		if (BBDDConstantes.articuloDao == null) {
+			BBDDConstantes.articuloDao = getDao(Articulo.class);
+		}
+
+		return BBDDConstantes.articuloDao;
 	}
 }

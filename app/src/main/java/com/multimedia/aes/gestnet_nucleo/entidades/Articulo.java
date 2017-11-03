@@ -41,7 +41,8 @@ public class Articulo {
     public Articulo() {
     }
 
-    public Articulo(int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia, String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean) {
+    public Articulo(int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+                    String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean) {
         this.id_articulo = id_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
