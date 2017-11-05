@@ -22,6 +22,7 @@ public class Articulo {
     public static final String DESCUENTO = "descuento";
     public static final String COSTE = "coste";
     public static final String EAN = "ean";
+    public static final String IMAGEN = "imagen";
 
     @DatabaseField(id = true, columnName = ID_ARTICULO)  private int id_articulo;
     @DatabaseField(columnName = NOMBRE_ARTICULO)         private String nombre_articulo;
@@ -37,12 +38,13 @@ public class Articulo {
     @DatabaseField(columnName = DESCUENTO)         private double descuento;
     @DatabaseField(columnName = COSTE)         private double coste;
     @DatabaseField(columnName = EAN)         private String ean;
+    @DatabaseField(columnName = IMAGEN)         private int imagen;
 
     public Articulo() {
     }
 
     public Articulo(int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
-                    String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean) {
+                    String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
         this.id_articulo = id_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
@@ -57,6 +59,15 @@ public class Articulo {
         this.descuento = descuento;
         this.coste = coste;
         this.ean = ean;
+        this.imagen = imagen;
+    }
+
+    public int  getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(int imagen) {
+        this.imagen = imagen;
     }
 
     public int getId_articulo() {

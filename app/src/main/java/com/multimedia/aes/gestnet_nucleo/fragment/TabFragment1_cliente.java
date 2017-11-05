@@ -1,22 +1,15 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -29,10 +22,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class TabFragment1 extends Fragment implements View.OnClickListener {
+public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
     private View vista;
     private Parte parte = null;
     private Usuario usuario = null;
@@ -53,7 +45,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_1, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             int idParte = bundle.getInt("id", 0);

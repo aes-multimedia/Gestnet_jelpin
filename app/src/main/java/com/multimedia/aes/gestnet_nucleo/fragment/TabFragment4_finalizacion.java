@@ -1,16 +1,11 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,10 +27,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class TabFragment4 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private TextView tvDuracion;
     private Button btnAñadirDuracion;
@@ -52,7 +44,7 @@ public class TabFragment4 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_4, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment4_finalizacion, container, false);
         inicializar();
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 vista.findViewById(R.id.navigation);

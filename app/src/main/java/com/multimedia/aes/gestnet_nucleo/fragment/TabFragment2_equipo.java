@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 
 
-public class TabFragment2 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment2_equipo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View vista;
     private static Spinner spTipo, spMarca, spUso, spPuestaMarcha, spPotencia,spAnalisisFinalizacion;
@@ -34,7 +34,7 @@ public class TabFragment2 extends Fragment implements View.OnClickListener, Adap
     private static int alto=0,alto1=0,alto2=0, height=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment2_equipo, container, false);
         return vista;
     }
     public void inicializarVariables(){

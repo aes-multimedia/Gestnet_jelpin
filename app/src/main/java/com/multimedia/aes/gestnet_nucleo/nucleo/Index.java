@@ -24,10 +24,12 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -59,6 +61,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.index);
         inicializarVariables();
         setTitle(R.string.averias);
+        introducirMaterialesPrueba();
         try {
             if (ParteDAO.buscarTodosLosPartes(this)!=null){
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
@@ -68,7 +71,33 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
         adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
         lvIndex.setAdapter(adaptadorPartes);
+
     }
+
+    private void introducirMaterialesPrueba(){
+
+        try {
+            if (ArticuloDAO.buscarTodosLosArticulos(this)==null){
+                ArticuloDAO.newArticulo(this,1,"Pieza 1",16,"9d54fg98dfg","58d5fg8fd5","familia","marca","modelo",
+                        185,21,25,6,66,"8f8f8f8f",66);
+                ArticuloDAO.newArticulo(this,1,"Pieza 2",16,"9d54fg98dfg","58d5fg8fd5","familia","marca","modelo",
+                        185,21,25,6,66,"8f8f8f8f",66);
+                ArticuloDAO.newArticulo(this,1,"Pieza 3",16,"9d54fg98dfg","58d5fg8fd5","familia","marca","modelo",
+                        185,21,25,6,66,"8f8f8f8f",66);
+                ArticuloDAO.newArticulo(this,1,"Pieza 4",16,"9d54fg98dfg","58d5fg8fd5","familia","marca","modelo",
+                        185,21,25,6,66,"8f8f8f8f",66);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+    }
+
+
     private void inicializarVariables(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

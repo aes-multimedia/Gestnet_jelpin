@@ -26,8 +26,8 @@ public class ArticuloDAO extends DBHelperMOS {
     //__________FUNCIONES DE CREACIÓN________________________//
 
     public static boolean newArticulo(Context context,int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
-                                      String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean) {
-        Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean);
+                                      String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
+        Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticulo(a,context);
     }
     public static boolean crearArticulo(Articulo a,Context context) {
@@ -42,9 +42,9 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
-    public static Articulo  montarArticulo(int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
-                                           String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean) {
-        Articulo a =new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean);
+    public static Articulo  montarArticulo(int id_articulo, String nombre_articulo, int stock, String referencia, String referencia_aux, String familia,
+                                           String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen) {
+        Articulo a =new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return a;
     }
 
@@ -103,6 +103,7 @@ public class ArticuloDAO extends DBHelperMOS {
         double descuento=articulo.getDescuento();
         double coste=articulo.getCoste();
         String ean=articulo.getEan();
+        int imagen=articulo.getImagen();
 
 
 
@@ -122,6 +123,7 @@ public class ArticuloDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(Articulo.DESCUENTO, descuento);
         updateBuilder.updateColumnValue(Articulo.COSTE, coste);
         updateBuilder.updateColumnValue(Articulo.EAN, ean);
+        updateBuilder.updateColumnValue(Articulo.IMAGEN, imagen);
         updateBuilder.update();
     }
 

@@ -1,8 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,30 +9,22 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.PageAdapter;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class FragmentPartes extends Fragment implements View.OnClickListener {
     private View vista;
-    private TabFragment1 tab1;
-    private TabFragment2 tab2;
-    private TabFragment3 tab3;
-    private TabFragment4 tab4;
-    private TabFragment5 tab5;
-    private TabFragment6 tab6;
+    private TabFragment1_cliente tab1;
+    private TabFragment2_equipo tab2;
+    private TabFragment3_operaciones tab3;
+    private TabFragment4_finalizacion tab4;
+    private TabFragment5_documentacion tab5;
+    private TabFragment6_materiales tab6;
     private Parte parte;
     @Nullable
     @Override

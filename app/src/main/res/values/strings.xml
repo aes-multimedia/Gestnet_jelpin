@@ -72,6 +72,7 @@
     <string name="etNombreMaterial" />
     <string name="etPrecioMaterial" />
     <string name="cancelar">cancelar</string>
+    <string name="action_settings">Settings</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>

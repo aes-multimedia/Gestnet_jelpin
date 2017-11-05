@@ -25,7 +25,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import java.util.ArrayList;
 
 
-public class TabFragment5 extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment5_documentacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private TextView tvDuracion;
     private Button btnAñadirDuracion;
@@ -40,7 +40,7 @@ public class TabFragment5 extends Fragment implements View.OnClickListener, Adap
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_5, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment5_documentacion, container, false);
 
         inicializar();
 

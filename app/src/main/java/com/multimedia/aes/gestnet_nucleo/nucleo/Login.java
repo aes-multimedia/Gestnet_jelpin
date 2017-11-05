@@ -260,6 +260,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void onClick(View v) {
         if (v.getId()==R.id.btnLogin){
+
             if (checkPlayServices()) {
                 gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                 regid = getRegistrationId(getApplicationContext());

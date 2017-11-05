@@ -26,7 +26,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 
 import java.util.ArrayList;
 
-public class TabFragment3  extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class TabFragment3_operaciones extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View vista;
     private ArrayList<ProtocoloAccion> protocoloAccionArrayList = new ArrayList<>();
@@ -119,7 +119,7 @@ public class TabFragment3  extends Fragment implements View.OnClickListener, Ada
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment_3, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment3_operaciones, container, false);
         spProtocolos=(Spinner)vista.findViewById(R.id.spProtocolos);
         spProtocolos.setOnItemSelectedListener(this);
         llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
