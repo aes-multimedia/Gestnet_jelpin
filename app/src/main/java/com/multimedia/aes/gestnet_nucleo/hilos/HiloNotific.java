@@ -2,11 +2,13 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
@@ -23,65 +25,71 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HiloLogin extends AsyncTask<Void,Void,Void>{
-    private String mensaje="",tokken = "",imei = "";
-    private String login,pass;
+/**
+ * Created by acp on 05/12/2017.
+ */
+
+public class HiloNotific extends AsyncTask<Void,Void,Void> {
+    private String mensaje="",tokken = "",imei = "",apikey;
+    private int idEntidad;
     private Context context;
-    private Cliente cliente;
     private String ipCliente;
 
-    public HiloLogin(String login, String pass,String ipCliente, Context context/*,String tokken,String imei*/) {
-        this.login = login;
-        this.pass = pass;
-        this.ipCliente=ipCliente;
+
+    public HiloNotific(Context context,String tokken,String imei) {
         this.context = context;
         this.tokken = tokken;
         this.imei=imei;
         try {
-            cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
+        this.idEntidad=UsuarioDAO.buscarTodosLosUsuarios(context).get(0).getFk_entidad();
+        this.apikey=UsuarioDAO.buscarTodosLosUsuarios(context).get(0).getApi_key();
+        this.ipCliente=ClienteDAO.buscarTodosLosClientes(context).get(0).getIp_cliente();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = logeo();
-       } catch (JSONException e) {
+            mensaje = registrarNotificaciones();
+        } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
         }
         return null;
     }
 
+
+
+    //TO DO
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (mensaje.indexOf('}')!=-1){
+        if (mensaje.indexOf('}')==-1){
 
-            ((Login)context).guardarUsuario(mensaje);
-
-        }else{
-            ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
 
     }
 
-    private String logeo() throws JSONException{
+    private String registrarNotificaciones() throws JSONException{
         JSONObject msg = new JSONObject();
-        msg.put("login",login);
-        msg.put("pass",pass);
-        msg.put("codigoCliente",cliente.getId_cliente());
+        msg.put("fk_entidad",idEntidad);
+        msg.put("tokken",tokken);
+        msg.put("deviceImei",imei);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-
-            urlws = new URL("http://"+ipCliente+Constantes.URL_LOGIN);
+            String url = "http://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES;
+            urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.setRequestProperty("id",String.valueOf(idEntidad));
+            uc.setRequestProperty("apikey",apikey);
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
@@ -127,4 +135,6 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
 
         return contenido;
     }
+
+
 }

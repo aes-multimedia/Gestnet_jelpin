@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.notification.RegisterApp;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
@@ -156,7 +158,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             e.printStackTrace();
         }
     }
-    public void obtenerPartes(){
+    public void inicializarConfiguracion(){
         try {
             if (ManagerProgressDialog.getDialog()==null){
                 ManagerProgressDialog.abrirDialog(this);
@@ -164,7 +166,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
 
-            new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente()).execute();
+            new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente(),usuario.getApi_key()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new HiloNotific(this,regid,getImei(this,this)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -276,7 +281,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             }
             //ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
 
-            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this,regid,getImei(this,this)).execute();
+            new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
         }
     }
 

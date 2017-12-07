@@ -62,6 +62,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         introducirMaterialesPrueba();
+
         try {
             if (ParteDAO.buscarTodosLosPartes(this)!=null){
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
@@ -274,7 +275,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
             Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
             srl.setRefreshing(true);
-            new HiloPartes(this,u.getFk_entidad(),c.getIp_cliente()).execute();
+            new HiloPartes(this,u.getFk_entidad(),c.getIp_cliente(),u.getApi_key()).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

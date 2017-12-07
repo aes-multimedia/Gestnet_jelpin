@@ -31,10 +31,10 @@ public class GuardarDisposiciones {
         this.json = json;
         try {
 
-            guardarJsonParte();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        guardarJsonParte();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
     }
 
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {

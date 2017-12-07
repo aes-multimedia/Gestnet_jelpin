@@ -41,7 +41,7 @@ public class GuardarUsuario {
             bien = true;
         }
         if (bien){
-            ((Login)context).obtenerPartes();
+            ((Login)context).inicializarConfiguracion();
         }else{
             ((Login)context).sacarMensaje("error cliente");
         }

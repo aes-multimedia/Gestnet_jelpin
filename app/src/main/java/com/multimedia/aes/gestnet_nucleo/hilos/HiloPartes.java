@@ -25,11 +25,13 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
 
     private String mensaje="",ipCliente;
     private int idUser;
+    private String apiKey;
     private Context context;
 
-    public HiloPartes(Context context,int idUser,String ipCliente) {
+    public HiloPartes(Context context,int idUser,String ipCliente,String apiKey) {
         this.idUser=idUser;
         this.context = context;
+        this.apiKey=apiKey;
         this.ipCliente=ipCliente;
     }
 
@@ -77,6 +79,8 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
             uc.setRequestMethod("POST");
+            uc.addRequestProperty("apikey",apiKey);
+            uc.addRequestProperty("id",String.valueOf(idUser));
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
