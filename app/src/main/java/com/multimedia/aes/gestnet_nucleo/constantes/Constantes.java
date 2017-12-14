@@ -5,8 +5,10 @@ public class Constantes {
     public static final String IP_EXTERNA = "80.58.161.135:8085";
     public static final String URL_COD_CLIENTE = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/codigo";
     public static final String URL_LOGIN = "/api-gesnet/v1/login/login";
-    public static final String URL_PARTES = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/listarPartes";
+    public static final String URL_LOGIN_EXTERNA_PRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/login";
+    public static final String URL_PARTES_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/listarPartes";
     public static final String URL_PARTES_FECHA = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/listarPartesPorFecha";
     public static final String URL_ALTA_NOTIFICACIONES = "/api-gesnet-datos/v1/partes/activarNotificaciones";
+    public static final String URL_ALTA_NOTIFICACIONES_EXTERNA_PRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/activarNotificaciones";
 
 }

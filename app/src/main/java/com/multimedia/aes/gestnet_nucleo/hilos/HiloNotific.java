@@ -82,7 +82,7 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES;
+            String url = Constantes.URL_ALTA_NOTIFICACIONES_EXTERNA_PRUEBAS;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
