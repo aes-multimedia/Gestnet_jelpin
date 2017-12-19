@@ -36,6 +36,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
+import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
@@ -72,7 +73,19 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
         adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
         lvIndex.setAdapter(adaptadorPartes);
-
+        Intent intent = getIntent();
+        if (intent!=null){
+            int metodo = intent.getIntExtra("metodo",0);
+            int notId = intent.getIntExtra("notiId",0);
+            if (metodo==1){
+            }else if(metodo==2){
+                ArrayList<Integer> id = new ArrayList<>();
+                id.add(intent.getIntExtra("id",0));
+            }
+            if (notId!=0){
+                GcmIntentService.cerrarNotificacion(notId);
+            }
+        }
     }
 
     private void introducirMaterialesPrueba(){
