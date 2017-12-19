@@ -25,9 +25,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-/**
- * Created by acp on 05/12/2017.
- */
 
 public class HiloNotific extends AsyncTask<Void,Void,Void> {
     private String mensaje="",tokken = "",imei = "",apikey;
@@ -68,8 +65,9 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')==-1){
-
-            ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
+        }else{
+            ((Login)context).hiloPartes();
         }
 
     }

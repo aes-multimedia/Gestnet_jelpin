@@ -166,14 +166,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
 
-            new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente(),usuario.getApi_key()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            new HiloNotific(this,regid,getImei(this,this)).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            new HiloNotific(this,regid,getImei(this,this)).execute();
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+    public void hiloPartes(){
+        new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente(),usuario.getApi_key()).execute();
     }
     public void guardarPartes(String msg){
         try {
@@ -223,9 +225,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 regid = getRegistrationId(getApplicationContext());
             }
             if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
-                if (ParteDAO.buscarTodosLosPartes(this)!=null){
                     irIndex();
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

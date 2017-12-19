@@ -30,13 +30,11 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private Cliente cliente;
     private String ipCliente;
 
-    public HiloLogin(String login, String pass,String ipCliente, Context context/*,String tokken,String imei*/) {
+    public HiloLogin(String login, String pass,String ipCliente, Context context) {
         this.login = login;
         this.pass = pass;
         this.ipCliente=ipCliente;
         this.context = context;
-        this.tokken = tokken;
-        this.imei=imei;
         try {
             cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
         } catch (SQLException e) {
@@ -59,9 +57,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
             ((Login)context).guardarUsuario(mensaje);
-
         }else{
             ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
