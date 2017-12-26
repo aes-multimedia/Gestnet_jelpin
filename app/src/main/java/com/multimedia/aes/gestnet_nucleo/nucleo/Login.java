@@ -51,6 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private Usuario usuario;
     private Cliente cliente;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 1 ;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 2 ;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -224,6 +225,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                 regid = getRegistrationId(getApplicationContext());
             }
+
+            int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            MY_PERMISSIONS_REQUEST_LOCATION);
+                }
+            }else{
+
+            }
+
             if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
                     irIndex();
             }
@@ -235,6 +249,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                }
+                case MY_PERMISSIONS_REQUEST_LOCATION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {

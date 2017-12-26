@@ -42,12 +42,12 @@ public class GcmIntentService extends FirebaseMessagingService {
         String titulo = "", mensaje = "";
         int metodo = 0, id = 0;
 
-            jsonObjectNotification = new JSONObject(msg[0]);
-            jsonObjectData = new JSONObject(msg[1]);
-            titulo = jsonObjectNotification.getString("title");
-            mensaje = jsonObjectNotification.getString("text");
-            metodo = jsonObjectData.getInt("metodo");
-            id = jsonObjectData.getInt("ID");
+        jsonObjectNotification = new JSONObject(msg[0]);
+        jsonObjectData = new JSONObject(msg[1]);
+        titulo = jsonObjectNotification.getString("title");
+        mensaje = jsonObjectNotification.getString("text");
+        metodo = jsonObjectData.getInt("metodo");
+        id = jsonObjectData.getInt("ID");
 
         Intent i = new Intent(this, Index.class);
         i.putExtra("metodo", metodo);
