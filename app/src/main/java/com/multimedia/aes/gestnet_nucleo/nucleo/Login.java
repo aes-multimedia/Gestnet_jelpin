@@ -38,6 +38,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.notification.RegisterApp;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,6 +139,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
     }
     public void guardarUsuario(String msg){
+
         try {
             if (ManagerProgressDialog.getDialog()==null){
                 ManagerProgressDialog.abrirDialog(this);
@@ -195,9 +197,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
     }
     public void irIndex() {
+
         if(ManagerProgressDialog.getDialog()!=null){
             ManagerProgressDialog.cerrarDialog();
         }
+        startService(new Intent(this, ServicioLocalizacion.class));
         Intent i = new Intent(this,Index.class);
         startActivity(i);
 

@@ -56,6 +56,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,6 +85,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         introducirMaterialesPrueba();
+
 
         try {
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
@@ -232,6 +234,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         } else if (id == R.id.cerrar_sesion) {
             try {
+                stopService(new Intent(this, ServicioLocalizacion.class));
                 BBDDConstantes.borrarDatosTablas(this);
                 Intent i = new Intent(this, PreLogin.class);
                 startActivity(i);
