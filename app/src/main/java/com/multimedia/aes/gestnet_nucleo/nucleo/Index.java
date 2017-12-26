@@ -86,6 +86,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 GcmIntentService.cerrarNotificacion(notId);
             }
         }
+
+
+
+        MyLocationUsingHelper m= new MyLocationUsingHelper();
+        m.getLoc(this);
+
     }
 
     private void introducirMaterialesPrueba(){
