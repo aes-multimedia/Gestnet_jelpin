@@ -14,6 +14,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -74,9 +75,20 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private LinearLayout cuerpo;
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 2 ;
 
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                }
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +98,17 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setTitle(R.string.averias);
         introducirMaterialesPrueba();
 
+        int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+        }else{
+
+        }
 
         try {
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
