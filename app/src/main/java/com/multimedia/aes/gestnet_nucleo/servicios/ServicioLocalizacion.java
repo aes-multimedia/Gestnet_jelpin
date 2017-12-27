@@ -20,9 +20,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.LocationSource;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.nucleo.HiloLoc;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,7 +37,9 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
     private TimerTask task;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-    private double lon,lat;
+    private float lon,lat;
+    private Usuario usuario;
+    private int fk_tecnico;
 
     @Nullable
     @Override
@@ -44,6 +49,15 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
 
 
     public void onCreate(){
+
+        try {
+            usuario= UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            fk_tecnico=usuario.getFk_entidad();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -65,7 +79,7 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
                     public void run() {
                         try {
                             Log.d(TAG, "Servicio sigue funcionando...");
-                            HiloLoc hiloLoc = new HiloLoc(String.valueOf(lon),String.valueOf(lat));
+                            HiloLoc hiloLoc = new HiloLoc(fk_tecnico,lon,lat);
                             hiloLoc.execute();
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
@@ -92,8 +106,8 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-        lon=mLastLocation.getLongitude();
-        lat=mLastLocation.getLatitude();
+        lon=(float) mLastLocation.getLongitude();
+        lat=(float) mLastLocation.getLatitude();
 
     }
 
@@ -109,8 +123,8 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
 
     @Override
     public void onLocationChanged(Location location) {
-        lon=location.getLongitude();
-        lat=location.getLatitude();
+        lon=(float)location.getLongitude();
+        lat=(float)location.getLatitude();
     }
 
     @Override

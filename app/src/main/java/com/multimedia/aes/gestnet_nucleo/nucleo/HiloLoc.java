@@ -20,24 +20,26 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListener {
-    private String ipInterna = "192.168.111.228:8085";
-    private String ipExterna = "80.58.161.135:8085";
-    private long imei;
-    private String lon, lat, time,mensaje;
-   // private Context context;
+
+    private int fk_entidad;
+    private String mensaje;
+    private float lon, lat;
+    private double  time;
 
 
 
-    public HiloLoc(String lon, String lat) {
+
+
+    public HiloLoc(int fk_entidad,float lon, float lat) {
         //this.context = context;
-        this.imei = 95959555;
+        this.fk_entidad = fk_entidad;
         this.lon=lon;
         this.lat=lat;
-        this.time=String.valueOf(System.nanoTime());
+        this.time=System.nanoTime();
     }
     public void onLocationChanged(Location loc) {
-        this.lat = String.valueOf(loc.getLatitude());
-        this.lon = String.valueOf(loc.getLongitude());
+        this.lat = (float)loc.getLatitude();
+        this.lon =(float) loc.getLongitude();
     }
     @Override
     public void onProviderDisabled(String provider) {
@@ -64,7 +66,7 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
     }
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("imei", imei);
+        msg.put("fk_entidad", fk_entidad);
         msg.put("long", lon);
         msg.put("lat", lat);
         msg.put("time", time);
