@@ -3,44 +3,48 @@ package com.multimedia.aes.gestnet_nucleo.servicios;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.nucleo.HiloLoc;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.content.ContentValues.TAG;
-import static java.lang.Thread.currentThread;
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 
-public class ServicioLocalizacion extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,LocationListener{
+public class ServicioLocalizacion extends Service{
     private TimerTask task;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
-    private float lon,lat;
+    private float lon, lat;
     private Usuario usuario;
     private int fk_tecnico;
+    private LocationRequest mLocationRequest;
+
+    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
+    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+
 
     @Nullable
     @Override
@@ -49,24 +53,35 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
     }
 
 
-    public void onCreate(){
+    public void onCreate() {
 
         try {
-            usuario= UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-            fk_tecnico=usuario.getFk_entidad();
+            usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            fk_tecnico = usuario.getFk_entidad();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
-        mGoogleApiClient.connect();
+        getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        lon=(float) locationResult.getLastLocation().getLongitude();
+                        lat=(float) locationResult.getLastLocation().getLatitude();
+
+                    }
+                },
+                Looper.myLooper());
         super.onCreate();
     }
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -80,11 +95,6 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
                     @SuppressLint("MissingPermission")
                     public void run() {
                         try {
-                            Log.d(TAG, "Servicio sigue funcionando...");
-                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                                    mGoogleApiClient);
-                            lon=(float) mLastLocation.getLongitude();
-                            lat=(float) mLastLocation.getLatitude();
                             HiloLoc hiloLoc = new HiloLoc(fk_tecnico,lon,lat);
                             hiloLoc.execute();
                         } catch (Exception e) {
@@ -94,57 +104,13 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
                 });
             }
         };
-        timer.schedule(task, 0, 2000);
+        timer.schedule(task, 0, 5000);
         return START_NOT_STICKY;
     }
     public void onDestroy(){
         Log.d(TAG, "Servicio detenido...");
         task.cancel();
         super.onDestroy();
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        lon=(float) mLastLocation.getLongitude();
-        lat=(float) mLastLocation.getLatitude();*/
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        lon=(float)location.getLongitude();
-        lat=(float)location.getLatitude();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
 
     }
 }
