@@ -24,18 +24,18 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
     private int fk_entidad;
     private String mensaje;
     private float lon, lat;
-    private double  time;
+
 
 
 
 
 
     public HiloLoc(int fk_entidad,float lon, float lat) {
-        //this.context = context;
+
         this.fk_entidad = fk_entidad;
         this.lon=lon;
         this.lat=lat;
-        this.time=System.nanoTime();
+
     }
     public void onLocationChanged(Location loc) {
         this.lat = (float)loc.getLatitude();
@@ -69,7 +69,6 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
         msg.put("fk_entidad", fk_entidad);
         msg.put("long", lon);
         msg.put("lat", lat);
-        msg.put("time", time);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
