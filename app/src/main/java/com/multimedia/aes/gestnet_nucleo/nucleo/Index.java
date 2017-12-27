@@ -66,7 +66,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private ListView lvIndex;
     private SwipeRefreshLayout srl;
@@ -75,8 +75,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
 
-    private Location mLastLocation;
-    private GoogleApiClient mGoogleApiClient;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,14 +109,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 GcmIntentService.cerrarNotificacion(notId);
             }
         }
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-        mGoogleApiClient.connect();
+
     }
 
 
@@ -329,23 +322,5 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void onClick(View v) {
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

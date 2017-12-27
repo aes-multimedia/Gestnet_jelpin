@@ -28,11 +28,11 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
 
 
 
-    public HiloLoc() {
+    public HiloLoc(String lon, String lat) {
         //this.context = context;
         this.imei = 95959555;
-        this.lon="98955";
-        this.lat="852222";
+        this.lon=lon;
+        this.lat=lat;
         this.time=String.valueOf(System.nanoTime());
     }
     public void onLocationChanged(Location loc) {
