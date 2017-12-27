@@ -1,19 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
-/**
- * Created by acp on 26/12/2017.
- */
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 
@@ -28,13 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Locale;
-import static android.content.ContentValues.TAG;
-/**
- * Created by acp on 21/12/2017.
- */
+
 public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListener {
     private String ipInterna = "192.168.111.228:8085";
     private String ipExterna = "80.58.161.135:8085";

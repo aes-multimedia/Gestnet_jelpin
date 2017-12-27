@@ -16,18 +16,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.content.ContentValues.TAG;
+import static java.lang.Thread.currentThread;
 
-/**
- * Created by acp on 26/12/2017.
- */
 
 public class ServicioLocalizacion extends Service{
-
-
-
-
-
-
+    private TimerTask task;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,24 +31,19 @@ public class ServicioLocalizacion extends Service{
     public void onCreate(){
         super.onCreate();
     }
-
-
-
-
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Servicio iniciado...");
         final Handler handler = new Handler();
         Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
+        task = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-
-                           HiloLoc hiloLoc = new HiloLoc();
-                           hiloLoc.execute();
-
+                            Log.d(TAG, "Servicio sigue funcionando...");
+                            HiloLoc hiloLoc = new HiloLoc();
+                            hiloLoc.execute();
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());
                         }
@@ -63,11 +51,12 @@ public class ServicioLocalizacion extends Service{
                 });
             }
         };
-        timer.schedule(task, 0, 3000);
+        timer.schedule(task, 0, 2000);
         return START_NOT_STICKY;
     }
     public void onDestroy(){
         Log.d(TAG, "Servicio detenido...");
+        task.cancel();
         super.onDestroy();
 
     }
