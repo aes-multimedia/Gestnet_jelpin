@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.servicios;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -76,9 +77,14 @@ public class ServicioLocalizacion extends Service implements GoogleApiClient.Con
             @Override
             public void run() {
                 handler.post(new Runnable() {
+                    @SuppressLint("MissingPermission")
                     public void run() {
                         try {
                             Log.d(TAG, "Servicio sigue funcionando...");
+                            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                                    mGoogleApiClient);
+                            lon=(float) mLastLocation.getLongitude();
+                            lat=(float) mLastLocation.getLatitude();
                             HiloLoc hiloLoc = new HiloLoc(fk_tecnico,lon,lat);
                             hiloLoc.execute();
                         } catch (Exception e) {
