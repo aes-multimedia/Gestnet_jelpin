@@ -100,6 +100,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (intent != null) {
             int metodo = intent.getIntExtra("metodo", 0);
             int notId = intent.getIntExtra("notiId", 0);
+
             if (metodo == 1) {
             } else if (metodo == 2) {
                 ArrayList<Integer> id = new ArrayList<>();
@@ -108,6 +109,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             if (notId != 0) {
                 GcmIntentService.cerrarNotificacion(notId);
             }
+
         }
 
     }
