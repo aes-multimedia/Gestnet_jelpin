@@ -58,6 +58,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
@@ -127,12 +128,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (intent != null) {
             int metodo = intent.getIntExtra("metodo", 0);
             int notId = intent.getIntExtra("notiId", 0);
-
+            int id =intent.getIntExtra("id", 0);
             switch (metodo){
                 case 1:
                     break;
                 case 2:
-                    int id =intent.getIntExtra("id", 0);
+
                     try {
                         if(ParteDAO.buscarPartePorId(this,id)!=null) {
                             arrayListParte.clear();
@@ -153,6 +154,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     }
                     break;
                 case 3:
+                    try {
+                        Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+                        Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+                        new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                     break;
                 case 4:
