@@ -8,6 +8,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -86,6 +87,14 @@ public class MaquinaDAO extends DBHelperMOS {
 		deleteBuilder.delete();
 	}
 
+	public static void borrarMaquinaPorFkDireccion(Context context, int id) throws SQLException {
+		cargarDao(context);
+		DeleteBuilder<Maquina, Integer> deleteBuilder = dao.deleteBuilder();
+		deleteBuilder.where().eq(Maquina.FK_DIRECCION, id);
+		deleteBuilder.delete();
+
+	}
+
 	//__________FUNCIONES DE BUSQUEDA______________________//
 
 
@@ -158,5 +167,6 @@ public class MaquinaDAO extends DBHelperMOS {
 
 		updateBuilder.update();
 	}
+
 
 }

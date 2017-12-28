@@ -57,6 +57,16 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		DeleteBuilder<ProtocoloAccion, Integer> deleteBuilder = dao.deleteBuilder();
 		deleteBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION, id);
 		deleteBuilder.delete();
+
+
+	}
+
+	public static void borrarProtocoloPorFkParte(Context context, int id) throws SQLException {
+		cargarDao(context);
+		DeleteBuilder<ProtocoloAccion, Integer> deleteBuilder = dao.deleteBuilder();
+		deleteBuilder.where().eq(ProtocoloAccion.FK_PARTE, id);
+		deleteBuilder.delete();
+
 	}
 
 	//__________FUNCIONES DE BUSQUEDA______________________//
@@ -173,4 +183,6 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(ProtocoloAccion.VALOR,valor);
 		updateBuilder.update();
 	}
+
+
 }

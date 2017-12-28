@@ -45,12 +45,16 @@ import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
@@ -124,11 +128,39 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             int metodo = intent.getIntExtra("metodo", 0);
             int notId = intent.getIntExtra("notiId", 0);
 
-            if (metodo == 1) {
-            } else if (metodo == 2) {
-                ArrayList<Integer> id = new ArrayList<>();
-                id.add(intent.getIntExtra("id", 0));
+            switch (metodo){
+                case 1:
+                    break;
+                case 2:
+                    int id =intent.getIntExtra("id", 0);
+                    try {
+                        if(ParteDAO.buscarPartePorId(this,id)!=null) {
+                            arrayListParte.clear();
+                            int direccion=ParteDAO.buscarPartePorId(this,id).getFk_direccion();
+                            ProtocoloAccionDAO.borrarProtocoloPorFkParte(this, id);
+                            DatosAdicionalesDAO.borrarDatosAdicionalesPorFkParte(this, id);
+                            MaquinaDAO.borrarMaquinaPorFkDireccion(this, direccion);
+                            ParteDAO.borrarPartePorID(this, id);
+                            if (ParteDAO.buscarTodosLosPartes(this) != null) {
+                                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+                            }
+                            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+                            lvIndex.setAdapter(adaptadorPartes);
+                            Dialogo.dialogoError("Parte "+id+" borrado", this);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+                    break;
+
+
             }
+
             if (notId != 0) {
                 GcmIntentService.cerrarNotificacion(notId);
             }
