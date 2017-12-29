@@ -14,6 +14,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -25,6 +26,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
+import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -47,6 +49,7 @@ public class BBDDConstantes {
 	public static Dao<ManoObra, Integer> manoObrasDao;
 	public static Dao<FormasPago, Integer> formasPagoDao;
 	public static Dao<Articulo, Integer> articuloDao;
+	public static Dao<Marca, Integer> marcaDao;
 
 	public static void cerrarDao() {
 		clienteDao = null;
@@ -60,6 +63,7 @@ public class BBDDConstantes {
 		manoObrasDao=null;
 		formasPagoDao=null;
 		articuloDao=null;
+		marcaDao=null;
 
 	}
 
@@ -75,6 +79,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, ManoObra.class);
 		TableUtils.createTable(connectionSource, FormasPago.class);
 		TableUtils.createTable(connectionSource, Articulo.class);
+		TableUtils.createTable(connectionSource, Marca.class);
 	}
 
 	public static void borrarTablas(ConnectionSource connectionSource) throws SQLException {
@@ -89,6 +94,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, ManoObra.class, true);
 		TableUtils.dropTable(connectionSource, FormasPago.class, true);
 		TableUtils.dropTable(connectionSource, Articulo.class, true);
+		TableUtils.dropTable(connectionSource, Marca.class, true);
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
@@ -103,6 +109,7 @@ public class BBDDConstantes {
 		FormasPagoDAO.borrarTodasLasFormasPago(context);
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
+		MarcaDAO.borrarTodasLasMarcas(context);
 
 	}
 	public static void borrarDatosError(Context context) throws SQLException {
@@ -116,6 +123,7 @@ public class BBDDConstantes {
 		FormasPagoDAO.borrarTodasLasFormasPago(context);
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
+		MarcaDAO.borrarTodasLasMarcas(context);
 
 	}
 }
