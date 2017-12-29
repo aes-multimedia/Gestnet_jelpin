@@ -20,7 +20,9 @@ import com.multimedia.aes.gestnet_nucleo.R;
 public class TabFragment2_equipo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View vista;
+
     private static Spinner spTipo, spMarca, spUso, spPuestaMarcha, spPotencia,spAnalisisFinalizacion;
+
     private static EditText etModelo,  etC0, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida, etCo2Ambiente, etRendimientoAparato, etCoCorregido,
@@ -32,6 +34,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static LinearLayout llDatosTesto,llMaxMinPotencia,llAnalisisFinalizacion;
     private LinearLayout llMaquina,llSoloCocina;
     private static int alto=0,alto1=0,alto2=0, height=0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment2_equipo, container, false);
