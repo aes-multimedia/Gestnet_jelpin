@@ -28,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -133,8 +134,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 case 1:
                     break;
                 case 2:
-
                     try {
+                        Toast.makeText(this,"entra borrar",Toast.LENGTH_SHORT).show();
                         if(ParteDAO.buscarPartePorId(this,id)!=null) {
                             arrayListParte.clear();
                             int direccion=ParteDAO.buscarPartePorId(this,id).getFk_direccion();
@@ -155,6 +156,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 3:
                     try {
+                        Toast.makeText(this,"entra nuevo",Toast.LENGTH_SHORT).show();
                         Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
                         Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
                         new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key());
