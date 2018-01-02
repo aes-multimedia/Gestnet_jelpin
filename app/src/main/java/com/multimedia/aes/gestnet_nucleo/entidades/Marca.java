@@ -16,11 +16,11 @@ public class Marca {
 
 
     @DatabaseField(id = true, columnName = ID_MARCA)      private int id_marca;
-    @DatabaseField(columnName = NOMBRE_MARCA)               private int nombre_marca;
+    @DatabaseField(columnName = NOMBRE_MARCA)               private String nombre_marca;
 
 
     public Marca(){}
-    public Marca(int id_marca, int nombre_marca) {
+    public Marca(int id_marca, String nombre_marca) {
         this.id_marca = id_marca;
         this.nombre_marca = nombre_marca;
     }
@@ -34,11 +34,11 @@ public class Marca {
         this.id_marca = id_marca;
     }
 
-    public int getNombre_marca() {
+    public String getNombre_marca() {
         return nombre_marca;
     }
 
-    public void setNombre_marca(int nombre_marca) {
+    public void setNombre_marca(String nombre_marca) {
         this.nombre_marca = nombre_marca;
     }
 }

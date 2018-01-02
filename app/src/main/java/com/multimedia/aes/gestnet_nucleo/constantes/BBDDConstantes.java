@@ -16,6 +16,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
@@ -29,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
+import com.multimedia.aes.gestnet_nucleo.entidades.TipoCaldera;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
@@ -50,6 +52,7 @@ public class BBDDConstantes {
 	public static Dao<FormasPago, Integer> formasPagoDao;
 	public static Dao<Articulo, Integer> articuloDao;
 	public static Dao<Marca, Integer> marcaDao;
+	public static Dao<TipoCaldera, Integer> tipoCalderaDao;
 
 	public static void cerrarDao() {
 		clienteDao = null;
@@ -64,6 +67,7 @@ public class BBDDConstantes {
 		formasPagoDao=null;
 		articuloDao=null;
 		marcaDao=null;
+		tipoCalderaDao=null;
 
 	}
 
@@ -80,6 +84,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, FormasPago.class);
 		TableUtils.createTable(connectionSource, Articulo.class);
 		TableUtils.createTable(connectionSource, Marca.class);
+		TableUtils.createTable(connectionSource, TipoCaldera.class);
 	}
 
 	public static void borrarTablas(ConnectionSource connectionSource) throws SQLException {
@@ -95,6 +100,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, FormasPago.class, true);
 		TableUtils.dropTable(connectionSource, Articulo.class, true);
 		TableUtils.dropTable(connectionSource, Marca.class, true);
+		TableUtils.dropTable(connectionSource, TipoCaldera.class, true);
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
@@ -110,6 +116,7 @@ public class BBDDConstantes {
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
+		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
 
 	}
 	public static void borrarDatosError(Context context) throws SQLException {
@@ -124,6 +131,7 @@ public class BBDDConstantes {
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
+		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
 
 	}
 }

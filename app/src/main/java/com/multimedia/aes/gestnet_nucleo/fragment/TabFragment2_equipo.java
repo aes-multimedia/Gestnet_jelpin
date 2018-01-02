@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -15,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
+
+import java.util.ArrayList;
 
 
 public class TabFragment2_equipo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -29,17 +34,57 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             etCoAmbiente, etTiro, etCo2, etO2, etLambda,etCoAmbienteSoloCocina,etNombreMedicion;
     private Button btnAñadirMaquina,btnDatosTesto,btnCoAmbienteTesto,btnAñadirAnalisis;
     private TextView txtSn;
+    private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static CheckBox cbCampana, cbMaximaPotencia,cbMinimaPotencia;
     private static LinearLayout llDatosTesto,llMaxMinPotencia,llAnalisisFinalizacion;
     private LinearLayout llMaquina,llSoloCocina;
     private static int alto=0,alto1=0,alto2=0, height=0;
+    String[] arrayMarcas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment2_equipo, container, false);
+        inicializarVariables();
+        try {
+            darValores();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
         return vista;
     }
+
+
+
+
+    private void darValores() throws java.sql.SQLException {
+        //SPINNER MARCAS
+        if (MarcaDAO.buscarTodasLasMarcas(getContext())!=null){
+            try {
+                arrayListMarcas.addAll(MarcaDAO.buscarTodasLasMarcas(getContext()));
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+            int indice=0;
+
+            arrayMarcas = new String[arrayListMarcas.size() + 1];
+            arrayMarcas[0]= "--Seleciones un valor--";
+            for (int i = 1; i < arrayListMarcas.size() + 1; i++) {
+                if (arrayListMarcas.get(i - 1).getId_marca()!=0||arrayListMarcas.get(i - 1).getId_marca()!=-1){
+                    arrayMarcas[i] = arrayListMarcas.get(i - 1).getNombre_marca()+"-"+arrayListMarcas.get(i - 1).getId_marca();
+                }
+            }
+            spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
+        }else {
+
+            arrayMarcas= new String[1];
+            arrayMarcas[0]= "Sin protocolos";
+            spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
+        }
+    }
+
+
+
     public void inicializarVariables(){
         spTipo = (Spinner)vista.findViewById(R.id.spTipo);
         spMarca = (Spinner)vista.findViewById(R.id.spMarca);
@@ -96,6 +141,9 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         alto2=0;
         height=0;
     }
+
+
+
 
     @Override
     public void onClick(View view) {

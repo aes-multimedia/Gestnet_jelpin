@@ -26,7 +26,7 @@ public class MarcaDAO extends DBHelperMOS {
     }
 
 
-    public static boolean newMarca(Context context,int id_marca, int nombre_marca){
+    public static boolean newMarca(Context context,int id_marca, String nombre_marca){
         Marca m = montarMarca(id_marca,   nombre_marca);
         return crearMarca(m, context);
     }
@@ -42,7 +42,7 @@ public class MarcaDAO extends DBHelperMOS {
         }
     }
 
-    public static Marca montarMarca(int id_marca, int nombre_marca ) {
+    public static Marca montarMarca(int id_marca, String nombre_marca ) {
         Marca m = new Marca(id_marca,   nombre_marca);
         return m;
     }
@@ -86,7 +86,7 @@ public class MarcaDAO extends DBHelperMOS {
     }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-    public static void actualizarMarca(Context context, int id_marca, int nombre_marca ) throws SQLException {
+    public static void actualizarMarca(Context context, int id_marca, String nombre_marca ) throws SQLException {
         cargarDao(context);
         UpdateBuilder<Marca, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Marca.ID_MARCA,id_marca);

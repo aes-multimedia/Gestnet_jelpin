@@ -99,12 +99,9 @@ public class GuardarDisposiciones {
 
 
 
-        } if (bien) {
-            if (context.getClass()==Login.class){
-                ((Login) context).irIndex();
-            }else if (context.getClass()==Index.class){
-                ((Index) context).datosActualizados();
-            }
+        } if(bien){
+            new GuardarMarcas(context,json);
+
 
         } else {
             if (context.getClass()==Login.class){

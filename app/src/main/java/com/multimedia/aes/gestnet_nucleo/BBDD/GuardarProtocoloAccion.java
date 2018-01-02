@@ -120,6 +120,8 @@ public class GuardarProtocoloAccion {
                 }
             }
         }
+
+
         if (bien){
             if (context.getClass()==Login.class){
                 new GuardarConfiguracion(context,json);

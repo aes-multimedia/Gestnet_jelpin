@@ -18,6 +18,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
+import com.multimedia.aes.gestnet_nucleo.entidades.TipoCaldera;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
@@ -143,9 +144,17 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
 	public Dao<Marca,Integer> getMarcaDAO() throws SQLException {
 		if (BBDDConstantes.marcaDao == null) {
-			BBDDConstantes.marcaDao = getDao(MarcaDAO.class);
+			BBDDConstantes.marcaDao = getDao(Marca.class);
 		}
 
 		return BBDDConstantes.marcaDao;
+	}
+
+	public Dao<TipoCaldera,Integer> getTipoCalderaDAO() throws SQLException {
+		if (BBDDConstantes.tipoCalderaDao == null) {
+			BBDDConstantes.tipoCalderaDao = getDao(TipoCaldera.class);
+		}
+
+		return BBDDConstantes.tipoCalderaDao;
 	}
 }
