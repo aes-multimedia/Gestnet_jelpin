@@ -166,6 +166,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
                     break;
                 case 4:
+
+
+                    try {
+                        Toast.makeText(this,"entra borrar ruta",Toast.LENGTH_SHORT).show();
+
+                            arrayListParte.clear();
+
+                            ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
+                            DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
+                            MaquinaDAO.borrarTodasLasMaquinas(this);
+                            ParteDAO.borrarTodosLosPartes(this);
+                            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+                            lvIndex.setAdapter(adaptadorPartes);
+                            Dialogo.dialogoError("ruta borrada", this);
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
                     break;
 
 
