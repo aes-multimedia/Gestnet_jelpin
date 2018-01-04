@@ -1,14 +1,17 @@
-package com.multimedia.aes.gestnet_nucleo.nucleo;
+package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,37 +22,30 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListener {
+/**
+ * Created by acp on 04/01/2018.
+ */
+
+public class HiloArticulos   extends AsyncTask<Void,Void,Void> {
+
+
 
     private int fk_entidad;
     private String mensaje;
-    private float lon, lat;
+    private Context context;
 
 
 
 
 
 
-    public HiloLoc(int fk_entidad,float lon, float lat) {
-
+    public HiloArticulos(int fk_entidad,Context context) {
         this.fk_entidad = fk_entidad;
-        this.lon=lon;
-        this.lat=lat;
+        this.context=context;
 
     }
-    public void onLocationChanged(Location loc) {
-        this.lat = (float)loc.getLatitude();
-        this.lon =(float) loc.getLongitude();
-    }
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
+
+
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -63,16 +59,24 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        if (mensaje.indexOf('}')!=-1){
+
+            ((ServicioArticulos) context).guardarArticulos(mensaje);
+
+        }else{
+
+            ((Index) context).sacarMensaje("No se han devuelto correctamente de la api los articulos");
+
+
+        }
     }
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_entidad", fk_entidad);
-        msg.put("long", lon);
-        msg.put("lat", lat);
+        msg.put("entidad", fk_entidad);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_GEOPOS_EXTERNAPRUEBAS);
+            urlws = new URL(Constantes.URL_ARTICULOS_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

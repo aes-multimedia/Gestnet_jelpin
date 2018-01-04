@@ -38,6 +38,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.notification.RegisterApp;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
@@ -202,6 +203,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
         startService(new Intent(this, ServicioLocalizacion.class));
         Intent i = new Intent(this,Index.class);
+        i.putExtra("iniciarServicioArticulos",1);
         startActivity(i);
 
     }

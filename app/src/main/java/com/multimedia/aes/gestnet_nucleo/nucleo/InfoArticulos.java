@@ -39,7 +39,7 @@ public class InfoArticulos  extends AppCompatActivity {
 
     }
     private void darValores(){
-        ivFoto.setImageResource(articulo.getImagen());
+//        ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
         tvStock.setText(String.valueOf(articulo.getStock()));
         tvPrecio.setText(String.valueOf(articulo.getTarifa()));

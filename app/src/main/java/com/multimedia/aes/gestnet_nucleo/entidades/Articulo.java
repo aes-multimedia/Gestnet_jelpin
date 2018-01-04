@@ -62,6 +62,14 @@ public class Articulo {
         this.imagen = imagen;
     }
 
+    public Articulo(int id_articulo, String nombre_articulo,int stock, double coste) {
+        this.id_articulo = id_articulo;
+        this.nombre_articulo = nombre_articulo;
+        this.stock = stock;
+        this.coste = coste;
+
+    }
+
     public int  getImagen() {
         return imagen;
     }

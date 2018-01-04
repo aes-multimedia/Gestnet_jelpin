@@ -30,6 +30,12 @@ public class ArticuloDAO extends DBHelperMOS {
         Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticulo(a,context);
     }
+
+    public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste) {
+        Articulo a = montarArticuloP(id_articulo,nombre_articulo,stock, coste);
+        return crearArticulo(a,context);
+    }
+
     public static boolean crearArticulo(Articulo a,Context context) {
         try {
             cargarDao(context);
@@ -45,6 +51,12 @@ public class ArticuloDAO extends DBHelperMOS {
     public static Articulo  montarArticulo(int id_articulo, String nombre_articulo, int stock, String referencia, String referencia_aux, String familia,
                                            String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen) {
         Articulo a =new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
+        return a;
+    }
+
+
+    public static Articulo  montarArticuloP(int id_articulo, String nombre_articulo,int stock, double coste) {
+        Articulo a =new Articulo(id_articulo,nombre_articulo,stock, coste);
         return a;
     }
 
@@ -128,5 +140,16 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
+    public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo, int stock, double coste)throws SQLException {
 
-}
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.NOMBRE_ARTICULO,nombre_articulo);
+        updateBuilder.updateColumnValue(Articulo.STOCK, stock);
+        updateBuilder.updateColumnValue(Articulo.COSTE, coste);
+        updateBuilder.update();
+    }
+
+    }
+

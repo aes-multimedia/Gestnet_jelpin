@@ -9,6 +9,7 @@ public class Constantes {
     public static final String URL_PARTES_ID_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/buscarPartePorId";
     public static final String URL_PARTES_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/listarPartes";
     public static final String URL_GEOPOS_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/cargaPosicion";
+    public static final String URL_ARTICULOS_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/articulosEntidad";
     public static final String URL_PARTES_FECHA = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/listarPartesPorFecha";
     public static final String URL_ALTA_NOTIFICACIONES = "/api-gesnet-datos/v1/partes/activarNotificaciones";
     public static final String URL_ALTA_NOTIFICACIONES_EXTERNA_PRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/activarNotificaciones";

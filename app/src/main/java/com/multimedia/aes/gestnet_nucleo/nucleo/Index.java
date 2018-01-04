@@ -40,6 +40,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarArticulos;
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
@@ -63,6 +64,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
@@ -103,7 +105,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         introducirMaterialesPrueba();
-
+        int valor= getIntent().getIntExtra("iniciarServicioArticulos",0);
+        if(valor==1)startService(new Intent(this, ServicioArticulos.class));
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -201,21 +204,21 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     private void introducirMaterialesPrueba() {
 
-        try {
+      /*  try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 ArticuloDAO.newArticulo(this, 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
                         185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                ArticuloDAO.newArticulo(this, 2, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
                         185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                ArticuloDAO.newArticulo(this, 3, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
                         185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                ArticuloDAO.newArticulo(this, 4, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
                         185, 21, 25, 6, 66, "8f8f8f8f", 66);
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
     }
@@ -296,7 +299,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
                         new HiloPorFecha(Index.this, u.getFk_entidad(), fecha, c.getIp_cliente()).execute();
 
-                        //  ManagerProgressDialog.abrirDialog(Index.this);
+                        // ManagerProgressDialog.abrirDialog(Index.this);
                         // ManagerProgressDialog.cogerDatosServidor(Index.this);
                     }
                 }, mYear, mMonth, mDay);
@@ -352,6 +355,28 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+
+
+    public void guardarArticulos(String msg) {
+        try {
+            if (ManagerProgressDialog.getDialog() == null) {
+                ManagerProgressDialog.abrirDialog(this);
+            }
+            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
+            JSONObject jsonObject = new JSONObject(msg);
+            if (jsonObject.getInt("estado") == 1) {
+                if(new GuardarArticulos(this, msg).guardarArticulos()) stopService(new Intent(this, ServicioArticulos.class));
+            } else {
+                sacarMensaje(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public void datosActualizados() {
         if (ManagerProgressDialog.getDialog() != null) {
