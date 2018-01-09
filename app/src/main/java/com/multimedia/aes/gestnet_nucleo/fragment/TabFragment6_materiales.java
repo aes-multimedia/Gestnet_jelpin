@@ -63,6 +63,17 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
 
 
     public List<Articulo> fill_with_data() throws SQLException {
+
+        ArticuloDAO.newArticulo(getContext(), 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                185, 21, 25, 6, 66, "8f8f8f8f", 66);
+        ArticuloDAO.newArticulo(getContext(), 2, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                185, 21, 25, 6, 66, "8f8f8f8f", 66);
+        ArticuloDAO.newArticulo(getContext(), 3, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                185, 21, 25, 6, 66, "8f8f8f8f", 66);
+        ArticuloDAO.newArticulo(getContext(), 4, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                185, 21, 25, 6, 66, "8f8f8f8f", 66);
+
+
         List<Articulo> data = ArticuloDAO.buscarTodosLosArticulos(getContext());
 
         return data;

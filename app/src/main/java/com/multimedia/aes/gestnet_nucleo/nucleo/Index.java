@@ -163,6 +163,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 break;
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +171,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         introducirMaterialesPrueba();
-
+        int valor= getIntent().getIntExtra("iniciarServicioArticulos",0);
+        if(valor==1)startService(new Intent(this, ServicioArticulos.class));
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -233,6 +235,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
                     break;
                 case 4:
+
+
+                    try {
+                        Toast.makeText(this,"entra borrar ruta",Toast.LENGTH_SHORT).show();
+
+                            arrayListParte.clear();
+
+                            ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
+                            DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
+                            MaquinaDAO.borrarTodasLasMaquinas(this);
+                            ParteDAO.borrarTodosLosPartes(this);
+                            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+                            lvIndex.setAdapter(adaptadorPartes);
+                            Dialogo.dialogoError("ruta borrada", this);
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
                     break;
 
 

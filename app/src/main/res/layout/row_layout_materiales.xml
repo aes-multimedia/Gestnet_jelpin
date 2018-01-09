@@ -40,14 +40,14 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tvTituloOferta"
+                    android:id="@+id/tvTituloArticulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Titulo"
                     android:textColor="@android:color/background_dark"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:textStyle="normal"
                     android:transitionName="titulo" />
 
                 <TextView
@@ -67,16 +67,6 @@
                     android:text="Precio"
                     android:textColor="@android:color/holo_green_dark"
                     android:transitionName="precio" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="right"
-                android:orientation="horizontal">
-
-
             </LinearLayout>
 
         </LinearLayout>
