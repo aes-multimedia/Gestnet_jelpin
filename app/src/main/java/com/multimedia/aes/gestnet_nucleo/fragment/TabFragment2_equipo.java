@@ -37,17 +37,15 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
     private View vista;
     private static Spinner spMarca, spPuestaMarcha;
-    private static EditText etModelo,  etC0, etTempMaxACS, etCaudalACS, etPotenciaUtil,
+    private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
-            etTempAguaGeneCalorSalida, etCo2Ambiente, etRendimientoAparato, etCoCorregido,
-            etCoAmbiente, etTiro, etCo2, etO2, etLambda,etCoAmbienteSoloCocina,etNombreMedicion;
-    private Button btnAñadirMaquina,btnDatosTesto,btnCoAmbienteTesto,btnAñadirAnalisis;
-    private TextView txtSn,txtTipo;
+            etTempAguaGeneCalorSalida ;
+    private Button btnAñadirMaquina,btnDatosTesto;
+    private TextView txtTipo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
-    private static CheckBox cbCampana, cbMaximaPotencia,cbMinimaPotencia;
-    private static LinearLayout llDatosTesto,llMaxMinPotencia, llMaquina,llSoloCocina;
-    private static int alto=0,alto1=0,alto2=0, height=0;
+    private static LinearLayout llMaquina;
+    private static int alto=0,alto1=0;
     private String[] arrayMarcas,puestaMarcha;
     private Parte parte = null;
     private Usuario usuario = null;
@@ -58,8 +56,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private void darValores() throws java.sql.SQLException {
         alto=0;
         alto1=0;
-        alto2=0;
-        height=0;
         //SPINNER MARCAS
         if (MarcaDAO.buscarTodasLasMarcas(getContext())!=null){
             try {
@@ -124,7 +120,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
         //EDITTEXT
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
-        etC0 = (EditText)vista.findViewById(R.id.etC0);
         etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
         etCaudalACS = (EditText)vista.findViewById(R.id.etCaudalACS);
         etPotenciaUtil = (EditText)vista.findViewById(R.id.etPotenciaUtil);
@@ -132,47 +127,19 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         etTempAmbienteLocal = (EditText)vista.findViewById(R.id.etTempAmbienteLocal);
         etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
-        etCo2Ambiente = (EditText)vista.findViewById(R.id.etCo2Ambiente);
-        etRendimientoAparato = (EditText)vista.findViewById(R.id.etRendimientoAparato);
-        etCoCorregido = (EditText)vista.findViewById(R.id.etCoCorregido);
-        etCoAmbiente = (EditText)vista.findViewById(R.id.etCoAmbiente);
-        etTiro = (EditText)vista.findViewById(R.id.etTiro);
-        etCo2 = (EditText)vista.findViewById(R.id.etCo2);
-        etO2 = (EditText)vista.findViewById(R.id.etO2);
-        etLambda = (EditText)vista.findViewById(R.id.etLambda);
-        etCoAmbienteSoloCocina = (EditText)vista.findViewById(R.id.etCoAmbienteSoloCocina);
-        etNombreMedicion = (EditText)vista.findViewById(R.id.etNombreMedicion);
-        //CHECKBOX
-        cbCampana = (CheckBox)vista.findViewById(R.id.cbCampana);
-        cbMaximaPotencia = (CheckBox)vista.findViewById(R.id.cbMaximaPotencia);
-        cbMinimaPotencia = (CheckBox)vista.findViewById(R.id.cbMinimaPotencia);
         //LAYOUT
-        llDatosTesto = (LinearLayout)vista.findViewById(R.id.llDatosTesto);
-        llMaxMinPotencia = (LinearLayout)vista.findViewById(R.id.llMaxMinPotencia);
         llMaquina = (LinearLayout)vista.findViewById(R.id.llMaquina);
-        llSoloCocina = (LinearLayout)vista.findViewById(R.id.llSoloCocina);
         //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
-        btnCoAmbienteTesto = (Button)vista.findViewById(R.id.btnCoAmbienteTesto);
-        btnAñadirAnalisis = (Button)vista.findViewById(R.id.btnAñadirAnalisis);
         //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
         //TEXTVIEW
-        txtSn = (TextView)vista.findViewById(R.id.txtSn);
         txtTipo = (TextView) vista.findViewById(R.id.txtTipo);
         //ONCLICK
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
-        btnCoAmbienteTesto.setOnClickListener(this);
-        btnAñadirAnalisis.setOnClickListener(this);
-        cbMaximaPotencia.setOnClickListener(this);
-        cbMinimaPotencia.setOnClickListener(this);
-        cbCampana.setOnClickListener(this);
-        //VISIBILITI
-        llMaxMinPotencia.setVisibility(View.GONE);
-        llDatosTesto.setVisibility(View.GONE);
     }
     //OVERRIDE
     @Override

@@ -81,7 +81,7 @@
                             android:textSize="18dp" />
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/txtTipo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="TextView"
@@ -132,30 +132,7 @@
                             android:background="@drawable/caldera_spiners"
                             android:spinnerMode="dropdown" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/textView20"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Potencia"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textSize="18dp" />
-
-                        <EditText
-                            android:id="@+id/etModelo2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/edit_texts_naranja"
-                            android:gravity="left"
-                            android:minHeight="30dp"
-                            android:padding="5dp" />
-
-                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -325,39 +302,6 @@
                 android:text="Ver despiece equipo"
                 android:textColor="#FFF"
                 android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/llSoloCocina"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:background="@drawable/fondo_linear_gris"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:paddingBottom="20dp"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/etCoAmbienteSoloCocina"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_texts_naranja"
-                    android:ems="10"
-                    android:hint="Co Ambiente"
-                    android:inputType="numberDecimal"
-                    android:minHeight="30dp"
-                    android:padding="5dp" />
-
-                <Button
-                    android:id="@+id/btnCoAmbienteTesto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/botones"
-                    android:text="Co Ambiente TESTO" />
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
