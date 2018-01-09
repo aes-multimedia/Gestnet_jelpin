@@ -26,14 +26,14 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
     private View vista;
 
-    private static Spinner spTipo, spMarca, spUso, spPuestaMarcha, spPotencia,spAnalisisFinalizacion;
+    private static Spinner spMarca, spUso, spPuestaMarcha, spPotencia,spAnalisisFinalizacion;
 
     private static EditText etModelo,  etC0, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida, etCo2Ambiente, etRendimientoAparato, etCoCorregido,
             etCoAmbiente, etTiro, etCo2, etO2, etLambda,etCoAmbienteSoloCocina,etNombreMedicion;
     private Button btnAñadirMaquina,btnDatosTesto,btnCoAmbienteTesto,btnAñadirAnalisis;
-    private TextView txtSn;
+    private TextView txtSn,txtTipo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static CheckBox cbCampana, cbMaximaPotencia,cbMinimaPotencia;
@@ -58,6 +58,10 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
 
     private void darValores() throws java.sql.SQLException {
+        alto=0;
+        alto1=0;
+        alto2=0;
+        height=0;
         //SPINNER MARCAS
         if (MarcaDAO.buscarTodasLasMarcas(getContext())!=null){
             try {
@@ -76,22 +80,32 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             }
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
         }else {
-
             arrayMarcas= new String[1];
-            arrayMarcas[0]= "Sin protocolos";
+            arrayMarcas[0]= "SIN MARCA";
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
         }
+        /*String tipo = null;
+        if (MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_tipo_maquina()) != null) {
+            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+        }
+        if (tipo != null) {
+            String myString = tipo;
+            ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
+            int spinnerPosition = myAdap.getPosition(myString);
+            spTipo.setSelection(spinnerPosition);
+        }*/
     }
 
 
 
     public void inicializarVariables(){
-        spTipo = (Spinner)vista.findViewById(R.id.spTipo);
+        //SPINNER
         spMarca = (Spinner)vista.findViewById(R.id.spMarca);
         spUso = (Spinner)vista.findViewById(R.id.spUso);
         spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
         spAnalisisFinalizacion = (Spinner)vista.findViewById(R.id.spAnalisisFinalizacion);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
+        //EDITTEXT
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
         etC0 = (EditText)vista.findViewById(R.id.etC0);
         etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
@@ -111,21 +125,28 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         etLambda = (EditText)vista.findViewById(R.id.etLambda);
         etCoAmbienteSoloCocina = (EditText)vista.findViewById(R.id.etCoAmbienteSoloCocina);
         etNombreMedicion = (EditText)vista.findViewById(R.id.etNombreMedicion);
+        //CHECKBOX
         cbCampana = (CheckBox)vista.findViewById(R.id.cbCampana);
         cbMaximaPotencia = (CheckBox)vista.findViewById(R.id.cbMaximaPotencia);
         cbMinimaPotencia = (CheckBox)vista.findViewById(R.id.cbMinimaPotencia);
+        //LAYOUT
         llDatosTesto = (LinearLayout)vista.findViewById(R.id.llDatosTesto);
         llMaxMinPotencia = (LinearLayout)vista.findViewById(R.id.llMaxMinPotencia);
         llMaquina = (LinearLayout)vista.findViewById(R.id.llMaquina);
         llSoloCocina = (LinearLayout)vista.findViewById(R.id.llSoloCocina);
         llAnalisisFinalizacion = (LinearLayout)vista.findViewById(R.id.llAnalisisFinalizacion);
+        //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
         btnCoAmbienteTesto = (Button)vista.findViewById(R.id.btnCoAmbienteTesto);
         btnAñadirAnalisis = (Button)vista.findViewById(R.id.btnAñadirAnalisis);
+        //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
+        //TEXTVIEW
         txtSn = (TextView)vista.findViewById(R.id.txtSn);
+        txtTipo = (TextView) vista.findViewById(R.id.txtTipo);
+        //ONCLICK
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
         btnCoAmbienteTesto.setOnClickListener(this);
@@ -133,13 +154,9 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         cbMaximaPotencia.setOnClickListener(this);
         cbMinimaPotencia.setOnClickListener(this);
         cbCampana.setOnClickListener(this);
+        //VISIBILITI
         llMaxMinPotencia.setVisibility(View.GONE);
-        spTipo.setOnItemSelectedListener(this);
         llDatosTesto.setVisibility(View.GONE);
-        alto=0;
-        alto1=0;
-        alto2=0;
-        height=0;
     }
 
 

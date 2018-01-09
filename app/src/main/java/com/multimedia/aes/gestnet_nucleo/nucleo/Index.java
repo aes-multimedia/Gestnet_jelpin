@@ -83,7 +83,75 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 2 ;
 
+    //METODO
+    private void introducirMaterialesPrueba() {
 
+        try {
+            if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
+                ArticuloDAO.newArticulo(this, 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
+                ArticuloDAO.newArticulo(this, 1, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
+                ArticuloDAO.newArticulo(this, 1, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
+                ArticuloDAO.newArticulo(this, 1, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
+                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+    private void inicializarVariables() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
+        srl.setOnRefreshListener(this);
+        lvIndex = (ListView) findViewById(R.id.lvIndex);
+        lvIndex.setOnItemClickListener(this);
+        ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
+        ivIncidencias.setOnClickListener(this);
+        cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
+    }
+    public void sacarMensaje(String msg) {
+        Dialogo.dialogoError(msg, this);
+        if (ManagerProgressDialog.getDialog() != null) {
+            ManagerProgressDialog.cerrarDialog();
+        }
+        srl.setRefreshing(false);
+    }
+    public void guardarPartes(String msg) {
+        try {
+            if (ManagerProgressDialog.getDialog() == null) {
+                ManagerProgressDialog.abrirDialog(this);
+            }
+            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
+            JSONObject jsonObject = new JSONObject(msg);
+            if (jsonObject.getInt("estado") == 1) {
+                new GuardarParte(this, msg);
+            } else {
+                sacarMensaje(jsonObject.getString("mensaje"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void datosActualizados() {
+        Intent intent = new Intent(this, Index.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+    //OVERRIDE
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -95,7 +163,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 break;
         }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,49 +245,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
 
     }
-
-
-    private void introducirMaterialesPrueba() {
-
-        try {
-            if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
-                ArticuloDAO.newArticulo(this, 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-    private void inicializarVariables() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
-        srl.setOnRefreshListener(this);
-        lvIndex = (ListView) findViewById(R.id.lvIndex);
-        lvIndex.setOnItemClickListener(this);
-        ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
-        ivIncidencias.setOnClickListener(this);
-        cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -230,7 +254,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             recreate();
         }
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -308,50 +331,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void sacarMensaje(String msg) {
-        Dialogo.dialogoError(msg, this);
-        if (ManagerProgressDialog.getDialog() != null) {
-            ManagerProgressDialog.cerrarDialog();
-        }
-        srl.setRefreshing(false);
-    }
-
-    public void guardarPartes(String msg) {
-        try {
-            if (ManagerProgressDialog.getDialog() == null) {
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
-            JSONObject jsonObject = new JSONObject(msg);
-            if (jsonObject.getInt("estado") == 1) {
-                new GuardarParte(this, msg);
-            } else {
-                sacarMensaje(jsonObject.getString("mensaje"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void datosActualizados() {
-        if (ManagerProgressDialog.getDialog() != null) {
-            ManagerProgressDialog.cerrarDialog();
-        }
-        srl.setRefreshing(false);
-        arrayListParte.clear();
-        try {
-            if (ParteDAO.buscarTodosLosPartes(this) != null) {
-                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));///EN PRINCIPIO SALDRIAN LOS PARTES ANTIGUOS + LOS DE LA FECHA SELECCIONADA, HABRIA QUE SOLVENTARLO-.
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
-        lvIndex.setAdapter(adaptadorPartes);
-        Dialogo.dialogoError("Todo actualizado", this);
-    }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Bundle bundle = new Bundle();
@@ -371,7 +350,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-
     @Override
     public void onRefresh() {
         try {
@@ -384,7 +362,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
 
     }
-
     @Override
     public void onClick(View v) {
     }
