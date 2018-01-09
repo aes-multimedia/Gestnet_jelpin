@@ -10,10 +10,10 @@
         android:color="#F47435">
     </stroke>
     <corners
-        android:bottomRightRadius="90dp"
-        android:topLeftRadius="90dp"
-        android:topRightRadius="90dp"
-        android:bottomLeftRadius="90dp">
+        android:bottomRightRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"
+        android:bottomLeftRadius="10dp">
     </corners>
 
 

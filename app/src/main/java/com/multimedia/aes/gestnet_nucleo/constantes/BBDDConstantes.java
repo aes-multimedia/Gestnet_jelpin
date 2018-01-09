@@ -7,6 +7,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -20,6 +21,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
@@ -53,6 +55,7 @@ public class BBDDConstantes {
 	public static Dao<Articulo, Integer> articuloDao;
 	public static Dao<Marca, Integer> marcaDao;
 	public static Dao<TipoCaldera, Integer> tipoCalderaDao;
+	public static Dao<ArticuloParte, Integer> tipoArticuloParteDao;
 
 	public static void cerrarDao() {
 		clienteDao = null;
@@ -68,6 +71,7 @@ public class BBDDConstantes {
 		articuloDao=null;
 		marcaDao=null;
 		tipoCalderaDao=null;
+		tipoArticuloParteDao=null;
 
 	}
 
@@ -85,6 +89,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, Articulo.class);
 		TableUtils.createTable(connectionSource, Marca.class);
 		TableUtils.createTable(connectionSource, TipoCaldera.class);
+		TableUtils.createTable(connectionSource, ArticuloParte.class);
 	}
 
 	public static void borrarTablas(ConnectionSource connectionSource) throws SQLException {
@@ -101,6 +106,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Articulo.class, true);
 		TableUtils.dropTable(connectionSource, Marca.class, true);
 		TableUtils.dropTable(connectionSource, TipoCaldera.class, true);
+		TableUtils.dropTable(connectionSource, ArticuloParte.class, true);
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
@@ -117,6 +123,7 @@ public class BBDDConstantes {
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
 		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
+		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 
 	}
 	public static void borrarDatosError(Context context) throws SQLException {
@@ -132,6 +139,7 @@ public class BBDDConstantes {
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
 		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
+		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 
 	}
 }

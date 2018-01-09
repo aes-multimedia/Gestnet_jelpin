@@ -12,10 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.sql.SQLException;
 
@@ -23,12 +26,13 @@ import java.sql.SQLException;
  * Created by acp on 05/11/2017.
  */
 
-public class InfoArticulos  extends AppCompatActivity {
+public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView ivFoto;
     private TextView tvTitulo,tvStock,tvPrecio;
     private Menu menu;
     private Articulo articulo;
+    private Parte parte;
 
 
     private void inicializarVariables(){
@@ -42,7 +46,7 @@ public class InfoArticulos  extends AppCompatActivity {
 //        ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
         tvStock.setText(String.valueOf(articulo.getStock()));
-        tvPrecio.setText(String.valueOf(articulo.getTarifa()));
+        tvPrecio.setText(String.valueOf(articulo.getTarifa())+ "\u20ac");
 
     }
     @Override
@@ -126,4 +130,15 @@ public class InfoArticulos  extends AppCompatActivity {
         item.setVisible(true);
     }
 
+    @Override
+    public void onClick(View v) {
+        int numArticulos=0;
+        try {
+            numArticulos=ArticuloParteDAO.numeroArticuloParte(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),6666);//meter el fk parte
+        Toast.makeText(this,numArticulos,Toast.LENGTH_SHORT).show();
+    }
 }
