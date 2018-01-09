@@ -49,7 +49,7 @@ public void onBindViewHolder(final ArticuloViewHolder holder, int position) {
 
         holder.tvTituloArticulo.setText(list.get(position).getNombre_articulo());
         holder.tvStock.setText(String.valueOf(list.get(position).getStock()));
-        holder.tvPrecio.setText(String.valueOf(list.get(position).getTarifa()));
+        holder.tvPrecio.setText(String.valueOf(list.get(position).getTarifa())+ "\u20ac");
         //holder.ivFoto.setImageResource(list.get(position).getImagen());
         holder.llRow.setTag(list.get(position).getId_articulo());
         holder.llRow.setOnClickListener(new View.OnClickListener() {

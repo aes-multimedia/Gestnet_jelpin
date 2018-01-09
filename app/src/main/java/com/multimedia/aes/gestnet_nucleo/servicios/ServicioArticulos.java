@@ -8,17 +8,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarArticulos;
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
-import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloArticulos;
-import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.sql.SQLException;
 
 import static android.content.ContentValues.TAG;
