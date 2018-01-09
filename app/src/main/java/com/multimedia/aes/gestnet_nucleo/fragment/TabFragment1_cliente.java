@@ -25,47 +25,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
+
     private View vista;
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
-
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
-
-
     private Switch swEdicion;
-
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4;
     private Button btnIniciarParte,btnClienteAusente;
 
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            try {
-
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
-                datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
-
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        inicializarVariables();
-        darValoresVariables();
-        return vista;
-    }
-
+    //METODO
     private void inicializarVariables() {
 
         //TEXT VIEWS
@@ -146,16 +120,34 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
 
     }
-
+    //OVERRIDE
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        inicializarVariables();
+        darValoresVariables();
+        return vista;
+    }
     @Override
     public void onClick(View view) {
+        if(view.getId()==btnIniciarParte.getId()){
 
-        if(view.getId()==swEdicion.getId()){
+
+        }else if(view.getId()==btnClienteAusente.getId()){
 
 
         }
-
-
-
     }
 }

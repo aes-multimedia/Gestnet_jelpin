@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class TabFragment2_equipo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View vista;
-
-    private static Spinner spMarca, spUso, spPuestaMarcha, spPotencia,spAnalisisFinalizacion;
-
+    private static Spinner spMarca, spPuestaMarcha;
     private static EditText etModelo,  etC0, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida, etCo2Ambiente, etRendimientoAparato, etCoCorregido,
@@ -37,26 +46,15 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static CheckBox cbCampana, cbMaximaPotencia,cbMinimaPotencia;
-    private static LinearLayout llDatosTesto,llMaxMinPotencia,llAnalisisFinalizacion;
-    private LinearLayout llMaquina,llSoloCocina;
+    private static LinearLayout llDatosTesto,llMaxMinPotencia, llMaquina,llSoloCocina;
     private static int alto=0,alto1=0,alto2=0, height=0;
-    String[] arrayMarcas;
+    private String[] arrayMarcas,puestaMarcha;
+    private Parte parte = null;
+    private Usuario usuario = null;
+    private Maquina maquina = null;
+    private DatosAdicionales datos = null;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment2_equipo, container, false);
-        inicializarVariables();
-        try {
-            darValores();
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
-        return vista;
-    }
-
-
-
-
+    //METODO
     private void darValores() throws java.sql.SQLException {
         alto=0;
         alto1=0;
@@ -84,26 +82,45 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             arrayMarcas[0]= "SIN MARCA";
             spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
         }
-        /*String tipo = null;
-        if (MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_tipo_maquina()) != null) {
-            tipo = TipoCalderaDAO.buscarTipoCalderaPorId(getContext(), maquina.getFk_tipo_maquina()).getNombre_tipo_caldera();
+        String tipo = null;
+        if (MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_marca()) != null) {
+            tipo = MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_marca()).getNombre_marca();
         }
         if (tipo != null) {
             String myString = tipo;
-            ArrayAdapter myAdap = (ArrayAdapter) spTipo.getAdapter();
+            ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
             int spinnerPosition = myAdap.getPosition(myString);
-            spTipo.setSelection(spinnerPosition);
-        }*/
+            spMarca.setSelection(spinnerPosition);
+        }
+        //SPINNER PUESTA MARCHA
+        Date d = new Date();
+        String s = String.valueOf(DateFormat.format("yyyy", d.getTime()));
+        int año = Integer.parseInt(s);
+        puestaMarcha = new String[30];
+        puestaMarcha[0] = "--Seleccione un valor--";
+        int a = 1;
+        for (int i = año; i >= año - 28; i--) {
+            puestaMarcha[a] = String.valueOf(i);
+            a++;
+        }
+        spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
+
+        String puesta = null;
+        if (maquina.getPuesta_marcha().equals("null") || maquina.getPuesta_marcha().equals("")) {
+        } else {
+            puesta = maquina.getPuesta_marcha();
+            puesta = puesta.substring(0, 4);
+        }
+        if (puesta != null) {
+            String myString = puesta;
+            ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
+            int spinnerPosition = myAdap.getPosition(myString);
+            spPuestaMarcha.setSelection(spinnerPosition);
+        }
     }
-
-
-
     public void inicializarVariables(){
         //SPINNER
         spMarca = (Spinner)vista.findViewById(R.id.spMarca);
-        spUso = (Spinner)vista.findViewById(R.id.spUso);
-        spPotencia = (Spinner)vista.findViewById(R.id.spPotencia);
-        spAnalisisFinalizacion = (Spinner)vista.findViewById(R.id.spAnalisisFinalizacion);
         spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
         //EDITTEXT
         etModelo = (EditText)vista.findViewById(R.id.etModelo);
@@ -134,7 +151,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         llMaxMinPotencia = (LinearLayout)vista.findViewById(R.id.llMaxMinPotencia);
         llMaquina = (LinearLayout)vista.findViewById(R.id.llMaquina);
         llSoloCocina = (LinearLayout)vista.findViewById(R.id.llSoloCocina);
-        llAnalisisFinalizacion = (LinearLayout)vista.findViewById(R.id.llAnalisisFinalizacion);
         //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
@@ -158,19 +174,37 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         llMaxMinPotencia.setVisibility(View.GONE);
         llDatosTesto.setVisibility(View.GONE);
     }
-
-
-
-
+    //OVERRIDE
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        vista = inflater.inflate(R.layout.tab_fragment2_equipo, container, false);
+        Bundle bundle = this.getArguments();
+        if(bundle != null) {
+            int idParte = bundle.getInt("id", 0);
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        inicializarVariables();
+        try {
+            darValores();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return vista;
+    }
     @Override
     public void onClick(View view) {
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

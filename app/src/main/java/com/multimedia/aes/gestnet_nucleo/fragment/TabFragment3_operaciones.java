@@ -18,11 +18,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.util.ArrayList;
 
@@ -33,10 +39,14 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private String[] arrayNombreProtocolos;
     private Spinner spProtocolos;
     private Parte parte = null;
+    private Usuario usuario = null;
+    private Maquina maquina = null;
+    private DatosAdicionales datos = null;
     private LinearLayout llPadre;
     private Button btnFinalizar;
 
-
+    //METODO
+    //OVERRIDE
     private void darValores() throws java.sql.SQLException {
         //SPINNER FORMAS PAGO
         if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte())!=null){
@@ -130,8 +140,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             int idParte = bundle.getInt("id", 0);
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }

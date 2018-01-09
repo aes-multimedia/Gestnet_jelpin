@@ -63,6 +63,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
@@ -364,7 +365,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
-
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
