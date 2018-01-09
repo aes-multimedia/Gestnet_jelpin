@@ -123,8 +123,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
         etCaudalACS = (EditText)vista.findViewById(R.id.etCaudalACS);
         etPotenciaUtil = (EditText)vista.findViewById(R.id.etPotenciaUtil);
-        etTempGasesComb = (EditText)vista.findViewById(R.id.etTempGasesComb);
-        etTempAmbienteLocal = (EditText)vista.findViewById(R.id.etTempAmbienteLocal);
+
         etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
         //LAYOUT

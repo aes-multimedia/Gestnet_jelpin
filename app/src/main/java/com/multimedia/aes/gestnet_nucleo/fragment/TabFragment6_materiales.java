@@ -24,6 +24,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -81,21 +82,33 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void actualizarVista(String cadena){
+
+        ArrayList<Articulo> data = new ArrayList<>();
+        try {
+            data.addAll(filtrar(cadena));
+            RecyclerView recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerview);
+            ArticuloRecyclerViewAdapter adapter = new ArticuloRecyclerViewAdapter(data,getContext(),getActivity());
+
+
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
 
 
+
+
     public List<Articulo> fill_with_data() throws SQLException {
 
-        ArticuloDAO.newArticulo(getContext(), 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                185, 21, 25, 6, 66, "8f8f8f8f", 66);
-        ArticuloDAO.newArticulo(getContext(), 2, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                185, 21, 25, 6, 66, "8f8f8f8f", 66);
-        ArticuloDAO.newArticulo(getContext(), 3, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                185, 21, 25, 6, 66, "8f8f8f8f", 66);
-        ArticuloDAO.newArticulo(getContext(), 4, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                185, 21, 25, 6, 66, "8f8f8f8f", 66);
+
 
 
         List<Articulo> data = ArticuloDAO.buscarTodosLosArticulos(getContext());
@@ -103,9 +116,20 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         return data;
 
     }
+    public List<Articulo> filtrar(String cadena) throws SQLException {
+        List<Articulo> data = ArticuloDAO.filtrarArticulosPorNombre(getContext(),cadena);
+        if(data==null)return new ArrayList<Articulo>();
+        else return data;
+
+    }
 
     @Override
     public void onClick(View view) {
+        if(view.getId()==btnBuscar.getId()){
+            String cadena= etBuscar.getText().toString();
+            actualizarVista(cadena);
+
+        }
 
         }
 
