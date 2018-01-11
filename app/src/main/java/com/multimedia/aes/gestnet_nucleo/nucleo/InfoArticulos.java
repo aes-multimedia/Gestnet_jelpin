@@ -33,6 +33,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private Menu menu;
     private Articulo articulo;
     private Parte parte;
+    private Button btnAñadirMaterial;
 
 
     private void inicializarVariables(){
@@ -40,7 +41,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         tvStock = (TextView) findViewById(R.id.tvStock);
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
-
+        btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
+        btnAñadirMaterial.setOnClickListener(this);
     }
     private void darValores(){
 //        ivFoto.setImageResource(articulo.getImagen());
@@ -132,13 +134,22 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        Toast.makeText(this,"entrando",Toast.LENGTH_SHORT).show();
         int numArticulos=0;
         try {
             numArticulos=ArticuloParteDAO.numeroArticuloParte(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),6666);//meter el fk parte
-        Toast.makeText(this,numArticulos,Toast.LENGTH_SHORT).show();
+        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),6666)){
+
+            try {
+                ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(this,"bien",Toast.LENGTH_LONG).show();//meter el fk parte
+        }
+
     }
 }

@@ -79,6 +79,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                         switch (item.getItemId()) {
                             case R.id.action_item1:
+
                               Toast.makeText(vista.getContext(),"uno",Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.action_item2:

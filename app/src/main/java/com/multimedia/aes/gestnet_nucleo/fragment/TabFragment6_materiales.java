@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.ArticuloRecyclerViewAdapter;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
@@ -89,6 +91,7 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         ArrayList<Articulo> data = new ArrayList<>();
         try {
             data.addAll(filtrar(cadena));
+            if(data.size()==0) Toast.makeText(getView().getContext(),"No se han encontrado Articulos",Toast.LENGTH_LONG).show();
             RecyclerView recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerview);
             ArticuloRecyclerViewAdapter adapter = new ArticuloRecyclerViewAdapter(data,getContext(),getActivity());
 
