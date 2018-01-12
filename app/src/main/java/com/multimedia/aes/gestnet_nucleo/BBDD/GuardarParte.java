@@ -464,15 +464,11 @@ public class GuardarParte {
                             fac_baja_stock = true;
                         }
                     }
-                    boolean estado_android;
-                    if (jsonArray.getJSONObject(i).getString("estado_android").equals("null")) {
-                        estado_android = false;
+                    int estado_android;
+                    if (jsonArray.getJSONObject(i).getString("estado_android").equals("null")||jsonArray.getJSONObject(i).getString("estado_android").equals("")) {
+                        estado_android = -1;
                     } else {
-                        if (jsonArray.getJSONObject(i).getString("estado_android").equals("0")) {
-                            estado_android = false;
-                        } else {
-                            estado_android = true;
-                        }
+                       estado_android = jsonArray.getJSONObject(i).getInt("estado_android");
                     }
                     boolean urgencias;
                     if (jsonArray.getJSONObject(i).getString("urgencias").equals("null")) {

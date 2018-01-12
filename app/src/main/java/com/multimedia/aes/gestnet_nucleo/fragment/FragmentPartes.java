@@ -45,12 +45,14 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         } else {
             // TODO 
         }
-
-        tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
-        tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
-        tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
-        tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
-        tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
+        if (parte.getFk_estado()!=0){
+            //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
+            tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
+            tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
+            tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
+            tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
+            tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
+        }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);

@@ -37,6 +37,7 @@ public class AdaptadorPartes extends ArrayAdapter {
         TextView cp = (TextView) item.findViewById(R.id.txtCP);
         TextView hora = (TextView) item.findViewById(R.id.txtHora);
         LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
+        LinearLayout llHorario = (LinearLayout)item.findViewById(R.id.llHorario);
         String dir = "";
         if (!arrayList.get(position).getTipo_via().trim().equals("")&&!arrayList.get(position).getTipo_via().trim().equals("null")){
             dir+=arrayList.get(position).getTipo_via()+" ";
@@ -61,6 +62,17 @@ public class AdaptadorPartes extends ArrayAdapter {
         }
         if (!arrayList.get(position).getProvincia_direccion().trim().equals("")&&!arrayList.get(position).getProvincia_direccion().trim().equals("null")){
             dir+=arrayList.get(position).getProvincia_direccion()+")";
+        }
+        switch (arrayList.get(position).getEstado_android()){
+            case 0:
+                llHorario.setBackgroundResource(R.drawable.fondo_rojo);
+            case 1:
+                llHorario.setBackgroundResource(R.drawable.fondo_ambar);
+            case 2:
+                llHorario.setBackgroundResource(R.drawable.fondo_ambar);
+            case 3:
+                llHorario.setBackgroundResource(R.drawable.fondo_verde);
+                break;
         }
         direccion.setText(dir);
         cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getCp_direccion()));

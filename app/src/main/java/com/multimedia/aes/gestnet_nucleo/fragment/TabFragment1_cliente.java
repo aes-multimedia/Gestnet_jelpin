@@ -142,7 +142,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId()==btnIniciarParte.getId()){
-
+        //Cambiar estado arriba
+            try {
+                ParteDAO.actualizarEstadoAndroid(getContext(),parte.getId_parte(),1);
+                getActivity().recreate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         }else if(view.getId()==btnClienteAusente.getId()){
 

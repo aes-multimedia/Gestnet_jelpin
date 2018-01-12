@@ -12,7 +12,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
-import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.sql.SQLException;
@@ -30,7 +29,7 @@ public class ParteDAO extends DBHelperMOS{
 
 //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newParte(Context context,int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario,
+    public static boolean newParte(Context context, int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario,
                                    int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
                                    String fecha_visita, boolean visita_duplicada, String fecha_reparacion, int num_parte,
                                    int fk_tipo, int fk_user_asignacion, int fk_horario, String horario, String duracion,
@@ -46,7 +45,7 @@ public class ParteDAO extends DBHelperMOS{
                                    String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre,
                                    String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia,
                                    String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas,
-                                   String fecha_baja, boolean fac_baja_stock, boolean estado_android, boolean urgencias,
+                                   String fecha_baja, boolean fac_baja_stock, int estado_android, boolean urgencias,
                                    String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion,
                                    int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos,
                                    int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora,
@@ -59,7 +58,7 @@ public class ParteDAO extends DBHelperMOS{
                                    String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                    String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                    String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                   String observaciones_cliente,String user_creador,String tipo) {
+                                   String observaciones_cliente, String user_creador, String tipo) {
         Parte p = montarParte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -118,7 +117,7 @@ public class ParteDAO extends DBHelperMOS{
                                     String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre,
                                     String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia,
                                     String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas,
-                                    String fecha_baja, boolean fac_baja_stock, boolean estado_android, boolean urgencias,
+                                    String fecha_baja, boolean fac_baja_stock, int estado_android, boolean urgencias,
                                     String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion,
                                     int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos,
                                     int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora,
@@ -131,7 +130,7 @@ public class ParteDAO extends DBHelperMOS{
                                     String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                     String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                     String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                    String observaciones_cliente,String user_creador,String tipo) {
+                                    String observaciones_cliente, String user_creador, String tipo) {
         Parte p =new Parte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -283,7 +282,7 @@ public class ParteDAO extends DBHelperMOS{
         String otros_sintomas=parte.getOtros_sintomas();
         String fecha_baja=parte.getFecha_baja();
         boolean fac_baja_stock=parte.isFac_baja_stock();
-        boolean estado_android=parte.isEstado_android();
+        int estado_android=parte.getEstado_android();
         boolean urgencias=parte.isUrgencias();
         String lote=parte.getLote();
         boolean validar=parte.isValidar();
@@ -425,7 +424,7 @@ public class ParteDAO extends DBHelperMOS{
                                        String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre,
                                        String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia,
                                        String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas,
-                                       String fecha_baja, boolean fac_baja_stock, boolean estado_android, boolean urgencias,
+                                       String fecha_baja, boolean fac_baja_stock, int estado_android, boolean urgencias,
                                        String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion,
                                        int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos,
                                        int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora,
@@ -438,7 +437,7 @@ public class ParteDAO extends DBHelperMOS{
                                        String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                        String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                        String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                       String observaciones_cliente,String user_creador,String tipo) throws SQLException
+                                       String observaciones_cliente, String user_creador, String tipo) throws SQLException
     {
 
         cargarDao(context);
@@ -560,6 +559,13 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.update();
     }
 
-
+    public static void actualizarEstadoAndroid(Context context, int id_parte, int estado)throws SQLException {
+        //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.ESTADO_ANDROID,estado);
+        updateBuilder.update();
+    }
 
 }
