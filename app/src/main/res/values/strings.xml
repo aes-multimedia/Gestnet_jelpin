@@ -73,6 +73,12 @@
     <string name="etPrecioMaterial" />
     <string name="cancelar">cancelar</string>
     <string name="action_settings">Settings</string>
+    <string name="borrar_medicion">borrar medicion</string>
+    <string name="conectando_testo">Conectando con el analizador</string>
+    <string name="obteniendo_datos_testo">Obteniendo valores del analisis</string>
+    <string name="title_connected_to">Conectado a:</string>
+    <string name="title_connecting">conectando...</string>
+    <string name="title_not_connected">Desconectado</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>

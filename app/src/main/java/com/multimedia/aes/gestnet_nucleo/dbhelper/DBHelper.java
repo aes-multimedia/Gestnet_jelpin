@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
@@ -164,5 +165,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 
 		return BBDDConstantes.tipoArticuloParteDao;
+	}
+	public Dao<Analisis,Integer> getAnalisisDAO() throws SQLException {
+		if (BBDDConstantes.analisisDao == null) {
+			BBDDConstantes.analisisDao = getDao(Analisis.class);
+		}
+
+		return BBDDConstantes.analisisDao;
 	}
 }

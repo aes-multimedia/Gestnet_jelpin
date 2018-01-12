@@ -44,13 +44,19 @@ public class GuardarMaquina {
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
 
         for (int i = 0; i < jsonArray.length(); i++) {
+            int id_parte;
+            if (jsonArray.getJSONObject(i).getString("id_parte").equals("null") || jsonArray.getJSONObject(i).getString("id_parte").equals("")) {
+                id_parte = -1;
+            } else {
+                id_parte = jsonArray.getJSONObject(i).getInt("id_parte");
+            }
             JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("maquina");
             for (int j = 0; j < jsonArray1.length(); j++){
-                int id_maquina;
+                int fk_maquina;
                 if (jsonArray1.getJSONObject(j).getString("id_maquina").equals("null") || jsonArray1.getJSONObject(j).getString("id_maquina").equals("")) {
-                    id_maquina = -1;
+                    fk_maquina = -1;
                 } else {
-                    id_maquina = jsonArray1.getJSONObject(j).getInt("id_maquina");
+                    fk_maquina = jsonArray1.getJSONObject(j).getInt("id_maquina");
                 }
                 if (MaquinaDAO.buscarTodasLasMaquinas(context)!=null){
                     maquinas.addAll(MaquinaDAO.buscarTodasLasMaquinas(context));
@@ -58,7 +64,7 @@ public class GuardarMaquina {
                 boolean esta = false;
                 if (maquinas != null) {
                     for (int k = 0; k < maquinas.size(); k++) {
-                        if (maquinas.get(k).getId_maquina() == id_maquina) {
+                        if (maquinas.get(k).getFk_maquina() == fk_maquina) {
                             contador ++;
                             esta = true;
                             break;
@@ -73,24 +79,18 @@ public class GuardarMaquina {
                 } else {
                     fk_direccion = jsonArray1.getJSONObject(j).getInt("fk_direccion");
                 }
-                int fk_modelo;
-                if (jsonArray1.getJSONObject(j).getString("fk_modelo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_modelo").equals("")) {
-                    fk_modelo = -1;
-                } else {
-                    fk_modelo = jsonArray1.getJSONObject(j).getInt("fk_modelo");
-                }
                 int fk_marca;
                 if (jsonArray1.getJSONObject(j).getString("fk_marca").equals("null") || jsonArray1.getJSONObject(j).getString("fk_marca").equals("")) {
                     fk_marca = -1;
                 } else {
                     fk_marca = jsonArray1.getJSONObject(j).getInt("fk_marca");
                 }
-                int fk_tipo_combustion;
-                if (jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("null") || jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("")) {
-                    fk_tipo_combustion = -1;
+                String fk_tipo_combustion = "";
+                /*if (jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("null") || jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("")) {
+                    fk_tipo_combustion = "";
                 } else {
-                    fk_tipo_combustion = jsonArray1.getJSONObject(j).getInt("fk_tipo_combustion");
-                }
+                    fk_tipo_combustion = jsonArray1.getJSONObject(j).getString("fk_tipo_combustion");
+                }*/
                 int fk_protocolo;
                 if (jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("")) {
                     fk_protocolo = -1;
@@ -269,34 +269,36 @@ public class GuardarMaquina {
                 } else {
                     situacion = jsonArray1.getJSONObject(j).getString("situacion");
                 }
-
+                String temperatura_max_acs="", caudal_acs="", potencia_util="", temperatura_agua_generador_calor_entrada="", temperatura_agua_generador_calor_salida="";
                 if (!esta) {
 
-                    if (MaquinaDAO.newMaquina(context,id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
+                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
                             fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
                             fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
                             fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
                             puesta_marcha,   fecha_compra,   fecha_fin_garantia,
                             mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
                             garantia_extendida,   factura_compra,   refrigerante,
-                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion)) {
+                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
+                            temperatura_max_acs, caudal_acs, potencia_util,
+                            temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida)) {
                         bien = true;
                     } else {
                         bien = false;
                     }
                 }else{
-                    MaquinaDAO.actualizarMaquina(context,id_maquina,   fk_direccion,   fk_modelo,   fk_marca,   fk_tipo_combustion,
+                    MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
                             fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
                             fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
                             fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
                             puesta_marcha,   fecha_compra,   fecha_fin_garantia,
                             mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
                             garantia_extendida,   factura_compra,   refrigerante,
-                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion);
+                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
+                            temperatura_max_acs, caudal_acs, potencia_util,
+                            temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
                 }
             }
-
-
         }
         if (bien){
             new GuardarProtocoloAccion(context,json);

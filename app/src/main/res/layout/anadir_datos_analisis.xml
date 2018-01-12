@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llDatosTestoGeneral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:padding="10dp"
+            android:visibility="visible">
+
+
+            <Button
+                android:id="@+id/btnDatosTesto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/botones"
+                android:text="@string/añadir_analisis" />
+
+            <LinearLayout
+                android:id="@+id/llDatosTesto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/fondo_linear_gris"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textView78"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre Medicion"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="18dp" />
+
+                <EditText
+                    android:id="@+id/etNombreMedicion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:enabled="true"
+                    android:gravity="left"
+                    android:inputType="text"
+                    android:minHeight="30dp"
+                    android:padding="5dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView40"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="C0"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtC0"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView455"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co2"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtCo2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView456"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="O2"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtO2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView452"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co Corregido"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtCoCorregido"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView44"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperatura gases PDC"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtTempGasesComb"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView457"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lambda"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtLambda"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView45"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperatura ambiente local"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtTempAmbienteLocal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView454"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tiro"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtTiro"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView451"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rendimiento del aparato"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtRendimientoAparato"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co Ambiente"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtCoAmbiente"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView339"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co2 Ambiente"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/txtCo2Ambiente"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/cbCampana"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorAccent"
+                    android:checked="false"
+                    android:enabled="true"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Medicion con campana"
+                    android:textSize="19sp"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/txtSn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnAñadirAnalisis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:enabled="true"
+                        android:padding="5dp"
+                        android:text="@string/añadir_analisis" />
+
+                    <Button
+                        android:id="@+id/btnBorrarMedicion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:enabled="true"
+                        android:padding="5dp"
+                        android:text="@string/borrar_medicion" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/fondo_linear_gris"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/lvDatosAnalisis"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btnFinalizarAnalisis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/botones"
+                    android:text="@string/finalizar" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

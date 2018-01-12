@@ -7,10 +7,11 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Maquina {
     
     public static final String ID_MAQUINA  = "_id_maquina";
+    public static final String FK_MAQUINA  = "fk_maquina";
+    public static final String FK_PARTE  = "fk_parte";
     public static final String FK_DIRECCION  = "fk_direccion";
-    public static final String FK_MODELO  = "fk_modelo";
     public static final String FK_MARCA  = "fk_marca";
-    public static final String FK_TIPO_COMBUSTION  = "fk_tipo_combustion";
+    public static final String TIPO_COMBUSTION = "tipo_combustion";
     public static final String FK_PROTOCOLO  = "fk_protocolo";
     public static final String FK_INSTALADOR  = "fk_instalador";
     public static final String FK_REMOTO_CENTRAL  = "fk_remoto_central";
@@ -40,56 +41,71 @@ public class Maquina {
     public static final String EN_PROPIEDAD  = "en_propiedad";
     public static final String ESPRINCIPAL  = "esPrincipal";
     public static final String SITUACION  = "situacion";
+    public static final String TEMPERATURA_MAX_ACS  = "temperatura_max_acs";
+    public static final String CAUDAL_ACS  = "caudal_acs";
+    public static final String POTENCIA_UTIL  = "potencia_util";
+    public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA  = "temperatura_agua_generador_calor_entrada";
+    public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA = "temperatura_agua_generador_calor_salida";
 
 
-    @DatabaseField(id = true, columnName = ID_MAQUINA)      private int id_maquina;
-    @DatabaseField(columnName = FK_DIRECCION)               private int fk_direccion;
-    @DatabaseField(columnName = FK_MODELO)                  private int fk_modelo;
-    @DatabaseField(columnName = FK_MARCA)                   private int fk_marca;
-    @DatabaseField(columnName = FK_TIPO_COMBUSTION)         private int fk_tipo_combustion;
-    @DatabaseField(columnName = FK_PROTOCOLO)               private int fk_protocolo;
-    @DatabaseField(columnName = FK_INSTALADOR)              private int fk_instalador;
-    @DatabaseField(columnName = FK_REMOTO_CENTRAL)          private int fk_remoto_central;
-    @DatabaseField(columnName = FK_TIPO)                    private int fk_tipo;
-    @DatabaseField(columnName = FK_INSTALACION)             private int fk_instalacion;
-    @DatabaseField(columnName = FK_ESTADO)                  private int fk_estado;
-    @DatabaseField(columnName = FK_CONTRATO_MANTENIMIENTO)  private int fk_contrato_mantenimiento;
-    @DatabaseField(columnName = FK_GAMA)                    private int fk_gama;
-    @DatabaseField(columnName = FK_TIPO_GAMA)               private int fk_tipo_gama;
-    @DatabaseField(columnName = FECHA_CREACION)             private String fecha_creacion;
-    @DatabaseField(columnName = MODELO)                     private String modelo;
-    @DatabaseField(columnName = NUM_SERIE)                  private String num_serie;
-    @DatabaseField(columnName = NUM_PRODUCTO)               private String num_producto;
-    @DatabaseField(columnName = APARATO)                    private String aparato;
-    @DatabaseField(columnName = PUESTA_MARCHA)              private String puesta_marcha;
-    @DatabaseField(columnName = FECHA_COMPRA)               private String fecha_compra;
-    @DatabaseField(columnName = FECHA_FIN_GARANTIA)         private String fecha_fin_garantia;
-    @DatabaseField(columnName = MANTENIMIENTO_ANUAL)        private String mantenimiento_anual;
-    @DatabaseField(columnName = OBSERVACIONES)              private String observaciones;
-    @DatabaseField(columnName = UBICACION)                  private String ubicacion;
-    @DatabaseField(columnName = TIENDA_COMPRA)              private String tienda_compra;
-    @DatabaseField(columnName = GARANTIA_EXTENDIDA)         private String garantia_extendida;
-    @DatabaseField(columnName = FACTURA_COMPRA)             private String factura_compra;
-    @DatabaseField(columnName = REFRIGERANTE)               private String refrigerante;
-    @DatabaseField(columnName = BESINSTALACION)             private boolean bEsInstalacion;
-    @DatabaseField(columnName = NOMBRE_INSTALACION)         private String nombre_instalacion;
-    @DatabaseField(columnName = EN_PROPIEDAD)               private String en_propiedad;
-    @DatabaseField(columnName = ESPRINCIPAL)                private String esPrincipal;
-    @DatabaseField(columnName = SITUACION)                private String situacion;
+    @DatabaseField(generatedId = true, columnName = ID_MAQUINA)             private int id_maquina;
+    @DatabaseField(columnName = FK_MAQUINA)                                 private int fk_maquina;
+    @DatabaseField(columnName = FK_PARTE)                                   private int fk_parte;
+    @DatabaseField(columnName = FK_DIRECCION)                               private int fk_direccion;
+    @DatabaseField(columnName = FK_MARCA)                                   private int fk_marca;
+    @DatabaseField(columnName = FK_PROTOCOLO)                               private int fk_protocolo;
+    @DatabaseField(columnName = FK_INSTALADOR)                              private int fk_instalador;
+    @DatabaseField(columnName = FK_REMOTO_CENTRAL)                          private int fk_remoto_central;
+    @DatabaseField(columnName = FK_TIPO)                                    private int fk_tipo;
+    @DatabaseField(columnName = FK_INSTALACION)                             private int fk_instalacion;
+    @DatabaseField(columnName = FK_ESTADO)                                  private int fk_estado;
+    @DatabaseField(columnName = FK_CONTRATO_MANTENIMIENTO)                  private int fk_contrato_mantenimiento;
+    @DatabaseField(columnName = FK_GAMA)                                    private int fk_gama;
+    @DatabaseField(columnName = FK_TIPO_GAMA)                               private int fk_tipo_gama;
+    @DatabaseField(columnName = TIPO_COMBUSTION)                            private String tipo_combustion;
+    @DatabaseField(columnName = FECHA_CREACION)                             private String fecha_creacion;
+    @DatabaseField(columnName = MODELO)                                     private String modelo;
+    @DatabaseField(columnName = NUM_SERIE)                                  private String num_serie;
+    @DatabaseField(columnName = NUM_PRODUCTO)                               private String num_producto;
+    @DatabaseField(columnName = APARATO)                                    private String aparato;
+    @DatabaseField(columnName = PUESTA_MARCHA)                              private String puesta_marcha;
+    @DatabaseField(columnName = FECHA_COMPRA)                               private String fecha_compra;
+    @DatabaseField(columnName = FECHA_FIN_GARANTIA)                         private String fecha_fin_garantia;
+    @DatabaseField(columnName = MANTENIMIENTO_ANUAL)                        private String mantenimiento_anual;
+    @DatabaseField(columnName = OBSERVACIONES)                              private String observaciones;
+    @DatabaseField(columnName = UBICACION)                                  private String ubicacion;
+    @DatabaseField(columnName = TIENDA_COMPRA)                              private String tienda_compra;
+    @DatabaseField(columnName = GARANTIA_EXTENDIDA)                         private String garantia_extendida;
+    @DatabaseField(columnName = FACTURA_COMPRA)                             private String factura_compra;
+    @DatabaseField(columnName = REFRIGERANTE)                               private String refrigerante;
+    @DatabaseField(columnName = BESINSTALACION)                             private boolean bEsInstalacion;
+    @DatabaseField(columnName = NOMBRE_INSTALACION)                         private String nombre_instalacion;
+    @DatabaseField(columnName = EN_PROPIEDAD)                               private String en_propiedad;
+    @DatabaseField(columnName = ESPRINCIPAL)                                private String esPrincipal;
+    @DatabaseField(columnName = SITUACION)                                  private String situacion;
+    @DatabaseField(columnName = TEMPERATURA_MAX_ACS)                        private String temperatura_max_acs;
+    @DatabaseField(columnName = CAUDAL_ACS)                                 private String caudal_acs;
+    @DatabaseField(columnName = POTENCIA_UTIL)                              private String potencia_util;
+    @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA)   private String temperatura_agua_generador_calor_entrada;
+    @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA)    private String temperatura_agua_generador_calor_salida;
+
+
     public Maquina(){}
-    public Maquina(int id_maquina, int fk_direccion, int fk_modelo, int fk_marca, int fk_tipo_combustion,
+    public Maquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String tipo_combustion,
                    int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,
                    int fk_estado, int fk_contrato_mantenimiento, int fk_gama, int fk_tipo_gama,
                    String fecha_creacion, String modelo, String num_serie, String num_producto, String aparato,
                    String puesta_marcha, String fecha_compra, String fecha_fin_garantia,
                    String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra,
                    String garantia_extendida, String factura_compra, String refrigerante,
-                   boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal,String situacion) {
-        this.id_maquina = id_maquina;
+                   boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
+                   String temperatura_max_acs, String caudal_acs, String potencia_util,
+                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+        this.fk_maquina = fk_maquina;
+        this.fk_parte = fk_parte;
         this.fk_direccion = fk_direccion;
-        this.fk_modelo = fk_modelo;
         this.fk_marca = fk_marca;
-        this.fk_tipo_combustion = fk_tipo_combustion;
+        this.tipo_combustion = tipo_combustion;
         this.fk_protocolo = fk_protocolo;
         this.fk_instalador = fk_instalador;
         this.fk_remoto_central = fk_remoto_central;
@@ -119,14 +135,30 @@ public class Maquina {
         this.en_propiedad = en_propiedad;
         this.esPrincipal = esPrincipal;
         this.situacion = situacion;
+        this.temperatura_max_acs = temperatura_max_acs;
+        this.caudal_acs = caudal_acs;
+        this.potencia_util = potencia_util;
+        this.temperatura_agua_generador_calor_entrada = temperatura_agua_generador_calor_entrada;
+        this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
 
     }
-
     public int getId_maquina() {
         return id_maquina;
     }
     public void setId_maquina(int id_maquina) {
         this.id_maquina = id_maquina;
+    }
+    public int getFk_maquina() {
+        return fk_maquina;
+    }
+    public void setFk_maquina(int fk_maquina) {
+        this.fk_maquina = fk_maquina;
+    }
+    public int getFk_parte() {
+        return fk_parte;
+    }
+    public void setFk_parte(int fk_parte) {
+        this.fk_parte = fk_parte;
     }
     public int getFk_direccion() {
         return fk_direccion;
@@ -134,23 +166,17 @@ public class Maquina {
     public void setFk_direccion(int fk_direccion) {
         this.fk_direccion = fk_direccion;
     }
-    public int getFk_modelo() {
-        return fk_modelo;
-    }
-    public void setFk_modelo(int fk_modelo) {
-        this.fk_modelo = fk_modelo;
-    }
     public int getFk_marca() {
         return fk_marca;
     }
     public void setFk_marca(int fk_marca) {
         this.fk_marca = fk_marca;
     }
-    public int getFk_tipo_combustion() {
-        return fk_tipo_combustion;
+    public String getTipo_combustion() {
+        return tipo_combustion;
     }
-    public void setFk_tipo_combustion(int fk_tipo_combustion) {
-        this.fk_tipo_combustion = fk_tipo_combustion;
+    public void setTipo_combustion(String tipo_combustion) {
+        this.tipo_combustion = tipo_combustion;
     }
     public int getFk_protocolo() {
         return fk_protocolo;
@@ -320,12 +346,40 @@ public class Maquina {
     public void setEsPrincipal(String esPrincipal) {
         this.esPrincipal = esPrincipal;
     }
-
     public String getSituacion() {
         return situacion;
     }
-
     public void setSituacion(String situacion) {
         this.situacion = situacion;
+    }
+    public String getTemperatura_max_acs() {
+        return temperatura_max_acs;
+    }
+    public void setTemperatura_max_acs(String temperatura_max_acs) {
+        this.temperatura_max_acs = temperatura_max_acs;
+    }
+    public String getCaudal_acs() {
+        return caudal_acs;
+    }
+    public void setCaudal_acs(String caudal_acs) {
+        this.caudal_acs = caudal_acs;
+    }
+    public String getPotencia_util() {
+        return potencia_util;
+    }
+    public void setPotencia_util(String potencia_util) {
+        this.potencia_util = potencia_util;
+    }
+    public String getTemperatura_agua_generador_calor_entrada() {
+        return temperatura_agua_generador_calor_entrada;
+    }
+    public void setTemperatura_agua_generador_calor_entrada(String temperatura_agua_generador_calor_entrada) {
+        this.temperatura_agua_generador_calor_entrada = temperatura_agua_generador_calor_entrada;
+    }
+    public String getTemperatura_agua_generador_calor_salida() {
+        return temperatura_agua_generador_calor_salida;
+    }
+    public void setTemperatura_agua_generador_calor_salida(String temperatura_agua_generador_calor_salida) {
+        this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
     }
 }

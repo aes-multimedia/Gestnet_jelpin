@@ -103,7 +103,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
     }
     public void darValoresVariables(){
-
         txtNumParte.setText(String.valueOf(parte.getNum_parte()));
         txtCreadoPor.setText(String.valueOf(parte.getUser_creador()));
         txtMaquina.setText(String.valueOf(maquina.getModelo()));
@@ -130,7 +129,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
                 usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
                 datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
             } catch (SQLException e) {
                 e.printStackTrace();

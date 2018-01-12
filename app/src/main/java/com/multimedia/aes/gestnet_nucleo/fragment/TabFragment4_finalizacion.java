@@ -62,7 +62,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
                 usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();

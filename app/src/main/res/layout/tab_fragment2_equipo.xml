@@ -84,7 +84,7 @@
                             android:id="@+id/txtTipo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TextView"
+                            android:text="tipo"
                             android:textSize="18sp" />
 
                     </LinearLayout>

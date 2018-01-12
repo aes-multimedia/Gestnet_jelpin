@@ -1,6 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -141,7 +140,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
                 usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();

@@ -52,7 +52,7 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
             try {
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
                 usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
@@ -62,13 +62,6 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         etBuscar = (EditText)vista.findViewById(R.id.etBuscar);
         btnBuscar.setOnClickListener(this);
         inicializar();
-
-
-
-
-
-
-
 
         return vista;
     }
@@ -94,8 +87,6 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
             if(data.size()==0) Toast.makeText(getView().getContext(),"No se han encontrado Articulos",Toast.LENGTH_LONG).show();
             RecyclerView recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerview);
             ArticuloRecyclerViewAdapter adapter = new ArticuloRecyclerViewAdapter(data,getContext(),getActivity());
-
-
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         } catch (SQLException e) {
@@ -110,12 +101,7 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
 
 
     public List<Articulo> fill_with_data() throws SQLException {
-
-
-
-
         List<Articulo> data = ArticuloDAO.buscarTodosLosArticulos(getContext());
-
         return data;
 
     }
@@ -123,7 +109,6 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         List<Articulo> data = ArticuloDAO.filtrarArticulosPorNombre(getContext(),cadena);
         if(data==null)return new ArrayList<Articulo>();
         else return data;
-
     }
 
     @Override
@@ -131,10 +116,9 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         if(view.getId()==btnBuscar.getId()){
             String cadena= etBuscar.getText().toString();
             actualizarVista(cadena);
-
         }
 
-        }
+    }
 
 
     @Override
