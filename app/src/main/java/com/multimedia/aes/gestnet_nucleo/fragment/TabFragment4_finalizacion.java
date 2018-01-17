@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
@@ -33,6 +34,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -56,17 +60,22 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment4_finalizacion, container, false);
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            try {
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
-                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            idParte = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+            maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
+            datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
         }
         inicializar();
         BottomNavigationView bottomNavigationView = (BottomNavigationView)

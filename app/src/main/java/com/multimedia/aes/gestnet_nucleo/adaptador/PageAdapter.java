@@ -21,12 +21,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     private TabFragment4_finalizacion tab4;
     private TabFragment5_documentacion tab5;
     private TabFragment6_materiales tab6;
-    private final Bundle bundle;
 
-    public PageAdapter(FragmentManager fm, int NumOfTabs, Bundle bundle) {
+    public PageAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
-        this.bundle = bundle;
     }
 
     @Override
@@ -35,27 +33,21 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 tab1 = new TabFragment1_cliente();
-                tab1.setArguments(bundle);
                 return tab1;
             case 1:
                 tab2 = new TabFragment2_equipo();
-                tab2.setArguments(bundle);
                 return tab2;
             case 2:
                 tab3 = new TabFragment3_operaciones();
-                tab3.setArguments(bundle);
                 return tab3;
             case 3:
                 tab4 = new TabFragment4_finalizacion();
-                tab4.setArguments(bundle);
                 return tab4;
             case 4:
                 tab5 = new TabFragment5_documentacion();
-                tab5.setArguments(bundle);
                 return tab5;
             case 5:
                 tab6 = new TabFragment6_materiales();
-                tab6.setArguments(bundle);
                 return tab6;
             default:
                 return null;

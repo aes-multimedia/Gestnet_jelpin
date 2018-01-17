@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.adaptador.PageAdapter;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -32,20 +36,20 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Cliente"));
-
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            // TODO en caso de que idParte sea 0
-            try {
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // TODO 
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            idParte = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        if (parte.getFk_estado()!=0){
+        try {
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (parte.getEstado_android()!=-1){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
             tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
             tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
@@ -57,7 +61,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
-                (getFragmentManager(), tabLayout.getTabCount(), bundle);
+                (getFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

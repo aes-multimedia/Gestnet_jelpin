@@ -12,6 +12,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -20,6 +21,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -69,7 +74,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         //BOTONES
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
-
+        btnIniciarParte.setOnClickListener(this);
+        btnClienteAusente.setOnClickListener(this);
         //SWITCH
         swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -116,40 +122,39 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3.setText(parte.getTelefono3_cliente());
         etTelefono4.setText(parte.getTelefono4_cliente());
 
-
-
     }
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            try {
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
-                datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            idParte = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+            maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
+            datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         inicializarVariables();
         darValoresVariables();
+        if (parte.getEstado_android()!=0){
+            btnIniciarParte.setVisibility(View.GONE);
+            btnClienteAusente.setVisibility(View.GONE);
+        }
         return vista;
     }
     @Override
     public void onClick(View view) {
         if(view.getId()==btnIniciarParte.getId()){
-        //Cambiar estado arriba
-            try {
-                ParteDAO.actualizarEstadoAndroid(getContext(),parte.getId_parte(),1);
-                getActivity().recreate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            new HiloIniciarParte(getContext(),parte.getId_parte(),1).execute();
         }else if(view.getId()==btnClienteAusente.getId()){
 
 

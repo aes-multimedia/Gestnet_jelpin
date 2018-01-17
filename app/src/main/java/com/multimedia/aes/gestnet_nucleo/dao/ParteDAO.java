@@ -185,7 +185,7 @@ public class ParteDAO extends DBHelperMOS{
 
     public static List<Parte> buscarTodosLosPartes(Context context) throws SQLException {
         cargarDao(context);
-        List<Parte> listadoPartes= dao.queryForAll();
+        List<Parte> listadoPartes= dao.queryBuilder().orderBy(Parte.FK_HORARIO,true).query();
         if(listadoPartes.isEmpty()) {
             return null;
         }else{

@@ -3,13 +3,8 @@ package com.multimedia.aes.gestnet_nucleo.nucleo;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -30,18 +25,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
@@ -52,10 +38,8 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
-import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
@@ -287,6 +271,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         } else if (id == R.id.almacen) {
 
+        }else if (id == R.id.cierre_dia) {
+            Intent i = new Intent(this,CierreDia.class);
+            startActivity(i);
         } else if (id == R.id.cambiarFecha) {
             try {
 
@@ -296,14 +283,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 //if (part==null){
                 Calendar mcurrentDate = Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
-                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         selectedmonth = selectedmonth + 1;
                         String day = selectedday + "";
-                        String month = selectedmonth + "";
+                        String month = selectedmonth+1 + "";
                         if (selectedday < 10) {
                             day = "0" + selectedday;
                         }
@@ -321,16 +308,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                         String fecha = year + "-" + month + "-" + day;
 
                         new HiloPorFecha(Index.this, u.getFk_entidad(), fecha, c.getIp_cliente()).execute();
-
-                        //  ManagerProgressDialog.abrirDialog(Index.this);
-                        // ManagerProgressDialog.cogerDatosServidor(Index.this);
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
-                // }else{
-                // Dialogo.dialogHaySinSubir(this);
-                //  }
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -355,14 +336,19 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("id", Integer.parseInt(String.valueOf(view.getTag())));
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", (String) view.getTag());
+            GestorSharedPreferences.clearSharedPreferencesParte(this);
+            GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(this), jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         srl.setVisibility(View.GONE);
         Class fragmentClass = FragmentPartes.class;
         Fragment fragment;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
-            fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
         } catch (InstantiationException e) {

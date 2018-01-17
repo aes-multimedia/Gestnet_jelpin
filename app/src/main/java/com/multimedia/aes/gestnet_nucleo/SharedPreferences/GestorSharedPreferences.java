@@ -31,69 +31,26 @@ public abstract class GestorSharedPreferences {
     }
     //<---------------------------------------------------------------------------------->
     public static SharedPreferences getSharedPreferencesMantenimiento(Context context) {
-        return context.getSharedPreferences("spMantenimiento", context.MODE_PRIVATE);
+        return context.getSharedPreferences("spParte", context.MODE_PRIVATE);
     }
 
-    public static void setJsonMantenimiento(SharedPreferences sharedPreferences, JSONObject jsonObject) {
+    public static void setJsonParte(SharedPreferences sharedPreferences, JSONObject jsonObject) {
         SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.putString("mantenimiento", jsonObject.toString());
+        spe.putString("parte", jsonObject.toString());
         spe.commit();
     }
 
-    public static JSONObject getJsonMantenimiento(SharedPreferences sharedPreferences) throws JSONException {
-        String s = sharedPreferences.getString("mantenimiento", "{}");
+    public static JSONObject getJsonParte(SharedPreferences sharedPreferences) throws JSONException {
+        String s = sharedPreferences.getString("parte", "{}");
         return new JSONObject(s);
     }
 
-    public static void clearSharedPreferencesMantenimiento(Context context) {
+    public static void clearSharedPreferencesParte(Context context) {
         SharedPreferences sharedPreferences = getSharedPreferencesMantenimiento(context);
         SharedPreferences.Editor spe = sharedPreferences.edit();
         spe.clear();
         spe.commit();
     }
     //<---------------------------------------------------------------------------------->
-    public static SharedPreferences getSharedPreferencesPartes(Context context) {
-        return context.getSharedPreferences("spPartes", context.MODE_PRIVATE);
-    }
-
-    public static void setJsonPartes(SharedPreferences sharedPreferences, JSONObject jsonObject) {
-        SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.putString("partes", jsonObject.toString());
-        spe.commit();
-    }
-
-    public static JSONObject getJsonPartes(SharedPreferences sharedPreferences) throws JSONException {
-        String s = sharedPreferences.getString("partes", "{}");
-        return new JSONObject(s);
-    }
-
-    public static void clearSharedPreferencesPartes(Context context) {
-        SharedPreferences sharedPreferences = getSharedPreferencesPartes(context);
-        SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.clear();
-        spe.commit();
-    }
-    //<---------------------------------------------------------------------------------->
-    public static SharedPreferences getSharedPreferencesDia(Context context) {
-        return context.getSharedPreferences("spDia", context.MODE_PRIVATE);
-    }
-
-    public static void setJsonDia(SharedPreferences sharedPreferences, JSONObject jsonObject) {
-        SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.putString("dia", jsonObject.toString());
-        spe.commit();
-    }
-
-    public static JSONObject getJsonDia(SharedPreferences sharedPreferences) throws JSONException {
-        String s = sharedPreferences.getString("dia", "{}");
-        return new JSONObject(s);
-    }
-
-    public static void clearSharedPreferencesDia(Context context) {
-        SharedPreferences sharedPreferences = getSharedPreferencesDia(context);
-        SharedPreferences.Editor spe = sharedPreferences.edit();
-        spe.clear();
-        spe.commit();
-    }
 
 }

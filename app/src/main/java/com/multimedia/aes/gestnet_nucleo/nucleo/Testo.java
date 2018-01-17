@@ -34,7 +34,6 @@ import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -61,7 +60,7 @@ public class Testo extends AppCompatActivity implements View.OnClickListener, Ad
         btnBuscarAnalizador.setOnClickListener(this);
         lvAnalizador.setOnItemClickListener(this);
         try {
-        JSONObject jsonObject = GestorSharedPreferences.getJsonMantenimiento(GestorSharedPreferences.getSharedPreferencesMantenimiento(this));
+        JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(this));
         int id = jsonObject.getInt("id");
 
         } catch (JSONException e) {
