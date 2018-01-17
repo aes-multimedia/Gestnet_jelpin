@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -20,15 +21,13 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-/**
- * Created by acp on 23/09/2017.
- */
 
 public class HiloPorFecha extends AsyncTask<Void,Void,Void> {
 
 private String mensaje="",ipCliente,fecha;
 private int idUser;
 private Context context;
+private ProgressDialog dialog;
 
 public HiloPorFecha(Context context,int idUser,String fecha,String ipCliente) {
         this.idUser=idUser;
@@ -38,7 +37,16 @@ public HiloPorFecha(Context context,int idUser,String fecha,String ipCliente) {
         }
 
 
-
+        @Override
+        protected void onPreExecute() {
+                dialog = new ProgressDialog(context);
+                dialog.setTitle("Conectando");
+                dialog.setMessage("Conectando con el servidor, porfavor espere..."+"\n"+"Esto puede tardar unos minutos si la cobertura es baja.");
+                dialog.setCancelable(false);
+                dialog.setIndeterminate(true);
+                dialog.show();
+                super.onPreExecute();
+        }
         @Override
 protected Void doInBackground(Void... voids) {
         try {
@@ -53,6 +61,7 @@ protected Void doInBackground(Void... voids) {
 @Override
 protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
 
         ((Index)context).guardarPartes(mensaje);

@@ -288,9 +288,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                        selectedmonth = selectedmonth + 1;
                         String day = selectedday + "";
-                        String month = selectedmonth+1 + "";
+                        String month = selectedmonth + "";
                         if (selectedday < 10) {
                             day = "0" + selectedday;
                         }

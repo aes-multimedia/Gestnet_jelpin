@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCierreDia;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
     private Button btnFechaCierre,btnHorasComida,btnHoraInicio,btnHoraFin,btnHorasExtra,btnHoraGuardia,btnEnviar,btnTerminar;
     private TextView txtTotalHoras,txtTotalGastos;
     private EditText etDietas,etParking,etCombustible,etLitrosCombustible,etMaterial,etEntregado,etObservaciones;
+    private CheckBox cbFestivo;
     //METODOS
     private void inicializarVariables(){
         //BUTTON
@@ -51,6 +54,8 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         etMaterial = (EditText) findViewById(R.id.etMaterial);
         etEntregado = (EditText) findViewById(R.id.etEntregado);
         etObservaciones = (EditText) findViewById(R.id.etObservaciones);
+        //CHECKBOX
+        cbFestivo = (CheckBox) findViewById(R.id.cbFestivo);
         //ONCLICK
         btnFechaCierre.setOnClickListener(this);
         btnHorasComida.setOnClickListener(this);
@@ -200,11 +205,11 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
                         min = ""+minute;
                     }
                     btnHorasComida.setText(hor+":"+min);
+                    actualizarHoras();
                 }
             },mHour,mMin,true);
             mTimePicker.setTitle("Seleccione Hora");
             mTimePicker.show();
-            actualizarHoras();
         }else if (v.getId()==R.id.btnHoraInicio){
             final int mHour = 0;
             final int mMin = 0;
@@ -225,11 +230,12 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
                         min = ""+minute;
                     }
                     btnHoraInicio.setText(hor+":"+min);
+                    actualizarHoras();
                 }
             },mHour,mMin,true);
             mTimePicker.setTitle("Seleccione Hora");
             mTimePicker.show();
-            actualizarHoras();
+
         }else if (v.getId()==R.id.btnHoraFin){
             final int mHour = 0;
             final int mMin = 0;
@@ -250,11 +256,12 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
                         min = ""+minute;
                     }
                     btnHoraFin.setText(hor+":"+min);
+                    actualizarHoras();
                 }
             },mHour,mMin,true);
             mTimePicker.setTitle("Seleccione Hora");
             mTimePicker.show();
-            actualizarHoras();
+
 
         }else if (v.getId()==R.id.btnHorasExtra){
             final int mHour = 0;
@@ -307,12 +314,48 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         }else if (v.getId()==R.id.btnEnviar){
             int fk_tecnico = 0;
             try {
-                fk_tecnico = UsuarioDAO.buscarTodosLosUsuarios(this).get(0).getId_usuario();
+                fk_tecnico = UsuarioDAO.buscarTodosLosUsuarios(this).get(0).getFk_entidad();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            //new HiloCierreDia(this,)
+            int horDuracion = Integer.parseInt(txtTotalHoras.getText().toString().split(":")[0])*3600;
+            int minDuracion = Integer.parseInt(txtTotalHoras.getText().toString().split(":")[1])*60;
+            int duracion = horDuracion+minDuracion;
+            int horGuardia = Integer.parseInt(btnHoraGuardia.getText().toString().split(":")[0])*3600;
+            int minGuardia = Integer.parseInt(btnHoraGuardia.getText().toString().split(":")[1])*60;
+            int horas_guardia = horGuardia+minGuardia;
+            int horExtra = Integer.parseInt(btnHorasExtra.getText().toString().split(":")[0])*3600;
+            int minExtra = Integer.parseInt(btnHorasExtra.getText().toString().split(":")[1])*60;
+            int horas_extra = horExtra+minExtra;
+            double dietas = Double.parseDouble(etDietas.getText().toString().trim());
+            double parking = Double.parseDouble(etParking.getText().toString().trim());
+            double combustible = Double.parseDouble(etCombustible.getText().toString().trim());
+            double litros_reposta = Double.parseDouble(etLitrosCombustible.getText().toString().trim());
+            double entregado = Double.parseDouble(etEntregado.getText().toString().trim());
+            double material = Double.parseDouble(etMaterial.getText().toString().trim());
+            String horas_comida = btnHorasComida.getText().toString().trim();
+            String hora_inicio = btnHoraInicio.getText().toString().trim();
+            String hora_fin = btnHoraFin.getText().toString().trim();
+            String observaciones = etObservaciones.getText().toString().trim();
+            String fecha_cierre = btnFechaCierre.getText().toString().trim();
+            String oldFormat = "dd/MM/yyyy";
+            String newFormat = "yyyy-MM-dd";
+            SimpleDateFormat sdf1 = new SimpleDateFormat(oldFormat);
+            SimpleDateFormat sdf2 = new SimpleDateFormat(newFormat);
+            try {
+                fecha_cierre = sdf2.format(sdf1.parse(fecha_cierre));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            boolean festivo;
+            if (cbFestivo.isChecked()){
+                festivo =  true;
+            }else{
+                festivo = false;
+            }
+            new HiloCierreDia(this,fk_tecnico,duracion,horas_guardia,horas_extra,dietas,parking,
+                    combustible,litros_reposta,entregado,material,horas_comida,hora_inicio,hora_fin,
+                    observaciones,fecha_cierre,festivo).execute();
         }else if (v.getId()==R.id.btnTerminar){
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
             builder1.setMessage("¿Estas seguro de que desea terminar?");

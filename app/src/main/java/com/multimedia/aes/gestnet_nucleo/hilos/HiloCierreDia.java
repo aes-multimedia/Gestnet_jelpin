@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -29,6 +30,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
     private String mensaje,horas_comida,hora_inicio,hora_fin,observaciones,fecha_cierre;
     private boolean festivo;
     private Context context;
+    private ProgressDialog dialog;
 
 
 
@@ -67,8 +69,19 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
         return null;
     }
     @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Conectando");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..."+"\n"+"Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             ((CierreDia)context).finish();
         }else{
