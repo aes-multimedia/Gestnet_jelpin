@@ -105,6 +105,23 @@ public class DisposicionesDAO extends DBHelperMOS {
         }
     }
 
+
+    public static int buscarPrecioDisposicionPorNombre(Context context, String nombre) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<Disposiciones> listadoDisposiciones= null;
+        try {
+            listadoDisposiciones = dao.queryForEq(Disposiciones.NOMBRE_DISPOSICION, nombre);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        if(listadoDisposiciones.isEmpty()) {
+            return -1;
+        }else{
+            return listadoDisposiciones.get(0).getPrecio_disposicion();
+        }
+
+    }
+
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
     public static void actualizarDisposiciones(Context context, int id_disposicion_servicio, String nombre_disposicion, int coste_disposicion, int precio_disposicion) throws java.sql.SQLException {
         cargarDao(context);

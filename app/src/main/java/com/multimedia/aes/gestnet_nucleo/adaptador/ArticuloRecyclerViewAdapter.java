@@ -50,7 +50,7 @@ public void onBindViewHolder(final ArticuloViewHolder holder, int position) {
         holder.tvTituloArticulo.setText(list.get(position).getNombre_articulo());
         holder.tvStock.setText(String.valueOf(list.get(position).getStock()));
         holder.tvPrecio.setText(String.valueOf(list.get(position).getTarifa())+ "\u20ac");
-        //holder.ivFoto.setImageResource(list.get(position).getImagen());
+
         holder.llRow.setTag(list.get(position).getId_articulo());
         holder.llRow.setOnClickListener(new View.OnClickListener() {
 @Override
@@ -58,7 +58,7 @@ public void onClick(View v) {
         Intent I = new Intent(activity,InfoArticulos.class);
         I.putExtra("articuloId",Integer.parseInt(String.valueOf(holder.llRow.getTag())));
 
-      //  Pair<View,String> pair1 = Pair.create(v.findViewById(R.id.ivFoto),"miImagen");
+
          Pair<View,String> pair2 = Pair.create(v.findViewById(R.id.tvTituloArticulo),"titulo");
         Pair<View,String> pair3 = Pair.create(v.findViewById(R.id.tvPrecio),"precio");
         Pair<View,String> pair4 = Pair.create(v.findViewById(R.id.tvStock),"stock");

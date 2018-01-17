@@ -409,6 +409,18 @@ public class ParteDAO extends DBHelperMOS{
 
         updateBuilder.update();
     }
+    public static void actualizarParteDuracion(Context context,  String duracion) throws SQLException
+    {
+
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.updateColumnValue(Parte.DURACION, duracion);
+
+
+        updateBuilder.update();
+    }
+
     public static void actualizarParte(Context context, int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario,
                                        int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
                                        String fecha_visita, boolean visita_duplicada, String fecha_reparacion, int num_parte,
@@ -559,7 +571,6 @@ public class ParteDAO extends DBHelperMOS{
 
         updateBuilder.update();
     }
-
 
 
 }

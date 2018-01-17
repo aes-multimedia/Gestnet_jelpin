@@ -15,12 +15,12 @@ public class ManoObra {
 
     @DatabaseField(id=true,columnName = ID_MANO) private int id_mano;
     @DatabaseField(columnName = CONCEPTO) private String concepto;
-    @DatabaseField(columnName = PRECIO) private String precio;
+    @DatabaseField(columnName = PRECIO) private int precio;
     @DatabaseField(columnName = COSTE) private String coste;
 
     public ManoObra(){}
 
-    public ManoObra(int id_mano, String concepto, String precio, String coste) {
+    public ManoObra(int id_mano, String concepto, int precio, String coste) {
         this.id_mano = id_mano;
         this.concepto = concepto;
         this.precio = precio;
@@ -43,11 +43,11 @@ public class ManoObra {
         this.concepto = concepto;
     }
 
-    public String getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 

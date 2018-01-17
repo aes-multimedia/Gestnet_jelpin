@@ -105,6 +105,22 @@ public class FormasPagoDAO extends DBHelperMOS {
         }
     }
 
+
+    public static int buscarIdFormaPagoPorNombre(Context context, String s) throws java.sql.SQLException {
+        cargarDao(context);
+        List<FormasPago> listadoFormasPago= null;
+        try {
+            listadoFormasPago = dao.queryForEq(FormasPago.FORMA_PAGO, s);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        if(listadoFormasPago.isEmpty()) {
+            return -1;
+        }else{
+            return listadoFormasPago.get(0).getId_forma_pago();
+        }
+    }
+
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
     public static void actualizarFormasPago(Context context, int id_forma_pago, String forma_pago, int financiado, boolean mostrar_cuenta, boolean sumar_dias, boolean bAparecerEnInforme, boolean mostrarcuenta) throws java.sql.SQLException {
         cargarDao(context);
@@ -118,4 +134,7 @@ public class FormasPagoDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(FormasPago.MOSTRARCUENTA,mostrarcuenta);
         updateBuilder.update();
     }
+
+
+
 }

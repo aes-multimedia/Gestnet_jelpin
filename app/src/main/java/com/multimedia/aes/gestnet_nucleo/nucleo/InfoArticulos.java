@@ -141,7 +141,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),6666)){
+        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),parte.getId_parte())){
 
             try {
                 ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());

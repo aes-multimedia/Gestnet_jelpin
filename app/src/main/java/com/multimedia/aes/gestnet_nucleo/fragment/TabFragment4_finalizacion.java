@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,13 +35,16 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private TextView tvDuracion;
-    private Button btnAñadirDuracion;
+    private EditText etPuestaEnMarcha,etServicioUrgencia,etKmsInicio,etKmsFin,etOperacionEfectuada,etNombreOtros,etPrecioOtros;
+    private int horas;
+    private Button btnAñadirDuracion,btnFinalizar;
     private String tiempoDuracion;
     private Spinner spFormaPago,spDisposicionServicio,spManoObra;
     private ArrayList <FormasPago> formasPagos = new ArrayList<>();
@@ -63,13 +67,20 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 parte = ParteDAO.buscarPartePorId(getContext(), idParte);
                 usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
                 maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
-                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+                if(DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte())!=null) {
+                    datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
+                }else{
+                    datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(new DatosAdicionales(),getContext());
+                }
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
         }
         inicializar();
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+
+
+
+       /* BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 vista.findViewById(R.id.navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener
@@ -96,7 +107,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                     }
                 });
 
-
+*/
 
         return vista;
 
@@ -107,6 +118,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
         tvDuracion = (TextView) vista.findViewById(R.id.tvDuracion);
+        etPuestaEnMarcha = (EditText)vista.findViewById(R.id.etPuestaMarcha);
+        etServicioUrgencia = (EditText)vista.findViewById(R.id.etServicioUrgencia);
+        etKmsInicio = (EditText)vista.findViewById(R.id.etKmsInicio);
+        etKmsFin = (EditText)vista.findViewById(R.id.etKmsFin);
+        etNombreOtros = (EditText)vista.findViewById(R.id.etNombreOtros);
+        etPrecioOtros = (EditText)vista.findViewById(R.id.etPrecioOtros);
+        etOperacionEfectuada=(EditText)vista.findViewById(R.id.etOperacionEfectuada);
+
         btnAñadirDuracion = (Button)vista.findViewById(R.id.btnAñadirDuracion);
         btnAñadirDuracion.setOnClickListener(this);
         spFormaPago = ( Spinner)vista.findViewById(R.id.spFormaPago) ;
@@ -114,6 +133,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         spDisposicionServicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
      //   spDisposicionServicio.setOnClickListener(this);
         spManoObra = (Spinner) vista.findViewById(R.id.spManoObra);
+        btnFinalizar=(Button)vista.findViewById(R.id.btnFinalizar);
+        btnFinalizar.setOnClickListener(this);
 
         darValores();
 
@@ -169,11 +190,46 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             mTimePicker = new TimePickerDialog(getContext() , new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    tvDuracion.setText( selectedHour + " horas " + selectedMinute+" minutos");
+                    btnAñadirDuracion.setText( selectedHour + " horas " + selectedMinute+" minutos");
+                    horas=(selectedHour*60+selectedMinute)*60;
+
                 }
             }, hour, minute, true);
             mTimePicker.setTitle("Selecciona la duración");
             mTimePicker.show();
+
+        }else if(view.getId()==btnFinalizar.getId()){
+
+
+            double disposicion=-1;
+            int formaPago=-1;
+            int manoObra=-1;
+
+
+            try {
+                disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(),spDisposicionServicio.getSelectedItem().toString());
+                formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(),spFormaPago.getSelectedItem().toString());
+                manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(),spManoObra.getSelectedItem().toString());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+                String puestaMarcha=etPuestaEnMarcha.getText().toString();
+                String servicioUrgencia=etServicioUrgencia.getText().toString();
+                double kmsInicio=Double.valueOf(etKmsInicio.getText().toString());
+                double kmsPrecio=Double.valueOf(etKmsFin.getText().toString());
+                double adicional=Double.valueOf(etNombreOtros.getText().toString());
+                String OperacionEfectuada=etOperacionEfectuada.getText().toString();
+                double precioAdicional=Double.valueOf(etPrecioOtros.getText().toString());
+
+            try {
+
+                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,adicional,precioAdicional);
+                ParteDAO.actualizarParteDuracion(getContext(),String.valueOf(horas));
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         }
 

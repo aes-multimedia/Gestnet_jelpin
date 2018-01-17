@@ -209,7 +209,7 @@ public class DatosAdicionales {
     @DatabaseField(columnName = COBRAR_ANALISIS_COMBUSTION) private boolean cobrar_analisis_combustion;
 
 
-    private DatosAdicionales(){}
+    public DatosAdicionales(){}
 
     public DatosAdicionales(int id_rel, int fk_parte, int fk_forma_pago, String sintomas_averia, String operacion_efectuada,
                             String observaciones, boolean preeu_disposicion_servicio_si_no, double preeu_disposicion_servicio,

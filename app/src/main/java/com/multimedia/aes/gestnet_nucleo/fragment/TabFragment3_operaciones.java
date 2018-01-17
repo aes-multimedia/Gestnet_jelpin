@@ -73,16 +73,18 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         }
     }
     private void ordenarArrayAccionProtocolos(ArrayList<ProtocoloAccion> protocoloAccionArrayList,int indice) {
-        if(protocoloAccionArrayList.size()>1 && indice < protocoloAccionArrayList.size()) {
+
+        if(protocoloAccionArrayList.size()>1 && indice < protocoloAccionArrayList.size() -1) {
             if (protocoloAccionArrayList.get(indice).getFk_protocolo() == protocoloAccionArrayList.get(indice + 1).getFk_protocolo() &&
                     protocoloAccionArrayList.get(indice).getFk_maquina() == protocoloAccionArrayList.get(indice + 1).getFk_maquina()) {
-                protocoloAccionArrayList.remove(indice + 1);
-                ordenarArrayAccionProtocolos(protocoloAccionArrayList, indice);
+                protocoloAccionArrayList.remove(indice +1);
+                ordenarArrayAccionProtocolos(protocoloAccionArrayList, indice );
             } else {
                 ordenarArrayAccionProtocolos(protocoloAccionArrayList, indice + 1);
             }
         }
     }
+
     private void crearLinearProtocolo(String protocolo){
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);

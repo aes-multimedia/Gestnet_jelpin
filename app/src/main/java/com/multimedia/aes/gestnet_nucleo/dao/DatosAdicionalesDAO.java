@@ -75,6 +75,16 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
             return false;
         }
     }
+    public static DatosAdicionales crearDatosAdicionalesRet(DatosAdicionales d,Context context) throws java.sql.SQLException {
+        try {
+            cargarDao(context);
+            dao.create(d);
+            return d;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static DatosAdicionales montarDatosAdicionales(int id_rel,int fk_parte,int fk_forma_pago,String sintomas_averia, String operacion_efectuada,String observaciones, boolean preeu_disposicion_servicio_si_no, double preeu_disposicion_servicio,
                                                           boolean preeu_mano_de_obra_si_no, double preeu_mano_de_obra_precio, double preeu_mano_de_obra,
@@ -297,4 +307,24 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
 
+    public static void actualizarDatosAdicionales(Context context, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra,
+                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio, String operacionEfectuada,double adicional,double adicionalPrecio) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.updateColumnValue(DatosAdicionales.FK_FORMA_PAGO,formaPago);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_PUESTA_MARCHA,puestaMarcha);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_DISPOSICION_SERVICIO,preeu_disposicion_servicio);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,manoObra);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_SERVICIO_URGENCIA,servicioUrgencia);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,kmsPrecio);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM,kmsInicio);
+        updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL,adicional);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL_COSTE,adicionalPrecio);
+
+
+
+        updateBuilder.update();
+    }
 }

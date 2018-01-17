@@ -103,6 +103,21 @@ public class ManoObraDAO extends DBHelperMOS {
             return listadoManoObra.get(0);
         }
     }
+    public static int buscarPrecioManoObraPorNombre(Context context, String s) throws java.sql.SQLException {
+        cargarDao(context);
+        List<ManoObra> listadoManoObra= null;
+        try {
+            listadoManoObra = dao.queryForEq(ManoObra.CONCEPTO, s);
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        if(listadoManoObra.isEmpty()) {
+            return -1;
+        }else{
+            return listadoManoObra.get(0).getPrecio();
+        }
+
+    }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
     public static void actualizarManoObra(Context context, int id_mano, String concepto, String precio, String coste ) throws java.sql.SQLException {
@@ -114,4 +129,6 @@ public class ManoObraDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(ManoObra.COSTE,coste);
         updateBuilder.update();
     }
+
+
 }
