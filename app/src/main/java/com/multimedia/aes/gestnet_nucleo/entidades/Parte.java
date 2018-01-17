@@ -184,7 +184,7 @@ public class Parte {
     @DatabaseField(columnName = OTROS_SINTOMAS)                 private String otros_sintomas;
     @DatabaseField(columnName = FECHA_BAJA)                     private String fecha_baja;
     @DatabaseField(columnName = FAC_BAJA_STOCK)                 private boolean fac_baja_stock;
-    @DatabaseField(columnName = ESTADO_ANDROID)                 private boolean estado_android;
+    @DatabaseField(columnName = ESTADO_ANDROID)                 private int estado_android;
     @DatabaseField(columnName = URGENCIAS)                      private boolean urgencias;
     @DatabaseField(columnName = LOTE)                           private String lote;
     @DatabaseField(columnName = VALIDAR)                        private boolean validar;
@@ -253,7 +253,7 @@ public class Parte {
                  String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre,
                  String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia,
                  String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas,
-                 String fecha_baja, boolean fac_baja_stock, boolean estado_android, boolean urgencias,
+                 String fecha_baja, boolean fac_baja_stock, int estado_android, boolean urgencias,
                  String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion,
                  int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos,
                  int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora,
@@ -266,7 +266,7 @@ public class Parte {
                  String latitud_direccion, String longitud_direccion, String nombre_cliente,
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                 String observaciones_cliente,String user_creador,String tipo) {
+                 String observaciones_cliente, String user_creador, String tipo) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -763,10 +763,10 @@ public class Parte {
     public void setFac_baja_stock(boolean fac_baja_stock) {
         this.fac_baja_stock = fac_baja_stock;
     }
-    public boolean isEstado_android() {
+    public int getEstado_android() {
         return estado_android;
     }
-    public void setEstado_android(boolean estado_android) {
+    public void setEstado_android(int estado_android) {
         this.estado_android = estado_android;
     }
     public boolean isUrgencias() {
@@ -1043,4 +1043,5 @@ public class Parte {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
 }

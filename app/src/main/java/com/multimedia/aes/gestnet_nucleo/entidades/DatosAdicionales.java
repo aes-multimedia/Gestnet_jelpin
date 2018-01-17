@@ -13,8 +13,6 @@ import static com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales.RETEN
 public class DatosAdicionales {
 
 
-
-
     public static final String ID_REL="_id_rel";
     public static final String FK_PARTE="fk_parte";
     public static final String FK_FORMA_PAGO="fk_forma_pago";

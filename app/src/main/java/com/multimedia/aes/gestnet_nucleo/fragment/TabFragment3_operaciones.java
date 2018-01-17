@@ -1,6 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -29,6 +29,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -137,19 +140,22 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
         btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
         btnFinalizar.setOnClickListener(this);
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            try {
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
-                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            idParte = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
+        try {
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+            maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
+            datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
         try {
             darValores();
         } catch (java.sql.SQLException e) {

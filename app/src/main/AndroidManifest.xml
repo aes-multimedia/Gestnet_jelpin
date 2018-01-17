@@ -53,11 +53,13 @@
         <service
             android:name=".servicios.ServicioLocalizacion"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".servicios.ServicioArticulos"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".nucleo.CierreDia"></activity>
     </application>
 
 </manifest>

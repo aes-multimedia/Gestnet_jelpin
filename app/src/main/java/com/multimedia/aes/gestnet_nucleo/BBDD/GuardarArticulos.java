@@ -16,10 +16,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by acp on 04/01/2018.
- */
-
 public class GuardarArticulos {
 
     private static String msg;

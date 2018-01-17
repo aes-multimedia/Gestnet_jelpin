@@ -155,7 +155,6 @@ public class ArticuloDAO extends DBHelperMOS {
 
 
     public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo, int stock, double coste)throws SQLException {
-
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
