@@ -34,9 +34,6 @@ import java.sql.SQLException;
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
-
-
-
     private String mensaje;
     private Context context;
     private int fk_parte;
@@ -60,14 +57,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
-            ((ServicioArticulos) context).guardarArticulos(mensaje);
-
         }else{
-
-            ((Index) context).sacarMensaje("No se han devuelto correctamente de la api los articulos");
-
-
         }
     }
     private String iniciar() throws JSONException {
