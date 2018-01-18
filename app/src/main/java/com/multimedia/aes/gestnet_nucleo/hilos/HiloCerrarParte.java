@@ -64,6 +64,12 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
+            try {
+                ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
+                ((Index)context).recreate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }else{
         }
     }
@@ -74,7 +80,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_ARTICULOS_EXTERNAPRUEBAS);
+            urlws = new URL(Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -124,15 +130,13 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
-        JSONObject jsonObject3 = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
 
         Parte parte = ParteDAO.buscarPartePorId(context,fk_parte);
         jsonObject1.put("fk_estado",parte.getFk_estado());
         jsonObject1.put("id_parte",parte.getId_parte());
         jsonObject1.put("confirmado",parte.getConfirmado());
         jsonObject1.put("observaciones",parte.getObservaciones());
-        jsonObject1.put("estado_android",parte.getEstado_android());
+        jsonObject1.put("estado_android",3);
 
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,fk_parte);
         jsonObject2.put("fk_parte",parte.getId_parte());
@@ -160,25 +164,23 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
 
-        List<ArticuloParte> articulosParte;
-        articulosParte = ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte);
+        ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
+        articulosParte.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte));
         JSONArray jsonArray1 = new JSONArray();
-
-
             for (ArticuloParte articuloParte: articulosParte) {
-            JSONObject obj = new JSONObject();
-            Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
+                JSONObject obj = new JSONObject();
+                Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
+                obj.put("fk_parte",parte.getId_parte());
+                obj.put("nombre_articulo",a.getNombre_articulo());
+                obj.put("stock",a.getStock());
+                obj.put("marca",a.getMarca());
+                obj.put("modelo",a.getModelo());
+                obj.put("iva",a.getIva());
+                obj.put("tarifa",a.getTarifa());
+                obj.put("descuento",a.getDescuento());
+                obj.put("coste",a.getCoste());
 
-            obj.put("nombre_articulo",a.getNombre_articulo());
-            obj.put("stock",a.getStock());
-            obj.put("marca",a.getMarca());
-            obj.put("modelo",a.getModelo());
-            obj.put("iva",a.getIva());
-            obj.put("tarifa",a.getTarifa());
-            obj.put("descuento",a.getDescuento());
-            obj.put("coste",a.getCoste());
-
-            jsonArray1.put(obj);
+                jsonArray1.put(obj);
         }
 
 
@@ -196,33 +198,27 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
                 jsonObject4.put("fk_maquina",analisis.getFk_maquina());
                 jsonObject4.put("fk_parte",analisis.getFk_parte());
-                jsonObject4.put("c0_maquina",analisis.getC0_maquina());
-                jsonObject4.put("temperatura_gases_combustion",analisis.getTemperatura_gases_combustion());
-                jsonObject4.put("temperatura_ambiente_local",analisis.getTemperatura_ambiente_local());
-                jsonObject4.put("rendimiento_aparato",analisis.getRendimiento_aparato());
-                jsonObject4.put("co_corregido",analisis.getCo_corregido());
-                jsonObject4.put("co_ambiente",analisis.getCo_ambiente());
-                jsonObject4.put("co2_ambiente",analisis.getCo2_ambiente());
+                jsonObject4.put("coMaquina",analisis.getC0_maquina());
+                jsonObject4.put("tempGasCombustion",analisis.getTemperatura_gases_combustion());
+                jsonObject4.put("tempAmbLocal",analisis.getTemperatura_ambiente_local());
+                jsonObject4.put("rdtoMaquina",analisis.getRendimiento_aparato());
+                jsonObject4.put("coCorregido",analisis.getCo_corregido());
+                jsonObject4.put("coAmbiente",analisis.getCo_ambiente());
+                jsonObject4.put("co2amb",analisis.getCo2_ambiente());
                 jsonObject4.put("tiro",analisis.getTiro());
-                jsonObject4.put("co2",analisis.getCo2());
-                jsonObject4.put("o2",analisis.getO2());
+                jsonObject4.put("co2Testo",analisis.getCo2());
+                jsonObject4.put("o2Testo",analisis.getO2());
                 jsonObject4.put("lambda",analisis.getLambda());
-                jsonObject4.put("bCampana",analisis.getbCampana());
-                jsonObject4.put("bMaxima_potencia",analisis.getbMaxima_potencia());
-                jsonObject4.put("bMinima_potencia",analisis.getbMinima_potencia());
                 jsonObject4.put("nombre_medicion",analisis.getNombre_medicion());
             }
             jsonObject4.put("fk_parte",parte.getId_parte());
-            jsonObject4.put("temperatura_max_acs",maquina.getTemperatura_max_acs());
-            jsonObject4.put("caudal_acs",maquina.getCaudal_acs());
-            jsonObject4.put("potencia_util",maquina.getPotencia_util());
-            jsonObject4.put("temperatura_agua_generador_calor_entrada",maquina.getTemperatura_agua_generador_calor_entrada());
-            jsonObject4.put("temperatura_agua_generador_calor_salida",maquina.getTemperatura_agua_generador_calor_salida());
+            jsonObject4.put("tempMaxACS",maquina.getTemperatura_max_acs());
+            jsonObject4.put("caudalACS",maquina.getCaudal_acs());
+            jsonObject4.put("potenciaUtil",maquina.getPotencia_util());
+            jsonObject4.put("tempAguaGeneradorCalorEntrada",maquina.getTemperatura_agua_generador_calor_entrada());
+            jsonObject4.put("tempAguaGeneradorCalorSalida",maquina.getTemperatura_agua_generador_calor_salida());
             jsonArray2.put(jsonObject4);
         }
-
-
-
 
 
         msg.put("sat_partes",jsonObject1);
