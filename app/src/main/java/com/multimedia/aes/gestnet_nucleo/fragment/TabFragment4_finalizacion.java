@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
@@ -28,6 +31,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
@@ -208,12 +212,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             double disposicion=-1;
             int formaPago=-1;
             int manoObra=-1;
+            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
 
 
             try {
                 disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(),spDisposicionServicio.getSelectedItem().toString());
                 formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(),spFormaPago.getSelectedItem().toString());
                 manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(),spManoObra.getSelectedItem().toString());
+                 articuloPartes = (ArrayList<ArticuloParte>) ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -222,13 +228,17 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 String servicioUrgencia=etServicioUrgencia.getText().toString();
                 double kmsInicio=Double.valueOf(etKmsInicio.getText().toString());
                 double kmsPrecio=Double.valueOf(etKmsFin.getText().toString());
-                double adicional=Double.valueOf(etNombreOtros.getText().toString());
                 String OperacionEfectuada=etOperacionEfectuada.getText().toString();
+                String nombreOtros=etNombreOtros.getText().toString();
                 double precioAdicional=Double.valueOf(etPrecioOtros.getText().toString());
+
+
+                double precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
 
             try {
 
-                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,adicional,precioAdicional);
+
+                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
                 ParteDAO.actualizarParteDuracion(getContext(),String.valueOf(horas));
 
             } catch (SQLException e) {
@@ -239,6 +249,23 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         }
 
+
+    private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
+        double precio = 0;
+        try {
+
+            for (ArticuloParte articulo : listaArticulos) {
+                precio = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa();
+            }
+        }catch (SQLException e){
+
+
+            Log.w("getPrecioTotal","error al sumar precio articulos parte");
+        }
+
+            return precio;
+
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

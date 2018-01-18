@@ -308,7 +308,8 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
     public static void actualizarDatosAdicionales(Context context, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra,
-                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio, String operacionEfectuada,double adicional,double adicionalPrecio) throws java.sql.SQLException {
+                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
+                                                    double precioArticulos) throws java.sql.SQLException {
         cargarDao(context);
         UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
 
@@ -320,8 +321,10 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,kmsPrecio);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM,kmsInicio);
         updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
-        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL,adicional);
-        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL_COSTE,adicionalPrecio);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,nombreOtros);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL,adicionalPrecio);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_MATERIALES,precioArticulos);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,precioArticulos);
 
 
 

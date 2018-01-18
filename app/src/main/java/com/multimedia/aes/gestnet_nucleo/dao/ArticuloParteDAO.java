@@ -130,6 +130,15 @@ public static ArticuloParte buscarArticuloPartePorFkParte(Context context, int i
         }
     }
 
+    public static List<ArticuloParte> buscarTodosLosArticuloPartePorFkParte(Context context, int id) throws SQLException {
+        cargarDao(context);
+        List<ArticuloParte> listadoArticuloParte= dao.queryForEq(ArticuloParte.FK_PARTE, id);
+        if(listadoArticuloParte.isEmpty()) {
+            return null;
+        }else{
+            return listadoArticuloParte;
+        }
+    }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
