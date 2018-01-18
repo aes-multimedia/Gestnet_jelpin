@@ -58,6 +58,7 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         try {
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());

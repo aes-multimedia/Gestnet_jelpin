@@ -15,10 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 
@@ -31,6 +36,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private ImageView ivFoto;
     private TextView tvTitulo,tvStock,tvPrecio;
     private Menu menu;
+    private int idParte;
     private Articulo articulo;
     private Parte parte;
     private Button btnAñadirMaterial;
@@ -55,12 +61,15 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.informacion_articulo);
-        int id = getIntent().getIntExtra("articuloId",-1);
+        idParte = 0;
         try {
-            articulo = ArticuloDAO.buscarArticuloPorID(this,id);
-        } catch (SQLException e) {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(this));
+            idParte = jsonObject.getInt("id");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        int id = getIntent().getIntExtra("articuloId",-1);
+
         inicializarVariables();
         darValores();
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,11 +146,12 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         Toast.makeText(this,"entrando",Toast.LENGTH_SHORT).show();
         int numArticulos=0;
         try {
+
             numArticulos=ArticuloParteDAO.numeroArticuloParte(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),parte.getId_parte())){
+        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),idParte)){
 
             try {
                 ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
