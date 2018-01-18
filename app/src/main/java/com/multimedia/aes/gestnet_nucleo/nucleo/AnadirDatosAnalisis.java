@@ -149,7 +149,6 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
                 etCoAmbiente.setText("");
                 etCo2Ambiente.setText("");
                 etNombreMedicion.setText("");
-                llDatosTesto.setVisibility(View.GONE);
                 fkAnalisis=-1;
             }
 
@@ -173,7 +172,6 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
                 etCoAmbiente.setText("");
                 etCo2Ambiente.setText("");
                 etNombreMedicion.setText("");
-                llDatosTesto.setVisibility(View.GONE);
                 fkAnalisis=-1;
             }else{
                 etTempGasesComb.setText("");
@@ -314,17 +312,17 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
     }
     private void inicializarVariables() {
         //EDIT TEXT
-        etTempGasesComb = (EditText) findViewById(R.id.txtTempGasesComb);
-        etCoCorregido = (EditText) findViewById(R.id.txtCoCorregido);
-        etO2 = (EditText) findViewById(R.id.txtO2);
-        etC0 = (EditText) findViewById(R.id.txtC0);
-        etLambda = (EditText) findViewById(R.id.txtLambda);
-        etCo2 = (EditText) findViewById(R.id.txtCo2);
-        etTempAmbienteLocal = (EditText) findViewById(R.id.txtTempAmbienteLocal);
-        etTiro = (EditText) findViewById(R.id.txtTiro);
-        etRendimientoAparato = (EditText) findViewById(R.id.txtRendimientoAparato);
-        etCoAmbiente = (EditText) findViewById(R.id.txtCoAmbiente);
-        etCo2Ambiente = (EditText) findViewById(R.id.txtCo2Ambiente);
+        etTempGasesComb = (EditText) findViewById(R.id.etTempGasesComb);
+        etCoCorregido = (EditText) findViewById(R.id.etCoCorregido);
+        etO2 = (EditText) findViewById(R.id.etO2);
+        etC0 = (EditText) findViewById(R.id.etCO);
+        etLambda = (EditText) findViewById(R.id.etLambda);
+        etCo2 = (EditText) findViewById(R.id.etCO2);
+        etTempAmbienteLocal = (EditText) findViewById(R.id.etTempAmbienteLocal);
+        etTiro = (EditText) findViewById(R.id.etTiro);
+        etRendimientoAparato = (EditText) findViewById(R.id.etRendimientoAparato);
+        etCoAmbiente = (EditText) findViewById(R.id.etCoAmbiente);
+        etCo2Ambiente = (EditText) findViewById(R.id.etCo2Ambiente);
         etNombreMedicion = (EditText) findViewById(R.id.etNombreMedicion);
 
 

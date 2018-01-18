@@ -40,7 +40,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas;
-    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4;
+    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente;
 
 
@@ -70,6 +70,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3.setEnabled(false);
         etTelefono4= (EditText) vista.findViewById(R.id.etTelefono4);
         etTelefono4.setEnabled(false);
+        etObservaciones= (EditText) vista.findViewById(R.id.etObservaciones);
+        etObservaciones.setEnabled(false);
 
         //BOTONES
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
@@ -90,6 +92,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                     etTelefono2.setEnabled(true);
                     etTelefono3.setEnabled(true);
                     etTelefono4.setEnabled(true);
+                    etObservaciones.setEnabled(true);
                 }
 
                 else {
@@ -99,6 +102,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                     etTelefono2.setEnabled(false);
                     etTelefono3.setEnabled(false);
                     etTelefono4.setEnabled(false);
+                    etObservaciones.setEnabled(false);
                 }
 
 
@@ -114,6 +118,32 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtMaquina.setText(String.valueOf(maquina.getModelo()));
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
         txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
+        String dir = "";
+        if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){
+            dir+=parte.getTipo_via()+" ";
+        }
+        if (!parte.getVia().trim().equals("")&&!parte.getVia().trim().equals("null")){
+            dir+=parte.getVia()+" ";
+        }
+        if (!parte.getNumero_direccion().trim().equals("")&&!parte.getNumero_direccion().trim().equals("null")){
+            dir+="Nº "+parte.getNumero_direccion()+" ";
+        }
+        if (!parte.getEscalera_direccion().trim().equals("")&&!parte.getEscalera_direccion().trim().equals("null")){
+            dir+="Esc. "+parte.getEscalera_direccion()+" ";
+        }
+        if (!parte.getPiso_direccion().trim().equals("")&&!parte.getPiso_direccion().trim().equals("null")){
+            dir+="Piso "+parte.getPiso_direccion()+" ";
+        }
+        if (!parte.getPuerta_direccion().trim().equals("")&&!parte.getPuerta_direccion().trim().equals("null")){
+            dir+=parte.getPuerta_direccion()+" ";
+        }
+        if (!parte.getMunicipio_direccion().trim().equals("")&&!parte.getMunicipio_direccion().trim().equals("null")){
+            dir+="("+parte.getMunicipio_direccion()+"-";
+        }
+        if (!parte.getProvincia_direccion().trim().equals("")&&!parte.getProvincia_direccion().trim().equals("null")){
+            dir+=parte.getProvincia_direccion()+")";
+        }
+        txtDierccionTitular.setText(dir);
         txtSintomas.setText(String.valueOf(parte.getOtros_sintomas()));
         etNombreTitular.setText(parte.getNombre_cliente());
         etDni.setText(parte.getDni_cliente());
