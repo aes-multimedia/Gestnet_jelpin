@@ -120,7 +120,7 @@ public class ManoObraDAO extends DBHelperMOS {
     }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
-    public static void actualizarManoObra(Context context, int id_mano, String concepto, String precio, String coste ) throws java.sql.SQLException {
+    public static void actualizarManoObra(Context context, int id_mano, String concepto, int precio, String coste ) throws java.sql.SQLException {
         cargarDao(context);
         UpdateBuilder<ManoObra, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(ManoObra.ID_MANO,id_mano);

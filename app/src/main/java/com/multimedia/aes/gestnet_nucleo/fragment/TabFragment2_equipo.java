@@ -204,7 +204,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                         try {
                             MaquinaDAO.borrarMaquinaPorId(context,idMaquina);
                             arrayListMaquina.clear();
-                            List<Maquina> a = MaquinaDAO.buscarTodasLasMaquinas(context);
+                            List<Maquina> a = MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte());
                             if (a!=null) {
                                 alto =height * a.size();
                                 arrayListMaquina.addAll(a);
@@ -372,13 +372,13 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         }
         inicializarVariables();
         darValores();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        height = display.getHeight();
+        height=height/16;
         arrayListAnalisis.clear();
         arrayListMaquina.clear();
         añadirMaquina(getContext());
         añadirAnalisis();
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        height = display.getHeight();
-        height=height/16;
         return vista;
     }
     @Override

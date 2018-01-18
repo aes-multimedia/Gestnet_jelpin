@@ -39,6 +39,9 @@
             android:name=".nucleo.InfoArticulos"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".nucleo.AnadirDatosAnalisis"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"

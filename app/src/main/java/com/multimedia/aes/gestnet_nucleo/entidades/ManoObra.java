@@ -1,8 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.entidades;
 
-/**
- * Created by acp on 25/08/2017.
- */
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "mos_mano_obra")

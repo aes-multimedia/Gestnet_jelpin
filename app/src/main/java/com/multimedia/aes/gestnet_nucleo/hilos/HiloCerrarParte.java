@@ -33,14 +33,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-/**
- * Created by acp on 17/01/2018.
- */
-
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
-
-
-
 
     private String mensaje;
     private Context context;
@@ -67,14 +60,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
-            ((ServicioArticulos) context).guardarArticulos(mensaje);
-
         }else{
-
-            ((Index) context).sacarMensaje("No se han devuelto correctamente de la api los articulos");
-
-
         }
     }
     private String iniciar() throws JSONException, SQLException {

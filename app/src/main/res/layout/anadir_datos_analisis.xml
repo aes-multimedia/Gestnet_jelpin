@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/botones"
-                android:text="@string/añadir_analisis" />
+                android:text="Analizador Testo" />
 
             <LinearLayout
                 android:id="@+id/llDatosTesto"
@@ -79,14 +79,18 @@
                                 android:id="@+id/textView40"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="C0"
+                                android:text="CO"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtC0"
+                            <EditText
+                                android:id="@+id/etCO"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -104,10 +108,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtCo2"
+                            <EditText
+                                android:id="@+id/etCO2"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -125,10 +133,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtO2"
+                            <EditText
+                                android:id="@+id/etO2"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -146,10 +158,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtCoCorregido"
+                            <EditText
+                                android:id="@+id/etCoCorregido"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -167,10 +183,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtTempGasesComb"
+                            <EditText
+                                android:id="@+id/etTempGasesComb"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -188,10 +208,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtLambda"
+                            <EditText
+                                android:id="@+id/etLambda"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -216,10 +240,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtTempAmbienteLocal"
+                            <EditText
+                                android:id="@+id/etTempAmbienteLocal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -237,10 +265,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtTiro"
+                            <EditText
+                                android:id="@+id/etTiro"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -258,10 +290,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtRendimientoAparato"
+                            <EditText
+                                android:id="@+id/etRendimientoAparato"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -278,10 +314,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtCoAmbiente"
+                            <EditText
+                                android:id="@+id/etCoAmbiente"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
 
@@ -299,10 +339,14 @@
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="18dp" />
 
-                            <TextView
-                                android:id="@+id/txtCo2Ambiente"
+                            <EditText
+                                android:id="@+id/etCo2Ambiente"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
 
                         </LinearLayout>
                     </LinearLayout>

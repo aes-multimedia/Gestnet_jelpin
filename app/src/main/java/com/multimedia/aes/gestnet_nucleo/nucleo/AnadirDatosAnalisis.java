@@ -27,7 +27,17 @@ import java.util.ArrayList;
 
 public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private TextView txtTempGasesComb,txtCoCorregido,txtO2,txtC0,txtLambda,txtCo2,txtTempAmbienteLocal,txtTiro,txtRendimientoAparato,txtCoAmbiente,txtCo2Ambiente;
+    private EditText etTempGasesComb;
+    private EditText etCoCorregido;
+    private EditText etO2;
+    private EditText etC0;
+    private EditText etLambda;
+    private EditText etCo2;
+    private EditText etTempAmbienteLocal;
+    private EditText etTiro;
+    private EditText etRendimientoAparato;
+    private EditText etCoAmbiente;
+    private EditText etCo2Ambiente;
     private EditText etNombreMedicion;
     private CheckBox cbCampana;
     private int id;
@@ -57,8 +67,6 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
         fk_maquina=getIntent().getIntExtra("fkMaquina",-1);
         fkAnalisis = getIntent().getIntExtra("fkAnalisis",-1);
         ponerAnalisis();
-        llDatosTesto.setVisibility(View.GONE);
-        btnFinalizarAnalisis.setVisibility(View.GONE);
 
     }
     @Override
@@ -81,17 +89,17 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if(view.getId()==btnAñadirAnalisis.getId()){
             String  sCoCorregido,sO2,sC0,sLambda,sCo2,sTempAmbienteLocal,sTiro,sRendimientoAparato,sCoAmbiente,sCo2Ambiente,sNombreMedicion;
-            String sTempGasesComb = txtTempGasesComb.getText().toString();
-            sCoCorregido = txtCoCorregido.getText().toString();
-            sO2 = txtO2.getText().toString();
-            sC0 = txtC0.getText().toString();
-            sLambda = txtLambda.getText().toString();
-            sCo2 = txtCo2.getText().toString();
-            sTempAmbienteLocal=txtTempAmbienteLocal.getText().toString();
-            sTiro=txtTiro.getText().toString();
-            sRendimientoAparato=txtRendimientoAparato.getText().toString();
-            sCoAmbiente = txtCoAmbiente.getText().toString();
-            sCo2Ambiente = txtCo2Ambiente.getText().toString();
+            String sTempGasesComb = etTempGasesComb.getText().toString();
+            sCoCorregido = etCoCorregido.getText().toString();
+            sO2 = etO2.getText().toString();
+            sC0 = etC0.getText().toString();
+            sLambda = etLambda.getText().toString();
+            sCo2 = etCo2.getText().toString();
+            sTempAmbienteLocal= etTempAmbienteLocal.getText().toString();
+            sTiro= etTiro.getText().toString();
+            sRendimientoAparato= etRendimientoAparato.getText().toString();
+            sCoAmbiente = etCoAmbiente.getText().toString();
+            sCo2Ambiente = etCo2Ambiente.getText().toString();
 
             sNombreMedicion = etNombreMedicion.getText().toString();
 
@@ -129,17 +137,17 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
                             campana, sNombreMedicion, 0, 0, 0);
                 }
                 ponerAnalisis();
-                txtTempGasesComb.setText("");
-                txtCoCorregido.setText("");
-                txtO2.setText("");
-                txtC0.setText("");
-                txtLambda.setText("");
-                txtCo2.setText("");
-                txtTempAmbienteLocal.setText("");
-                txtTiro.setText("");
-                txtRendimientoAparato.setText("");
-                txtCoAmbiente.setText("");
-                txtCo2Ambiente.setText("");
+                etTempGasesComb.setText("");
+                etCoCorregido.setText("");
+                etO2.setText("");
+                etC0.setText("");
+                etLambda.setText("");
+                etCo2.setText("");
+                etTempAmbienteLocal.setText("");
+                etTiro.setText("");
+                etRendimientoAparato.setText("");
+                etCoAmbiente.setText("");
+                etCo2Ambiente.setText("");
                 etNombreMedicion.setText("");
                 llDatosTesto.setVisibility(View.GONE);
                 fkAnalisis=-1;
@@ -153,32 +161,32 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
                 ponerAnalisis();
-                txtTempGasesComb.setText("");
-                txtCoCorregido.setText("");
-                txtO2.setText("");
-                txtC0.setText("");
-                txtLambda.setText("");
-                txtCo2.setText("");
-                txtTempAmbienteLocal.setText("");
-                txtTiro.setText("");
-                txtRendimientoAparato.setText("");
-                txtCoAmbiente.setText("");
-                txtCo2Ambiente.setText("");
+                etTempGasesComb.setText("");
+                etCoCorregido.setText("");
+                etO2.setText("");
+                etC0.setText("");
+                etLambda.setText("");
+                etCo2.setText("");
+                etTempAmbienteLocal.setText("");
+                etTiro.setText("");
+                etRendimientoAparato.setText("");
+                etCoAmbiente.setText("");
+                etCo2Ambiente.setText("");
                 etNombreMedicion.setText("");
                 llDatosTesto.setVisibility(View.GONE);
                 fkAnalisis=-1;
             }else{
-                txtTempGasesComb.setText("");
-                txtCoCorregido.setText("");
-                txtO2.setText("");
-                txtC0.setText("");
-                txtLambda.setText("");
-                txtCo2.setText("");
-                txtTempAmbienteLocal.setText("");
-                txtTiro.setText("");
-                txtRendimientoAparato.setText("");
-                txtCoAmbiente.setText("");
-                txtCo2Ambiente.setText("");
+                etTempGasesComb.setText("");
+                etCoCorregido.setText("");
+                etO2.setText("");
+                etC0.setText("");
+                etLambda.setText("");
+                etCo2.setText("");
+                etTempAmbienteLocal.setText("");
+                etTiro.setText("");
+                etRendimientoAparato.setText("");
+                etCoAmbiente.setText("");
+                etCo2Ambiente.setText("");
                 etNombreMedicion.setText("");
             }
         }else if (view.getId() == R.id.btnDatosTesto) {
@@ -222,82 +230,82 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
             switch (id){
                 case "ident_0x00000101":
                     if (isNumber(valor)) {
-                        txtTempGasesComb.setText(valor);
+                        etTempGasesComb.setText(valor);
                     }
                     break;
                 case "ident_0x00000102":
                     if (isNumber(valor)) {
-                        txtTempAmbienteLocal.setText(valor);
+                        etTempAmbienteLocal.setText(valor);
                     }
                     break;
                 case "ident_0x00020B03":
                     if (isNumber(valor)) {
-                        txtRendimientoAparato.setText(valor);
+                        etRendimientoAparato.setText(valor);
                     }
                     break;
                 case "ident_0x00000904":
                     if (isNumber(valor)) {
-                        txtCoCorregido.setText(valor);
+                        etCoCorregido.setText(valor);
                     }
                     break;
                 case "ident_0x00000903":
                     if (isNumber(valor)) {
-                        txtCoAmbiente.setText(valor);
+                        etCoAmbiente.setText(valor);
                     }
                     break;
                 case "ident_0x00000301":
                     if (isNumber(valor)) {
-                        txtTiro.setText(valor);
+                        etTiro.setText(valor);
                     }
                     break;
                 case "ident_0x00000909":
                     if (isNumber(valor)) {
-                        txtCo2.setText(valor);
+                        etCo2.setText(valor);
                     }
                     break;
                 case "ident_0x0000090F":
                     if (isNumber(valor)) {
-                        txtCo2Ambiente.setText(valor);
+                        etCo2Ambiente.setText(valor);
                     }
                     break;
                 case "ident_0x00000901":
                     if (isNumber(valor)) {
-                        txtO2.setText(valor);
+                        etO2.setText(valor);
                     }
                     break;
                 case "ident_0x00021282":
                     if (isNumber(valor)) {
-                        txtLambda.setText(valor);
+                        etLambda.setText(valor);
                     }
                     break;
                 case "ident_0x00000902":
                     if (isNumber(valor)) {
-                        txtC0.setText(valor);
+                        etC0.setText(valor);
                     }
                     break;
                 case "ident_0x0000090D":
                     if (isNumber(valor)) {
-                        txtCoCorregido.setText(valor);
+                        etCoCorregido.setText(valor);
                     }
                     break;
                 case "ident_0x0000090C":
                     if (isNumber(valor)) {
-                        txtLambda.setText(valor);
+                        etLambda.setText(valor);
                     }
                     break;
                 case "2823":
                     if (isNumber(valor)) {
-                        txtRendimientoAparato.setText(valor);
+                        etRendimientoAparato.setText(valor);
                     }
                     break;
                 case "ident_0x00000914":
                     if (isNumber(valor)) {
-                        txtCoAmbiente.setText(valor);
+                        etCoAmbiente.setText(valor);
                     }
                     break;
                 case "2329":
                     if (isNumber(valor)) {
-                        txtCo2Ambiente.setText(valor);
+                        etCo2Ambiente.setText(valor);
                     }
                     break;
             }
@@ -306,17 +314,17 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
     }
     private void inicializarVariables() {
         //EDIT TEXT
-        txtTempGasesComb = (TextView) findViewById(R.id.txtTempGasesComb);
-        txtCoCorregido = (TextView) findViewById(R.id.txtCoCorregido);
-        txtO2 = (TextView) findViewById(R.id.txtO2);
-        txtC0 = (TextView) findViewById(R.id.txtC0);
-        txtLambda = (TextView) findViewById(R.id.txtLambda);
-        txtCo2 = (TextView) findViewById(R.id.txtCo2);
-        txtTempAmbienteLocal = (TextView) findViewById(R.id.txtTempAmbienteLocal);
-        txtTiro = (TextView) findViewById(R.id.txtTiro);
-        txtRendimientoAparato = (TextView) findViewById(R.id.txtRendimientoAparato);
-        txtCoAmbiente = (TextView) findViewById(R.id.txtCoAmbiente);
-        txtCo2Ambiente = (TextView) findViewById(R.id.txtCo2Ambiente);
+        etTempGasesComb = (EditText) findViewById(R.id.txtTempGasesComb);
+        etCoCorregido = (EditText) findViewById(R.id.txtCoCorregido);
+        etO2 = (EditText) findViewById(R.id.txtO2);
+        etC0 = (EditText) findViewById(R.id.txtC0);
+        etLambda = (EditText) findViewById(R.id.txtLambda);
+        etCo2 = (EditText) findViewById(R.id.txtCo2);
+        etTempAmbienteLocal = (EditText) findViewById(R.id.txtTempAmbienteLocal);
+        etTiro = (EditText) findViewById(R.id.txtTiro);
+        etRendimientoAparato = (EditText) findViewById(R.id.txtRendimientoAparato);
+        etCoAmbiente = (EditText) findViewById(R.id.txtCoAmbiente);
+        etCo2Ambiente = (EditText) findViewById(R.id.txtCo2Ambiente);
         etNombreMedicion = (EditText) findViewById(R.id.etNombreMedicion);
 
 
@@ -366,17 +374,17 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
     }
     private void rellenarDatos() throws SQLException {
         Analisis analisis = AnalisisDAO.buscarAnalisisPorId(this, fkAnalisis);
-        txtTempGasesComb.setText(analisis.getTemperatura_gases_combustion());
-        txtCoCorregido .setText(analisis.getCo_corregido());
-        txtO2.setText(analisis.getO2());
-        txtC0.setText(analisis.getC0_maquina());
-        txtLambda.setText(analisis.getLambda());
-        txtCo2.setText(analisis.getCo2());
-        txtTempAmbienteLocal.setText(analisis.getTemperatura_ambiente_local());
-        txtTiro.setText(analisis.getTiro());
-        txtRendimientoAparato.setText(analisis.getRendimiento_aparato());
-        txtCoAmbiente.setText(analisis.getCo_ambiente());
-        txtCo2Ambiente.setText(analisis.getCo2_ambiente());
+        etTempGasesComb.setText(analisis.getTemperatura_gases_combustion());
+        etCoCorregido.setText(analisis.getCo_corregido());
+        etO2.setText(analisis.getO2());
+        etC0.setText(analisis.getC0_maquina());
+        etLambda.setText(analisis.getLambda());
+        etCo2.setText(analisis.getCo2());
+        etTempAmbienteLocal.setText(analisis.getTemperatura_ambiente_local());
+        etTiro.setText(analisis.getTiro());
+        etRendimientoAparato.setText(analisis.getRendimiento_aparato());
+        etCoAmbiente.setText(analisis.getCo_ambiente());
+        etCo2Ambiente.setText(analisis.getCo2_ambiente());
         etNombreMedicion.setText(analisis.getNombre_medicion());
     }
 
