@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
@@ -24,13 +25,14 @@ import java.sql.SQLException;
 
 public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
 
-    private int fk_parte,fk_estado;
+    private int fk_estado;
     private String mensaje;
     private Context context;
+    private Parte parte;
 
 
-    public HiloIniciarParte(Context context, int fk_parte,int fk_estado) {
-        this.fk_parte = fk_parte;
+    public HiloIniciarParte(Context context, Parte parte, int fk_estado) {
+        this.parte = parte;
         this.fk_estado = fk_estado;
         this.context=context;
 
@@ -52,7 +54,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
             try {
-                ParteDAO.actualizarEstadoAndroid(context,fk_parte,1);
+                ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),1);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -63,8 +65,15 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
     }
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("id_parte", fk_parte);
+        msg.put("id_parte", parte.getId_parte());
         msg.put("fk_estado", fk_estado);
+        msg.put("nombre_usuario", parte.getNombre_cliente());
+        msg.put("DNI", parte.getDni_cliente());
+        msg.put("telefono1", parte.getTelefono1_cliente());
+        msg.put("telefono2", parte.getTelefono2_cliente());
+        msg.put("telefono3", parte.getTelefono3_cliente());
+        msg.put("otros_telefonos", parte.getTelefono4_cliente());
+        msg.put("observaciones", parte.getObservaciones());
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

@@ -2,6 +2,8 @@ package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +31,7 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
+public class TabFragment1_cliente extends Fragment implements View.OnClickListener,TextWatcher {
 
     private View vista;
     private Parte parte = null;
@@ -59,19 +61,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         //EDIT TEXTS
         etNombreTitular = (EditText) vista.findViewById(R.id.etNombreTitular);
-        etNombreTitular.setEnabled(false);
         etDni= (EditText) vista.findViewById(R.id.etDni);
-        etDni.setEnabled(false);
         etTelefono1 = (EditText) vista.findViewById(R.id.etTelefono1);
-        etTelefono1.setEnabled(false);
         etTelefono2= (EditText) vista.findViewById(R.id.etTelefono2);
-        etTelefono2.setEnabled(false);
         etTelefono3= (EditText) vista.findViewById(R.id.etTelefono3);
-        etTelefono3.setEnabled(false);
         etTelefono4= (EditText) vista.findViewById(R.id.etTelefono4);
-        etTelefono4.setEnabled(false);
         etObservaciones= (EditText) vista.findViewById(R.id.etObservaciones);
-        etObservaciones.setEnabled(false);
 
         //BOTONES
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
@@ -81,7 +76,16 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         //SWITCH
         swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
+        //TEXTWATCHER
+        etNombreTitular.addTextChangedListener(this);
+        etDni.addTextChangedListener(this);
+        etTelefono1.addTextChangedListener(this);
+        etTelefono2.addTextChangedListener(this);
+        etTelefono3.addTextChangedListener(this);
+        etTelefono4.addTextChangedListener(this);
+        etObservaciones.addTextChangedListener(this);
 
+        //CHECKEDCHANGE
         swEdicion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(swEdicion.isChecked()){
@@ -113,6 +117,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
     }
     public void darValoresVariables(){
+        etNombreTitular.setEnabled(false);
+        etDni.setEnabled(false);
+        etTelefono1.setEnabled(false);
+        etTelefono2.setEnabled(false);
+        etTelefono3.setEnabled(false);
+        etTelefono4.setEnabled(false);
+        etObservaciones.setEnabled(false);
         txtNumParte.setText(String.valueOf(parte.getNum_parte()));
         txtCreadoPor.setText(String.valueOf(parte.getUser_creador()));
         txtMaquina.setText(String.valueOf(maquina.getModelo()));
@@ -184,10 +195,42 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId()==btnIniciarParte.getId()){
-            new HiloIniciarParte(getContext(),parte.getId_parte(),1).execute();
+            new HiloIniciarParte(getContext(),parte,1).execute();
         }else if(view.getId()==btnClienteAusente.getId()){
 
 
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        try {
+            ParteDAO.actualizarNobreCliente(getContext(),parte.getId_parte(),etNombreTitular.getText().toString());
+            ParteDAO.actualizarDniCliente(getContext(),parte.getId_parte(),etDni.getText().toString());
+            ParteDAO.actualizarTelefono1Cliente(getContext(),parte.getId_parte(),etTelefono1.getText().toString());
+            ParteDAO.actualizarTelefono2Cliente(getContext(),parte.getId_parte(),etTelefono2.getText().toString());
+            ParteDAO.actualizarTelefono3Cliente(getContext(),parte.getId_parte(),etTelefono3.getText().toString());
+            ParteDAO.actualizarTelefono4Cliente(getContext(),parte.getId_parte(),etTelefono4.getText().toString());
+            ParteDAO.actualizarObservaciones(getContext(),parte.getId_parte(),etObservaciones.getText().toString());
+            parte.setNombre_cliente(etNombreTitular.getText().toString());
+            parte.setDni_cliente(etDni.getText().toString());
+            parte.setTelefono1_cliente(etTelefono1.getText().toString());
+            parte.setTelefono2_cliente(etTelefono2.getText().toString());
+            parte.setTelefono3_cliente(etTelefono3.getText().toString());
+            parte.setTelefono4_cliente(etTelefono4.getText().toString());
+            parte.setObservaciones(etObservaciones.getText().toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
