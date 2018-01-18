@@ -124,7 +124,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
-        JSONObject jsonObject4 = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
         Parte parte = ParteDAO.buscarPartePorId(context,fk_parte);
@@ -173,39 +172,49 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
 
-        Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
-        Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
-        jsonObject4.put("fk_parte",parte.getId_parte());
-        jsonObject4.put("temperatura_max_acs",maquina.getTemperatura_max_acs());
-        jsonObject4.put("caudal_acs",maquina.getCaudal_acs());
-        jsonObject4.put("potencia_util",maquina.getPotencia_util());
-        jsonObject4.put("temperatura_agua_generador_calor_entrada",maquina.getTemperatura_agua_generador_calor_entrada());
-        jsonObject4.put("temperatura_agua_generador_calor_salida",maquina.getTemperatura_agua_generador_calor_salida());
-        jsonObject4.put("fk_maquina",analisis.getFk_maquina());
-        jsonObject4.put("fk_parte",analisis.getFk_parte());
-        jsonObject4.put("c0_maquina",analisis.getC0_maquina());
-        jsonObject4.put("temperatura_gases_combustion",analisis.getTemperatura_gases_combustion());
-        jsonObject4.put("temperatura_ambiente_local",analisis.getTemperatura_ambiente_local());
-        jsonObject4.put("rendimiento_aparato",analisis.getRendimiento_aparato());
-        jsonObject4.put("co_corregido",analisis.getCo_corregido());
-        jsonObject4.put("co_ambiente",analisis.getCo_ambiente());
-        jsonObject4.put("co2_ambiente",analisis.getCo2_ambiente());
-        jsonObject4.put("tiro",analisis.getTiro());
-        jsonObject4.put("co2",analisis.getCo2());
-        jsonObject4.put("o2",analisis.getO2());
-        jsonObject4.put("lambda",analisis.getLambda());
-        jsonObject4.put("bCampana",analisis.getbCampana());
-        jsonObject4.put("bMaxima_potencia",analisis.getbMaxima_potencia());
-        jsonObject4.put("bMinima_potencia",analisis.getbMinima_potencia());
-        jsonObject4.put("nombre_medicion",analisis.getNombre_medicion());
+
+        JSONArray jsonArray2 = new JSONArray();
+        ArrayList<Maquina> arrayList = new ArrayList<>();
+        arrayList.addAll(MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte()));
+        for (Maquina maquina:arrayList) {
+            JSONObject jsonObject4 = new JSONObject();
+            if (AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina())!=null){
+                Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
+                jsonObject4.put("fk_maquina",analisis.getFk_maquina());
+                jsonObject4.put("fk_parte",analisis.getFk_parte());
+                jsonObject4.put("c0_maquina",analisis.getC0_maquina());
+                jsonObject4.put("temperatura_gases_combustion",analisis.getTemperatura_gases_combustion());
+                jsonObject4.put("temperatura_ambiente_local",analisis.getTemperatura_ambiente_local());
+                jsonObject4.put("rendimiento_aparato",analisis.getRendimiento_aparato());
+                jsonObject4.put("co_corregido",analisis.getCo_corregido());
+                jsonObject4.put("co_ambiente",analisis.getCo_ambiente());
+                jsonObject4.put("co2_ambiente",analisis.getCo2_ambiente());
+                jsonObject4.put("tiro",analisis.getTiro());
+                jsonObject4.put("co2",analisis.getCo2());
+                jsonObject4.put("o2",analisis.getO2());
+                jsonObject4.put("lambda",analisis.getLambda());
+                jsonObject4.put("bCampana",analisis.getbCampana());
+                jsonObject4.put("bMaxima_potencia",analisis.getbMaxima_potencia());
+                jsonObject4.put("bMinima_potencia",analisis.getbMinima_potencia());
+                jsonObject4.put("nombre_medicion",analisis.getNombre_medicion());
+            }
+            jsonObject4.put("fk_parte",parte.getId_parte());
+            jsonObject4.put("temperatura_max_acs",maquina.getTemperatura_max_acs());
+            jsonObject4.put("caudal_acs",maquina.getCaudal_acs());
+            jsonObject4.put("potencia_util",maquina.getPotencia_util());
+            jsonObject4.put("temperatura_agua_generador_calor_entrada",maquina.getTemperatura_agua_generador_calor_entrada());
+            jsonObject4.put("temperatura_agua_generador_calor_salida",maquina.getTemperatura_agua_generador_calor_salida());
+            jsonArray2.put(jsonObject4);
+        }
+
 
 
 
 
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
-        msg.put("datos_maquina",jsonObject4);
         msg.put("da_items",jsonArray1);
+        msg.put("datos_maquina",jsonArray2);
 
 
 

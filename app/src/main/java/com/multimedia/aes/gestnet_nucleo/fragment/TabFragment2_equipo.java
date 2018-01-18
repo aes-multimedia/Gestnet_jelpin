@@ -359,17 +359,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                     "","","","","","",
                     "","");
         }
-        ////////////
-        try {
-            if (AnalisisDAO.buscarAnalisisPorFkMaquina(getContext(),maquina.getId_maquina())==null){
-                AnalisisDAO.newAnalisis(getContext(), maquina.getId_maquina(), idParte, "7", "147",
-                        "18", "89.1", "69",
-                        "0", "0", "-0.041", "6.52", "9.5", "1.83",
-                        0, "medicion", 0, 0, 0);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         inicializarVariables();
         darValores();
         Display display = getActivity().getWindowManager().getDefaultDisplay();
