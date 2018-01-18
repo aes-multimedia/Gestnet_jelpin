@@ -12,6 +12,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
@@ -163,8 +164,21 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         articulosParte = ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte);
         JSONArray jsonArray1 = new JSONArray();
 
-        for (ArticuloParte articuloParte: articulosParte) {
-            jsonArray1.put(ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo()));
+
+            for (ArticuloParte articuloParte: articulosParte) {
+            JSONObject obj = new JSONObject();
+            Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
+
+            obj.put("nombre_articulo",a.getNombre_articulo());
+            obj.put("stock",a.getStock());
+            obj.put("marca",a.getMarca());
+            obj.put("modelo",a.getModelo());
+            obj.put("iva",a.getIva());
+            obj.put("tarifa",a.getTarifa());
+            obj.put("descuento",a.getDescuento());
+            obj.put("coste",a.getCoste());
+
+            jsonArray1.put(obj);
         }
 
 
