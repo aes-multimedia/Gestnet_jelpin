@@ -38,8 +38,8 @@ public class GuardarManoObra {
         }
     }
     public static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
-        int id_mano;
-        String concepto,precio,coste;
+        int id_mano,precio;
+        String concepto,coste;
 
         boolean esta = false;
 
@@ -74,9 +74,9 @@ public class GuardarManoObra {
             }
 
             if (jsonArray.getJSONObject(i).getString("precio").equals("null") || jsonArray.getJSONObject(i).getString("precio").equals("")) {
-                precio = "";
+                precio = -1;
             } else {
-                precio = jsonArray.getJSONObject(i).getString("precio");
+                precio = jsonArray.getJSONObject(i).getInt("precio");
             }
 
             if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {

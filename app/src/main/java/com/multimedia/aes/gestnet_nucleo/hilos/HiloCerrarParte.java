@@ -32,10 +32,6 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-/**
- * Created by acp on 17/01/2018.
- */
-
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
