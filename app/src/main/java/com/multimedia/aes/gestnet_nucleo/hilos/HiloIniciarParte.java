@@ -65,15 +65,21 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
     }
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("id_parte", parte.getId_parte());
-        msg.put("fk_estado", fk_estado);
-        msg.put("nombre_usuario", parte.getNombre_cliente());
-        msg.put("DNI", parte.getDni_cliente());
-        msg.put("telefono1", parte.getTelefono1_cliente());
-        msg.put("telefono2", parte.getTelefono2_cliente());
-        msg.put("telefono3", parte.getTelefono3_cliente());
-        msg.put("otros_telefonos", parte.getTelefono4_cliente());
-        msg.put("observaciones", parte.getObservaciones());
+        JSONObject jsonObject1 = new JSONObject();
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject1.put("id_parte", parte.getId_parte());
+        jsonObject1.put("fk_estado", fk_estado);
+        jsonObject1.put("observaciones", parte.getObservaciones());
+
+        jsonObject2.put("id_usuario",parte.getFk_usuario());
+        jsonObject2.put("nombre_usuario", parte.getNombre_cliente());
+        jsonObject2.put("DNI", parte.getDni_cliente());
+        jsonObject2.put("telefono1", parte.getTelefono1_cliente());
+        jsonObject2.put("telefono2", parte.getTelefono2_cliente());
+        jsonObject2.put("telefono3", parte.getTelefono3_cliente());
+        jsonObject2.put("otros_telefonos", parte.getTelefono4_cliente());
+        msg.put("sat_partes",jsonObject1);
+        msg.put("sat_usuarios",jsonObject2);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

@@ -126,53 +126,34 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         Parte parte = ParteDAO.buscarPartePorId(context,fk_parte);
         jsonObject1.put("fk_estado",parte.getFk_estado());
+        jsonObject1.put("id_parte",parte.getId_parte());
         jsonObject1.put("confirmado",parte.getConfirmado());
         jsonObject1.put("observaciones",parte.getObservaciones());
         jsonObject1.put("estado_android",parte.getEstado_android());
 
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,fk_parte);
+        jsonObject2.put("fk_parte",parte.getId_parte());
         jsonObject2.put("fk_formas_pago",datos_adicionales.getFk_forma_pago());
-
-
-
         jsonObject2.put("preeu_puesta_marcha",datos_adicionales.getPreeu_puesta_marcha());
         jsonObject2.put("fact_puesta_en_marcha",datos_adicionales.getPreeu_puesta_marcha());
-
         jsonObject2.put("preeu_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
         jsonObject2.put("fact_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
-
-
         jsonObject2.put("preeu_mano_de_obra_precio",datos_adicionales.getFact_manodeobra_precio());
         jsonObject2.put("fact_manodeobra_precio",datos_adicionales.getFact_manodeobra_precio());
-
-
         jsonObject2.put("preeu_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
         jsonObject2.put("fact_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
-
-
         jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
         jsonObject2.put("preeu_km",datos_adicionales.getPreeu_km());
         jsonObject2.put("preeu_km_precio_total",datos_adicionales.getPreeu_km()*datos_adicionales.getPreeu_km_precio());
-
         jsonObject2.put("fact_km",datos_adicionales.getPreeu_km());
         jsonObject2.put("fact_km_precio",datos_adicionales.getPreeu_km_precio());
         jsonObject2.put("fact_km_precio_total",datos_adicionales.getPreeu_km_precio()*datos_adicionales.getPreeu_km());
-
         jsonObject2.put("operacion_efectuada",datos_adicionales.getOperacion_efectuada());
-
         jsonObject2.put("preeu_adicional",datos_adicionales.getFact_adicional());
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
-
-
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
-
-
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_materiales());
         jsonObject2.put("fact_materiales",datos_adicionales.getFact_materiales());
-
-
-
-
 
         /*
         Stock
@@ -183,16 +164,14 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
          ArticuloParte alm_stock = ArticuloParteDAO.buscarArticuloPartePorFkParte(context,fk_parte);
 
         */
-
-        Maquina maquina = MaquinaDAO.buscarMaquinaPorFkParte(context,fk_parte).get(0);
+        Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
         Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
-
+        jsonObject4.put("fk_parte",parte.getId_parte());
         jsonObject4.put("temperatura_max_acs",maquina.getTemperatura_max_acs());
         jsonObject4.put("caudal_acs",maquina.getCaudal_acs());
         jsonObject4.put("potencia_util",maquina.getPotencia_util());
         jsonObject4.put("temperatura_agua_generador_calor_entrada",maquina.getTemperatura_agua_generador_calor_entrada());
         jsonObject4.put("temperatura_agua_generador_calor_salida",maquina.getTemperatura_agua_generador_calor_salida());
-
         jsonObject4.put("fk_maquina",analisis.getFk_maquina());
         jsonObject4.put("fk_parte",analisis.getFk_parte());
         jsonObject4.put("c0_maquina",analisis.getC0_maquina());
@@ -212,13 +191,11 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject4.put("nombre_medicion",analisis.getNombre_medicion());
 
 
-        //jsonArray.put("sat_partes",jsonObject1);
-
 
 
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
-        msg.put("datos_maquina",jsonObject3);
+        msg.put("datos_maquina",jsonObject4);
 
 
 

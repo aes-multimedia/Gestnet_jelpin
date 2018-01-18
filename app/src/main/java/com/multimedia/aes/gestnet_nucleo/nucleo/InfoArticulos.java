@@ -27,10 +27,6 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-/**
- * Created by acp on 05/11/2017.
- */
-
 public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView ivFoto;
@@ -69,7 +65,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         int id = getIntent().getIntExtra("articuloId",-1);
-
+        try {
+            articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         inicializarVariables();
         darValores();
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -143,22 +143,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this,"entrando",Toast.LENGTH_SHORT).show();
-        int numArticulos=0;
-        try {
-
-            numArticulos=ArticuloParteDAO.numeroArticuloParte(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if(ArticuloParteDAO.newArticuloParte(this,numArticulos++,articulo.getId_articulo(),idParte)){
-
+        if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte)){
             try {
                 ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this,"bien",Toast.LENGTH_LONG).show();//meter el fk parte
+            finish();
         }
 
     }

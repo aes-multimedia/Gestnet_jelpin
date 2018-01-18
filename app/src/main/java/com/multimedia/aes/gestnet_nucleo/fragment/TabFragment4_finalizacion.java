@@ -39,6 +39,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloCerrarParte;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,21 +69,23 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment4_finalizacion, container, false);
-        Bundle bundle = this.getArguments();
-        if(bundle != null) {
-            int idParte = bundle.getInt("id", 0);
-            try {
-                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-                usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-                maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
-                if(DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte())!=null) {
-                    datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
-                }else{
-                    datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(new DatosAdicionales(),getContext());
-                }
-            } catch (java.sql.SQLException e) {
-                e.printStackTrace();
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            idParte = jsonObject.getInt("id");
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
+            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
+            if(DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte())!=null) {
+                datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
+            }else{
+                datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(new DatosAdicionales(),getContext());
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         inicializar();
 
@@ -190,10 +193,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         if(view.getId()==btnAñadirDuracion.getId()){
-            // TODO Auto-generated method stub
-            Calendar mcurrentTime = Calendar.getInstance();
-            int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-            int minute = mcurrentTime.get(Calendar.MINUTE);
+
+            int hour = 0;
+            int minute = 0;
             TimePickerDialog mTimePicker;
             mTimePicker = new TimePickerDialog(getContext() , new TimePickerDialog.OnTimeSetListener() {
                 @Override
@@ -219,7 +221,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(),spDisposicionServicio.getSelectedItem().toString());
                 formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(),spFormaPago.getSelectedItem().toString());
                 manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(),spManoObra.getSelectedItem().toString());
-                 articuloPartes = (ArrayList<ArticuloParte>) ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte());
+                articuloPartes.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte()));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -231,16 +233,12 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 String OperacionEfectuada=etOperacionEfectuada.getText().toString();
                 String nombreOtros=etNombreOtros.getText().toString();
                 double precioAdicional=Double.valueOf(etPrecioOtros.getText().toString());
-
-
                 double precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
-
             try {
-
 
                 DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
                 ParteDAO.actualizarParteDuracion(getContext(),String.valueOf(horas));
-
+                new HiloCerrarParte(getContext(),parte.getId_parte()).execute();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

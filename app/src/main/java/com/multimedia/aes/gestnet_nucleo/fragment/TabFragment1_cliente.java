@@ -209,6 +209,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
         try {
             ParteDAO.actualizarNobreCliente(getContext(),parte.getId_parte(),etNombreTitular.getText().toString());
             ParteDAO.actualizarDniCliente(getContext(),parte.getId_parte(),etDni.getText().toString());
@@ -227,10 +232,5 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }

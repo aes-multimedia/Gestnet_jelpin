@@ -170,7 +170,18 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
                             btnHorasComida.setText("00:00");
                             btnHoraInicio.setText("00:00");
                             btnHoraFin.setText("00:00");
-
+                            txtTotalHoras.setText("00:00");
+                            etDietas.setText("");
+                            etParking.setText("");
+                            etCombustible.setText("");
+                            etLitrosCombustible.setText("");
+                            etMaterial.setText("");
+                            etEntregado.setText("");
+                            txtTotalGastos.setText("0.00€");
+                            btnHorasExtra.setText("00:00");
+                            btnHoraGuardia.setText("00:00");
+                            cbFestivo.setChecked(false);
+                            etObservaciones.setText("");
                             dialog.cancel();
                         }
                     });

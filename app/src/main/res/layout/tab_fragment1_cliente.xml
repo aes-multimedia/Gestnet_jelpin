@@ -297,6 +297,7 @@
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_1"
+                        android:inputType="number"
                         android:padding="5dp" />
 
 
@@ -318,6 +319,7 @@
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_2"
+                        android:inputType="number"
                         android:minHeight="30dp"
                         android:padding="5dp" />
 
@@ -342,6 +344,7 @@
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_3"
+                        android:inputType="number"
                         android:minHeight="30dp"
                         android:padding="5dp" />
                 </LinearLayout>
@@ -363,6 +366,7 @@
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_4"
+                        android:inputType="number"
                         android:minHeight="30dp"
                         android:padding="5dp" />
                 </LinearLayout>

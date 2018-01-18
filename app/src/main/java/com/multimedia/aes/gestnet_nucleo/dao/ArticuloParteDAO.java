@@ -10,9 +10,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by acp on 09/01/2018.
- */
 
 public class ArticuloParteDAO  extends DBHelperMOS {
     static Dao<ArticuloParte, Integer> dao;
@@ -24,8 +21,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticuloParte(Context context,int id, int fk_articulo,int fk_parte) {
-        ArticuloParte a = montarArticuloParte(id,fk_articulo,fk_parte);
+    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte) {
+        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte);
         return crearArticuloParte(a,context);
     }
 
@@ -43,8 +40,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
     }
 
 
-    public static ArticuloParte  montarArticuloParte(int id, int fk_articulo,int fk_parte) {
-        ArticuloParte a =new ArticuloParte(id, fk_articulo,fk_parte);
+    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte) {
+        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte);
         return a;
     }
 

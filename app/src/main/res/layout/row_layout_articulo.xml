@@ -21,7 +21,7 @@
             android:id="@+id/llRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/estilo_articulo"
+            android:background="@drawable/fondo_linear_gris_claro"
             android:orientation="vertical"
             android:transitionName="llRow"
             android:weightSum="5">
