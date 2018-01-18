@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
@@ -32,6 +33,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
@@ -155,15 +158,21 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_materiales());
         jsonObject2.put("fact_materiales",datos_adicionales.getFact_materiales());
 
-        /*
-        Stock
-        cantidad
-        fk_producto
-        fk_parte
 
-         ArticuloParte alm_stock = ArticuloParteDAO.buscarArticuloPartePorFkParte(context,fk_parte);
 
-        */
+        List<ArticuloParte> articulosParte;
+        articulosParte = ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte);
+        JSONArray jsonArray1 = new JSONArray();
+
+        for (ArticuloParte articuloParte: articulosParte) {
+            jsonArray1.put(ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo()));
+        }
+
+
+
+
+
+
         Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
         Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
         jsonObject4.put("fk_parte",parte.getId_parte());
@@ -196,6 +205,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("datos_maquina",jsonObject4);
+        msg.put("da_items",jsonArray1);
 
 
 
