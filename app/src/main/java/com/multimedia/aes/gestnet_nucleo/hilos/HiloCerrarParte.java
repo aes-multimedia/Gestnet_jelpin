@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
@@ -50,6 +51,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -60,9 +63,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         }else{
         }
     }
-    private String iniciar() throws JSONException {
+    private String iniciar() throws JSONException, SQLException {
         JSONObject msg = new JSONObject();
-
+        msg=rellenarJsonMantenimientos();
+        Log.w("JSON_SUBIDA", String.valueOf(msg));
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
@@ -112,12 +116,13 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         return contenido;
     }
 
-    private JSONObject rellenarJsonMantenimientos(int id) throws JSONException, SQLException {
+    private JSONObject rellenarJsonMantenimientos() throws JSONException, SQLException {
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         JSONObject jsonObject3 = new JSONObject();
         JSONObject jsonObject4 = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
 
         Parte parte = ParteDAO.buscarPartePorId(context,fk_parte);
         jsonObject1.put("fk_estado",parte.getFk_estado());
@@ -127,23 +132,57 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,fk_parte);
         jsonObject2.put("fk_formas_pago",datos_adicionales.getFk_forma_pago());
+
+
+
         jsonObject2.put("preeu_puesta_marcha",datos_adicionales.getPreeu_puesta_marcha());
+        jsonObject2.put("fact_puesta_en_marcha",datos_adicionales.getPreeu_puesta_marcha());
+
         jsonObject2.put("preeu_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
+        jsonObject2.put("fact_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
+
+
         jsonObject2.put("preeu_mano_de_obra_precio",datos_adicionales.getFact_manodeobra_precio());
+        jsonObject2.put("fact_manodeobra_precio",datos_adicionales.getFact_manodeobra_precio());
+
+
         jsonObject2.put("preeu_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
+        jsonObject2.put("fact_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
+
+
         jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
         jsonObject2.put("preeu_km",datos_adicionales.getPreeu_km());
+        jsonObject2.put("preeu_km_precio_total",datos_adicionales.getPreeu_km()*datos_adicionales.getPreeu_km_precio());
+
+        jsonObject2.put("fact_km",datos_adicionales.getPreeu_km());
+        jsonObject2.put("fact_km_precio",datos_adicionales.getPreeu_km_precio());
+        jsonObject2.put("fact_km_precio_total",datos_adicionales.getPreeu_km_precio()*datos_adicionales.getPreeu_km());
+
         jsonObject2.put("operacion_efectuada",datos_adicionales.getOperacion_efectuada());
+
+        jsonObject2.put("preeu_adicional",datos_adicionales.getFact_adicional());
+        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
+
+
+        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
+
+
+        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_materiales());
+        jsonObject2.put("fact_materiales",datos_adicionales.getFact_materiales());
+
+
+
 
 
         /*
         Stock
-
         cantidad
         fk_producto
         fk_parte
+
+         ArticuloParte alm_stock = ArticuloParteDAO.buscarArticuloPartePorFkParte(context,fk_parte);
+
         */
-        ArticuloParte alm_stock = ArticuloParteDAO.buscarArticuloPartePorFkParte(context,fk_parte);
 
         Maquina maquina = MaquinaDAO.buscarMaquinaPorFkParte(context,fk_parte).get(0);
         Analisis analisis = AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina()).get(0);
@@ -173,7 +212,13 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject4.put("nombre_medicion",analisis.getNombre_medicion());
 
 
+        //jsonArray.put("sat_partes",jsonObject1);
 
+
+
+        msg.put("sat_partes",jsonObject1);
+        msg.put("datos_adicionales",jsonObject2);
+        msg.put("datos_maquina",jsonObject3);
 
 
 
