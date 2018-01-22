@@ -66,7 +66,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private LinearLayout cuerpo;
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 2 ;
+
 
     //METODO
     private void introducirMaterialesPrueba() {
@@ -137,17 +137,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         finish();
     }
     //OVERRIDE
-    @Override
-    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
-                }
-                break;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,18 +147,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         introducirMaterialesPrueba();
         int valor= getIntent().getIntExtra("iniciarServicioArticulos",0);
         if(valor==1)startService(new Intent(this, ServicioArticulos.class));
-        int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-        }else{
-
-        }
-
         try {
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
@@ -283,7 +260,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 //if (part==null){
                 Calendar mcurrentDate = Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
-                int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -339,7 +316,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
             jsonObject.put("id", (String) view.getTag());
             GestorSharedPreferences.clearSharedPreferencesParte(this);
-            GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(this), jsonObject);
+            GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this), jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }

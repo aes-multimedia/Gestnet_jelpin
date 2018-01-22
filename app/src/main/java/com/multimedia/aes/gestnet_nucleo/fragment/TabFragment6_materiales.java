@@ -53,7 +53,7 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();

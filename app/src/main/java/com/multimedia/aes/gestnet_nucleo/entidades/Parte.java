@@ -25,7 +25,7 @@ public class Parte {
     public static final String FK_HORARIO="fk_horario";
     public static final String HORARIO="horario";
     public static final String DURACION="duracion";
-    public static final String FIRMANTE="firmante";
+    public static final String NOMBRE_FIRMANTE ="nombre_firmante";
     public static final String SOBRE="sobre";
     public static final String FRANJA_HORARIA="franja_horaria";
     public static final String FK_ESTADO="fk_estado";
@@ -117,6 +117,8 @@ public class Parte {
     public static final String OBSERVACIONES_CLIENTE="observaciones_cliente";
     public static final  String USER_CREADOR = "user_creador";
     public static final  String TIPO = "tipo";
+    public static final  String DNI_FIRMANTE = "dni_firmante";
+    public static final  String FIRMA64 = "firma64";
 
 
     @DatabaseField(id = true, columnName = ID_PARTE)    private int id_parte;
@@ -138,7 +140,6 @@ public class Parte {
     @DatabaseField(columnName = FK_HORARIO)                     private int fk_horario;
     @DatabaseField(columnName = HORARIO)                        private String horario;
     @DatabaseField(columnName = DURACION)                       private String duracion;
-    @DatabaseField(columnName = FIRMANTE)                       private String firmante;
     @DatabaseField(columnName = SOBRE)                          private String sobre;
     @DatabaseField(columnName = FRANJA_HORARIA)                 private int franja_horaria;
     @DatabaseField(columnName = FK_ESTADO)                      private int fk_estado;
@@ -210,7 +211,12 @@ public class Parte {
     @DatabaseField(columnName = BINSPECCIONVISUAL)              private boolean binspeccionvisual;
     @DatabaseField(columnName = BOTROSMATAUX)                   private boolean botrosmataux;
     @DatabaseField(columnName = USER_CREADOR)                   private String user_creador;
-    @DatabaseField(columnName = TIPO)                            private String tipo;
+    @DatabaseField(columnName = TIPO)                           private String tipo;
+    //DATOS DEL FIRMANTE
+    @DatabaseField(columnName = NOMBRE_FIRMANTE)                private String nombre_firmante;
+    @DatabaseField(columnName = DNI_FIRMANTE)                   private String dni_firmante;
+    @DatabaseField(columnName = FIRMA64)                        private String firma64;
+
     //DATOS DE LA DIRECCION
     @DatabaseField(columnName = TIPO_VIA)                       private String tipo_via;
     @DatabaseField(columnName = VIA)                            private String via;
@@ -241,7 +247,7 @@ public class Parte {
                  int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
                  String fecha_visita, boolean visita_duplicada, String fecha_reparacion, int num_parte,
                  int fk_tipo, int fk_user_asignacion, int fk_horario, String horario, String duracion,
-                 String firmante, String sobre, int franja_horaria, int fk_estado, int fk_estado_interno,
+                 String nombre_firmante, String sobre, int franja_horaria, int fk_estado, int fk_estado_interno,
                  String observaciones, String observacionesasignacion, int confirmado, String entregado_por,
                  String recogido_por, String comentarios_entrega, int fk_fabricante, String aprobado_fabricante,
                  boolean imprimir, String fecha_factura, String num_factura, String fecha_factura_rectificativa,
@@ -266,7 +272,8 @@ public class Parte {
                  String latitud_direccion, String longitud_direccion, String nombre_cliente,
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                 String observaciones_cliente, String user_creador, String tipo) {
+                 String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
+                 String firma64) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -285,7 +292,7 @@ public class Parte {
         this.fk_horario = fk_horario;
         this.horario = horario;
         this.duracion = duracion;
-        this.firmante = firmante;
+        this.nombre_firmante = nombre_firmante;
         this.sobre = sobre;
         this.franja_horaria = franja_horaria;
         this.fk_estado = fk_estado;
@@ -377,6 +384,8 @@ public class Parte {
         this.observaciones_cliente = observaciones_cliente;
         this.user_creador = user_creador;
         this.tipo=tipo;
+        this.dni_firmante=dni_firmante;
+        this.firma64=firma64;
     }
 
     public int getId_parte() {
@@ -487,11 +496,11 @@ public class Parte {
     public void setDuracion(String duracion) {
         this.duracion = duracion;
     }
-    public String getFirmante() {
-        return firmante;
+    public String getNombre_firmante() {
+        return nombre_firmante;
     }
-    public void setFirmante(String firmante) {
-        this.firmante = firmante;
+    public void setNombre_firmante(String nombre_firmante) {
+        this.nombre_firmante = nombre_firmante;
     }
     public String getSobre() {
         return sobre;
@@ -1027,21 +1036,28 @@ public class Parte {
     public void setObservaciones_cliente(String observaciones_cliente) {
         this.observaciones_cliente = observaciones_cliente;
     }
-
     public String getUser_creador() {
         return user_creador;
     }
-
     public void setUser_creador(String user_creador) {
         this.user_creador = user_creador;
     }
-
     public String getTipo() {
         return tipo;
     }
-
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
+    public String getDni_firmante() {
+        return dni_firmante;
+    }
+    public void setDni_firmante(String dni_firmante) {
+        this.dni_firmante = dni_firmante;
+    }
+    public String getFirma64() {
+        return firma64;
+    }
+    public void setFirma64(String firma64) {
+        this.firma64 = firma64;
+    }
 }

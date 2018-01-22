@@ -335,7 +335,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -471,7 +471,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 temperatura_agua_generador_calor_salida
                                         );
                                     }
-                                    /*new HiloGuardarDatosMaquina(getContext(),solicitud.getId(),maquina.getFk_maquina(),solicitud.getFk_direccion(),tipoCaldera,marcaCaldera,modelo,potencia,usoCaldera,puestaMarcha,maquina.getSerial_testo()).execute();
+                                    //new HiloGuardarDatosMaquina(getContext(),solicitud.getId(),maquina.getFk_maquina(),solicitud.getFk_direccion(),tipoCaldera,marcaCaldera,modelo,potencia,usoCaldera,puestaMarcha,maquina.getSerial_testo()).execute();
                                     añadirMaquina(getContext());
                                     etModelo.setText("");
                                     etTempMaxACS.setText("");
@@ -479,13 +479,10 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     etPotenciaUtil.setText("");
                                     etTempAguaGeneCalorEntrada.setText("");
                                     etTempAguaGeneCalorSalida.setText("");
-                                    spTipo.setSelection(0);
                                     spMarca.setSelection(0);
-                                    spUso.setSelection(0);
-                                    spPotencia.setSelection(0);
                                     spPuestaMarcha.setSelection(0);
-                                    Dialogo.error("Maquina añadida", getContext());
-                                    maquina=null;*/
+                                    Dialogo.dialogoError("Maquina añadida", getContext());
+                                    maquina=null;
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }

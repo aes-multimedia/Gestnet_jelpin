@@ -39,7 +39,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -49,12 +49,12 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (parte.getEstado_android()!=-1){
+        if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
             tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
             tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
-            //tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
+            tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
             tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

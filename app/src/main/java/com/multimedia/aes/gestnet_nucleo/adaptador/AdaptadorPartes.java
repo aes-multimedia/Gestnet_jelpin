@@ -71,7 +71,7 @@ public class AdaptadorPartes extends ArrayAdapter {
                 global.setBackgroundResource(R.drawable.fondo_ambar);
                 break;
             case 2:
-                global.setBackgroundResource(R.drawable.fondo_ambar);
+                global.setBackgroundResource(R.drawable.fondo_azul);
                 break;
             case 3:
                 global.setBackgroundResource(R.drawable.fondo_verde);

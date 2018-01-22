@@ -42,6 +42,12 @@
             android:name=".nucleo.AnadirDatosAnalisis"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".nucleo.Firmar"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".nucleo.Camara"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
@@ -63,6 +69,15 @@
             android:exported="true" />
 
         <activity android:name=".nucleo.CierreDia"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.multimedia.aes.gestnet_nucleo.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

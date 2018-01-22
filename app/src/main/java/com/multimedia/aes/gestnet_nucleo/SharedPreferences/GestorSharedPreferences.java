@@ -30,7 +30,7 @@ public abstract class GestorSharedPreferences {
         spe.commit();
     }
     //<---------------------------------------------------------------------------------->
-    public static SharedPreferences getSharedPreferencesMantenimiento(Context context) {
+    public static SharedPreferences getSharedPreferencesParte(Context context) {
         return context.getSharedPreferences("spParte", context.MODE_PRIVATE);
     }
 
@@ -46,7 +46,7 @@ public abstract class GestorSharedPreferences {
     }
 
     public static void clearSharedPreferencesParte(Context context) {
-        SharedPreferences sharedPreferences = getSharedPreferencesMantenimiento(context);
+        SharedPreferences sharedPreferences = getSharedPreferencesParte(context);
         SharedPreferences.Editor spe = sharedPreferences.edit();
         spe.clear();
         spe.commit();

@@ -117,6 +117,10 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
     }
     public void darValoresVariables(){
+        if (maquina!=null){
+            txtMaquina.setText(String.valueOf(maquina.getModelo()));
+            txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
+        }
         etNombreTitular.setEnabled(false);
         etDni.setEnabled(false);
         etTelefono1.setEnabled(false);
@@ -126,9 +130,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etObservaciones.setEnabled(false);
         txtNumParte.setText(String.valueOf(parte.getNum_parte()));
         txtCreadoPor.setText(String.valueOf(parte.getUser_creador()));
-        txtMaquina.setText(String.valueOf(maquina.getModelo()));
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
-        txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
+
         String dir = "";
         if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){
             dir+=parte.getTipo_via()+" ";
@@ -171,7 +174,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -186,9 +189,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         }
         inicializarVariables();
         darValoresVariables();
-        if (parte.getEstado_android()!=0){
-            btnIniciarParte.setVisibility(View.GONE);
+        if (parte.getEstado_android()==3||parte.getEstado_android()==1){
             btnClienteAusente.setVisibility(View.GONE);
+            btnIniciarParte.setVisibility(View.GONE);
+        }else if(parte.getEstado_android()==2){
+            btnClienteAusente.setVisibility(View.GONE);
+            btnIniciarParte.setVisibility(View.VISIBLE);
+        }else{
+            btnClienteAusente.setVisibility(View.VISIBLE);
+            btnIniciarParte.setVisibility(View.VISIBLE);
         }
         return vista;
     }
@@ -197,8 +206,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if(view.getId()==btnIniciarParte.getId()){
             new HiloIniciarParte(getContext(),parte,1).execute();
         }else if(view.getId()==btnClienteAusente.getId()){
-
-
+            new HiloIniciarParte(getContext(),parte,2).execute();
         }
     }
 

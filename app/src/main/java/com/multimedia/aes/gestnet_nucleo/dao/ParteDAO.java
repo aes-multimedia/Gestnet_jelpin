@@ -1,9 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.dao;
 
-/**
- * Created by acp on 12/07/2017.
- */
-
 
 
 import android.content.Context;
@@ -12,7 +8,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
-import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.sql.SQLException;
@@ -59,7 +54,8 @@ public class ParteDAO extends DBHelperMOS{
                                    String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                    String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                    String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                   String observaciones_cliente, String user_creador, String tipo) {
+                                   String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
+                                   String firma64) {
         Parte p = montarParte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -89,7 +85,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente,user_creador,tipo);
+                observaciones_cliente,user_creador,tipo,dni_firmante, firma64);
         return crearParte(p,context);
     }
     public static boolean crearParte(Parte p,Context context) {
@@ -131,7 +127,8 @@ public class ParteDAO extends DBHelperMOS{
                                     String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                     String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                     String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                    String observaciones_cliente, String user_creador, String tipo) {
+                                    String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
+                                    String firma64) {
         Parte p =new Parte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -161,7 +158,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente,user_creador,tipo);
+                observaciones_cliente,user_creador,tipo,dni_firmante, firma64);
         return p;
     }
 
@@ -237,7 +234,7 @@ public class ParteDAO extends DBHelperMOS{
         int fk_horario=parte.getFk_horario();
         String horario=parte.getHorario();
         String  duracion=parte.getDuracion();
-        String firmante=parte.getFirmante();
+        String firmante=parte.getNombre_firmante();
         String sobre=parte.getSobre();
         int franja_horaria=parte.getFranja_horaria();
         int fk_estado=parte.getFk_estado();
@@ -330,7 +327,7 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(parte.FK_HORARIO, fk_horario);
         updateBuilder.updateColumnValue(parte.HORARIO, horario);
         updateBuilder.updateColumnValue(parte.DURACION, duracion);
-        updateBuilder.updateColumnValue(parte.FIRMANTE, firmante);
+        updateBuilder.updateColumnValue(parte.NOMBRE_FIRMANTE, firmante);
         updateBuilder.updateColumnValue(parte.SOBRE, sobre);
         updateBuilder.updateColumnValue(parte.FRANJA_HORARIA, franja_horaria);
         updateBuilder.updateColumnValue(parte.FK_ESTADO, fk_estado);
@@ -450,7 +447,8 @@ public class ParteDAO extends DBHelperMOS{
                                        String latitud_direccion, String longitud_direccion, String nombre_cliente,
                                        String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                        String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                                       String observaciones_cliente, String user_creador, String tipo) throws SQLException
+                                       String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
+                                       String firma64) throws SQLException
     {
 
         cargarDao(context);
@@ -473,7 +471,7 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(Parte.FK_HORARIO, fk_horario);
         updateBuilder.updateColumnValue(Parte.HORARIO, horario);
         updateBuilder.updateColumnValue(Parte.DURACION, duracion);
-        updateBuilder.updateColumnValue(Parte.FIRMANTE, firmante);
+        updateBuilder.updateColumnValue(Parte.NOMBRE_FIRMANTE, firmante);
         updateBuilder.updateColumnValue(Parte.SOBRE, sobre);
         updateBuilder.updateColumnValue(Parte.FRANJA_HORARIA, franja_horaria);
         updateBuilder.updateColumnValue(Parte.FK_ESTADO, fk_estado);
@@ -566,7 +564,8 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(Parte.OBSERVACIONES_CLIENTE, observaciones_cliente);
         updateBuilder.updateColumnValue(Parte.USER_CREADOR, user_creador);
         updateBuilder.updateColumnValue(Parte.TIPO, tipo);
-
+        updateBuilder.updateColumnValue(Parte.DNI_FIRMANTE, dni_firmante);
+        updateBuilder.updateColumnValue(Parte.FIRMA64, firma64);
 
 
         updateBuilder.update();
@@ -627,6 +626,20 @@ public class ParteDAO extends DBHelperMOS{
         UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
         updateBuilder.updateColumnValue(Parte.OBSERVACIONES,observaciones);
+        updateBuilder.update();
+    }
+    public static void actualizarFirma64(Context context, int id_parte, String firma)throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.FIRMA64,firma);
+        updateBuilder.update();
+    }
+    public static void actualizarNombreFirma(Context context, int id_parte, String nombre)throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.NOMBRE_FIRMANTE,nombre);
         updateBuilder.update();
     }
 }

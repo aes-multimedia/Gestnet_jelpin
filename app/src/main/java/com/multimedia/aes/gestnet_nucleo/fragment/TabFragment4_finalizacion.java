@@ -1,14 +1,10 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -50,7 +45,6 @@ import java.util.ArrayList;
 
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private TextView tvDuracion;
     private EditText etPuestaEnMarcha,etServicioUrgencia,etKmsInicio,etKmsFin,etOperacionEfectuada,etNombreOtros,etPrecioOtros;
     private int horas;
     private Button btnAñadirDuracion,btnFinalizar;
@@ -72,7 +66,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
@@ -126,9 +120,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
     private void inicializar(){
-
-
-        tvDuracion = (TextView) vista.findViewById(R.id.tvDuracion);
         etPuestaEnMarcha = (EditText)vista.findViewById(R.id.etPuestaMarcha);
         etServicioUrgencia = (EditText)vista.findViewById(R.id.etServicioUrgencia);
         etKmsInicio = (EditText)vista.findViewById(R.id.etKmsInicio);

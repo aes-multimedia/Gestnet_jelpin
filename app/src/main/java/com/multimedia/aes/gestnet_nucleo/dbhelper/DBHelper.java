@@ -15,6 +15,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
+import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
@@ -172,5 +173,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 
 		return BBDDConstantes.analisisDao;
+	}
+	public Dao<Imagen,Integer> getImagenDAO() throws SQLException {
+		if (BBDDConstantes.imagenDao == null) {
+			BBDDConstantes.imagenDao = getDao(Imagen.class);
+		}
+
+		return BBDDConstantes.imagenDao;
 	}
 }

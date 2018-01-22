@@ -137,6 +137,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject1.put("confirmado",parte.getConfirmado());
         jsonObject1.put("observaciones",parte.getObservaciones());
         jsonObject1.put("estado_android",3);
+        jsonObject1.put("firma64",parte.getFirma64());
+        jsonObject1.put("firmante",parte.getNombre_firmante());
 
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,fk_parte);
         jsonObject2.put("fk_parte",parte.getId_parte());
@@ -171,6 +173,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
                 obj.put("fk_parte",parte.getId_parte());
+                obj.put("fk_producto",a.getId_articulo());
                 obj.put("nombre_articulo",a.getNombre_articulo());
                 obj.put("stock",a.getStock());
                 obj.put("marca",a.getMarca());

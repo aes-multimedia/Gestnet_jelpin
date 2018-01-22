@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -28,7 +30,6 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
@@ -38,8 +39,22 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.notification.RegisterApp;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
-import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
+
+
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.BLUETOOTH;
+import static android.Manifest.permission.BLUETOOTH_ADMIN;
+import static android.Manifest.permission.CALL_PHONE;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.GET_ACCOUNTS;
+import static android.Manifest.permission.WAKE_LOCK;
+import static android.Manifest.permission.VIBRATE;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +67,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private Button btnLogin;
     private Usuario usuario;
     private Cliente cliente;
-    private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 1 ;
+    public static final int REQUEST_PERMISSION = 1;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -60,21 +75,51 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     GoogleCloudMessaging gcm;
     String regid;
 
+    @SuppressLint("MissingPermission")
     public static String getImei(Context c, Activity a) {
-        int permissionWriteCheck = ContextCompat.checkSelfPermission(c, Manifest.permission.READ_PHONE_STATE);
-        if (permissionWriteCheck != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(a, Manifest.permission.READ_PHONE_STATE)) {
-            } else {
-                ActivityCompat.requestPermissions(a,
-                        new String[]{Manifest.permission.READ_PHONE_STATE},
-                        MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-            }
-        }else{
-            TelephonyManager telephonyManager = (TelephonyManager) c
-                    .getSystemService(Context.TELEPHONY_SERVICE);
-            return telephonyManager.getDeviceId();
-        }
-        return "";
+        TelephonyManager telephonyManager = (TelephonyManager) c
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        return telephonyManager.getDeviceId();
+    }
+    public boolean checkPermission() {
+        int permisoUno= ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
+        int permisoDos= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH);
+        int permisoTres= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH_ADMIN);
+        int permisoCuatro= ContextCompat.checkSelfPermission(getApplicationContext(), CALL_PHONE);
+        int permisoCinco= ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
+        int permisoSeis= ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_COARSE_LOCATION);
+        int permisoSiete= ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+        int permisoOcho= ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        int permisoNueve= ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        int permisoDiez= ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
+        int permisoOnce= ContextCompat.checkSelfPermission(getApplicationContext(), GET_ACCOUNTS);
+        int permisoDoce= ContextCompat.checkSelfPermission(getApplicationContext(), WAKE_LOCK);
+        int permisoTrece= ContextCompat.checkSelfPermission(getApplicationContext(), VIBRATE);
+
+
+        return permisoUno == PackageManager.PERMISSION_GRANTED &&
+                permisoDos == PackageManager.PERMISSION_GRANTED &&
+                permisoTres == PackageManager.PERMISSION_GRANTED &&
+                permisoCuatro == PackageManager.PERMISSION_GRANTED &&
+                permisoCinco == PackageManager.PERMISSION_GRANTED &&
+                permisoSeis == PackageManager.PERMISSION_GRANTED &&
+                permisoSiete == PackageManager.PERMISSION_GRANTED &&
+                permisoOcho == PackageManager.PERMISSION_GRANTED &&
+                permisoNueve == PackageManager.PERMISSION_GRANTED &&
+                permisoDiez == PackageManager.PERMISSION_GRANTED &&
+                permisoOnce == PackageManager.PERMISSION_GRANTED &&
+                permisoDoce == PackageManager.PERMISSION_GRANTED &&
+                permisoTrece == PackageManager.PERMISSION_GRANTED;
+    }
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(Login.this, new String[]
+                {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, CALL_PHONE,
+        ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
+        READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
+        GET_ACCOUNTS,WAKE_LOCK, VIBRATE
+                }, REQUEST_PERMISSION);
+
     }
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -225,7 +270,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         setContentView(R.layout.login);
         try {
             inicializarVariables();
-            getImei(this,this);
             if (checkPlayServices()) {
                 gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                 regid = getRegistrationId(getApplicationContext());
@@ -237,14 +281,39 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        if(checkPermission()){
+        }
+        else {
+            requestPermission();
+        }
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_PHONE_STATE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
+
+            case REQUEST_PERMISSION:
+                if (grantResults.length > 0) {
+                    boolean internet = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetooth = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetooth_admin = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean call_phone = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean access_fine_location = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean access_coarse_location = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+                    boolean camera = grantResults[6] == PackageManager.PERMISSION_GRANTED;
+                    boolean read_external_storage = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                    boolean write_external_storage = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    boolean read_phone_state = grantResults[9] == PackageManager.PERMISSION_GRANTED;
+                    boolean get_accounts = grantResults[10] == PackageManager.PERMISSION_GRANTED;
+                    boolean wake_lock = grantResults[11] == PackageManager.PERMISSION_GRANTED;
+                    boolean vibrate = grantResults[12] == PackageManager.PERMISSION_GRANTED;
+
+                    if (internet && bluetooth && bluetooth_admin&& call_phone&& access_fine_location&& access_coarse_location&& camera&&
+                            read_external_storage&& write_external_storage&& read_phone_state&& get_accounts&& wake_lock&& vibrate) {
+
+                    }
+                    else {
+                        requestPermission();
+                    }
                 }
                 break;
         }

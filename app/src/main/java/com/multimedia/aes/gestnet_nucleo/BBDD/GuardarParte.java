@@ -771,6 +771,18 @@ public class GuardarParte {
                     } else {
                         tipo = jsonArray.getJSONObject(i).getString("tipo");
                     }
+                    String dni_firmante="";
+                    /*if (jsonArray.getJSONObject(i).getString("dnifirma").equals("null")) {
+                        dni_firmante = "";
+                    } else {
+                        dni_firmante = jsonArray.getJSONObject(i).getString("dnifirma");
+                    }*/
+                    String firma64="";
+                    /*if (jsonArray.getJSONObject(i).getString("firma64").equals("null")) {
+                        firma64 = "";
+                    } else {
+                        firma64 = jsonArray.getJSONObject(i).getString("firma64");
+                    }*/
                     if (esta){
                         ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
@@ -801,7 +813,7 @@ public class GuardarParte {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo);
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64);
                         bien=true;
                     }else{
                         if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
@@ -833,7 +845,7 @@ public class GuardarParte {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64)) {
                             bien = true;
                         } else {
                             bien = false;
@@ -845,7 +857,6 @@ public class GuardarParte {
         }else{
             bien = true;
         }
-
         if (bien){
             new GuardarMaquina(context,json);
         }else{

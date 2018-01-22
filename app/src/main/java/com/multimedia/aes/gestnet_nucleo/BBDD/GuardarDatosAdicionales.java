@@ -16,9 +16,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by acp on 22/08/2017.
- */
 
 public class GuardarDatosAdicionales {
 

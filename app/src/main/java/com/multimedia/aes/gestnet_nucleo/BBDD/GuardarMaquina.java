@@ -40,9 +40,7 @@ public class GuardarMaquina {
 
     public static void guardarJsonMaquina() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
-        int estado = Integer.parseInt(jsonObject.getString("estado"));
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
-
         for (int i = 0; i < jsonArray.length(); i++) {
             int id_parte;
             if (jsonArray.getJSONObject(i).getString("id_parte").equals("null") || jsonArray.getJSONObject(i).getString("id_parte").equals("")) {
@@ -271,32 +269,13 @@ public class GuardarMaquina {
                 }
                 String temperatura_max_acs="", caudal_acs="", potencia_util="", temperatura_agua_generador_calor_entrada="", temperatura_agua_generador_calor_salida="";
                 if (!esta) {
-
-                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
-                            fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
-                            fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
-                            fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
-                            puesta_marcha,   fecha_compra,   fecha_fin_garantia,
-                            mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
-                            garantia_extendida,   factura_compra,   refrigerante,
-                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
-                            temperatura_max_acs, caudal_acs, potencia_util,
-                            temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida)) {
+                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida)) {
                         bien = true;
                     } else {
                         bien = false;
                     }
                 }else{
-                    MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
-                            fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
-                            fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
-                            fecha_creacion,   modelo,   num_serie,   num_producto,   aparato,
-                            puesta_marcha,   fecha_compra,   fecha_fin_garantia,
-                            mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra,
-                            garantia_extendida,   factura_compra,   refrigerante,
-                            bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
-                            temperatura_max_acs, caudal_acs, potencia_util,
-                            temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+                    MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
                 }
             }
         }

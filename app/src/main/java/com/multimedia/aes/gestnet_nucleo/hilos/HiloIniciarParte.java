@@ -54,11 +54,18 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
             try {
-                ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),1);
-            } catch (SQLException e) {
+                JSONObject jsonObject = new JSONObject(mensaje);
+                if (jsonObject.getInt("estado")==1){
+                    try {
+                        ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),fk_estado);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    ((Index)context).recreate();
+                }
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ((Index)context).recreate();
         }else{
 
         }
@@ -68,7 +75,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         jsonObject1.put("id_parte", parte.getId_parte());
-        jsonObject1.put("fk_estado", fk_estado);
+        jsonObject1.put("estado_android", fk_estado);
         jsonObject1.put("observaciones", parte.getObservaciones());
 
         jsonObject2.put("id_usuario",parte.getFk_usuario());

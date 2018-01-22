@@ -1,57 +1,223 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Base64;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TimePicker;
-
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaImagenes;
+import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
-import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
-import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
-import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Camara;
+import com.multimedia.aes.gestnet_nucleo.nucleo.DataImagenes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Firmar;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class TabFragment5_documentacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private TextView tvDuracion;
-    private Button btnAñadirDuracion;
-    private String tiempoDuracion;
-    private Spinner spFormaPago,spDisposicionServicio,spManoObra;
-    private ArrayList <FormasPago> formasPagos = new ArrayList<>();
-    private ArrayList <ManoObra> manosObra = new ArrayList<>();
-    private ArrayList <Disposiciones> disposicionesServicio = new ArrayList<>();
-    private String[] arrayFormasPago,arrayManosObra,arrayDisposiciones;
-    private Parte parte = null;
+    private TextView txtNombreFirma;
+    private Button btnFirmaCliente,btnArchivo,btnFoto;
+    private ImageView ivFirmaCliente;
+    private LinearLayout llFirmaCliente;
+    private static ListView lvImagenes;
+    private static Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
+    private static AdaptadorListaImagenes adaptadorListaImagenes;
+    public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
+    public static int alto=0, height;
+    private static Context context;
     //METODO
+    private void inicializar(){
+        //TEXTVIEW
+        txtNombreFirma = (TextView) vista.findViewById(R.id.txtNombreFirma);
+        //BUTTON
+        btnFirmaCliente = (Button)vista.findViewById(R.id.btnFirmaCliente);
+        btnArchivo = (Button)vista.findViewById(R.id.btnArchivo);
+        btnFoto = (Button)vista.findViewById(R.id.btnFoto);
+        //IMAGEVIEW
+        ivFirmaCliente = (ImageView)vista.findViewById(R.id.ivFirmaCliente);
+        //LINEARLAYOUT
+        llFirmaCliente = (LinearLayout) vista.findViewById(R.id.llFirmaCliente);
+        //LISTVIEW
+        lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
+        //ONCLICK
+        btnFirmaCliente.setOnClickListener(this);
+        btnArchivo.setOnClickListener(this);
+        btnFoto.setOnClickListener(this);
+        darValores();
+    }
+    private void darValores(){
+        context = getContext();
+        Display display = ((Index)getContext()).getWindowManager().getDefaultDisplay();
+        height = display.getHeight();
+        height=height/16;
+        if (parte.getFirma64().equals("")){
+            llFirmaCliente.setVisibility(View.GONE);
+            btnFirmaCliente.setVisibility(View.VISIBLE);
+        }else{
+            btnFirmaCliente.setVisibility(View.GONE);
+            try {
+                ivFirmaCliente.setImageBitmap(loadFirmaClienteFromStorage(parte.getId_parte(),getContext()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!parte.getNombre_firmante().equals("")){
+            txtNombreFirma.setText(parte.getNombre_firmante());
+        }
+
+    }
+    public static Bitmap resizeImage(Bitmap bitmap) {
+
+        Bitmap BitmapOrg = bitmap;
+
+        int width = BitmapOrg.getWidth();
+        int height = BitmapOrg.getHeight();
+
+        if(width>1000&&height>1000) {
+            int newWidth = (width * 50) / 100;
+            int newHeight = (height * 50) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else if (width>1500&&height>1500) {
+            int newWidth = (width * 50) / 100;
+            int newHeight = (height * 50) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else if (width>2000&&height>2000) {
+            int newWidth = (width * 50) / 100;
+            int newHeight = (height * 50) / 100;
+
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeight) / height;
+
+            Matrix matrix = new Matrix();
+
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
+                    width, height, matrix, true);
+
+            return resizedBitmap;
+        }else{
+            return bitmap;
+        }
+    }
+    public static void result(String path){
+        File image = new File(path);
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
+        bitmap = resizeImage(bitmap);
+        String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
+        ImagenDAO.newImagen(context, nombre, path, parte.getId_parte());
+        arraylistImagenes.add(new DataImagenes(path,nombre,bitmap,parte.getId_parte()));
+        alto+=height;
+        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
+        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+        lvImagenes.setAdapter(adaptadorListaImagenes);
+    }
+    public static void borrarArrayImagenes(int position, Context context){
+        arraylistImagenes.remove(position);
+        alto-=height;
+        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
+        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+        lvImagenes.setAdapter(adaptadorListaImagenes);
+    }
+    public void hacerFoto(){
+        Intent i = new Intent(getContext(), Camara.class);
+        startActivity(i);
+    }
+    public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
+        Bitmap b = null;
+        try {
+            File f = new File(Constantes.PATH, "firmaCliente" + id + ".png");
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
+    private void cogerFoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, 2);
+    }
+    public static String getPath(Uri contentUri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +225,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,99 +239,63 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
             e.printStackTrace();
         }
         inicializar();
-
-
-
-
-
-
         return vista;
     }
-
-    private void inicializar(){
-
-
-        tvDuracion = (TextView) vista.findViewById(R.id.tvDuracion);
-        btnAñadirDuracion = (Button)vista.findViewById(R.id.btnAñadirDuracion);
-        btnAñadirDuracion.setOnClickListener(this);
-        spFormaPago = ( Spinner)vista.findViewById(R.id.spFormaPago) ;
-       // spFormaPago.setOnClickListener(this);
-        spDisposicionServicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
-     //   spDisposicionServicio.setOnClickListener(this);
-        spManoObra = (Spinner) vista.findViewById(R.id.spManoObra);
-
-        darValores();
-
-
-    }
-
-
-    private void darValores(){
-
-        //SPINNER FORMAS PAGO
-        if (FormasPagoDAO.buscarTodasLasFormasPago(getContext())!=null){
-            formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
-            arrayFormasPago = new String[formasPagos.size()+ 1];
-            arrayFormasPago[0]= "--Seleciones un valor--";
-            for (int i = 1; i < formasPagos.size() + 1; i++) {
-                arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
-            }
-            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
-
-        }
-
-
-        //SPINNER MANOS DE OBRA
-        if(ManoObraDAO.buscarTodasLasManoDeObra(getContext())!=null) {
-            manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
-            arrayManosObra = new String[manosObra.size() + 1];
-            arrayManosObra[0] = "--Seleciones un valor--";
-            for (int i = 1; i < manosObra.size() + 1; i++) {
-                arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
-            }
-            spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
-        }
-        //SPINNER DISPOSICIONES SERVICIO
-        if(DisposicionesDAO.buscarTodasLasDisposiciones(getContext())!=null){
-            disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
-            arrayDisposiciones = new String[disposicionesServicio.size()+ 1];
-            arrayDisposiciones[0]= "--Seleciones un valor--";
-            for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
-                arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
-            }
-            spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
-        }
-    }
-
     @Override
     public void onClick(View view) {
-        if(view.getId()==btnAñadirDuracion.getId()){
-            // TODO Auto-generated method stub
-            Calendar mcurrentTime = Calendar.getInstance();
-            int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-            int minute = mcurrentTime.get(Calendar.MINUTE);
-            TimePickerDialog mTimePicker;
-            mTimePicker = new TimePickerDialog(getContext() , new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    tvDuracion.setText( selectedHour + " horas " + selectedMinute+" minutos");
-                }
-            }, hour, minute, true);
-            mTimePicker.setTitle("Selecciona la duración");
-            mTimePicker.show();
-
+        if (view.getId()==R.id.btnFirmaCliente){
+            Intent i = new Intent(getContext(),Firmar.class);
+            startActivityForResult(i,99);
+        }else if (view.getId()==R.id.btnFoto){
+            hacerFoto();
+        }else if (view.getId()==R.id.btnArchivo){
+            cogerFoto();
         }
 
-        }
-
-
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 99) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bitmap bitmap = null;
+                try {
+                    bitmap = loadFirmaClienteFromStorage(parte.getId_parte(), getContext());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                llFirmaCliente.setVisibility(View.VISIBLE);
+                ivFirmaCliente.setImageBitmap(bitmap);
+                try {
+                    ParteDAO.actualizarFirma64(getContext(),parte.getId_parte(),encodedImage);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    parte = ParteDAO.buscarPartePorId(getContext(),parte.getId_parte());
+                    txtNombreFirma.setText(parte.getNombre_firmante());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+            }
+        }else if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri selectedImage = data.getData();
+                result(getPath(selectedImage));
+            }
+        }
+    }
+
 }

@@ -49,7 +49,13 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private Button btnFinalizar;
 
     //METODO
-    //OVERRIDE
+    private void inicializarVariables(){
+        spProtocolos=(Spinner)vista.findViewById(R.id.spProtocolos);
+        spProtocolos.setOnItemSelectedListener(this);
+        llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
+        btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
+        btnFinalizar.setOnClickListener(this);
+    }
     private void darValores() throws java.sql.SQLException {
         //SPINNER FORMAS PAGO
         if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte())!=null){
@@ -63,13 +69,14 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             arrayNombreProtocolos = new String[protocoloAccionArrayList.size()+ 1];
             arrayNombreProtocolos[0]= "--Seleciones un valor--";
             for (int i = 1; i < protocoloAccionArrayList.size() + 1; i++) {
-                if (protocoloAccionArrayList.get(i - 1).getFk_maquina()!=0||protocoloAccionArrayList.get(i - 1).getFk_maquina()!=-1){
+                if (protocoloAccionArrayList.get(i - 1).getFk_maquina()!=0&&protocoloAccionArrayList.get(i - 1).getFk_maquina()!=-1){
                     arrayNombreProtocolos[i] = protocoloAccionArrayList.get(i - 1).getNombre_protocolo()+"-"+protocoloAccionArrayList.get(i - 1).getFk_maquina();
+                }else{
+                    arrayNombreProtocolos[i] = protocoloAccionArrayList.get(i - 1).getNombre_protocolo();
                 }
             }
             spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
         }else {
-
             arrayNombreProtocolos = new String[1];
             arrayNombreProtocolos[0]= "Sin protocolos";
             spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
@@ -87,63 +94,98 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         }
     }
-
     private void crearLinearProtocolo(String protocolo){
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);
         btnFinalizar.setVisibility(View.VISIBLE);
-        String [] a = protocolo.split("-");
-        try {
-            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1]))!=null){
-                ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
-                protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1])));
-                for (int i = 0; i < protocolos.size(); i++) {
-                    LinearLayout linearLayout = new LinearLayout(getContext());
-                    linearLayout.setOrientation(LinearLayout.VERTICAL);
-                    linearLayout.setPadding(5,5,5,5);
-                    if (protocolos.get(i).isTipo_accion()){
-                        CheckBox checkBox = new CheckBox(getContext());
-                        checkBox.setHintTextColor(Color.parseColor("#ff9002"));
-                        checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
-                        checkBox.setText(protocolos.get(i).getDescripcion());
-                        if (protocolos.get(i).getValor().equals("1")){
-                            checkBox.setChecked(true);
+        if (protocolo.contains("-")){
+            String [] a = protocolo.split("-");
+            try {
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1]))!=null){
+                    ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1])));
+                    for (int i = 0; i < protocolos.size(); i++) {
+                        LinearLayout linearLayout = new LinearLayout(getContext());
+                        linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setPadding(5,5,5,5);
+                        if (protocolos.get(i).isTipo_accion()){
+                            CheckBox checkBox = new CheckBox(getContext());
+                            checkBox.setHintTextColor(Color.parseColor("#ff9002"));
+                            checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
+                            checkBox.setText(protocolos.get(i).getDescripcion());
+                            if (protocolos.get(i).getValor().equals("1")){
+                                checkBox.setChecked(true);
+                            }else{
+                                checkBox.setChecked(false);
+                            }
+                            linearLayout.addView(checkBox);
                         }else{
-                            checkBox.setChecked(false);
+                            TextView textView = new TextView(getContext());
+                            textView.setTextSize(18);
+                            textView.setTextColor(Color.BLACK);
+                            textView.setText(protocolos.get(i).getDescripcion());
+                            linearLayout.addView(textView);
+                            EditText editText = new EditText(getContext());
+                            editText.setBackgroundResource(R.drawable.edit_texts_naranja);
+                            editText.setPadding(5,5,5,5);
+                            editText.setText(protocolos.get(i).getValor());
+                            linearLayout.addView(editText);
                         }
-                        linearLayout.addView(checkBox);
-                    }else{
-                        TextView textView = new TextView(getContext());
-                        textView.setTextSize(18);
-                        textView.setTextColor(Color.BLACK);
-                        textView.setText(protocolos.get(i).getDescripcion());
-                        linearLayout.addView(textView);
-                        EditText editText = new EditText(getContext());
-                        editText.setBackgroundResource(R.drawable.edit_texts_naranja);
-                        editText.setPadding(5,5,5,5);
-                        editText.setText(protocolos.get(i).getValor());
-                        linearLayout.addView(editText);
+                        llPadre.addView(linearLayout);
                     }
-                    llPadre.addView(linearLayout);
                 }
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
             }
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
+        }else{
+            try {
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(),protocolo,parte.getId_parte())!=null){
+                    ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(),protocolo,parte.getId_parte()));
+                    for (int i = 0; i < protocolos.size(); i++) {
+                        LinearLayout linearLayout = new LinearLayout(getContext());
+                        linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setPadding(5,5,5,5);
+                        if (protocolos.get(i).isTipo_accion()){
+                            CheckBox checkBox = new CheckBox(getContext());
+                            checkBox.setHintTextColor(Color.parseColor("#ff9002"));
+                            checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
+                            checkBox.setText(protocolos.get(i).getDescripcion());
+                            if (protocolos.get(i).getValor().equals("1")){
+                                checkBox.setChecked(true);
+                            }else{
+                                checkBox.setChecked(false);
+                            }
+                            linearLayout.addView(checkBox);
+                        }else{
+                            TextView textView = new TextView(getContext());
+                            textView.setTextSize(18);
+                            textView.setTextColor(Color.BLACK);
+                            textView.setText(protocolos.get(i).getDescripcion());
+                            linearLayout.addView(textView);
+                            EditText editText = new EditText(getContext());
+                            editText.setBackgroundResource(R.drawable.edit_texts_naranja);
+                            editText.setPadding(5,5,5,5);
+                            editText.setText(protocolos.get(i).getValor());
+                            linearLayout.addView(editText);
+                        }
+                        llPadre.addView(linearLayout);
+                    }
+                }
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
-
+    //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment3_operaciones, container, false);
-        spProtocolos=(Spinner)vista.findViewById(R.id.spProtocolos);
-        spProtocolos.setOnItemSelectedListener(this);
-        llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
-        btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
-        btnFinalizar.setOnClickListener(this);
+
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
-            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(getContext()));
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -157,6 +199,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             e.printStackTrace();
         }
         try {
+            inicializarVariables();
             darValores();
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
@@ -166,61 +209,109 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.btnFinalizar){
-            final int childCount = llPadre.getChildCount();
-            String [] a = spProtocolos.getSelectedItem().toString().split("-");
-            String nombre = a[0];
-            int fk_maquina = Integer.parseInt(a[1]);
-            for (int i = 0; i < childCount; i++) {
-                View v = llPadre.getChildAt(i);
-                LinearLayout ll = (LinearLayout)v;
-                final int childCount1 = (ll.getChildCount());
-                for (int j = 0; j <childCount1; j++) {
-                    View view1 = ll.getChildAt(j);
-                    String valor = "";
-                    String descripcion = "";
-                    if (view1 instanceof EditText){
-                        EditText et = (EditText)view1;
-                        valor = et.getText().toString();
-                        View v1 = ll.getChildAt(j-1);
-                        TextView txt = (TextView)v1;
-                        descripcion = txt.getText().toString();
-                        try {
-                            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
-                                int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
-                                ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
-                            }
+            if (spProtocolos.getSelectedItem().toString().contains("-")){
+                final int childCount = llPadre.getChildCount();
+                String [] a = spProtocolos.getSelectedItem().toString().split("-");
+                String nombre = a[0];
+                int fk_maquina = Integer.parseInt(a[1]);
+                for (int i = 0; i < childCount; i++) {
+                    View v = llPadre.getChildAt(i);
+                    LinearLayout ll = (LinearLayout)v;
+                    final int childCount1 = (ll.getChildCount());
+                    for (int j = 0; j <childCount1; j++) {
+                        View view1 = ll.getChildAt(j);
+                        String valor = "";
+                        String descripcion = "";
+                        if (view1 instanceof EditText){
+                            EditText et = (EditText)view1;
+                            valor = et.getText().toString();
+                            View v1 = ll.getChildAt(j-1);
+                            TextView txt = (TextView)v1;
+                            descripcion = txt.getText().toString();
+                            try {
+                                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
+                                    int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
+                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                }
 
-                        } catch (java.sql.SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (view1 instanceof CheckBox){
-                        CheckBox cb = (CheckBox)view1;
-                        descripcion = cb.getText().toString();
-                        if (cb.isChecked()){
-                            valor = "1";
-                        }else{
-                            valor = "0";
-                        }
-                        try {
-                            if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
-                                int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
-                                ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                            } catch (java.sql.SQLException e) {
+                                e.printStackTrace();
                             }
+                        }else if (view1 instanceof CheckBox){
+                            CheckBox cb = (CheckBox)view1;
+                            descripcion = cb.getText().toString();
+                            if (cb.isChecked()){
+                                valor = "1";
+                            }else{
+                                valor = "0";
+                            }
+                            try {
+                                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
+                                    int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
+                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                }
 
-                        } catch (java.sql.SQLException e) {
-                            e.printStackTrace();
+                            } catch (java.sql.SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
 
+                }
+            }else{
+                final int childCount = llPadre.getChildCount();
+                String nombre = spProtocolos.getSelectedItem().toString();
+                for (int i = 0; i < childCount; i++) {
+                    View v = llPadre.getChildAt(i);
+                    LinearLayout ll = (LinearLayout)v;
+                    final int childCount1 = (ll.getChildCount());
+                    for (int j = 0; j <childCount1; j++) {
+                        View view1 = ll.getChildAt(j);
+                        String valor = "";
+                        String descripcion = "";
+                        if (view1 instanceof EditText){
+                            EditText et = (EditText)view1;
+                            valor = et.getText().toString();
+                            View v1 = ll.getChildAt(j-1);
+                            TextView txt = (TextView)v1;
+                            descripcion = txt.getText().toString();
+                            try {
+                                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion)!=null){
+                                    int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion).getId_protocolo_accion();
+                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                }
+
+                            } catch (java.sql.SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }else if (view1 instanceof CheckBox){
+                            CheckBox cb = (CheckBox)view1;
+                            descripcion = cb.getText().toString();
+                            if (cb.isChecked()){
+                                valor = "1";
+                            }else{
+                                valor = "0";
+                            }
+                            try {
+                                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion)!=null){
+                                    int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion).getId_protocolo_accion();
+                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                }
+
+                            } catch (java.sql.SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                }
             }
+
             Dialogo.dialogoError("Datos Guardados",getContext());
         }
 
 
     }
-
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position!=0){
@@ -231,7 +322,6 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             btnFinalizar.setVisibility(View.GONE);
         }
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

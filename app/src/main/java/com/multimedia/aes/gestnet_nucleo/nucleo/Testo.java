@@ -60,7 +60,7 @@ public class Testo extends AppCompatActivity implements View.OnClickListener, Ad
         btnBuscarAnalizador.setOnClickListener(this);
         lvAnalizador.setOnItemClickListener(this);
         try {
-        JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesMantenimiento(this));
+        JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this));
         int id = jsonObject.getInt("id");
 
         } catch (JSONException e) {
