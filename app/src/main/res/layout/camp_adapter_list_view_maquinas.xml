@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center">
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/llMaquina"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/llMaquina">
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtModelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Modelo"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/txtMarca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="Marca"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="13dp" />
+            </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Marca"
-                android:id="@+id/txtMarca"
-                android:textSize="13dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Modelo"
-                android:id="@+id/txtModelo"
-                android:textSize="13dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Potencia"
                 android:id="@+id/txtPotencia"
-                android:textSize="13dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="Potencia"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="13dp" />
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnBorrar"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/btnBorrar"
-            android:background="@android:drawable/ic_delete"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="@android:drawable/ic_delete" />
 
     </LinearLayout>
 
