@@ -12,9 +12,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by acp on 29/12/2017.
- */
 
 public class MarcaDAO extends DBHelperMOS {
     static Dao<Marca, Integer> dao;
@@ -84,9 +81,9 @@ public class MarcaDAO extends DBHelperMOS {
             return listadoMarcas.get(0);
         }
     }
-    public static int buscarMarcaPorNombre(Context context, String nombre) throws SQLException {
+    public static int buscarIdMarcaPorNombre(Context context, String nombre) throws SQLException {
         cargarDao(context);
-        List<Marca> listadoMarcaCaldera= dao.queryForEq(Marca.NOMBRE_MARCA, nombre);
+        List<Marca> listadoMarcaCaldera = dao.queryForEq(Marca.NOMBRE_MARCA, nombre);
         if(listadoMarcaCaldera.isEmpty()) {
             return 0;
         }else{

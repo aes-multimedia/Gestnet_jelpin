@@ -110,7 +110,10 @@ public class TabFragment6_materiales extends Fragment implements View.OnClickLis
 
 
     public List<Articulo> fill_with_data() throws SQLException {
+
         List<Articulo> data = ArticuloDAO.buscarTodosLosArticulos(getContext());
+        data.addAll(ArticuloDAO.buscarTodosLosArticulos(getContext()));
+
         return data;
 
     }

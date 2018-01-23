@@ -2,10 +2,6 @@ package com.multimedia.aes.gestnet_nucleo.entidades;
 
 import com.j256.ormlite.field.DatabaseField;
 
-/**
- * Created by acp on 17/10/2017.
- */
-
 public class Articulo {
 
     public static final String ID_ARTICULO = "_id_articulo";

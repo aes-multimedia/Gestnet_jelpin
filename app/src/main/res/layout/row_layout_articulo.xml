@@ -29,7 +29,7 @@
             <LinearLayout
                 android:id="@+id/llTitulo"
                 android:layout_width="match_parent"
-                android:layout_height="34dp"
+                android:layout_height="35dp"
                 android:layout_weight="2.5"
                 android:orientation="vertical"
                 android:paddingBottom="1px"
@@ -41,12 +41,12 @@
                     android:id="@+id/tvTituloArticulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:maxLines="2"
                     android:text="Titulo"
                     android:textColor="@android:color/background_dark"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     android:textStyle="normal"
                     android:transitionName="titulo" />
 
@@ -63,9 +63,9 @@
                 <LinearLayout
                     android:id="@+id/llDatos"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:padding="5dp">
 
 

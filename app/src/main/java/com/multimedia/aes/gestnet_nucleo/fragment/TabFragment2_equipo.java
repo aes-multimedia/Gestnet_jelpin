@@ -94,7 +94,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                 arrayMarcas[0]= "--Seleciones un valor--";
                 for (int i = 1; i < arrayListMarcas.size() + 1; i++) {
                     if (arrayListMarcas.get(i - 1).getId_marca()!=0||arrayListMarcas.get(i - 1).getId_marca()!=-1){
-                        arrayMarcas[i] = arrayListMarcas.get(i - 1).getNombre_marca()+"-"+arrayListMarcas.get(i - 1).getId_marca();
+                        arrayMarcas[i] = arrayListMarcas.get(i - 1).getNombre_marca();
                     }
                 }
                 spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
@@ -142,6 +142,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             int spinnerPosition = myAdap.getPosition(myString);
             spPuestaMarcha.setSelection(spinnerPosition);
         }
+        txtTipo.setText(maquina.getFk_tipo()+"");
     }
     public void inicializarVariables(){
         //SPINNER
@@ -283,24 +284,24 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                     int spinnerPosition = myAdap.getPosition(myString);
                     spMarca.setSelection(spinnerPosition);
                 }
-                if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
-                    etModelo.setText(String.valueOf(maquina.getModelo()));
-                }
-                if (!String.valueOf(maquina.getTemperatura_max_acs()).equals("")&&!String.valueOf(maquina.getTemperatura_max_acs()).equals("0")){
-                    etTempMaxACS.setText(String.valueOf(maquina.getTemperatura_max_acs()));
-                }
-                if (!String.valueOf(maquina.getCaudal_acs()).equals("")&&!String.valueOf(maquina.getCaudal_acs()).equals("0")){
-                    etCaudalACS.setText(String.valueOf(maquina.getCaudal_acs()));
-                }
-                if (!String.valueOf(maquina.getPotencia_util()).equals("")&&!String.valueOf(maquina.getPotencia_util()).equals("0")){
-                    etPotenciaUtil.setText(String.valueOf(maquina.getPotencia_util()));
-                }
-                if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("0")){
-                    etTempAguaGeneCalorEntrada.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()));
-                }
-                if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("0")){
-                    etTempAguaGeneCalorSalida.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()));
-                }
+            }
+            if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
+                etModelo.setText(String.valueOf(maquina.getModelo()));
+            }
+            if (!String.valueOf(maquina.getTemperatura_max_acs()).equals("")&&!String.valueOf(maquina.getTemperatura_max_acs()).equals("0")){
+                etTempMaxACS.setText(String.valueOf(maquina.getTemperatura_max_acs()));
+            }
+            if (!String.valueOf(maquina.getCaudal_acs()).equals("")&&!String.valueOf(maquina.getCaudal_acs()).equals("0")){
+                etCaudalACS.setText(String.valueOf(maquina.getCaudal_acs()));
+            }
+            if (!String.valueOf(maquina.getPotencia_util()).equals("")&&!String.valueOf(maquina.getPotencia_util()).equals("0")){
+                etPotenciaUtil.setText(String.valueOf(maquina.getPotencia_util()));
+            }
+            if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("0")){
+                etTempAguaGeneCalorEntrada.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()));
+            }
+            if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("0")){
+                etTempAguaGeneCalorSalida.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -363,7 +364,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         darValores();
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         height = display.getHeight();
-        height=height/16;
+        height=height/10;
         arrayListAnalisis.clear();
         arrayListMaquina.clear();
         añadirMaquina(getContext());
@@ -386,10 +387,15 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (view.getId() == btnDatosTesto.getId()) {
-            Intent i = new Intent(getActivity(), AnadirDatosAnalisis.class);
-            i.putExtra("id", parte.getId_parte());
-            i.putExtra("fkMaquina", maquina.getId_maquina());
-            startActivityForResult(i, 103);
+            if (maquina==null){
+                Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
+            }else{
+                Intent i = new Intent(getActivity(), AnadirDatosAnalisis.class);
+                i.putExtra("id", parte.getId_parte());
+                i.putExtra("fkMaquina", maquina.getId_maquina());
+                startActivityForResult(i, 103);
+            }
+
         } else if (view.getId() == btnAñadirMaquina.getId()) {
             if (spMarca.getSelectedItemPosition() == 0)
                 Dialogo.dialogoError("Es necesario seleccionar una marca", getContext());
@@ -409,7 +415,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     int fk_maquina = maquina.getFk_maquina();
                                     int fk_parte = parte.getId_parte();
                                     int fk_direccion = parte.getFk_direccion();
-                                    int fk_marca = MarcaDAO.buscarMarcaPorNombre(getContext(),spMarca.getSelectedItem().toString());
+                                    int fk_marca = MarcaDAO.buscarIdMarcaPorNombre(getContext(),spMarca.getSelectedItem().toString());
                                     String fk_tipo_combustion = txtTipo.getText().toString();
                                     int fk_protocolo = 0;
                                     int fk_instalador = 0;
@@ -440,11 +446,11 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     String en_propiedad = "";
                                     String esPrincipal = "";
                                     String situacion = "";
-                                    String temperatura_max_acs = "";
-                                    String caudal_acs = "";
-                                    String potencia_util = "";
-                                    String temperatura_agua_generador_calor_entrada = "";
-                                    String temperatura_agua_generador_calor_salida = "";
+                                    String temperatura_max_acs = etTempMaxACS.getText().toString();
+                                    String caudal_acs = etCaudalACS.getText().toString();
+                                    String potencia_util = etPotenciaUtil.getText().toString();
+                                    String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
+                                    String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
                                     if (maquina!=null){
                                         MaquinaDAO.actualizarMaquina(getContext(),
                                                 fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,

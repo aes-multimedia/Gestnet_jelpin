@@ -90,9 +90,6 @@ public class ArticuloDAO extends DBHelperMOS {
     public static List<Articulo> filtrarArticulosPorNombre(Context context,String cadena) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").query();
-       /* for (int i = 0; i < listadoArticulo.size(); i++) {
-            if(listadoArticulo.get(i).getNombre_articulo().indexOf(cadena)!=1)listadoArticulo.remove(i);
-        }*/
         if(listadoArticulo.isEmpty()) {
             return null;
         }else{

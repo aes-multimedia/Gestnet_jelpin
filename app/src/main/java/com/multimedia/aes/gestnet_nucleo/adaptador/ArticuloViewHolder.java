@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 
-/**
- * Created by acp on 05/11/2017.
- */
 
 public class ArticuloViewHolder extends RecyclerView.ViewHolder {
     CardView cv;

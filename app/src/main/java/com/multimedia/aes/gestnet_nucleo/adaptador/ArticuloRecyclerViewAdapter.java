@@ -16,10 +16,6 @@ import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by acp on 05/11/2017.
- */
-
 public class ArticuloRecyclerViewAdapter extends RecyclerView.Adapter<ArticuloViewHolder> {
 
         List<Articulo> list = Collections.emptyList();
@@ -45,9 +41,12 @@ public ArticuloViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 @Override
 public void onBindViewHolder(final ArticuloViewHolder holder, int position) {
+        String titulo = list.get(position).getNombre_articulo();
+        if (titulo.length()>36){
+                titulo = titulo.substring(0,27)+"..."+titulo.substring(titulo.length()-7,titulo.length());
+        }
 
-
-        holder.tvTituloArticulo.setText(list.get(position).getNombre_articulo());
+        holder.tvTituloArticulo.setText(titulo);
         holder.tvStock.setText(String.valueOf(list.get(position).getStock()));
         holder.tvPrecio.setText(String.valueOf(list.get(position).getTarifa())+ "\u20ac");
 
@@ -59,10 +58,10 @@ public void onClick(View v) {
         I.putExtra("articuloId",Integer.parseInt(String.valueOf(holder.llRow.getTag())));
 
 
-         Pair<View,String> pair2 = Pair.create(v.findViewById(R.id.tvTituloArticulo),"titulo");
+        Pair<View,String> pair2 = Pair.create(v.findViewById(R.id.tvTituloArticulo),"titulo");
         Pair<View,String> pair3 = Pair.create(v.findViewById(R.id.tvPrecio),"precio");
         Pair<View,String> pair4 = Pair.create(v.findViewById(R.id.tvStock),"stock");
-       Pair<View,String> pair6 = Pair.create(v.findViewById(R.id.llRow),"llRow");
+        Pair<View,String> pair6 = Pair.create(v.findViewById(R.id.llRow),"llRow");
 
 
         ActivityOptionsCompat activityOptionsCompat= ActivityOptionsCompat.makeSceneTransitionAnimation(activity,pair2,pair3,pair4,pair6);

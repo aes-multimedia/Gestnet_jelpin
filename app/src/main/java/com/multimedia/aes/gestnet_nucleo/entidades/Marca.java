@@ -3,10 +3,6 @@ package com.multimedia.aes.gestnet_nucleo.entidades;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by acp on 29/12/2017.
- */
-
 @DatabaseTable(tableName = "mos_marcas")
 public class Marca {
 
