@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloCerrarParte;
 
 import java.sql.SQLException;
 import java.util.List;

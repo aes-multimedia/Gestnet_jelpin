@@ -1,7 +1,10 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
@@ -9,12 +12,14 @@ import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
@@ -25,6 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -36,6 +44,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion.resizeImage;
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
@@ -75,7 +85,11 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     }
     private String iniciar() throws JSONException, SQLException {
         JSONObject msg = new JSONObject();
-        msg=rellenarJsonMantenimientos();
+        try {
+            msg=rellenarJsonMantenimientos();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Log.w("JSON_SUBIDA", String.valueOf(msg));
         URL urlws = null;
         HttpURLConnection uc = null;
@@ -126,7 +140,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         return contenido;
     }
 
-    private JSONObject rellenarJsonMantenimientos() throws JSONException, SQLException {
+    private JSONObject rellenarJsonMantenimientos() throws JSONException, SQLException, IOException {
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
@@ -224,10 +238,21 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         }
 
 
+
+
+
+
+
+
+
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("da_items",jsonArray1);
         msg.put("datos_maquina",jsonArray2);
+        msg.put("imagenes",rellenarJsonImagenes());
+
+
+
 
 
 
@@ -243,5 +268,33 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         return msg;
 
+    }
+
+    private JSONArray rellenarJsonImagenes() throws JSONException, IOException, SQLException {
+        List<Imagen> arraylistImagenes = new ArrayList<>();
+        arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte));
+        JSONObject js = new JSONObject();
+        JSONArray jsa = new JSONArray();
+        for (int i = 0; i <arraylistImagenes.size(); i++) {
+            File f=new File(arraylistImagenes.get(i).getRuta_imagen());
+            Bitmap b = null;
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+            b = resizeImage(b);
+            JSONObject jso = new JSONObject();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            b.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] imageBytes = baos.toByteArray();
+            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+            try {
+                jso.put("fk_parte",arraylistImagenes.get(i).getFk_parte());
+                jso.put("nombre",arraylistImagenes.get(i).getNombre_imagen());
+                jso.put("base64","baseeeejoewjdofvniofejvreijnvowjfvwfijvwrjv");
+                jsa.put(jso);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsa;
     }
 }
