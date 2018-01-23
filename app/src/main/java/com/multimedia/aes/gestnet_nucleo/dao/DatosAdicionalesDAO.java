@@ -307,12 +307,12 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
 
-    public static void actualizarDatosAdicionales(Context context, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra,
+    public static void actualizarDatosAdicionales(Context context,int id_rel, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra,
                                                   String servicioUrgencia, double kmsPrecio, double kmsInicio, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
                                                     double precioArticulos) throws java.sql.SQLException {
         cargarDao(context);
         UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
-
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
         updateBuilder.updateColumnValue(DatosAdicionales.FK_FORMA_PAGO,formaPago);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_PUESTA_MARCHA,puestaMarcha);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_DISPOSICION_SERVICIO,preeu_disposicion_servicio);

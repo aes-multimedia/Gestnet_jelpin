@@ -200,12 +200,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 jsonArray1.put(obj);
         }
 
-
-
-
-
-
-
         JSONArray jsonArray2 = new JSONArray();
         ArrayList<Maquina> arrayList = new ArrayList<>();
         arrayList.addAll(MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte()));

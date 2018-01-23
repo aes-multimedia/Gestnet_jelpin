@@ -406,12 +406,10 @@ public class ParteDAO extends DBHelperMOS{
 
         updateBuilder.update();
     }
-    public static void actualizarParteDuracion(Context context,  String duracion) throws SQLException
-    {
-
+    public static void actualizarParteDuracion(Context context,int id,  String duracion) throws SQLException{
         cargarDao(context);
         UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
-
+        updateBuilder.where().eq(Parte.ID_PARTE,id);
         updateBuilder.updateColumnValue(Parte.DURACION, duracion);
 
 

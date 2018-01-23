@@ -80,38 +80,21 @@ public class DatosAdicionales {
 
 
     @DatabaseField(id=true,columnName = ID_REL) private int id_rel;
-
-
-
     @DatabaseField(columnName = FK_PARTE) private int fk_parte;
     @DatabaseField(columnName = FK_FORMA_PAGO) private int fk_forma_pago;
     @DatabaseField(columnName = SINTOMAS_AVERIA) private String sintomas_averia;
     @DatabaseField(columnName = OPERACION_EFECTUADA) private String operacion_efectuada;
     @DatabaseField(columnName = OBSERVACIONES) private String observaciones;
-
-
-
-
     @DatabaseField(columnName = PREEU_DISPOSICION_SERVICIO_SI_NO) private boolean preeu_disposicion_servicio_si_no;
-
     @DatabaseField(columnName = PREEU_DISPOSICION_SERVICIO) private double preeu_disposicion_servicio;
-
     @DatabaseField(columnName = PREEU_MANO_DE_OBRA_SI_NO) private boolean preeu_mano_de_obra_si_no;
-
     @DatabaseField(columnName = PREEU_MANO_DE_OBRA_PRECIO) private double preeu_mano_de_obra_precio;
-
     @DatabaseField(columnName = PREEU_MANO_DE_OBRA) private double preeu_mano_de_obra;
-
     @DatabaseField(columnName = PREEU_MATERIALES_SI_NO) private boolean preeu_materiales_si_no;
-
     @DatabaseField(columnName = PREEU_MATERIALES) private double preeu_materiales;
-
     @DatabaseField(columnName = PREEU_PUESTA_MARCHA_SI_NO) private boolean preeu_puesta_marcha_si_no;
-
     @DatabaseField(columnName = PREEU_PUESTA_MARCHA) private double preeu_puesta_marcha;
-
     @DatabaseField(columnName = PREEU_SERVICIO_URGENCIA_SI_NO) private boolean preeu_servicio_urgencia_si_no;
-
     @DatabaseField(columnName = PREEU_SERVICIO_URGENCIA) private double preeu_servicio_urgencia;
 
     @DatabaseField(columnName = PREEU_KM_SI_NO) private boolean preeu_km_si_no;

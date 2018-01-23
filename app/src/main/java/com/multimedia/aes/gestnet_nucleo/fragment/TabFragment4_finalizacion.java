@@ -74,7 +74,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             if(DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte())!=null) {
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
             }else{
-                datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(new DatosAdicionales(),getContext());
+                DatosAdicionales datosAdicionales = new DatosAdicionales();
+                datosAdicionales.setFk_parte(parte.getId_parte());
+                datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(datosAdicionales,getContext());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -212,7 +214,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(),spDisposicionServicio.getSelectedItem().toString());
                 formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(),spFormaPago.getSelectedItem().toString());
                 manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(),spManoObra.getSelectedItem().toString());
-                articuloPartes.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte()));
+                if (ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte())!=null){
+                    articuloPartes.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte()));
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -224,11 +228,13 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 String OperacionEfectuada=etOperacionEfectuada.getText().toString();
                 String nombreOtros=etNombreOtros.getText().toString();
                 double precioAdicional=Double.valueOf(etPrecioOtros.getText().toString());
-                double precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
+                double precioTotalArticulos = 0;
+                if (!articuloPartes.isEmpty()){
+                    precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
+                }
             try {
-
-                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
-                ParteDAO.actualizarParteDuracion(getContext(),String.valueOf(horas));
+                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),datos.getId_rel(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
+                ParteDAO.actualizarParteDuracion(getContext(),parte.getId_parte(),String.valueOf(horas));
                 new HiloCerrarParte(getContext(),parte.getId_parte()).execute();
             } catch (SQLException e) {
                 e.printStackTrace();
