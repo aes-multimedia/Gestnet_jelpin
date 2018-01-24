@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:elevation="1dp"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/index_rows"
 
-        >
+        app:cardCornerRadius="@dimen/index_rows">
 
         <LinearLayout
             android:id="@+id/llRow"
@@ -80,13 +80,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.2"
-                            android:text="Stock"
+                            android:text="Usadas"
                             android:textColor="@android:color/black"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvStock"
+                            android:id="@+id/txtUsadas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

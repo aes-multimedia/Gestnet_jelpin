@@ -1,5 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -45,7 +47,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         btnAñadirMaterial.setOnClickListener(this);
     }
     private void darValores(){
-//        ivFoto.setImageResource(articulo.getImagen());
+      //ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
         tvStock.setText(String.valueOf(articulo.getStock()));
         tvPrecio.setText(String.valueOf(articulo.getTarifa())+ "\u20ac");
@@ -72,6 +74,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         darValores();
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -145,8 +148,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             try {
                 ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
             } catch (SQLException e) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED,returnIntent);
+                finish();
                 e.printStackTrace();
             }
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK,returnIntent);
             finish();
         }
 

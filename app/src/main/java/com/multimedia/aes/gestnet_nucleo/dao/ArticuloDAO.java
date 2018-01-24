@@ -9,6 +9,7 @@ import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,13 +88,26 @@ public class ArticuloDAO extends DBHelperMOS {
         }
     }
 
-    public static List<Articulo> filtrarArticulosPorNombre(Context context,String cadena) throws SQLException {
+    public static List<Articulo> buscarArticulosPorNombre(Context context,String cadena) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").query();
         if(listadoArticulo.isEmpty()) {
             return null;
         }else{
             return listadoArticulo;
+        }
+    }
+    public static ArrayList<String> buscarNombreArticulosPorNombre(Context context, String cadena) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").query();
+        if(listadoArticulo.isEmpty()) {
+            return null;
+        }else{
+            ArrayList<String> nombres = new ArrayList<>();
+            for (Articulo articulo:listadoArticulo) {
+                nombres.add(articulo.getNombre_articulo());
+            }
+            return nombres;
         }
     }
 

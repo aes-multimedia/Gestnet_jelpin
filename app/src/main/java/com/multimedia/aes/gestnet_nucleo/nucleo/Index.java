@@ -69,26 +69,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
 
     //METODO
-    private void introducirMaterialesPrueba() {
-
-        try {
-            if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
-                ArticuloDAO.newArticulo(this, 1, "Pieza 1", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 2", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 3", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-                ArticuloDAO.newArticulo(this, 1, "Pieza 4", 16, "9d54fg98dfg", "58d5fg8fd5", "familia", "marca", "modelo",
-                        185, 21, 25, 6, 66, "8f8f8f8f", 66);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
     private void inicializarVariables() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -144,7 +124,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.index);
         inicializarVariables();
         setTitle(R.string.averias);
-        introducirMaterialesPrueba();
         int valor= getIntent().getIntExtra("iniciarServicioArticulos",0);
         if(valor==1)startService(new Intent(this, ServicioArticulos.class));
         try {

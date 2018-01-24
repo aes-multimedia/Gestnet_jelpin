@@ -51,7 +51,8 @@
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" >
+        </activity>
         <activity android:name=".nucleo.DialogActivity" />
 
         <service android:name=".notification.GcmIntentService">
@@ -68,7 +69,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".nucleo.CierreDia"></activity>
+        <activity android:name=".nucleo.CierreDia"
+            android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.multimedia.aes.gestnet_nucleo.fileprovider"
@@ -78,6 +80,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>
