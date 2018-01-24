@@ -161,8 +161,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("fact_puesta_en_marcha",datos_adicionales.getPreeu_puesta_marcha());
         jsonObject2.put("preeu_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
         jsonObject2.put("fact_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
-        jsonObject2.put("preeu_mano_de_obra_precio",datos_adicionales.getFact_manodeobra_precio());
-        jsonObject2.put("fact_manodeobra_precio",datos_adicionales.getFact_manodeobra_precio());
+        jsonObject2.put("preeu_mano_de_obra_precio",datos_adicionales.getPreeu_mano_de_obra_precio());
+        jsonObject2.put("preeu_mano_de_obra",datos_adicionales.getPreeu_mano_de_obra());
         jsonObject2.put("preeu_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
         jsonObject2.put("fact_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
         jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
@@ -181,8 +181,9 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
-        articulosParte.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte));
         JSONArray jsonArray1 = new JSONArray();
+        if(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte)!=null){
+        articulosParte.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte));
             for (ArticuloParte articuloParte: articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
@@ -198,7 +199,11 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 obj.put("coste",a.getCoste());
 
                 jsonArray1.put(obj);
+            }
+
+
         }
+
 
         JSONArray jsonArray2 = new JSONArray();
         ArrayList<Maquina> arrayList = new ArrayList<>();
@@ -235,6 +240,21 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
 
+            JSONObject jsonObject5 = new JSONObject();
+            JSONArray jsonArraya = new JSONArray();
+        for (Maquina maquina:arrayList) {
+
+            jsonObject5.put("id_maquina",maquina.getId_maquina());
+            jsonObject5.put("fk_modelo",maquina.getModelo());
+            jsonObject5.put("num_serie",maquina.getNum_serie());
+            jsonObject5.put("puesta_marcha",maquina.getPuesta_marcha());
+            jsonObject5.put("fk_marca",maquina.getFk_marca());
+            jsonArraya.put(jsonObject5);
+        }
+
+
+
+
 
 
 
@@ -244,15 +264,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("da_items",jsonArray1);
         msg.put("datos_maquina",jsonArray2);
         msg.put("imagenes",rellenarJsonImagenes());
-
-
-
-
-
-
-
-
-
+        msg.put("maquina",jsonArraya);
 
 
 
@@ -266,29 +278,31 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
     private JSONArray rellenarJsonImagenes() throws JSONException, IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
-        arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte));
         JSONObject js = new JSONObject();
         JSONArray jsa = new JSONArray();
-        for (int i = 0; i <arraylistImagenes.size(); i++) {
-            File f=new File(arraylistImagenes.get(i).getRuta_imagen());
-            Bitmap b = null;
-            b = BitmapFactory.decodeStream(new FileInputStream(f));
-            b = resizeImage(b);
-            JSONObject jso = new JSONObject();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            b.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            try {
-                jso.put("fk_parte",arraylistImagenes.get(i).getFk_parte());
-                jso.put("nombre",arraylistImagenes.get(i).getNombre_imagen());
-                jso.put("base64","baseeeejoewjdofvniofejvreijnvowjfvwfijvwrjv");
-                jsa.put(jso);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte)!=null) {
+            arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context, fk_parte));
+
+            for (int i = 0; i < arraylistImagenes.size(); i++) {
+                File f = new File(arraylistImagenes.get(i).getRuta_imagen());
+                Bitmap b = null;
+                b = BitmapFactory.decodeStream(new FileInputStream(f));
+                b = resizeImage(b);
+                JSONObject jso = new JSONObject();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                b.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                try {
+                    jso.put("fk_parte", arraylistImagenes.get(i).getFk_parte());
+                    jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
+                    jso.put("base64", "baseeeejoewjdofvniofejvreijnvowjfvwfijvwrjv");
+                    jsa.put(jso);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
         return jsa;
     }
 }

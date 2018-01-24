@@ -58,7 +58,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static Spinner spMarca, spPuestaMarcha;
     private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
-            etTempAguaGeneCalorSalida ;
+            etTempAguaGeneCalorSalida,etNumeroSerie;
     private Button btnAñadirMaquina,btnDatosTesto;
     private TextView txtTipo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
@@ -143,6 +143,9 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             spPuestaMarcha.setSelection(spinnerPosition);
         }
         txtTipo.setText(maquina.getFk_tipo()+"");
+        etNumeroSerie.setText(maquina.getNum_serie());
+        etModelo.setText(maquina.getModelo());
+
     }
     public void inicializarVariables(){
         //SPINNER
@@ -155,6 +158,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         etPotenciaUtil = (EditText)vista.findViewById(R.id.etPotenciaUtil);
         etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
+        etNumeroSerie = (EditText)vista.findViewById(R.id.etNumSerie);
         //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);

@@ -194,7 +194,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     btnAñadirDuracion.setText( selectedHour + " horas " + selectedMinute+" minutos");
-                    horas=(selectedHour*60+selectedMinute)*60;
+                    horas=(selectedHour*60+selectedMinute);
 
                 }
             }, hour, minute, true);
@@ -202,6 +202,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             mTimePicker.show();
 
         }else if(view.getId()==btnFinalizar.getId()){
+
+
 
 
             double disposicion=-1;
@@ -223,17 +225,35 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                 String puestaMarcha=etPuestaEnMarcha.getText().toString();
                 String servicioUrgencia=etServicioUrgencia.getText().toString();
-                double kmsInicio=Double.valueOf(etKmsInicio.getText().toString());
-                double kmsPrecio=Double.valueOf(etKmsFin.getText().toString());
+            double kmsInicio;
+                if(etKmsInicio.getText().toString()=="") {
+                    kmsInicio =0;
+                }else{
+
+                    kmsInicio = Double.valueOf(etKmsInicio.getText().toString());
+                }
+                double kmsPrecio;
+                if(etKmsFin.getText().toString()==""){
+                    kmsPrecio=0;
+
+
+                }else {
+                    kmsPrecio = Double.valueOf(etKmsFin.getText().toString());
+                }
                 String OperacionEfectuada=etOperacionEfectuada.getText().toString();
                 String nombreOtros=etNombreOtros.getText().toString();
-                double precioAdicional=Double.valueOf(etPrecioOtros.getText().toString());
+                double precioAdicional;
+                if( etPrecioOtros.getText().toString()=="") {
+                    precioAdicional = 0;
+                }else{
+                   precioAdicional = Double.valueOf(etPrecioOtros.getText().toString());
+                }
                 double precioTotalArticulos = 0;
                 if (!articuloPartes.isEmpty()){
                     precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
                 }
             try {
-                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),datos.getId_rel(),formaPago, puestaMarcha,  disposicion,manoObra, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
+                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),datos.getId_rel(),formaPago, puestaMarcha,  disposicion,manoObra,horas, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
                 ParteDAO.actualizarParteDuracion(getContext(),parte.getId_parte(),String.valueOf(horas));
                 new HiloCerrarParte(getContext(),parte.getId_parte()).execute();
             } catch (SQLException e) {
