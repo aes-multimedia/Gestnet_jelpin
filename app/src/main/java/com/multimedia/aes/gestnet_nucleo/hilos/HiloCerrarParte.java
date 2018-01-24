@@ -296,7 +296,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 try {
                     jso.put("fk_parte", arraylistImagenes.get(i).getFk_parte());
                     jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
-                    jso.put("base64", "baseeeejoewjdofvniofejvreijnvowjfvwfijvwrjv");
+                    jso.put("base64", encodedImage);
                     jsa.put(jso);
                 } catch (JSONException e) {
                     e.printStackTrace();
