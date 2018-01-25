@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 
@@ -21,8 +22,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte) {
-        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte);
+    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,int usados) {
+        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,usados);
         return crearArticuloParte(a,context);
     }
 
@@ -40,8 +41,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
     }
 
 
-    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte) {
-        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte);
+    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,int usados) {
+        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,usados);
         return a;
     }
 
@@ -125,7 +126,16 @@ public static ArticuloParte buscarArticuloPartePorFkParte(Context context, int i
         }else{
             return listadoArticuloParte.get(0);
         }
+}
+public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context context, int fk_articulo,int fk_parte) throws SQLException {
+    cargarDao(context);
+    List<ArticuloParte> listadoArticuloParte= dao.queryBuilder().where().eq(ArticuloParte.FK_ARTICULO,fk_articulo).and().eq(ArticuloParte.FK_PARTE,fk_parte).query();
+    if(listadoArticuloParte.isEmpty()) {
+        return null;
+    }else{
+        return listadoArticuloParte.get(0);
     }
+}
 
     public static List<ArticuloParte> buscarTodosLosArticuloPartePorFkParte(Context context, int id) throws SQLException {
         cargarDao(context);
@@ -140,7 +150,13 @@ public static ArticuloParte buscarArticuloPartePorFkParte(Context context, int i
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-
+    public static void actualizarArticuloParte(Context context, int id_articulo_parte, int usados)throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(ArticuloParte.ID,id_articulo_parte);
+        updateBuilder.updateColumnValue(ArticuloParte.USADOS,usados);
+        updateBuilder.update();
+    }
     }
 
 

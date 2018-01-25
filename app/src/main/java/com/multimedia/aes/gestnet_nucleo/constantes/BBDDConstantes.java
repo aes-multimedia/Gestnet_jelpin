@@ -122,6 +122,7 @@ public class BBDDConstantes {
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
+
 		ClienteDAO.borrarTodosLosClientes(context);
 		UsuarioDAO.borrarTodosLosUsuarios(context);
 		ParteDAO.borrarTodosLosPartes(context);

@@ -124,9 +124,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.index);
         inicializarVariables();
         setTitle(R.string.averias);
-        int valor= getIntent().getIntExtra("iniciarServicioArticulos",0);
-        if(valor==1)startService(new Intent(this, ServicioArticulos.class));
         try {
+            if (ArticuloDAO.buscarTodosLosArticulos(this)==null){
+                startService(new Intent(this, ServicioArticulos.class));
+            }
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
             }
@@ -145,7 +146,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 2:
                     try {
-                        Toast.makeText(this,"entra borrar",Toast.LENGTH_SHORT).show();
                         if(ParteDAO.buscarPartePorId(this,id)!=null) {
                             arrayListParte.clear();
                             int direccion=ParteDAO.buscarPartePorId(this,id).getFk_direccion();
@@ -166,23 +166,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 3:
                     try {
-                        Toast.makeText(this,"entra nuevo",Toast.LENGTH_SHORT).show();
                         Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
                         Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
                         new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
                     break;
                 case 4:
-
-
                     try {
-                        Toast.makeText(this,"entra borrar ruta",Toast.LENGTH_SHORT).show();
-
                             arrayListParte.clear();
-
                             ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
                             DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
                             MaquinaDAO.borrarTodasLasMaquinas(this);
@@ -194,18 +187,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
                     break;
 
 
             }
-
             if (notId != 0) {
                 GcmIntentService.cerrarNotificacion(notId);
             }
-
         }
-
     }
     @Override
     public void onBackPressed() {

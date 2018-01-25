@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
@@ -26,13 +27,15 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
     private int view;
     private ArrayList<Articulo> arrayList;
     private Activity activity;
+    private int fk_parte;
     //CONSTRUCTOR
-    public AdaptadorListaMateriales(Context context, int view, ArrayList<Articulo> arrayList, Activity activity) {
+    public AdaptadorListaMateriales(Context context, int view, ArrayList<Articulo> arrayList, Activity activity,int fk_parte) {
         super(context, view, arrayList);
         this.context = context;
         this.view = view;
         this.arrayList=arrayList;
         this.activity=activity;
+        this.fk_parte=fk_parte;
     }
     //OVERRIDE METHODS
     @Override
@@ -42,6 +45,18 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
+        TextView txtTituloArticulo = (TextView) item.findViewById(R.id.txtTituloArticulo);
+        TextView txtUsadas = (TextView) item.findViewById(R.id.txtUsadas);
+        TextView txtPrecio = (TextView) item.findViewById(R.id.txtPrecio);
+        txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo()+"-"+arrayList.get(position).getReferencia());
+        int usados = 1;
+        try {
+            usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,arrayList.get(position).getId_articulo(),fk_parte).getUsados();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        txtUsadas.setText(usados+"");
+        txtPrecio.setText(arrayList.get(position).getCoste()*usados+"€");
 
         return item;
     }

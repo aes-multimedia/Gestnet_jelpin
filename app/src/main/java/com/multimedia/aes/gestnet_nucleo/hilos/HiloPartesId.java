@@ -52,14 +52,9 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
-                ((Index)context).guardarPartes(mensaje);
-
+            ((Index)context).guardarPartes(mensaje);
         }else{
-
-                ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
-
-
+            ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
 
     }

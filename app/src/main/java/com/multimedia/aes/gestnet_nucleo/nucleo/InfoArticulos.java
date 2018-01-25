@@ -20,6 +20,7 @@ import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferenc
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import org.json.JSONException;
@@ -108,7 +109,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_scrolling, menu);
         hideOption(R.id.action_info);
@@ -117,12 +117,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_info) {
@@ -144,9 +139,16 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte)){
+        try {
+            if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
+                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);
+                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+1);
+            }else{
+                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,1)){
+                }
+            }
             try {
-                ArticuloDAO.actualizarArticuloP(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
+                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
             } catch (SQLException e) {
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED,returnIntent);
@@ -156,6 +158,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             Intent returnIntent = new Intent();
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }

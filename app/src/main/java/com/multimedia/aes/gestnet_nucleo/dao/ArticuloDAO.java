@@ -32,8 +32,8 @@ public class ArticuloDAO extends DBHelperMOS {
         return crearArticulo(a,context);
     }
 
-    public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste) {
-        Articulo a = montarArticuloP(id_articulo,nombre_articulo,stock, coste);
+    public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+        Articulo a = montarArticuloP( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
         return crearArticulo(a,context);
     }
 
@@ -56,8 +56,8 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
-    public static Articulo  montarArticuloP(int id_articulo, String nombre_articulo,int stock, double coste) {
-        Articulo a =new Articulo(id_articulo,nombre_articulo,stock, coste);
+    public static Articulo  montarArticuloP(int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+        Articulo a =new Articulo( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
         return a;
     }
 
@@ -99,13 +99,13 @@ public class ArticuloDAO extends DBHelperMOS {
     }
     public static ArrayList<String> buscarNombreArticulosPorNombre(Context context, String cadena) throws SQLException {
         cargarDao(context);
-        List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").query();
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").or().like(Articulo.REFERENCIA,"%"+cadena+"%").query();
         if(listadoArticulo.isEmpty()) {
             return null;
         }else{
             ArrayList<String> nombres = new ArrayList<>();
             for (Articulo articulo:listadoArticulo) {
-                nombres.add(articulo.getNombre_articulo());
+                nombres.add(articulo.getNombre_articulo()+"-"+articulo.getReferencia());
             }
             return nombres;
         }
@@ -141,9 +141,6 @@ public class ArticuloDAO extends DBHelperMOS {
         double coste=articulo.getCoste();
         String ean=articulo.getEan();
         int imagen=articulo.getImagen();
-
-
-
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
@@ -165,13 +162,28 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
-    public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo, int stock, double coste)throws SQLException {
+    public static void actualizarArticulo(Context context, int id_articulo, String nombre_articulo,int stock, double coste)throws SQLException {
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
         updateBuilder.updateColumnValue(Articulo.NOMBRE_ARTICULO,nombre_articulo);
         updateBuilder.updateColumnValue(Articulo.STOCK, stock);
         updateBuilder.updateColumnValue(Articulo.COSTE, coste);
+        updateBuilder.update();
+    }
+    public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento)throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.NOMBRE_ARTICULO,nombre_articulo);
+        updateBuilder.updateColumnValue(Articulo.STOCK, stock);
+        updateBuilder.updateColumnValue(Articulo.COSTE, coste);
+        updateBuilder.updateColumnValue(Articulo.REFERENCIA, referencia);
+        updateBuilder.updateColumnValue(Articulo.REFERENCIA_AUX, referencia_aux);
+        updateBuilder.updateColumnValue(Articulo.EAN, ean);
+        updateBuilder.updateColumnValue(Articulo.IVA, iva);
+        updateBuilder.updateColumnValue(Articulo.TARIFA, tarifa);
+        updateBuilder.updateColumnValue(Articulo.DESCUENTO, descuento);
         updateBuilder.update();
     }
 

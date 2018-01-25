@@ -187,21 +187,20 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             for (ArticuloParte articuloParte: articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
-                obj.put("fk_parte",parte.getId_parte());
-                obj.put("fk_producto",a.getId_articulo());
-                obj.put("nombre_articulo",a.getNombre_articulo());
-                obj.put("stock",a.getStock());
-                obj.put("marca",a.getMarca());
-                obj.put("modelo",a.getModelo());
-                obj.put("iva",a.getIva());
-                obj.put("tarifa",a.getTarifa());
-                obj.put("descuento",a.getDescuento());
-                obj.put("coste",a.getCoste());
-
-                jsonArray1.put(obj);
+                for (int i = 0; i < articuloParte.getUsados(); i++) {
+                    obj.put("fk_parte",parte.getId_parte());
+                    obj.put("fk_producto",a.getId_articulo());
+                    obj.put("nombre_articulo",a.getNombre_articulo());
+                    obj.put("stock",a.getStock());
+                    obj.put("marca",a.getMarca());
+                    obj.put("modelo",a.getModelo());
+                    obj.put("iva",a.getIva());
+                    obj.put("tarifa",a.getTarifa());
+                    obj.put("descuento",a.getDescuento());
+                    obj.put("coste",a.getCoste());
+                    jsonArray1.put(obj);
+                }
             }
-
-
         }
 
 
