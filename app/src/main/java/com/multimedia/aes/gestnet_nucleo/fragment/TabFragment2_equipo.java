@@ -39,7 +39,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizaMaquina;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloCreaMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis;
+import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +78,13 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private static Activity activity;
     private String serialNumber;
+
+    public void sacarMensaje(String msg) {
+        if (ManagerProgressDialog.getDialog()!=null){
+            ManagerProgressDialog.cerrarDialog();
+        }
+        Dialogo.dialogoError(msg,getContext());
+    }
 
     //METODOS
     private void darValores(){
@@ -288,6 +298,10 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                     int spinnerPosition = myAdap.getPosition(myString);
                     spMarca.setSelection(spinnerPosition);
                 }
+            }else{
+
+
+
             }
             if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
                 etModelo.setText(String.valueOf(maquina.getModelo()));
@@ -467,6 +481,17 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
                                                 temperatura_agua_generador_calor_salida);
+
+                                    new HiloActualizaMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
+                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
+                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
+                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
+                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
+                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
+                                                garantia_extendida, factura_compra, refrigerante,
+                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
+                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
+                                                temperatura_agua_generador_calor_salida);
                                     }else{
                                         MaquinaDAO.newMaquina(getContext(),
                                                 fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
@@ -480,8 +505,17 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
                                                 temperatura_agua_generador_calor_salida
                                         );
+                                        new HiloCreaMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
+                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
+                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
+                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
+                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
+                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
+                                                garantia_extendida, factura_compra, refrigerante,
+                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
+                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
+                                                temperatura_agua_generador_calor_salida);
                                     }
-                                    //new HiloGuardarDatosMaquina(getContext(),solicitud.getId(),maquina.getFk_maquina(),solicitud.getFk_direccion(),tipoCaldera,marcaCaldera,modelo,potencia,usoCaldera,puestaMarcha,maquina.getSerial_testo()).execute();
                                     añadirMaquina(getContext());
                                     etModelo.setText("");
                                     etTempMaxACS.setText("");
