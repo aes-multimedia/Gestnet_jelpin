@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
@@ -15,26 +17,59 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by acp on 04/09/2017.
- */
-
-public class GuardarDisposiciones {
+public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<Disposiciones> disposiciones = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarDisposiciones(Context context, String json) throws java.sql.SQLException, JSONException {
         this.context = context;
         this.json = json;
-        try {
-
-        guardarJsonParte();
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Disposiciones.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
+        try {
+            guardarJsonParte();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if(bien){
+            try {
+                new GuardarMarcas(context,json).execute();
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (context.getClass()==Login.class){
+                ((Login) context).sacarMensaje("error al guardar las disposiciones");
+            }else if (context.getClass()==Index.class){
+                ((Index) context).sacarMensaje("error al guardar las disposiciones");
+            }
+
+        }
     }
 
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
@@ -42,10 +77,7 @@ public class GuardarDisposiciones {
         int id_disposicion_servicio;
         String nombre_disposicion;
         int coste_disposicion, precio_disposicion;
-
         boolean esta = false;
-
-
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("disposiciones_servicio");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -98,17 +130,6 @@ public class GuardarDisposiciones {
             }
 
 
-
-        } if(bien){
-            new GuardarMarcas(context,json);
-
-
-        } else {
-            if (context.getClass()==Login.class){
-                ((Login) context).sacarMensaje("error al guardar las disposiciones");
-            }else if (context.getClass()==Index.class){
-                ((Index) context).sacarMensaje("error al guardar las disposiciones");
-            }
 
         }
 

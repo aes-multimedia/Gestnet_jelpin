@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -27,12 +28,25 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
     private int idUser;
     private String apiKey;
     private Context context;
+    private ProgressDialog dialog;
 
     public HiloPartes(Context context,int idUser,String ipCliente,String apiKey) {
         this.idUser=idUser;
         this.context = context;
         this.apiKey=apiKey;
         this.ipCliente=ipCliente;
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Descargando Partes.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
     }
 
     @Override
@@ -49,6 +63,7 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             if (context.getClass()==Login.class){
                 ((Login)context).guardarPartes(mensaje);

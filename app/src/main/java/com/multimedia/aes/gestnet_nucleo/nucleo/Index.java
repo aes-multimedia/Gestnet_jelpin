@@ -88,21 +88,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
     }
     public void sacarMensaje(String msg) {
-        Dialogo.dialogoError(msg, this);
-        if (ManagerProgressDialog.getDialog() != null) {
-            ManagerProgressDialog.cerrarDialog();
-        }
         srl.setRefreshing(false);
     }
     public void guardarPartes(String msg) {
         try {
-            if (ManagerProgressDialog.getDialog() == null) {
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
             JSONObject jsonObject = new JSONObject(msg);
             if (jsonObject.getInt("estado") == 1) {
-                new GuardarParte(this, msg);
+                new GuardarParte(this, msg).execute();
             } else {
                 sacarMensaje(jsonObject.getString("mensaje"));
             }
@@ -168,7 +160,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     try {
                         Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
                         Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
-                        new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key());
+                        new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

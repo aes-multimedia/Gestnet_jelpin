@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
@@ -15,29 +17,63 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by acp on 04/09/2017.
- */
-
-public class GuardarManoObra {
+public class GuardarManoObra extends AsyncTask<Void,Void,Void> {
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<ManoObra> manoObras = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarManoObra(Context context, String json) throws java.sql.SQLException {
         this.context = context;
         this.json = json;
+
+    }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Mano de Obra.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
-    public static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if(bien){
+            try {
+                new GuardarDisposiciones(context,json).execute();
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar las manos de obra");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar las manos de obra");
+            }
+        }
+    }
+
+    private static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
         int id_mano,precio;
         String concepto,coste;
 
@@ -98,16 +134,6 @@ public class GuardarManoObra {
             }
 
 
-        }
-        if(bien){
-            new GuardarDisposiciones(context,json);
-        }
-        else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar las manos de obra");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar las manos de obra");
-            }
         }
     }
 }

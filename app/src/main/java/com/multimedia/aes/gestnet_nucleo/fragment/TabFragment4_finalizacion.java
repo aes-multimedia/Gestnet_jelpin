@@ -243,7 +243,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 String OperacionEfectuada=etOperacionEfectuada.getText().toString();
                 String nombreOtros=etNombreOtros.getText().toString();
                 double precioAdicional;
-                if( etPrecioOtros.getText().toString()=="") {
+                if( etPrecioOtros.getText().toString().equals("")) {
                     precioAdicional = 0;
                 }else{
                    precioAdicional = Double.valueOf(etPrecioOtros.getText().toString());

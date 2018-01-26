@@ -1,24 +1,42 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
+import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarConfiguracion {
+public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
     private static String json;
     private static Context context;
     private static boolean bien=false;
+    private ProgressDialog dialog;
 
     public GuardarConfiguracion(Context context, String json) {
         this.context = context;
-        GuardarConfiguracion.json = json;
+        this.json = json;
+
+    }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Configuracion.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonConfiguracion();
         } catch (JSONException e) {
@@ -26,9 +44,24 @@ public class GuardarConfiguracion {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            new GuardarDatosAdicionales(context,json).execute();
+        }else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar la configuracion");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar la configuracion");
+            }
+        }
     }
 
-    public static void guardarJsonConfiguracion() throws JSONException, SQLException {
+    private static void guardarJsonConfiguracion() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("configuracion");
         int id_configuracion;
@@ -513,15 +546,6 @@ public class GuardarConfiguracion {
                 requiere_firma,   usuario_conf,   pass_conf,   intersat,
                 gas_natural,   jlsat,   duracion_automatica,   contador_km)){
             bien = true;
-        }
-        if (bien){
-            new GuardarDatosAdicionales(context,json);
-        }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar la configuracion");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar la configuracion");
-            }
         }
     }
 }

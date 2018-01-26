@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
@@ -15,15 +17,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuardarProtocoloAccion {
+public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
     private static String json;
     private static Context context;
-    private static boolean bien=true;
+    private static boolean bien=false;
     private static ArrayList<ProtocoloAccion> protocoloAcciones = new ArrayList() {};
+    private ProgressDialog dialog;
 
     public GuardarProtocoloAccion(Context context, String json) {
         this.context = context;
-        GuardarProtocoloAccion.json = json;
+        this.json = json;
+    }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Protocolos.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonProtocoloAccion();
         } catch (JSONException e) {
@@ -31,9 +47,27 @@ public class GuardarProtocoloAccion {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
-
-    public static void guardarJsonProtocoloAccion() throws JSONException, SQLException {
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            if (context.getClass()==Login.class){
+                new GuardarConfiguracion(context,json).execute();
+            }else if (context.getClass()==Index.class){
+                new GuardarDatosAdicionales(context,json).execute();
+            }
+        }else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar protocolos");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar protocolos");
+            }
+        }
+    }
+    private static void guardarJsonProtocoloAccion() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -121,19 +155,5 @@ public class GuardarProtocoloAccion {
             }
         }
 
-
-        if (bien){
-            if (context.getClass()==Login.class){
-                new GuardarConfiguracion(context,json);
-            }else if (context.getClass()==Index.class){
-                new GuardarDatosAdicionales(context,json);
-            }
-        }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar protocolos");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar protocolos");
-            }
-        }
     }
 }

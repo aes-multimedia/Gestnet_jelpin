@@ -22,115 +22,115 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 
-public class HiloPorFecha extends AsyncTask<Void,Void,Void> {
+public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
 
-private String mensaje="",ipCliente,fecha;
-private int idUser;
-private Context context;
-private ProgressDialog dialog;
+    private String mensaje = "", ipCliente, fecha;
+    private int idUser;
+    private Context context;
+    private ProgressDialog dialog;
 
-public HiloPorFecha(Context context,int idUser,String fecha,String ipCliente) {
-        this.idUser=idUser;
-        this.fecha=fecha;
+    public HiloPorFecha(Context context, int idUser, String fecha, String ipCliente) {
+        this.idUser = idUser;
+        this.fecha = fecha;
         this.context = context;
-        this.ipCliente=ipCliente;
-        }
+        this.ipCliente = ipCliente;
+    }
 
 
-        @Override
-        protected void onPreExecute() {
-                dialog = new ProgressDialog(context);
-                dialog.setTitle("Conectando");
-                dialog.setMessage("Conectando con el servidor, porfavor espere..."+"\n"+"Esto puede tardar unos minutos si la cobertura es baja.");
-                dialog.setCancelable(false);
-                dialog.setIndeterminate(true);
-                dialog.show();
-                super.onPreExecute();
-        }
-        @Override
-protected Void doInBackground(Void... voids) {
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Cambiando de dia.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
-        mensaje = partes();
+            mensaje = partes();
         } catch (JSONException e) {
-        mensaje = "JSONException";
-        e.printStackTrace();
+            mensaje = "JSONException";
+            e.printStackTrace();
         }
         return null;
-        }
+    }
 
-@Override
-protected void onPostExecute(Void aVoid) {
+    @Override
+    protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         dialog.dismiss();
-        if (mensaje.indexOf('}')!=-1){
+        if (mensaje.indexOf('}') != -1) {
 
-        ((Index)context).guardarPartes(mensaje);
+            ((Index) context).guardarPartes(mensaje);
 
-        }else{
+        } else {
 
-        ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            ((Index) context).sacarMensaje("No se ha devuelto correctamente de la api");
         }
 
-        }
+    }
 
 
-
-private String partes() throws JSONException{
+    private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("tecnico",idUser);
-        msg.put("fecha",fecha);
+        msg.put("tecnico", idUser);
+        msg.put("fecha", fecha);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-        String url= Constantes.URL_PARTES_FECHA;
-        urlws = new URL(url);
-        uc = (HttpURLConnection) urlws.openConnection();
-        uc.setDoOutput(true);
-        uc.setDoInput(true);
-        uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-        uc.setRequestMethod("POST");
-        uc.connect();
+            String url = Constantes.URL_PARTES_FECHA;
+            urlws = new URL(url);
+            uc = (HttpURLConnection) urlws.openConnection();
+            uc.setDoOutput(true);
+            uc.setDoInput(true);
+            uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            uc.setRequestMethod("POST");
+            uc.connect();
         } catch (MalformedURLException e) {
-        e.printStackTrace();
-        JSONObject error = new JSONObject();
-        msg.put("estado",5);
-        msg.put("mensaje","Error de conexión, URL malformada");
-        return error.toString();
+            e.printStackTrace();
+            JSONObject error = new JSONObject();
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, URL malformada");
+            return error.toString();
         } catch (ProtocolException e) {
-        e.printStackTrace();
-        JSONObject error = new JSONObject();
-        msg.put("estado",5);
-        msg.put("mensaje","Error de conexión, error de protocolo");
-        return error.toString();
+            e.printStackTrace();
+            JSONObject error = new JSONObject();
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error de protocolo");
+            return error.toString();
         } catch (IOException e) {
-        JSONObject error = new JSONObject();
-        msg.put("estado",5);
-        msg.put("mensaje","Error de conexión, IOException");
-        return error.toString();
+            JSONObject error = new JSONObject();
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, IOException");
+            return error.toString();
         }
         String contenido = "";
         OutputStream os = null;
         try {
-        os = uc.getOutputStream();
-        OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-        osw.write(msg.toString());
-        osw.flush();
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        contenido += inputLine + "\n";
-        }
-        in.close();
-        osw.close();
+            os = uc.getOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+            osw.write(msg.toString());
+            osw.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                contenido += inputLine + "\n";
+            }
+            in.close();
+            osw.close();
         } catch (IOException e) {
-        e.printStackTrace();
-        JSONObject error = new JSONObject();
-        msg.put("estado",5);
-        msg.put("mensaje","Error de conexión, error en lectura");
-        contenido = error.toString();
+            e.printStackTrace();
+            JSONObject error = new JSONObject();
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error en lectura");
+            contenido = error.toString();
         }
 
 
         return contenido;
-        }
-        }
+    }
+}

@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
@@ -14,29 +16,61 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by acp on 02/01/2018.
- */
 
-
-public class GuardarMarcas {
+public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<Marca> marcas = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarMarcas(Context context, String json) throws java.sql.SQLException, JSONException {
         this.context = context;
         this.json = json;
+    }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Marcas.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
-
             guardarJsonParte();
-        } catch (SQLException e) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien) {
+            try {
+                new GuardarTipos(context,json).execute();
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (context.getClass()==Login.class){
+                ((Login) context).sacarMensaje("error al guardar las marcas");
+            }else if (context.getClass()==Index.class){
+                ((Index) context).sacarMensaje("error al guardar las marcas");
+            }
 
+        }
+    }
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
 
         int id_marca;
@@ -86,19 +120,6 @@ public class GuardarMarcas {
             }else{
                 MarcaDAO.actualizarMarca(context, id_marca, nombre_marca);
             }
-
-
-
-        } if (bien) {
-           new GuardarTipos(context,json);
-        } else {
-            if (context.getClass()==Login.class){
-                ((Login) context).sacarMensaje("error al guardar las marcas");
-            }else if (context.getClass()==Index.class){
-                ((Index) context).sacarMensaje("error al guardar las marcas");
-            }
-
         }
-
     }
 }

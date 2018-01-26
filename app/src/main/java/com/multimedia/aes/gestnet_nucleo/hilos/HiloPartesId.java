@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -28,6 +29,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
     private int idParte;
     private String apiKey;
     private Context context;
+    private ProgressDialog dialog;
 
     public HiloPartesId(Context context,int idUser,int idParte, String ipCliente,String apiKey) {
         this.idUser=idUser;
@@ -35,6 +37,17 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         this.context = context;
         this.apiKey=apiKey;
         this.ipCliente=ipCliente;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Descargando Partes.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
     }
 
     @Override
@@ -51,6 +64,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             ((Index)context).guardarPartes(mensaje);
         }else{
@@ -115,8 +129,6 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
             msg.put("mensaje","Error de conexión, error en lectura");
             contenido = error.toString();
         }
-
-
         return contenido;
     }
 }

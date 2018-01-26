@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -23,10 +24,23 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     private String mensaje="";
     private String codCliente;
     private Context context;
+    private ProgressDialog dialog;
 
     public HiloCodCliente(String codCliente,Context context) {
         this.codCliente =codCliente;
         this.context=context;
+    }
+
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Conectando");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
     }
 
     @Override
@@ -43,8 +57,8 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
-         //   mensaje="{\"estado\":1,\"mensaje\":\"1\"}";
             ((PreLogin)context).guardarCliente(mensaje);
         }else{
             ((PreLogin)context).sacarMensaje("No se ha devuelto correctamente de la api");

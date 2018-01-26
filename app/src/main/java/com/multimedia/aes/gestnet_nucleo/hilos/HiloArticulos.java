@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -22,30 +23,28 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-/**
- * Created by acp on 04/01/2018.
- */
-
-public class HiloArticulos   extends AsyncTask<Void,Void,Void> {
-
-
+public class HiloArticulos extends AsyncTask<Void,Void,Void> {
 
     private int fk_entidad;
     private String mensaje;
     private Context context;
-
-
-
-
-
+    private ProgressDialog dialog;
 
     public HiloArticulos(int fk_entidad,Context context) {
         this.fk_entidad = fk_entidad;
         this.context=context;
 
     }
-
-
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Obteniendo Articulos.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -59,6 +58,7 @@ public class HiloArticulos   extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
 
             ((ServicioArticulos) context).guardarArticulos(mensaje);

@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
@@ -15,34 +17,62 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by acp on 01/09/2017.
- */
-
-public class GuardarFormasPago {
+public class GuardarFormasPago extends AsyncTask<Void,Void,Void> {
 
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<FormasPago> formas = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarFormasPago(Context context, String json) throws java.sql.SQLException {
         this.context = context;
         this.json = json;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Formas de Pago.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if(bien){
+            try {
+                new GuardarManoObra(context,json).execute();
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar las formas de pago");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar las formas de pago");
+            }
         }
     }
 
-
-
-
-    public static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
+    private static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
         int id_forma_pago,financiado;
         String forma_pago;
         boolean  mostrar_cuenta, sumar_dias, bAparecerEnInforme, mostrarcuenta, esta = false;
@@ -131,19 +161,6 @@ public class GuardarFormasPago {
                 FormasPagoDAO.actualizarFormasPago(context,id_forma_pago,forma_pago,financiado,mostrar_cuenta,sumar_dias,bAparecerEnInforme,mostrarcuenta);
             }
 
-        }
-
-
-        if(bien){
-
-            new GuardarManoObra(context,json);
-        }
-        else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar las formas de pago");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar las formas de pago");
-            }
         }
 
     }

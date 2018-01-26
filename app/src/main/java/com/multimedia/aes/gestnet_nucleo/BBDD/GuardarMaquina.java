@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -17,28 +19,56 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuardarMaquina {
+public class GuardarMaquina extends AsyncTask<Void,Void,Void> {
 
     private static String json;
     private static Context context;
     private static boolean bien=true;
     private static ArrayList<Maquina> maquinas = new ArrayList<>();
     private static int contador=0;
+    private ProgressDialog dialog;
 
     public GuardarMaquina(Context context, String json) {
         this.context = context;
         this.json = json;
-        try {
+    }
 
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Maquinas.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
+        try {
             guardarJsonMaquina();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
-
-    public static void guardarJsonMaquina() throws JSONException, SQLException {
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            new GuardarProtocoloAccion(context,json).execute();
+        }else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar maquinas");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar maquinas");
+            }
+        }
+    }
+    private static void guardarJsonMaquina() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -277,15 +307,6 @@ public class GuardarMaquina {
                 }else{
                     MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
                 }
-            }
-        }
-        if (bien){
-            new GuardarProtocoloAccion(context,json);
-        }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar maquinas");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar maquinas");
             }
         }
     }

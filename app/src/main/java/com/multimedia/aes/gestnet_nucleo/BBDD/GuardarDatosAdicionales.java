@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -17,28 +19,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class GuardarDatosAdicionales {
+public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
 
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<DatosAdicionales> datos = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarDatosAdicionales(Context context, String json) {
         this.context = context;
         this.json = json;
+    }
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Datos Adicionales.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
-
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            if (context.getClass()==Login.class){
+                try {
+                    new GuardarFormasPago(context,json).execute();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }else if (context.getClass()==Index.class) {
+                ((Index) context).datosActualizados();
+            }
+        }else{
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("error al guardar datos adicionales");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("error al guardar datos adicionales");
+            }
+        }
     }
 
-    public static void guardarJsonParte() throws JSONException, SQLException {
+    private static void guardarJsonParte() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         if (jsonArray.length()!=0){
@@ -531,22 +569,8 @@ public class GuardarDatosAdicionales {
         }else{
             bien = true;
         }
-
-        if (bien){
-            if (context.getClass()==Login.class){
-                new GuardarFormasPago(context,json);
-            }else if (context.getClass()==Index.class) {
-                ((Index) context).datosActualizados();
-            }
-        }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("error al guardar datos adicionales");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("error al guardar datos adicionales");
-            }
-        }
     }
-    }
+}
 
 
 

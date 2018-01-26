@@ -1,24 +1,43 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
 
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
+import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class GuardarCliente {
+public class GuardarCliente extends AsyncTask<Void,Void,Void> {
     private static String json;
     private static Context context;
     private static boolean bien=false;
+    private ProgressDialog dialog;
 
     public GuardarCliente(Context context, String json) {
         this.context = context;
-        GuardarCliente.json = json;
+        this.json = json;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Cliente.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonCliente();
         } catch (JSONException e) {
@@ -26,9 +45,19 @@ public class GuardarCliente {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
-
-    public static void guardarJsonCliente() throws JSONException, SQLException {
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            ((PreLogin)context).irLogin();
+        }else{
+            ((PreLogin)context).sacarMensaje("error cliente");
+        }
+    }
+    private static void guardarJsonCliente() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         jsonObject = jsonObject.getJSONObject("cliente");
         int id;
@@ -69,11 +98,6 @@ public class GuardarCliente {
         }
         if (ClienteDAO.newCliente(context,id,nombre,color,logo,ip,cod_cliente)){
             bien = true;
-        }
-        if (bien){
-            ((PreLogin)context).irLogin();
-        }else{
-            ((PreLogin)context).sacarMensaje("error cliente");
         }
     }
 }

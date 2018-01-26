@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     private Context context;
     private Cliente cliente;
     private String ipCliente;
+    private ProgressDialog dialog;
 
     public HiloLogin(String login, String pass,String ipCliente, Context context) {
         this.login = login;
@@ -41,6 +43,18 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Logueando.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -56,6 +70,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
 
             ((Login)context).guardarUsuario(mensaje);

@@ -186,54 +186,35 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void guardarUsuario(String msg){
 
         try {
-            if (ManagerProgressDialog.getDialog()==null){
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
             JSONObject jsonObject = new JSONObject(msg);
             int estado = jsonObject.getInt("estado");
             if (estado==1){
-                new GuardarUsuario(this,msg);
+                new GuardarUsuario(this,msg).execute();
             }else{
                 sacarMensaje(jsonObject.getString("mensaje"));
             }
         } catch (JSONException e) {
             Dialogo.dialogoError("Error en login",this);
-            if (ManagerProgressDialog.getDialog()!=null){
-                ManagerProgressDialog.cerrarDialog();
-            }
 
             e.printStackTrace();
         }
     }
     public void inicializarConfiguracion(){
         try {
-            if (ManagerProgressDialog.getDialog()==null){
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
             usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-
             new HiloNotific(this,regid,getImei(this,this)).execute();
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
     public void hiloPartes(){
         new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente(),usuario.getApi_key()).execute();
     }
     public void guardarPartes(String msg){
         try {
-            if (ManagerProgressDialog.getDialog()==null){
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            ManagerProgressDialog.setMensaje(getResources().getString(R.string.guardar_datos));
             JSONObject jsonObject = new JSONObject(msg);
             if (jsonObject.getInt("estado")==1){
-                new GuardarParte(this,msg);
+                new GuardarParte(this,msg).execute();
             }else{
                 sacarMensaje(jsonObject.getString("mensaje"));
             }
@@ -242,19 +223,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
     }
     public void irIndex() {
-
-        if(ManagerProgressDialog.getDialog()!=null){
-            ManagerProgressDialog.cerrarDialog();
-        }
         startService(new Intent(this, ServicioLocalizacion.class));
         Intent i = new Intent(this,Index.class);
         startActivity(i);
-
     }
     public void sacarMensaje(String msg) {
-        if (ManagerProgressDialog.getDialog()!=null){
-            ManagerProgressDialog.cerrarDialog();
-        }
         Dialogo.dialogoError(msg,this);
         try {
             BBDDConstantes.borrarDatosError(this);
@@ -351,10 +324,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
             } else {
                 Log.i(TAG, "No valid Google Play Services APK found.");
             }
-            if (ManagerProgressDialog.getDialog()!=null){
-                ManagerProgressDialog.abrirDialog(this);
-            }
-            //ManagerProgressDialog.setMensaje(getResources().getString(R.string.obtener_datos));
 
             new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
         }

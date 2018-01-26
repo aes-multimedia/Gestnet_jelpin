@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -15,28 +17,61 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuardarParte {
+public class GuardarParte extends AsyncTask<Void,Void,Void> {
 
     private static String json;
     private static Context context;
     private static boolean bien=false;
     private static ArrayList<Parte> partes = new ArrayList<>();
+    private ProgressDialog dialog;
+    private static int estado = 0;
 
     public GuardarParte(Context context, String json) {
         this.context = context;
         this.json = json;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Partes.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
         try {
             guardarJsonParte();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien){
+            new GuardarMaquina(context,json).execute();
+        }else{
+            if (estado==1){
+                if (context.getClass()==Login.class){
+                    ((Login)context).sacarMensaje("error al guardar partes");
+                }else if (context.getClass()==Index.class){
+                    ((Index)context).sacarMensaje("error al guardar partes");
+                }
 
-    public static void guardarJsonParte() throws JSONException, SQLException {
+            }
+        }
+    }
+    private static void guardarJsonParte() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
-        int estado = Integer.parseInt(jsonObject.getString("estado"));
+        estado = Integer.parseInt(jsonObject.getString("estado"));
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         if (jsonArray.length()!=0){
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -856,18 +891,6 @@ public class GuardarParte {
             }
         }else{
             bien = true;
-        }
-        if (bien){
-            new GuardarMaquina(context,json);
-        }else{
-            if (estado==1){
-                if (context.getClass()==Login.class){
-                    ((Login)context).sacarMensaje("error al guardar partes");
-                }else if (context.getClass()==Index.class){
-                    ((Index)context).sacarMensaje("error al guardar partes");
-                }
-
-            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,10 +53,24 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     private String mensaje;
     private Context context;
     private int fk_parte;
+    private ProgressDialog dialog;
 
     public HiloCerrarParte(Context context, int fk_parte) {
         this.context = context;
         this.fk_parte = fk_parte;
+    }
+
+
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Cerrando Parte.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
     }
 
     @Override
@@ -73,6 +88,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             try {
                 ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);

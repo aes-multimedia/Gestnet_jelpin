@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.BBDD;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
+import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.TipoCalderaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.TipoCaldera;
@@ -14,29 +16,61 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by acp on 02/01/2018.
- */
-
-public class GuardarTipos {
+public class GuardarTipos extends AsyncTask<Void,Void,Void> {
 
 
     private static String json;
     private static Context context;
     private static boolean bien = false;
     private static ArrayList<TipoCaldera> tipos = new ArrayList<>();
+    private ProgressDialog dialog;
 
     public GuardarTipos(Context context, String json) throws java.sql.SQLException, JSONException {
         this.context = context;
         this.json = json;
-        try {
-
-            guardarJsonParte();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Guardando Tipos de Combustion.");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+        super.onPreExecute();
+    }
+    @Override
+    protected Void doInBackground(Void... voids) {
+        try {
+            guardarJsonParte();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (java.sql.SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        dialog.dismiss();
+        if (bien) {
+            if (context.getClass()==Login.class){
+                ((Login) context).irIndex();
+            }else if (context.getClass()==Index.class){
+                ((Index) context).datosActualizados();
+            }
+
+        } else {
+            if (context.getClass()==Login.class){
+                ((Login) context).sacarMensaje("error al guardar las tipos");
+            }else if (context.getClass()==Index.class){
+                ((Index) context).sacarMensaje("error al guardar las tipos");
+            }
+
+        }
+    }
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
 
         int id_tipo_combustion;
@@ -86,24 +120,6 @@ public class GuardarTipos {
             }else{
                 TipoCalderaDAO.actualizarTipos(context, id_tipo_combustion, nombre_tipo_combustion);
             }
-
-
-
-        } if (bien) {
-            if (context.getClass()==Login.class){
-                ((Login) context).irIndex();
-            }else if (context.getClass()==Index.class){
-                ((Index) context).datosActualizados();
-            }
-
-        } else {
-            if (context.getClass()==Login.class){
-                ((Login) context).sacarMensaje("error al guardar las tipos");
-            }else if (context.getClass()==Index.class){
-                ((Index) context).sacarMensaje("error al guardar las tipos");
-            }
-
         }
-
     }
 }

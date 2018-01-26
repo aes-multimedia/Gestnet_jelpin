@@ -71,7 +71,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Conectando");
+        dialog.setTitle("Cerrando el dia.");
         dialog.setMessage("Conectando con el servidor, porfavor espere..."+"\n"+"Esto puede tardar unos minutos si la cobertura es baja.");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);

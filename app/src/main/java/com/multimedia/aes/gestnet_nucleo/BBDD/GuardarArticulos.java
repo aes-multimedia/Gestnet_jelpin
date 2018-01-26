@@ -25,10 +25,8 @@ public class GuardarArticulos {
 
 
     public GuardarArticulos(Context context, String msg) throws java.sql.SQLException, JSONException {
-
         this.context = context;
         this.msg = msg;
-
     }
 
     public boolean guardarArticulos() throws JSONException, SQLException, java.sql.SQLException {
