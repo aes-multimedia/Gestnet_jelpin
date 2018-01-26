@@ -68,6 +68,7 @@ public class MarcaDAO extends DBHelperMOS {
         if (listadoMarcas.isEmpty()) {
             return null;
         } else {
+            listadoMarcas=listadoMarcas;
             return listadoMarcas;
         }
     }
