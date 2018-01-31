@@ -40,15 +40,15 @@
                 android:layout_margin="10dp">
 
                 <Button
+                    android:id="@+id/btnTomarFoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sacar foto"
-                    android:id="@+id/btnTomarFoto"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/botones" />
+                    android:background="@drawable/botones"
+                    android:text="Hacer foto" />
 
                 <Button
                     android:layout_width="wrap_content"

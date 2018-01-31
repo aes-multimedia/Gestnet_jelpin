@@ -5,8 +5,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "mos_partes")
 public class Parte {
-
-
     public static final String ID_PARTE="_id_parte";
     public static final String FK_USER_CREADOR="fk_user_creador";
     public static final String FK_COMPANIA="fk_compaia";
@@ -119,6 +117,7 @@ public class Parte {
     public static final  String TIPO = "tipo";
     public static final  String DNI_FIRMANTE = "dni_firmante";
     public static final  String FIRMA64 = "firma64";
+    public static final  String TICKET = "ticket";
 
 
     @DatabaseField(id = true, columnName = ID_PARTE)    private int id_parte;
@@ -216,6 +215,7 @@ public class Parte {
     @DatabaseField(columnName = NOMBRE_FIRMANTE)                private String nombre_firmante;
     @DatabaseField(columnName = DNI_FIRMANTE)                   private String dni_firmante;
     @DatabaseField(columnName = FIRMA64)                        private String firma64;
+    @DatabaseField(columnName = TICKET)                         private String ticket;
 
     //DATOS DE LA DIRECCION
     @DatabaseField(columnName = TIPO_VIA)                       private String tipo_via;
@@ -273,7 +273,7 @@ public class Parte {
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
                  String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
-                 String firma64) {
+                 String firma64,String ticket) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -386,6 +386,7 @@ public class Parte {
         this.tipo=tipo;
         this.dni_firmante=dni_firmante;
         this.firma64=firma64;
+        this.ticket=ticket;
     }
 
     public int getId_parte() {
@@ -1059,5 +1060,11 @@ public class Parte {
     }
     public void setFirma64(String firma64) {
         this.firma64 = firma64;
+    }
+    public String getTicket() {
+        return ticket;
+    }
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 }

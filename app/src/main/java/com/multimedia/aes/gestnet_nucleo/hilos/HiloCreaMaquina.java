@@ -3,8 +3,6 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.multimedia.aes.gestnet_nucleo.Utils.Dumpeable;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 
 import org.json.JSONException;
@@ -15,16 +13,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-
-/**
- * Created by acp on 24/01/2018.
- */
 
 public class HiloCreaMaquina  extends AsyncTask<Void,Void,Void> {
     private String mensaje="";

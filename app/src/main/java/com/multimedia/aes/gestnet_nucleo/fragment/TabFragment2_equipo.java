@@ -63,7 +63,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida,etNumeroSerie;
     private Button btnAñadirMaquina,btnDatosTesto;
-    private TextView txtTipo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static int alto=0,alto1=0,height=0;
@@ -152,7 +151,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             int spinnerPosition = myAdap.getPosition(myString);
             spPuestaMarcha.setSelection(spinnerPosition);
         }
-        txtTipo.setText(maquina.getFk_tipo()+"");
         etNumeroSerie.setText(maquina.getNum_serie());
         etModelo.setText(maquina.getModelo());
 
@@ -176,8 +174,6 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
         lvAnalisis.setOnItemClickListener(this);
-        //TEXTVIEW
-        txtTipo = (TextView) vista.findViewById(R.id.txtTipo);
         //ONCLICKLISTENER
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
@@ -434,7 +430,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     int fk_parte = parte.getId_parte();
                                     int fk_direccion = parte.getFk_direccion();
                                     int fk_marca = MarcaDAO.buscarIdMarcaPorNombre(getContext(),spMarca.getSelectedItem().toString());
-                                    String fk_tipo_combustion = txtTipo.getText().toString();
+                                    String fk_tipo_combustion ="";
                                     int fk_protocolo = 0;
                                     int fk_instalador = 0;
                                     int fk_remoto_central = 0;
@@ -491,7 +487,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 garantia_extendida, factura_compra, refrigerante,
                                                 bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida);
+                                                temperatura_agua_generador_calor_salida).execute();
                                     }else{
                                         MaquinaDAO.newMaquina(getContext(),
                                                 fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
@@ -514,7 +510,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 garantia_extendida, factura_compra, refrigerante,
                                                 bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida);
+                                                temperatura_agua_generador_calor_salida).execute();
                                     }
                                     añadirMaquina(getContext());
                                     etModelo.setText("");

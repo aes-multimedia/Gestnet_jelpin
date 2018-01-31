@@ -76,6 +76,130 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/textView45"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperatura ambiente local"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/etTempAmbienteLocal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView451"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rendimiento del aparato"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/etRendimientoAparato"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co Ambiente"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/etCoAmbiente"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView339"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Co2 Ambiente"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/etCo2Ambiente"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView454"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tiro"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/etTiro"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_texts_naranja"
+                                android:ems="10"
+                                android:inputType="textPersonName"
+                                android:padding="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:orientation="vertical">
+
+                            <TextView
                                 android:id="@+id/textView40"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -220,136 +344,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView45"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Temperatura ambiente local"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/etTempAmbienteLocal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_texts_naranja"
-                                android:ems="10"
-                                android:inputType="textPersonName"
-                                android:padding="5dp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView454"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Tiro"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/etTiro"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_texts_naranja"
-                                android:ems="10"
-                                android:inputType="textPersonName"
-                                android:padding="5dp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView451"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Rendimiento del aparato"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/etRendimientoAparato"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_texts_naranja"
-                                android:ems="10"
-                                android:inputType="textPersonName"
-                                android:padding="5dp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Co Ambiente"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/etCoAmbiente"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_texts_naranja"
-                                android:ems="10"
-                                android:inputType="textPersonName"
-                                android:padding="5dp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView339"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Co2 Ambiente"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/etCo2Ambiente"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/edit_texts_naranja"
-                                android:ems="10"
-                                android:inputType="textPersonName"
-                                android:padding="5dp" />
-
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
 
                 <CheckBox

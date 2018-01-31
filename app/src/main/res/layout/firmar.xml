@@ -86,7 +86,7 @@
             android:layout_weight="1"
             android:padding="10dp">
 
-            <com.multimedia.aes.gestnet_nucleo.nucleo.TouchView
+            <com.multimedia.aes.gestnet_nucleo.clases.TouchView
                 android:id="@+id/cvFirma"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -20,7 +20,7 @@ import java.util.List;
 public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
     private static String json;
     private static Context context;
-    private static boolean bien=false;
+    private static boolean bien=true;
     private static ArrayList<ProtocoloAccion> protocoloAcciones = new ArrayList() {};
     private ProgressDialog dialog;
 
@@ -146,8 +146,8 @@ public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
                     nombre_protocolo = jsonArray1.getJSONObject(j).getString("nombre_protocolo");
                 }
                 if (!esta) {
-                    if (ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion)) {
-                        bien = true;
+                    if (!ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion)) {
+                        bien = false;
                     }
                 }else{
                     ProtocoloAccionDAO.actualizarProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion);

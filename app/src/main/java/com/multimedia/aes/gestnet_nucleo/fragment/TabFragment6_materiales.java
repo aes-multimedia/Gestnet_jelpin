@@ -70,6 +70,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private void buscarMaterial(String text) throws SQLException {
         ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1);
+        List<Articulo> a = ArticuloDAO.buscarTodosLosArticulos(getContext());
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{

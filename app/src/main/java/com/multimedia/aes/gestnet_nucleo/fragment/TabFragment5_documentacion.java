@@ -1,10 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +10,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -41,7 +37,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Camara;
-import com.multimedia.aes.gestnet_nucleo.nucleo.DataImagenes;
+import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Firmar;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 

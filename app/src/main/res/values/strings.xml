@@ -27,6 +27,10 @@
     <string name="otros_telefonos">Otros teléfonos</string>
     <string name="confirmar_telefono">ACTUALIZAR DATOS DEL USUARIO</string>
     <string name="observaciones">Obs. Visita Fallida: </string>
+    <string name="buscando_bluetooth">Buscando Dispositivos Bluetooth</string>
+    <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="conectando">Conectando</string>
     <string name="visita_fallida">Visita Fallida</string>
     <string name="iniciar_parte">INICIAR PARTE</string>
     <string name="datos_parte">Datos del Parte</string>

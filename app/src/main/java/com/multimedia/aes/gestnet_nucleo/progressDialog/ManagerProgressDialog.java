@@ -23,6 +23,9 @@ public abstract class ManagerProgressDialog {
     public static void conectadoTesto(Context context) {
         p.setMessage(context.getResources().getString(R.string.obteniendo_datos_testo));
     }
+    public static void buscandoBluetooth(Context context) {
+        p.setMessage(context.getResources().getString(R.string.buscando_bluetooth));
+    }
     public static void cerrarDialog(){
         p.dismiss();
     }

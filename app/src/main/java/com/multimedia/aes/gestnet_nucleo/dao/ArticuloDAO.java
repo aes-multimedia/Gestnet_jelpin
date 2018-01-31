@@ -12,10 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by acp on 30/10/2017.
- */
-
 public class ArticuloDAO extends DBHelperMOS {
     static Dao<Articulo, Integer> dao;
 

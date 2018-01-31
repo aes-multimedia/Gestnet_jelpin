@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.nucleo;
+package com.multimedia.aes.gestnet_nucleo.clases;
 
 import android.graphics.Bitmap;
 

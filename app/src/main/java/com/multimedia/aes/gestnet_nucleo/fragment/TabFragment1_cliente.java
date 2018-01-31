@@ -24,6 +24,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +44,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
-    private Button btnIniciarParte,btnClienteAusente;
+    private Button btnIniciarParte,btnClienteAusente,btnImprimir;
 
 
     //METODO
@@ -67,8 +68,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         //BOTONES
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
+        btnImprimir = (Button) vista.findViewById(R.id.btnImprimir);
+        //ONCLICK
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
+        btnImprimir.setOnClickListener(this);
         //SWITCH
         swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -318,10 +322,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     }
     @Override
     public void onClick(View view) {
-        if(view.getId()==btnIniciarParte.getId()){
+        if(view.getId()==R.id.btnIniciarParte){
             new HiloIniciarParte(getContext(),parte,1).execute();
-        }else if(view.getId()==btnClienteAusente.getId()){
+        }else if(view.getId()==R.id.btnClienteAusente){
             new HiloIniciarParte(getContext(),parte,2).execute();
+        }else if(view.getId()==R.id.btnImprimir){
+            ((Index)getContext()).impresion();
         }
     }
 }

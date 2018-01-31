@@ -185,7 +185,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==btnAñadirDuracion.getId()){
+        if(view.getId()==R.id.btnAñadirDuracion){
 
             int hour = 0;
             int minute = 0;
@@ -201,7 +201,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             mTimePicker.setTitle("Selecciona la duración");
             mTimePicker.show();
 
-        }else if(view.getId()==btnFinalizar.getId()){
+        }else if(view.getId()==R.id.btnFinalizar){
 
 
 
@@ -226,14 +226,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 String puestaMarcha=etPuestaEnMarcha.getText().toString();
                 String servicioUrgencia=etServicioUrgencia.getText().toString();
             double kmsInicio;
-                if(etKmsInicio.getText().toString()=="") {
+                if(etKmsInicio.getText().toString().equals("")) {
                     kmsInicio =0;
                 }else{
 
                     kmsInicio = Double.valueOf(etKmsInicio.getText().toString());
                 }
                 double kmsPrecio;
-                if(etKmsFin.getText().toString()==""){
+                if(etKmsFin.getText().toString().equals("")){
                     kmsPrecio=0;
 
 
