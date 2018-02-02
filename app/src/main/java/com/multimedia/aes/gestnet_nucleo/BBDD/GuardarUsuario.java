@@ -66,7 +66,8 @@ public class GuardarUsuario extends AsyncTask<Void,Void,Void> {
         String nombre_usuario = jsonObject.getString("usuario");
         String estado_activo = jsonObject.getString("estado_activo");
         String api_key = jsonObject.getString("api_key");
-        if (UsuarioDAO.newUsuario(context,id,fk_cliente,fk_entidad,fk_user,nombre_usuario,estado_activo,api_key)){
+        String firma = "";
+        if (UsuarioDAO.newUsuario(context,id,fk_cliente,fk_entidad,fk_user,nombre_usuario,estado_activo,api_key,firma)){
             bien = true;
         }
     }

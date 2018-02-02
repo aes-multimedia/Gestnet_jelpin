@@ -26,6 +26,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
@@ -45,20 +46,98 @@ import java.util.ArrayList;
 
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
-    private EditText etPuestaEnMarcha,etServicioUrgencia,etKmsInicio,etKmsFin,etOperacionEfectuada,etNombreOtros,etPrecioOtros;
+    private EditText etPuestaEnMarcha, etServicioUrgencia, etKmsInicio, etKmsFin, etOperacionEfectuada, etNombreOtros, etPrecioOtros,etAnalisisCombustion;
     private int horas;
-    private Button btnAñadirDuracion,btnFinalizar;
+    private Button btnAñadirDuracion, btnFinalizar;
     private String tiempoDuracion;
-    private Spinner spFormaPago,spDisposicionServicio,spManoObra;
-    private ArrayList <FormasPago> formasPagos = new ArrayList<>();
-    private ArrayList <ManoObra> manosObra = new ArrayList<>();
-    private ArrayList <Disposiciones> disposicionesServicio = new ArrayList<>();
-    private String[] arrayFormasPago,arrayManosObra,arrayDisposiciones;
+    private Spinner spFormaPago, spDisposicionServicio, spManoObra;
+    private ArrayList<FormasPago> formasPagos = new ArrayList<>();
+    private ArrayList<ManoObra> manosObra = new ArrayList<>();
+    private ArrayList<Disposiciones> disposicionesServicio = new ArrayList<>();
+    private String[] arrayFormasPago, arrayManosObra, arrayDisposiciones;
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
+
     //METODO
+    private void inicializar() {
+        //EDITTEXT
+        etPuestaEnMarcha = (EditText) vista.findViewById(R.id.etPuestaMarcha);
+        etServicioUrgencia = (EditText) vista.findViewById(R.id.etServicioUrgencia);
+        etKmsInicio = (EditText) vista.findViewById(R.id.etKmsInicio);
+        etKmsFin = (EditText) vista.findViewById(R.id.etKmsFin);
+        etNombreOtros = (EditText) vista.findViewById(R.id.etNombreOtros);
+        etPrecioOtros = (EditText) vista.findViewById(R.id.etPrecioOtros);
+        etAnalisisCombustion = (EditText) vista.findViewById(R.id.etAnalisisCombustion);
+        etOperacionEfectuada = (EditText) vista.findViewById(R.id.etOperacionEfectuada);
+        //BUTTON
+        btnAñadirDuracion = (Button) vista.findViewById(R.id.btnAñadirDuracion);
+        btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
+        //ONCLICK
+        btnAñadirDuracion.setOnClickListener(this);
+        btnFinalizar.setOnClickListener(this);
+        //SPINNER
+        spFormaPago = (Spinner) vista.findViewById(R.id.spFormaPago);
+        spDisposicionServicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
+        spManoObra = (Spinner) vista.findViewById(R.id.spManoObra);
+        darValores();
+
+
+    }
+    private void darValores() {
+
+        //SPINNER FORMAS PAGO
+        if (FormasPagoDAO.buscarTodasLasFormasPago(getContext()) != null) {
+            formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
+            arrayFormasPago = new String[formasPagos.size() + 1];
+            arrayFormasPago[0] = "--Seleciones un valor--";
+            for (int i = 1; i < formasPagos.size() + 1; i++) {
+                arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
+            }
+            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+
+        }
+
+
+        //SPINNER MANOS DE OBRA
+        if (ManoObraDAO.buscarTodasLasManoDeObra(getContext()) != null) {
+            manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
+            arrayManosObra = new String[manosObra.size() + 1];
+            arrayManosObra[0] = "--Seleciones un valor--";
+            for (int i = 1; i < manosObra.size() + 1; i++) {
+                arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
+            }
+            spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
+        }
+        //SPINNER DISPOSICIONES SERVICIO
+        if (DisposicionesDAO.buscarTodasLasDisposiciones(getContext()) != null) {
+            disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
+            arrayDisposiciones = new String[disposicionesServicio.size() + 1];
+            arrayDisposiciones[0] = "--Seleciones un valor--";
+            for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
+                arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
+            }
+            spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
+        }
+    }
+    private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
+        double precio = 0;
+        try {
+
+            for (ArticuloParte articulo : listaArticulos) {
+                precio = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
+            }
+        } catch (SQLException e) {
+
+
+            Log.w("getPrecioTotal", "error al sumar precio articulos parte");
+        }
+
+        return precio;
+
+    }
+
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,14 +148,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(),parte.getFk_maquina());
-            if(DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte())!=null) {
+            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(), parte.getFk_tecnico());
+            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(), parte.getFk_maquina());
+            if (DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte()) != null) {
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
-            }else{
+            } else {
                 DatosAdicionales datosAdicionales = new DatosAdicionales();
                 datosAdicionales.setFk_parte(parte.getId_parte());
-                datos= DatosAdicionalesDAO.crearDatosAdicionalesRet(datosAdicionales,getContext());
+                datos = DatosAdicionalesDAO.crearDatosAdicionalesRet(datosAdicionales, getContext());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -119,174 +198,110 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         return vista;
 
     }
-
-
-    private void inicializar(){
-        etPuestaEnMarcha = (EditText)vista.findViewById(R.id.etPuestaMarcha);
-        etServicioUrgencia = (EditText)vista.findViewById(R.id.etServicioUrgencia);
-        etKmsInicio = (EditText)vista.findViewById(R.id.etKmsInicio);
-        etKmsFin = (EditText)vista.findViewById(R.id.etKmsFin);
-        etNombreOtros = (EditText)vista.findViewById(R.id.etNombreOtros);
-        etPrecioOtros = (EditText)vista.findViewById(R.id.etPrecioOtros);
-        etOperacionEfectuada=(EditText)vista.findViewById(R.id.etOperacionEfectuada);
-
-        btnAñadirDuracion = (Button)vista.findViewById(R.id.btnAñadirDuracion);
-        btnAñadirDuracion.setOnClickListener(this);
-        spFormaPago = ( Spinner)vista.findViewById(R.id.spFormaPago) ;
-       // spFormaPago.setOnClickListener(this);
-        spDisposicionServicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
-     //   spDisposicionServicio.setOnClickListener(this);
-        spManoObra = (Spinner) vista.findViewById(R.id.spManoObra);
-        btnFinalizar=(Button)vista.findViewById(R.id.btnFinalizar);
-        btnFinalizar.setOnClickListener(this);
-
-        darValores();
-
-
-    }
-
-
-    private void darValores(){
-
-        //SPINNER FORMAS PAGO
-        if (FormasPagoDAO.buscarTodasLasFormasPago(getContext())!=null){
-            formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
-            arrayFormasPago = new String[formasPagos.size()+ 1];
-            arrayFormasPago[0]= "--Seleciones un valor--";
-            for (int i = 1; i < formasPagos.size() + 1; i++) {
-                arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
-            }
-            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
-
-        }
-
-
-        //SPINNER MANOS DE OBRA
-        if(ManoObraDAO.buscarTodasLasManoDeObra(getContext())!=null) {
-            manosObra.addAll(ManoObraDAO.buscarTodasLasManoDeObra(getContext()));
-            arrayManosObra = new String[manosObra.size() + 1];
-            arrayManosObra[0] = "--Seleciones un valor--";
-            for (int i = 1; i < manosObra.size() + 1; i++) {
-                arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
-            }
-            spManoObra.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
-        }
-        //SPINNER DISPOSICIONES SERVICIO
-        if(DisposicionesDAO.buscarTodasLasDisposiciones(getContext())!=null){
-            disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
-            arrayDisposiciones = new String[disposicionesServicio.size()+ 1];
-            arrayDisposiciones[0]= "--Seleciones un valor--";
-            for (int i = 1; i < disposicionesServicio.size() + 1; i++) {
-                arrayDisposiciones[i] = disposicionesServicio.get(i - 1).getNombre_disposicion();
-            }
-            spDisposicionServicio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayDisposiciones));
-        }
-    }
-
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.btnAñadirDuracion){
-
+        if (view.getId() == R.id.btnAñadirDuracion) {
             int hour = 0;
             int minute = 0;
             TimePickerDialog mTimePicker;
-            mTimePicker = new TimePickerDialog(getContext() , new TimePickerDialog.OnTimeSetListener() {
+            mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    btnAñadirDuracion.setText( selectedHour + " horas " + selectedMinute+" minutos");
-                    horas=(selectedHour*60+selectedMinute);
+                    btnAñadirDuracion.setText(selectedHour + " horas " + selectedMinute + " minutos");
+                    horas = (selectedHour * 60 + selectedMinute);
 
                 }
             }, hour, minute, true);
             mTimePicker.setTitle("Selecciona la duración");
             mTimePicker.show();
 
-        }else if(view.getId()==R.id.btnFinalizar){
+        } else if (view.getId() == R.id.btnFinalizar) {
+            if (parte.getFirma64()!=null&&!parte.getFirma64().equals("")){
+                if (spDisposicionServicio.getSelectedItemPosition()!=0){
+                    if (spFormaPago.getSelectedItemPosition()!=0){
+                        if (spManoObra.getSelectedItemPosition()!=0){
+                            double disposicion = 0;
+                            int formaPago = 0;
+                            int manoObra = 0;
+                            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+                            try {
+                                disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), spDisposicionServicio.getSelectedItem().toString());
+                                formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(), spFormaPago.getSelectedItem().toString());
+                                manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), spManoObra.getSelectedItem().toString());
+                                if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+                                    articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            String puestaMarcha="0";
+                            if (!etPuestaEnMarcha.getText().toString().equals("")){
+                                puestaMarcha = etPuestaEnMarcha.getText().toString();
+                            }
 
+                            String servicioUrgencia = "0";
+                            if (!etServicioUrgencia.getText().toString().equals("")){
+                                servicioUrgencia = etServicioUrgencia.getText().toString();
+                            }
+                            double kmsInicio = 0;
+                            if (!etKmsInicio.getText().toString().equals("")) {
+                                kmsInicio = Double.valueOf(etKmsInicio.getText().toString());
+                            }
+                            double kmsPrecio = 0;
+                            if (!etKmsFin.getText().toString().equals("")) {
+                                kmsPrecio = Double.valueOf(etKmsFin.getText().toString());
+                            }
+                            double kmsTotal = kmsInicio*kmsPrecio;
 
-
-
-            double disposicion=-1;
-            int formaPago=-1;
-            int manoObra=-1;
-            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-
-
-            try {
-                disposicion = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(),spDisposicionServicio.getSelectedItem().toString());
-                formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(),spFormaPago.getSelectedItem().toString());
-                manoObra = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(),spManoObra.getSelectedItem().toString());
-                if (ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte())!=null){
-                    articuloPartes.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte()));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-                String puestaMarcha=etPuestaEnMarcha.getText().toString();
-                String servicioUrgencia=etServicioUrgencia.getText().toString();
-            double kmsInicio;
-                if(etKmsInicio.getText().toString().equals("")) {
-                    kmsInicio =0;
+                            String operacionEfectuada = "";
+                            if (!etOperacionEfectuada.getText().toString().equals("")){
+                                operacionEfectuada = etOperacionEfectuada.getText().toString();
+                            }
+                            String nombreOtros = "0";
+                            if (!etNombreOtros.getText().toString().equals("")){
+                                nombreOtros = etNombreOtros.getText().toString();
+                            }
+                            double precioAdicional = 0;
+                            if (!etPrecioOtros.getText().toString().equals("")) {
+                                precioAdicional = Double.valueOf(etPrecioOtros.getText().toString())*Double.valueOf(etNombreOtros.getText().toString());
+                            }
+                            double analisisCombu = 0;
+                            if (!etAnalisisCombustion.getText().toString().equals("")) {
+                                analisisCombu = Double.valueOf(etAnalisisCombustion.getText().toString());
+                            }
+                            double precioTotalArticulos = 0;
+                            if (!articuloPartes.isEmpty()) {
+                                precioTotalArticulos = getPrecioTotalArticulosParte(articuloPartes);
+                            }
+                            try {
+                                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
+                                        formaPago, puestaMarcha, disposicion, manoObra, horas, servicioUrgencia,
+                                        kmsPrecio, kmsInicio,kmsTotal, operacionEfectuada, nombreOtros, precioAdicional,
+                                        precioTotalArticulos,analisisCombu);
+                                ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(horas));
+                                new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            Dialogo.dialogoError("Es necesario seleccionar una mano de obra de servicio",getContext());
+                        }
+                    }else{
+                        Dialogo.dialogoError("Es necesario seleccionar una forma de pago de servicio",getContext());
+                    }
                 }else{
-
-                    kmsInicio = Double.valueOf(etKmsInicio.getText().toString());
+                    Dialogo.dialogoError("Es necesario seleccionar una disposicion de servicio",getContext());
                 }
-                double kmsPrecio;
-                if(etKmsFin.getText().toString().equals("")){
-                    kmsPrecio=0;
-
-
-                }else {
-                    kmsPrecio = Double.valueOf(etKmsFin.getText().toString());
-                }
-                String OperacionEfectuada=etOperacionEfectuada.getText().toString();
-                String nombreOtros=etNombreOtros.getText().toString();
-                double precioAdicional;
-                if( etPrecioOtros.getText().toString().equals("")) {
-                    precioAdicional = 0;
-                }else{
-                   precioAdicional = Double.valueOf(etPrecioOtros.getText().toString());
-                }
-                double precioTotalArticulos = 0;
-                if (!articuloPartes.isEmpty()){
-                    precioTotalArticulos=getPrecioTotalArticulosParte(articuloPartes);
-                }
-            try {
-                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(),datos.getId_rel(),formaPago, puestaMarcha,  disposicion,manoObra,horas, servicioUrgencia, kmsPrecio, kmsInicio, OperacionEfectuada,nombreOtros,precioAdicional,precioTotalArticulos);
-                ParteDAO.actualizarParteDuracion(getContext(),parte.getId_parte(),String.valueOf(horas));
-                new HiloCerrarParte(getContext(),parte.getId_parte()).execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            }else{
+                Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)",getContext());
             }
 
         }
-
-        }
-
-
-    private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
-        double precio = 0;
-        try {
-
-            for (ArticuloParte articulo : listaArticulos) {
-                precio = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa();
-            }
-        }catch (SQLException e){
-
-
-            Log.w("getPrecioTotal","error al sumar precio articulos parte");
-        }
-
-            return precio;
-
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

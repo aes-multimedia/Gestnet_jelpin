@@ -42,8 +42,14 @@
             android:name=".nucleo.AnadirDatosAnalisis"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.Firmar"
+            android:name=".nucleo.FirmaCliente"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".nucleo.FirmaTecnico"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Mapa"
+            android:label="@string/title_activity_mapa" />
         <activity
             android:name=".nucleo.Camara"
             android:screenOrientation="portrait" />
@@ -51,8 +57,7 @@
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"/>
         <activity android:name=".nucleo.DialogActivity" />
 
         <service android:name=".notification.GcmIntentService">
@@ -69,8 +74,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".nucleo.CierreDia"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".nucleo.CierreDia"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.multimedia.aes.gestnet_nucleo.fileprovider"
@@ -81,6 +88,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".nucleo.MisAjustes"></activity>
     </application>
 
 </manifest>

@@ -13,10 +13,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 
 import java.util.List;
 
-/**
- * Created by acp on 01/09/2017.
- */
-
 public class FormasPagoDAO extends DBHelperMOS {
     static Dao<FormasPago, Integer> dao;
 
@@ -108,12 +104,7 @@ public class FormasPagoDAO extends DBHelperMOS {
 
     public static int buscarIdFormaPagoPorNombre(Context context, String s) throws java.sql.SQLException {
         cargarDao(context);
-        List<FormasPago> listadoFormasPago= null;
-        try {
-            listadoFormasPago = dao.queryForEq(FormasPago.FORMA_PAGO, s);
-        } catch (java.sql.SQLException e) {
-            e.printStackTrace();
-        }
+        List<FormasPago> listadoFormasPago = dao.queryForEq(FormasPago.FORMA_PAGO, s);
         if(listadoFormasPago.isEmpty()) {
             return -1;
         }else{

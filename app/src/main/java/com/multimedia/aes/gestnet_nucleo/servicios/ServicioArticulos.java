@@ -27,7 +27,7 @@ public class ServicioArticulos extends Service {
     public void onCreate() {
 
         try {
-            usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            usuario = UsuarioDAO.buscarUsuario(this);
             fk_tecnico = usuario.getFk_entidad();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,12 +45,12 @@ public class ServicioArticulos extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "Servicio iniciado...");
         final Handler handler = new Handler();
-                        try {
-                            HiloArticulos hiloArticulos = new HiloArticulos(fk_tecnico,this);
-                            hiloArticulos.execute();
-                        } catch (Exception e) {
-                            Log.e("error", e.getMessage());
-                        }
+            try {
+                HiloArticulos hiloArticulos = new HiloArticulos(fk_tecnico,this);
+                hiloArticulos.execute();
+            } catch (Exception e) {
+                Log.e("error", e.getMessage());
+            }
         return START_NOT_STICKY;
     }
     public void onDestroy(){

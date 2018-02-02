@@ -38,7 +38,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Camara;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Firmar;
+import com.multimedia.aes.gestnet_nucleo.nucleo.FirmaCliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
@@ -240,7 +240,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.btnFirmaCliente){
-            Intent i = new Intent(getContext(),Firmar.class);
+            Intent i = new Intent(getContext(),FirmaCliente.class);
             startActivityForResult(i,99);
         }else if (view.getId()==R.id.btnFoto){
             hacerFoto();

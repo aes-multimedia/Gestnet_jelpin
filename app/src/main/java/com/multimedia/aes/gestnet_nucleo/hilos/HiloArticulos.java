@@ -36,16 +36,6 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
 
     }
     @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Obteniendo Articulos.");
-        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
-        dialog.setCancelable(false);
-        dialog.setIndeterminate(true);
-        dialog.show();
-        super.onPreExecute();
-    }
-    @Override
     protected Void doInBackground(Void... voids) {
         try {
             mensaje = iniciar();
@@ -58,16 +48,10 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
-
             ((ServicioArticulos) context).guardarArticulos(mensaje);
-
         }else{
-
             ((Index) context).sacarMensaje("No se han devuelto correctamente de la api los articulos");
-
-
         }
     }
     private String iniciar() throws JSONException {

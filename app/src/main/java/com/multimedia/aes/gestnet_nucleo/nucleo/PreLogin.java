@@ -13,9 +13,7 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarCliente;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
-import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCodCliente;
-import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +42,7 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         btnEnviarCodCliente.setClickable(true);
         btnEnviarCodCliente.setAlpha(0.5f);
         try {
-            if (ClienteDAO.buscarTodosLosClientes(this)!=null) {
+            if (ClienteDAO.buscarCliente(this)!=null) {
                 irLogin();
             }
         } catch (SQLException e) {

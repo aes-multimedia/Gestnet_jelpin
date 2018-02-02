@@ -31,9 +31,11 @@ import com.multimedia.aes.gestnet_nucleo.clases.Impresion;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Firmar;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.nucleo.FirmaCliente;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterHelper;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
@@ -63,123 +65,9 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     private View vista;
     private ScrollView scTicket;
     private Parte parte;
+    private Usuario usuario;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        vista = inflater.inflate(R.layout.bluetooth_impresion, container, false);
-        try {
-            JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
-            int id = jsonObject.getInt("id");
-            parte = ParteDAO.buscarPartePorId(getContext(),id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        openButton = (Button) vista.findViewById(R.id.open);
-        sendButton = (Button) vista.findViewById(R.id.send);
-        closeButton = (Button) vista.findViewById(R.id.close);
-        btnOtra = (Button) vista.findViewById(R.id.btnOtra);
-        lvNombres = (ListView) vista.findViewById(R.id.lvNombres);
-        txtImpreso = (TextView) vista.findViewById(R.id.txtImpreso);
-        llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
-        llBotones = (LinearLayout) vista.findViewById(R.id.llBotones);
-        txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
-        txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
-        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
-        ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
-        ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
-
-        scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
-
-        lvNombres.setOnItemClickListener(this);
-        openButton.setOnClickListener(this);
-        sendButton.setOnClickListener(this);
-        closeButton.setOnClickListener(this);
-        btnOtra.setOnClickListener(this);
-        sendButton.setVisibility(View.GONE);
-        closeButton.setVisibility(View.GONE);
-        llImpreso.setVisibility(View.VISIBLE);
-        scTicket.setVisibility(View.VISIBLE);
-        lvNombres.setVisibility(View.GONE);
-        btnOtra.setVisibility(View.GONE);
-        try {
-            ivLogo.setImageBitmap(generarImagen());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String impreso = "";
-        try {
-            impreso+= Impresion.ticketPresupuesto(parte.getId_parte(),getContext());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        txtImpreso.setText(impreso);
-        findBT();
-        return vista;
-    }
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.open) {
-            btnOtra.setVisibility(View.VISIBLE);
-            listaDevice.clear();
-            listaNombre.clear();
-            findBT();
-            lvNombres.setVisibility(View.VISIBLE);
-            llImpreso.setVisibility(View.GONE);
-            scTicket.setVisibility(View.GONE);
-            sendButton.setVisibility(View.GONE);
-            closeButton.setVisibility(View.GONE);
-            openButton.setVisibility(View.GONE);
-        } else if (view.getId() == R.id.send) {
-            llBotones.setVisibility(View.VISIBLE);
-            if (parte.getFirma64()!=null){
-                byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
-                Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                ivFirma1.setImageBitmap(bfirma);
-                closeButton.setVisibility(View.VISIBLE);
-            }else if (parte.getFirma64()==null){
-                Intent i = new Intent(getContext(),Firmar.class);
-                startActivityForResult(i,99);
-            }
-            sendButton.setVisibility(View.GONE);
-            closeButton.setVisibility(View.VISIBLE);
-            openButton.setVisibility(View.GONE);
-            lvNombres.setVisibility(View.GONE);
-            llImpreso.setVisibility(View.VISIBLE);
-            scTicket.setVisibility(View.VISIBLE);
-        } else if (view.getId() == R.id.close) {
-            closeButton.setVisibility(View.GONE);
-            if (parte.getTicket()!=null){
-                impresora = new Impresora(getActivity(),mmDevice,getContext());
-                impresora.imprimir();
-            }else{
-                Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap1);
-                llImpreso.draw(canvas);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap1.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] imageBytes = baos.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                try {
-                    if (ParteDAO.actualizarTicket(getContext(),parte.getId_parte(),encodedImage)) {
-                        impresora = new Impresora(getActivity(), mmDevice,getContext());
-                        impresora.imprimir();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }else if (view.getId() == R.id.btnOtra) {
-            ManagerProgressDialog.abrirDialog(getContext());
-            ManagerProgressDialog.buscandoBluetooth(getContext());
-            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            getContext().registerReceiver(bReciever, filter);
-            mBluetoothAdapter.startDiscovery();
-        }
-    }
+    //METODOS
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -270,6 +158,143 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaNombre);
         lvNombres.setAdapter(adaptador);
     }
+    private Bitmap generarImagen() throws IOException {
+        InputStream bitmap = null;
+        bitmap =  getContext().getAssets().open("logo.png");
+        Bitmap btmp= BitmapFactory.decodeStream(bitmap);
+        return btmp;
+    }
+
+    //OVERRIDE
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        vista = inflater.inflate(R.layout.bluetooth_impresion, container, false);
+        try {
+            JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
+            int id = jsonObject.getInt("id");
+            parte = ParteDAO.buscarPartePorId(getContext(),id);
+            usuario = UsuarioDAO.buscarUsuario(getContext());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        openButton = (Button) vista.findViewById(R.id.open);
+        sendButton = (Button) vista.findViewById(R.id.send);
+        closeButton = (Button) vista.findViewById(R.id.close);
+        btnOtra = (Button) vista.findViewById(R.id.btnOtra);
+        lvNombres = (ListView) vista.findViewById(R.id.lvNombres);
+        txtImpreso = (TextView) vista.findViewById(R.id.txtImpreso);
+        llImpreso = (LinearLayout) vista.findViewById(R.id.llImpreso);
+        llBotones = (LinearLayout) vista.findViewById(R.id.llBotones);
+        txtImpreso2 = (TextView) vista.findViewById(R.id.txtImpreso2);
+        txtImpreso3 = (TextView) vista.findViewById(R.id.txtImpreso3);
+        ivLogo = (ImageView) vista.findViewById(R.id.ivLogo);
+        ivFirma1 = (ImageView) vista.findViewById(R.id.ivFirmaUno);
+        ivFirma2 = (ImageView) vista.findViewById(R.id.ivFirmaDos);
+
+        scTicket = (ScrollView) vista.findViewById(R.id.scTicket);
+
+        lvNombres.setOnItemClickListener(this);
+        openButton.setOnClickListener(this);
+        sendButton.setOnClickListener(this);
+        closeButton.setOnClickListener(this);
+        btnOtra.setOnClickListener(this);
+        sendButton.setVisibility(View.GONE);
+        closeButton.setVisibility(View.GONE);
+        llImpreso.setVisibility(View.VISIBLE);
+        scTicket.setVisibility(View.VISIBLE);
+        lvNombres.setVisibility(View.GONE);
+        btnOtra.setVisibility(View.GONE);
+        try {
+            ivLogo.setImageBitmap(generarImagen());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String impreso = "";
+        String impreso2 = "";
+        try {
+            impreso+= Impresion.encabezadoPresupuesto();
+            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
+            impreso+= Impresion.piePresupuesto();
+            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= Impresion.conformeTecnico(getContext());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        txtImpreso.setText(impreso);
+        txtImpreso2.setText(impreso2);
+        findBT();
+        return vista;
+    }
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.open) {
+            btnOtra.setVisibility(View.VISIBLE);
+            listaDevice.clear();
+            listaNombre.clear();
+            findBT();
+            lvNombres.setVisibility(View.VISIBLE);
+            llImpreso.setVisibility(View.GONE);
+            scTicket.setVisibility(View.GONE);
+            sendButton.setVisibility(View.GONE);
+            closeButton.setVisibility(View.GONE);
+            openButton.setVisibility(View.GONE);
+        } else if (view.getId() == R.id.send) {
+            llBotones.setVisibility(View.VISIBLE);
+            if (parte.getFirma64().equals("")||parte.getFirma64()==null){
+                Dialogo.dialogoError("Falta firma del cliente.(Pestaña de Documentos)",getContext());
+            }else{
+                byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
+                Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                ivFirma1.setImageBitmap(bfirma);
+                if (usuario.getFirma().equals("")||usuario.getFirma()==null){
+                    Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)",getContext());
+                }else{
+                    decodedBytes = Base64.decode(usuario.getFirma(), 0);
+                    bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    ivFirma2.setImageBitmap(bfirma);
+                    sendButton.setVisibility(View.GONE);
+                    closeButton.setVisibility(View.VISIBLE);
+                    openButton.setVisibility(View.GONE);
+                    lvNombres.setVisibility(View.GONE);
+                    llImpreso.setVisibility(View.VISIBLE);
+                    scTicket.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if (view.getId() == R.id.close) {
+            closeButton.setVisibility(View.GONE);
+            if (parte.getTicket()!=null){
+                impresora = new Impresora(getActivity(),mmDevice,getContext());
+                impresora.imprimir();
+            }else{
+                Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap1);
+                llImpreso.draw(canvas);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap1.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                try {
+                    if (ParteDAO.actualizarTicket(getContext(),parte.getId_parte(),encodedImage)) {
+                        impresora = new Impresora(getActivity(), mmDevice,getContext());
+                        impresora.imprimir();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }else if (view.getId() == R.id.btnOtra) {
+            ManagerProgressDialog.abrirDialog(getContext());
+            ManagerProgressDialog.buscandoBluetooth(getContext());
+            IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+            getContext().registerReceiver(bReciever, filter);
+            mBluetoothAdapter.startDiscovery();
+        }
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         llBotones.setVisibility(View.VISIBLE);
@@ -281,12 +306,18 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         openButton.setVisibility(View.GONE);
         btnOtra.setVisibility(View.GONE);
         String impreso = "";
+        String impreso2 = "";
         try {
-            impreso+= Impresion.ticketPresupuesto(parte.getId_parte(),getContext());
+            impreso+= Impresion.encabezadoPresupuesto();
+            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
+            impreso+= Impresion.piePresupuesto();
+            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= Impresion.conformeTecnico(getContext());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         txtImpreso.setText(impreso);
+        txtImpreso2.setText(impreso2);
         try {
             ivLogo.setImageBitmap(generarImagen());
         } catch (IOException e) {
@@ -298,11 +329,4 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             sendButton.setText("Imprimir");
         }
     }
-    private Bitmap generarImagen() throws IOException {
-        InputStream bitmap = null;
-        bitmap =  getContext().getAssets().open("logo.png");
-        Bitmap btmp= BitmapFactory.decodeStream(bitmap);
-        return btmp;
-    }
-
 }

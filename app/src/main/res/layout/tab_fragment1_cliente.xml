@@ -231,13 +231,36 @@
                         android:text="Edición" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtDierccionTitular"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="@string/direccion_titular"
-                    android:textColor="@color/cast_expanded_controller_background_color" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtDierccionTitular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="20"
+                        android:text="direccion"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="18dp" />
+
+                    <ImageButton
+                        android:id="@+id/ibLocation"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/ic_localizar" />
+
+                    <ImageButton
+                        android:id="@+id/ibIr"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/ic_navigation_black_24dp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

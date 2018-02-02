@@ -31,8 +31,6 @@ public class GuardarArticulos {
 
     public boolean guardarArticulos() throws JSONException, SQLException, java.sql.SQLException {
         boolean todoBien = false;
-
-
         boolean esta = false;
         JSONArray jsonArray = new JSONArray(msg);
         for (int i = 0; i < jsonArray.length(); i++) {

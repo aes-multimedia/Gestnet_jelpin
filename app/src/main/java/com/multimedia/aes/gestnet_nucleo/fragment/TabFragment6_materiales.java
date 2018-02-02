@@ -70,7 +70,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private void buscarMaterial(String text) throws SQLException {
         ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1);
-        List<Articulo> a = ArticuloDAO.buscarTodosLosArticulos(getContext());
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{
@@ -79,10 +78,10 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         lvBusquedaMaterial.setAdapter(adaptador);
     }
     private void llenarMateriales() throws SQLException {
-        if (ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte())!=null){
+        if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte())!=null){
             ArrayList<Articulo> articulos = new ArrayList<>();
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-            articuloPartes.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(getContext(),parte.getId_parte()));
+            articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte()));
             for (ArticuloParte articuloParte :articuloPartes) {
                 boolean esta = false;
                 for (Articulo articulo :articulos) {

@@ -23,24 +23,21 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
 
-public class Firmar extends Activity implements View.OnClickListener, View.OnTouchListener {
-    private Button btnGuardar,btnBorrar;
+public class FirmaTecnico extends Activity implements View.OnClickListener, View.OnTouchListener {
+    private Button btnGuardar, btnBorrar;
     private FrameLayout frFirma;
-    private char chEuro = '€';
     private TouchView cvFirma;
-    private EditText etNombreFirmante;
     private boolean tocado = false;
-    private Parte parte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.firmar);
-        etNombreFirmante = (EditText)findViewById(R.id.etNombreFirmante);
+        setContentView(R.layout.firma_tecnico);
         btnGuardar = (Button) findViewById(R.id.btnGuardar);
         btnBorrar = (Button) findViewById(R.id.btnBorrar);
         frFirma = (FrameLayout) findViewById(R.id.frFirma);
@@ -50,50 +47,31 @@ public class Firmar extends Activity implements View.OnClickListener, View.OnTou
         btnGuardar.setOnClickListener(this);
         btnBorrar.setOnClickListener(this);
         int id = 0;
-        try {
-            JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this));
-            id = jsonObject.getInt("id");
-            parte = ParteDAO.buscarPartePorId(this,id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btnBorrar){
+        if (view.getId() == R.id.btnBorrar) {
             recreate();
-        }else if (view.getId()==R.id.btnGuardar){
-            if (!etNombreFirmante.getText().toString().trim().equals("")){
-                if (tocado){
-                    Bitmap bitmap = Bitmap.createBitmap( frFirma.getWidth(), frFirma.getHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(bitmap);
-                    frFirma.draw(canvas);
-                    bitmap = redimensionarImagenMaximo(bitmap,320,320);
-                    saveToInternalSorage(bitmap);
-                    try {
-                        ParteDAO.actualizarNombreFirma(this,parte.getId_parte(),etNombreFirmante.getText().toString());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    Intent returnIntent = new Intent();
-                    setResult(Activity.RESULT_OK,returnIntent);
-                    finish();
-                }else {
-                    Dialogo.dialogoError("Es necesario firmar.",this);
-                }
-            }else{
-                Dialogo.dialogoError("Es necesario el nombre del firmante.",this);
+        } else if (view.getId() == R.id.btnGuardar) {
+            if (tocado) {
+                Bitmap bitmap = Bitmap.createBitmap(frFirma.getWidth(), frFirma.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                frFirma.draw(canvas);
+                bitmap = redimensionarImagenMaximo(bitmap, 320, 320);
+                saveToInternalSorage(bitmap);
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            } else {
+                Dialogo.dialogoError("Es necesario firma_cliente.", this);
             }
-
 
         }
     }
 
-    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
+    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth) {
         //Redimensionamos
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
@@ -106,11 +84,12 @@ public class Firmar extends Activity implements View.OnClickListener, View.OnTou
         // recreate the new Bitmap
         return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
     }
-    private String saveToInternalSorage(Bitmap bitmapImage){
+
+    private String saveToInternalSorage(Bitmap bitmapImage) {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         File mypath;
-        mypath =new File(directory,"firmaCliente"+parte.getId_parte()+".png");
+        mypath = new File(directory, "firmaTecnico.png");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);

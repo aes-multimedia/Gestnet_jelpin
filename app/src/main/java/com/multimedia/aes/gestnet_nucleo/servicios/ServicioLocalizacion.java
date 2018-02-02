@@ -51,7 +51,7 @@ public class ServicioLocalizacion extends Service{
     public void onCreate() {
 
         try {
-            usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
+            usuario = UsuarioDAO.buscarUsuario(this);
             fk_tecnico = usuario.getFk_entidad();
         } catch (SQLException e) {
             e.printStackTrace();

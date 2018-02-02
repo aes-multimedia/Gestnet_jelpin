@@ -59,13 +59,13 @@ public class ClienteDAO extends DBHelperMOS {
 	//__________FUNCIONES DE BUSQUEDA______________________//
 
 
-	public static List<Cliente> buscarTodosLosClientes(Context context) throws SQLException {
+	public static Cliente buscarCliente(Context context) throws SQLException {
 		cargarDao(context);
 		List<Cliente> listadoClientes= dao.queryForAll();
 		if(listadoClientes.isEmpty()) {
 			return null;
 		}else{
-			return listadoClientes;
+			return listadoClientes.get(0);
 		}
 	}
 	public static Cliente buscarClientePorId(Context context, int id) throws SQLException {

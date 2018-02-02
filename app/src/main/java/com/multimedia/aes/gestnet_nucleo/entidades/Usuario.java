@@ -13,6 +13,7 @@ public class Usuario {
     public static final String NOMBRE_USUARIO = "nombre_usuario";
     public static final String ESTADO_ACTIVO = "estado_activo";
     public static final String API_KEY = "api_key";
+    public static final String FIRMA = "firma";
 
 
     @DatabaseField(id = true, columnName = ID_USUARIO)  private int id_usuario;
@@ -22,12 +23,13 @@ public class Usuario {
     @DatabaseField(columnName = NOMBRE_USUARIO)         private String nombre_usuario;
     @DatabaseField(columnName = ESTADO_ACTIVO)          private String estado_activo;
     @DatabaseField(columnName = API_KEY)                private String api_key;
+    @DatabaseField(columnName = FIRMA)                  private String firma;
 
     public Usuario() {
     }
 
 
-    public Usuario(int id_usuario, int fk_cliente, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key) {
+    public Usuario(int id_usuario, int fk_cliente, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key,String firma) {
         this.id_usuario = id_usuario;
         this.fk_cliente = fk_cliente;
         this.fk_entidad = fk_entidad;
@@ -35,6 +37,7 @@ public class Usuario {
         this.nombre_usuario = nombre_usuario;
         this.estado_activo = estado_activo;
         this.api_key = api_key;
+        this.firma = firma;
     }
 
 
@@ -79,5 +82,11 @@ public class Usuario {
     }
     public void setApi_key(String api_key) {
         this.api_key = api_key;
+    }
+    public String getFirma() {
+        return firma;
+    }
+    public void setFirma(String firma) {
+        this.firma = firma;
     }
 }

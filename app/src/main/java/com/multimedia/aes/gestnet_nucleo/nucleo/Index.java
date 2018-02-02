@@ -1,15 +1,11 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -47,7 +42,6 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
-import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
@@ -88,9 +82,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias.setOnClickListener(this);
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
     }
+
     public void sacarMensaje(String msg) {
         srl.setRefreshing(false);
     }
+
     public void guardarPartes(String msg) {
         try {
             JSONObject jsonObject = new JSONObject(msg);
@@ -103,13 +99,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+
     public void datosActualizados() {
         Intent intent = new Intent(this, Index.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
-    public void impresion(){
+
+    public void impresion() {
         Class fragmentClass = FragmentImpresion.class;
         Fragment fragment;
         try {
@@ -131,7 +129,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         setTitle(R.string.averias);
         try {
-            if (ArticuloDAO.buscarTodosLosArticulos(this)==null){
+            if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             }
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
@@ -146,15 +144,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (intent != null) {
             int metodo = intent.getIntExtra("metodo", 0);
             int notId = intent.getIntExtra("notiId", 0);
-            int id =intent.getIntExtra("id", 0);
-            switch (metodo){
+            int id = intent.getIntExtra("id", 0);
+            switch (metodo) {
                 case 1:
                     break;
                 case 2:
                     try {
-                        if(ParteDAO.buscarPartePorId(this,id)!=null) {
+                        if (ParteDAO.buscarPartePorId(this, id) != null) {
                             arrayListParte.clear();
-                            int direccion=ParteDAO.buscarPartePorId(this,id).getFk_direccion();
+                            int direccion = ParteDAO.buscarPartePorId(this, id).getFk_direccion();
                             ProtocoloAccionDAO.borrarProtocoloPorFkParte(this, id);
                             DatosAdicionalesDAO.borrarDatosAdicionalesPorFkParte(this, id);
                             MaquinaDAO.borrarMaquinaPorFkDireccion(this, direccion);
@@ -164,7 +162,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                             }
                             adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
                             lvIndex.setAdapter(adaptadorPartes);
-                            Dialogo.dialogoError("Parte "+id+" borrado", this);
+                            Dialogo.dialogoError("Parte " + id + " borrado", this);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -172,8 +170,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 3:
                     try {
-                        Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-                        Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+                        Usuario u = UsuarioDAO.buscarUsuario(this);
+                        Cliente c = ClienteDAO.buscarCliente(this);
                         new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -181,14 +179,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 4:
                     try {
-                            arrayListParte.clear();
-                            ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
-                            DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
-                            MaquinaDAO.borrarTodasLasMaquinas(this);
-                            ParteDAO.borrarTodosLosPartes(this);
-                            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
-                            lvIndex.setAdapter(adaptadorPartes);
-                            Dialogo.dialogoError("ruta borrada", this);
+                        arrayListParte.clear();
+                        ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
+                        DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
+                        MaquinaDAO.borrarTodasLasMaquinas(this);
+                        ParteDAO.borrarTodosLosPartes(this);
+                        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+                        lvIndex.setAdapter(adaptadorPartes);
+                        Dialogo.dialogoError("ruta borrada", this);
 
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -202,6 +200,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -211,6 +210,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             recreate();
         }
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -218,18 +218,17 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         int id = item.getItemId();
         if (id == R.id.averias) {
             recreate();
-        } else if (id == R.id.documentos) {
-
-        } else if (id == R.id.almacen) {
-
-        }else if (id == R.id.cierre_dia) {
-            Intent i = new Intent(this,CierreDia.class);
+        } else if (id == R.id.mis_ajustes) {
+            Intent i = new Intent(this, MisAjustes.class);
+            startActivity(i);
+        } else if (id == R.id.cierre_dia) {
+            Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
         } else if (id == R.id.cambiarFecha) {
             try {
 
-                final Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-                final Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+                final Usuario u = UsuarioDAO.buscarUsuario(this);
+                final Cliente c = ClienteDAO.buscarCliente(this);
                 List<Parte> part = ParteDAO.buscarTodosLosPartes(this);
                 //if (part==null){
                 Calendar mcurrentDate = Calendar.getInstance();
@@ -284,6 +283,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         JSONObject jsonObject = new JSONObject();
@@ -307,11 +307,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+
     @Override
     public void onRefresh() {
         try {
-            Usuario u = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-            Cliente c = ClienteDAO.buscarTodosLosClientes(this).get(0);
+            Usuario u = UsuarioDAO.buscarUsuario(this);
+            Cliente c = ClienteDAO.buscarCliente(this);
             srl.setRefreshing(true);
             new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
         } catch (SQLException e) {
@@ -319,6 +320,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
 
     }
+
     @Override
     public void onClick(View v) {
     }

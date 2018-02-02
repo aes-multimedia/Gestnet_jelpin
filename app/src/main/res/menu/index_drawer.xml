@@ -4,29 +4,23 @@
         <item
             android:id="@+id/averias"
             android:icon="@drawable/ic_averias"
-            android:title="@string/averias"
-            />
-        <item
-            android:id="@+id/documentos"
-            android:icon="@drawable/ic_documentos"
-            android:title="@string/documentos"
-            />
-        <item
-            android:id="@+id/almacen"
-            android:icon="@drawable/ic_almacen"
-            android:title="@string/almacen" />
+            android:title="@string/averias" />
         <item
             android:id="@+id/cierre_dia"
             android:icon="@drawable/ic_cierre_dia"
             android:title="@string/cierre_dia" />
+        <item
+            android:id="@+id/mis_ajustes"
+            android:icon="@drawable/ic_cierre_dia"
+            android:title="@string/mis_ajustes" />
+        <item
+            android:id="@+id/cambiarFecha"
+            android:icon="@drawable/ic_fecha"
+            android:title="@string/cambiar_fecha" />
     </group>
 
     <item android:title="">
         <menu>
-            <item
-                android:id="@+id/cambiarFecha"
-                android:icon="@drawable/ic_fecha"
-                android:title="@string/cambiar_fecha" />
             <item
                 android:id="@+id/cerrar_sesion"
                 android:icon="@drawable/ic_cerrar_sesion"

@@ -1,6 +1,5 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -38,7 +35,6 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloLogin;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.notification.RegisterApp;
-import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
 
@@ -180,7 +176,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         btnLogin.setOnClickListener(this);
         btnLogin.setClickable(true);
         btnLogin.setAlpha(0.5f);
-        cliente = ClienteDAO.buscarTodosLosClientes(this).get(0);
+        cliente = ClienteDAO.buscarCliente(this);
 
     }
     public void guardarUsuario(String msg){
@@ -201,8 +197,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     }
     public void inicializarConfiguracion(){
         try {
-            usuario = UsuarioDAO.buscarTodosLosUsuarios(this).get(0);
-            new HiloNotific(this,regid,getImei(this,this)).execute();
+            usuario = UsuarioDAO.buscarUsuario(this);
+            String imei = "";
+            imei = getImei(this,this);
+            if (imei.equals("")) {
+                imei = getImei(this,this);
+            }
+            new HiloNotific(this,regid,imei).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -247,7 +248,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 regid = getRegistrationId(getApplicationContext());
             }
 
-            if (UsuarioDAO.buscarTodosLosUsuarios(this)!=null) {
+            if (UsuarioDAO.buscarUsuario(this)!=null) {
                     irIndex();
             }
         } catch (SQLException e) {

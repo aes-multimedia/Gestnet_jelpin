@@ -18,7 +18,6 @@ import android.widget.TimePicker;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
-import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCierreDia;
 
 import java.sql.SQLException;
@@ -325,7 +324,7 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         }else if (v.getId()==R.id.btnEnviar){
             int fk_tecnico = 0;
             try {
-                fk_tecnico = UsuarioDAO.buscarTodosLosUsuarios(this).get(0).getFk_entidad();
+                fk_tecnico = UsuarioDAO.buscarUsuario(this).getFk_entidad();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

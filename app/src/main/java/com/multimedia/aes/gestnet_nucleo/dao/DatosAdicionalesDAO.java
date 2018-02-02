@@ -308,8 +308,8 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
     public static void actualizarDatosAdicionales(Context context,int id_rel, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra, int horas,
-                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
-                                                    double precioArticulos) throws java.sql.SQLException {
+                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio,double kmsTotal, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
+                                                    double precioArticulos,double analisisCombu) throws java.sql.SQLException {
         cargarDao(context);
         UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
@@ -321,13 +321,12 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_SERVICIO_URGENCIA,servicioUrgencia);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,kmsPrecio);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM,kmsInicio);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO_TOTAL,kmsTotal);
         updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,nombreOtros);
-        updateBuilder.updateColumnValue(DatosAdicionales.FACT_ADICIONAL,adicionalPrecio);
-        updateBuilder.updateColumnValue(DatosAdicionales.FACT_MATERIALES,precioArticulos);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL_COSTE,adicionalPrecio);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,precioArticulos);
-
-
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,analisisCombu);
 
         updateBuilder.update();
     }

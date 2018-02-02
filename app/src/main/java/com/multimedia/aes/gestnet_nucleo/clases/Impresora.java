@@ -75,7 +75,13 @@ public class Impresora {
 		POSPrinterService pps = new POSPrinterService();
 		try {
 			imprimirImagenEncabezadoSeitron(pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.ticketPresupuesto(parte.getId_parte(),context)),pps);
+			imprimirSeitron(Impresion.limpiarAcentos(Impresion.encabezadoPresupuesto()),pps);
+			imprimirSeitron(Impresion.limpiarAcentos(Impresion.ticket(parte.getId_parte(),context)),pps);
+			imprimirSeitron(Impresion.limpiarAcentos(Impresion.piePresupuesto()),pps);
+			imprimirSeitron(Impresion.limpiarAcentos(Impresion.conformeCliente(parte.getId_parte(),context)),pps);
+			imprimirFirmaClienteSeitron(pps);
+			imprimirSeitron(Impresion.limpiarAcentos(Impresion.conformeTecnico(context)),pps);
+			imprimirFirmaTecnicoSeitron(pps);
 			bluetoothAdapter.disable();
 		} catch (IOException | InterruptedException e) {
 			Dialogo.errorDuranteImpresion(activity);

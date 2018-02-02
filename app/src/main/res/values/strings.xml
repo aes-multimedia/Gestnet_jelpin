@@ -44,7 +44,9 @@
     <string name="añadir_analisis">Añadir Analisis</string>
     <string name="obtener_datos">Obteniendo datos del servidor</string>
     <string name="guardar_datos">Guardando datos</string>
+    <string name="title_activity_mapa">Map</string>
     <string name="cierre_dia">Cierre del Día</string>
+    <string name="mis_ajustes">Mis Ajustes</string>
     <string name="num_parte">Num. Parte: </string>
     <string name="creado_por">Creado Por:</string>
     <string name="maquina">Máquina:</string>

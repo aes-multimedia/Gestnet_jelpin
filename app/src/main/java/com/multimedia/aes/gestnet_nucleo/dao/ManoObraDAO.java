@@ -12,10 +12,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 
 import java.util.List;
 
-/**
- * Created by acp on 25/08/2017.
- */
-
 public class ManoObraDAO extends DBHelperMOS {
     static Dao<ManoObra, Integer> dao;
 

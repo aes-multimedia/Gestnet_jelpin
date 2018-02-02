@@ -1,5 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -10,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -45,6 +49,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir;
+    private ImageButton ibLocation,ibIr;
 
 
     //METODO
@@ -69,10 +74,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
         btnImprimir = (Button) vista.findViewById(R.id.btnImprimir);
+        //IMAGEBUTTON
+        ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
+        ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
         //ONCLICK
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
+        ibLocation.setOnClickListener(this);
+        ibIr.setOnClickListener(this);
         //SWITCH
         swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -328,6 +338,17 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             new HiloIniciarParte(getContext(),parte,2).execute();
         }else if(view.getId()==R.id.btnImprimir){
             ((Index)getContext()).impresion();
+        }else if(view.getId()==R.id.ibLocation){
+            Intent i = new Intent(getContext(),Mapa.class);
+            Double a = Double.parseDouble(parte.getLatitud_direccion());
+            Double b = Double.parseDouble(parte.getLongitud_direccion());
+            i.putExtra("destino", new double[]{a,b});
+            getContext().startActivity(i);
+        }else if(view.getId()==R.id.ibIr){
+            String geoUri = null;
+            geoUri = "http://maps.google.com/maps?q=loc:" + parte.getLatitud_direccion() + "," + parte.getLongitud_direccion()+ " (" + parte.getNombre_cliente() + ")";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
+            getContext().startActivity(intent);
         }
     }
 }

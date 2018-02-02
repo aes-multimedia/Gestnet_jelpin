@@ -21,8 +21,8 @@ public class UsuarioDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newUsuario(Context context, int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key) {
-		Usuario u = montarUsuario(id_usuario, fk_cleinte, fk_entidad, fk_user, nombre_usuario, estado_activo, api_key);
+	public static boolean newUsuario(Context context, int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key,String firma) {
+		Usuario u = montarUsuario(id_usuario, fk_cleinte, fk_entidad, fk_user, nombre_usuario, estado_activo, api_key,firma);
 		return crearUsuario(u,context);
 	}
 	public static boolean crearUsuario(Usuario u,Context context) {
@@ -35,8 +35,8 @@ public class UsuarioDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Usuario montarUsuario(int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key) {
-		Usuario u =new Usuario(id_usuario, fk_cleinte, fk_entidad, fk_user, nombre_usuario, estado_activo, api_key);
+	public static Usuario montarUsuario(int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key,String firma) {
+		Usuario u =new Usuario(id_usuario, fk_cleinte, fk_entidad, fk_user, nombre_usuario, estado_activo, api_key, firma);
 		return u;
 	}
 
@@ -57,13 +57,13 @@ public class UsuarioDAO extends DBHelperMOS {
 	//__________FUNCIONES DE BUSQUEDA______________________//
 
 
-	public static List<Usuario> buscarTodosLosUsuarios(Context context) throws SQLException {
+	public static Usuario buscarUsuario(Context context) throws SQLException {
 		cargarDao(context);
 		List<Usuario> listadoUsuarios= dao.queryForAll();
 		if(listadoUsuarios.isEmpty()) {
 			return null;
 		}else{
-			return listadoUsuarios;
+			return listadoUsuarios.get(0);
 		}
 	}
 	public static Usuario buscarUsuarioPorId(Context context, int id) throws SQLException {
@@ -90,8 +90,7 @@ public class UsuarioDAO extends DBHelperMOS {
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-	public static void actualizarUsuario(Context context, Usuario usuario ) throws SQLException
-	{
+	public static void actualizarUsuario(Context context, Usuario usuario ) throws SQLException {
 		int id = usuario.getId_usuario();
 		int fk_cliente  = usuario.getFk_cliente();
 		int fk_entidad = usuario.getFk_entidad();
@@ -112,17 +111,25 @@ public class UsuarioDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(usuario.API_KEY, api_key);
 		updateBuilder.update();
 	}
-	public static void actualizarUsuario(Context context, int id_usuario, int fk_cleinte, int fk_entidad, int fk_user, String nombre_usuario, String estado_activo, String api_key) throws SQLException
-	{
+	public static void actualizarUsuario(Context context, int id_usuario, int fk_cliente, int fk_entidad,
+										 int fk_user, String nombre_usuario, String estado_activo, String api_key, String firma) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<Usuario, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Usuario.ID_USUARIO,id_usuario);
-		updateBuilder.updateColumnValue(Usuario.FK_CLIENTE, fk_cleinte);
+		updateBuilder.updateColumnValue(Usuario.FK_CLIENTE, fk_cliente);
 		updateBuilder.updateColumnValue(Usuario.FK_ENTIDAD, fk_entidad);
 		updateBuilder.updateColumnValue(Usuario.FK_USER, fk_user);
 		updateBuilder.updateColumnValue(Usuario.NOMBRE_USUARIO, nombre_usuario);
 		updateBuilder.updateColumnValue(Usuario.ESTADO_ACTIVO, estado_activo);
 		updateBuilder.updateColumnValue(Usuario.API_KEY, api_key);
+		updateBuilder.updateColumnValue(Usuario.FIRMA, firma);
+		updateBuilder.update();
+	}
+	public static void actualizarFirma(Context context, int id_usuario, String firma) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<Usuario, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Usuario.ID_USUARIO,id_usuario);
+		updateBuilder.updateColumnValue(Usuario.FIRMA, firma);
 		updateBuilder.update();
 	}
 }

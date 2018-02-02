@@ -117,16 +117,6 @@ public static ArticuloParte buscarArticuloPartePorFkArticulo(Context context, in
             return listadoArticuloParte.get(0);
         }
     }
-
-public static ArticuloParte buscarArticuloPartePorFkParte(Context context, int id) throws SQLException {
-        cargarDao(context);
-        List<ArticuloParte> listadoArticuloParte= dao.queryForEq(ArticuloParte.FK_PARTE, id);
-        if(listadoArticuloParte.isEmpty()) {
-            return null;
-        }else{
-            return listadoArticuloParte.get(0);
-        }
-}
 public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context context, int fk_articulo,int fk_parte) throws SQLException {
     cargarDao(context);
     List<ArticuloParte> listadoArticuloParte= dao.queryBuilder().where().eq(ArticuloParte.FK_ARTICULO,fk_articulo).and().eq(ArticuloParte.FK_PARTE,fk_parte).query();
@@ -137,7 +127,7 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
     }
 }
 
-    public static List<ArticuloParte> buscarTodosLosArticuloPartePorFkParte(Context context, int id) throws SQLException {
+    public static List<ArticuloParte> buscarArticuloParteFkParte(Context context, int id) throws SQLException {
         cargarDao(context);
         List<ArticuloParte> listadoArticuloParte= dao.queryForEq(ArticuloParte.FK_PARTE, id);
         if(listadoArticuloParte.isEmpty()) {

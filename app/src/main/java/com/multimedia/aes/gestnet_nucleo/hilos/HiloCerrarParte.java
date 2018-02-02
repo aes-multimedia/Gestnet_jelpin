@@ -198,8 +198,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
         JSONArray jsonArray1 = new JSONArray();
-        if(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte)!=null){
-        articulosParte.addAll(ArticuloParteDAO.buscarTodosLosArticuloPartePorFkParte(context,fk_parte));
+        if(ArticuloParteDAO.buscarArticuloParteFkParte(context,fk_parte)!=null){
+        articulosParte.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context,fk_parte));
             for (ArticuloParte articuloParte: articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());

@@ -7,9 +7,6 @@ import android.os.AsyncTask;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
-import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
-import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
@@ -39,9 +36,9 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         this.tokken = tokken;
         this.imei=imei;
         try {
-        this.idEntidad=UsuarioDAO.buscarTodosLosUsuarios(context).get(0).getFk_entidad();
-        this.apikey=UsuarioDAO.buscarTodosLosUsuarios(context).get(0).getApi_key();
-        this.ipCliente=ClienteDAO.buscarTodosLosClientes(context).get(0).getIp_cliente();
+        this.idEntidad=UsuarioDAO.buscarUsuario(context).getFk_entidad();
+        this.apikey=UsuarioDAO.buscarUsuario(context).getApi_key();
+        this.ipCliente=ClienteDAO.buscarCliente(context).getIp_cliente();
         } catch (SQLException e) {
             e.printStackTrace();
         }

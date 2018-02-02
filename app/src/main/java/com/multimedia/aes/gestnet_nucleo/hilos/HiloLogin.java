@@ -3,7 +3,6 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
@@ -38,7 +37,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         this.ipCliente=ipCliente;
         this.context = context;
         try {
-            cliente = ClienteDAO.buscarTodosLosClientes(context).get(0);
+            cliente = ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }

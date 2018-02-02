@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nucleo.Firmar"
+    tools:context=".nucleo.FirmaCliente"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -41,20 +41,10 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:padding="5dp"
-                        android:text="Firma del Cliente"
+                        android:text="Firma del Tecnico"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#000" />
 
-                    <EditText
-                        android:id="@+id/etNombreFirmante"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:ems="10"
-                        android:hint="Nombre firmante"
-                        android:inputType="textPersonName"
-                        android:padding="5dp" />
                 </LinearLayout>
 
                 <Button
