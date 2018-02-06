@@ -85,6 +85,9 @@
     <string name="title_connected_to">Conectado a:</string>
     <string name="title_connecting">conectando...</string>
     <string name="title_not_connected">Desconectado</string>
+    <string name="crear">Crear</string>
+    <string name="crear_nuevo_articulo">Introducir informacion del articulo</string>
+    <string name="crear_articulo">introducir informacion del articulo</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>
