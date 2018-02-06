@@ -9,9 +9,6 @@ import android.view.LayoutInflater;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 
-/**
- * Created by acp on 06/02/2018.
- */
 
 public class CrearArticuloDialogFragment extends DialogFragment {
     @Override

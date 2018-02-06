@@ -34,18 +34,6 @@ public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
         this.cadena = cadena;
     }
 
-
-    @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Buscando articulos.");
-        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
-        dialog.setCancelable(false);
-        dialog.setIndeterminate(true);
-        dialog.show();
-        super.onPreExecute();
-    }
-
     @Override
     protected Void doInBackground(Void... voids) {
         try {
@@ -60,9 +48,8 @@ public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        dialog.dismiss();
         if (mensaje.indexOf('}') != -1) {
-            TabFragment6_materiales.sacarArticulos(mensaje);
+            TabFragment6_materiales.sacarArticulos(mensaje,context);
         } else {
             Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
         }
@@ -123,8 +110,6 @@ public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
             msg.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
-
-
         return contenido;
     }
 }

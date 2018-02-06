@@ -4,7 +4,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.MatrixCursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaMateriales;
+import com.multimedia.aes.gestnet_nucleo.clases.DataArticulos;
+import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -32,8 +36,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloBusquedaArticulos;
 import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,8 +55,11 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
     private SearchView svMateriales;
-    private ListView lvBusquedaMaterial,lvMateriales;
+    private static ListView lvBusquedaMaterial;
+    private ListView lvMateriales;
     private AdaptadorListaMateriales adaptadorListaMateriales;
+    private static List<DataArticulos> dataArticulos;
+    private HiloBusquedaArticulos hiloBusquedaArticulos;
 
     //METODO
     private void inicializar(){
@@ -73,12 +82,41 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{
-
-            adaptador.add("NINGUNA COINCIDENCIA");
+            if (hiloBusquedaArticulos.getStatus()!= AsyncTask.Status.RUNNING){
+                hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
+                hiloBusquedaArticulos.execute();
+            }else{
+                hiloBusquedaArticulos.cancel(true);
+                hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
+                hiloBusquedaArticulos.execute();
+            }
         }
         lvBusquedaMaterial.setAdapter(adaptador);
     }
-    public static void sacarArticulos(String mensaje){}
+    public static void sacarArticulos(String mensaje,Context context){
+        try {
+            JSONArray jsonArray = new JSONArray(mensaje);
+            ArrayAdapter<String> adaptador;
+            adaptador = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1);
+            if (dataArticulos.size()==0){
+                dataArticulos.clear();
+            }
+            if (jsonArray.length()!=0){
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    int id_articulo = jsonArray.getJSONObject(i).getInt("id_articulo");
+                    String nombre = jsonArray.getJSONObject(i).getString("nombre");
+                    DataArticulos d = new DataArticulos(nombre,id_articulo);
+                    dataArticulos.add(d);
+                    adaptador.add(nombre);
+                }
+            }else{
+                adaptador.add("NINGUNA COINCIDENCIA");
+            }
+            lvBusquedaMaterial.setAdapter(adaptador);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     private void llenarMateriales() throws SQLException {
         if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte())!=null){
             ArrayList<Articulo> articulos = new ArrayList<>();
@@ -155,13 +193,15 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId()==R.id.lvBusquedaMaterial){
-            Intent i = new Intent(getActivity(), InfoArticulos.class);
-            try {
-                i.putExtra("articuloId",ArticuloDAO.buscarArticulosPorNombre(getContext(),lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (!lvBusquedaMaterial.getItemAtPosition(position).toString().equals("NINGUNA COINCIDENCIA")){
+                Intent i = new Intent(getActivity(), InfoArticulos.class);
+                try {
+                    i.putExtra("articuloId",ArticuloDAO.buscarArticulosPorNombre(getContext(),lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                startActivityForResult(i,1);
             }
-            startActivityForResult(i,1);
         }else if (parent.getId()==R.id.lvMateriales){
 
         }
