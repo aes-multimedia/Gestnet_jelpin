@@ -7,6 +7,7 @@ import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -48,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
+public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener,View.OnClickListener{
     private View vista;
     private Parte parte = null;
     private Usuario usuario = null;
@@ -60,6 +62,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private AdaptadorListaMateriales adaptadorListaMateriales;
     private static List<DataArticulos> dataArticulos;
     private HiloBusquedaArticulos hiloBusquedaArticulos;
+    private Button btnCrearArticulo;
 
     //METODO
     private void inicializar(){
@@ -74,6 +77,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         lvBusquedaMaterial.setOnItemClickListener(this);
         lvMateriales.setOnItemClickListener(this);
 
+        btnCrearArticulo= (Button)vista.findViewById(R.id.btnCrearArticulo);
+        btnCrearArticulo.setOnClickListener(this);
 
     }
     private void buscarMaterial(String text) throws SQLException {
@@ -226,5 +231,20 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==btnCrearArticulo.getId()){
+
+
+            DialogFragment newFragment = new CrearArticuloDialogFragment();
+
+
+            newFragment.show(getFragmentManager(),"crear articulo");
+
+        }
+
     }
 }
