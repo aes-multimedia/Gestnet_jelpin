@@ -73,10 +73,12 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{
+
             adaptador.add("NINGUNA COINCIDENCIA");
         }
         lvBusquedaMaterial.setAdapter(adaptador);
     }
+    public static void sacarArticulos(String mensaje){}
     private void llenarMateriales() throws SQLException {
         if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte())!=null){
             ArrayList<Articulo> articulos = new ArrayList<>();

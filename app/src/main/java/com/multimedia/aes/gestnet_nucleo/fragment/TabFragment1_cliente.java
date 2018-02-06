@@ -1,9 +1,15 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,6 +19,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -23,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -50,6 +58,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir;
     private ImageButton ibLocation,ibIr;
+    private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
+
 
 
     //METODO
@@ -77,12 +87,21 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         //IMAGEBUTTON
         ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
         ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
+        //IMAGEVIEW
+        ivLlamar1 = (ImageView) vista.findViewById(R.id.ivLlamar1);
+        ivLlamar2 = (ImageView) vista.findViewById(R.id.ivLlamar2);
+        ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
+        ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
         //ONCLICK
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
         ibLocation.setOnClickListener(this);
         ibIr.setOnClickListener(this);
+        ivLlamar1.setOnClickListener(this);
+        ivLlamar2.setOnClickListener(this);
+        ivLlamar3.setOnClickListener(this);
+        ivLlamar4.setOnClickListener(this);
         //SWITCH
         swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -296,6 +315,10 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etObservaciones.setText(parte.getObservaciones());
 
     }
+    @SuppressLint("MissingPermission")
+    public void llamar(String tel) {
+        getContext().startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tel)));
+    }
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -349,6 +372,30 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             geoUri = "http://maps.google.com/maps?q=loc:" + parte.getLatitud_direccion() + "," + parte.getLongitud_direccion()+ " (" + parte.getNombre_cliente() + ")";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
             getContext().startActivity(intent);
+        }else if (view.getId() == R.id.ivLlamar1){
+            if (etTelefono1.getText().toString().equals("")||etTelefono1.getText().toString().equals("null")){
+                Dialogo.dialogoError("Movil no valido",getContext());
+            }else{
+                llamar(etTelefono1.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar2){
+            if (etTelefono2.getText().toString().equals("") || etTelefono2.getText().toString().equals("null")) {
+                Dialogo.dialogoError("Movil no valido",getContext());
+            } else {
+                llamar(etTelefono2.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar3){
+            if (etTelefono3.getText().toString().equals("") || etTelefono3.getText().toString().equals("null")) {
+                Dialogo.dialogoError("Movil no valido",getContext());
+            } else {
+                llamar(etTelefono3.getText().toString());
+            }
+        }else if (view.getId() == R.id.ivLlamar4){
+            if (etTelefono4.getText().toString().equals("") || etTelefono4.getText().toString().equals("null")) {
+                Dialogo.dialogoError("Movil no valido",getContext());
+            } else {
+                llamar(etTelefono4.getText().toString());
+            }
         }
     }
 }

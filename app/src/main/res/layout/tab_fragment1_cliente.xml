@@ -273,33 +273,8 @@
                         android:id="@+id/etNombreTitular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:background="@drawable/edit_texts_naranja"
-                        android:gravity="left"
                         android:hint="@string/nombre_titular"
-                        android:minHeight="30dp"
-                        android:padding="5dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:padding="0.5dp">
-
-                    <EditText
-                        android:id="@+id/etDni"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:gravity="left"
-                        android:hint="@string/dni_titular"
                         android:padding="5dp" />
 
                 </LinearLayout>
@@ -312,18 +287,41 @@
                     android:orientation="horizontal">
 
                     <EditText
+                        android:id="@+id/etDni"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_texts_naranja"
+                        android:hint="@string/dni_titular"
+                        android:padding="5dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="10"
+                    android:orientation="horizontal">
+
+                    <EditText
                         android:id="@+id/etTelefono1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="10"
                         android:background="@drawable/edit_texts_naranja"
-                        android:enabled="true"
-                        android:gravity="left"
-                        android:hint="@string/telefono_1"
+                        android:ems="10"
+                        android:hint="telefono1"
                         android:inputType="number"
                         android:padding="5dp" />
 
-
+                    <ImageView
+                        android:id="@+id/ivLlamar1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_call" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -337,14 +335,20 @@
                         android:id="@+id/etTelefono2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="10"
                         android:background="@drawable/edit_texts_naranja"
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_2"
                         android:inputType="number"
-                        android:minHeight="30dp"
                         android:padding="5dp" />
+
+                    <ImageView
+                        android:id="@+id/ivLlamar2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_call" />
 
 
                 </LinearLayout>
@@ -362,7 +366,7 @@
                         android:id="@+id/etTelefono3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="10"
                         android:background="@drawable/edit_texts_naranja"
                         android:enabled="true"
                         android:gravity="left"
@@ -370,6 +374,13 @@
                         android:inputType="number"
                         android:minHeight="30dp"
                         android:padding="5dp" />
+
+                    <ImageView
+                        android:id="@+id/ivLlamar3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_call" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -384,14 +395,20 @@
                         android:id="@+id/etTelefono4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="10"
                         android:background="@drawable/edit_texts_naranja"
                         android:enabled="true"
                         android:gravity="left"
                         android:hint="@string/telefono_4"
                         android:inputType="number"
-                        android:minHeight="30dp"
                         android:padding="5dp" />
+
+                    <ImageView
+                        android:id="@+id/ivLlamar4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_call" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

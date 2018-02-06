@@ -19,6 +19,7 @@ public class Constantes {
     public static final String URL_CIERRE_PARTE_EXTERNAPRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/cierreParte";
     public static final String URL_ACTUALIZA_MAQUINA = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/actualizaMaquina";
     public static final String URL_CREA_MAQUINA = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/creaMaquina";
+    public static final String URL_BUSCAR_ARTICULOS = "http://"+IP_EXTERNA+"/api-gesnet-datos/v1/partes/buscarMaterial";
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_nucleo/app_imageDir";
 
 

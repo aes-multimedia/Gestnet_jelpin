@@ -5,8 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,25 +23,22 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 
-public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
+public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
 
-    private String mensaje = "", ipCliente, fecha;
-    private int idUser;
+    private String mensaje = "",cadena;
     private Context context;
     private ProgressDialog dialog;
 
-    public HiloPorFecha(Context context, int idUser, String fecha, String ipCliente) {
-        this.idUser = idUser;
-        this.fecha = fecha;
+    public HiloBusquedaArticulos(Context context,String cadena) {
         this.context = context;
-        this.ipCliente = ipCliente;
+        this.cadena = cadena;
     }
 
 
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Cambiando de dia.");
+        dialog.setTitle("Buscando articulos.");
         dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
@@ -64,9 +62,9 @@ public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}') != -1) {
-            ((Index) context).guardarPartes(mensaje);
+            TabFragment6_materiales.sacarArticulos(mensaje);
         } else {
-            ((Index) context).sacarMensaje("No se ha devuelto correctamente de la api");
+            Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
         }
 
     }
@@ -74,12 +72,11 @@ public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
 
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("tecnico", idUser);
-        msg.put("fecha", fecha);
+        msg.put("cadena", cadena);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = Constantes.URL_PARTES_FECHA;
+            String url = Constantes.URL_BUSCAR_ARTICULOS;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
