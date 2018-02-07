@@ -20,17 +20,24 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-/**
- * Created by acp on 07/02/2018.
- */
-
-public class HiloCrearMaterial extends AsyncTask<Void,Void,Void> {
+public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
     private int fk_parte;
     private String mensaje;
     private Context context;
     private ProgressDialog dialog;
+    private String nombre;
+    private int unidades,iva,cantidadStock;
+    private float precio,coste;
 
-
+    public HiloCrearArticulo(int fk_parte, String nombre, int unidades, int iva, int cantidadStock, float precio, float coste) {
+        this.fk_parte = fk_parte;
+        this.nombre = nombre;
+        this.unidades = unidades;
+        this.iva = iva;
+        this.cantidadStock = cantidadStock;
+        this.precio = precio;
+        this.coste = coste;
+    }
 
     @Override
     protected Void doInBackground(Void... voids) {
@@ -40,7 +47,7 @@ public class HiloCrearMaterial extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Guardando material nuevo.");
+        dialog.setTitle("Guardando articulo nuevo.");
         dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
@@ -51,9 +58,13 @@ public class HiloCrearMaterial extends AsyncTask<Void,Void,Void> {
 
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg=llenarJson();
-
-
+        msg.put("precio",precio);
+        msg.put("coste",coste);
+        msg.put("iva",iva);
+        msg.put("unidades",unidades);
+        msg.put("nombre_en_ese_momento",nombre);
+        msg.put("fk_parte",fk_parte);
+        msg.put("stock_tecnico",cantidadStock);
 
         URL urlws = null;
         HttpURLConnection uc = null;
@@ -103,15 +114,5 @@ public class HiloCrearMaterial extends AsyncTask<Void,Void,Void> {
         }
         return contenido;
     }
-
-
-    private JSONObject llenarJson(){
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-
-
-        return jsonObject;
-    }
-
 
 }

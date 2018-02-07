@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -40,7 +39,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizaMaquina;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloCreaMaquina;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
@@ -501,7 +500,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
                                                 temperatura_agua_generador_calor_salida
                                         );
-                                        new HiloCreaMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
+                                        new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
                                                 fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
                                                 fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
                                                 fecha_creacion, modelo, num_serie, num_producto, aparato,

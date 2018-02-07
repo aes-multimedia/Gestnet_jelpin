@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,9 +17,12 @@
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/edit_texts_naranja"
             android:ems="10"
+            android:hint="Nombre del material"
             android:inputType="textPersonName"
-            android:text="Nombre del material" />
+            android:padding="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,19 +33,25 @@
                 android:id="@+id/etUnidades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
+                android:hint="Unidades"
                 android:inputType="number"
-                android:text="Unidades" />
+                android:padding="5dp" />
 
             <EditText
                 android:id="@+id/etPrecio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
+                android:hint="Precio"
                 android:inputType="numberDecimal"
-                android:text="Precio" />
+                android:padding="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,19 +63,25 @@
                 android:id="@+id/etCoste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
+                android:hint="Coste"
                 android:inputType="numberDecimal"
-                android:text="Coste" />
+                android:padding="5dp" />
 
             <EditText
                 android:id="@+id/etIva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
+                android:hint="iva"
                 android:inputType="number"
-                android:text="iva" />
+                android:padding="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,10 +93,13 @@
                 android:id="@+id/etCantidadStock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
+                android:hint="Cantidad de stock"
                 android:inputType="number"
-                android:text="Cantidad de stock" />
+                android:padding="5dp" />
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
