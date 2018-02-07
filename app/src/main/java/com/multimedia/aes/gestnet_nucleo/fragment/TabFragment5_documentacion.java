@@ -281,6 +281,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
                 try {
                     parte = ParteDAO.buscarPartePorId(getContext(),parte.getId_parte());
                     txtNombreFirma.setText(parte.getNombre_firmante());
+                    btnFirmaCliente.setVisibility(View.GONE);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

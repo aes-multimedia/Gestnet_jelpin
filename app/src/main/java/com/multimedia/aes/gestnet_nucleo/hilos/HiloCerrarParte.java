@@ -205,7 +205,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo());
                 for (int i = 0; i < articuloParte.getUsados(); i++) {
                     obj.put("fk_parte",parte.getId_parte());
-                    obj.put("fk_producto",a.getId_articulo());
+                    obj.put("fk_producto",a.getFk_articulo());
                     obj.put("nombre_articulo",a.getNombre_articulo());
                     obj.put("stock",a.getStock());
                     obj.put("marca",a.getMarca());

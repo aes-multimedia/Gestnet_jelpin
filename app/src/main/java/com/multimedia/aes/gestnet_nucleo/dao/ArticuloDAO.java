@@ -27,6 +27,11 @@ public class ArticuloDAO extends DBHelperMOS {
         Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticulo(a,context);
     }
+    public static Articulo newArticuloRet(Context context,int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+                                      String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
+        Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
+        return crearArticuloRet(a,context);
+    }
 
     public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         Articulo a = montarArticuloP( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
@@ -41,6 +46,16 @@ public class ArticuloDAO extends DBHelperMOS {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+    public static Articulo crearArticuloRet(Articulo a,Context context) {
+        try {
+            cargarDao(context);
+            dao.create(a);
+            return a;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

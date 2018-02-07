@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,16 +21,21 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import static com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales.guardarArticulo;
 
-public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
 
-    private String mensaje = "",cadena;
+public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
+
+    private String mensaje = "";
+    private int id;
     private Context context;
     private ProgressDialog dialog;
+    private TabFragment6_materiales tab;
 
-    public HiloBusquedaArticulos(Context context,String cadena) {
+    public HiloBusquedaArticulo(Context context, int id,TabFragment6_materiales tab) {
         this.context = context;
-        this.cadena = cadena;
+        this.id = id;
+        this.tab = tab;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}') != -1) {
-            TabFragment6_materiales.sacarArticulos(mensaje,context);
+            guardarArticulo(mensaje,context,tab);
         } else {
             Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
         }
@@ -59,11 +63,11 @@ public class HiloBusquedaArticulos extends AsyncTask<Void, Void, Void> {
 
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("cadena", cadena);
+        msg.put("id", id);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = Constantes.URL_BUSCAR_ARTICULOS;
+            String url = Constantes.URL_BUSCAR_ARTICULO;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

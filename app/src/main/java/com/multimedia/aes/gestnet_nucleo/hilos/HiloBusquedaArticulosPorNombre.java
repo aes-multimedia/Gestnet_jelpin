@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,75 +20,50 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.sql.SQLException;
 
-public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
-    private int fk_parte;
-    private String mensaje;
+
+public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> {
+
+    private String mensaje = "",cadena;
     private Context context;
     private ProgressDialog dialog;
-    private String nombre;
-    private int unidades,iva,cantidadStock;
-    private float precio,coste;
 
-    public HiloCrearArticulo(int fk_parte, String nombre, int unidades, int iva, int cantidadStock, float precio, float coste,Context context) {
-        this.fk_parte = fk_parte;
-        this.nombre = nombre;
-        this.unidades = unidades;
-        this.iva = iva;
-        this.cantidadStock = cantidadStock;
-        this.precio = precio;
-        this.coste = coste;
+    public HiloBusquedaArticulosPorNombre(Context context, String cadena) {
         this.context = context;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        dialog.cancel();
-        try {
-            TabFragment6_materiales.llenarMateriales();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        super.onPostExecute(aVoid);
+        this.cadena = cadena;
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            iniciar();
+            mensaje = partes();
         } catch (JSONException e) {
+            mensaje = "JSONException";
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Guardando articulo nuevo.");
-        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
-        dialog.setCancelable(false);
-        dialog.setIndeterminate(true);
-        dialog.show();
-        super.onPreExecute();
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        if (mensaje.indexOf('}') != -1) {
+            TabFragment6_materiales.sacarArticulos(mensaje,context);
+        } else {
+            Dialogo.dialogoError("No hay coincidencias",context);
+        }
+
     }
 
 
-    private String iniciar() throws JSONException {
+    private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("precio",precio);
-        msg.put("coste",coste);
-        msg.put("iva",iva);
-        msg.put("unidades",unidades);
-        msg.put("nombre_en_ese_momento",nombre);
-        msg.put("fk_parte",fk_parte);
-        msg.put("stock_tecnico",cantidadStock);
-
+        msg.put("cadena", cadena);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_CREA_MATERIAL);
+            String url = Constantes.URL_BUSCAR_ARTICULOS_POR_NOMBRE;
+            urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -98,20 +73,19 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
-            error.put("mensaje", "Error de conexion, URL malformada");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
-            error.put("mensaje", "Error de conexion, error de protocolo");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
-            e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
-            error.put("mensaje", "Error de conexion, IOException");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -130,8 +104,11 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             e.printStackTrace();
+            JSONObject error = new JSONObject();
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error en lectura");
+            contenido = error.toString();
         }
         return contenido;
     }
-
 }
