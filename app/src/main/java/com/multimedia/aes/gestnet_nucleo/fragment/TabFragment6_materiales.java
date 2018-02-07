@@ -52,17 +52,19 @@ import java.util.List;
 
 public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener,View.OnClickListener{
     private View vista;
-    private Parte parte = null;
+    private static Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
     private SearchView svMateriales;
     private static ListView lvBusquedaMaterial;
-    private ListView lvMateriales;
-    private AdaptadorListaMateriales adaptadorListaMateriales;
-    private static List<DataArticulos> dataArticulos;
+    private static ListView lvMateriales;
+    private static AdaptadorListaMateriales adaptadorListaMateriales;
+    private static ArrayList<DataArticulos> dataArticulos = new ArrayList<>();
     private HiloBusquedaArticulos hiloBusquedaArticulos;
     private Button btnCrearArticulo;
+    private static Context context;
+    private static Activity activity;
 
     //METODO
     private void inicializar(){
@@ -85,6 +87,9 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1);
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
+            if (dataArticulos.size()!=0){
+                dataArticulos.clear();
+            }
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{
             if (hiloBusquedaArticulos!=null){
@@ -110,11 +115,10 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             ArrayAdapter<String> adaptador;
             adaptador = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1);
             if (dataArticulos!=null){
-                if (dataArticulos.size()==0){
+                if (dataArticulos.size()!=0){
                     dataArticulos.clear();
                 }
             }
-
             if (jsonArray.length()!=0){
                 for (int i = 0; i < jsonArray.length(); i++) {
                     int id_articulo = jsonArray.getJSONObject(i).getInt("id_articulo");
@@ -131,11 +135,11 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             e.printStackTrace();
         }
     }
-    private void llenarMateriales() throws SQLException {
-        if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte())!=null){
+    public static void llenarMateriales() throws SQLException {
+        if (ArticuloParteDAO.buscarArticuloParteFkParte(context,parte.getId_parte())!=null){
             ArrayList<Articulo> articulos = new ArrayList<>();
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-            articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(),parte.getId_parte()));
+            articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context,parte.getId_parte()));
             for (ArticuloParte articuloParte :articuloPartes) {
                 boolean esta = false;
                 for (Articulo articulo :articulos) {
@@ -144,11 +148,11 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                     }
                 }
                 if (!esta){
-                    articulos.add(ArticuloDAO.buscarArticuloPorID(getContext(),articuloParte.getFk_articulo()));
+                    articulos.add(ArticuloDAO.buscarArticuloPorID(context,articuloParte.getFk_articulo()));
                 }
 
             }
-            adaptadorListaMateriales  = new AdaptadorListaMateriales(getContext(), R.layout.camp_adapter_list_view_material, articulos, getActivity(),parte.getId_parte());
+            adaptadorListaMateriales  = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity,parte.getId_parte());
             lvMateriales.setAdapter(adaptadorListaMateriales);
             lvMateriales.setVisibility(View.VISIBLE);
             lvBusquedaMaterial.setVisibility(View.GONE);
@@ -185,6 +189,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        context = getContext();
+        activity = getActivity();
         return vista;
     }
 
@@ -208,13 +214,22 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId()==R.id.lvBusquedaMaterial){
             if (!lvBusquedaMaterial.getItemAtPosition(position).toString().equals("NINGUNA COINCIDENCIA")){
-                Intent i = new Intent(getActivity(), InfoArticulos.class);
-                try {
-                    i.putExtra("articuloId",ArticuloDAO.buscarArticulosPorNombre(getContext(),lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (dataArticulos.isEmpty()){
+                    Intent i = new Intent(getActivity(), InfoArticulos.class);
+                    try {
+                        i.putExtra("articuloId",ArticuloDAO.buscarArticulosPorNombre(getContext(),lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    startActivityForResult(i,1);
+                }else{
+                    for (int i = 0; i < dataArticulos.size(); i++) {
+                        if (dataArticulos.get(i).getNombre().equals(lvBusquedaMaterial.getSelectedItem().toString())){
+
+                        }
+                    }
                 }
-                startActivityForResult(i,1);
+
             }
         }else if (parent.getId()==R.id.lvMateriales){
 
@@ -222,7 +237,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 lvBusquedaMaterial.setVisibility(View.GONE);
@@ -244,15 +258,9 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
     @Override
     public void onClick(View v) {
-
         if(v.getId()==btnCrearArticulo.getId()){
-
-
             DialogFragment newFragment = new CrearArticuloDialogFragment();
-
-
             newFragment.show(getFragmentManager(),"crear articulo");
-
         }
 
     }

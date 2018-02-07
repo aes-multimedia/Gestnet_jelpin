@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class HiloCreaMaquina  extends AsyncTask<Void,Void,Void> {
+public class HiloCrearMaquina extends AsyncTask<Void,Void,Void> {
     private String mensaje="";
     private String codCliente;
     private Context context;
@@ -62,7 +62,7 @@ public class HiloCreaMaquina  extends AsyncTask<Void,Void,Void> {
     private String temperatura_agua_generador_calor_entrada;
     private String temperatura_agua_generador_calor_salida;
 
-    public HiloCreaMaquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String fk_tipo_combustion, int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion, int fk_estado, int fk_contrato_mantenimiento, int fk_gama, int fk_tipo_gama, String fecha_creacion, String modelo, String num_serie, String num_producto, String aparato, String puesta_marcha, String fecha_compra, String fecha_fin_garantia, String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra, String garantia_extendida, String factura_compra, String refrigerante, boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion, String temperatura_max_acs, String caudal_acs, String potencia_util, String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+    public HiloCrearMaquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String fk_tipo_combustion, int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion, int fk_estado, int fk_contrato_mantenimiento, int fk_gama, int fk_tipo_gama, String fecha_creacion, String modelo, String num_serie, String num_producto, String aparato, String puesta_marcha, String fecha_compra, String fecha_fin_garantia, String mantenimiento_anual, String observaciones, String ubicacion, String tienda_compra, String garantia_extendida, String factura_compra, String refrigerante, boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion, String temperatura_max_acs, String caudal_acs, String potencia_util, String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
 
         this.fk_maquina=fk_maquina;
         this.fk_parte=fk_parte;
