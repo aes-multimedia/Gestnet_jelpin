@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteY="8dp">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -27,7 +27,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/etUnidades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -36,6 +36,7 @@
                 android:text="Unidades" />
 
             <EditText
+                android:id="@+id/etPrecio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -50,7 +51,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/etCoste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,6 +60,7 @@
                 android:text="Coste" />
 
             <EditText
+                android:id="@+id/etIva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,7 +75,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/etCantidadStock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
