@@ -2,9 +2,10 @@ package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 
 import com.multimedia.aes.gestnet_nucleo.R;
