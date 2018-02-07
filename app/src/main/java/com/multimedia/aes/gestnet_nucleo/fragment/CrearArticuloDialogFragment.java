@@ -51,6 +51,13 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.crear, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        etNombre= (EditText)getView().findViewById(R.id.etNombre);
+                        etUnidades= (EditText)getView().findViewById(R.id.etUnidades);
+                        etPrecio= (EditText)getView().findViewById(R.id.etPrecio);
+                        etCoste= (EditText)getView().findViewById(R.id.etCoste);
+                        etIva= (EditText)getView().findViewById(R.id.etIva);
+                        etCantidadStock= (EditText)getView().findViewById(R.id.etCantidadStock);
+
                         nombre=etNombre.getText().toString();
                         unidades=Integer.parseInt(etUnidades.getText().toString());
                         iva=Integer.parseInt(etIva.getText().toString());
