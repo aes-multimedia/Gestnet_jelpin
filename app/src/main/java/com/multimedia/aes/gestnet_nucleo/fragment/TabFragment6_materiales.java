@@ -82,14 +82,20 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text)!=null){
             adaptador.addAll(ArticuloDAO.buscarNombreArticulosPorNombre(getContext(),text));
         }else{
-            if (hiloBusquedaArticulos.getStatus()!= AsyncTask.Status.RUNNING){
-                hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
-                hiloBusquedaArticulos.execute();
+            if (hiloBusquedaArticulos!=null){
+                if (hiloBusquedaArticulos.getStatus()!= AsyncTask.Status.RUNNING){
+                    hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
+                    hiloBusquedaArticulos.execute();
+                }else{
+                    hiloBusquedaArticulos.cancel(true);
+                    hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
+                    hiloBusquedaArticulos.execute();
+                }
             }else{
-                hiloBusquedaArticulos.cancel(true);
                 hiloBusquedaArticulos = new HiloBusquedaArticulos(getContext(),text);
                 hiloBusquedaArticulos.execute();
             }
+
         }
         lvBusquedaMaterial.setAdapter(adaptador);
     }
@@ -98,9 +104,12 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             JSONArray jsonArray = new JSONArray(mensaje);
             ArrayAdapter<String> adaptador;
             adaptador = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1);
-            if (dataArticulos.size()==0){
-                dataArticulos.clear();
+            if (dataArticulos!=null){
+                if (dataArticulos.size()==0){
+                    dataArticulos.clear();
+                }
             }
+
             if (jsonArray.length()!=0){
                 for (int i = 0; i < jsonArray.length(); i++) {
                     int id_articulo = jsonArray.getJSONObject(i).getInt("id_articulo");

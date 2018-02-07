@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 public class Articulo {
 
     public static final String ID_ARTICULO = "_id_articulo";
+    public static final String FK_ARTICULO = "fk_articulo";
     public static final String NOMBRE_ARTICULO = "nombre_articulo";
     public static final String STOCK = "stock";
     public static final String REFERENCIA = "referencia";
@@ -20,28 +21,29 @@ public class Articulo {
     public static final String EAN = "ean";
     public static final String IMAGEN = "imagen";
 
-    @DatabaseField(id = true, columnName = ID_ARTICULO)     private int id_articulo;
-    @DatabaseField(columnName = NOMBRE_ARTICULO)            private String nombre_articulo;
-    @DatabaseField(columnName = STOCK)                      private int stock;
-    @DatabaseField(columnName = REFERENCIA)                 private String referencia;
-    @DatabaseField(columnName = REFERENCIA_AUX)             private String referencia_aux;
-    @DatabaseField(columnName = FAMILIA)                    private String familia;
-    @DatabaseField(columnName = MARCA)                      private String marca;
-    @DatabaseField(columnName = MODELO)                     private String modelo;
-    @DatabaseField(columnName = PROVEEDOR)                  private int proveedor;
-    @DatabaseField(columnName = IVA)                        private double iva;
-    @DatabaseField(columnName = TARIFA)                     private double tarifa;
-    @DatabaseField(columnName = DESCUENTO)                  private double descuento;
-    @DatabaseField(columnName = COSTE)                      private double coste;
-    @DatabaseField(columnName = EAN)                        private String ean;
-    @DatabaseField(columnName = IMAGEN)                     private int imagen;
+    @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
+    @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
+    @DatabaseField(columnName = NOMBRE_ARTICULO)                        private String nombre_articulo;
+    @DatabaseField(columnName = STOCK)                                  private int stock;
+    @DatabaseField(columnName = REFERENCIA)                             private String referencia;
+    @DatabaseField(columnName = REFERENCIA_AUX)                         private String referencia_aux;
+    @DatabaseField(columnName = FAMILIA)                                private String familia;
+    @DatabaseField(columnName = MARCA)                                  private String marca;
+    @DatabaseField(columnName = MODELO)                                 private String modelo;
+    @DatabaseField(columnName = PROVEEDOR)                              private int proveedor;
+    @DatabaseField(columnName = IVA)                                    private double iva;
+    @DatabaseField(columnName = TARIFA)                                 private double tarifa;
+    @DatabaseField(columnName = DESCUENTO)                              private double descuento;
+    @DatabaseField(columnName = COSTE)                                  private double coste;
+    @DatabaseField(columnName = EAN)                                    private String ean;
+    @DatabaseField(columnName = IMAGEN)                                 private int imagen;
 
     public Articulo() {
     }
 
-    public Articulo(int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
-        this.id_articulo = id_articulo;
+        this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
         this.referencia = referencia;
@@ -58,8 +60,8 @@ public class Articulo {
         this.imagen = imagen;
     }
 
-    public Articulo(int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
-        this.id_articulo = id_articulo;
+    public Articulo(int fk_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+        this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
         this.coste = coste;
