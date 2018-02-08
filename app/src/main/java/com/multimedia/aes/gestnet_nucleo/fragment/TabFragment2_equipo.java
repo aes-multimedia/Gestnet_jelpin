@@ -518,6 +518,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     etPotenciaUtil.setText("");
                                     etTempAguaGeneCalorEntrada.setText("");
                                     etTempAguaGeneCalorSalida.setText("");
+                                    etNumeroSerie.setText("");
                                     spMarca.setSelection(0);
                                     spPuestaMarcha.setSelection(0);
                                     Dialogo.dialogoError("Maquina añadida", getContext());

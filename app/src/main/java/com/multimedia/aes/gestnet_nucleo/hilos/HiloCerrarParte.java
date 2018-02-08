@@ -194,8 +194,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_materiales());
         jsonObject2.put("fact_materiales",datos_adicionales.getFact_materiales());
 
-
-
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
         JSONArray jsonArray1 = new JSONArray();
         if(ArticuloParteDAO.buscarArticuloParteFkParte(context,fk_parte)!=null){
@@ -218,7 +216,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 }
             }
         }
-
 
         JSONArray jsonArray2 = new JSONArray();
         ArrayList<Maquina> arrayList = new ArrayList<>();
@@ -266,14 +263,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             jsonObject5.put("fk_marca",maquina.getFk_marca());
             jsonArraya.put(jsonObject5);
         }
-
-
-
-
-
-
-
-
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("da_items",jsonArray1);

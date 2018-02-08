@@ -344,12 +344,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if (parte.getEstado_android()==3||parte.getEstado_android()==1){
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
+            btnImprimir.setVisibility(View.VISIBLE);
         }else if(parte.getEstado_android()==2){
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.VISIBLE);
+            btnImprimir.setVisibility(View.GONE);
         }else{
             btnClienteAusente.setVisibility(View.VISIBLE);
             btnIniciarParte.setVisibility(View.VISIBLE);
+            btnImprimir.setVisibility(View.GONE);
         }
         return vista;
     }

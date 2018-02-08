@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
@@ -51,7 +52,7 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
         if (mensaje.indexOf('}')!=-1){
             ((ServicioArticulos) context).guardarArticulos(mensaje);
         }else{
-            ((Index) context).sacarMensaje("No se han devuelto correctamente de la api los articulos");
+
         }
     }
     private String iniciar() throws JSONException {

@@ -89,7 +89,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -114,7 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -138,7 +138,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -163,7 +163,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -188,7 +188,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -213,7 +213,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -238,7 +238,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -263,7 +263,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -288,7 +288,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -313,7 +313,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>
@@ -338,7 +338,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edit_texts_naranja"
                                 android:ems="10"
-                                android:inputType="textPersonName"
+                                android:inputType="number"
                                 android:padding="5dp" />
 
                         </LinearLayout>

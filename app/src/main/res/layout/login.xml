@@ -48,7 +48,6 @@
             android:hint="@string/usuario"
             android:inputType="textVisiblePassword"
             android:padding="10dp"
-            android:text="vbarrio"
             android:visibility="visible" />
 
         <EditText
@@ -66,7 +65,6 @@
             android:hint="@string/contraseña"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:text="test"
             android:visibility="visible" />
 
         <Button

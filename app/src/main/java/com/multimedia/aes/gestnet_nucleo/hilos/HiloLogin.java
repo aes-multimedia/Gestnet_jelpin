@@ -71,7 +71,6 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
-
             ((Login)context).guardarUsuario(mensaje);
         }else{
             ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
