@@ -212,6 +212,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("tarifa",a.getTarifa());
                     obj.put("descuento",a.getDescuento());
                     obj.put("coste",a.getCoste());
+                    if(a.isGarantia())
+                        obj.put("garantia",1);
+                    else
+                        obj.put("garantia",0);
                     jsonArray1.put(obj);
                 }
             }

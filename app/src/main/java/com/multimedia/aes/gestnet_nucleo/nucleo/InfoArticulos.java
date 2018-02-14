@@ -12,8 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -28,10 +31,11 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener{
+public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
     private ImageView ivFoto;
     private TextView tvTitulo,tvStock,tvPrecio;
+    private CheckBox chkGarantia;
     private Menu menu;
     private int idParte;
     private Articulo articulo;
@@ -46,6 +50,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
         btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
+
+        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
+        chkGarantia.setOnCheckedChangeListener(this);
+
     }
     private void darValores(){
       //ivFoto.setImageResource(articulo.getImagen());
@@ -58,6 +66,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.informacion_articulo);
+        buscarStockAlmacenes();
         idParte = 0;
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this));
@@ -105,6 +114,17 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+
+
+
+    }
+
+    private void buscarStockAlmacenes() {
+
+
+
+
+
     }
 
     @Override
@@ -164,5 +184,24 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
 
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        try {
+
+        if ( isChecked )
+        {
+            Toast.makeText(this,"true",Toast.LENGTH_SHORT).show();
+                ArticuloDAO.actualizarGarantia(this,articulo.getId_articulo(),true);
+        }else{
+            Toast.makeText(this,"false",Toast.LENGTH_SHORT).show();
+                ArticuloDAO.actualizarGarantia(this,articulo.getId_articulo(),false);
+                }
+             }   catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
