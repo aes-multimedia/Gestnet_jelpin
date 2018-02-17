@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
 import org.json.JSONException;
@@ -50,9 +51,7 @@ public class HiloStockAlmacenes extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-            ((ServicioArticulos) context).guardarArticulos(mensaje);
-        }else{
-
+            InfoArticulos.sacarSotck(mensaje,context);
         }
     }
     private String iniciar() throws JSONException {

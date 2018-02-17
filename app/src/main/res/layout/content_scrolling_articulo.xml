@@ -136,6 +136,28 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llLview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ListView
+                android:id="@+id/lvStockEntidad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:descendantFocusability="blocksDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
 
 

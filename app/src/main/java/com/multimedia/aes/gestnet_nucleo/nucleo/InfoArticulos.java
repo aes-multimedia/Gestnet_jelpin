@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,25 +12,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaStock;
+import com.multimedia.aes.gestnet_nucleo.clases.DataStock;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
@@ -40,7 +47,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private int idParte;
     private Articulo articulo;
     private Parte parte;
+    private static ListView lvStockEntidad;
     private Button btnAñadirMaterial;
+    private static ArrayList<DataStock> dataStock;
+    private AdaptadorListaStock adapter;
 
 
     private void inicializarVariables(){
@@ -53,6 +63,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
         chkGarantia.setOnCheckedChangeListener(this);
+
+        lvStockEntidad= (ListView) findViewById(R.id.lvStockEntidad);
+
+        // Construct the data source
+        dataStock = new ArrayList<DataStock>();
+        // Create the adapter to convert the array to views
+
 
     }
     private void darValores(){
@@ -126,6 +143,51 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
 
     }
+
+
+    public static void sacarSotck(String mensaje, Context context) {
+        try {
+            JSONArray jsonArray = new JSONArray(mensaje);
+            AdaptadorListaStock adapter=null;
+            if (dataStock != null) {
+                if (dataStock.size() != 0) {
+                    dataStock.clear();
+                }
+            }
+            if (jsonArray.length() != 0) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                    int idStock= jsonArray.getJSONObject(i).getInt("id_stock");
+                    String nombreEntidad=jsonArray.getJSONObject(i).getString("nombre_entidad");
+                    int fkProducto= jsonArray.getJSONObject(i).getInt("fk_producto");
+                    int stock= jsonArray.getJSONObject(i).getInt("cantidad");
+
+                    DataStock d = new DataStock(idStock, nombreEntidad, fkProducto, stock);
+                    dataStock.add(d);
+                    adapter = new AdaptadorListaStock(context, dataStock);
+                    // Attach the adapter to a ListView
+
+
+
+
+                }
+
+
+                lvStockEntidad.setAdapter(adapter);
+
+            } else {
+                DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0);
+                dataStock.add(d);
+                adapter = new AdaptadorListaStock(context, dataStock);
+                lvStockEntidad.setAdapter(adapter);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
