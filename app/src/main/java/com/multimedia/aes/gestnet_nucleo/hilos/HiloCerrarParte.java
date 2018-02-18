@@ -16,6 +16,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
@@ -23,6 +24,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
@@ -212,6 +214,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("tarifa",a.getTarifa());
                     obj.put("descuento",a.getDescuento());
                     obj.put("coste",a.getCoste());
+                    obj.put("garantia",a.isGarantia());
                     if(a.isGarantia())
                         obj.put("garantia",1);
                     else
@@ -267,12 +270,38 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             jsonObject5.put("fk_marca",maquina.getFk_marca());
             jsonArraya.put(jsonObject5);
         }
+
+
+
+
+        JSONObject jsonObject6 = new JSONObject();
+        JSONArray jsonArray6 = new JSONArray();
+        ArrayList<ProtocoloAccion> arrayLisProto = new ArrayList<>();
+        arrayLisProto.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(context, parte.getId_parte()));
+
+        for (ProtocoloAccion protocoloAccion : arrayLisProto) {
+
+            jsonObject5.put("fk_maquina",protocoloAccion.getFk_maquina());
+            jsonObject5.put("fk_parte",protocoloAccion.getFk_parte());
+            jsonObject5.put("valor",protocoloAccion.getValor());
+            jsonObject5.put("fk_protocolo",protocoloAccion.getFk_protocolo());
+            jsonObject5.put("nombre_protocolo",protocoloAccion.getNombre_protocolo());
+            jsonObject5.put("id_accion",protocoloAccion.getId_accion());
+            jsonObject5.put("tipo_accion",protocoloAccion.isTipo_accion());
+            jsonObject5.put("descripcion",protocoloAccion.getDescripcion());
+
+            jsonArray6.put(jsonObject6);
+        }
+
+
+
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("da_items",jsonArray1);
         msg.put("datos_maquina",jsonArray2);
         msg.put("imagenes",rellenarJsonImagenes());
         msg.put("maquina",jsonArraya);
+        msg.put("protocolos",jsonArray6);
 
 
 
