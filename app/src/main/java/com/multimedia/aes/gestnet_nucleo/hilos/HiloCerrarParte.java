@@ -304,7 +304,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("protocolos",jsonArray6);
 
 
-
+        Log.d("jsoooooooon",msg.toString());
 
 
 
