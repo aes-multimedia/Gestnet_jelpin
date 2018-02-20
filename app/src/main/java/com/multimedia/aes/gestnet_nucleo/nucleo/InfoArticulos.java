@@ -9,14 +9,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloStockAlmacenes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +52,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private Articulo articulo;
     private Parte parte;
     private static ListView lvStockEntidad;
-    private Button btnAñadirMaterial;
+    private Button btnAñadirMaterial,btnPedirMaterial;
     private static ArrayList<DataStock> dataStock;
     private AdaptadorListaStock adapter;
+    private static int alto=0,alto1=0,height=0;
 
 
     private void inicializarVariables(){
@@ -60,6 +65,9 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
         btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
+
+        btnPedirMaterial=(Button)findViewById(R.id.btnPedirMaterial);
+        btnPedirMaterial.setOnClickListener(this);
 
         chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
         chkGarantia.setOnCheckedChangeListener(this);
@@ -75,7 +83,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private void darValores(){
       //ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
+
         tvStock.setText(String.valueOf(articulo.getStock()));
+        if(articulo.getStock()<1){
+            btnAñadirMaterial.setClickable(false);
+            btnAñadirMaterial.setEnabled(false);
+        }
+
         tvPrecio.setText(String.valueOf(articulo.getTarifa())+ "\u20ac");
 
     }
@@ -83,7 +97,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.informacion_articulo);
+        Display display = getWindowManager().getDefaultDisplay();
+        height = display.getHeight()/8;
+        dataStock= new ArrayList<>();
         buscarStockAlmacenes();
+
         idParte = 0;
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this));
@@ -99,6 +117,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         }
         inicializarVariables();
         darValores();
+
+        
         final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -134,11 +154,18 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
 
 
+
+
+
     }
 
-    private void buscarStockAlmacenes() {
-
-
+    private void buscarStockAlmacenes()  {
+        try {
+            articulo = ArticuloDAO.buscarArticuloPorID(this,getIntent().getIntExtra("articuloId",-1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        new HiloStockAlmacenes(this,articulo.getFk_articulo()).execute();
 
 
 
@@ -165,22 +192,21 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
                     DataStock d = new DataStock(idStock, nombreEntidad, fkProducto, stock);
                     dataStock.add(d);
-                    adapter = new AdaptadorListaStock(context, dataStock);
-                    // Attach the adapter to a ListView
-
-
-
 
                 }
-
-
+                alto =height * dataStock.size();
+                lvStockEntidad.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
+                adapter = new AdaptadorListaStock(context, dataStock);
                 lvStockEntidad.setAdapter(adapter);
 
             } else {
                 DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0);
                 dataStock.add(d);
+                alto =height * dataStock.size();
+                lvStockEntidad.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
                 adapter = new AdaptadorListaStock(context, dataStock);
                 lvStockEntidad.setAdapter(adapter);
+
 
             }
         } catch (JSONException e) {

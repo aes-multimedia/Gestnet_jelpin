@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -71,7 +72,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         svMateriales.setOnQueryTextListener(this);
         //ONITEMSELECTED
         lvBusquedaMaterial.setOnItemClickListener(this);
-        lvMateriales.setOnItemClickListener(this);
+        //lvMateriales.setOnItemClickListener(this);
 
         btnCrearArticulo = (Button) vista.findViewById(R.id.btnCrearArticulo);
         btnCrearArticulo.setOnClickListener(this);
@@ -305,8 +306,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 }
 
             }
-        } else if (parent.getId() == R.id.lvMateriales) {
-
         }
     }
 
@@ -339,5 +338,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             newFragment.show(getFragmentManager(), "crear articulo");
         }
 
+
     }
+
+
 }

@@ -178,6 +178,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         btnDatosTesto.setOnClickListener(this);
         activity = getActivity();
     }
+
     public static void añadirMaquina(Context context){
         try {
             arrayListMaquina.clear();

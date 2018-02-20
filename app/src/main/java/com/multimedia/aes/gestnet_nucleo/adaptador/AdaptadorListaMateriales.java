@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
@@ -27,6 +28,7 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
     private int view;
     private ArrayList<Articulo> arrayList;
     private Activity activity;
+
     private int fk_parte;
     //CONSTRUCTOR
     public AdaptadorListaMateriales(Context context, int view, ArrayList<Articulo> arrayList, Activity activity,int fk_parte) {
@@ -45,6 +47,9 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
+        LinearLayout linearLayout = (LinearLayout) item.findViewById(R.id.llRow);
+        linearLayout.setTag(arrayList.get(position));
+        //linearLayout.setOnClickListener(this);
         TextView txtTituloArticulo = (TextView) item.findViewById(R.id.txtTituloArticulo);
         TextView txtUsadas = (TextView) item.findViewById(R.id.txtUsadas);
         TextView txtPrecio = (TextView) item.findViewById(R.id.txtPrecio);
@@ -60,8 +65,11 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
 
         return item;
     }
+
+
     @Override
     public void onClick(View v) {
+        Toast.makeText(context,"ddddd",Toast.LENGTH_LONG).show();
 
     }
 }

@@ -8,6 +8,8 @@
         android:id="@+id/tvNombreEntidad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
         android:text="Name" />
 
 
@@ -18,17 +20,19 @@
         android:weightSum="2">
 
         <TextView
-            android:id="@+id/tvStock"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="Stock"
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/tvStockNumero"
+            android:id="@+id/tvStock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="0" />
     </LinearLayout>
