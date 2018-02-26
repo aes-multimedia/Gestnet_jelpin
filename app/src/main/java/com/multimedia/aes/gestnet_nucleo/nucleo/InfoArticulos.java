@@ -247,6 +247,17 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
+        if(v.getId()==btnPedirMaterial.getId()){
+            try {
+                ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
         try {
             if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);

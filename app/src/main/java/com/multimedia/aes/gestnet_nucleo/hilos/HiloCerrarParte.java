@@ -215,6 +215,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("descuento",a.getDescuento());
                     obj.put("coste",a.getCoste());
                     obj.put("garantia",a.isGarantia());
+                    obj.put("entregado",a.isEntregado());
                     if(a.isGarantia())
                         obj.put("garantia",1);
                     else
@@ -277,7 +278,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject6 = new JSONObject();
         JSONArray jsonArray6 = new JSONArray();
         ArrayList<ProtocoloAccion> arrayLisProto = new ArrayList<>();
-        arrayLisProto.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(context, parte.getId_parte()));
+        if(ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(context, parte.getId_parte())!=null)
+            arrayLisProto.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(context, parte.getId_parte()));
 
         for (ProtocoloAccion protocoloAccion : arrayLisProto) {
 

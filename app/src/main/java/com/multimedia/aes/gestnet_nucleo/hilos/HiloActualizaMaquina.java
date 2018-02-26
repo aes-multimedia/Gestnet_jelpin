@@ -133,7 +133,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             try {
                 JSONObject jsonObject = new JSONObject(mensaje);
                 if (jsonObject.getInt("estado")==1){
-
+                        Log.d("Hilo actualizar maquina", "correcto");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

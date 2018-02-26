@@ -21,6 +21,7 @@ public class Articulo {
     public static final String EAN = "ean";
     public static final String IMAGEN = "imagen";
     public static final String GARANTIA = "garantia";
+    public static final String ENTREGADO ="entregado";
 
     @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
     @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
@@ -39,6 +40,7 @@ public class Articulo {
     @DatabaseField(columnName = EAN)                                    private String ean;
     @DatabaseField(columnName = IMAGEN)                                 private int imagen;
     @DatabaseField(columnName = GARANTIA)                               private boolean garantia;
+    @DatabaseField(columnName = ENTREGADO)                               private boolean entregado;
 
     public Articulo() {
     }
@@ -61,6 +63,7 @@ public class Articulo {
         this.ean = ean;
         this.imagen = imagen;
         this.garantia= false;
+        this.entregado=false;
     }
 
     public Articulo(int fk_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
@@ -75,6 +78,7 @@ public class Articulo {
         this.tarifa = tarifa;
         this.descuento = descuento;
         this.garantia=false;
+        this.entregado=false;
     }
 
     public boolean isGarantia() {
@@ -211,5 +215,13 @@ public class Articulo {
 
     public void setEan(String ean) {
         this.ean = ean;
+    }
+
+    public boolean isEntregado() {
+        return entregado;
+    }
+
+    public void setEntregado(boolean entregado) {
+        this.entregado = entregado;
     }
 }
