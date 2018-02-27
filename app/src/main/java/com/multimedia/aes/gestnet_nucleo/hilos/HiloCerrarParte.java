@@ -93,6 +93,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             try {
+                Log.d("json_respuesta",mensaje);
                 ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
                 ((Index)context).recreate();
             } catch (SQLException e) {
@@ -306,7 +307,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("protocolos",jsonArray6);
 
 
-        Log.d("jsoooooooon",msg.toString());
+        Log.d("json_subida",msg.toString());
 
 
 
