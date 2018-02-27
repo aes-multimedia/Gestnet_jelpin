@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private View vista;
     private EditText etPuestaEnMarcha, etServicioUrgencia, etKmsInicio, etKmsFin, etOperacionEfectuada, etNombreOtros, etPrecioOtros,etAnalisisCombustion;
-    private int horas;
+    private double horas;
     private Button btnAñadirDuracion, btnFinalizar;
     private String tiempoDuracion;
     private Spinner spFormaPago, spDisposicionServicio, spManoObra;
@@ -208,7 +208,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     btnAñadirDuracion.setText(selectedHour + " horas " + selectedMinute + " minutos");
-                    horas = (selectedHour * 60 + selectedMinute);
+                    horas = (selectedHour  + selectedMinute/60);
 
                 }
             }, hour, minute, true);

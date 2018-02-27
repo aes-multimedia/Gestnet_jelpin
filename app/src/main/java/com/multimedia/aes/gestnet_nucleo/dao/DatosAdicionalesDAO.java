@@ -307,7 +307,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
 
-    public static void actualizarDatosAdicionales(Context context,int id_rel, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra, int horas,
+    public static void actualizarDatosAdicionales(Context context,int id_rel, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra, double horas,
                                                   String servicioUrgencia, double kmsPrecio, double kmsInicio,double kmsTotal, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
                                                     double precioArticulos,double analisisCombu) throws java.sql.SQLException {
         cargarDao(context);
