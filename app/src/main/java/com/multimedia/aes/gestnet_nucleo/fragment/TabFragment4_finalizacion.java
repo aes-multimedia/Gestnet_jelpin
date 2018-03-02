@@ -113,6 +113,23 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        JSONObject jsonObject = null;
+        int idParte = 0;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
+            idParte = jsonObject.getInt("id");
+            parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(), parte.getFk_maquina());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void darValores() {
 
         //SPINNER FORMAS PAGO

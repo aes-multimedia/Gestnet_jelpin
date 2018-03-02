@@ -13,6 +13,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DisposicionesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ManoObraDAO;
@@ -29,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
+import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
@@ -44,7 +46,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_nucleo.db";
-	public static final int DATABASE_VERSION = 3;
+	public static final int DATABASE_VERSION = 4;
 
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;
@@ -62,6 +64,7 @@ public class BBDDConstantes {
 	public static Dao<ArticuloParte, Integer> tipoArticuloParteDao;
 	public static Dao<Analisis, Integer> analisisDao;
 	public static Dao<Imagen, Integer> imagenDao;
+	public static Dao<Envio, Integer> envioDao;
 
 	public static void cerrarDao() {
 		clienteDao = null;
@@ -80,6 +83,8 @@ public class BBDDConstantes {
 		tipoArticuloParteDao=null;
 		analisisDao=null;
 		imagenDao=null;
+		envioDao=null;
+
 
 	}
 
@@ -100,6 +105,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, ArticuloParte.class);
 		TableUtils.createTable(connectionSource, Analisis.class);
 		TableUtils.createTable(connectionSource, Imagen.class);
+		TableUtils.createTable(connectionSource, Envio.class);
 	}
 
 	public static void borrarTablas(ConnectionSource connectionSource) throws SQLException {
@@ -119,6 +125,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, ArticuloParte.class, true);
 		TableUtils.dropTable(connectionSource, Analisis.class, true);
 		TableUtils.dropTable(connectionSource, Imagen.class, true);
+		TableUtils.dropTable(connectionSource, Envio.class, true);
 	}
 
 	public static void borrarDatosTablas(Context context) throws SQLException {
@@ -139,6 +146,7 @@ public class BBDDConstantes {
 		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 		AnalisisDAO.borrarTodasLasAnalisis(context);
 		ImagenDAO.borrarTodasLasImagenes(context);
+		EnvioDAO.borrarTodosLosEnvios(context);
 
 	}
 	public static void borrarDatosError(Context context) throws SQLException {
@@ -157,6 +165,7 @@ public class BBDDConstantes {
 		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 		AnalisisDAO.borrarTodasLasAnalisis(context);
 		ImagenDAO.borrarTodasLasImagenes(context);
+		EnvioDAO.borrarTodosLosEnvios(context);
 
 	}
 }

@@ -14,6 +14,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
+import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.FormasPago;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
@@ -180,5 +181,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		}
 
 		return BBDDConstantes.imagenDao;
+	}
+	public Dao<Envio,Integer> getEnvioDAO() throws SQLException {
+		if (BBDDConstantes.envioDao == null) {
+			BBDDConstantes.envioDao = getDao(Envio.class);
+		}
+
+		return BBDDConstantes.envioDao;
 	}
 }
