@@ -65,7 +65,7 @@
     <string name="servicio_urgencia">Servicio Urgencia:</string>
     <string name="Kms">Kms.:</string>
     <string name="A">A</string>
-    <string name="operacion_efectuada">Operacion efectuada:</string>
+    <string name="operacion_efectuada">Operacion efectuada</string>
     <string name="Otros">Otros</string>
     <string name="con_valor">con valor</string>
     <string name="añdir">Añadir</string>
@@ -88,6 +88,14 @@
     <string name="crear">Crear</string>
     <string name="crear_nuevo_articulo">Introducir informacion del articulo</string>
     <string name="crear_articulo">introducir informacion del articulo</string>
+    <string name="preeu_materiales">Materiales</string>
+    <string name="sub_total">SUB TOTAL</string>
+    <string name="mano_obra_horas">Total mano de obra</string>
+    <string name="iva_aplicado_21">Iva 21%</string>
+    <string name="total">Total</string>
+    <string name="acepto_presupuesto">Acepto presupuesto</string>
+    <string name="si">si</string>
+    <string name="no">no</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>

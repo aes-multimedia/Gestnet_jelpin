@@ -307,26 +307,46 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
 
 
-    public static void actualizarDatosAdicionales(Context context,int id_rel, int formaPago, String puestaMarcha, double preeu_disposicion_servicio, double manoObra, double horas,
-                                                  String servicioUrgencia, double kmsPrecio, double kmsInicio,double kmsTotal, String operacionEfectuada,String nombreOtros,double adicionalPrecio,
-                                                    double precioArticulos,double analisisCombu) throws java.sql.SQLException {
+    public static void actualizarDatosAdicionales(Context context,int id_rel,
+                                                  String operacionEfectuada,
+                                                  double preeu_materiales,
+                                                  double preeu_disposicion_servicio,
+                                                  double preeu_mano_de_obra_precio,
+                                                  double preeu_mano_de_obra_horas,
+                                                  double preeu_total_mano_de_obra_horas,
+                                                  double preeu_puesta_marcha,
+                                                  double preeu_servicio_urgencia,
+                                                  double preeu_km,
+                                                  double preeu_km_precio,
+                                                  double preeu_km_precio_total,
+                                                  double preeu_analisis_combustion,
+                                                  String preeu_otros_nombre,
+                                                  double preeu_adicional,
+                                                  double etSubTotal,
+                                                  double preeu_iva_aplicado,
+                                                  double total,
+                                                  boolean acepta_presupuesto,
+                                                  int formaPago) throws java.sql.SQLException {
         cargarDao(context);
         UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
         updateBuilder.updateColumnValue(DatosAdicionales.FK_FORMA_PAGO,formaPago);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_PUESTA_MARCHA,puestaMarcha);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_PUESTA_MARCHA,preeu_puesta_marcha);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_DISPOSICION_SERVICIO,preeu_disposicion_servicio);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,manoObra);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA,horas);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_SERVICIO_URGENCIA,servicioUrgencia);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,kmsPrecio);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM,kmsInicio);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO_TOTAL,kmsTotal);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,preeu_total_mano_de_obra_horas);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA,preeu_mano_de_obra_horas);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_SERVICIO_URGENCIA,preeu_servicio_urgencia);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,preeu_km_precio);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM,preeu_km);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO_TOTAL,preeu_km_precio_total);
         updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,nombreOtros);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL_COSTE,adicionalPrecio);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,precioArticulos);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,analisisCombu);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,preeu_otros_nombre);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL_COSTE,preeu_adicional);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,preeu_materiales);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,preeu_analisis_combustion);
+        updateBuilder.updateColumnValue(DatosAdicionales.TOTAL_PPTO,total);
+        updateBuilder.updateColumnValue(DatosAdicionales.BACEPTAPRESUPUESTO,acepta_presupuesto);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_IVA_APLICADO,preeu_analisis_combustion);
 
         updateBuilder.update();
     }

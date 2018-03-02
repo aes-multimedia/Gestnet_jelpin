@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
@@ -81,6 +82,7 @@ public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
 
 
         JSONObject jsonObject = new JSONObject(json);
+        Log.d("bajada",json);
         JSONArray jsonArray = jsonObject.getJSONArray("marcas");
         for (int i = 0; i < jsonArray.length(); i++) {
 
