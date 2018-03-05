@@ -185,10 +185,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("preeu_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
         jsonObject2.put("preeu_km",datos_adicionales.getPreeu_km());
         jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
-        jsonObject2.put("preeu_km_precio_total",datos_adicionales.getFact_km_precio_total());
+        jsonObject2.put("preeu_km_precio_total",datos_adicionales.getPreeu_km_precio_total());
         jsonObject2.put("preeu_analisis_combustion",datos_adicionales.getPreeu_analisis_combustion());
         jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
-        jsonObject2.put("preeu_adicional",datos_adicionales.getFact_adicional());
+        jsonObject2.put("preeu_adicional",datos_adicionales.getPreeu_adicional_coste());
         jsonObject2.put("preeu_iva_aplicado",datos_adicionales.getPreeu_iva_aplicado());
         jsonObject2.put("total",datos_adicionales.getTotal_ppto());
         jsonObject2.put("acepta_presupuesto",datos_adicionales.getBaceptapresupuesto());
@@ -230,7 +230,15 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         JSONArray jsonArray2 = new JSONArray();
         ArrayList<Maquina> arrayList = new ArrayList<>();
-        arrayList.addAll(MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte()));
+
+        if(MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte())!=null){
+
+            arrayList.addAll(MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte()));
+
+
+
+
+
         for (Maquina maquina:arrayList) {
             JSONObject jsonObject4 = new JSONObject();
             if (AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina())!=null){
@@ -258,7 +266,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             jsonObject4.put("tempAguaGeneradorCalorSalida",maquina.getTemperatura_agua_generador_calor_salida());
             jsonArray2.put(jsonObject4);
         }
-
+        }
 
 
 
