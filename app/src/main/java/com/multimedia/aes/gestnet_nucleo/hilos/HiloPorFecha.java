@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
@@ -64,6 +65,7 @@ public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}') != -1) {
+            Log.d("partes_por_fecha",mensaje);
             ((Index) context).guardarPartes(mensaje);
         } else {
             ((Index) context).sacarMensaje("No se ha devuelto correctamente de la api");
@@ -74,6 +76,7 @@ public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
 
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
+       // msg.put("tecnico", idUser);
         msg.put("tecnico", idUser);
         msg.put("fecha", fecha);
         URL urlws = null;

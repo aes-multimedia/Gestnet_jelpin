@@ -333,7 +333,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.FK_FORMA_PAGO,formaPago);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_PUESTA_MARCHA,preeu_puesta_marcha);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_DISPOSICION_SERVICIO,preeu_disposicion_servicio);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,preeu_total_mano_de_obra_horas);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,preeu_mano_de_obra_precio);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA,preeu_mano_de_obra_horas);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_SERVICIO_URGENCIA,preeu_servicio_urgencia);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO,preeu_km_precio);
@@ -346,7 +346,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,preeu_analisis_combustion);
         updateBuilder.updateColumnValue(DatosAdicionales.TOTAL_PPTO,total);
         updateBuilder.updateColumnValue(DatosAdicionales.BACEPTAPRESUPUESTO,acepta_presupuesto);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_IVA_APLICADO,preeu_analisis_combustion);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_IVA_APLICADO,preeu_iva_aplicado);
 
         updateBuilder.update();
     }

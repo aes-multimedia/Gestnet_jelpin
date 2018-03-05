@@ -178,11 +178,11 @@
                             android:textSize="18dp" />
 
                         <EditText
-                            android:id="@+id/et_preeu_mano_de_obra_horas"
+                            android:id="@+id/et_preeu_total_mano_de_obra_horas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_texts_naranja"
+                            android:background="@drawable/edit_texts_naranja_bloqueado"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
 

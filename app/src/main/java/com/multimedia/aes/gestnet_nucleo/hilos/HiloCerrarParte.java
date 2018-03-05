@@ -176,25 +176,27 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,fk_parte);
         jsonObject2.put("fk_parte",parte.getId_parte());
         jsonObject2.put("fk_formas_pago",datos_adicionales.getFk_forma_pago());
-        jsonObject2.put("preeu_puesta_marcha",datos_adicionales.getPreeu_puesta_marcha());
-        jsonObject2.put("fact_puesta_en_marcha",datos_adicionales.getPreeu_puesta_marcha());
+
+        jsonObject2.put("preeu_materiales",datos_adicionales.getPreeu_materiales());
         jsonObject2.put("preeu_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
-        jsonObject2.put("fact_disposicion_servicio",datos_adicionales.getPreeu_disposicion_servicio());
         jsonObject2.put("preeu_mano_de_obra_precio",datos_adicionales.getPreeu_mano_de_obra_precio());
-        jsonObject2.put("preeu_mano_de_obra",datos_adicionales.getPreeu_mano_de_obra());
+        jsonObject2.put("preeu_mano_de_obra_horas",datos_adicionales.getPreeu_mano_de_obra());
+        jsonObject2.put("preeu_puesta_marcha",datos_adicionales.getPreeu_puesta_marcha());
         jsonObject2.put("preeu_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
-        jsonObject2.put("fact_servicio_urgencia",datos_adicionales.getPreeu_servicio_urgencia());
-        jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
         jsonObject2.put("preeu_km",datos_adicionales.getPreeu_km());
-        jsonObject2.put("preeu_km_precio_total",datos_adicionales.getPreeu_km()*datos_adicionales.getPreeu_km_precio());
-        jsonObject2.put("fact_km",datos_adicionales.getPreeu_km());
-        jsonObject2.put("fact_km_precio",datos_adicionales.getPreeu_km_precio());
-        jsonObject2.put("fact_km_precio_total",datos_adicionales.getPreeu_km_precio()*datos_adicionales.getPreeu_km());
-        jsonObject2.put("operacion_efectuada",datos_adicionales.getOperacion_efectuada());
+        jsonObject2.put("preeu_km_precio",datos_adicionales.getPreeu_km_precio());
+        jsonObject2.put("preeu_km_precio_total",datos_adicionales.getFact_km_precio_total());
+        jsonObject2.put("preeu_analisis_combustion",datos_adicionales.getPreeu_analisis_combustion());
+        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
         jsonObject2.put("preeu_adicional",datos_adicionales.getFact_adicional());
-        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
-        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_otros_nombre());
-        jsonObject2.put("preeu_otros_nombre",datos_adicionales.getPreeu_materiales());
+        jsonObject2.put("preeu_iva_aplicado",datos_adicionales.getPreeu_iva_aplicado());
+        jsonObject2.put("total",datos_adicionales.getTotal_ppto());
+        jsonObject2.put("acepta_presupuesto",datos_adicionales.getBaceptapresupuesto());
+
+
+
+
+        jsonObject2.put("operacion_efectuada",datos_adicionales.getOperacion_efectuada());
         jsonObject2.put("fact_materiales",datos_adicionales.getFact_materiales());
 
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();

@@ -64,7 +64,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private EditText etOperacionEfectuada,et_preeu_materiales,et_preeu_mano_de_obra_horas,
     et_preeu_puesta_marcha,et_preeu_servicio_urgencia,et_preeu_km,et_preeu_km_precio,
     et_preeu_analisis_combustion,et_preeu_otros_nombre,
-    et_preeu_adicional,etSubTotal,et_preeu_iva_aplicado,et_total,et_total_ppto;
+    et_preeu_adicional,etSubTotal,et_preeu_iva_aplicado,et_total,et_total_ppto,et_preeu_total_mano_de_obra_horas;
 
     private boolean acepta_presupuesto=false;
 
@@ -82,7 +82,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         //EDITTEXT
         et_preeu_materiales= (EditText) vista.findViewById(R.id.et_preeu_materiales);
-        et_preeu_mano_de_obra_horas= (EditText) vista.findViewById(R.id.et_preeu_mano_de_obra_horas);
+        et_preeu_total_mano_de_obra_horas= (EditText) vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
         et_preeu_puesta_marcha= (EditText) vista.findViewById(R.id.et_preeu_puesta_marcha);
         et_preeu_servicio_urgencia= (EditText) vista.findViewById(R.id.et_preeu_servicio_urgencia);
         et_preeu_km= (EditText) vista.findViewById(R.id.et_preeu_km);
@@ -94,7 +94,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         et_preeu_iva_aplicado= (EditText) vista.findViewById(R.id.et_preeu_iva_aplicado);
         et_total= (EditText) vista.findViewById(R.id.et_total);
         cb_acepta_presupuesto = (CheckBox) vista.findViewById(R.id.cb_acepta_presupuesto);
-
+        etOperacionEfectuada=(EditText) vista.findViewById(R.id.etOperacionEfectuada);
 
         //BUTTON
         btn_preeu_mano_de_obra = (Button) vista.findViewById(R.id.btn_preeu_mano_de_obra);
@@ -228,11 +228,25 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     btn_preeu_mano_de_obra.setText(selectedHour + " horas " + selectedMinute + " minutos");
                     preeu_mano_de_obra_horas = (selectedHour  + selectedMinute/60);
+                    if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition()!=0){
+
+                        double mH=0;
+                        try {
+                            mH= ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+                        et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH*preeu_mano_de_obra_horas));
+
+                    }
 
                 }
             }, hour, minute, true);
             mTimePicker.setTitle("Selecciona la duración");
             mTimePicker.show();
+
+
 
         } else if (view.getId() == R.id.btnFinalizar) {
             if (parte.getFirma64()!=null&&!parte.getFirma64().equals("")){
@@ -432,8 +446,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
 
-                        double SubTotal=precioTotalArticulos+preeu_adicional+preeu_analisis_combustion+
-                preeu_km_precio_total+preeu_materiales+preeu_total_mano_de_obra_horas+preeu_disposicion_servicio;
+        double SubTotal=precioTotalArticulos+preeu_adicional+preeu_analisis_combustion+
+        preeu_km_precio_total+preeu_materiales+preeu_total_mano_de_obra_horas+preeu_disposicion_servicio;
         etSubTotal.setText(String.valueOf(SubTotal));
         double preeu_iva_aplicado=SubTotal*21/100;
         et_preeu_iva_aplicado.setText(String.valueOf(preeu_iva_aplicado));
