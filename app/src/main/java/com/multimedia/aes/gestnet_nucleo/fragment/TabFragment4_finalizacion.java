@@ -185,7 +185,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         }
 
         return precio;
-
     }
 
     //OVERRIDE

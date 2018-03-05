@@ -567,4 +567,9 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             startActivityForResult(i,103);
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

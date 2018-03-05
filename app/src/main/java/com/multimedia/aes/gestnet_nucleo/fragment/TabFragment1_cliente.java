@@ -401,4 +401,29 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
         }
     }
+
+    @Override
+    public void onPause() {
+        try {
+            String observaciones = etObservaciones.getText().toString();
+            String nombre = etNombreTitular.getText().toString();
+            String dni = etDni.getText().toString();
+            String tel1 = etTelefono1.getText().toString();
+            String tel2 = etTelefono2.getText().toString();
+            String tel3 = etTelefono3.getText().toString();
+            String tel4 = etTelefono4.getText().toString();
+            parte.setObservaciones(observaciones);
+            parte.setNombre_cliente(nombre);
+            parte.setDni_cliente(dni);
+            parte.setTelefono1_cliente(tel1);
+            parte.setTelefono2_cliente(tel2);
+            parte.setTelefono3_cliente(tel3);
+            parte.setTelefono4_cliente(tel4);
+            ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
 }

@@ -568,7 +568,26 @@ public class ParteDAO extends DBHelperMOS{
 
         updateBuilder.update();
     }
+    public static void actualizarParte(Context context, int id_parte, String nombre_cliente,
+                                       String dni_cliente, String telefono1_cliente, String telefono2_cliente,
+                                       String telefono3_cliente, String telefono4_cliente,
+                                       String observaciones) throws SQLException
+    {
 
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.OBSERVACIONES, observaciones);
+        updateBuilder.updateColumnValue(Parte.NOMBRE_CLIENTE, nombre_cliente);
+        updateBuilder.updateColumnValue(Parte.DNI_CLIENTE, dni_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO1_CLIENTE, telefono1_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO2_CLIENTE, telefono2_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO3_CLIENTE, telefono3_cliente);
+        updateBuilder.updateColumnValue(Parte.TELEFONO4_CLIENTE, telefono4_cliente);
+
+
+        updateBuilder.update();
+    }
     public static void actualizarEstadoAndroid(Context context, int id_parte, int estado)throws SQLException {
         //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
         cargarDao(context);
