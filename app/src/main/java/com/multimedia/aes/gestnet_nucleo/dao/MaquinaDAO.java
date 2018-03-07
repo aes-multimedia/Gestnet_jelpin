@@ -238,4 +238,26 @@ public class MaquinaDAO extends DBHelperMOS {
 
 	}
 
+	public static void actualizarMaquina(Context context, int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String modelo, String num_serie, String puesta_marcha, String temperatura_max_acs, String caudal_acs, String potencia_util, String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) throws SQLException {
+
+		cargarDao(context);
+		UpdateBuilder<Maquina, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Maquina.FK_MAQUINA,fk_maquina);
+		updateBuilder.updateColumnValue(Maquina.FK_MAQUINA,fk_maquina);
+		updateBuilder.updateColumnValue(Maquina.FK_PARTE,fk_parte);
+		updateBuilder.updateColumnValue(Maquina.FK_DIRECCION,fk_direccion);
+		updateBuilder.updateColumnValue(Maquina.FK_MARCA,fk_marca);
+		updateBuilder.updateColumnValue(Maquina.MODELO,modelo);
+		updateBuilder.updateColumnValue(Maquina.NUM_SERIE,num_serie);
+		updateBuilder.updateColumnValue(Maquina.PUESTA_MARCHA,puesta_marcha);
+		updateBuilder.updateColumnValue(Maquina.TEMPERATURA_MAX_ACS,temperatura_max_acs);
+		updateBuilder.updateColumnValue(Maquina.CAUDAL_ACS,caudal_acs);
+		updateBuilder.updateColumnValue(Maquina.POTENCIA_UTIL,potencia_util);
+		updateBuilder.updateColumnValue(Maquina.TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA,temperatura_agua_generador_calor_entrada);
+		updateBuilder.updateColumnValue(Maquina.TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA,temperatura_agua_generador_calor_salida);
+
+		updateBuilder.update();
+
+
+	}
 }

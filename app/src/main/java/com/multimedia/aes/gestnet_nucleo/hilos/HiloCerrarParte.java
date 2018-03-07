@@ -303,7 +303,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             jsonObject5.put("tipo_accion",protocoloAccion.isTipo_accion());
             jsonObject5.put("descripcion",protocoloAccion.getDescripcion());
 
-            jsonArray6.put(jsonObject6);
+            jsonArray6.put(jsonObject5);
         }
 
 

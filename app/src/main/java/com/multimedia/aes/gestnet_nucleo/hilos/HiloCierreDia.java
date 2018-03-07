@@ -106,6 +106,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
         msg.put("observaciones", observaciones);
         msg.put("fecha_cierre", fecha_cierre);
         msg.put("festivo", festivo);
+
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

@@ -442,7 +442,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     int fk_tipo_gama = 0;
                                     String fecha_creacion = "";
                                     String modelo = etModelo.getText().toString();
-                                    String num_serie = "";
+                                    String num_serie = etNumeroSerie.getText().toString();
                                     String num_producto = "";
                                     String aparato = "";
                                     String puesta_marcha = spPuestaMarcha.getSelectedItem().toString()+"-01-01";
@@ -467,27 +467,13 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
                                     if (maquina!=null){
                                         MaquinaDAO.actualizarMaquina(getContext(),
-                                                fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida);
+                                                fk_maquina,fk_parte, fk_direccion, fk_marca,
+                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
+                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
 
-                                    new HiloActualizaMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida).execute();
+                                    new HiloActualizaMaquina( fk_maquina,fk_parte, fk_direccion, fk_marca,
+                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
+                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida).execute();
                                     }else{
                                         MaquinaDAO.newMaquina(getContext(),
                                                 fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,

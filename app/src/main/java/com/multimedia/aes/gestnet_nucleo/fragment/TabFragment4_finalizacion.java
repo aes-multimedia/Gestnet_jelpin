@@ -350,7 +350,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                         preeu_otros_nombre,
                                         preeu_adicional,
                                         SubTotal,
-                                        preeu_iva_aplicado,
+                                        21,
                                         total,
                                         acepta_presupuesto,
                                         formaPago
@@ -447,7 +447,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
         double SubTotal=precioTotalArticulos+preeu_adicional+preeu_analisis_combustion+
-        preeu_km_precio_total+preeu_materiales+preeu_total_mano_de_obra_horas+preeu_disposicion_servicio;
+        preeu_km_precio_total+preeu_materiales+preeu_total_mano_de_obra_horas+preeu_disposicion_servicio+preeu_puesta_marcha+preeu_servicio_urgencia;
         etSubTotal.setText(String.valueOf(SubTotal));
         double preeu_iva_aplicado=SubTotal*21/100;
         et_preeu_iva_aplicado.setText(String.valueOf(preeu_iva_aplicado));
