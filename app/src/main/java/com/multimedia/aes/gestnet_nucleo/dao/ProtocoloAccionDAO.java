@@ -10,6 +10,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProtocoloAccionDAO extends DBHelperMOS {
@@ -132,10 +133,10 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
         }
 	}
 
-	public static List<ProtocoloAccion>  buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
+	public static ArrayList<ProtocoloAccion> buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
-		List<ProtocoloAccion> listadoProtocoloAccion = null;
-		listadoProtocoloAccion =  dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
+		ArrayList<ProtocoloAccion> listadoProtocoloAccion = null;
+		listadoProtocoloAccion = (ArrayList<ProtocoloAccion>) dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
 		if (listadoProtocoloAccion.isEmpty()) {
 			return null;
 		} else {
@@ -160,6 +161,9 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 			return listadoProtocoloAccion;
 		}
 	}
+
+
+
 	public static ProtocoloAccion buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(Context context, String nombre, int fk_maquina,String descripcion) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
 		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_MAQUINA,fk_maquina).and().eq(ProtocoloAccion.DESCRIPCION,descripcion).query();

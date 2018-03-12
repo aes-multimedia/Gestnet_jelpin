@@ -33,7 +33,9 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TabFragment3_operaciones extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -47,6 +49,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private DatosAdicionales datos = null;
     private LinearLayout llPadre;
     private Button btnFinalizar;
+    private String selected;
 
     //METODO
     private void inicializarVariables(){
@@ -208,6 +211,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     }
     @Override
     public void onClick(View view) {
+        selected=spProtocolos.getSelectedItem().toString();
         if (view.getId()==R.id.btnFinalizar){
             if (spProtocolos.getSelectedItem().toString().contains("-")){
                 final int childCount = llPadre.getChildCount();
@@ -307,7 +311,15 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                 }
             }
 
+
+
             Dialogo.dialogoError("Datos Guardados",getContext());
+        }
+        try {
+            List<ProtocoloAccion> listaProto = ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte());
+            boolean empt = listaProto.isEmpty();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
 
