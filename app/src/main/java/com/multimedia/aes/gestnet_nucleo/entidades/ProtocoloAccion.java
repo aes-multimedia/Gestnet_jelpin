@@ -21,9 +21,9 @@ public class ProtocoloAccion {
 
     @DatabaseField(id = true, columnName = ID_PROTOCOLO_ACCION)    private int id_protocolo_accion;
 
-    @DatabaseField(columnName = FK_MAQUINA)           private int fk_maquina;
-    @DatabaseField(columnName = FK_PARTE)           private int fk_parte;
-    @DatabaseField(columnName = VALOR)           private String valor;
+    @DatabaseField(columnName = FK_MAQUINA)                 private int fk_maquina;
+    @DatabaseField(columnName = FK_PARTE)                   private int fk_parte;
+    @DatabaseField(columnName = VALOR)                      private String valor;
     @DatabaseField(columnName = FK_PROTOCOLO)                   private int fk_protocolo;
     @DatabaseField(columnName = NOMBRE_PROTOCOLO)                   private String nombre_protocolo;
     @DatabaseField(columnName = ID_ACCION)                   private int id_accion;

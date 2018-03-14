@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -68,6 +69,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         if (mensaje.indexOf('}')!=-1){
             try {
                 JSONObject jsonObject = new JSONObject(mensaje);
+
                 if (jsonObject.getInt("estado")==1){
                     try {
                         ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),fk_estado);
@@ -90,7 +92,6 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         jsonObject1.put("id_parte", parte.getId_parte());
         jsonObject1.put("estado_android", fk_estado);
         jsonObject1.put("observaciones", parte.getObservaciones());
-
         jsonObject2.put("id_usuario",parte.getFk_usuario());
         jsonObject2.put("nombre_usuario", parte.getNombre_cliente());
         jsonObject2.put("DNI", parte.getDni_cliente());

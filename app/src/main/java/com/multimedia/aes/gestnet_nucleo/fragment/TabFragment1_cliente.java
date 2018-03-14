@@ -359,6 +359,31 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.btnIniciarParte){
+
+
+            try {
+                String observaciones = etObservaciones.getText().toString();
+                String nombre = etNombreTitular.getText().toString();
+                String dni = etDni.getText().toString();
+                String tel1 = etTelefono1.getText().toString();
+                String tel2 = etTelefono2.getText().toString();
+                String tel3 = etTelefono3.getText().toString();
+                String tel4 = etTelefono4.getText().toString();
+                parte.setObservaciones(observaciones);
+                parte.setNombre_cliente(nombre);
+                parte.setDni_cliente(dni);
+                parte.setTelefono1_cliente(tel1);
+                parte.setTelefono2_cliente(tel2);
+                parte.setTelefono3_cliente(tel3);
+                parte.setTelefono4_cliente(tel4);
+                ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+
             new HiloIniciarParte(getContext(),parte,1).execute();
         }else if(view.getId()==R.id.btnClienteAusente){
             new HiloIniciarParte(getContext(),parte,2).execute();
