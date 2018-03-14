@@ -32,6 +32,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
@@ -61,7 +62,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
-    private EditText etOperacionEfectuada,et_preeu_materiales,et_preeu_mano_de_obra_horas,
+    private static EditText etOperacionEfectuada,et_preeu_materiales,et_preeu_mano_de_obra_horas,
     et_preeu_puesta_marcha,et_preeu_servicio_urgencia,et_preeu_km,et_preeu_km_precio,
     et_preeu_analisis_combustion,et_preeu_otros_nombre,
     et_preeu_adicional,etSubTotal,et_preeu_iva_aplicado,et_total,et_total_ppto,et_preeu_total_mano_de_obra_horas;
@@ -82,6 +83,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         //EDITTEXT
         et_preeu_materiales= (EditText) vista.findViewById(R.id.et_preeu_materiales);
+        et_preeu_materiales.setEnabled(false);
         et_preeu_total_mano_de_obra_horas= (EditText) vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
         et_preeu_puesta_marcha= (EditText) vista.findViewById(R.id.et_preeu_puesta_marcha);
         et_preeu_servicio_urgencia= (EditText) vista.findViewById(R.id.et_preeu_servicio_urgencia);
@@ -133,6 +135,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     private void darValores() {
 
+
         //SPINNER FORMAS PAGO
         if (FormasPagoDAO.buscarTodasLasFormasPago(getContext()) != null) {
             formasPagos.addAll(FormasPagoDAO.buscarTodasLasFormasPago(getContext()));
@@ -170,6 +173,25 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
     }
+
+    public static void recalcularPrecioMateriales(double precio,boolean isGarantia){
+        //MATERIALES
+
+                    if(isGarantia){
+                        double antiguo = Double.valueOf(et_preeu_materiales.getText().toString());
+                        precio+=antiguo;
+                        et_preeu_materiales.setText(String.valueOf(precio));
+
+                    }
+
+                }
+
+
+
+
+
+
+
     private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
 
         double precio = 0;

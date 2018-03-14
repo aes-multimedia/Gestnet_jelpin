@@ -105,9 +105,7 @@ public class Articulo {
         this.id_articulo = id_articulo;
     }
 
-    public int getFk_articulo() {
-        return fk_articulo;
-    }
+    public int getFk_articulo() {return fk_articulo;}
 
     public void setFk_articulo(int fk_articulo) {
         this.fk_articulo = fk_articulo;

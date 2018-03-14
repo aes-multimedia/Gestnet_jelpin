@@ -18,12 +18,16 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -60,6 +64,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         btnFinalizar.setOnClickListener(this);
     }
     private void darValores() throws java.sql.SQLException {
+
+
+
+
         //SPINNER FORMAS PAGO
         if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte())!=null){
             try {
@@ -204,6 +212,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         try {
             inicializarVariables();
             darValores();
+
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }

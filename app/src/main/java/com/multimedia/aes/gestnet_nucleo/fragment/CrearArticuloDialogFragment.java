@@ -76,6 +76,7 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                                 "","","","",
                                 0,iva,precio,0,coste,"",0);
                         ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
+                        TabFragment4_finalizacion.recalcularPrecioMateriales(precio,false);
                         try {
                             TabFragment6_materiales.llenarMateriales();
                         } catch (SQLException e) {

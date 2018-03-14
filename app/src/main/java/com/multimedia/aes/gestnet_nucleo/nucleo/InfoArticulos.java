@@ -33,6 +33,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment4_finalizacion;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloStockAlmacenes;
 
 import org.json.JSONArray;
@@ -266,6 +267,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,1)){
                 }
             }
+            TabFragment4_finalizacion.recalcularPrecioMateriales(articulo.getTarifa(),articulo.isGarantia());
             try {
                 ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
             } catch (SQLException e) {
