@@ -333,6 +333,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     }
 
     public static void borrarArticulo(int id){
+        final int idArticulo = id;
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage("¿Seguro que deseas borrar este artículo? Se borrarán todas las unidades");
         builder1.setCancelable(true);
@@ -340,9 +341,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 "Aceptar",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
                         try {
-                            ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,id,parte.getId_parte());
+                            ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
                             llenarMateriales();
                         } catch (SQLException e) {
                             e.printStackTrace();

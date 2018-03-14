@@ -96,7 +96,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         cb_acepta_presupuesto = (CheckBox) vista.findViewById(R.id.cb_acepta_presupuesto);
         cb_acepta_presupuesto.setOnCheckedChangeListener(this);
         etOperacionEfectuada=(EditText) vista.findViewById(R.id.etOperacionEfectuada);
-
         //BUTTON
         btn_preeu_mano_de_obra = (Button) vista.findViewById(R.id.btn_preeu_mano_de_obra);
         btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
