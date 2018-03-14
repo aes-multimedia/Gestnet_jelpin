@@ -49,8 +49,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Index extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
@@ -61,7 +64,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private LinearLayout cuerpo;
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
-
+    private String fecha;
 
     //METODO
     private void inicializarVariables() {
@@ -82,11 +85,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias.setOnClickListener(this);
         cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
     }
-
     public void sacarMensaje(String msg) {
         srl.setRefreshing(false);
     }
-
     public void guardarPartes(String msg) {
         try {
             JSONObject jsonObject = new JSONObject(msg);
@@ -99,14 +100,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-
     public void datosActualizados() {
         Intent intent = new Intent(this, Index.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
-
     public void impresion() {
         Class fragmentClass = FragmentImpresion.class;
         Fragment fragment;
@@ -120,6 +119,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
     //OVERRIDE
 
     @Override
@@ -127,7 +131,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         inicializarVariables();
-        setTitle(R.string.averias);
+        fecha = getDateTime();
+        setTitle(R.string.averias+" "+fecha);
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
@@ -136,6 +141,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        JSONObject jo= new JSONObject();
+        String dia = null;
+        try {
+            jo = GestorSharedPreferences.getJsonDia(GestorSharedPreferences.getSharedPreferencesDia(this));
+            dia = jo.getString("dia");
+            fecha = dia;
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
@@ -253,10 +267,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-                        String fecha = year + "-" + month + "-" + day;
-
-                        new HiloPorFecha(Index.this, u.getFk_entidad(), fecha, c.getIp_cliente()).execute();
+                        GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
+                        try {
+                            BBDDConstantes.borrarDatosTablasPorDia(Index.this);
+                            GestorSharedPreferences.clearSharedPreferencesParte(Index.this);
+                            String fecha = year+"-"+month+"-"+day;
+                            new HiloPorFecha(Index.this, u.getFk_entidad(), fecha, c.getIp_cliente()).execute();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");

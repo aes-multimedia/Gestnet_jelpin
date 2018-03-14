@@ -166,6 +166,15 @@ public class BBDDConstantes {
 		AnalisisDAO.borrarTodasLasAnalisis(context);
 		ImagenDAO.borrarTodasLasImagenes(context);
 		EnvioDAO.borrarTodosLosEnvios(context);
-
+	}
+	public static void borrarDatosTablasPorDia(Context context) throws SQLException {
+		ParteDAO.borrarTodosLosPartes(context);
+		ProtocoloAccionDAO.borrarTodosLosProtocolo(context);
+		MaquinaDAO.borrarTodasLasMaquinas(context);
+		DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(context);
+		AnalisisDAO.borrarTodasLasAnalisis(context);
+		ArticuloDAO.borrarTodosLosArticulos(context);
+		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
+		ImagenDAO.borrarTodasLasImagenes(context);
 	}
 }
