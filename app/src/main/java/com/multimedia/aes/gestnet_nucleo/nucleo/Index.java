@@ -132,7 +132,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.index);
         inicializarVariables();
         fecha = getDateTime();
-        setTitle(R.string.averias+" "+fecha);
+        setTitle("Averias"+" "+fecha);
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
