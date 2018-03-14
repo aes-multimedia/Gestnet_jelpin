@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -330,8 +332,42 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         }
     }
 
+    public static void borrarArticulo(int id){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage("¿Seguro que deseas borrar este artículo? Se borrarán todas las unidades");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        try {
+                            ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,id,parte.getId_parte());
+                            llenarMateriales();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        dialog.cancel();
+                    }
+                });
+        builder1.setNegativeButton(
+                "Cancelar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+
+    }
+
     @Override
     public void onClick(View v) {
+
         if (v.getId() == btnCrearArticulo.getId()) {
             DialogFragment newFragment = new CrearArticuloDialogFragment(context);
             newFragment.setCancelable(false);

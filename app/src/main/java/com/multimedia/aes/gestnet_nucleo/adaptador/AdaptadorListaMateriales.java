@@ -17,12 +17,13 @@ import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnClickListener {
+public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnClickListener, View.OnLongClickListener {
     //VARIABLES GLOBALES
     private Context context;
     private int view;
@@ -48,8 +49,9 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
             item = inflater.inflate(view, null);
         }
         LinearLayout linearLayout = (LinearLayout) item.findViewById(R.id.llRow);
-        linearLayout.setTag(arrayList.get(position));
-        //linearLayout.setOnClickListener(this);
+        linearLayout.setTag(arrayList.get(position).getId_articulo());
+        linearLayout.setOnClickListener(this);
+        linearLayout.setOnLongClickListener(this);
         TextView txtTituloArticulo = (TextView) item.findViewById(R.id.txtTituloArticulo);
         TextView txtUsadas = (TextView) item.findViewById(R.id.txtUsadas);
         TextView txtPrecio = (TextView) item.findViewById(R.id.txtPrecio);
@@ -69,7 +71,15 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(context,"ddddd",Toast.LENGTH_LONG).show();
 
+
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+
+        TabFragment6_materiales.borrarArticulo(Integer.parseInt(v.getTag().toString()));
+
+        return false;
     }
 }

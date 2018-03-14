@@ -70,6 +70,13 @@ public class ArticuloParteDAO  extends DBHelperMOS {
         deleteBuilder.where().eq(ArticuloParte.FK_ARTICULO, id);
         deleteBuilder.delete();
     }
+    public static void borrarArticuloPartePorFkArticuloFkParte(Context context, int idArticulo, int idParte) throws SQLException {
+        cargarDao(context);
+        DeleteBuilder<ArticuloParte, Integer> deleteBuilder = dao.deleteBuilder();
+        deleteBuilder.where().eq(ArticuloParte.FK_ARTICULO, idArticulo).and().eq(ArticuloParte.FK_PARTE,idParte);
+        deleteBuilder.delete();
+    }
+
     public static void borrarArticuloPartePoFkParte(Context context, int id) throws SQLException {
         cargarDao(context);
         DeleteBuilder<ArticuloParte, Integer> deleteBuilder = dao.deleteBuilder();
