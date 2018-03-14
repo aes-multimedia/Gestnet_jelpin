@@ -231,13 +231,17 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     public void onClick(View view) {
         if (view.getId() == R.id.btn_preeu_mano_de_obra) {
             int hour = 0;
-            int minute = 0;
+            final int minute = 0;
             TimePickerDialog mTimePicker;
             mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+
+
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     btn_preeu_mano_de_obra.setText(selectedHour + " horas " + selectedMinute + " minutos");
-                    preeu_mano_de_obra_horas = (selectedHour  + selectedMinute/60);
+                    double minutos=selectedMinute;
+                    minutos=minutos/60;
+                    preeu_mano_de_obra_horas = Double.valueOf(selectedHour  + minutos);
                     if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition()!=0){
 
                         double mH=0;
