@@ -267,7 +267,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,1)){
                 }
             }
-            TabFragment4_finalizacion.recalcularPrecioMateriales(articulo.getTarifa(),articulo.isGarantia());
             try {
                 ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
             } catch (SQLException e) {

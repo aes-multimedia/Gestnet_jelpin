@@ -78,9 +78,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     //METODO
     private void inicializar() {
-
-
-
         //EDITTEXT
         et_preeu_materiales= (EditText) vista.findViewById(R.id.et_preeu_materiales);
         et_preeu_materiales.setEnabled(false);
@@ -132,8 +129,19 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+        try {
+            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+            if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+                articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+                et_preeu_materiales.setText(String.valueOf(getPrecioTotalArticulosParte(articuloPartes)));
+            }else{
+                et_preeu_materiales.setText("0.00");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+    }
     private void darValores() {
 
 
@@ -174,27 +182,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
     }
-
-    public static void recalcularPrecioMateriales(double precio,boolean isGarantia){
-        //MATERIALES
-
-                    if(!isGarantia){
-                        double antiguo = Double.valueOf(et_preeu_materiales.getText().toString());
-                        precio+=antiguo;
-                        et_preeu_materiales.setText(String.valueOf(precio));
-
-                    }
-
-                }
-
-
-
-
-
-
-
     private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
-
         double precio = 0;
         try {
 
@@ -327,22 +315,18 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
                                 preeu_analisis_combustion = Double.valueOf(et_preeu_analisis_combustion.getText().toString());
                             }
-
                             String preeu_otros_nombre="";
                             if (!et_preeu_otros_nombre.getText().toString().equals("")){
                                 preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
                             }
-
                             preeu_adicional = 0;
                             if (!et_preeu_adicional.getText().toString().equals("")) {
                                 preeu_adicional = Double.valueOf(et_preeu_adicional.getText().toString());
                             }
-
-                           precioTotalArticulos = 0;
+                            precioTotalArticulos = 0;
                             if (!articuloPartes.isEmpty()) {
                                 precioTotalArticulos = getPrecioTotalArticulosParte(articuloPartes);
                             }
-
                             double SubTotal=precioTotalArticulos+preeu_adicional+preeu_analisis_combustion+
                                     preeu_km_precio_total+preeu_materiales+preeu_total_mano_de_obra_horas+preeu_disposicion_servicio;
                             etSubTotal.setText(String.valueOf(SubTotal));
@@ -350,14 +334,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             et_preeu_iva_aplicado.setText(String.valueOf(preeu_iva_aplicado));
                             double total=SubTotal+preeu_iva_aplicado;
                             et_total.setText(String.valueOf(total));
-
-
-
-
                             try {
                                 DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
-
-
                                         operacionEfectuada,
                                         preeu_materiales,
                                         preeu_disposicion_servicio,
