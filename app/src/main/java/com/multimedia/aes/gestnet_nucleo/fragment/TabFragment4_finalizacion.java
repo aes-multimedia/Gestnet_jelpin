@@ -84,6 +84,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         //EDITTEXT
         et_preeu_materiales= (EditText) vista.findViewById(R.id.et_preeu_materiales);
         et_preeu_materiales.setEnabled(false);
+        et_preeu_materiales.setText(String.valueOf(0));
         et_preeu_total_mano_de_obra_horas= (EditText) vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
         et_preeu_puesta_marcha= (EditText) vista.findViewById(R.id.et_preeu_puesta_marcha);
         et_preeu_servicio_urgencia= (EditText) vista.findViewById(R.id.et_preeu_servicio_urgencia);
@@ -177,7 +178,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     public static void recalcularPrecioMateriales(double precio,boolean isGarantia){
         //MATERIALES
 
-                    if(isGarantia){
+                    if(!isGarantia){
                         double antiguo = Double.valueOf(et_preeu_materiales.getText().toString());
                         precio+=antiguo;
                         et_preeu_materiales.setText(String.valueOf(precio));

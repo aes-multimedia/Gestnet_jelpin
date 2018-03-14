@@ -295,10 +295,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         if ( isChecked )
         {
-            Toast.makeText(this,"true",Toast.LENGTH_SHORT).show();
                 ArticuloDAO.actualizarGarantia(this,articulo.getId_articulo(),true);
         }else{
-            Toast.makeText(this,"false",Toast.LENGTH_SHORT).show();
                 ArticuloDAO.actualizarGarantia(this,articulo.getId_articulo(),false);
                 }
              }   catch (SQLException e) {
