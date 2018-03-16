@@ -378,7 +378,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         darValores();
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         height = display.getHeight();
-        height=height/10;
+        height=height/8;
         arrayListAnalisis.clear();
         arrayListMaquina.clear();
         añadirMaquina(getContext());
