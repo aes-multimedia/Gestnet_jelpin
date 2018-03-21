@@ -123,7 +123,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -131,7 +131,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -139,7 +139,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, IOException");
@@ -161,7 +161,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);

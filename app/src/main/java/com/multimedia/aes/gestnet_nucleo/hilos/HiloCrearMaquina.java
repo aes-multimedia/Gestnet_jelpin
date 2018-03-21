@@ -193,7 +193,7 @@ public class HiloCrearMaquina extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -201,7 +201,7 @@ public class HiloCrearMaquina extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -209,7 +209,7 @@ public class HiloCrearMaquina extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MAQUINA,jsonArray.toString());
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, IOException");
@@ -231,7 +231,7 @@ public class HiloCrearMaquina extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
