@@ -19,8 +19,8 @@ public class EnvioDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newEnvio(Context context, int fk_solicitud, String json_envio, String url_envio, String request_envio) {
-		Envio p = montarEnvio(fk_solicitud,json_envio, url_envio, request_envio);
+	public static boolean newEnvio(Context context,  String json_envio, String url_envio, String request_envio) {
+		Envio p = montarEnvio(json_envio, url_envio, request_envio);
 		return crearEnvio(p,context);
 	}
 	public static boolean crearEnvio(Envio p,Context context) {
@@ -33,8 +33,8 @@ public class EnvioDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Envio montarEnvio(int fk_solicitud,String json_envio, String url_envio, String request_envio) {
-		Envio p =new Envio(fk_solicitud,json_envio, url_envio, request_envio);
+	public static Envio montarEnvio(String json_envio, String url_envio, String request_envio) {
+		Envio p =new Envio(json_envio, url_envio, request_envio);
 		return p;
 	}
 

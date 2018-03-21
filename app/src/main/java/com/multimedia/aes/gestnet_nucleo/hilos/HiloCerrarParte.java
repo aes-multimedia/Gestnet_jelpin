@@ -13,6 +13,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -121,18 +122,24 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
             error.put("mensaje", "Error de conexion, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
             error.put("mensaje", "Error de conexion, error de protocolo");
             return error.toString();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -154,11 +161,16 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             in.close();
             osw.close();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
+            JSONObject error = new JSONObject();
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexion, IOException");
+            return error.toString();
         }
         return contenido;
     }
-
     private JSONObject rellenarJsonMantenimientos() throws JSONException, SQLException, IOException {
         JSONObject msg = new JSONObject();
         JSONObject jsonObject1 = new JSONObject();
@@ -325,7 +337,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         return msg;
 
     }
-
     private JSONArray rellenarJsonImagenes(Parte parte) throws JSONException, IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
         JSONObject js = new JSONObject();

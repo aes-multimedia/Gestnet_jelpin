@@ -14,9 +14,13 @@
             android:icon="@drawable/ic_cierre_dia"
             android:title="@string/mis_ajustes" />
         <item
-            android:id="@+id/cambiarFecha"
+            android:id="@+id/cambiar_fecha"
             android:icon="@drawable/ic_fecha"
             android:title="@string/cambiar_fecha" />
+        <item
+            android:id="@+id/cierres_pendientes"
+            android:icon="@drawable/ic_fecha"
+            android:title="@string/cierres_pendientes" />
     </group>
 
     <item android:title="">

@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,7 +111,6 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
         msg.put("temperatura_agua_generador_calor_entrada",temperatura_agua_generador_calor_entrada);
         msg.put("temperatura_agua_generador_calor_salida",temperatura_agua_generador_calor_salida);
         Log.d("JSON_ACTUALIZAR",msg.toString());
-
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
@@ -121,18 +122,24 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, IOException");
@@ -153,6 +160,8 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             in.close();
             osw.close();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,fk_parte,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);

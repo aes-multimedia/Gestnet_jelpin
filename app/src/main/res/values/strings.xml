@@ -9,6 +9,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_index">Gestnet_Nucleo</string>
     <string name="cambiar_fecha">Cambiar Fecha</string>
+    <string name="cierres_pendientes">Enviar cierres pendientes</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="almacen">Almacén</string>
     <string name="documentos">Documentos</string>

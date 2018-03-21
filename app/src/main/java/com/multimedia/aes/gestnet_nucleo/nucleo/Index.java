@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -28,16 +30,19 @@ import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentImpresion;
 import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
@@ -238,9 +243,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.cierre_dia) {
             Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
-        } else if (id == R.id.cambiarFecha) {
+        } else if (id == R.id.cambiar_fecha) {
             try {
-
                 final Usuario u = UsuarioDAO.buscarUsuario(this);
                 final Cliente c = ClienteDAO.buscarCliente(this);
                 List<Parte> part = ParteDAO.buscarTodosLosPartes(this);
@@ -286,7 +290,53 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
 
 
-        } else if (id == R.id.cerrar_sesion) {
+        } else if (id == R.id.cierres_pendientes) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("¿Se enviaran todos los cambios pendientes, desea continuar?");
+            builder1.setCancelable(true);
+            builder1.setPositiveButton(
+                    "Enviar cambios.",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                if (EnvioDAO.buscarTodosLosEnvios(Index.this)!=null){
+                                    List<Envio> envios = EnvioDAO.buscarTodosLosEnvios(Index.this);
+                                    for (Envio envio : envios) {
+                                        new HiloNoEnviados(Index.this,envio.getId_envio()).execute();
+                                    }
+                                }else{
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Index.this);
+                                    builder1.setMessage("No hay Cambios pendientes.");
+                                    builder1.setCancelable(true);
+                                    builder1.setPositiveButton(
+                                            "Aceptar",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alert11 = builder1.create();
+                                    alert11.setCanceledOnTouchOutside(false);
+                                    alert11.show();
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            dialog.cancel();
+                        }
+                    });
+            builder1.setNegativeButton(
+                    "Cancelar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert11 = builder1.create();
+            alert11.setCanceledOnTouchOutside(false);
+            alert11.show();
+
+        }else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));
                 BBDDConstantes.borrarDatosTablas(this);

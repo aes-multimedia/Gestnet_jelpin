@@ -6,11 +6,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -112,18 +114,24 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
             error.put("mensaje", "Error de conexion, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
             error.put("mensaje", "Error de conexion, error de protocolo");
             return error.toString();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -145,7 +153,13 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             in.close();
             osw.close();
         } catch (IOException e) {
+            JSONArray jsonArray = new JSONArray();
+            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
+            JSONObject error = new JSONObject();
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexion, IOException");
+            return error.toString();
         }
         return contenido;
     }

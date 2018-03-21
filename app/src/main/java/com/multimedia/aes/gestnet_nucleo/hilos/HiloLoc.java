@@ -25,11 +25,6 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
     private String mensaje;
     private float lon, lat;
 
-
-
-
-
-
     public HiloLoc(int fk_entidad,float lon, float lat) {
 
         this.fk_entidad = fk_entidad;

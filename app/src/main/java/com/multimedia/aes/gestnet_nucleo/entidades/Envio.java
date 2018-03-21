@@ -14,7 +14,6 @@ public class Envio {
 
 
     @DatabaseField(generatedId = true, columnName = ID_ENVIO)     private int id_envio;
-    @DatabaseField(columnName = FK_SOLICITUD)                     private int fk_solicitud;
     @DatabaseField(columnName = JSON_ENVIO)                       private String json_envio;
     @DatabaseField(columnName = URL_ENVIO)                        private String url_envio;
     @DatabaseField(columnName = REQUEST_ENVIO)                    private String request_envio;
@@ -22,8 +21,7 @@ public class Envio {
 
     public Envio() {}
 
-    public Envio(int fk_solicitud, String json_envio, String url_envio, String request_envio) {
-        this.fk_solicitud = fk_solicitud;
+    public Envio( String json_envio, String url_envio, String request_envio) {
         this.json_envio = json_envio;
         this.url_envio = url_envio;
         this.request_envio = request_envio;
@@ -34,12 +32,6 @@ public class Envio {
     }
     public void setId_envio(int id_envio) {
         this.id_envio = id_envio;
-    }
-    public int getFk_solicitud() {
-        return fk_solicitud;
-    }
-    public void setFk_solicitud(int fk_solicitud) {
-        this.fk_solicitud = fk_solicitud;
     }
     public String getJson_envio() {
         return json_envio;
