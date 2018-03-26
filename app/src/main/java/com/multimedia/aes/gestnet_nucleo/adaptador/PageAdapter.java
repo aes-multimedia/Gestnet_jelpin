@@ -18,9 +18,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     private TabFragment1_cliente tab1;
     private TabFragment2_equipo tab2;
     private TabFragment3_operaciones tab3;
-    private TabFragment4_finalizacion tab4;
+    private TabFragment6_materiales tab4;
     private TabFragment5_documentacion tab5;
-    private TabFragment6_materiales tab6;
+    private  TabFragment4_finalizacion tab6;
 
     public PageAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -41,13 +41,13 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 tab3 = new TabFragment3_operaciones();
                 return tab3;
             case 3:
-                tab4 = new TabFragment4_finalizacion();
+                tab4 = new TabFragment6_materiales();
                 return tab4;
             case 4:
                 tab5 = new TabFragment5_documentacion();
                 return tab5;
             case 5:
-                tab6 = new TabFragment6_materiales();
+                tab6 = new TabFragment4_finalizacion();
                 return tab6;
             default:
                 return null;
@@ -69,10 +69,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return tab3;
     }
     public TabFragment4_finalizacion getTab4() {
-        return tab4;
+        return tab6;
     }
     public TabFragment5_documentacion getTab5() {
         return tab5;
     }
-    public TabFragment6_materiales getTab6() { return tab6; }
+    public TabFragment6_materiales getTab6() { return tab4; }
 }
