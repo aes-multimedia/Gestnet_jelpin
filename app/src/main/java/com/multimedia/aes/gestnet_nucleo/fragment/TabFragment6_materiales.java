@@ -276,12 +276,23 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        if(newText.length()>1){
         lvMateriales.setVisibility(View.GONE);
         lvBusquedaMaterial.setVisibility(View.VISIBLE);
+
         try {
             buscarMaterial(newText);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        }else{
+
+            lvMateriales.setVisibility(View.VISIBLE);
+            lvBusquedaMaterial.setVisibility(View.GONE);
+
+
+
         }
         return false;
     }
