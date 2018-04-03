@@ -37,8 +37,8 @@ public class ServicioLocalizacion extends Service{
     private int fk_tecnico;
     private LocationRequest mLocationRequest;
 
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long UPDATE_INTERVAL = 900 * 1000;  /* 15 mins */
+    private long FASTEST_INTERVAL = 300 * 1000; /* 5 mins  */
 
 
     @Nullable
