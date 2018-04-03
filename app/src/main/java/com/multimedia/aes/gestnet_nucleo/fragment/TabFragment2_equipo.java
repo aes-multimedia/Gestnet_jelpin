@@ -556,6 +556,14 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
     @Override
     public void onPause() {
+
+
+
+
+
+
+
+
         super.onPause();
     }
 }
