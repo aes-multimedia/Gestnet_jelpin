@@ -111,6 +111,9 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         int id = getIntent().getIntExtra("articuloId",-1);
+
+
+
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
         } catch (SQLException e) {

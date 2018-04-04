@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Datos de la Equipo"
+                android:text="Datos del Equipo"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="20dp"
                 android:textStyle="bold" />

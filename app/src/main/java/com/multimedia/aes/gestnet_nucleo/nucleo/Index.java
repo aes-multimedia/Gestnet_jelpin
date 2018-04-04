@@ -108,6 +108,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void datosActualizados() {
         Intent intent = new Intent(this, Index.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
         startActivity(intent);
         finish();
     }

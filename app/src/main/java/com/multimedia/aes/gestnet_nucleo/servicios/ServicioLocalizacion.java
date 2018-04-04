@@ -39,6 +39,7 @@ public class ServicioLocalizacion extends Service{
 
     private long UPDATE_INTERVAL = 900 * 1000;  /* 15 mins */
     private long FASTEST_INTERVAL = 300 * 1000; /* 5 mins  */
+    private long UPLOAD_TIMER = 600 * 1000; /* 10 mins  */
 
 
     @Nullable
@@ -101,7 +102,7 @@ public class ServicioLocalizacion extends Service{
                 });
             }
         };
-        timer.schedule(task, 0, 5000);
+        timer.schedule(task, 0, UPLOAD_TIMER);
         return START_NOT_STICKY;
     }
     public void onDestroy(){
