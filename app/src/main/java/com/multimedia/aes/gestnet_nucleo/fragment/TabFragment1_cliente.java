@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -42,6 +43,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
@@ -54,11 +58,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
+    private String horaInicio;
 
 
 
@@ -72,6 +77,9 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtSituacionEquipo = (TextView) vista.findViewById(R.id.txtSituacionEquipo);
         txtDierccionTitular= (TextView) vista.findViewById(R.id.txtDierccionTitular);
         txtSintomas= (TextView)vista.findViewById(R.id.txtSintomas);
+        txtHoraInicio =(TextView)vista.findViewById(R.id.txtHoraInicio);
+        tvHoraInicio=(TextView)vista.findViewById(R.id.tvHoraInicio);
+
         //EDIT TEXTS
         etNombreTitular = (EditText) vista.findViewById(R.id.etNombreTitular);
         etDni= (EditText) vista.findViewById(R.id.etDni);
@@ -304,6 +312,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if (!parte.getProvincia_direccion().trim().equals("")&&!parte.getProvincia_direccion().trim().equals("null")){
             dir+=parte.getProvincia_direccion()+")";
         }
+        if (!datos.getMatem_hora_entrada().trim().equals("")&&!datos.getMatem_hora_entrada().trim().equals("null")){
+           horaInicio=datos.getMatem_hora_entrada();
+
+        }
+        txtHoraInicio.setText(horaInicio);
         txtDierccionTitular.setText(dir);
         txtSintomas.setText(String.valueOf(parte.getOtros_sintomas()));
         etNombreTitular.setText(parte.getNombre_cliente());
@@ -325,6 +338,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
         JSONObject jsonObject = null;
         int idParte = 0;
+
         try {
             jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
@@ -345,7 +359,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);
+            txtHoraInicio.setVisibility(View.VISIBLE);
+
         }else if(parte.getEstado_android()==2){
+            btnImprimir.setVisibility(View.GONE);
+            tvHoraInicio.setVisibility(View.GONE);
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
@@ -359,7 +377,10 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.btnIniciarParte){
+            Calendar c = Calendar.getInstance();
 
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
 
             try {
                 String observaciones = etObservaciones.getText().toString();
@@ -376,6 +397,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 parte.setTelefono2_cliente(tel2);
                 parte.setTelefono3_cliente(tel3);
                 parte.setTelefono4_cliente(tel4);
+                datos.setMatem_hora_entrada(formattedDate);
+                DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(),formattedDate);
                 ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
             } catch (SQLException e) {
                 e.printStackTrace();

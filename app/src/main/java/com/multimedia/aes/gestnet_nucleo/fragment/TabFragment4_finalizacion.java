@@ -48,7 +48,9 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static java.lang.Math.round;
 
@@ -235,6 +237,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     }
     @Override
     public void onClick(View view) {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
         if (view.getId() == R.id.btn_preeu_mano_de_obra) {
             int hour = 0;
             final int minute = 0;
@@ -376,6 +382,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
 
                                 );
+                                datos.setMatem_hora_salida(formattedDate);
+                                DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(),formattedDate);
                                 ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
                                 new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
                             } catch (SQLException e) {

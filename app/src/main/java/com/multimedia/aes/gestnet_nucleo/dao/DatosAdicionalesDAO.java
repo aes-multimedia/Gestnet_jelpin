@@ -350,4 +350,26 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
         updateBuilder.update();
     }
+
+    public static void actualizarHoraEntrada(Context context,int id_rel,String horaEntrada) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.MATEM_HORA_ENTRADA,horaEntrada);
+
+        updateBuilder.update();
+
+    }
+
+    public static void actualizarHoraSalida(Context context,int id_rel,String horaSalida) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.MATEM_HORA_SALIDA,horaSalida);
+
+        updateBuilder.update();
+
+    }
+
+
 }

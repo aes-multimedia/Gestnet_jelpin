@@ -53,7 +53,7 @@
     <string name="maquina">Máquina:</string>
     <string name="tipo_intervencion">Tipo Intervención:</string>
     <string name="situacion_equipo">Situación del Equipo:</string>
-    <string name="sintomas">Síntomas:</string>
+    <string name="sintomas">Otros síntomas:</string>
     <string name="direccion_titular">Direccion titular</string>
     <string name="direccion">direccion:</string>
     <string name="txt_duracion">Duración:</string>
@@ -97,6 +97,7 @@
     <string name="acepto_presupuesto">Acepto presupuesto</string>
     <string name="si">si</string>
     <string name="no">no</string>
+    <string name="hora_entrada">Hora de entrada:</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>
