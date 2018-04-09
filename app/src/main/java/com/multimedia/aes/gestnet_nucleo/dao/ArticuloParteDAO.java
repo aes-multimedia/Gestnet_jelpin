@@ -136,7 +136,7 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
 
     public static List<ArticuloParte> buscarArticuloParteFkParte(Context context, int id) throws SQLException {
         cargarDao(context);
-        List<ArticuloParte> listadoArticuloParte= dao.queryForEq(ArticuloParte.FK_PARTE, id);
+        List<ArticuloParte> listadoArticuloParte = dao.queryForEq(ArticuloParte.FK_PARTE, id);
         if(listadoArticuloParte.isEmpty()) {
             return null;
         }else{

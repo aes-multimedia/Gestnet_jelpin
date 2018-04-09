@@ -76,14 +76,19 @@ public class Impresion {
     DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
     Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
     List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
-    int [] ids = new int [articuloPartes.size()];
-    for (int i = 0; i < articuloPartes.size(); i++) {
-        ids[i] = articuloPartes.get(i).getFk_articulo();
-    }
+
     ArrayList<Articulo> articulos = new ArrayList<>();
-    for (int i = 0; i < ids.length; i++) {
-        articulos.add(ArticuloDAO.buscarArticuloPorID(context,ids[i]));
+    if(articuloPartes != null) {
+        int [] ids = new int [articuloPartes.size()];
+        for (int i = 0; i < articuloPartes.size(); i++) {
+            ids[i] = articuloPartes.get(i).getFk_articulo();
+        }
+
+        for (int i = 0; i < ids.length; i++) {
+            articulos.add(ArticuloDAO.buscarArticuloPorID(context,ids[i]));
+        }
     }
+
     String result = "\n";
     result+="------DATOS DE LA EMPRESA-------"+"\n";
     String nomEmpresa = cliente.getNombre_cliente();
