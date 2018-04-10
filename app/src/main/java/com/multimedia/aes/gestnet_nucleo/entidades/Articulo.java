@@ -215,8 +215,12 @@ public class Articulo {
         this.ean = ean;
     }
 
-    public boolean isEntregado() {
-        return entregado;
+    public int isEntregado() {
+
+        if(!entregado)return 0;
+            else return 1;
+
+
     }
 
     public void setEntregado(boolean entregado) {

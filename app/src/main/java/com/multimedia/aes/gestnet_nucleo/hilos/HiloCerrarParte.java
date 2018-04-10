@@ -177,7 +177,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject2 = new JSONObject();
 
         Parte parte = ParteDAO.buscarPartePorId(context, fk_parte);
-        jsonObject1.put("fk_estado", parte.getFk_estado());
+        jsonObject1.put("fk_estado", asignarEstado());
         jsonObject1.put("id_parte", parte.getId_parte());
         jsonObject1.put("confirmado", parte.getConfirmado());
         jsonObject1.put("observaciones", parte.getObservaciones());
@@ -214,7 +214,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
 
-        
+
 
 
         jsonObject2.put("matem_hora_entrada", datos_adicionales.getMatem_hora_entrada());
@@ -352,6 +352,31 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         return msg;
 
     }
+
+    private int asignarEstado() throws SQLException {
+
+
+
+       int estado = 4;
+        if (ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte) != null) {
+            ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
+            articulosParte.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte));
+
+
+            for(ArticuloParte articulo : articulosParte) {
+                Articulo a = ArticuloDAO.buscarArticuloPorID(context, articulo.getFk_articulo());
+                if(a.isEntregado()==1) {
+                    ParteDAO.actualizarEstadoParte(context, fk_parte, 8);
+                    estado = 8;
+                }
+            }
+
+
+        }
+        return estado;
+
+    }
+
     private JSONArray rellenarJsonImagenes(Parte parte) throws JSONException, IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
         JSONObject js = new JSONObject();

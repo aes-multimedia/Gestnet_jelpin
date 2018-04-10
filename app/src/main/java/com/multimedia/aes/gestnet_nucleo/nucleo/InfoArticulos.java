@@ -30,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaStock;
 import com.multimedia.aes.gestnet_nucleo.clases.DataStock;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -252,15 +253,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==btnPedirMaterial.getId()){
-            try {
-                ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
-
-        }
 
         try {
             if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
@@ -272,6 +265,15 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             }
             try {
                 ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
+                if(v.getId()==btnPedirMaterial.getId()){
+                    try {
+                        ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
             } catch (SQLException e) {
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED,returnIntent);

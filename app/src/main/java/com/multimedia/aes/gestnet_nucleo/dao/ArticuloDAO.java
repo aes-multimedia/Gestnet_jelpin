@@ -215,7 +215,7 @@ public class ArticuloDAO extends DBHelperMOS {
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
-        updateBuilder.updateColumnValue(Articulo.GARANTIA,true);
+        updateBuilder.updateColumnValue(Articulo.ENTREGADO,true);
         updateBuilder.update();
 
 

@@ -9,6 +9,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -665,6 +666,16 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
         updateBuilder.updateColumnValue(Parte.TICKET,ticket);
         updateBuilder.update();
+        return true;
+    }
+
+    public static boolean actualizarEstadoParte(Context context, int id_parte, int estado) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.FK_ESTADO,estado);
+        updateBuilder.update();
+
         return true;
     }
 }

@@ -29,16 +29,17 @@ import java.sql.SQLException;
 
 public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
 
-    private int fk_estado;
+    private int fk_estado_android,estado;
     private String mensaje;
     private Context context;
     private Parte parte;
     private ProgressDialog dialog;
 
-    public HiloIniciarParte(Context context, Parte parte, int fk_estado) {
+    public HiloIniciarParte(Context context, Parte parte, int fk_estado_android, int estado) {
         this.parte = parte;
-        this.fk_estado = fk_estado;
+        this.fk_estado_android = fk_estado_android;
         this.context=context;
+        this.estado=estado;
 
     }
 
@@ -74,7 +75,8 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
 
                 if (jsonObject.getInt("estado")==1){
                     try {
-                        ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),fk_estado);
+                        ParteDAO.actualizarEstadoAndroid(context,parte.getId_parte(),fk_estado_android);
+                        ParteDAO.actualizarEstadoParte(context,parte.getId_parte(),estado);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -92,7 +94,8 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
         jsonObject1.put("id_parte", parte.getId_parte());
-        jsonObject1.put("estado_android", fk_estado);
+        jsonObject1.put("fk_estado",estado);
+        jsonObject1.put("estado_android", fk_estado_android);
         jsonObject1.put("observaciones", parte.getObservaciones());
         jsonObject2.put("id_usuario",parte.getFk_usuario());
         jsonObject2.put("nombre_usuario", parte.getNombre_cliente());

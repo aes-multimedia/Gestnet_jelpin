@@ -404,12 +404,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 e.printStackTrace();
             }
 
+            new HiloIniciarParte(getContext(),parte,1,2).execute();
 
 
-
-            new HiloIniciarParte(getContext(),parte,1).execute();
         }else if(view.getId()==R.id.btnClienteAusente){
-            new HiloIniciarParte(getContext(),parte,2).execute();
+
+
+        new HiloIniciarParte(getContext(),parte,2,13).execute();
+
+
         }else if(view.getId()==R.id.btnImprimir){
             ((Index)getContext()).impresion();
         }else if(view.getId()==R.id.ibLocation){
