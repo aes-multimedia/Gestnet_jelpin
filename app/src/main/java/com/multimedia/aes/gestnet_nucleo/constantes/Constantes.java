@@ -7,7 +7,7 @@ public class Constantes {
     public static final String IP_INTERNA = "192.168.0.228:8085";
     public static final String IP_EXTERNA = "90.69.105.123:8085";
     public static final String IP_ARRIBA = "imd.gestnet.es";
-    public static final String URL_COD_CLIENTE = "/api-gesnet/v1/login/codigo";
+    public static final String URL_COD_CLIENTE = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/codigo";
     public static final String URL_LOGIN_EXTERNA_PRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/login";
     public static final String URL_PARTES_ID_EXTERNAPRUEBAS = "/api-gestnet-datos/v1/partes/buscarPartePorId";
     public static final String URL_PARTES_EXTERNAPRUEBAS = "/api-gestnet-datos/v1/partes/listarPartes";

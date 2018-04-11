@@ -80,7 +80,7 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_COD_CLIENTE);
+            urlws = new URL(Constantes.URL_COD_CLIENTE);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
