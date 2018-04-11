@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 import static com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales.guardarArticulo;
 
@@ -31,11 +34,17 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     private Context context;
     private ProgressDialog dialog;
     private TabFragment6_materiales tab;
+    private Cliente cliente;
 
     public HiloBusquedaArticulo(Context context, int id,TabFragment6_materiales tab) {
         this.context = context;
         this.id = id;
         this.tab = tab;
+        try {
+            cliente = ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -67,7 +76,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = Constantes.URL_BUSCAR_ARTICULO;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULO;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

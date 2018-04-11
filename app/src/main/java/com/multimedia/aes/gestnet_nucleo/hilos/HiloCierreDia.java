@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.CierreDia;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
@@ -33,6 +35,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
     private boolean festivo;
     private Context context;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
 
 
@@ -58,6 +61,11 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
         this.fecha_cierre = fecha_cierre;
         this.festivo = festivo;
         this.context=context;
+        try {
+            cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -111,7 +119,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -120,7 +128,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -128,7 +136,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -136,7 +144,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -159,7 +167,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);

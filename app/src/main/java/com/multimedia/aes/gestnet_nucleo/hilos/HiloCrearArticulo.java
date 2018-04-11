@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 
 import org.json.JSONArray;
@@ -31,6 +33,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
     private String nombre;
     private int unidades,iva,cantidadStock;
     private float precio,coste;
+    private Cliente cliente;
 
     public HiloCrearArticulo(int fk_parte, String nombre, int unidades, int iva, int cantidadStock, float precio, float coste,Context context) {
         this.fk_parte = fk_parte;
@@ -41,6 +44,11 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
         this.precio = precio;
         this.coste = coste;
         this.context = context;
+        try {
+            cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,7 +97,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_CREA_MATERIAL);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CREA_MATERIAL);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -98,7 +106,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MATERIAL,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CREA_MATERIAL,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -106,7 +114,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MATERIAL,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CREA_MATERIAL,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -114,7 +122,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MATERIAL,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CREA_MATERIAL,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -137,7 +145,7 @@ public class HiloCrearArticulo extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CREA_MATERIAL,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CREA_MATERIAL,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);

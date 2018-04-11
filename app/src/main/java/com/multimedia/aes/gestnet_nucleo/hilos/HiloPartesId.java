@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
@@ -21,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class HiloPartesId extends AsyncTask<Void,Void,Void>{
 
@@ -30,6 +32,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
     private String apiKey;
     private Context context;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
     public HiloPartesId(Context context,int idUser,int idParte, String ipCliente,String apiKey) {
         this.idUser=idUser;
@@ -37,6 +40,11 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         this.context = context;
         this.apiKey=apiKey;
         this.ipCliente=ipCliente;
+        try {
+            this.cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -80,7 +88,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url=Constantes.URL_PARTES_ID_EXTERNAPRUEBAS;
+            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_ID_EXTERNAPRUEBAS;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

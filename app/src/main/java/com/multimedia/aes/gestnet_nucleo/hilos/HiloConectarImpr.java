@@ -16,6 +16,7 @@ import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterHelper;
 import com.sewoo.request.android.RequestHandler;
+//import com.sewoo.request.android.RequestHandler;
 
 import java.io.IOException;
 
@@ -34,8 +35,8 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 
 	@Override
 	protected String doInBackground(BluetoothDevice... params) {
-        try {
-            impresora.bp.connect(params[0]);
+          try {
+          impresora.bp.connect(params[0]);
             RequestHandler rh = new RequestHandler();
             impresora.hThread = new Thread(rh);
             impresora.hThread.start();
@@ -44,6 +45,7 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
         } catch (IOException e) {
             return Constantes.ERROR;
         }
+
     }
     private void connectPrinter(String address) {
         try {

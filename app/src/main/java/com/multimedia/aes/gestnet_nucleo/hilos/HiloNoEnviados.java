@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 
 import org.json.JSONArray;
@@ -29,6 +31,7 @@ public class HiloNoEnviados extends AsyncTask<Void,Void,Void> {
     private JSONArray jsonArray;
     private Context context;
     private Envio envio;
+    Cliente cliente;
 
     public HiloNoEnviados(Context context, int id) {
         try {
@@ -36,6 +39,7 @@ public class HiloNoEnviados extends AsyncTask<Void,Void,Void> {
             url = envio.getUrl_envio();
             jsonArray = new JSONArray(envio.getRequest_envio());
             json = envio.getJson_envio();
+            cliente= ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (JSONException e) {

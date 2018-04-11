@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 /**
  * Created by acp on 14/02/2018.
@@ -31,11 +34,16 @@ public class HiloStockAlmacenes extends AsyncTask<Void,Void,Void> {
     private String mensaje;
     private Context context;
     private ProgressDialog dialog;
+    Cliente cliente;
 
     public HiloStockAlmacenes(Context context,int fk_producto) {
         this.fk_producto = fk_producto;
         this.context=context;
-
+        try {
+            this.cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     protected Void doInBackground(Void... voids) {
@@ -60,7 +68,7 @@ public class HiloStockAlmacenes extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_LISTAR_STOCK_TECNICOS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_LISTAR_STOCK_TECNICOS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

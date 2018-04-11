@@ -7,8 +7,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
@@ -25,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class HiloArticulos extends AsyncTask<Void,Void,Void> {
 
@@ -32,10 +35,16 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
     private String mensaje;
     private Context context;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
     public HiloArticulos(int fk_entidad,Context context) {
         this.fk_entidad = fk_entidad;
         this.context=context;
+        try {
+            cliente = ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     @Override
@@ -63,7 +72,7 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_ARTICULOS_EXTERNAPRUEBAS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_ARTICULOS_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
