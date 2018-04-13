@@ -750,6 +750,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         nombre_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("nombre_usuario");
                     }
+
                     String dni_cliente;
                     if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("DNI").equals("null")) {
                         dni_cliente = "";
@@ -806,9 +807,46 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         tipo = jsonArray.getJSONObject(i).getString("tipo");
                     }
+
                     String dni_firmante="";
                     String firma64="";
                     String ticket="";
+                    String nombre_compania;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania").equals("null")) {
+                        nombre_compania = "";
+                    } else {
+                        nombre_compania = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania");
+                    }
+                    String direccion;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion").equals("null")) {
+                        direccion = "";
+                    } else {
+                        direccion = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion");
+                    }
+                    String CIF;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF").equals("null")) {
+                        CIF = "";
+                    } else {
+                        CIF = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF");
+                    }
+                    String telefono1;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1").equals("null")) {
+                        telefono1 = "";
+                    } else {
+                        telefono1 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1");
+                    }
+                    String telefono2;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2").equals("null")) {
+                        telefono2 = "";
+                    } else {
+                        telefono2 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2");
+                    }
+                    String email;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email").equals("null")) {
+                        email = "";
+                    } else {
+                        email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
+                    }
                     if (esta){
                         ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
@@ -871,7 +909,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email)) {
                             bien = true;
                         } else {
                             bien = false;

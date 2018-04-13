@@ -56,7 +56,7 @@ public class ParteDAO extends DBHelperMOS{
                                    String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                    String telefono3_cliente, String telefono4_cliente, String email_cliente,
                                    String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
-                                   String firma64,String ticket) {
+                                   String firma64,String ticket,String nombre_compania,String direccion,String CIF,String telefono1,String telefono2,String email ) {
         Parte p = montarParte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -86,7 +86,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente,user_creador,tipo,dni_firmante, firma64,ticket);
+                observaciones_cliente,user_creador,tipo,dni_firmante, firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email);
         return crearParte(p,context);
     }
     public static boolean crearParte(Parte p,Context context) {
@@ -129,7 +129,7 @@ public class ParteDAO extends DBHelperMOS{
                                     String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                     String telefono3_cliente, String telefono4_cliente, String email_cliente,
                                     String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
-                                    String firma64,String ticket) {
+                                    String firma64,String ticket,String nombre_compania,String direccion,String CIF,String telefono1,String telefono2,String email) {
         Parte p =new Parte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -159,7 +159,7 @@ public class ParteDAO extends DBHelperMOS{
                 latitud_direccion, longitud_direccion, nombre_cliente,
                 dni_cliente, telefono1_cliente, telefono2_cliente,
                 telefono3_cliente, telefono4_cliente, email_cliente,
-                observaciones_cliente,user_creador,tipo,dni_firmante, firma64,ticket);
+                observaciones_cliente,user_creador,tipo,dni_firmante, firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email);
         return p;
     }
 
@@ -308,6 +308,7 @@ public class ParteDAO extends DBHelperMOS{
         boolean botrosmataux=parte.isBotrosmataux();
         String user_creador=parte.getUser_creador();
         String tipo=parte.getTipo();
+
         cargarDao(context);
         UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(parte.ID_PARTE,id);
@@ -402,6 +403,7 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(parte.BOTROSMATAUX, botrosmataux);
         updateBuilder.updateColumnValue(parte.USER_CREADOR, user_creador);
         updateBuilder.updateColumnValue(parte.TIPO, tipo);
+
 
 
 

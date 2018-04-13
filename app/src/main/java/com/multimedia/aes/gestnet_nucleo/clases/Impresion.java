@@ -77,6 +77,7 @@ public class Impresion {
     Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
     List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
 
+
     ArrayList<Articulo> articulos = new ArrayList<>();
     if(articuloPartes != null) {
         int [] ids = new int [articuloPartes.size()];
@@ -93,13 +94,13 @@ public class Impresion {
     result+="------DATOS DE LA EMPRESA-------"+"\n";
     String nomEmpresa = cliente.getNombre_cliente();
     result+=nomEmpresa+"\n";
-    String dirEmpresa = "C/ De Labiano, 12";
+    String dirEmpresa = parte.getNombre_compania();
     result+=dirEmpresa+"\n";
-    String cifEmpresa = "B31737513";
+    String cifEmpresa = parte.getCif();
     result+="NIF/CIF: "+cifEmpresa+"\n";
-    String telfEmpresa = "948 151 951";
+    String telfEmpresa = parte.getTelefono1();
     result+="TFNO: "+telfEmpresa+"\n";
-    String emailEmpresa = "imd@imdsl.com";
+    String emailEmpresa = parte.getEmail();
     result+="EMAIL: "+emailEmpresa+"\n"+"\n";
 
     result+="--------DATOS DEL PARTE---------"+"\n";
