@@ -14,6 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -257,14 +258,17 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         String day = selectedday + "";
-                        String month = selectedmonth + "";
+                        int monthReal=selectedmonth+1;
+                        String month = monthReal + "";
                         if (selectedday < 10) {
                             day = "0" + selectedday;
                         }
-                        if (selectedmonth < 10) {
-                            month = "0" + selectedmonth;
+                        if (monthReal< 10) {
+                            //Los meses en android van de 0 a 11
+                            month = "0" + monthReal;
                         }
                         String year = selectedyear + "";
                         JSONObject js = new JSONObject();
@@ -286,6 +290,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
+
 
             } catch (SQLException e) {
                 e.printStackTrace();
