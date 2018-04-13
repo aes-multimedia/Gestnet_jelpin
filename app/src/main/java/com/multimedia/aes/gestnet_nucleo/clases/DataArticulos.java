@@ -5,8 +5,7 @@ import android.graphics.Bitmap;
 public class DataArticulos {
     private String nombre;
     private int id;
-
-
+///PREUBA GIT
     public DataArticulos(String nombre, int id) {
         this.nombre = nombre;
         this.id = id;
