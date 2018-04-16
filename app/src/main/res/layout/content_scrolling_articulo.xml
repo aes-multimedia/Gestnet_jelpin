@@ -110,13 +110,14 @@
             android:text="Cantidad"
             android:textSize="16sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvCantidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="23"
-            android:transitionName="cantidad" />
+            android:layout_weight="1"
+            android:background="@drawable/edit_texts_naranja"
+            android:inputType="numberDecimal"
+            android:padding="5dp" />
 
     </LinearLayout>
 

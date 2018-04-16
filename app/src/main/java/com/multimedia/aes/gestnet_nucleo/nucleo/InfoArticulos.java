@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -47,7 +48,8 @@ import java.util.ArrayList;
 public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
     private ImageView ivFoto;
-    private TextView tvTitulo,tvStock,tvPrecio,tvCantidad;
+    private TextView tvTitulo,tvStock,tvPrecio;
+    private EditText tvCantidad;
     private CheckBox chkGarantia;
     private Menu menu;
     private int idParte;
@@ -58,13 +60,14 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private static ArrayList<DataStock> dataStock;
     private AdaptadorListaStock adapter;
     private static int alto=0,alto1=0,height=0;
+    private int unidades;
 
 
     private void inicializarVariables(){
         ivFoto = (ImageView) findViewById(R.id.expandedImage);
         tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         tvStock = (TextView) findViewById(R.id.tvStock);
-        tvCantidad = (TextView) findViewById(R.id.tvCantidad);
+        tvCantidad = (EditText) findViewById(R.id.tvCantidad);
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
         btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
@@ -253,15 +256,18 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-
-
-
+        String cantidad=tvCantidad.getText().toString();
+        if(cantidad.matches("")){
+            unidades=1;
+        }else {
+            unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
+        }
         try {
             if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);
-                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+1);
+                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+unidades);
             }else{
-                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,1)){
+                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,unidades)){
                 }
             }
             try {
