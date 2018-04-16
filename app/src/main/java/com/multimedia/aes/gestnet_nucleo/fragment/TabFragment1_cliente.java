@@ -58,7 +58,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir;
     private ImageButton ibLocation,ibIr;
@@ -76,6 +76,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtTipoIntervencion= (TextView) vista.findViewById(R.id.txtTipoIntervencion);
         txtSituacionEquipo = (TextView) vista.findViewById(R.id.txtSituacionEquipo);
         txtDierccionTitular= (TextView) vista.findViewById(R.id.txtDierccionTitular);
+        txtSintomaLista= (TextView) vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= (TextView)vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =(TextView)vista.findViewById(R.id.txtHoraInicio);
         tvHoraInicio=(TextView)vista.findViewById(R.id.tvHoraInicio);
@@ -319,6 +320,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtHoraInicio.setText(horaInicio);
         txtDierccionTitular.setText(dir);
         txtSintomas.setText(String.valueOf(parte.getOtros_sintomas()));
+        txtSintomaLista.setText(String.valueOf(parte.getSintomas()));
         etNombreTitular.setText(parte.getNombre_cliente());
         etDni.setText(parte.getDni_cliente());
         etTelefono1.setText(parte.getTelefono1_cliente());

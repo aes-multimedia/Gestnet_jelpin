@@ -148,6 +148,7 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
 
 
     public static void actualizarArticuloParte(Context context, int id_articulo_parte, int usados)throws SQLException {
+
         cargarDao(context);
         UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(ArticuloParte.ID,id_articulo_parte);
