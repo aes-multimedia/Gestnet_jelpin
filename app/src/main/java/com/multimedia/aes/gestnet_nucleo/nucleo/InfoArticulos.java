@@ -47,7 +47,7 @@ import java.util.ArrayList;
 public class InfoArticulos  extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
     private ImageView ivFoto;
-    private TextView tvTitulo,tvStock,tvPrecio;
+    private TextView tvTitulo,tvStock,tvPrecio,tvCantidad;
     private CheckBox chkGarantia;
     private Menu menu;
     private int idParte;
@@ -64,6 +64,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         ivFoto = (ImageView) findViewById(R.id.expandedImage);
         tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         tvStock = (TextView) findViewById(R.id.tvStock);
+        tvCantidad = (TextView) findViewById(R.id.tvCantidad);
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
         btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
