@@ -54,7 +54,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
-    private DatosAdicionales datos = null;
+    private DatosAdicionales datos;
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;

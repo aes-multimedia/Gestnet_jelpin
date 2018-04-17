@@ -140,7 +140,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
             if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
                 articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
-                et_preeu_materiales.setText(String.valueOf(getPrecioTotalArticulosParte(articuloPartes)));
+                et_preeu_materiales.setText( String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
             }else{
                 et_preeu_materiales.setText("0.00");
             }
@@ -478,7 +478,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         double SubTotal = preeu_adicional + preeu_analisis_combustion +
                 preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-        etSubTotal.setText(String.valueOf(SubTotal));
+        etSubTotal.setText(String.valueOf(String.format("%.2f", SubTotal) ));
         double preeu_iva_aplicado = SubTotal * 21 / 100;
         et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
         double total =SubTotal + preeu_iva_aplicado;
