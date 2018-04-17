@@ -46,6 +46,7 @@ public class Maquina {
     public static final String POTENCIA_UTIL  = "potencia_util";
     public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA  = "temperatura_agua_generador_calor_entrada";
     public static final String TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA = "temperatura_agua_generador_calor_salida";
+    public static final String COMBUSTIBLE_TXT = "combustible_txt";
 
 
     @DatabaseField(generatedId = true, columnName = ID_MAQUINA)             private int id_maquina;
@@ -88,6 +89,7 @@ public class Maquina {
     @DatabaseField(columnName = POTENCIA_UTIL)                              private String potencia_util;
     @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA)   private String temperatura_agua_generador_calor_entrada;
     @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA)    private String temperatura_agua_generador_calor_salida;
+    @DatabaseField(columnName = COMBUSTIBLE_TXT)    private String combustible_txt;
 
 
     public Maquina(){}
@@ -100,7 +102,7 @@ public class Maquina {
                    String garantia_extendida, String factura_compra, String refrigerante,
                    boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
-                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt ) {
         this.fk_maquina = fk_maquina;
         this.fk_parte = fk_parte;
         this.fk_direccion = fk_direccion;
@@ -140,6 +142,7 @@ public class Maquina {
         this.potencia_util = potencia_util;
         this.temperatura_agua_generador_calor_entrada = temperatura_agua_generador_calor_entrada;
         this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
+        this.combustible_txt = combustible_txt;
 
     }
     public int getId_maquina() {
@@ -310,6 +313,15 @@ public class Maquina {
     public void setGarantia_extendida(String garantia_extendida) {
         this.garantia_extendida = garantia_extendida;
     }
+
+    public String getCombustible_txt() {
+        return combustible_txt;
+    }
+
+    public void setCombustible_txt(String combustible_txt) {
+        this.combustible_txt = combustible_txt;
+    }
+
     public String getFactura_compra() {
         return factura_compra;
     }
