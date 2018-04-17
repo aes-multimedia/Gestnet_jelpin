@@ -6,8 +6,10 @@ import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
 
 import org.json.JSONException;
@@ -35,6 +37,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     private ProgressDialog dialog;
     private TabFragment6_materiales tab;
     private Cliente cliente;
+    private Usuario tecnico;
 
     public HiloBusquedaArticulo(Context context, int id,TabFragment6_materiales tab) {
         this.context = context;
@@ -42,6 +45,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         this.tab = tab;
         try {
             cliente = ClienteDAO.buscarCliente(context);
+            tecnico = UsuarioDAO.buscarUsuario(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,6 +77,8 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
         msg.put("id", id);
+        msg.put("entidad", tecnico.getFk_entidad());
+
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

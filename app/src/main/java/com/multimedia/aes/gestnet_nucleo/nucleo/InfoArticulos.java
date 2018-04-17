@@ -256,6 +256,9 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
+
+
         String cantidad=tvCantidad.getText().toString();
         if(cantidad.matches("")){
             unidades=1;
@@ -271,8 +274,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 }
             }
             try {
+
+                if(v.getId()==btnAñadirMaterial.getId())
                 ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
-                if(v.getId()==btnPedirMaterial.getId()){
+                else if(v.getId()==btnPedirMaterial.getId()){
                     try {
                         ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
                     } catch (SQLException e) {
