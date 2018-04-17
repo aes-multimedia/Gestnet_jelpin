@@ -372,7 +372,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                     "","","", "","",
                     "","","",false,"",
                     "","","","","","",
-                    "","");
+                    "","","");
         }
         inicializarVariables();
         darValores();
@@ -465,6 +465,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     String potencia_util = etPotenciaUtil.getText().toString();
                                     String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
                                     String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
+                                    String combustible_txt = "";
                                     if (maquina!=null){
                                         MaquinaDAO.actualizarMaquina(getContext(),
                                                 fk_maquina,fk_parte, fk_direccion, fk_marca,
@@ -485,7 +486,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 garantia_extendida, factura_compra, refrigerante,
                                                 bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida
+                                                temperatura_agua_generador_calor_salida,combustible_txt
                                         );
                                         new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
                                                 fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
