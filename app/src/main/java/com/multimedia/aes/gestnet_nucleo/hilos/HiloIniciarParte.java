@@ -7,9 +7,11 @@ import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
@@ -37,6 +39,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
     private Parte parte;
     private ProgressDialog dialog;
     private Cliente cliente;
+    private DatosAdicionales datos;
 
     public HiloIniciarParte(Context context, Parte parte, int fk_estado_android, int estado){
         this.parte = parte;
@@ -45,6 +48,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         this.estado=estado;
         try {
             this.cliente= ClienteDAO.buscarCliente(context);
+            this.datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,parte.getId_parte());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,6 +109,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         jsonObject1.put("fk_estado",estado);
         jsonObject1.put("estado_android", fk_estado_android);
         jsonObject1.put("observaciones", parte.getObservaciones());
+        jsonObject1.put("matem_hora_entrada", datos.getMatem_hora_entrada());
         jsonObject2.put("id_usuario",parte.getFk_usuario());
         jsonObject2.put("nombre_usuario", parte.getNombre_cliente());
         jsonObject2.put("DNI", parte.getDni_cliente());

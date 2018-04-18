@@ -62,7 +62,7 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
             e.printStackTrace();
         }
         txtUsadas.setText(usados+"");
-        txtPrecio.setText(arrayList.get(position).getTarifa()*usados+"€");
+        txtPrecio.setText(   (String.format("%.2f", arrayList.get(position).getTarifa()*usados)+"€"));
 
         return item;
     }

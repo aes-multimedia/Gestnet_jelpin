@@ -54,11 +54,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
-    private DatosAdicionales datos = null;
+    private DatosAdicionales datos;
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir;
     private ImageButton ibLocation,ibIr;
@@ -75,6 +75,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtMaquina = (TextView) vista.findViewById(R.id.txtMaquina);
         txtTipoIntervencion= (TextView) vista.findViewById(R.id.txtTipoIntervencion);
         txtSituacionEquipo = (TextView) vista.findViewById(R.id.txtSituacionEquipo);
+        txtNombreContrato = (TextView) vista.findViewById(R.id.txtNombreContrato);
         txtDierccionTitular= (TextView) vista.findViewById(R.id.txtDierccionTitular);
         txtSintomaLista= (TextView) vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= (TextView)vista.findViewById(R.id.txtSintomas);
@@ -276,6 +277,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if (maquina!=null){
             txtMaquina.setText(String.valueOf(maquina.getModelo()));
             txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
+            txtNombreContrato.setText(String.valueOf(maquina.getNombre_contr_man()));
         }
         etNombreTitular.setEnabled(false);
         etDni.setEnabled(false);
