@@ -30,6 +30,7 @@
     <string name="observaciones">Obs. Visita Fallida: </string>
     <string name="buscando_bluetooth">Buscando Dispositivos Bluetooth</string>
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
+    <string name="err_crear_material">Es necesario rellenar todos los campos.</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="conectando">Conectando</string>
     <string name="visita_fallida">Visita Fallida</string>

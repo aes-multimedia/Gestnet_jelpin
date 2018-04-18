@@ -90,19 +90,12 @@ public class Maquina {
     @DatabaseField(columnName = POTENCIA_UTIL)                              private String potencia_util;
     @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA)   private String temperatura_agua_generador_calor_entrada;
     @DatabaseField(columnName = TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA)    private String temperatura_agua_generador_calor_salida;
-    @DatabaseField(columnName = COMBUSTIBLE_TXT)    private String combustible_txt;
-    @DatabaseField(columnName = NOMBRE_CONTR_MAN)    private String nombre_contr_man;
+    @DatabaseField(columnName = COMBUSTIBLE_TXT)                            private String combustible_txt;
+    @DatabaseField(columnName = NOMBRE_CONTR_MAN)                           private String nombre_contr_man;
 
 
     public Maquina(){}
 
-    public String getNombre_contr_man() {
-        return nombre_contr_man;
-    }
-
-    public void setNombre_contr_man(String nombre_contr_man) {
-        this.nombre_contr_man = nombre_contr_man;
-    }
 
     public Maquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String tipo_combustion,
                    int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,
@@ -407,4 +400,12 @@ public class Maquina {
     public void setTemperatura_agua_generador_calor_salida(String temperatura_agua_generador_calor_salida) {
         this.temperatura_agua_generador_calor_salida = temperatura_agua_generador_calor_salida;
     }
+    public String getNombre_contr_man() {
+        return nombre_contr_man;
+    }
+
+    public void setNombre_contr_man(String nombre_contr_man) {
+        this.nombre_contr_man = nombre_contr_man;
+    }
+
 }
