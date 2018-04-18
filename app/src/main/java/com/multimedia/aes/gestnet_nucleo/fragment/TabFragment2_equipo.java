@@ -61,7 +61,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida,etNumeroSerie;
-    private Button btnAñadirMaquina,btnDatosTesto;
+    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static int alto=0,alto1=0,height=0;
@@ -169,6 +169,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
+        btnIntervencionesAnteriotes = (Button)vista.findViewById(R.id.btnIntervencionesAnteriotes);
         //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
@@ -176,6 +177,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         //ONCLICKLISTENER
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
+        btnIntervencionesAnteriotes.setOnClickListener(this);
         activity = getActivity();
     }
 
@@ -410,7 +412,13 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                 startActivityForResult(i, 103);
             }
 
-        } else if (view.getId() == btnAñadirMaquina.getId()) {
+        } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
+
+
+
+
+        }
+        else if (view.getId() == btnAñadirMaquina.getId()) {
             if (spMarca.getSelectedItemPosition() == 0)
                 Dialogo.dialogoError("Es necesario seleccionar una marca", getContext());
             else if (spPuestaMarcha.getSelectedItemPosition() == 0)
