@@ -414,7 +414,14 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
         } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
 
-
+            if (maquina==null){
+                Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
+            }else{
+                Intent i = new Intent(getActivity(), AnadirDatosAnalisis.class);
+                i.putExtra("id", parte.getId_parte());
+                i.putExtra("fkMaquina", maquina.getId_maquina());
+                startActivityForResult(i, 103);
+            }
 
 
         }
