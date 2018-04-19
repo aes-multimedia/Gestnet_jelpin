@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

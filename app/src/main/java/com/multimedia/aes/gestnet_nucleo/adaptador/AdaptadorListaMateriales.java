@@ -6,18 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
-import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

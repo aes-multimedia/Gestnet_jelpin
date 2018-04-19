@@ -29,7 +29,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +50,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion.resizeImage;
+import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion.resizeImage;
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 

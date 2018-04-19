@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;

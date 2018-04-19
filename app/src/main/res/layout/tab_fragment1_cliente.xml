@@ -63,7 +63,7 @@
                         android:id="@+id/txtNumParte"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/num_parte"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -88,7 +88,7 @@
                         android:id="@+id/txtCreadoPor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/creado_por"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -114,7 +114,7 @@
                         android:id="@+id/txtMaquina"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/maquina"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -140,7 +140,7 @@
                         android:id="@+id/txtTipoIntervencion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/tipo_intervencion"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -169,7 +169,7 @@
                         android:id="@+id/txtSituacionEquipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/situacion_equipo"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -197,7 +197,7 @@
                         android:id="@+id/txtNombreContrato"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:text="@string/tipo_contrato"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
@@ -210,21 +210,22 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
-                <TextView
+                    <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/sintomas"
-                    android:textColor="@android:color/black"
-                    android:textSize="15sp" />
+                        android:layout_width="63dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sintomas"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/txtSintomas"
-                    android:layout_width="154dp"
-                    android:layout_height="wrap_content"
-                    android:text="Sintomas"
-                    android:textColor="@color/cast_expanded_controller_background_color" />
+                    <TextView
+                        android:id="@+id/txtSintomas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sintomas"
+                        android:textColor="@color/cast_expanded_controller_background_color" />
 
             </LinearLayout>
 
@@ -237,7 +238,7 @@
 
                     <TextView
 
-                        android:layout_width="wrap_content"
+                        android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Sintomas"
@@ -248,10 +249,17 @@
                         android:id="@+id/txtSintomaLista"
                         android:layout_width="154dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Sintomas"
                         android:textColor="@color/cast_expanded_controller_background_color" />
 
                 </LinearLayout>
+
+
+
+
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -278,6 +286,26 @@
                         android:visibility="gone" />
 
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnVerDocumentos"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/botones"
+                        android:text="@string/ver_documentos_del_parte" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout

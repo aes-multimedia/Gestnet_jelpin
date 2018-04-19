@@ -19,7 +19,7 @@ import android.widget.ImageView;
 
 
 import com.multimedia.aes.gestnet_nucleo.R;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 
 import java.io.File;
 import java.io.IOException;

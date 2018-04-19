@@ -8,7 +8,7 @@ import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 import org.json.JSONException;
 import org.json.JSONObject;

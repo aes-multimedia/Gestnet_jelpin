@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -11,14 +11,12 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarArticulos;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearArticulo;
 
 import org.json.JSONException;
 import org.json.JSONObject;

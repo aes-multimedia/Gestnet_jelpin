@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,33 +29,31 @@ import java.sql.SQLException;
 
 import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales.guardarArticulo;
 
-
-public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
+public class HiloBuscarDocumentosParte extends AsyncTask<Void, Void, Void> {
 
     private String mensaje = "";
-    private int id;
+    private int fkParte;
     private Context context;
     private ProgressDialog dialog;
-    private TabFragment6_materiales tab;
     private Cliente cliente;
-    private Usuario tecnico;
 
-    public HiloBusquedaArticulo(Context context, int id,TabFragment6_materiales tab) {
+
+    public HiloBuscarDocumentosParte(Context context, int id) {
         this.context = context;
-        this.id = id;
-        this.tab = tab;
+        this.fkParte = id;
         try {
             cliente = ClienteDAO.buscarCliente(context);
-            tecnico = UsuarioDAO.buscarUsuario(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = partes();
+            mensaje = buscarDocumentos();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -65,24 +64,25 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (mensaje.indexOf('}') != -1) {
-            guardarArticulo(mensaje,context,tab);
-        } else {
-            Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
+        if (mensaje.indexOf('}')!=-1){
+                ((DocumentosParte)context).mostrarDocumentos(mensaje,context);
+        }else{
+
+                ((DocumentosParte)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            }
+
         }
 
-    }
 
 
-    private String partes() throws JSONException {
+
+    private String buscarDocumentos() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("id", id);
-        msg.put("entidad", tecnico.getFk_entidad());
-
+        msg.put("fk_parte", fkParte);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULO;
+            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_BUSCAR_DOCUMENTOS_PARTE;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
@@ -131,4 +131,6 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         }
         return contenido;
     }
+
+
 }
