@@ -2,39 +2,51 @@ package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.clases.Documento;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloBuscarDocumentosParte;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DocumentosParte extends AppCompatActivity {
+public class DocumentosParte extends AppCompatActivity implements  AdapterView.OnItemClickListener{
 
 
     private static ArrayList<Documento> arrayListDocumentos = new ArrayList<>();
     private ListView lvDocumentos;
+    private Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documentos_parte);
+        try {
+            cliente = ClienteDAO.buscarCliente(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         int fkParte= getIntent().getIntExtra("fk_parte",0);
         lvDocumentos = (ListView) findViewById(R.id.lvDocumentos);
-        ArrayAdapter<String> adaptador;
-        adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        lvDocumentos.setOnItemClickListener(this);
         Dialogo.zonaEnConstruccion( this);
         new HiloBuscarDocumentosParte(this,fkParte).execute();
 
@@ -70,8 +82,26 @@ public class DocumentosParte extends AppCompatActivity {
                 adaptador.add("PARTE SIN DOCUMENTOS");
             }
             lvDocumentos.setAdapter(adaptador);
+
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getId() == R.id.lvDocumentos) {
+            if (!lvDocumentos.getItemAtPosition(position).toString().equals("NINGUNA COINCIDENCIA")) {
+                if (!arrayListDocumentos.isEmpty()) {
+
+                    String nombre= arrayListDocumentos.get(position).getNombre();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + arrayListDocumentos.get(position).getDireccion()));
+                    startActivity(browserIntent);
+
+
+                }
+            }
         }
     }
 }
