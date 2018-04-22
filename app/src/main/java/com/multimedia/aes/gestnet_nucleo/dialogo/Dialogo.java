@@ -96,6 +96,28 @@ public class Dialogo {
 
     }
 
+    public static void zonaEnConstruccion(final Context context) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage("Zona en construccion");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Continuar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder1.setNegativeButton(
+                "Volver",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+    }
 
 
 }

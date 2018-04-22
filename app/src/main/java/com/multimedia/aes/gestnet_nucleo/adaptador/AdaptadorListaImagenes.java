@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
 
 import java.util.ArrayList;

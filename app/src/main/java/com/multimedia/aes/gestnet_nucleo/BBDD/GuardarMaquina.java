@@ -309,9 +309,15 @@ public class GuardarMaquina extends AsyncTask<Void,Void,Void> {
                 } else {
                     nombre_contr_man = jsonArray1.getJSONObject(j).getString("nombre_contr_man");
                 }
+                String documento_modelo;
+                if (jsonArray1.getJSONObject(j).getString("documento").equals("null")) {
+                    documento_modelo = "";
+                } else {
+                    documento_modelo = jsonArray1.getJSONObject(j).getString("documento");
+                }
                 String temperatura_max_acs="", caudal_acs="", potencia_util="", temperatura_agua_generador_calor_entrada="", temperatura_agua_generador_calor_salida="";
                 if (!esta) {
-                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida, combustible_txt,nombre_contr_man)) {
+                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida, combustible_txt,nombre_contr_man,documento_modelo)) {
                         bien = true;
                     } else {
                         bien = false;

@@ -1,10 +1,12 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
@@ -26,6 +28,7 @@ import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferenc
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaAnalisis;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaMaquinas;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
@@ -33,16 +36,19 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizaMaquina;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloBuscarDocumentosModelo;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,7 +67,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida,etNumeroSerie;
-    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes;
+    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes,btnVerDocumentosModelo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static int alto=0,alto1=0,height=0;
@@ -76,7 +82,8 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
     private static Activity activity;
     private String serialNumber;
-
+    private static  Cliente cliente;
+    private static String webUrl="";
     public void sacarMensaje(String msg) {
         if (ManagerProgressDialog.getDialog()!=null){
             ManagerProgressDialog.cerrarDialog();
@@ -84,8 +91,15 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         Dialogo.dialogoError(msg,getContext());
     }
 
+
     //METODOS
     private void darValores(){
+        try {
+            cliente= ClienteDAO.buscarCliente(getContext());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         alto=0;
         alto1=0;
         //SPINNER MARCAS
@@ -170,6 +184,8 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
         btnIntervencionesAnteriotes = (Button)vista.findViewById(R.id.btnIntervencionesAnteriotes);
+        btnVerDocumentosModelo=(Button)vista.findViewById(R.id.btnVerDocumentosModelo);
+
         //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
@@ -177,6 +193,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         //ONCLICKLISTENER
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
+        btnVerDocumentosModelo.setOnClickListener(this);
         btnIntervencionesAnteriotes.setOnClickListener(this);
         activity = getActivity();
     }
@@ -374,7 +391,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                     "","","", "","",
                     "","","",false,"",
                     "","","","","","",
-                    "","","","");
+                    "","","","","");
         }
         inicializarVariables();
         darValores();
@@ -400,8 +417,45 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         }
 
     }
+
+
+    public static void abrirWebView(String direccion){
+
+        try {
+            JSONArray jsonArray = new JSONArray(direccion);
+            String documento = jsonArray.getJSONObject(0).getString("documento");
+
+                webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + documento;
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
     @Override
     public void onClick(View view) {
+        if(view.getId()==btnVerDocumentosModelo.getId()){
+
+
+        if(maquina.getDocumento_modelo().equals("")){
+            Dialogo.dialogoError("Esta maquina no tiene documentos",getContext());
+        }else {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + maquina.getDocumento_modelo()));
+            startActivity(browserIntent);
+        }
+
+
+
+
+
+        }
+
+
         if (view.getId() == btnDatosTesto.getId()) {
             if (maquina==null){
                 Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
@@ -482,6 +536,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
                                     String combustible_txt = "";
                                     String nombre_contr_man = "";
+                                    String documento_modelo="";
                                     if (maquina!=null){
                                         MaquinaDAO.actualizarMaquina(getContext(),
                                                 fk_maquina,fk_parte, fk_direccion, fk_marca,
@@ -502,7 +557,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                                 garantia_extendida, factura_compra, refrigerante,
                                                 bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                                 temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man
+                                                temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo
                                         );
                                         new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
                                                 fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
