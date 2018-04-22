@@ -68,7 +68,7 @@ public class HiloBuscarDocumentosParte extends AsyncTask<Void, Void, Void> {
                 ((DocumentosParte)context).mostrarDocumentos(mensaje,context);
         }else{
 
-                ((DocumentosParte)context).sacarMensaje("No se ha devuelto correctamente de la api");
+                ((DocumentosParte)context).sacarMensaje("Parte sin documentos");
             }
 
         }

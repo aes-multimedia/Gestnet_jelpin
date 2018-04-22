@@ -47,7 +47,6 @@ public class DocumentosParte extends AppCompatActivity implements  AdapterView.O
         int fkParte= getIntent().getIntExtra("fk_parte",0);
         lvDocumentos = (ListView) findViewById(R.id.lvDocumentos);
         lvDocumentos.setOnItemClickListener(this);
-        Dialogo.zonaEnConstruccion( this);
         new HiloBuscarDocumentosParte(this,fkParte).execute();
 
 
