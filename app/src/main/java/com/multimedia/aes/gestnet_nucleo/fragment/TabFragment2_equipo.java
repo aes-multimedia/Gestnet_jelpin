@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferenc
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaAnalisis;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaMaquinas;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
@@ -33,6 +36,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
@@ -40,7 +44,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizaMaquina;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearMaquina;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloIntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.nucleo.IntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
@@ -61,7 +68,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida,etNumeroSerie;
-    private Button btnAñadirMaquina,btnDatosTesto;
+    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvMaquinas,lvAnalisis;
     private static int alto=0,alto1=0,height=0;
@@ -74,7 +81,9 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     private static ArrayList<Analisis>  arrayListAnalisis = new ArrayList<>();
     private static AdaptadorListaAnalisis adaptadorListaAnalisis;
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
+    private static AsyncTask<Void, Void, Void> hiloIntervencionesAnteriores;
     private static Activity activity;
+
     private String serialNumber;
 
     public void sacarMensaje(String msg) {
@@ -169,6 +178,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         //BUTTON
         btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
+        btnIntervencionesAnteriotes = (Button)vista.findViewById(R.id.btnIntervencionesAnteriotes);
         //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
         lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
@@ -176,6 +186,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         //ONCLICKLISTENER
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
+        btnIntervencionesAnteriotes.setOnClickListener(this);
         activity = getActivity();
     }
 
@@ -395,6 +406,8 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else if(requestCode==104 && resultCode==RESULT_OK) {
+            Log.d("Act. Result", "Intervenciones anteriores");
         }
 
     }
@@ -410,7 +423,38 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                 startActivityForResult(i, 103);
             }
 
-        } else if (view.getId() == btnAñadirMaquina.getId()) {
+        } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
+
+            Usuario u=new Usuario();
+            Cliente c= new Cliente();
+
+
+            try {
+                u = UsuarioDAO.buscarUsuario(getContext());
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();}
+            try {
+                c = ClienteDAO.buscarCliente(getContext());
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if (maquina==null){
+                Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
+            } else{
+                Intent e = new Intent(getActivity(), IntervencionesAnteriores.class);
+                e.putExtra("id", parte.getId_parte());
+                e.putExtra("fk_maquina", parte.getFk_maquina());
+                e.putExtra("fk_entidad", u.getFk_entidad());
+                e.putExtra("ip_cliente", c.getIp_cliente());
+                startActivityForResult(e, 104);
+            }
+
+
+        }
+        else if (view.getId() == btnAñadirMaquina.getId()) {
             if (spMarca.getSelectedItemPosition() == 0)
                 Dialogo.dialogoError("Es necesario seleccionar una marca", getContext());
             else if (spPuestaMarcha.getSelectedItemPosition() == 0)
@@ -465,6 +509,8 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
                                     String potencia_util = etPotenciaUtil.getText().toString();
                                     String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
                                     String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
+                                    String combustible_txt = "";
+                                    String nombre_contr_man = "";
                                     if (maquina!=null){
                                         MaquinaDAO.actualizarMaquina(getContext(),
                                                 fk_maquina,fk_parte, fk_direccion, fk_marca,

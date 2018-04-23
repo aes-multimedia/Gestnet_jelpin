@@ -57,6 +57,9 @@
             android:name=".nucleo.Camara"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".nucleo.IntervencionesAnteriores"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
