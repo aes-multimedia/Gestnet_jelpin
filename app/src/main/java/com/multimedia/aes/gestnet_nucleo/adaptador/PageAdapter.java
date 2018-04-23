@@ -1,17 +1,16 @@
 package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment1_cliente;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment3_operaciones;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment4_finalizacion;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment1_cliente;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment3_operaciones;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment4_finalizacion;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;

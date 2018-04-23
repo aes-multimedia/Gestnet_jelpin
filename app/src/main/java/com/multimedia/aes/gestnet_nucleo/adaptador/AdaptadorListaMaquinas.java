@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
         LinearLayout llMaquina = (LinearLayout) item.findViewById(R.id.llMaquina);
         TextView txtMarca = (TextView)item.findViewById(R.id.txtMarca);
         TextView txtModelo = (TextView)item.findViewById(R.id.txtModelo);
+        TextView txtCombustion = (TextView)item.findViewById(R.id.txtCombustible);
         TextView txtPotencia = (TextView)item.findViewById(R.id.txtPotencia);
         Button btnBorrar = (Button)item.findViewById(R.id.btnBorrar);
         btnBorrar.setTag(position);
@@ -62,6 +63,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
         txtMarca.setText(marca);
         txtModelo.setText(arrayList.get(position).getModelo());
         txtPotencia.setText(potencia);
+        txtCombustion.setText(arrayList.get(position).getCombustible_txt());
 
         return item;
     }

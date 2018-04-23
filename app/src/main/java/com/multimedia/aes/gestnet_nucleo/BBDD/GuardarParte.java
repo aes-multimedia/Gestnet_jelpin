@@ -847,6 +847,19 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
                     }
+
+                    String sintomas = "";
+                    if (jsonArray.getJSONObject(i).getJSONArray("sintomas").length() == 0 ) {
+                        sintomas = "";
+                    } else {
+                        JSONArray aux = jsonArray.getJSONObject(i).getJSONArray("sintomas");
+                        for (int j = 0; j < aux.length(); j++) {
+                            String sintoma = aux.getJSONObject(j).getString("nombre_sintoma") + "\n";
+                            sintomas += sintoma;
+                        }
+                       // sintomas = jsonArray.getJSONObject(i).getString("sintomas");
+                    }
+
                     if (esta){
                         ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
@@ -909,7 +922,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas)) {
                             bien = true;
                         } else {
                             bien = false;

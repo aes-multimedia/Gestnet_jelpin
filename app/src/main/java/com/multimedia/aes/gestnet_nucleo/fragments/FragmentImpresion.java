@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -35,7 +35,6 @@ import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
-import com.multimedia.aes.gestnet_nucleo.nucleo.FirmaCliente;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterHelper;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;

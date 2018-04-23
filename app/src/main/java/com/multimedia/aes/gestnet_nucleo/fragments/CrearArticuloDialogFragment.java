@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -11,13 +11,12 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 
-import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarArticulos;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearArticulo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,17 +64,34 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                         etIva= (EditText)getDialog().findViewById(R.id.etIva);
                         etCantidadStock= (EditText)getDialog().findViewById(R.id.etCantidadStock);
 
-                        nombre=etNombre.getText().toString();
-                        unidades=Integer.parseInt(etUnidades.getText().toString());
-                        iva=Integer.parseInt(etIva.getText().toString());
-                        cantidadStock=Integer.parseInt(etCantidadStock.getText().toString());
-                        precio=Float.parseFloat(etPrecio.getText().toString());
-                        coste=Float.parseFloat(etCoste.getText().toString());
-                        Articulo a = ArticuloDAO.newArticuloRet(getContext(),
-                                0,nombre,cantidadStock,"",
-                                "","","","",
-                                0,iva,precio,0,coste,"",0);
-                        ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
+
+
+
+                        if(etNombre.getText().toString().equals("") ||
+                                etUnidades.getText().toString().equals("") ||
+                                etPrecio.getText().toString().equals("") ||
+                                etCoste.getText().toString().equals("") ||
+                                etIva.getText().toString().equals("") ||
+                                etCantidadStock.getText().toString().equals("")
+                                ){
+                            Dialogo.errorCrearMaterial(context);
+
+                        }else{
+                            nombre=etNombre.getText().toString();
+                            unidades=Integer.parseInt(etUnidades.getText().toString());
+                            iva=Integer.parseInt(etIva.getText().toString());
+                            cantidadStock=Integer.parseInt(etCantidadStock.getText().toString());
+                            precio=Float.parseFloat(etPrecio.getText().toString());
+                            coste=Float.parseFloat(etCoste.getText().toString());
+
+                            Articulo a = ArticuloDAO.newArticuloRet(getContext(),
+                                    0,nombre,cantidadStock,"",
+                                    "","","","",
+                                    0,iva,precio,0,coste,"",0);
+                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
+
+                        }
+
                         try {
                             TabFragment6_materiales.llenarMateriales();
                         } catch (SQLException e) {
