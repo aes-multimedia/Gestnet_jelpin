@@ -21,8 +21,8 @@ public class ClienteDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newCliente(Context context,int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente) {
-		Cliente c = montarCliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente);
+	public static boolean newCliente(Context context,int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente, String dir_documentos) {
+		Cliente c = montarCliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente,dir_documentos);
 		return crearCliente(c,context);
 	}
 	public static boolean crearCliente(Cliente c,Context context) {
@@ -37,8 +37,8 @@ public class ClienteDAO extends DBHelperMOS {
 	}
 
 
-	public static Cliente montarCliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente) {
-		Cliente c =new Cliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente);
+	public static Cliente montarCliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos) {
+		Cliente c =new Cliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente, dir_documentos);
 		return c;
 	}
 
@@ -88,6 +88,7 @@ public class ClienteDAO extends DBHelperMOS {
 		String logo = cliente.getLogo_cliente();
 		String ip = cliente.getIp_cliente();
 		String cod_cliente = cliente.getCod_cliente();
+		String dir_documentos = cliente.getDir_documentos();
 
 		cargarDao(context);
 		UpdateBuilder<Cliente, Integer> updateBuilder = dao.updateBuilder();
@@ -97,9 +98,10 @@ public class ClienteDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Cliente.LOGO_CLIENTE, logo);
 		updateBuilder.updateColumnValue(Cliente.IP_CLIENTE, ip);
 		updateBuilder.updateColumnValue(Cliente.COD_CLIENTE, cod_cliente);
+		updateBuilder.updateColumnValue(Cliente.DIR_DOCUMENTOS, dir_documentos);
 		updateBuilder.update();
 	}
-	public static void actualizarCliente(Context context, int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente ) throws SQLException {
+	public static void actualizarCliente(Context context, int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<Cliente, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Cliente.ID_CLIENTE,id_cliente);
@@ -108,6 +110,7 @@ public class ClienteDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Cliente.LOGO_CLIENTE, logo_cliente);
 		updateBuilder.updateColumnValue(Cliente.IP_CLIENTE, ip_cliente);
 		updateBuilder.updateColumnValue(Cliente.COD_CLIENTE, cod_cliente);
+		updateBuilder.updateColumnValue(Cliente.DIR_DOCUMENTOS, dir_documentos);
 		updateBuilder.update();
 	}
 

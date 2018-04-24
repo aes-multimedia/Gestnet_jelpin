@@ -96,7 +96,14 @@ public class GuardarCliente extends AsyncTask<Void,Void,Void> {
         } else {
             cod_cliente = jsonObject.getString("cod_cliente");
         }
-        if (ClienteDAO.newCliente(context,id,nombre,color,logo,ip,cod_cliente)){
+
+        String dir_documentos;
+        if (jsonObject.getString("dir_documentos").equals("null")) {
+            dir_documentos = "";
+        } else {
+            dir_documentos = jsonObject.getString("dir_documentos");
+        }
+        if (ClienteDAO.newCliente(context,id,nombre,color,logo,ip,cod_cliente,dir_documentos)){
             bien = true;
         }
     }
