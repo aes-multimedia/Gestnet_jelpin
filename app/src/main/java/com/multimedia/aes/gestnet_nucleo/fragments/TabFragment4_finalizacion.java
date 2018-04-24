@@ -46,6 +46,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import static java.lang.Math.round;
 
@@ -312,7 +313,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
 
                             if (!et_preeu_materiales.getText().toString().equals("")) {
-                                preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+                                String str = et_preeu_materiales.getText().toString();
+                                str = str.replace(',', '.');
+                                //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+                                preeu_materiales = Double.valueOf(str);
                             }
 
                             if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
@@ -442,7 +446,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
 
         if (!et_preeu_materiales.getText().toString().equals("")) {
-            preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+            String str = et_preeu_materiales.getText().toString();
+            str = str.replace(',', '.');
+            //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+            preeu_materiales = Double.valueOf(str);
         }
 
         if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
