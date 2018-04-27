@@ -117,6 +117,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -272,7 +273,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             try {
 
                 if(v.getId()==btnAñadirMaterial.getId())
-                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
+                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-Integer.valueOf(tvCantidad.getText().toString()),articulo.getCoste());
                 else if(v.getId()==btnPedirMaterial.getId()){
                     try {
                         ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
