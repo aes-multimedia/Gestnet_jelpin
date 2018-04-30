@@ -62,6 +62,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private static Context context;
     private static Activity activity;
 
+
     //METODO
     private void inicializar() {
         //SEARCHVIEW
