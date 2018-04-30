@@ -125,6 +125,8 @@ public class ArticuloDAO extends DBHelperMOS {
     public static Articulo buscarArticuloPorID(Context context, int id) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryForEq(Articulo.ID_ARTICULO, id);
+
+
         if(listadoArticulo.isEmpty()) {
             return null;
         }else{

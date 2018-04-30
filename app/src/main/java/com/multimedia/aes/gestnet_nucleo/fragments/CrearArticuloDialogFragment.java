@@ -27,7 +27,7 @@ import java.sql.SQLException;
 @SuppressLint("ValidFragment")
 public class CrearArticuloDialogFragment extends DialogFragment {
 
-    private EditText etNombre,etUnidades,etPrecio,etCoste,etIva,etCantidadStock;
+    private EditText etNombre,etUnidades,etPrecio,etCoste,etIva;
     private String nombre;
     private int unidades,iva,cantidadStock;
     private float precio,coste;
@@ -62,7 +62,7 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                         etPrecio= (EditText)getDialog().findViewById(R.id.etPrecio);
                         etCoste= (EditText)getDialog().findViewById(R.id.etCoste);
                         etIva= (EditText)getDialog().findViewById(R.id.etIva);
-                        etCantidadStock= (EditText)getDialog().findViewById(R.id.etCantidadStock);
+
 
 
 
@@ -72,7 +72,7 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                                 etPrecio.getText().toString().equals("") ||
                                 etCoste.getText().toString().equals("") ||
                                 etIva.getText().toString().equals("") ||
-                                etCantidadStock.getText().toString().equals("")
+                                etUnidades.getText().toString().equals("")
                                 ){
                             Dialogo.errorCrearMaterial(context);
 
@@ -80,7 +80,7 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                             nombre=etNombre.getText().toString();
                             unidades=Integer.parseInt(etUnidades.getText().toString());
                             iva=Integer.parseInt(etIva.getText().toString());
-                            cantidadStock=Integer.parseInt(etCantidadStock.getText().toString());
+                            cantidadStock=Integer.parseInt(etUnidades.getText().toString());
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
 
