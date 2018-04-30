@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10px"
@@ -40,6 +39,12 @@
                 android:hint="Unidades"
                 android:inputType="number"
                 android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/etPrecio"
@@ -49,7 +54,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
-                android:hint="Precio"
+                android:hint="Precio de Venta"
                 android:inputType="numberDecimal"
                 android:padding="5dp" />
         </LinearLayout>
@@ -70,6 +75,12 @@
                 android:hint="Coste"
                 android:inputType="numberDecimal"
                 android:padding="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/etIva"
