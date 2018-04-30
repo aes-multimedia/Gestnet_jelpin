@@ -83,7 +83,7 @@ public class AdaptadorPartes extends ArrayAdapter {
         direccion.setText(dir);
         cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getCp_direccion()));
         hora.setText(String.valueOf(arrayList.get(position).getHorario()));
-        cliente.setText(arrayList.get(position).getNombre_cliente()+"\n"+arrayList.get(position).getFecha_aviso());
+        cliente.setText(arrayList.get(position).getNombre_cliente());
         global.setTag(String.valueOf(arrayList.get(position).getId_parte()));
         return item;
     }

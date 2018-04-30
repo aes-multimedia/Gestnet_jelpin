@@ -1,7 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.dbhelper;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -12,7 +12,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
  * extender de ella.
  * 
  */
-public abstract class DBHelperMOS extends ActionBarActivity {
+public abstract class DBHelperMOS extends Activity {
 	public static DBHelper mDBHelper;
 	
 	protected static DBHelper getHelper(Context context) {

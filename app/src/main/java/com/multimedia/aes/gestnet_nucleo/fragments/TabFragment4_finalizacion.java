@@ -109,9 +109,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         //SPINNER
         spFormaPago = (Spinner) vista.findViewById(R.id.spFormaPago);
         spFormaPago.setOnItemSelectedListener(this);
-        sp_preeu_disposicion_servicio = (Spinner) vista.findViewById(R.id.sp_preeu_disposicion_servicio);
+        sp_preeu_disposicion_servicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
         sp_preeu_disposicion_servicio.setOnItemSelectedListener(this);
-        sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.sp_preeu_mano_de_obra_precio);
+        sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.spManoObra);
         sp_preeu_mano_de_obra_precio.setOnItemSelectedListener(this);
         darValores();
 
