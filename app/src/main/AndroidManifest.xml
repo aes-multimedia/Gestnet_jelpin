@@ -50,17 +50,22 @@
         <activity
             android:name=".Mapa"
             android:label="@string/title_activity_mapa" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".nucleo.Camara"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".nucleo.IntervencionesAnteriores"
             android:screenOrientation="portrait" />
         <activity
             android:name=".nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen"/>
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity android:name=".nucleo.DialogActivity" />
 
         <service android:name=".notification.GcmIntentService">
@@ -91,7 +96,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".nucleo.MisAjustes"></activity>
+        <activity android:name=".nucleo.MisAjustes" />
+        <activity
+            android:name=".nucleo.DocumentosParte"
+            android:label="@string/title_activity_documentos_parte"
+           ></activity>
     </application>
 
 </manifest>

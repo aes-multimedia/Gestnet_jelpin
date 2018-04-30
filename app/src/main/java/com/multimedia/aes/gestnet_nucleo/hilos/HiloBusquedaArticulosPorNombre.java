@@ -5,8 +5,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 
 public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> {
@@ -27,10 +30,16 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
     private String mensaje = "",cadena;
     private Context context;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
-    public HiloBusquedaArticulosPorNombre(Context context, String cadena) {
+    public HiloBusquedaArticulosPorNombre(Context context, String cadena){
         this.context = context;
         this.cadena = cadena;
+        try {
+            cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,7 +71,7 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = Constantes.URL_BUSCAR_ARTICULOS_POR_NOMBRE;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULOS_POR_NOMBRE;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

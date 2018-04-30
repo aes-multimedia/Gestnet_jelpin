@@ -1,4 +1,4 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -63,6 +62,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private static Context context;
     private static Activity activity;
 
+
     //METODO
     private void inicializar() {
         //SEARCHVIEW
@@ -105,6 +105,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             }
 
         }
+
+
         lvBusquedaMaterial.setAdapter(adaptador);
     }
 

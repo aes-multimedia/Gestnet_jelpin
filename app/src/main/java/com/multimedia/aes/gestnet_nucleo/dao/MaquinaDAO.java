@@ -30,7 +30,7 @@ public class MaquinaDAO extends DBHelperMOS {
 									 String garantia_extendida, String factura_compra, String refrigerante,
 									 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 									 String temperatura_max_acs, String caudal_acs, String potencia_util,
-									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt,String nombre_contr_man,String documento_modelo) {
 		Maquina m = montarMaquina(fk_maquina,fk_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -40,7 +40,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
 		return crearMaquina(m, context);
 	}
 	public static Maquina newMaquinaRet(Context context, int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String fk_tipo_combustion,
@@ -52,7 +52,7 @@ public class MaquinaDAO extends DBHelperMOS {
 										String garantia_extendida, String factura_compra, String refrigerante,
 										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 										String temperatura_max_acs, String caudal_acs, String potencia_util,
-										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt,String nombre_contr_man,String documento_modelo) {
 		Maquina m = montarMaquina(fk_maquina,fk_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -62,7 +62,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
 		return crearMaquinaRet(m, context);
 	}
 	public static boolean crearMaquina(Maquina m, Context context) {
@@ -95,7 +95,7 @@ public class MaquinaDAO extends DBHelperMOS {
 										String garantia_extendida, String factura_compra, String refrigerante,
 										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 										String temperatura_max_acs, String caudal_acs, String potencia_util,
-										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt,String nombre_contr_man,String documento_modelo ) {
 		Maquina m = new Maquina(fk_maquina,fk_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -105,7 +105,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
 		return m;
 	}
 

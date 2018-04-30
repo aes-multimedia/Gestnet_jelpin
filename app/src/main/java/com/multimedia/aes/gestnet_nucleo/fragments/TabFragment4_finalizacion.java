@@ -1,7 +1,6 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.app.TimePickerDialog;
-import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,10 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -32,7 +28,6 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
-import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
@@ -51,6 +46,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import static java.lang.Math.round;
 
@@ -138,9 +134,16 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         }
         try {
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+
+            float precioMaterial=0;
+            int numeroMateriales=0;
+
             if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
                 articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
-                et_preeu_materiales.setText(String.valueOf(getPrecioTotalArticulosParte(articuloPartes)));
+
+
+
+                et_preeu_materiales.setText( String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
             }else{
                 et_preeu_materiales.setText("0.00");
             }
@@ -194,7 +197,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         try {
 
             for (ArticuloParte articulo : listaArticulos) {
-                precio = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
+                precio = precio+ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
             }
         } catch (SQLException e) {
 
@@ -317,7 +320,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
 
                             if (!et_preeu_materiales.getText().toString().equals("")) {
-                                preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+                                String str = et_preeu_materiales.getText().toString();
+                                str = str.replace(',', '.');
+                                //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+                                preeu_materiales = Double.valueOf(str);
                             }
 
                             if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
@@ -447,7 +453,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
 
         if (!et_preeu_materiales.getText().toString().equals("")) {
-            preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+            String str = et_preeu_materiales.getText().toString();
+            str = str.replace(',', '.');
+            //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+            preeu_materiales = Double.valueOf(str);
         }
 
         if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
@@ -478,7 +487,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         double SubTotal = preeu_adicional + preeu_analisis_combustion +
                 preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-        etSubTotal.setText(String.valueOf(SubTotal));
+        etSubTotal.setText(String.valueOf(String.format("%.2f", SubTotal) ));
         double preeu_iva_aplicado = SubTotal * 21 / 100;
         et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
         double total =SubTotal + preeu_iva_aplicado;

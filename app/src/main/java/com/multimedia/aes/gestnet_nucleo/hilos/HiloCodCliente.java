@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.PreLogin;
 
 import org.json.JSONException;
@@ -19,16 +21,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
     private String mensaje="";
     private String codCliente;
     private Context context;
     private ProgressDialog dialog;
-
+    Cliente cliente;
     public HiloCodCliente(String codCliente,Context context) {
         this.codCliente =codCliente;
         this.context=context;
+        try {
+            cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

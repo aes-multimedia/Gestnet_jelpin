@@ -118,6 +118,15 @@ public class Parte {
     public static final  String DNI_FIRMANTE = "dni_firmante";
     public static final  String FIRMA64 = "firma64";
     public static final  String TICKET = "ticket";
+    public static final String NOMBRE_COMPANIA = "nombre_compania";
+    public static final String DIRECCION = "direccion";
+    public static final String CIF = "CIF";
+    public static final String TELEFONO1 = "telefono1";
+    public static final String TELEFONO2 = "telefono2";
+    public static final String EMAIL = "email";
+    public static final String SINTOMAS = "sintomas";
+
+
 
 
     @DatabaseField(id = true, columnName = ID_PARTE)    private int id_parte;
@@ -211,6 +220,7 @@ public class Parte {
     @DatabaseField(columnName = BOTROSMATAUX)                   private boolean botrosmataux;
     @DatabaseField(columnName = USER_CREADOR)                   private String user_creador;
     @DatabaseField(columnName = TIPO)                           private String tipo;
+    @DatabaseField(columnName = SINTOMAS)                       private String sintomas;
     //DATOS DEL FIRMANTE
     @DatabaseField(columnName = NOMBRE_FIRMANTE)                private String nombre_firmante;
     @DatabaseField(columnName = DNI_FIRMANTE)                   private String dni_firmante;
@@ -238,10 +248,24 @@ public class Parte {
     @DatabaseField(columnName = TELEFONO4_CLIENTE)              private String telefono4_cliente;
     @DatabaseField(columnName = EMAIL_CLIENTE)                  private String email_cliente;
     @DatabaseField(columnName = OBSERVACIONES_CLIENTE)          private String observaciones_cliente;
-
+    //DATOS EMPRESA
+    @DatabaseField(columnName = NOMBRE_COMPANIA)   private String nombre_compania;
+    @DatabaseField(columnName = DIRECCION)         private String direccion;
+    @DatabaseField(columnName = CIF)                private String cif;
+    @DatabaseField(columnName = TELEFONO1)           private String telefono1;
+    @DatabaseField(columnName = TELEFONO2)             private String telefono2;
+    @DatabaseField(columnName = EMAIL)            private String email;
 
 
     public Parte(){}
+
+    public String getSintomas() {
+        return sintomas;
+    }
+
+    public void setSintomas(String sintomas) {
+        this.sintomas = sintomas;
+    }
 
     public Parte(int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario,
                  int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso,
@@ -272,8 +296,8 @@ public class Parte {
                  String latitud_direccion, String longitud_direccion, String nombre_cliente,
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
-                 String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
-                 String firma64,String ticket) {
+                 String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
+                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -336,11 +360,13 @@ public class Parte {
         this.fac_email = fac_email;
         this.fac_telefonos = fac_telefonos;
         this.otros_sintomas = otros_sintomas;
+        this.sintomas = sintomas;
         this.fecha_baja = fecha_baja;
         this.fac_baja_stock = fac_baja_stock;
         this.estado_android = estado_android;
         this.urgencias = urgencias;
         this.lote = lote;
+
         this.validar = validar;
         this.liquidado_a_proveedor = liquidado_a_proveedor;
         this.fk_instalacion = fk_instalacion;
@@ -387,6 +413,64 @@ public class Parte {
         this.dni_firmante=dni_firmante;
         this.firma64=firma64;
         this.ticket=ticket;
+        this.nombre_compania=nombre_compania;
+        this.direccion=direccion;
+        this.cif=CIF;
+        this.telefono1=telefono1;
+        this.telefono2=telefono2;
+        this.email=email;
+    }
+
+    public static String getIdParte() {
+        return ID_PARTE;
+    }
+
+    public String getNombre_compania() {
+        return nombre_compania;
+    }
+
+    public void setNombre_compania(String nombre_compania) {
+        this.nombre_compania = nombre_compania;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCif() {
+        return cif;
+    }
+
+    public void setCif(String cif) {
+        this.cif = cif;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    public String getTelefono2() {
+        return telefono2;
+    }
+
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getId_parte() {

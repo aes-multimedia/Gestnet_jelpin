@@ -1,12 +1,18 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.nucleo.IntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
@@ -24,42 +30,44 @@ import java.net.URL;
 import java.sql.SQLException;
 
 
-public class HiloNotific extends AsyncTask<Void,Void,Void> {
-    private String mensaje="",tokken = "",imei = "",apikey;
-    private int idEntidad;
-    private Context context;
-    private String ipCliente;
-    private ProgressDialog dialog;
+public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
+    private String mensaje = "", ipCliente;
+    Parte parteAntiguos;
 
-    public HiloNotific(Context context,String tokken,String imei) {
+    private int fkMarca,idUser;
+    private Context context;
+    private ProgressDialog dialog;
+    Cliente cliente;
+
+    public HiloIntervencionesAnteriores(Context context, int idUser, int fkMarca, String ipCliente) {
+        //this.idUser = idUser;
+        this.fkMarca = fkMarca;
         this.context = context;
-        this.tokken = tokken;
-        this.imei=imei;
+        this.ipCliente = ipCliente;
         try {
-        this.idEntidad=UsuarioDAO.buscarUsuario(context).getFk_entidad();
-        this.apikey=UsuarioDAO.buscarUsuario(context).getApi_key();
-        this.ipCliente=ClienteDAO.buscarCliente(context).getIp_cliente();
+            this.cliente= ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
 
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Preparando Notificaciones.");
+        dialog.setTitle("Buscando Intervenciones anteriores");
         dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
         dialog.show();
+
         super.onPreExecute();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = registrarNotificaciones();
+            mensaje = partes();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -67,55 +75,59 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         return null;
     }
 
-
-
-    //TO DO
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         dialog.dismiss();
-        if (mensaje.indexOf('}')==-1){
-            ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
+        Log.d("Hilo Intervenciones", String.valueOf(context.getClass()));
+        if (mensaje.indexOf('}')!=-1){
+            if(context.getClass() == IntervencionesAnteriores.class) {
+                ((IntervencionesAnteriores) context).guardarPartes(mensaje);
+            }
         }else{
-            ((Login)context).hiloPartes();
+            if (context.getClass()==Login.class){
+                ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            }else if (context.getClass()==Index.class){
+                ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            }
+
         }
 
     }
 
-    private String registrarNotificaciones() throws JSONException{
+
+    private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_entidad",idEntidad);
-        msg.put("tokken",tokken);
-        msg.put("deviceImei",imei);
+        // msg.put("tecnico", idUser);
+        //msg.put("tecnico", idUser);
+        msg.put("fk_maquina", fkMarca);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES_EXTERNA_PRUEBAS;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_FK_MAQUINA;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
-            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            uc.setRequestProperty("id",String.valueOf(idEntidad));
-            uc.setRequestProperty("apikey",apikey);
+            uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, URL malformada");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error de protocolo");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, IOException");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -135,14 +147,12 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error en lectura");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
 
 
         return contenido;
     }
-
-
 }

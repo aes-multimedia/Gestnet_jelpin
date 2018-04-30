@@ -1,11 +1,14 @@
 package com.multimedia.aes.gestnet_nucleo.hilos;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,13 +27,15 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
     private int fk_entidad;
     private String mensaje;
     private float lon, lat;
+    private Cliente cliente;
+    private Context context;
 
-    public HiloLoc(int fk_entidad,float lon, float lat) {
+    public HiloLoc(int fk_entidad,float lon, float lat,Cliente cliente) {
 
         this.fk_entidad = fk_entidad;
         this.lon=lon;
         this.lat=lat;
-
+        this.cliente= cliente;
     }
     public void onLocationChanged(Location loc) {
         this.lat = (float)loc.getLatitude();
@@ -67,7 +72,7 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_GEOPOS_EXTERNAPRUEBAS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_GEOPOS_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

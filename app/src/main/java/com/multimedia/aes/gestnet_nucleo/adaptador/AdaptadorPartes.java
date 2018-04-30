@@ -76,6 +76,9 @@ public class AdaptadorPartes extends ArrayAdapter {
             case 3:
                 global.setBackgroundResource(R.drawable.fondo_verde);
                 break;
+            case 4:
+                global.setBackgroundResource(R.drawable.fondo_tenue);
+                break;
         }
         direccion.setText(dir);
         cp.setText("C.P.:  "+ String.valueOf(arrayList.get(position).getCp_direccion()));

@@ -30,6 +30,8 @@
     <string name="observaciones">Obs. Visita Fallida: </string>
     <string name="buscando_bluetooth">Buscando Dispositivos Bluetooth</string>
     <string name="err_durante_impr">Se ha producido un error durante la impresión.</string>
+    <string name="err_crear_material">Es necesario rellenar todos los campos.</string>
+    <string name="crear_material">Articulo Manual</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="conectando">Conectando</string>
     <string name="visita_fallida">Visita Fallida</string>
@@ -98,6 +100,9 @@
     <string name="si">si</string>
     <string name="no">no</string>
     <string name="hora_entrada">Hora de entrada:</string>
+    <string name="tipo_contrato">Tipo de Contrato:</string>
+    <string name="intervenciones_anteriores">Mostrar intervenciones anteriores</string>
+    <string name="ver_documentos_del_parte">Ver documentos del parte</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>
@@ -114,6 +119,7 @@
         <item>Impagado</item>
         <item>Transferencia</item>
     </string-array>
+    <string name="title_activity_documentos_parte">DocumentosParte</string>
 
 </resources>
 

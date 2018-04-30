@@ -1,15 +1,13 @@
-package com.multimedia.aes.gestnet_nucleo.fragment;
+package com.multimedia.aes.gestnet_nucleo.fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -37,6 +34,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
@@ -45,7 +43,6 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
@@ -54,13 +51,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
-    private DatosAdicionales datos = null;
+    private DatosAdicionales datos;
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
-    private Button btnIniciarParte,btnClienteAusente,btnImprimir;
+    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
     private String horaInicio;
@@ -75,7 +72,9 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtMaquina = (TextView) vista.findViewById(R.id.txtMaquina);
         txtTipoIntervencion= (TextView) vista.findViewById(R.id.txtTipoIntervencion);
         txtSituacionEquipo = (TextView) vista.findViewById(R.id.txtSituacionEquipo);
+        txtNombreContrato = (TextView) vista.findViewById(R.id.txtNombreContrato);
         txtDierccionTitular= (TextView) vista.findViewById(R.id.txtDierccionTitular);
+        txtSintomaLista= (TextView) vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= (TextView)vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =(TextView)vista.findViewById(R.id.txtHoraInicio);
         tvHoraInicio=(TextView)vista.findViewById(R.id.tvHoraInicio);
@@ -92,6 +91,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
         btnImprimir = (Button) vista.findViewById(R.id.btnImprimir);
+        btnVerDocumentos =(Button) vista.findViewById(R.id.btnVerDocumentos);
+
         //IMAGEBUTTON
         ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
         ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
@@ -104,6 +105,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
+        btnVerDocumentos.setOnClickListener(this);
         ibLocation.setOnClickListener(this);
         ibIr.setOnClickListener(this);
         ivLlamar1.setOnClickListener(this);
@@ -275,6 +277,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if (maquina!=null){
             txtMaquina.setText(String.valueOf(maquina.getModelo()));
             txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
+            txtNombreContrato.setText(String.valueOf(maquina.getNombre_contr_man()));
         }
         etNombreTitular.setEnabled(false);
         etDni.setEnabled(false);
@@ -319,6 +322,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtHoraInicio.setText(horaInicio);
         txtDierccionTitular.setText(dir);
         txtSintomas.setText(String.valueOf(parte.getOtros_sintomas()));
+        txtSintomaLista.setText(String.valueOf(parte.getSintomas()));
         etNombreTitular.setText(parte.getNombre_cliente());
         etDni.setText(parte.getDni_cliente());
         etTelefono1.setText(parte.getTelefono1_cliente());
@@ -376,7 +380,20 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     }
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.btnIniciarParte){
+
+        if(view.getId()==btnVerDocumentos.getId()){
+
+
+            if(hayConexion()) {
+
+                Intent i = new Intent(getContext(), DocumentosParte.class);
+                i.putExtra("fk_parte", parte.getId_parte());
+                getContext().startActivity(i);
+            }else {
+                Dialogo.dialogoError("Es necesario estar conectado a internet", getContext());
+            }
+
+        }else if(view.getId()==R.id.btnIniciarParte){
             Calendar c = Calendar.getInstance();
 
             SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -404,12 +421,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 e.printStackTrace();
             }
 
+            new HiloIniciarParte(getContext(),parte,1,2).execute();
 
 
-
-            new HiloIniciarParte(getContext(),parte,1).execute();
         }else if(view.getId()==R.id.btnClienteAusente){
-            new HiloIniciarParte(getContext(),parte,2).execute();
+
+
+        new HiloIniciarParte(getContext(),parte,2,13).execute();
+
+
         }else if(view.getId()==R.id.btnImprimir){
             ((Index)getContext()).impresion();
         }else if(view.getId()==R.id.ibLocation){
@@ -472,6 +492,25 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             e.printStackTrace();
         }
         super.onPause();
+    }
+
+
+    public boolean hayConexion() {
+
+        boolean connected = false;
+
+        ConnectivityManager connec = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
     }
 
 }

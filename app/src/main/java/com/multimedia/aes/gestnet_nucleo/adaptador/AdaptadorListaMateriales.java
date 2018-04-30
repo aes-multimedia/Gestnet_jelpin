@@ -2,22 +2,19 @@ package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
-import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
-import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment2_equipo;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,6 +51,8 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
         TextView txtTituloArticulo = (TextView) item.findViewById(R.id.txtTituloArticulo);
         TextView txtUsadas = (TextView) item.findViewById(R.id.txtUsadas);
         TextView txtPrecio = (TextView) item.findViewById(R.id.txtPrecio);
+        ImageView imagen = (ImageView) item.findViewById(R.id.imagenMaterialEntregadoSiNo);
+
         txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo()+"-"+arrayList.get(position).getReferencia());
         int usados = 1;
         try {
@@ -62,7 +61,11 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
             e.printStackTrace();
         }
         txtUsadas.setText(usados+"");
-        txtPrecio.setText(arrayList.get(position).getTarifa()*usados+"€");
+        if(arrayList.get(position).isEntregado()==0){
+            imagen.setImageResource(R.drawable.ic_done_black_24dp);
+
+        }
+        txtPrecio.setText(   (String.format("%.2f", arrayList.get(position).getTarifa()*usados)+"€"));
 
         return item;
     }

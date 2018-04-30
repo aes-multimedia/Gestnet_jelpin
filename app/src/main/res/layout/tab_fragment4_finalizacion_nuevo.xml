@@ -42,7 +42,7 @@
                             android:id="@+id/textVie10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="left"
                             android:padding="3dp"
                             android:text="@string/operacion_efectuada"
                             android:textColor="@color/cast_expanded_controller_background_color"
@@ -73,6 +73,13 @@
                             android:text="@string/preeu_materiales"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_materiales"
@@ -84,8 +91,7 @@
                             android:padding="5dp" />
 
 
-                    </LinearLayout>
-
+                        </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -100,7 +106,13 @@
                             android:text="@string/disposicion_servicio"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
 
+                     <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
                         <Spinner
                             android:id="@+id/sp_preeu_disposicion_servicio"
                             android:layout_width="match_parent"
@@ -108,6 +120,39 @@
                             android:layout_weight="1"
                             android:background="@drawable/caldera_spiners"
                             android:padding="3dp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView101"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:text="Total disposicion de servicio"
+                            android:textColor="@color/cast_expanded_controller_background_color"
+                            android:textSize="18dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+
+                        <EditText
+                            android:id="@+id/et_preeu_total_disposicion_servicio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_texts_naranja_bloqueado"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp" />
 
 
                     </LinearLayout>
@@ -122,19 +167,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
-                            android:text="@string/mano_obra"
+                            android:text="Disposicion servicios:"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
-
-                        <Spinner
-                            android:id="@+id/sp_preeu_mano_de_obra_precio"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/caldera_spiners"
-                            android:padding="5dp" />
-
                     </LinearLayout>
+
 
 
 
@@ -152,7 +189,13 @@
                             android:text="@string/txt_duracion"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
                         <Button
                             android:id="@+id/btn_preeu_mano_de_obra"
                             android:layout_width="match_parent"
@@ -176,6 +219,14 @@
                             android:text="@string/mano_obra_horas"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <EditText
                             android:id="@+id/et_preeu_total_mano_de_obra_horas"
@@ -204,6 +255,14 @@
                             android:text="@string/puesta_marcha"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <EditText
                             android:id="@+id/et_preeu_puesta_marcha"
@@ -231,6 +290,13 @@
                             android:text="@string/servicio_urgencia"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <EditText
                             android:id="@+id/et_preeu_servicio_urgencia"
@@ -258,6 +324,14 @@
                             android:text="@string/Kms"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <EditText
                             android:id="@+id/et_preeu_km"
@@ -302,6 +376,13 @@
                             android:text="Analisis de Combustion"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <EditText
                             android:id="@+id/et_preeu_analisis_combustion"
@@ -381,6 +462,13 @@
                             android:text="@string/forma_pago"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
 
                         <Spinner
                             android:id="@+id/spFormaPago"

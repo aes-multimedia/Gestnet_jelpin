@@ -14,15 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -33,7 +32,6 @@ import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.fragment.TabFragment4_finalizacion;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloStockAlmacenes;
 
 import org.json.JSONArray;
@@ -47,6 +45,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     private ImageView ivFoto;
     private TextView tvTitulo,tvStock,tvPrecio;
+    private EditText tvCantidad;
     private CheckBox chkGarantia;
     private Menu menu;
     private int idParte;
@@ -57,12 +56,14 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private static ArrayList<DataStock> dataStock;
     private AdaptadorListaStock adapter;
     private static int alto=0,alto1=0,height=0;
+    private int unidades;
 
 
     private void inicializarVariables(){
         ivFoto = (ImageView) findViewById(R.id.expandedImage);
         tvTitulo = (TextView) findViewById(R.id.tvTitulo);
         tvStock = (TextView) findViewById(R.id.tvStock);
+        tvCantidad = (EditText) findViewById(R.id.tvCantidad);
         tvPrecio = (TextView) findViewById(R.id.tvPrecio);
         btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
@@ -116,6 +117,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -252,26 +254,35 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==btnPedirMaterial.getId()){
-            try {
-                ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
 
+        String cantidad=tvCantidad.getText().toString();
+        if(cantidad.matches("")){
+            unidades=1;
+        }else {
+            unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
         }
-
         try {
             if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);
-                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+1);
+                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+unidades);
             }else{
-                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,1)){
+                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,unidades)){
                 }
             }
             try {
-                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-1,articulo.getCoste());
+
+                if(v.getId()==btnAñadirMaterial.getId())
+                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-Integer.valueOf(tvCantidad.getText().toString()),articulo.getCoste());
+                else if(v.getId()==btnPedirMaterial.getId()){
+                    try {
+                        ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
             } catch (SQLException e) {
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED,returnIntent);

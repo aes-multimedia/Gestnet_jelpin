@@ -7,7 +7,11 @@ import android.os.AsyncTask;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
+import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,43 +27,33 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
+import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales.guardarArticulo;
 
-public class HiloNotific extends AsyncTask<Void,Void,Void> {
-    private String mensaje="",tokken = "",imei = "",apikey;
-    private int idEntidad;
+public class HiloBuscarDocumentosParte extends AsyncTask<Void, Void, Void> {
+
+    private String mensaje = "";
+    private int fkParte;
     private Context context;
-    private String ipCliente;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
-    public HiloNotific(Context context,String tokken,String imei) {
+
+    public HiloBuscarDocumentosParte(Context context, int id) {
         this.context = context;
-        this.tokken = tokken;
-        this.imei=imei;
+        this.fkParte = id;
         try {
-        this.idEntidad=UsuarioDAO.buscarUsuario(context).getFk_entidad();
-        this.apikey=UsuarioDAO.buscarUsuario(context).getApi_key();
-        this.ipCliente=ClienteDAO.buscarCliente(context).getIp_cliente();
+            cliente = ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
 
-    @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Preparando Notificaciones.");
-        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
-        dialog.setCancelable(false);
-        dialog.setIndeterminate(true);
-        dialog.show();
-        super.onPreExecute();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = registrarNotificaciones();
+            mensaje = buscarDocumentos();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -67,55 +61,51 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         return null;
     }
 
-
-
-    //TO DO
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        dialog.dismiss();
-        if (mensaje.indexOf('}')==-1){
-            ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
+        if (mensaje.indexOf('}')!=-1){
+                ((DocumentosParte)context).mostrarDocumentos(mensaje,context);
         }else{
-            ((Login)context).hiloPartes();
+
+                ((DocumentosParte)context).sacarMensaje("Parte sin documentos");
+            }
+
         }
 
-    }
 
-    private String registrarNotificaciones() throws JSONException{
+
+
+    private String buscarDocumentos() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_entidad",idEntidad);
-        msg.put("tokken",tokken);
-        msg.put("deviceImei",imei);
+        msg.put("fk_parte", fkParte);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES_EXTERNA_PRUEBAS;
+            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_BUSCAR_DOCUMENTOS_PARTE;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
-            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
-            uc.setRequestProperty("id",String.valueOf(idEntidad));
-            uc.setRequestProperty("apikey",apikey);
+            uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             uc.setRequestMethod("POST");
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, URL malformada");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error de protocolo");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, IOException");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -135,12 +125,10 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado",5);
-            msg.put("mensaje","Error de conexión, error en lectura");
+            msg.put("estado", 5);
+            msg.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
-
-
         return contenido;
     }
 

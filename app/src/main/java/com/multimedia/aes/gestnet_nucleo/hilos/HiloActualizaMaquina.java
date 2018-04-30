@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.sql.SQLException;
 
 /**
  * Created by acp on 24/01/2018.
@@ -45,6 +48,9 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
     private String temperatura_agua_generador_calor_salida;
 
 
+    private Cliente cliente;
+
+
 
     public HiloActualizaMaquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca,
                                  String modelo, String num_serie, String puesta_marcha,  String temperatura_max_acs, String caudal_acs,
@@ -62,7 +68,11 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
         this.potencia_util=potencia_util;
         this.temperatura_agua_generador_calor_entrada=temperatura_agua_generador_calor_entrada;
         this.temperatura_agua_generador_calor_salida=temperatura_agua_generador_calor_salida;
-
+        try {
+            cliente = ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -114,7 +124,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_ACTUALIZA_MAQUINA);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_ACTUALIZA_MAQUINA);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -123,7 +133,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -131,7 +141,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
@@ -139,7 +149,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, IOException");
@@ -161,7 +171,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_ACTUALIZA_MAQUINA,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);

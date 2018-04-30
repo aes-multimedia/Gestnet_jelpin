@@ -12,6 +12,7 @@ import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
@@ -21,13 +22,13 @@ import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +50,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.multimedia.aes.gestnet_nucleo.fragment.TabFragment5_documentacion.resizeImage;
+import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion.resizeImage;
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
@@ -57,10 +58,16 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     private Context context;
     private int fk_parte;
     private ProgressDialog dialog;
+    private Cliente cliente;
 
     public HiloCerrarParte(Context context, int fk_parte) {
         this.context = context;
         this.fk_parte = fk_parte;
+        try {
+            cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -114,7 +121,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL(Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -123,7 +130,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -131,7 +138,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -139,7 +146,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -162,7 +169,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -177,7 +184,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject2 = new JSONObject();
 
         Parte parte = ParteDAO.buscarPartePorId(context, fk_parte);
-        jsonObject1.put("fk_estado", parte.getFk_estado());
+        jsonObject1.put("fk_estado", asignarEstado());
         jsonObject1.put("id_parte", parte.getId_parte());
         jsonObject1.put("confirmado", parte.getConfirmado());
         jsonObject1.put("observaciones", parte.getObservaciones());
@@ -214,7 +221,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
 
-        
+
 
 
         jsonObject2.put("matem_hora_entrada", datos_adicionales.getMatem_hora_entrada());
@@ -231,7 +238,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             for (ArticuloParte articuloParte : articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
-                for (int i = 0; i < articuloParte.getUsados(); i++) {
+
+
                     obj.put("fk_parte", parte.getId_parte());
                     obj.put("fk_producto", a.getFk_articulo());
                     obj.put("nombre_articulo", a.getNombre_articulo());
@@ -244,12 +252,16 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("coste", a.getCoste());
                     obj.put("garantia", a.isGarantia());
                     obj.put("entregado", a.isEntregado());
+                    obj.put("cantidad", articuloParte.getUsados());
                     if (a.isGarantia())
                         obj.put("garantia", 1);
                     else
                         obj.put("garantia", 0);
                     jsonArray1.put(obj);
-                }
+
+
+
+
             }
         }
 
@@ -352,6 +364,31 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         return msg;
 
     }
+
+    private int asignarEstado() throws SQLException {
+
+
+
+       int estado = 4;
+        if (ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte) != null) {
+            ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
+            articulosParte.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte));
+
+
+            for(ArticuloParte articulo : articulosParte) {
+                Articulo a = ArticuloDAO.buscarArticuloPorID(context, articulo.getFk_articulo());
+                if(a.isEntregado()==1) {
+                    ParteDAO.actualizarEstadoParte(context, fk_parte, 8);
+                    estado = 8;
+                }
+            }
+
+
+        }
+        return estado;
+
+    }
+
     private JSONArray rellenarJsonImagenes(Parte parte) throws JSONException, IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
         JSONObject js = new JSONObject();

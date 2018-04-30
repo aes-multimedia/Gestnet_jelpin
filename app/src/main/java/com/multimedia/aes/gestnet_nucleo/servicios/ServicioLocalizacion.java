@@ -18,7 +18,9 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloLoc;
 
@@ -36,6 +38,7 @@ public class ServicioLocalizacion extends Service{
     private Usuario usuario;
     private int fk_tecnico;
     private LocationRequest mLocationRequest;
+    Cliente cliente;
 
     private long UPDATE_INTERVAL = 900 * 1000;  /* 15 mins */
     private long FASTEST_INTERVAL = 300 * 1000; /* 5 mins  */
@@ -53,6 +56,7 @@ public class ServicioLocalizacion extends Service{
 
         try {
             usuario = UsuarioDAO.buscarUsuario(this);
+            cliente= ClienteDAO.buscarCliente(this);
             fk_tecnico = usuario.getFk_entidad();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +97,7 @@ public class ServicioLocalizacion extends Service{
                     @SuppressLint("MissingPermission")
                     public void run() {
                         try {
-                            HiloLoc hiloLoc = new HiloLoc(fk_tecnico,lon,lat);
+                            HiloLoc hiloLoc = new HiloLoc(fk_tecnico,lon,lat,cliente);
                             hiloLoc.execute();
                         } catch (Exception e) {
                             Log.e("error", e.getMessage());

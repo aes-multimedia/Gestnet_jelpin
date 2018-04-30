@@ -40,8 +40,8 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
-import com.multimedia.aes.gestnet_nucleo.fragment.FragmentImpresion;
-import com.multimedia.aes.gestnet_nucleo.fragment.FragmentPartes;
+import com.multimedia.aes.gestnet_nucleo.fragments.FragmentImpresion;
+import com.multimedia.aes.gestnet_nucleo.fragments.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
@@ -257,14 +257,17 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
                     public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                         String day = selectedday + "";
-                        String month = selectedmonth + "";
+                        int monthReal=selectedmonth+1;
+                        String month = monthReal + "";
                         if (selectedday < 10) {
                             day = "0" + selectedday;
                         }
-                        if (selectedmonth < 10) {
-                            month = "0" + selectedmonth;
+                        if (monthReal< 10) {
+                            //Los meses en android van de 0 a 11
+                            month = "0" + monthReal;
                         }
                         String year = selectedyear + "";
                         JSONObject js = new JSONObject();
@@ -286,6 +289,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
+
 
             } catch (SQLException e) {
                 e.printStackTrace();
