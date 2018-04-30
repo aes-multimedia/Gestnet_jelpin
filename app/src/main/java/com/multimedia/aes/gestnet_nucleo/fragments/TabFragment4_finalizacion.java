@@ -134,8 +134,15 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         }
         try {
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+
+            float precioMaterial=0;
+            int numeroMateriales=0;
+
             if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
                 articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+
+
+
                 et_preeu_materiales.setText( String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
             }else{
                 et_preeu_materiales.setText("0.00");
@@ -190,7 +197,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         try {
 
             for (ArticuloParte articulo : listaArticulos) {
-                precio = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
+                precio = precio+ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
             }
         } catch (SQLException e) {
 
