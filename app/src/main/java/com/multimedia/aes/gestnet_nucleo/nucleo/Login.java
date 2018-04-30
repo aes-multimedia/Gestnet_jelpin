@@ -91,8 +91,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         int permisoOnce= ContextCompat.checkSelfPermission(getApplicationContext(), GET_ACCOUNTS);
         int permisoDoce= ContextCompat.checkSelfPermission(getApplicationContext(), WAKE_LOCK);
         int permisoTrece= ContextCompat.checkSelfPermission(getApplicationContext(), VIBRATE);
-
-
         return permisoUno == PackageManager.PERMISSION_GRANTED &&
                 permisoDos == PackageManager.PERMISSION_GRANTED &&
                 permisoTres == PackageManager.PERMISSION_GRANTED &&
