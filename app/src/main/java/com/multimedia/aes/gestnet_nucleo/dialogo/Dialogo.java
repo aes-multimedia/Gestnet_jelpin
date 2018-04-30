@@ -1,10 +1,12 @@
 package com.multimedia.aes.gestnet_nucleo.dialogo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 public class Dialogo {
 
@@ -17,12 +19,17 @@ public class Dialogo {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+
+
+
                     }
                 });
         AlertDialog alert11 = builder1.create();
         alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }
+
+
 
     public static void dialogHaySinSubir(final Context context) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);

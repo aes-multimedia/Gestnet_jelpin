@@ -129,6 +129,31 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:text="@string/mano_obra"
+                            android:textColor="@color/cast_expanded_controller_background_color"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/sp_preeu_mano_de_obra_precio"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/caldera_spiners"
+                            android:padding="5dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
                             android:id="@+id/textView101"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

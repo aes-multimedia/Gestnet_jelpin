@@ -13,7 +13,7 @@
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="almacen">Almacén</string>
     <string name="documentos">Documentos</string>
-    <string name="averias">Averías</string>
+    <string name="averias">Avisos</string>
     <string name="fecha_llamada">Fecha visita: </string>
     <string name="contrato">Num. Contrato: </string>
     <string name="venta">Venta: </string>
