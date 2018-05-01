@@ -569,10 +569,17 @@
                     android:layout_margin="15dp"
                     android:layout_weight="1"
                     android:background="@drawable/botones"
-                    android:text="@string/ver_documentos_del_parte" />
+                    android:padding="4dp"
+                    android:text="@string/ver_documentacion_del_parte" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="file:///C:/Users/acp/AppData/Local/slack/app-3.1.1/resources/app.asar/src/static/logo_spinner.webp" />
 
 </LinearLayout>

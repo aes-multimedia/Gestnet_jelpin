@@ -627,6 +627,24 @@
                 </LinearLayout>
 
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnFirmar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:text="Firma" />
+                </LinearLayout>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -640,7 +658,10 @@
                         android:layout_weight="1"
                         android:background="@drawable/botones"
                         android:text="Finalizar" />
+
                 </LinearLayout>
+
+
 
 
             </LinearLayout>

@@ -70,19 +70,16 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
     //METODO
     private void inicializar(){
         //TEXTVIEW
-        txtNombreFirma = (TextView) vista.findViewById(R.id.txtNombreFirma);
-        //BUTTON
-        btnFirmaCliente = (Button)vista.findViewById(R.id.btnFirmaCliente);
+
         btnArchivo = (Button)vista.findViewById(R.id.btnArchivo);
         btnFoto = (Button)vista.findViewById(R.id.btnFoto);
         //IMAGEVIEW
-        ivFirmaCliente = (ImageView)vista.findViewById(R.id.ivFirmaCliente);
+
         //LINEARLAYOUT
-        llFirmaCliente = (LinearLayout) vista.findViewById(R.id.llFirmaCliente);
+
         //LISTVIEW
         lvImagenes = (ListView)vista.findViewById(R.id.lvImagenes);
         //ONCLICK
-        btnFirmaCliente.setOnClickListener(this);
         btnArchivo.setOnClickListener(this);
         btnFoto.setOnClickListener(this);
         darValores();
@@ -93,18 +90,13 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         height = display.getHeight();
         height=height/16;
         if (parte.getFirma64().equals("")){
-            llFirmaCliente.setVisibility(View.GONE);
-            btnFirmaCliente.setVisibility(View.VISIBLE);
+
+
         }else{
-            btnFirmaCliente.setVisibility(View.GONE);
-            try {
-                ivFirmaCliente.setImageBitmap(loadFirmaClienteFromStorage(parte.getId_parte(),getContext()));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
         }
         if (!parte.getNombre_firmante().equals("")){
-            txtNombreFirma.setText(parte.getNombre_firmante());
+
         }
 
     }
@@ -207,9 +199,11 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-        if(cursor.moveToFirst()){;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
+       assert cursor!=null;
+            if (cursor.moveToFirst()) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                res = cursor.getString(column_index);
+
         }
         cursor.close();
         return res;
@@ -239,10 +233,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
     }
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.btnFirmaCliente){
-            Intent i = new Intent(getContext(),FirmaCliente.class);
-            startActivityForResult(i,99);
-        }else if (view.getId()==R.id.btnFoto){
+    if (view.getId()==R.id.btnFoto){
             hacerFoto();
         }else if (view.getId()==R.id.btnArchivo){
             cogerFoto();
@@ -271,7 +262,6 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                llFirmaCliente.setVisibility(View.VISIBLE);
                 ivFirmaCliente.setImageBitmap(bitmap);
                 try {
                     ParteDAO.actualizarFirma64(getContext(),parte.getId_parte(),encodedImage);
