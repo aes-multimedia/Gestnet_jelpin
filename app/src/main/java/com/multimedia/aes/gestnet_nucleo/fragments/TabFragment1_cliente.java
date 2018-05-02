@@ -35,6 +35,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Galeria;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONException;
@@ -57,7 +58,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
-    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos;
+    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
     private String horaInicio;
@@ -88,6 +89,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono4= (EditText) vista.findViewById(R.id.etTelefono4);
         etObservaciones= (EditText) vista.findViewById(R.id.etObservaciones);
         //BOTONES
+        btnImagenes= vista.findViewById(R.id.btnAñadirImagen);
         btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
         btnImprimir = (Button) vista.findViewById(R.id.btnImprimir);
@@ -102,6 +104,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
         ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
         //ONCLICK
+        btnImagenes.setOnClickListener(this);
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
@@ -381,7 +384,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
 
-        if(view.getId()==btnVerDocumentos.getId()){
+        if(view.getId()==btnImagenes.getId()){
+            Intent i = new Intent(getContext(), Galeria.class);
+            getContext().startActivity(i);
+
+        }else if(view.getId()==btnVerDocumentos.getId()){
 
 
             if(hayConexion()) {

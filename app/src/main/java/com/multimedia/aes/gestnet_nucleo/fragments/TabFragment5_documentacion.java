@@ -89,15 +89,6 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         Display display = ((Index)getContext()).getWindowManager().getDefaultDisplay();
         height = display.getHeight();
         height=height/16;
-        if (parte.getFirma64().equals("")){
-
-
-        }else{
-
-        }
-        if (!parte.getNombre_firmante().equals("")){
-
-        }
 
     }
     public static Bitmap resizeImage(Bitmap bitmap) {
@@ -233,6 +224,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
     }
     @Override
     public void onClick(View view) {
+
     if (view.getId()==R.id.btnFoto){
             hacerFoto();
         }else if (view.getId()==R.id.btnArchivo){

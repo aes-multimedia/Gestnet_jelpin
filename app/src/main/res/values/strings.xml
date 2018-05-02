@@ -120,6 +120,8 @@
         <item>Transferencia</item>
     </string-array>
     <string name="title_activity_documentos_parte">DocumentosParte</string>
+    <string name="Archivos">Archivos</string>
+    <string name="imagenes">Imágenes</string>
 
 </resources>
 
