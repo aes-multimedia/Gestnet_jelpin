@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Galeria;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,6 @@ public class AdaptadorListaImagenes extends ArrayAdapter implements View.OnClick
     }
     @Override
     public void onClick(View v) {
-        TabFragment5_documentacion.borrarArrayImagenes((int)v.getTag(),context);
+        Galeria.borrarArrayImagenes((int)v.getTag(),context);
     }
 }

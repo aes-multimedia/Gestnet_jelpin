@@ -453,7 +453,7 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
         if(maquina.getDocumento_modelo().equals("")){
             Dialogo.dialogoError("Esta maquina no tiene documentos",getContext());
         }else {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + maquina.getDocumento_modelo()));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + maquina.getDocumento_modelo()));
             startActivity(browserIntent);
         }
 

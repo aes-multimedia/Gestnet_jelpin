@@ -346,6 +346,35 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject7.put("base64",parte.getFirma64());
 
 
+
+
+
+
+/*
+        JSONArray jsonArray8 = new JSONArray();
+        ArrayList<ProtocoloAccion> arrayLisAnalisis = new ArrayList<>();
+        List<Maquina> listaMaquina = new ArrayList<>();
+        if (MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte()) != null) {
+            listaMaquina = MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte());
+            for (Maquina maquina : listaMaquina) {
+                if(AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina())!=null){
+
+
+
+
+
+
+                }
+            }
+        }
+
+
+
+
+        */
+
+
+
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("da_items",jsonArray1);

@@ -121,7 +121,7 @@ public class Camara extends AppCompatActivity implements View.OnClickListener{
         ivFoto.setImageBitmap(bitmap);
     }
     private void guardarImagen (){
-        TabFragment5_documentacion.result(mCurrentPhotoPath);
+        Galeria.result(mCurrentPhotoPath);
         finish();
     }
     private void dispatchTakePictureIntent(){

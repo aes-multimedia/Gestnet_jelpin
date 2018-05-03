@@ -1,8 +1,15 @@
 package com.multimedia.aes.gestnet_nucleo.fragments;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +25,7 @@ import android.widget.TimePicker;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -37,10 +45,15 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCerrarParte;
+import com.multimedia.aes.gestnet_nucleo.nucleo.FirmaCliente;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -51,7 +64,7 @@ import java.util.Locale;
 import static java.lang.Math.round;
 
 
-public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener,CompoundButton.OnCheckedChangeListener{
+public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener,CompoundButton.OnCheckedChangeListener {
     private View vista;
     private double preeu_mano_de_obra_horas;
     private String tiempoDuracion;
@@ -63,58 +76,63 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
-    private static EditText etOperacionEfectuada,et_preeu_materiales,et_preeu_mano_de_obra_horas,
-    et_preeu_puesta_marcha,et_preeu_servicio_urgencia,et_preeu_km,et_preeu_km_precio,
-    et_preeu_analisis_combustion,et_preeu_otros_nombre,
-    et_preeu_adicional,etSubTotal,et_preeu_iva_aplicado,et_total,et_total_ppto,et_preeu_total_mano_de_obra_horas;
+    private EditText etOperacionEfectuada, et_preeu_materiales, et_preeu_mano_de_obra_horas,
+            et_preeu_puesta_marcha, et_preeu_servicio_urgencia, et_preeu_km, et_preeu_km_precio,
+            et_preeu_analisis_combustion, et_preeu_otros_nombre,
+            et_preeu_adicional, etSubTotal, et_preeu_iva_aplicado, et_total, et_total_ppto, et_preeu_total_mano_de_obra_horas,et_preeu_total_disposicion_servicio;
 
-    private boolean acepta_presupuesto=false;
+    private boolean acepta_presupuesto = false;
     private static DecimalFormat df2 = new DecimalFormat(",##");
-    private Button btnFinalizar,btn_preeu_mano_de_obra;
-    private Spinner sp_preeu_disposicion_servicio,sp_preeu_mano_de_obra_precio,spFormaPago;
+    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar;
+    private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago;
     private CheckBox cb_acepta_presupuesto;
-    private double precioTotalArticulos,preeu_adicional,preeu_analisis_combustion,
-    preeu_km_precio_total,preeu_materiales,preeu_total_mano_de_obra_horas,preeu_disposicion_servicio,preeu_puesta_marcha,preeu_servicio_urgencia,preeu_km,preeu_km_precio;
+    private double precioTotalArticulos, preeu_adicional, preeu_analisis_combustion,
+            preeu_km_precio_total, preeu_materiales, preeu_total_mano_de_obra_horas, preeu_disposicion_servicio, preeu_puesta_marcha, preeu_servicio_urgencia, preeu_km, preeu_km_precio;
 
 
     //METODO
     private void inicializar() {
         //EDITTEXT
-        et_preeu_materiales= (EditText) vista.findViewById(R.id.et_preeu_materiales);
+        et_preeu_materiales = (EditText) vista.findViewById(R.id.et_preeu_materiales);
         et_preeu_materiales.setEnabled(false);
         et_preeu_materiales.setText(String.valueOf(0));
-        et_preeu_total_mano_de_obra_horas= (EditText) vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
+        et_preeu_total_mano_de_obra_horas = (EditText) vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
         et_preeu_total_mano_de_obra_horas.setEnabled(false);
-        et_preeu_puesta_marcha= (EditText) vista.findViewById(R.id.et_preeu_puesta_marcha);
-        et_preeu_servicio_urgencia= (EditText) vista.findViewById(R.id.et_preeu_servicio_urgencia);
-        et_preeu_km= (EditText) vista.findViewById(R.id.et_preeu_km);
-        et_preeu_km_precio= (EditText) vista.findViewById(R.id.et_preeu_km_precio);
-        et_preeu_analisis_combustion= (EditText) vista.findViewById(R.id.et_preeu_analisis_combustion);
-        et_preeu_otros_nombre= (EditText) vista.findViewById(R.id.et_preeu_otros_nombre);
-        et_preeu_adicional= (EditText) vista.findViewById(R.id.et_preeu_adicional);
-        etSubTotal= (EditText) vista.findViewById(R.id.etSubTotal);
-        et_preeu_iva_aplicado= (EditText) vista.findViewById(R.id.et_preeu_iva_aplicado);
-        et_total= (EditText) vista.findViewById(R.id.et_total);
+        et_preeu_puesta_marcha = (EditText) vista.findViewById(R.id.et_preeu_puesta_marcha);
+        et_preeu_servicio_urgencia = (EditText) vista.findViewById(R.id.et_preeu_servicio_urgencia);
+        et_preeu_km = (EditText) vista.findViewById(R.id.et_preeu_km);
+        et_preeu_km_precio = (EditText) vista.findViewById(R.id.et_preeu_km_precio);
+        et_preeu_analisis_combustion = (EditText) vista.findViewById(R.id.et_preeu_analisis_combustion);
+        et_preeu_otros_nombre = (EditText) vista.findViewById(R.id.et_preeu_otros_nombre);
+        et_preeu_total_disposicion_servicio = (EditText) vista.findViewById(R.id.et_preeu_total_disposicion_servicio);
+        et_preeu_total_disposicion_servicio.setEnabled(false);
+        et_preeu_adicional = (EditText) vista.findViewById(R.id.et_preeu_adicional);
+        etSubTotal = (EditText) vista.findViewById(R.id.etSubTotal);
+        et_preeu_iva_aplicado = (EditText) vista.findViewById(R.id.et_preeu_iva_aplicado);
+        et_total = (EditText) vista.findViewById(R.id.et_total);
         cb_acepta_presupuesto = (CheckBox) vista.findViewById(R.id.cb_acepta_presupuesto);
         cb_acepta_presupuesto.setOnCheckedChangeListener(this);
-        etOperacionEfectuada=(EditText) vista.findViewById(R.id.etOperacionEfectuada);
+        etOperacionEfectuada = (EditText) vista.findViewById(R.id.etOperacionEfectuada);
         //BUTTON
         btn_preeu_mano_de_obra = (Button) vista.findViewById(R.id.btn_preeu_mano_de_obra);
         btnFinalizar = (Button) vista.findViewById(R.id.btnFinalizar);
+        btnFirmar = (Button) vista.findViewById(R.id.btnFirmar);
 
 
         //ONCLICK
         btn_preeu_mano_de_obra.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
+        btnFirmar.setOnClickListener(this);
         //SPINNER
         spFormaPago = (Spinner) vista.findViewById(R.id.spFormaPago);
         spFormaPago.setOnItemSelectedListener(this);
-        sp_preeu_disposicion_servicio = (Spinner) vista.findViewById(R.id.spDisposicionServicio);
+        sp_preeu_disposicion_servicio = (Spinner) vista.findViewById(R.id.sp_preeu_disposicion_servicio);
         sp_preeu_disposicion_servicio.setOnItemSelectedListener(this);
-        sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.spManoObra);
+        sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.sp_preeu_mano_de_obra_precio);
         sp_preeu_mano_de_obra_precio.setOnItemSelectedListener(this);
         darValores();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -133,16 +151,15 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         try {
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
 
-            float precioMaterial=0;
-            int numeroMateriales=0;
+            float precioMaterial = 0;
+            int numeroMateriales = 0;
 
             if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
                 articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
 
 
-
-                et_preeu_materiales.setText( String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
-            }else{
+                et_preeu_materiales.setText(String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
+            } else {
                 et_preeu_materiales.setText("0.00");
             }
         } catch (SQLException e) {
@@ -150,6 +167,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         }
 
     }
+
     private void darValores() {
 
 
@@ -188,14 +206,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         }
 
 
-
     }
+
     private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
         double precio = 0;
         try {
 
             for (ArticuloParte articulo : listaArticulos) {
-                precio = precio+ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa()*articulo.getUsados();
+                precio = precio + ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa() * articulo.getUsados();
             }
         } catch (SQLException e) {
 
@@ -236,13 +254,21 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         return vista;
 
     }
+
     @Override
     public void onClick(View view) {
         Calendar c = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         String formattedDate = df.format(c.getTime());
-        if (view.getId() == R.id.btn_preeu_mano_de_obra) {
+        if (view.getId() == R.id.btnFirmar) {
+
+
+            Intent i = new Intent(getContext(), FirmaCliente.class);
+            startActivityForResult(i, 99);
+
+
+        }else if (view.getId() == R.id.btn_preeu_mano_de_obra) {
             int hour = 0;
             final int minute = 0;
             TimePickerDialog mTimePicker;
@@ -252,19 +278,19 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     btn_preeu_mano_de_obra.setText(selectedHour + " horas " + selectedMinute + " minutos");
-                    double minutos=selectedMinute;
-                    minutos=minutos/60;
-                    preeu_mano_de_obra_horas = Double.valueOf(selectedHour  + minutos);
-                    if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition()!=0){
+                    double minutos = selectedMinute;
+                    minutos = minutos / 60;
+                    preeu_mano_de_obra_horas = Double.valueOf(selectedHour + minutos);
+                    if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
 
-                        double mH=0;
+                        double mH = 0;
                         try {
-                            mH= ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
+                            mH = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
 
-                        et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH*preeu_mano_de_obra_horas));
+                        et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
 
                     }
 
@@ -274,15 +300,12 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             mTimePicker.show();
 
 
-
         } else if (view.getId() == R.id.btnFinalizar) {
-            if (parte.getFirma64()!=null&&!parte.getFirma64().equals("")){
-                if (sp_preeu_disposicion_servicio.getSelectedItemPosition()!=0){
-                    if (spFormaPago.getSelectedItemPosition()!=0){
-                        if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition()!=0){
-
-
-
+            Log.e("finaliza entra","entro aqui");
+            if (parte.getFirma64() != null && !parte.getFirma64().equals("")) {
+                if (sp_preeu_disposicion_servicio.getSelectedItemPosition() != 0) {
+                    if (spFormaPago.getSelectedItemPosition() != 0) {
+                        if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
 
 
                             double preeu_disposicion_servicio = 0;
@@ -291,6 +314,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
                             try {
                                 preeu_disposicion_servicio = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), sp_preeu_disposicion_servicio.getSelectedItem().toString());
+                                
                                 formaPago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(), spFormaPago.getSelectedItem().toString());
                                 preeu_mano_de_obra_precio = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
                                 if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
@@ -301,18 +325,15 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             }
 
 
-
-
                             String operacionEfectuada = "";
-                            if (!etOperacionEfectuada.getText().toString().equals("")){
+                            if (!etOperacionEfectuada.getText().toString().equals("")) {
                                 operacionEfectuada = etOperacionEfectuada.getText().toString();
                             }
 
-                            String preeu_otros_nombre="";
-                            if (!et_preeu_otros_nombre.getText().toString().equals("")){
+                            String preeu_otros_nombre = "";
+                            if (!et_preeu_otros_nombre.getText().toString().equals("")) {
                                 preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
                             }
-
 
 
                             preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
@@ -350,14 +371,12 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             }
 
 
-
-
                             double SubTotal = preeu_adicional + preeu_analisis_combustion +
                                     preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
                             etSubTotal.setText(String.valueOf(SubTotal));
                             double preeu_iva_aplicado = SubTotal * 21 / 100;
                             et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
-                            double total =SubTotal + preeu_iva_aplicado;
+                            double total = SubTotal + preeu_iva_aplicado;
                             et_total.setText(String.format("%.2f", total));
                             try {
                                 DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
@@ -382,28 +401,25 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                         formaPago
 
 
-
-
-
                                 );
                                 datos.setMatem_hora_salida(formattedDate);
-                                DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(),formattedDate);
+                                DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);
                                 ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
                                 new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
-                        }else{
-                            Dialogo.dialogoError("Es necesario seleccionar una mano de obra de servicio",getContext());
+                        } else {
+                            Dialogo.dialogoError("Es necesario seleccionar una mano de obra de servicio", getContext());
                         }
-                    }else{
-                        Dialogo.dialogoError("Es necesario seleccionar una forma de pago de servicio",getContext());
+                    } else {
+                        Dialogo.dialogoError("Es necesario seleccionar una forma de pago de servicio", getContext());
                     }
-                }else{
-                    Dialogo.dialogoError("Es necesario seleccionar una disposicion de servicio",getContext());
+                } else {
+                    Dialogo.dialogoError("Es necesario seleccionar una disposicion de servicio", getContext());
                 }
-            }else{
-                Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)",getContext());
+            } else {
+                Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)", getContext());
             }
 
         }
@@ -414,86 +430,102 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-        int preeu_mano_de_obra_precio = 0;
-        try {
 
-
-            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
             if (sp_preeu_disposicion_servicio.getSelectedItemPosition() != 0) {
-                preeu_disposicion_servicio = 0;
-                preeu_disposicion_servicio = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), sp_preeu_disposicion_servicio.getSelectedItem().toString());
 
+    double preeu_disposicion_servicio = 0;
+
+                        ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+                        try {
+
+                            preeu_disposicion_servicio = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), sp_preeu_disposicion_servicio.getSelectedItem().toString());
+                            et_preeu_total_disposicion_servicio.setText(String.valueOf(preeu_disposicion_servicio));
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
             }
 
-
-            if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
-                preeu_mano_de_obra_precio = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
-
-            }
+            int preeu_mano_de_obra_precio = 0;
+            try {
 
 
-            if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+                ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+                if (sp_preeu_disposicion_servicio.getSelectedItemPosition() != 0) {
+                    preeu_disposicion_servicio = 0;
+                    preeu_disposicion_servicio = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), sp_preeu_disposicion_servicio.getSelectedItem().toString());
 
-
-                articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
-                if (!articuloPartes.isEmpty()) {
-                    precioTotalArticulos = getPrecioTotalArticulosParte(articuloPartes);
                 }
 
 
+                if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
+                    preeu_mano_de_obra_precio = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
+
+                }
+
+
+                if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+
+
+                    articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+                    if (!articuloPartes.isEmpty()) {
+                        precioTotalArticulos = getPrecioTotalArticulosParte(articuloPartes);
+                    }
+
+
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+            preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
+
+            if (!et_preeu_materiales.getText().toString().equals("")) {
+                String str = et_preeu_materiales.getText().toString();
+                str = str.replace(',', '.');
+                //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
+                preeu_materiales = Double.valueOf(str);
+            }
+
+            if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
+                preeu_puesta_marcha = Double.valueOf(et_preeu_puesta_marcha.getText().toString());
+            }
+
+            if (!et_preeu_servicio_urgencia.getText().toString().equals("")) {
+                preeu_servicio_urgencia = Double.valueOf(et_preeu_servicio_urgencia.getText().toString());
+            }
+
+            if (!et_preeu_km.getText().toString().equals("")) {
+                preeu_km = Double.valueOf(et_preeu_km.getText().toString());
+            }
+
+            if (!et_preeu_km_precio.getText().toString().equals("")) {
+                preeu_km_precio = Double.valueOf(et_preeu_km_precio.getText().toString());
+            }
+            preeu_km_precio_total = preeu_km * preeu_km_precio;
+
+            if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
+                preeu_analisis_combustion = Double.valueOf(et_preeu_analisis_combustion.getText().toString());
+            }
+
+            if (!et_preeu_adicional.getText().toString().equals("")) {
+                preeu_adicional = Double.valueOf(et_preeu_adicional.getText().toString());
+            }
 
 
-        preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
-
-        if (!et_preeu_materiales.getText().toString().equals("")) {
-            String str = et_preeu_materiales.getText().toString();
-            str = str.replace(',', '.');
-            //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
-            preeu_materiales = Double.valueOf(str);
-        }
-
-        if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
-            preeu_puesta_marcha = Double.valueOf(et_preeu_puesta_marcha.getText().toString());
-        }
-
-        if (!et_preeu_servicio_urgencia.getText().toString().equals("")) {
-            preeu_servicio_urgencia = Double.valueOf(et_preeu_servicio_urgencia.getText().toString());
-        }
-
-        if (!et_preeu_km.getText().toString().equals("")) {
-            preeu_km = Double.valueOf(et_preeu_km.getText().toString());
-        }
-
-        if (!et_preeu_km_precio.getText().toString().equals("")) {
-            preeu_km_precio = Double.valueOf(et_preeu_km_precio.getText().toString());
-        }
-        preeu_km_precio_total = preeu_km * preeu_km_precio;
-
-        if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
-            preeu_analisis_combustion = Double.valueOf(et_preeu_analisis_combustion.getText().toString());
-        }
-
-        if (!et_preeu_adicional.getText().toString().equals("")) {
-            preeu_adicional = Double.valueOf(et_preeu_adicional.getText().toString());
-        }
-
-
-        double SubTotal = preeu_adicional + preeu_analisis_combustion +
-                preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-        etSubTotal.setText(String.valueOf(String.format("%.2f", SubTotal) ));
-        double preeu_iva_aplicado = SubTotal * 21 / 100;
-        et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
-        double total =SubTotal + preeu_iva_aplicado;
-        et_total.setText(String.format("%.2f", total));
-
+            double SubTotal = preeu_adicional + preeu_analisis_combustion +
+                    preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
+            etSubTotal.setText(String.valueOf(String.format("%.2f", SubTotal)));
+            double preeu_iva_aplicado = SubTotal * 21 / 100;
+            et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
+            double total = SubTotal + preeu_iva_aplicado;
+            et_total.setText(String.format("%.2f", total));
 
 
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -501,9 +533,42 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked)acepta_presupuesto=true;
-            else acepta_presupuesto=false;
+        if (isChecked) acepta_presupuesto = true;
+        else acepta_presupuesto = false;
     }
 
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 99) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                Bitmap bitmap = null;
+                bitmap = loadFirmaClienteFromStorage(parte.getId_parte(), getContext());
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    byte[] imageBytes = baos.toByteArray();
+                    String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                    ParteDAO.actualizarFirma64(getContext(),parte.getId_parte(),encodedImage);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                btnFirmar.setEnabled(false);
+
+                }
+        }
+
+    }
+
+
+    public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
+        Bitmap b = null;
+        try {
+            File f = new File(Constantes.PATH, "firmaCliente" + id + ".png");
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
 }

@@ -99,8 +99,8 @@
         <activity android:name=".nucleo.MisAjustes" />
         <activity
             android:name=".nucleo.DocumentosParte"
-            android:label="@string/title_activity_documentos_parte"
-           ></activity>
+            android:label="@string/title_activity_documentos_parte" />
+        <activity android:name=".nucleo.Galeria"></activity>
     </application>
 
 </manifest>

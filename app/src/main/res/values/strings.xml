@@ -13,7 +13,7 @@
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="almacen">Almacén</string>
     <string name="documentos">Documentos</string>
-    <string name="averias">Averías</string>
+    <string name="averias">Avisos</string>
     <string name="fecha_llamada">Fecha visita: </string>
     <string name="contrato">Num. Contrato: </string>
     <string name="venta">Venta: </string>
@@ -102,7 +102,7 @@
     <string name="hora_entrada">Hora de entrada:</string>
     <string name="tipo_contrato">Tipo de Contrato:</string>
     <string name="intervenciones_anteriores">Mostrar intervenciones anteriores</string>
-    <string name="ver_documentos_del_parte">Ver documentos del parte</string>
+    <string name="ver_documentacion_del_parte">Ver documentación del parte</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>
@@ -120,6 +120,8 @@
         <item>Transferencia</item>
     </string-array>
     <string name="title_activity_documentos_parte">DocumentosParte</string>
+    <string name="Archivos">Archivos</string>
+    <string name="imagenes">Imágenes</string>
 
 </resources>
 
