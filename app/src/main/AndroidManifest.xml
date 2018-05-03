@@ -100,7 +100,8 @@
         <activity
             android:name=".nucleo.DocumentosParte"
             android:label="@string/title_activity_documentos_parte" />
-        <activity android:name=".nucleo.Galeria"></activity>
+        <activity android:name=".nucleo.Galeria" />
+        <activity android:name=".nucleo.AnadirDatosMaquina"></activity>
     </application>
 
 </manifest>

@@ -53,31 +53,6 @@
                         android:layout_height="match_parent"
                         android:layout_margin="10dp" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/fondo_linear_gris"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <Button
-                        android:id="@+id/btnIntervencionesAnteriotes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/botones"
-                        android:gravity="center"
-                        android:text="@string/intervenciones_anteriores"/>
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/lvMaquinas"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -178,23 +153,6 @@
                             android:gravity="left"
                             android:minHeight="30dp"
                             android:padding="5dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:orientation="vertical">
-
-                        <Button
-                            android:id="@+id/btnVerDocumentosModelo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/botones"
-                            android:gravity="center"
-                            android:text="Ver documento del equipo"
-                            android:textColor="#000000"
-                             />
                     </LinearLayout>
 
                     <LinearLayout
@@ -316,6 +274,26 @@
                     android:background="@drawable/fondo_linear_gris"
                     android:orientation="vertical"
                     android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/btnVerDocumentosModelo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/botones"
+                        android:gravity="center"
+                        android:text="Ver documento del equipo"
+                        android:textColor="#000000" />
+
+                    <Button
+                        android:id="@+id/btnIntervencionesAnteriotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/botones"
+                        android:gravity="center"
+                        android:text="@string/intervenciones_anteriores" />
 
                     <Button
                         android:id="@+id/btnAñadirMaquina"
