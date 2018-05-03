@@ -114,8 +114,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.spManoObra);
         sp_preeu_mano_de_obra_precio.setOnItemSelectedListener(this);
         darValores();
-
-
     }
     @Override
     public void onResume() {
