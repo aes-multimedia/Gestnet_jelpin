@@ -53,6 +53,14 @@ public class ImagenDAO extends DBHelperMOS {
 		deleteBuilder.delete();
 	}
 
+
+	public static void borrarImagenPorRuta(Context context, String ruta) throws SQLException {
+		cargarDao(context);
+		DeleteBuilder<Imagen, Integer> deleteBuilder = dao.deleteBuilder();
+		deleteBuilder.where().eq(Imagen.RUTA_IMAGEN, ruta);
+		deleteBuilder.delete();
+	}
+
 	//__________FUNCIONES DE BUSQUEDA______________________//
 
 
