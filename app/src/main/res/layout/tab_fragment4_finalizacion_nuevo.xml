@@ -500,7 +500,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tvSubTotal"
@@ -517,22 +517,22 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja_bloqueado"
-                            android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:focusable="false"
                             android:enabled="false"
-                            android:gravity="right"/>
+                            android:focusable="false"
+                            android:gravity="right"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp" />
 
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvIvaAplicado"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -546,12 +546,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja_bloqueado"
-                            android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:focusable="false"
                             android:enabled="false"
+                            android:focusable="false"
                             android:gravity="right"
-                            />
+                            android:inputType="numberDecimal"
+                            android:padding="5dp" />
 
 
                     </LinearLayout>
@@ -560,10 +559,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -579,9 +577,9 @@
                             android:background="@drawable/edit_texts_naranja_bloqueado"
                             android:enabled="false"
                             android:focusable="false"
+                            android:gravity="right"
                             android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:gravity="right"/>
+                            android:padding="5dp" />
 
 
                     </LinearLayout>
@@ -595,21 +593,16 @@
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvAceptaPresupuesto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="3dp"
-                            android:text="@string/acepto_presupuesto"
-                            android:textColor="@color/cast_expanded_controller_background_color"
-                            android:textSize="18dp" />
-
                         <CheckBox
                             android:id="@+id/cb_acepta_presupuesto"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorAccent"
                             android:foregroundGravity="center"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:text="@string/acepto_presupuesto"
+                            android:textColor="@"
+                            android:textSize="18sp" />
 
 
                     </LinearLayout>
