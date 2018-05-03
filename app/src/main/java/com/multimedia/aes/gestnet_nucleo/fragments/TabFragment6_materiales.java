@@ -319,7 +319,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                         }
                     }
                 }
-
             }
         }
     }
