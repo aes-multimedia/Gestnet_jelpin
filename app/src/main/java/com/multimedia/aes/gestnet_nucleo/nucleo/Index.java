@@ -131,7 +131,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         Date date = new Date();
         return dateFormat.format(date);
     }
-    //OVERRIDE
+
+    private void actualizarFecha(String fecha){
+
+
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +145,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.index);
         inicializarVariables();
         fecha = getDateTime();
-        setTitle("Avisos"+" "+fecha);
+
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
@@ -156,6 +162,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             jo = GestorSharedPreferences.getJsonDia(GestorSharedPreferences.getSharedPreferencesDia(this));
             dia = jo.getString("dia");
             fecha = dia;
+            setTitle("Avisos"+" "+fecha);
         } catch (JSONException e) {
             e.printStackTrace();
         }
