@@ -63,17 +63,22 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                         etCoste= (EditText)getDialog().findViewById(R.id.etCoste);
                         etIva= (EditText)getDialog().findViewById(R.id.etIva);
 
+                    if(etUnidades.getText().toString().equals("")){
+                        etUnidades.setText("1");
+                    }
+                    if(etPrecio.getText().toString().equals("")){
+                        etPrecio.setText("0");
+                    }
+                    if(etCoste.getText().toString().equals("")){
+                        etCoste.setText("0");
+                    }
+                    if(etIva.getText().toString().equals("")) {
+                        etIva.setText("0");
+                    }
 
 
 
-
-                        if(etNombre.getText().toString().equals("") ||
-                                etUnidades.getText().toString().equals("") ||
-                                etPrecio.getText().toString().equals("") ||
-                                etCoste.getText().toString().equals("") ||
-                                etIva.getText().toString().equals("") ||
-                                etUnidades.getText().toString().equals("")
-                                ){
+                        if(etNombre.getText().toString().equals("")){
                             Dialogo.errorCrearMaterial(context);
 
                         }else{
