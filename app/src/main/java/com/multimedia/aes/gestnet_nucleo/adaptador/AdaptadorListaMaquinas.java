@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosMaquina;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,16 +49,12 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
         TextView txtModelo = (TextView)item.findViewById(R.id.txtModelo);
         TextView txtCombustion = (TextView)item.findViewById(R.id.txtCombustible);
         TextView txtPotencia = (TextView)item.findViewById(R.id.txtPotencia);
-        Button btnBorrar = (Button)item.findViewById(R.id.btnBorrar);
-        btnBorrar.setTag(position);
-        btnBorrar.setOnClickListener(this);
         llMaquina.setOnClickListener(this);
-        llMaquina.setTag(position);
+        llMaquina.setTag(arrayList.get(position).getFk_maquina());
         String marca = null;
         String potencia = null;
         try {
             marca = MarcaDAO.buscarNombreMarcaPorId(context,arrayList.get(position).getFk_marca());
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,10 +67,10 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
     }
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.btnBorrar) {
-            TabFragment2_equipo.borrarArrayMaquina(arrayList.get((int) v.getTag()).getId_maquina(), context);
-        }else if(v.getId()==R.id.llMaquina){
-            TabFragment2_equipo.rellenarDatosMaquina(arrayList.get((int) v.getTag()).getId_maquina(),context,(int) v.getTag());
+       if(v.getId()==R.id.llMaquina){
+           Intent i = new Intent(getContext(), AnadirDatosMaquina.class);
+           i.putExtra("id",Integer.parseInt(String.valueOf(v.getTag())));
+           getContext().startActivity(i);
         }
     }
 }

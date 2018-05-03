@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import org.json.JSONException;
@@ -63,7 +64,7 @@ public class HiloBuscarDocumentosModelo extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (!mensaje.equals("")){
-           TabFragment2_equipo.abrirWebView(mensaje);
+           AnadirDatosMaquina.abrirWebView(mensaje);
 
         }else{
 
