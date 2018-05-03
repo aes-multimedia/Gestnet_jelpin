@@ -88,13 +88,7 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
         Button btnArchivo,btnFoto;
         btnArchivo = findViewById(R.id.btnArchivo);
         btnFoto = findViewById(R.id.btnFoto);
-
-
-
-
-
         lvImagenes = findViewById(R.id.lvImagenes);
-
         btnArchivo.setOnClickListener(this);
         btnFoto.setOnClickListener(this);
         darValores();
@@ -183,7 +177,6 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
         lvImagenes.setAdapter(adaptadorListaImagenes);
 
     }
-
 
     public static Bitmap resizeImage(Bitmap bitmap) {
 

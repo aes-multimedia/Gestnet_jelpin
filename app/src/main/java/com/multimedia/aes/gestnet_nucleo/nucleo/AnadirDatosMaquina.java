@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TabWidget;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -43,6 +44,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizaMaquina;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearMaquina;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
@@ -65,37 +67,25 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes,btnVerDocumentosModelo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvAnalisis;
-    private static int alto=0,alto1=0,height=0;
+    private static int alto1=0,height=0;
     private String[] arrayMarcas,puestaMarcha;
     private static Parte parte = null;
     private Usuario usuario = null;
     private static Maquina maquina = null;
-    private DatosAdicionales datos = null;
-    private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
     private static ArrayList<Analisis>  arrayListAnalisis = new ArrayList<>();
     private static AdaptadorListaAnalisis adaptadorListaAnalisis;
-    private static AdaptadorListaMaquinas adaptadorListaMaquinas;
-    private static AsyncTask<Void, Void, Void> hiloIntervencionesAnteriores;
     private static Activity activity;
     private String serialNumber;
     private static Cliente cliente;
     private static String webUrl="";
 
     //METODOS
-    public void sacarMensaje(String msg) {
-        if (ManagerProgressDialog.getDialog()!=null){
-            ManagerProgressDialog.cerrarDialog();
-        }
-        Dialogo.dialogoError(msg,this);
-    }
     private void darValores(){
         try {
             cliente= ClienteDAO.buscarCliente(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        alto=0;
         alto1=0;
         //SPINNER MARCAS
         try {
@@ -106,7 +96,6 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                     e.printStackTrace();
                 }
                 int indice=0;
-
                 arrayMarcas = new String[arrayListMarcas.size() + 1];
                 arrayMarcas[0]= "--Seleciones un valor--";
                 for (int i = 1; i < arrayListMarcas.size() + 1; i++) {
@@ -192,7 +181,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         activity = this;
     }
 
-    private static void ponerValores(Context context){
+    private static void ponerValores(){
         try {
             //SPINNER PUESTA EN MARCHA
             if (maquina!=null){
@@ -215,8 +204,8 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
             //SPINNER MARCAS
             if (maquina!=null){
                 String marca = null;
-                if (MarcaDAO.buscarMarcaPorId(context, maquina.getFk_marca()) != null) {
-                    marca = MarcaDAO.buscarMarcaPorId(context, maquina.getFk_marca()).getNombre_marca();
+                if (MarcaDAO.buscarMarcaPorId(activity, maquina.getFk_marca()) != null) {
+                    marca = MarcaDAO.buscarMarcaPorId(activity, maquina.getFk_marca()).getNombre_marca();
                 }
                 if (marca != null) {
                     String myString = marca;
@@ -224,10 +213,6 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                     int spinnerPosition = myAdap.getPosition(myString);
                     spMarca.setSelection(spinnerPosition);
                 }
-            }else{
-
-
-
             }
             if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
                 etModelo.setText(String.valueOf(maquina.getModelo()));
@@ -287,16 +272,14 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         try {
             parte = ParteDAO.buscarPartePorId(this, idParte);
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(this,parte.getFk_tecnico());
-            maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(this,parte.getFk_maquina());
-            datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(this,parte.getId_parte());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(maquina==null){
+        int id = getIntent().getIntExtra("id",-1);
+        if (id ==-1){
             maquina = MaquinaDAO.newMaquinaRet(this,0,parte.getFk_direccion(),0,
                     0,"",0,0,0,0,
                     0,0, 0,0,0,"",
@@ -304,15 +287,21 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                     "","","", "","",
                     "","","",false,"",
                     "","","","","","",
-                    "","","","","");
+                    "","","SIN COMBUSTIBLE","","");
+        }else{
+            try {
+                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(this,id);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         inicializarVariables();
         darValores();
+        ponerValores();
         Display display = getWindowManager().getDefaultDisplay();
         height = display.getHeight();
         height=height/8;
         arrayListAnalisis.clear();
-        arrayListMaquina.clear();
         añadirAnalisis();
     }
     @Override
@@ -331,80 +320,40 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
 
     }
     public static void abrirWebView(String direccion){
-
         try {
             JSONArray jsonArray = new JSONArray(direccion);
             String documento = jsonArray.getJSONObject(0).getString("documento");
-
             webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + documento;
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
     @Override
     public void onClick(View view) {
         if(view.getId()==btnVerDocumentosModelo.getId()){
-
-
             if(maquina.getDocumento_modelo().equals("")){
                 Dialogo.dialogoError("Esta maquina no tiene documentos",this);
             }else {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + maquina.getDocumento_modelo()));
                 startActivity(browserIntent);
             }
-
-
-
-
-
-        }
-
-
-        if (view.getId() == btnDatosTesto.getId()) {
-            if (maquina==null){
-                Dialogo.dialogoError("Necesitas seleccionar una maquina.",this);
-            }else{
+        } else if (view.getId() == btnDatosTesto.getId()) {
                 Intent i = new Intent(this, AnadirDatosAnalisis.class);
                 i.putExtra("id", parte.getId_parte());
                 i.putExtra("fkMaquina", maquina.getId_maquina());
                 startActivityForResult(i, 103);
-            }
-
         } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
-
-            Usuario u=new Usuario();
-            Cliente c= new Cliente();
-
-
-            try {
-                u = UsuarioDAO.buscarUsuario(this);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();}
-            try {
-                c = ClienteDAO.buscarCliente(this);
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-
-
-
             if (maquina==null){
                 Dialogo.dialogoError("Necesitas seleccionar una maquina.",this);
             } else{
                 Intent e = new Intent(this, IntervencionesAnteriores.class);
                 e.putExtra("id", parte.getId_parte());
                 e.putExtra("fk_maquina", parte.getFk_maquina());
-                e.putExtra("fk_entidad", u.getFk_entidad());
-                e.putExtra("ip_cliente", c.getIp_cliente());
+                e.putExtra("fk_entidad", usuario.getFk_entidad());
+                e.putExtra("ip_cliente", cliente.getIp_cliente());
                 startActivityForResult(e, 104);
             }
-
-
-        }
-        else if (view.getId() == btnAñadirMaquina.getId()) {
+        } else if (view.getId() == btnAñadirMaquina.getId()) {
             if (spMarca.getSelectedItemPosition() == 0)
                 Dialogo.dialogoError("Es necesario seleccionar una marca", this);
             else if (spPuestaMarcha.getSelectedItemPosition() == 0)
@@ -459,7 +408,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                     String potencia_util = etPotenciaUtil.getText().toString();
                                     String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
                                     String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
-                                    String combustible_txt = "";
+                                    String combustible_txt = "SIN COMBUSTIBLE";
                                     String nombre_contr_man = "";
                                     String documento_modelo="";
                                     if (maquina!=null){
@@ -505,7 +454,8 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                     spMarca.setSelection(0);
                                     spPuestaMarcha.setSelection(0);
                                     Dialogo.dialogoError("Maquina añadida", AnadirDatosMaquina.this);
-                                    maquina=null;
+                                    TabFragment2_equipo.añadirMaquina();
+                                    finish();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
