@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -246,12 +247,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         int id = item.getItemId();
         if (id == R.id.averias) {
             recreate();
-        } else if (id == R.id.mis_ajustes) {
-            Intent i = new Intent(this, MisAjustes.class);
+        } else if (id == R.id.mi_firma) {
+            Intent i = new Intent(this, MiFirma.class);
             startActivity(i);
         } else if (id == R.id.cierre_dia) {
             Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
+        }else if (id == R.id.aviso_guardia) {
+            try {
+            Usuario u = UsuarioDAO.buscarUsuario(this);
+            Cliente c = ClienteDAO.buscarCliente(this);
+            String ip = c.getIp_cliente();
+            String fk_tecnico = u.getFk_entidad()+"";
+            String url = "http://"+ip+"/webservices/webview/avisoGuardia.php?fk_tecnico="+fk_tecnico;
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else if (id == R.id.cambiar_fecha) {
             try {
                 final Usuario u = UsuarioDAO.buscarUsuario(this);

@@ -96,7 +96,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".nucleo.MisAjustes" />
+        <activity android:name=".nucleo.MiFirma" />
         <activity
             android:name=".nucleo.DocumentosParte"
             android:label="@string/title_activity_documentos_parte" />

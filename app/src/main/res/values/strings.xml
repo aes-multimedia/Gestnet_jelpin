@@ -123,6 +123,8 @@
     <string name="Archivos">Archivos</string>
     <string name="imagenes">Imágenes</string>
     <string name="nueva_maquina">Nueva Maquina</string>
+    <string name="aviso_guardia">Aviso de guardia</string>
+    <string name="mi_firma">Guardar mi firma</string>
 
 </resources>
 

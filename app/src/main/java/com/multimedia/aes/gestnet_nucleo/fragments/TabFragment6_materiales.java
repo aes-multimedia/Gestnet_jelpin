@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -46,7 +48,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener,View.OnTouchListener {
     private View vista;
     private static Parte parte = null;
     private Usuario usuario = null;
@@ -72,6 +74,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         lvMateriales = (ListView) vista.findViewById(R.id.lvMateriales);
         //ONQUERYTEXTLISTENER
         svMateriales.setOnQueryTextListener(this);
+        svMateriales.setOnTouchListener(this);
         //ONITEMSELECTED
         lvBusquedaMaterial.setOnItemClickListener(this);
         //lvMateriales.setOnItemClickListener(this);
@@ -332,6 +335,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 svMateriales.setQuery("", false);
                 svMateriales.clearFocus();
                 svMateriales.onActionViewCollapsed();
+
                 try {
                     llenarMateriales();
                 } catch (SQLException e) {
@@ -390,4 +394,10 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     }
 
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Toast.makeText(getContext(),"eeee",Toast.LENGTH_LONG).show();
+
+        return false;
+    }
 }

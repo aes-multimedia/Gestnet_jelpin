@@ -26,11 +26,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
-public class MisAjustes extends AppCompatActivity implements View.OnClickListener {
+public class MiFirma extends AppCompatActivity implements View.OnClickListener {
 
     private Usuario usuario;
     private Cliente cliente;
-    private Button btnFirmar,btnSalir,btnAvisoGuardia;
+    private Button btnFirmar,btnSalir;
     private ImageView ivMiFirma;
 
     //METODOS
@@ -38,13 +38,13 @@ public class MisAjustes extends AppCompatActivity implements View.OnClickListene
         //BUTTON
         btnFirmar = (Button) findViewById(R.id.btnFirmar);
         btnSalir = (Button) findViewById(R.id.btnSalir);
-        btnAvisoGuardia = (Button) findViewById(R.id.btnAvisoGuardia);
+
         //IMAGEVIEW
         ivMiFirma = (ImageView) findViewById(R.id.ivMiFirma);
         //ONCLICK
         btnFirmar.setOnClickListener(this);
         btnSalir.setOnClickListener(this);
-        btnAvisoGuardia.setOnClickListener(this);
+
     }
 
     private void darValores() throws SQLException {
@@ -67,21 +67,13 @@ public class MisAjustes extends AppCompatActivity implements View.OnClickListene
         }
         return b;
     }
-    private void avisoGuardia(){
-        String ip = cliente.getIp_cliente();
-        String fk_tecnico = usuario.getFk_entidad()+"";
-        String url = "http://"+ip+"/webservices/webview/avisoGuardia.php?fk_tecnico="+fk_tecnico;
-        Uri uri = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-        //
-    }
+
 
     //OVERRIDE
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mis_ajustes);
+        setContentView(R.layout.mi_firma);
         try {
             usuario = UsuarioDAO.buscarUsuario(this);
             cliente = ClienteDAO.buscarCliente(this);
@@ -103,8 +95,6 @@ public class MisAjustes extends AppCompatActivity implements View.OnClickListene
             startActivityForResult(i, 99);
         }else if (v.getId() == R.id.btnSalir) {
             finish();
-        }else if (v.getId() == R.id.btnAvisoGuardia) {
-            avisoGuardia();
         }
     }
 
