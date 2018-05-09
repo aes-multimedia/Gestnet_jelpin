@@ -248,13 +248,13 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             }else{
                 byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
                 Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                ivFirma1.setImageBitmap(bfirma);
+                ivFirma2.setImageBitmap(bfirma);
                 if (usuario.getFirma().equals("")||usuario.getFirma()==null){
                     Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)",getContext());
                 }else{
                     decodedBytes = Base64.decode(usuario.getFirma(), 0);
                     bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                    ivFirma2.setImageBitmap(bfirma);
+                    ivFirma1.setImageBitmap(bfirma);
                     sendButton.setVisibility(View.GONE);
                     closeButton.setVisibility(View.VISIBLE);
                     openButton.setVisibility(View.GONE);

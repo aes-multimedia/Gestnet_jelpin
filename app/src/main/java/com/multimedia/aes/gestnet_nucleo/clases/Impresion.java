@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
@@ -74,6 +75,8 @@ public class Impresion {
     Usuario usuario = UsuarioDAO.buscarUsuario(context);
     Parte parte = ParteDAO.buscarPartePorId(context,id);
     DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
+
+
     Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
     List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
 
@@ -186,7 +189,8 @@ public class Impresion {
     result+="Mano Obra: "+manoObra+" €"+"\n";
     String dispServi = String.valueOf(datosAdicionales.getPreeu_disposicion_servicio());
     result+="Disp. servicio: "+dispServi+" €"+"\n";
-    String otros = String.valueOf(datosAdicionales.getPreeu_adicional_coste());
+        Log.e("otros",String.valueOf(datosAdicionales.getPreeu_otros_nombre()));
+    String otros = String.valueOf(datosAdicionales.getPreeu_adicional());
     result+="Otros: "+otros+" €"+"\n";
     String analisiscombustion = String.valueOf(datosAdicionales.getPreeu_analisis_combustion());
     result+="Analisis de combustion: "+analisiscombustion+"\n";
@@ -194,7 +198,7 @@ public class Impresion {
     result+="Puesta en marcha: "+puestaMarcha+"\n";
     String servicioUrgencia = String.valueOf(datosAdicionales.getPreeu_servicio_urgencia());
     result+="Servicio de urgencia: "+servicioUrgencia+"\n";
-    String desplazamiento = "("+datosAdicionales.getPreeu_km()+"KM/"+datosAdicionales.getPreeu_km_precio()+"): "+datosAdicionales.getFact_km_precio_total();
+    String desplazamiento = "("+datosAdicionales.getPreeu_km()+"KM/"+datosAdicionales.getPreeu_km_precio()+"): "+datosAdicionales.getPreeu_km_precio_total();
     result+="Desplazamiento "+desplazamiento+"\n";
     if (FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago())!=null){
         String formaPago = FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago()).getForma_pago();

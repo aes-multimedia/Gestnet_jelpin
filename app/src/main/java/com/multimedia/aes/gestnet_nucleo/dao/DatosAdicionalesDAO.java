@@ -341,7 +341,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO_TOTAL,preeu_km_precio_total);
         updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,preeu_otros_nombre);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL_COSTE,preeu_adicional);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL,preeu_adicional);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,preeu_materiales);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,preeu_analisis_combustion);
         updateBuilder.updateColumnValue(DatosAdicionales.TOTAL_PPTO,total);
