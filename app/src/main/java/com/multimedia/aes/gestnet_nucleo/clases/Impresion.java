@@ -205,8 +205,8 @@ public class Impresion {
         result+="Forma pago: "+formaPago+"\n";
     }
     double ba = (datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra())+datosAdicionales.getPreeu_disposicion_servicio()+
-            datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
-            datosAdicionales.getPreeu_servicio_urgencia()+datosAdicionales.getFact_km_precio_total();
+            datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getFact_adicional()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
+            datosAdicionales.getPreeu_servicio_urgencia()+(datosAdicionales.getPreeu_km()*datosAdicionales.getPreeu_km_precio());
     result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
     if (!articulos.isEmpty()){
         result+="\n"+"-----------MATERIALES-----------"+"\n";
