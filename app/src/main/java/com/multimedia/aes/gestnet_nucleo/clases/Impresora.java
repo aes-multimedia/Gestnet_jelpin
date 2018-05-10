@@ -74,7 +74,7 @@ public class Impresora {
 	public void realizarImpresionSeitron() {
 		POSPrinterService pps = new POSPrinterService();
 		try {
-			imprimirImagenEncabezadoSeitron(pps);
+			//imprimirImagenEncabezadoSeitron(pps);
 			imprimirSeitron(Impresion.limpiarAcentos(Impresion.encabezadoPresupuesto()),pps);
 			imprimirSeitron(Impresion.limpiarAcentos(Impresion.ticket(parte.getId_parte(),context)),pps);
 			imprimirSeitron(Impresion.limpiarAcentos(Impresion.piePresupuesto()),pps);
@@ -123,7 +123,7 @@ public class Impresora {
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(4000);
 	}
-	private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
+	/*private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		InputStream bitmap = null;
 		int img[][] = null;
 		int ancho = 1;
@@ -145,6 +145,6 @@ public class Impresora {
 		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(2000);
-	}
+	}*/
 
 }

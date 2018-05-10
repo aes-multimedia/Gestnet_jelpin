@@ -185,7 +185,7 @@ public class Impresion {
     result+="Tipo Intervencion: "+tipoInter+"\n";
     String duracion = parte.getDuracion();
     result+="Duracion: "+duracion+"\n";
-    String manoObra = String.valueOf(datosAdicionales.getPreeu_mano_de_obra_precio());
+    String manoObra = String.valueOf(datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra());
     result+="Mano Obra: "+manoObra+" €"+"\n";
     String dispServi = String.valueOf(datosAdicionales.getPreeu_disposicion_servicio());
     result+="Disp. servicio: "+dispServi+" €"+"\n";
@@ -204,7 +204,7 @@ public class Impresion {
         String formaPago = FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago()).getForma_pago();
         result+="Forma pago: "+formaPago+"\n";
     }
-    double ba = datosAdicionales.getPreeu_mano_de_obra_precio()+datosAdicionales.getPreeu_disposicion_servicio()+
+    double ba = (datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra())+datosAdicionales.getPreeu_disposicion_servicio()+
             datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
             datosAdicionales.getPreeu_servicio_urgencia()+datosAdicionales.getFact_km_precio_total();
     result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
@@ -214,7 +214,7 @@ public class Impresion {
         for (Articulo art:articulos) {
             ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,art.getId_articulo(),parte.getId_parte());
             int usados = articuloParte.getUsados();
-            double coste = art.getCoste();
+            double coste = art.getTarifa();
             double totalArt = usados*coste;
             totalArticulos+=totalArt;
             result+="-"+art.getNombre_articulo()+"\n";
@@ -283,7 +283,7 @@ public class Impresion {
         String fecha = mDay+"/"+mMonth+"/"+mYear+" - "+mHour+":"+mMin;
         result+=fecha+"\n";
         String nombre=parte.getNombre_cliente(),dni=parte.getDni_cliente();
-        result+="Nombre y dni: "+nombre+"-"+dni+"\n";
+        result+="Nombre y dni: "+" "+"\n";
         result+="Firma"+"\n";
         return result;
     }
