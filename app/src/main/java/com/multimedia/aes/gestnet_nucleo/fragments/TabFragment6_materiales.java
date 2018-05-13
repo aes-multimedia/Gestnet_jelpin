@@ -358,7 +358,10 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
+                            int cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
+                            int usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
                             ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
+                            ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);
                             llenarMateriales();
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -396,8 +399,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Toast.makeText(getContext(),"eeee",Toast.LENGTH_LONG).show();
-
         return false;
     }
 }

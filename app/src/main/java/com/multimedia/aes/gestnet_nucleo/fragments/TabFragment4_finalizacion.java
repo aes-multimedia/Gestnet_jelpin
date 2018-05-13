@@ -408,8 +408,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                         total,
                                         acepta_presupuesto,
                                         formaPago
-
-
                                 );
                                 datos.setMatem_hora_salida(formattedDate);
                                 DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);

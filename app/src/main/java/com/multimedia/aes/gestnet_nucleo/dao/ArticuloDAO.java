@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
@@ -218,6 +219,19 @@ public class ArticuloDAO extends DBHelperMOS {
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
         updateBuilder.updateColumnValue(Articulo.ENTREGADO,true);
+        updateBuilder.update();
+
+
+    }
+
+    public static void actualizarStock(Context context, int id_articulo,int cantidad) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+
+        updateBuilder.updateColumnValue(Articulo.STOCK,cantidad);
         updateBuilder.update();
 
 
