@@ -71,8 +71,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         btnPedirMaterial=(Button)findViewById(R.id.btnPedirMaterial);
         btnPedirMaterial.setOnClickListener(this);
 
-        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
-        chkGarantia.setOnCheckedChangeListener(this);
+
 
         lvStockEntidad= (ListView) findViewById(R.id.lvStockEntidad);
 
@@ -103,6 +102,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         height = display.getHeight()/8;
         dataStock= new ArrayList<>();
         buscarStockAlmacenes();
+        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
+        chkGarantia.setOnCheckedChangeListener(this);
 
         idParte = 0;
         try {
@@ -117,6 +118,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+            if (articulo.isGarantia()) {
+                chkGarantia.setChecked(true);
+            } else {
+                chkGarantia.setChecked(false);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

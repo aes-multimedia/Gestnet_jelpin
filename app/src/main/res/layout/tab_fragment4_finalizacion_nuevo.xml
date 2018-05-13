@@ -418,7 +418,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
                             android:inputType="number"
-                            android:padding="5dp" />
+                            android:padding="5dp"
+                            android:text="0" />
 
                         <TextView
                             android:id="@+id/textVie12"
@@ -437,7 +438,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
                             android:inputType="numberDecimal"
-                            android:padding="5dp" />
+                            android:padding="5dp"
+                            android:text="0" />
                     </LinearLayout>
 
                     <LinearLayout

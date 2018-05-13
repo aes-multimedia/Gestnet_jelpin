@@ -74,8 +74,9 @@ public class GuardarManoObra extends AsyncTask<Void,Void,Void> {
     }
 
     private static void guardarJsonParte() throws JSONException, SQLException, java.sql.SQLException {
-        int id_mano,precio;
+        int id_mano;
         String concepto,coste;
+        double precio;
 
         boolean esta = false;
 
@@ -112,7 +113,7 @@ public class GuardarManoObra extends AsyncTask<Void,Void,Void> {
             if (jsonArray.getJSONObject(i).getString("precio").equals("null") || jsonArray.getJSONObject(i).getString("precio").equals("")) {
                 precio = -1;
             } else {
-                precio = jsonArray.getJSONObject(i).getInt("precio");
+                precio = jsonArray.getJSONObject(i).getDouble("precio");
             }
 
             if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {

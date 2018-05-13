@@ -20,15 +20,15 @@ public class Disposiciones {
 
     @DatabaseField(id=true,columnName = ID_DISPOSICION_SERVICIO) private int id_disposicion_servicio;
     @DatabaseField(columnName = NOMBRE_DISPOSICION) private String nombre_disposicion;
-    @DatabaseField(columnName = COSTE_DISPOSICION) private int coste_disposicion;
-    @DatabaseField(columnName = PRECIO_DISPOSICION) private int precio_disposicion;
+    @DatabaseField(columnName = COSTE_DISPOSICION) private double coste_disposicion;
+    @DatabaseField(columnName = PRECIO_DISPOSICION) private double precio_disposicion;
 
 
 
     public Disposiciones(){}
 
 
-    public Disposiciones(int id_disposicion_servicio, String nombre_disposicion, int coste_disposicion, int precio_disposicion) {
+    public Disposiciones(int id_disposicion_servicio, String nombre_disposicion, double coste_disposicion, double precio_disposicion) {
         this.id_disposicion_servicio = id_disposicion_servicio;
         this.nombre_disposicion = nombre_disposicion;
         this.coste_disposicion = coste_disposicion;
@@ -51,19 +51,19 @@ public class Disposiciones {
         this.nombre_disposicion = nombre_disposicion;
     }
 
-    public int getCoste_disposicion() {
+    public double getCoste_disposicion() {
         return coste_disposicion;
     }
 
-    public void setCoste_disposicion(int coste_disposicion) {
+    public void setCoste_disposicion(double coste_disposicion) {
         this.coste_disposicion = coste_disposicion;
     }
 
-    public int getPrecio_disposicion() {
+    public double getPrecio_disposicion() {
         return precio_disposicion;
     }
 
-    public void setPrecio_disposicion(int precio_disposicion) {
+    public void setPrecio_disposicion(double precio_disposicion) {
         this.precio_disposicion = precio_disposicion;
     }
 }

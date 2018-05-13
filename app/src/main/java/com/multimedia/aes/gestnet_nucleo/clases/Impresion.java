@@ -35,7 +35,11 @@ import java.util.List;
 
 
 public class Impresion {
+
+
+
     ////////////METODOS////////////////
+    private static boolean aceptaPresupuesto=false;
     public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
@@ -75,7 +79,7 @@ public class Impresion {
     Usuario usuario = UsuarioDAO.buscarUsuario(context);
     Parte parte = ParteDAO.buscarPartePorId(context,id);
     DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
-
+    aceptaPresupuesto=datosAdicionales.getBaceptapresupuesto();
 
     Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
     List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
@@ -189,7 +193,6 @@ public class Impresion {
     result+="Mano Obra: "+manoObra+" €"+"\n";
     String dispServi = String.valueOf(datosAdicionales.getPreeu_disposicion_servicio());
     result+="Disp. servicio: "+dispServi+" €"+"\n";
-        Log.e("otros",String.valueOf(datosAdicionales.getPreeu_otros_nombre()));
     String otros = String.valueOf(datosAdicionales.getPreeu_adicional());
     result+="Otros: "+otros+" €"+"\n";
     String analisiscombustion = String.valueOf(datosAdicionales.getPreeu_analisis_combustion());
@@ -212,13 +215,16 @@ public class Impresion {
         result+="\n"+"-----------MATERIALES-----------"+"\n";
         double totalArticulos = 0;
         for (Articulo art:articulos) {
-            ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,art.getId_articulo(),parte.getId_parte());
-            int usados = articuloParte.getUsados();
-            double coste = art.getTarifa();
-            double totalArt = usados*coste;
-            totalArticulos+=totalArt;
-            result+="-"+art.getNombre_articulo()+"\n";
-            result+=" Und:"+usados+" PVP:"+coste+" Total:"+totalArt+"\n"+"\n";
+            if((art.isEntregado()==1 && datosAdicionales.isBaceptapresupuesto()) || art.isEntregado()==0) {
+                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
+                int usados = articuloParte.getUsados();
+                double coste = 0;
+                if (!art.isGarantia()) coste = art.getTarifa();
+                double totalArt = usados * coste;
+                totalArticulos += totalArt;
+                result += "-" + art.getNombre_articulo() + "\n";
+                result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n" + "\n";
+            }
         }
         result+="TOTAL MATERIALES: "+totalArticulos+" €"+"\n";
         result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
@@ -234,7 +240,7 @@ public class Impresion {
     result+="TOTAL I.V.A: "+totalIva+"\n";
     String total = String.valueOf(df2.format(totIva+ba));
     result+="TOTAL: "+total+"\n"+"\n";
-    result+="---CONFORME FINAL DEL CLIENTE---"+"\n";
+    result+="---CONFORME FINAL DEL FIRMANTE---"+"\n";
     result+="*Renuncio a presupuesto previo "+"\n"+
             "autorizando la reparacion."+"\n";
     result+=""+"\n";
@@ -243,8 +249,12 @@ public class Impresion {
 }
     public static String encabezadoPresupuesto() throws SQLException {
         String result = "\n";
+        String encabezado="";
+        if(aceptaPresupuesto)encabezado="FACTURA SIMPLIFICADA";
+            else encabezado="PRESUPUESTO";
+
         result+="--------------------------------"+"\n";
-        result+="----------PRESUPUESTO-----------"+"\n";
+        result+="----------"+encabezado+"-----------"+"\n";
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
@@ -279,7 +289,7 @@ public class Impresion {
         int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
         final int mHour = mcurrentDate.get(Calendar.HOUR_OF_DAY);
         final int mMin = mcurrentDate.get(Calendar.MINUTE);
-        result+="-------CONFORME CLIENTE---------"+"\n";
+        result+="-------CONFORME FIRMANTE---------"+"\n";
         String fecha = mDay+"/"+mMonth+"/"+mYear+" - "+mHour+":"+mMin;
         result+=fecha+"\n";
         String nombre=parte.getNombre_cliente(),dni=parte.getDni_cliente();

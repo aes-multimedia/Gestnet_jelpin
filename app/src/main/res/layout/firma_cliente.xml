@@ -41,7 +41,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:padding="5dp"
-                        android:text="Firma del Cliente"
+                        android:text="Firma del usuario"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#000" />
 

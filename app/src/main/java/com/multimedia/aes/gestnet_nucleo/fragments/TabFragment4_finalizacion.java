@@ -36,6 +36,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Disposiciones;
@@ -213,9 +214,15 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
         double precio = 0;
         try {
+            //Si el articulo no está en garantia entonces sesuma el precio de ese articulo
 
             for (ArticuloParte articulo : listaArticulos) {
-                precio = precio + ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo()).getTarifa() * articulo.getUsados();
+
+                Articulo art;
+                art=ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
+                if(art.isGarantia()!=true){
+                    precio = precio + art.getTarifa()*articulo.getUsados();
+                }
             }
         } catch (SQLException e) {
 
@@ -312,7 +319,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                             double preeu_disposicion_servicio = 0;
                             int formaPago = 0;
-                            int preeu_mano_de_obra_precio = 0;
+                            double preeu_mano_de_obra_precio = 0;
                             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
                             try {
                                 preeu_disposicion_servicio = DisposicionesDAO.buscarPrecioDisposicionPorNombre(getContext(), sp_preeu_disposicion_servicio.getSelectedItem().toString());
@@ -448,7 +455,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                         }
             }
 
-            int preeu_mano_de_obra_precio = 0;
+            double preeu_mano_de_obra_precio = 0;
             try {
 
 

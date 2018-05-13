@@ -113,7 +113,7 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
                     setResult(Activity.RESULT_OK,returnIntent);
                     finish();
                 }else {
-                    Dialogo.dialogoError("Es necesario firma_cliente.",this);
+                    Dialogo.dialogoError("Es necesaria la firma del consumidor.",this);
                 }
             }else{
                 Dialogo.dialogoError("Es necesario el nombre del firmante.",this);
