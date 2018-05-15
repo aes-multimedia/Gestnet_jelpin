@@ -187,7 +187,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Dietas"
                     android:inputType="numberDecimal"
                     android:padding="5dp" />
@@ -202,7 +201,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Parking"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -217,7 +215,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Combustible"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -232,7 +229,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="L. Combustible"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -247,7 +243,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Material"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -262,7 +257,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Entregado"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
