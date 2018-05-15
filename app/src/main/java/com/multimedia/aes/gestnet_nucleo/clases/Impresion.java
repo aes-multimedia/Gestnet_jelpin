@@ -215,15 +215,21 @@ public class Impresion {
         result+="\n"+"-----------MATERIALES-----------"+"\n";
         double totalArticulos = 0;
         for (Articulo art:articulos) {
-            if((art.isEntregado()==1 && datosAdicionales.isBaceptapresupuesto()) || art.isEntregado()==0) {
-                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
-                int usados = articuloParte.getUsados();
-                double coste = 0;
+            ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
+            int usados = articuloParte.getUsados();
+            double coste = 0;
+            if(art.isEntregado()==0) {
                 if (!art.isGarantia()) coste = art.getTarifa();
                 double totalArt = usados * coste;
                 totalArticulos += totalArt;
                 result += "-" + art.getNombre_articulo() + "\n";
                 result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n" + "\n";
+            }else if(art.isEntregado()==1 && datosAdicionales.isBaceptapresupuesto()){
+                double totalArt = usados * coste;
+                totalArticulos += totalArt;
+                result += "-" + art.getNombre_articulo() + "\n";
+                result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n";
+                result += "(Pedido)" + "\n" + "\n";
             }
         }
         result+="TOTAL MATERIALES: "+totalArticulos+" €"+"\n";

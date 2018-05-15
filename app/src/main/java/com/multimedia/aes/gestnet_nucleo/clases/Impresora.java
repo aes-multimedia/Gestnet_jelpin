@@ -91,10 +91,12 @@ public class Impresora {
 			e.printStackTrace();
 		}
 	}
+
 	private void imprimirSeitron(String texto,POSPrinterService pps) throws JposException, InterruptedException {
 		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, Impresion.limpiarAcentos(texto));
 		Thread.sleep(1000);
 	}
+
 	private void imprimirFirmaClienteSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
 		int img[][] = null;
 		int ancho = 1;
