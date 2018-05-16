@@ -7,9 +7,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -32,8 +35,9 @@ public class CrearArticuloDialogFragment extends DialogFragment {
     private int unidades,iva,cantidadStock;
     private float precio,coste;
     private int idParte;
+    private RadioButton radioButtonPedir,radioButtonUsar;
     private Context context;
-
+    private CheckBox chGarantia;
     public CrearArticuloDialogFragment(Context context) {
         this.context = context;
     }
@@ -62,6 +66,9 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                         etPrecio= (EditText)getDialog().findViewById(R.id.etPrecio);
                         etCoste= (EditText)getDialog().findViewById(R.id.etCoste);
                         etIva= (EditText)getDialog().findViewById(R.id.etIva);
+                        radioButtonPedir = getDialog().findViewById(R.id.rButtonPedir);
+                        radioButtonUsar = getDialog().findViewById(R.id.rButtonUsar);
+                        chGarantia = getDialog().findViewById(R.id.chGarantia);
 
                     if(etUnidades.getText().toString().equals("")){
                         etUnidades.setText("1");
@@ -89,10 +96,10 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
 
-                            Articulo a = ArticuloDAO.newArticuloRet(getContext(),
+                            Articulo a = ArticuloDAO.newArticuloDialogFragment(getContext(),
                                     0,nombre,cantidadStock,"",
                                     "","","","",
-                                    0,iva,precio,0,coste,"",0);
+                                    0,iva,precio,0,coste,"",0,radioButtonPedir.isChecked(),chGarantia.isChecked());
                             ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
 
                         }
@@ -112,5 +119,11 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+
+
+    public int isChecked(RadioButton radioButton){
+       return  radioButton.isChecked() ? 1 : 0;
     }
 }

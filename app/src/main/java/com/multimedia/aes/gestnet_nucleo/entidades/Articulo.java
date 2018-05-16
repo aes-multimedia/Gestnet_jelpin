@@ -66,6 +66,7 @@ public class Articulo {
         this.entregado=false;
     }
 
+
     public Articulo(int fk_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
@@ -79,6 +80,27 @@ public class Articulo {
         this.descuento = descuento;
         this.garantia=false;
         this.entregado=false;
+    }
+
+    public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+                    String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
+        this.fk_articulo = fk_articulo;
+        this.nombre_articulo = nombre_articulo;
+        this.stock = stock;
+        this.referencia = referencia;
+        this.referencia_aux = referencia_aux;
+        this.familia = familia;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.proveedor = proveedor;
+        this.iva = iva;
+        this.tarifa = tarifa;
+        this.descuento = descuento;
+        this.coste = coste;
+        this.ean = ean;
+        this.imagen = imagen;
+        this.garantia= garantia;
+        this.entregado=entregado;
     }
 
     public boolean isGarantia() {

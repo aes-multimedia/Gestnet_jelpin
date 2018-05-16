@@ -34,6 +34,17 @@ public class ArticuloDAO extends DBHelperMOS {
         return crearArticuloRet(a,context);
     }
 
+
+
+    public static Articulo newArticuloDialogFragment(Context context,int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+                                          String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
+        Articulo a = montarArticuloDialogFragment(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+        return crearArticuloRet(a,context);
+    }
+
+
+
+
     public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         Articulo a = montarArticuloP( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
         return crearArticulo(a,context);
@@ -58,6 +69,12 @@ public class ArticuloDAO extends DBHelperMOS {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static Articulo montarArticuloDialogFragment(int id_articulo, String nombre_articulo, int stock, String referencia, String referencia_aux, String familia, String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen, boolean entregado, boolean garantia) {
+
+       return new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+
     }
 
 

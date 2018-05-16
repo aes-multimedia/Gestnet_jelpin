@@ -125,6 +125,9 @@
     <string name="nueva_maquina">Nueva Maquina</string>
     <string name="aviso_guardia">Aviso de guardia</string>
     <string name="mi_firma">Guardar mi firma</string>
+    <string name="pedir_pieza">Pedir pieza</string>
+    <string name="utilizar_pieza">Utilizar pieza</string>
+    <string name="pieza_en_garantia">Pieza en garantia</string>
 
 </resources>
 
