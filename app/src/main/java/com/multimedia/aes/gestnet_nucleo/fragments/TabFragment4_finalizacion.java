@@ -221,8 +221,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 Articulo art;
                 art=ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
                 if(art.isGarantia()!=true){
-                    precio = precio + art.getTarifa()*articulo.getUsados();
-                }
+                    if(!(art.isEntregado() ==1)) {
+                        precio = precio + art.getTarifa() * articulo.getUsados();
+                    }               }
             }
         } catch (SQLException e) {
 
