@@ -264,6 +264,7 @@ public class Impresion {
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
+
     public static String encabezadoFacturaSimplificada() throws SQLException {
         String result = "\n";
         result+="--------------------------------"+"\n";
@@ -271,6 +272,8 @@ public class Impresion {
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
+
+
     public static String piePresupuesto(){
         String result = "\n";
         result+="*Este presupuesto tiene una "+"\n"+

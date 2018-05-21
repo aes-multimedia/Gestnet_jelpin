@@ -89,6 +89,8 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
         }
     }
+
+
     private void ordenarArrayAccionProtocolos(ArrayList<ProtocoloAccion> protocoloAccionArrayList,int indice) {
 
         if(protocoloAccionArrayList.size()>1 && indice < protocoloAccionArrayList.size() -1) {
@@ -101,6 +103,8 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         }
     }
+
+
     private void crearLinearProtocolo(String protocolo){
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);

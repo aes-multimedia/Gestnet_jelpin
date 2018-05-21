@@ -349,7 +349,32 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_IVA_APLICADO,preeu_iva_aplicado);
 
         updateBuilder.update();
+
+
+
     }
+
+
+
+    public static void actualizarDatosAdicionalesParteFacturable(Context context,int id_rel,
+                                                  double fact_materiales,
+                                                  double fact_por_iva_aplicado,
+                                                  double fact_total_con_iva) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_MATERIALES,fact_materiales);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_TOTAL_CON_IVA,fact_total_con_iva);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_POR_IVA_APLICADO,fact_por_iva_aplicado);
+
+        updateBuilder.update();
+
+
+
+    }
+
+
+
 
     public static void actualizarHoraEntrada(Context context,int id_rel,String horaEntrada) throws java.sql.SQLException {
         cargarDao(context);

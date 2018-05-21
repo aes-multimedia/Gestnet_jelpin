@@ -213,23 +213,16 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("preeu_otros_nombre", datos_adicionales.getPreeu_otros_nombre());
         jsonObject2.put("preeu_adicional_coste", datos_adicionales.getPreeu_adicional());
         jsonObject2.put("preeu_iva_aplicado", datos_adicionales.getPreeu_iva_aplicado());
+
         jsonObject2.put("total", datos_adicionales.getTotal_ppto());
+        jsonObject2.put("fact_total_con_iva", datos_adicionales.getFact_total_con_iva());
+        jsonObject2.put("fact_por_iva_aplicado", datos_adicionales.getFact_por_iva_aplicado());
+        jsonObject2.put("fact_materiales", datos_adicionales.getFact_materiales());
         jsonObject2.put("acepta_presupuesto", datos_adicionales.getBaceptapresupuesto());
-
-
-
-
-
-
-
-
-
         jsonObject2.put("matem_hora_entrada", datos_adicionales.getMatem_hora_entrada());
         jsonObject2.put("matem_hora_salida", datos_adicionales.getMatem_hora_salida());
-
-
         jsonObject2.put("operacion_efectuada", datos_adicionales.getOperacion_efectuada());
-        jsonObject2.put("fact_materiales", datos_adicionales.getFact_materiales());
+
 
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
         JSONArray jsonArray1 = new JSONArray();

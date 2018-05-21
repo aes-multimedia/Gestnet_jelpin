@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gestnet_Nucleo</string>
+    <string name="app_name">Gestnet nucleo</string>
     <string name="cod_cliente">Codigo del Cliente</string>
     <string name="enviar">Enviar</string>
     <string name="usuario">Usuario</string>
@@ -7,7 +7,7 @@
     <string name="login">Login</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_index">Gestnet_Nucleo</string>
+    <string name="title_activity_index">Gestnet nucleo</string>
     <string name="cambiar_fecha">Cambiar Fecha</string>
     <string name="cierres_pendientes">Enviar cierres pendientes</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>

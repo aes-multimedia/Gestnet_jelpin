@@ -55,6 +55,9 @@ public class DatosAdicionales {
     public static final String REGQUE_PRESIONBOMBA="regque_presionbomba";
     public static final String REGQUE_AIRE_LINEA="regque_aire_linea";
     public static final String BCONTROLARAIREVENTILACION="bcontrolaraireventilacion";
+
+
+
     public static final String FACT_MATERIALES="fact_materiales";
     public static final String FACT_DISPOSICION_SERVICIO="fact_disposicion_servicio";
     public static final String FACT_MANODEOBRA_PRECIO="fact_manodeobra_precio";
@@ -71,6 +74,9 @@ public class DatosAdicionales {
     public static final String FACT_ADICIONAL_COSTE_NOMBRE="fact_adicional_coste_nombre";
     public static final String FACT_POR_IVA_APLICADO="fact_por_iva_aplicado";
     public static final String FACT_TOTAL_CON_IVA="fact_total_con_iva";
+
+
+
     public static final String RETENCION="retencion";
     public static final String RETENCION_PORC="retencion_porc";
     public static final String MATEM_HORA_ENTRADA="matem_hora_entrada";

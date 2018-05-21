@@ -253,5 +253,33 @@ public class ArticuloDAO extends DBHelperMOS {
 
 
     }
+
+
+
+    public static void actualizarFacturar(Context context, int id_articulo,boolean facturar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.FACTURAR,facturar);
+        updateBuilder.update();
+
+
+    }
+
+
+    public static void actualizarPresupuestar(Context context, int id_articulo,boolean presupuestar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.PRESUPUESTAR,presupuestar);
+        updateBuilder.update();
+
+
+    }
+
+
     }
 

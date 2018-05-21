@@ -47,6 +47,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCerrarParte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.FirmaCliente;
+import com.multimedia.aes.gestnet_nucleo.nucleo.GestionMateriales;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,8 +88,20 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar;
     private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago;
     private CheckBox cb_acepta_presupuesto;
+
     private double precioTotalArticulos, preeu_adicional, preeu_analisis_combustion,
             preeu_km_precio_total, preeu_materiales, preeu_total_mano_de_obra_horas, preeu_disposicion_servicio, preeu_puesta_marcha, preeu_servicio_urgencia, preeu_km, preeu_km_precio;
+
+
+
+
+
+
+
+
+
+    private Button BtnVerMateriales;
+
 
 
     //METODO
@@ -131,6 +144,24 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         sp_preeu_disposicion_servicio.setOnItemSelectedListener(this);
         sp_preeu_mano_de_obra_precio = (Spinner) vista.findViewById(R.id.sp_preeu_mano_de_obra_precio);
         sp_preeu_mano_de_obra_precio.setOnItemSelectedListener(this);
+
+
+        /**
+         *
+         * NUEVA VERSION BOTON EN PRUEBAS COMENTAR BOTON ANTES DE PASAR A PRODUCCION
+         *
+         * */
+        BtnVerMateriales = vista.findViewById(R.id.btnVerMateriales);
+        BtnVerMateriales. setOnClickListener(this);
+        /**
+         *
+         *
+         *
+         *
+         *
+         * */
+
+
         darValores();
 
 
@@ -161,7 +192,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
 
 
-                et_preeu_materiales.setText(String.format("%.2f", (getPrecioTotalArticulosParte(articuloPartes))));
+                et_preeu_materiales.setText(String.format("%.2f", (getPrecioTotalArticulosPartePpto(articuloPartes))));
             } else {
                 et_preeu_materiales.setText("0.00");
             }
@@ -211,7 +242,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     }
 
-    private double getPrecioTotalArticulosParte(ArrayList<ArticuloParte> listaArticulos) {
+    private double getPrecioTotalArticulosPartePpto(ArrayList<ArticuloParte> listaArticulos) {
         double precio = 0;
         try {
             //Si el articulo no está en garantia entonces sesuma el precio de ese articulo
@@ -220,10 +251,32 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                 Articulo art;
                 art=ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
-                if(art.isGarantia()!=true){
-                    if(!(art.isEntregado() ==1)) {
-                        precio = precio + art.getTarifa() * articulo.getUsados();
-                    }               }
+                if(art.isGarantia()!=true && art.isPresupuestar()){
+                    precio = precio + art.getTarifa()*articulo.getUsados();
+                                 }
+            }
+        } catch (SQLException e) {
+
+
+            Log.w("getPrecioTotal", "error al sumar precio articulos parte");
+        }
+
+        return precio;
+    }
+
+
+    private double getPrecioTotalArticulosParteFacturar(ArrayList<ArticuloParte> listaArticulos) {
+        double precio = 0;
+        try {
+            //Si el articulo no está en garantia entonces sesuma el precio de ese articulo
+
+            for (ArticuloParte articulo : listaArticulos) {
+
+                Articulo art;
+                art=ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
+                if(art.isGarantia()!=true && art.isFacturar()){
+                    precio = precio + art.getTarifa()*articulo.getUsados();
+                }
             }
         } catch (SQLException e) {
 
@@ -237,7 +290,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        vista = inflater.inflate(R.layout.tab_fragment4_finalizacion_nuevo, container, false);
+        vista = inflater.inflate(R.layout.tab_fragment4_finalizacion_nuevo_v2, container, false);
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
@@ -267,6 +320,21 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+
+
+
+        if(view.getId()==BtnVerMateriales.getId()){
+            Intent i = new Intent(getContext(), GestionMateriales.class);
+            i.putExtra("fk_parte",parte.getId_parte());
+            startActivityForResult(i,654);
+
+
+        }else{
+
+
+
+
+
         Calendar c = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -388,8 +456,36 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
                             double total = SubTotal + preeu_iva_aplicado;
                             et_total.setText(String.format("%.2f", total));
+
+
+
+
+                            double fact_materiales,
+                                    fact_subtotal,
+                                    fact_por_iva_aplicado,
+                                    fact_total_con_iva;
+
+                            fact_materiales = getPrecioTotalArticulosParteFacturar(articuloPartes);
+                            fact_subtotal = preeu_adicional + preeu_analisis_combustion +
+                                    preeu_km_precio_total + fact_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
+
+                            fact_por_iva_aplicado = fact_subtotal * 21 / 100;
+                            fact_total_con_iva = fact_por_iva_aplicado + fact_subtotal;
+
+
                             try {
+                                DatosAdicionalesDAO.actualizarDatosAdicionalesParteFacturable(getContext(),datos.getId_rel(),fact_materiales,fact_por_iva_aplicado,fact_total_con_iva);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            try {
+
+
+
                                 DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
+
                                         operacionEfectuada,
                                         preeu_materiales,
                                         preeu_disposicion_servicio,
@@ -409,6 +505,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                         total,
                                         acepta_presupuesto,
                                         formaPago
+
                                 );
                                 datos.setMatem_hora_salida(formattedDate);
                                 DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);
@@ -417,6 +514,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
+
+
+
+
                         } else {
                             Dialogo.dialogoError("Es necesario seleccionar una mano de obra de servicio", getContext());
                         }
@@ -430,6 +531,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)", getContext());
             }
 
+             }
         }
     }
 
@@ -477,7 +579,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                     articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
                     if (!articuloPartes.isEmpty()) {
-                        precioTotalArticulos = getPrecioTotalArticulosParte(articuloPartes);
+                        precioTotalArticulos = getPrecioTotalArticulosPartePpto(articuloPartes);
                     }
 
 
@@ -564,6 +666,22 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 btnFirmar.setEnabled(false);
 
                 }
+        }else if(requestCode == 654){
+
+
+            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+            try {
+                if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+                    articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+
+
+                    et_preeu_materiales.setText(String.format("%.2f", (getPrecioTotalArticulosPartePpto(articuloPartes))));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
     }

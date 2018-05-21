@@ -22,6 +22,8 @@ public class Articulo {
     public static final String IMAGEN = "imagen";
     public static final String GARANTIA = "garantia";
     public static final String ENTREGADO ="entregado";
+    public static final String PRESUPUESTAR="presupuestar";
+    public static final String FACTURAR = "facturar";
 
     @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
     @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
@@ -40,7 +42,9 @@ public class Articulo {
     @DatabaseField(columnName = EAN)                                    private String ean;
     @DatabaseField(columnName = IMAGEN)                                 private int imagen;
     @DatabaseField(columnName = GARANTIA)                               private boolean garantia;
-    @DatabaseField(columnName = ENTREGADO)                               private boolean entregado;
+    @DatabaseField(columnName = ENTREGADO)                              private boolean entregado;
+    @DatabaseField(columnName = PRESUPUESTAR)                           private boolean presupuestar;
+    @DatabaseField(columnName = FACTURAR)                               private boolean facturar;
 
     public Articulo() {
     }
@@ -64,6 +68,8 @@ public class Articulo {
         this.imagen = imagen;
         this.garantia= false;
         this.entregado=false;
+        this.presupuestar=true;
+        this.facturar=true;
     }
 
 
@@ -80,6 +86,8 @@ public class Articulo {
         this.descuento = descuento;
         this.garantia=false;
         this.entregado=false;
+        this.presupuestar=true;
+        this.facturar=true;
     }
 
     public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
@@ -101,6 +109,8 @@ public class Articulo {
         this.imagen = imagen;
         this.garantia= garantia;
         this.entregado=entregado;
+        this.presupuestar=true;
+        this.facturar=true;
     }
 
     public boolean isGarantia() {
@@ -247,5 +257,22 @@ public class Articulo {
 
     public void setEntregado(boolean entregado) {
         this.entregado = entregado;
+    }
+
+
+    public boolean isPresupuestar() {
+        return presupuestar;
+    }
+
+    public void setPresupuestar(boolean presupuestar) {
+        this.presupuestar = presupuestar;
+    }
+
+    public boolean isFacturar() {
+        return facturar;
+    }
+
+    public void setFacturar(boolean facturar) {
+        this.facturar = facturar;
     }
 }

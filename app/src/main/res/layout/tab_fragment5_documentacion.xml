@@ -35,7 +35,7 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/botones"
                 android:padding="5dp"
-                android:text="Sacar foto" />
+                android:text="Hacer fotografia" />
         </LinearLayout>
 
         <ListView
