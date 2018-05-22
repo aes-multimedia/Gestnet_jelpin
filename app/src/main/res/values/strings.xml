@@ -128,6 +128,9 @@
     <string name="pedir_pieza">Pedir pieza</string>
     <string name="utilizar_pieza">Utilizar pieza</string>
     <string name="pieza_en_garantia">Pieza en garantia</string>
+    <string name="crear_presupuestos">Creación de presupuestos</string>
+    <string name="solicitud_presupuesto">Solicitud de Presupuesto</string>
+    <string name="datos_presupuesto" >Datos del Presupuesto</string>
 
 </resources>
 

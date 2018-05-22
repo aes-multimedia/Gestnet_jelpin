@@ -9,7 +9,6 @@ import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment1_cliente;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment3_operaciones;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment4_finalizacion;
-import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
@@ -19,6 +18,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     private TabFragment3_operaciones tab3;
     private TabFragment6_materiales tab4;
     private  TabFragment4_finalizacion tab6;
+
 
     public PageAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -41,10 +41,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 3:
                 tab4 = new TabFragment6_materiales();
                 return tab4;
-
             case 4:
                 tab6 = new TabFragment4_finalizacion();
                 return tab6;
+
+
             default:
                 return null;
         }
@@ -68,4 +69,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         return tab6;
     }
     public TabFragment6_materiales getTab6() { return tab4; }
+
+
+
 }
