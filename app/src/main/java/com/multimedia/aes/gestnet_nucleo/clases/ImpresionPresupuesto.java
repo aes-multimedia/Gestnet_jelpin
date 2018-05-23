@@ -31,8 +31,8 @@ public class ImpresionPresupuesto extends Ticket {
     public String encabezado() throws SQLException {
         String result = "\n";
         String encabezado="";
-        if(aceptaPresupuesto)encabezado="FACTURA SIMPLIFICADA";
-        else encabezado="PRESUPUESTO";
+
+        encabezado="PRESUPUESTO";
 
         result+="--------------------------------"+"\n";
         result+="----------"+encabezado+"-----------"+"\n";
@@ -47,7 +47,7 @@ public class ImpresionPresupuesto extends Ticket {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
-        aceptaPresupuesto=datosAdicionales.getBaceptapresupuesto();
+
 
         Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
         List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);

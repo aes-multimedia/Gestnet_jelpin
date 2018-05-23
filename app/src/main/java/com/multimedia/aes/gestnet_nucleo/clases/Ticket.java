@@ -19,7 +19,7 @@ import java.util.Calendar;
 public class Ticket {
 
 
-    protected boolean aceptaPresupuesto= false;
+
 
 
     public Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {

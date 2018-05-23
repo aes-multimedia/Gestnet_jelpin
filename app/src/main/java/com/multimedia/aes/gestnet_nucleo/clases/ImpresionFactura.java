@@ -49,7 +49,7 @@ public class ImpresionFactura extends Ticket {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
-        super.aceptaPresupuesto=datosAdicionales.getBaceptapresupuesto();
+
 
         Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
         List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
