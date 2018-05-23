@@ -30,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferenc
 import com.multimedia.aes.gestnet_nucleo.clases.Impresion;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
+import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
@@ -65,6 +66,8 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     private ScrollView scTicket;
     private Parte parte;
     private Usuario usuario;
+    private Ticket ticket;
+
 
     //METODOS
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
@@ -215,11 +218,15 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         String impreso = "";
         String impreso2 = "";
         try {
+
+
             impreso+= Impresion.encabezadoPresupuesto();
             impreso+= Impresion.ticket(parte.getId_parte(),getContext());
             impreso+= Impresion.piePresupuesto();
             impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
             impreso2+= Impresion.conformeTecnico(getContext());
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

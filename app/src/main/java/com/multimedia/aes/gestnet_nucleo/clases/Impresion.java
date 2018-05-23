@@ -40,6 +40,8 @@ public class Impresion {
 
     ////////////METODOS////////////////
     private static boolean aceptaPresupuesto=false;
+
+
     public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
@@ -50,6 +52,9 @@ public class Impresion {
         }
         return b;
     }
+
+
+
     public static Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
@@ -61,6 +66,9 @@ public class Impresion {
         }
         return b;
     }
+
+
+
     public static String limpiarAcentos(String texto_entrada) {
         String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";
         String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCCE";
@@ -70,9 +78,14 @@ public class Impresion {
         }
         return output;
     }
+
+
+
 ////////////METODOS////////////////
 
 /////////////SEITRON///////////////
+
+
     public static String ticket(int id, Context context) throws SQLException {
     //BAJAR TODA LA INFORMACION QUE FALTA DE LA BBDD Y GUARDARLA EN LA TABLA CORRESPONDIENTE
     Cliente cliente = ClienteDAO.buscarCliente(context);
@@ -289,6 +302,10 @@ public class Impresion {
                 "No95 DE 20 DE MAYO."+"\n"+"\n";
         return result;
     }
+
+
+
+
     public static String conformeCliente (int id, Context context) throws SQLException {
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         String result="";
@@ -306,6 +323,10 @@ public class Impresion {
         result+="Firma"+"\n";
         return result;
     }
+
+
+
+
     public static String conformeTecnico (Context context) throws SQLException {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         String result="";

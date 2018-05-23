@@ -56,14 +56,15 @@ public class Presupuestos extends AppCompatActivity {
         }
 
         tvDireccionCliente.setText(getDireccion(parte));
-        tvNombreCliente.setText(parte.getNombre_cliente());
-
+        tvNombreCliente.setText("Hommer J Simpson");
+        //tvNombreCliente.setText(parte.getNombre_cliente());
+        darValoresSpinner();
 
     }
 
     private CharSequence getDireccion(Parte parte){
         String dir ="";
-
+/*
         if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){
             dir+=parte.getTipo_via()+" ";
         }
@@ -87,13 +88,15 @@ public class Presupuestos extends AppCompatActivity {
         }
         if (!parte.getProvincia_direccion().trim().equals("")&&!parte.getProvincia_direccion().trim().equals("null")){
             dir+=parte.getProvincia_direccion()+")";
-        }
+        }*/
+
+        dir="Calle falsa 123, 28028, Springfield, Nevada";
 
         return dir;
     }
 
 
-    public void darValoresSpinner(String mensaje, Context context) {
+    public void darValoresSpinner(/*String mensaje, Context context*/) {
 
         //SPINNER FORMAS PAGO
 

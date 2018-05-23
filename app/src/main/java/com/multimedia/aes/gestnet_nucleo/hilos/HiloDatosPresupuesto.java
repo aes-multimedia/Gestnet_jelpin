@@ -56,7 +56,7 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-            ((Presupuestos)context).darValoresSpinner(mensaje,context);
+         //   ((Presupuestos)context).darValoresSpinner(mensaje,context);
         }else{
 
             ((Presupuestos)context).sacarMensaje("Parte sin documentos");

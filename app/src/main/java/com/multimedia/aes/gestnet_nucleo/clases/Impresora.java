@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 public class Impresora {
+
 	public Activity activity;
 	private BluetoothAdapter bluetoothAdapter;
 	public BluetoothPort bp;
@@ -125,6 +126,9 @@ public class Impresora {
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(4000);
 	}
+
+
+
 	/*private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		InputStream bitmap = null;
 		int img[][] = null;
