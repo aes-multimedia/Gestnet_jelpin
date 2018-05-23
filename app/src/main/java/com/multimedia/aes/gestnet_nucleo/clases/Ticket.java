@@ -22,7 +22,7 @@ public class Ticket {
     protected boolean aceptaPresupuesto= false;
 
 
-    protected Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
+    public Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
 
         Bitmap b = null;
         try {
@@ -34,7 +34,7 @@ public class Ticket {
         return b;
     }
 
-    protected Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
+    public Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
             File f = new File(Constantes.PATH, "firmaTecnico.png");
@@ -47,7 +47,7 @@ public class Ticket {
     }
 
 
-    protected String limpiarAcentos(String texto_entrada) {
+    public String limpiarAcentos(String texto_entrada) {
         String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";
         String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCCE";
         String output = texto_entrada;
@@ -57,7 +57,7 @@ public class Ticket {
         return output;
     }
 
-    protected String conformeCliente (int id, Context context) throws SQLException {
+    public String conformeCliente (int id, Context context) throws SQLException {
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         String result="";
         Calendar mcurrentDate = Calendar.getInstance();
@@ -75,7 +75,7 @@ public class Ticket {
         return result;
     }
 
-    protected String conformeTecnico (Context context) throws SQLException {
+    public String conformeTecnico (Context context) throws SQLException {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         String result="";
         result+="\n"+"-------FIRMADO TECNICO----------"+"\n";
@@ -85,18 +85,18 @@ public class Ticket {
         return result;
     }
 
-    protected  String encabezado() throws SQLException{
+    public  String encabezado() throws SQLException{
         return null;
     }
 
 
 
-    protected  String cuerpo(int id, Context context) throws SQLException{
+    public  String cuerpo(int id, Context context) throws SQLException{
         return null;
     }
 
 
-    protected  String pie(){
+    public  String pie(){
         return null;
     }
 

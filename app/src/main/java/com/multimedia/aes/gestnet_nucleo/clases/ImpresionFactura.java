@@ -32,7 +32,7 @@ public class ImpresionFactura extends Ticket {
 
 
     @Override
-    protected String encabezado() throws SQLException {
+    public String encabezado() throws SQLException {
         String result = "\n";
         result+="--------------------------------"+"\n";
         result+="------FACTURA SIMPLIFICADA------"+"\n";
@@ -41,7 +41,7 @@ public class ImpresionFactura extends Ticket {
     }
 
     @Override
-    protected String cuerpo(int id, Context context) throws SQLException {
+    public String cuerpo(int id, Context context) throws SQLException {
 
         //BAJAR TODA LA INFORMACION QUE FALTA DE LA BBDD Y GUARDARLA EN LA TABLA CORRESPONDIENTE
 
@@ -221,7 +221,7 @@ public class ImpresionFactura extends Ticket {
     }
 
     @Override
-    protected String pie() {
+    public String pie() {
 
         String result = "\n";
         result+="*Esta reparacion tiene una "+"\n"+

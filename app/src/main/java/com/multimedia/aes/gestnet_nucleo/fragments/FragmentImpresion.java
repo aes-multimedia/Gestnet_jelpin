@@ -27,13 +27,17 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
-import com.multimedia.aes.gestnet_nucleo.clases.Impresion;
+
+import com.multimedia.aes.gestnet_nucleo.clases.ImpresionFactura;
+import com.multimedia.aes.gestnet_nucleo.clases.ImpresionPresupuesto;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
 import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
@@ -67,6 +71,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     private Parte parte;
     private Usuario usuario;
     private Ticket ticket;
+    private DatosAdicionales datosAdicionales;
 
 
     //METODOS
@@ -177,6 +182,8 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             int id = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(),id);
             usuario = UsuarioDAO.buscarUsuario(getContext());
+            datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),id);
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -215,16 +222,24 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        if(datosAdicionales.getBaceptapresupuesto())
+            ticket = new ImpresionFactura();
+        else
+            ticket = new ImpresionPresupuesto();
+
+
         String impreso = "";
         String impreso2 = "";
         try {
 
 
-            impreso+= Impresion.encabezadoPresupuesto();
-            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
-            impreso+= Impresion.piePresupuesto();
-            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
-            impreso2+= Impresion.conformeTecnico(getContext());
+            impreso+= ticket.encabezado();
+            impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
+            impreso+= ticket.pie();
+            impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= ticket.conformeTecnico(getContext());
 
 
         } catch (SQLException e) {
@@ -274,7 +289,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             closeButton.setVisibility(View.GONE);
             if (parte.getTicket()!=null){
                 impresora = new Impresora(getActivity(),mmDevice,getContext());
-                impresora.imprimir();
+                impresora.imprimir(ticket);
             }else{
                 Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap1);
@@ -286,7 +301,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                 try {
                     if (ParteDAO.actualizarTicket(getContext(),parte.getId_parte(),encodedImage)) {
                         impresora = new Impresora(getActivity(), mmDevice,getContext());
-                        impresora.imprimir();
+                        impresora.imprimir(ticket);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -314,11 +329,11 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         String impreso = "";
         String impreso2 = "";
         try {
-            impreso+= Impresion.encabezadoPresupuesto();
-            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
-            impreso+= Impresion.piePresupuesto();
-            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
-            impreso2+= Impresion.conformeTecnico(getContext());
+            impreso+= ticket.encabezado();
+            impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
+            impreso+= ticket.pie();
+            impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= ticket.conformeTecnico(getContext());
         } catch (SQLException e) {
             e.printStackTrace();
         }

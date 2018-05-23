@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
         <activity
-            android:name=".nucleo.Presupuestos"
+            android:name=".nucleo.PreLogin"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -105,7 +105,7 @@
         <activity android:name=".nucleo.Galeria" />
         <activity android:name=".nucleo.AnadirDatosMaquina" />
         <activity android:name=".nucleo.GestionMateriales" />
-
+        <activity android:name=".nucleo.Presupuestos" />
 
     </application>
 

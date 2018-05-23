@@ -28,7 +28,7 @@ public class ImpresionPresupuesto extends Ticket {
 
 
     @Override
-    protected String encabezado() throws SQLException {
+    public String encabezado() throws SQLException {
         String result = "\n";
         String encabezado="";
         if(aceptaPresupuesto)encabezado="FACTURA SIMPLIFICADA";
@@ -41,7 +41,7 @@ public class ImpresionPresupuesto extends Ticket {
     }
 
     @Override
-    protected String cuerpo(int id, Context context) throws SQLException {
+    public String cuerpo(int id, Context context) throws SQLException {
         //BAJAR TODA LA INFORMACION QUE FALTA DE LA BBDD Y GUARDARLA EN LA TABLA CORRESPONDIENTE
         Cliente cliente = ClienteDAO.buscarCliente(context);
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
@@ -219,7 +219,7 @@ public class ImpresionPresupuesto extends Ticket {
     }
 
     @Override
-    protected String pie() {
+    public String pie() {
         String result = "\n";
         result+="*Este presupuesto tiene una "+"\n"+
                 "validez de quince dias. No "+"\n"+
