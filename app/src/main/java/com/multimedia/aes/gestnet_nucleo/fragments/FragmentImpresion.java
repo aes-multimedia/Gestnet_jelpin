@@ -265,13 +265,13 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             openButton.setVisibility(View.GONE);
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
-            if (parte.getFirma64().equals("")||parte.getFirma64()==null){
+                if (/*parte.getFirma64().equals("")||*/parte.getFirma64()==null){
                 Dialogo.dialogoError("Falta firma del cliente.(Pestaña de Documentos)",getContext());
             }else{
                 byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
                 Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 ivFirma2.setImageBitmap(bfirma);
-                if (usuario.getFirma().equals("")||usuario.getFirma()==null){
+                if (/*usuario.getFirma().equals("")||*/usuario.getFirma()==null){
                     Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)",getContext());
                 }else{
                     decodedBytes = Base64.decode(usuario.getFirma(), 0);
@@ -316,6 +316,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             mBluetoothAdapter.startDiscovery();
         }
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         llBotones.setVisibility(View.VISIBLE);

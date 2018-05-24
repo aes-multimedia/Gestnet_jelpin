@@ -33,6 +33,7 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
         this.activity = activity;
         this.impresora=impresora;
         this.context=context;
+        this.ticket=ticket;
     }
 
 	@Override
