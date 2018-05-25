@@ -151,6 +151,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             }
+            arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
             }
