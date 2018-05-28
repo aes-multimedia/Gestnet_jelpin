@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Calendar;
 
-public class Ticket {
+public abstract class Ticket {
 
 
 
@@ -86,6 +86,8 @@ public class Ticket {
     }
 
     public  String encabezado() throws SQLException{
+
+
         return null;
     }
 
@@ -101,4 +103,5 @@ public class Ticket {
     }
 
 
+    public abstract String pie(int id, Context context);
 }

@@ -847,6 +847,12 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
                     }
+                    String politicaPrivacidad;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad").equals("null")) {
+                        politicaPrivacidad = "";
+                    } else {
+                        politicaPrivacidad = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad");
+                    }
 
                     String sintomas = "";
                     if (jsonArray.getJSONObject(i).getJSONArray("sintomas").length() == 0 ) {
@@ -922,7 +928,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas,politicaPrivacidad)) {
                             bien = true;
                         } else {
                             bien = false;

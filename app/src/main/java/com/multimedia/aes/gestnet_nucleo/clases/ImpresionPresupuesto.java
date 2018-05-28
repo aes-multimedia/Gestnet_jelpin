@@ -219,11 +219,23 @@ public class ImpresionPresupuesto extends Ticket {
     }
 
     @Override
-    public String pie() {
+    public String pie(int id, Context context) {
+        Parte parte;
+        try {
+
+            parte = ParteDAO.buscarPartePorId(context,id);
+        }catch (Exception e){
+
+            return e.getMessage();
+        }
+
+        String politicaPrivacidad=parte.getPoliticaPrivacidad();
         String result = "\n";
-        result+="*Este presupuesto tiene una "+"\n"+
-                "validez de quince dias. No "+"\n"+
-                "ampara averias ocultas."+"\n"+"\n";
+        result+="*Esta reparacion tiene una "+"\n"+
+                "garantia de 3 meses. DECRETO "+"\n"+
+                "139/1999 DE 7 DE MAYO: DOGAN "+"\n"+
+                "No95 DE 20 DE MAYO."+"\n"+"\n"+politicaPrivacidad+"\n";
+
         return result;
     }
 }

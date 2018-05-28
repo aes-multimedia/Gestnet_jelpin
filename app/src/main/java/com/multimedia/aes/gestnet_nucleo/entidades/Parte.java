@@ -125,6 +125,7 @@ public class Parte {
     public static final String TELEFONO2 = "telefono2";
     public static final String EMAIL = "email";
     public static final String SINTOMAS = "sintomas";
+    public static final String POLITICAPRIVACIDAD = "politicaPrivacidad";
 
 
 
@@ -255,6 +256,7 @@ public class Parte {
     @DatabaseField(columnName = TELEFONO1)           private String telefono1;
     @DatabaseField(columnName = TELEFONO2)             private String telefono2;
     @DatabaseField(columnName = EMAIL)            private String email;
+    @DatabaseField(columnName = POLITICAPRIVACIDAD)            private String politicaPrivacidad;
 
 
     public Parte(){}
@@ -297,7 +299,7 @@ public class Parte {
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
                  String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
-                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas) {
+                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -419,6 +421,7 @@ public class Parte {
         this.telefono1=telefono1;
         this.telefono2=telefono2;
         this.email=email;
+        this.politicaPrivacidad=politicaPrivacidad;
     }
 
     public static String getIdParte() {
@@ -472,6 +475,15 @@ public class Parte {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPoliticaPrivacidad() {
+        return politicaPrivacidad;
+    }
+
+    public void setPoliticaPrivacidad(String politicaPrivacidad) {
+        this.politicaPrivacidad = politicaPrivacidad;
+    }
+
 
     public int getId_parte() {
         return id_parte;

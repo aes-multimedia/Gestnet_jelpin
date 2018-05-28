@@ -78,7 +78,7 @@ public class Impresora {
 			//imprimirImagenEncabezadoSeitron(pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.encabezado()),pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.cuerpo(parte.getId_parte(),context)),pps);
-			imprimirSeitron(ticket.limpiarAcentos(ticket.pie()),pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.pie(parte.getId_parte(),context)),pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeCliente(parte.getId_parte(),context)),pps);
 			imprimirFirmaClienteSeitron(ticket,pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeTecnico(context)),pps);
