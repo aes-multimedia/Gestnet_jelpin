@@ -90,7 +90,6 @@ public abstract class Ticket {
 
     public  String encabezado() throws SQLException{
 
-
         return null;
     }
 

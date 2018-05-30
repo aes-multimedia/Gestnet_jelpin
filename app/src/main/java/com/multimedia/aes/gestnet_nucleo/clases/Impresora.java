@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -102,29 +103,41 @@ public class Impresora {
 		int img[][] = null;
 		int ancho = 1;
 		Bitmap bit = ticket.loadFirmaClienteFromStorage(parte.getId_parte(),activity);
-		img = new int[bit.getWidth()][bit.getHeight()];
-		ancho = bit.getWidth();
-		for (int i = 0; i < bit.getHeight(); i++) {
-			for (int j = 0; j < bit.getWidth(); j++) {
-				img[j][i] = bit.getPixel(j, i);
+		if(bit != null) {
+			img = new int[bit.getWidth()][bit.getHeight()];
+			ancho = bit.getWidth();
+			for (int i = 0; i < bit.getHeight(); i++) {
+				for (int j = 0; j < bit.getWidth(); j++) {
+					img[j][i] = bit.getPixel(j, i);
+				}
 			}
+			pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
+			Thread.sleep(4000);
+		} else {
+			String texto = "\n\n\n\n";
+			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
+			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
-		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(4000);
 	}
 	private void imprimirFirmaTecnicoSeitron(Ticket ticket,POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
 		int img[][] = null;
 		int ancho = 1;
 		Bitmap bit = ticket.loadFirmaTecnicoFromStorage(parte.getId_parte(),activity);
-		img = new int[bit.getWidth()][bit.getHeight()];
-		ancho = bit.getWidth();
-		for (int i = 0; i < bit.getHeight(); i++) {
-			for (int j = 0; j < bit.getWidth(); j++) {
-				img[j][i] = bit.getPixel(j, i);
+		if(bit!=null) {
+			img = new int[bit.getWidth()][bit.getHeight()];
+			ancho = bit.getWidth();
+			for (int i = 0; i < bit.getHeight(); i++) {
+				for (int j = 0; j < bit.getWidth(); j++) {
+					img[j][i] = bit.getPixel(j, i);
+				}
 			}
+			pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
+			Thread.sleep(4000);
+		} else {
+			String texto = "\n\n\n\n";
+			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
+			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
-		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(4000);
 	}
 
 

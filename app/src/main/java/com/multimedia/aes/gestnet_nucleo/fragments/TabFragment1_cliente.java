@@ -3,6 +3,8 @@ package com.multimedia.aes.gestnet_nucleo.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -42,6 +45,9 @@ import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -439,11 +445,22 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
 
         }else if(view.getId()==R.id.btnImprimir){
-            if(parte.getEstado_android()!=3){
+            Bitmap bit=null;
 
-                Toast.makeText(getContext(),R.string.imprimir_finalizados,Toast.LENGTH_SHORT).show();
+            try {
+                 bit = loadFirmaTecnicoFromStorage(parte.getId_parte(),getActivity());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (bit!=null) {
+                if (parte.getEstado_android() != 3) {
+
+                    Toast.makeText(getContext(), R.string.imprimir_finalizados, Toast.LENGTH_SHORT).show();
+                } else {
+                    ((Index) getContext()).impresion();
+                }
             }else{
-                ((Index)getContext()).impresion();
+                Toast.makeText(getContext(), "Es necesaria la firma del tecnico", Toast.LENGTH_SHORT).show();
             }
 
         }else if(view.getId()==R.id.ibLocation){
@@ -525,6 +542,17 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
         }
         return connected;
+    }
+    public Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
+        Bitmap b = null;
+        try {
+            File f = new File(Constantes.PATH, "firmaTecnico.png");
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
     }
 
 }

@@ -364,7 +364,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             alert11.setCanceledOnTouchOutside(false);
             alert11.show();
 
-        }else if (id == R.id.cerrar_sesion) {
+        }  else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));
                 BBDDConstantes.borrarDatosTablas(this);
