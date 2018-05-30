@@ -83,11 +83,11 @@ public class ImpresionFactura extends Ticket {
         result+="--------DATOS DEL PARTE---------"+"\n";
         String numParte = String.valueOf(parte.getNum_parte());
         result+="Num. Parte: "+numParte+"\n";
-        String fechaAvisoParte = parte.getFecha_aviso();
+        String fechaAvisoParte =FormatearfechaTimeStamp( parte.getFecha_aviso());
         result+="Fecha aviso: "+fechaAvisoParte+"\n";
         String fechaFacturaParte = parte.getFecha_factura();
         result+="Fecha factura: "+fechaFacturaParte+"\n";
-        String fechaIntervParte = parte.getFecha_visita();
+        String fechaIntervParte = FormatearfechaDate(parte.getFecha_visita());
         result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
         String numCliente = "";
@@ -150,7 +150,7 @@ public class ImpresionFactura extends Ticket {
         result+="Ctrto. Man: "+contMant+"\n";
         String numSerie = maquina.getNum_serie();
         result+="N. Serie: "+numSerie+"\n";
-        String puestaMarchaMaquina = maquina.getPuesta_marcha();
+        String puestaMarchaMaquina = FormatearfechaDate(maquina.getPuesta_marcha());
         result+="Puesta Marcha: "+puestaMarchaMaquina+"\n"+"\n";
         result+="----------INTERVENCION----------"+"\n";
         String operacion = datosAdicionales.getOperacion_efectuada();

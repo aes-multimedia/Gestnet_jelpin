@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -15,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Locale;
 
 public abstract class Ticket {
 
@@ -59,6 +61,7 @@ public abstract class Ticket {
 
     public String conformeCliente (int id, Context context) throws SQLException {
         Parte parte = ParteDAO.buscarPartePorId(context,id);
+        Log.e("datos cliente Impresion",parte.toString());
         String result="";
         Calendar mcurrentDate = Calendar.getInstance();
         int mYear = mcurrentDate.get(Calendar.YEAR);
@@ -104,4 +107,33 @@ public abstract class Ticket {
 
 
     public abstract String pie(int id, Context context);
+
+
+    public String FormatearfechaTimeStamp(String fechaRecibida){
+
+        if (fechaRecibida!=""){
+            String fechaFormateada="";
+
+            String[] recogerFecha1=fechaRecibida.split(" ");
+            String fechaIngles=recogerFecha1[0];
+            String[] recogerFecha2=fechaIngles.split("-");
+            fechaFormateada=recogerFecha2[2]+"-"+recogerFecha2[1]+"-"+recogerFecha2[0];
+            return  fechaFormateada;
+        }else{
+            return "";
+        }
+    }
+    public String FormatearfechaDate(String fechaRecibida){
+        if (fechaRecibida!=""){
+            String fechaFormateada="";
+            String fechaIngles=fechaRecibida;
+            String[] recogerFecha2=fechaIngles.split("-");
+            fechaFormateada=recogerFecha2[2]+"-"+recogerFecha2[1]+"-"+recogerFecha2[0];
+            return  fechaFormateada;
+        }else{
+            return "";
+        }
+    }
+
 }
+

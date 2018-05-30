@@ -21,8 +21,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ImpresionPresupuesto extends Ticket {
 
@@ -47,6 +49,7 @@ public class ImpresionPresupuesto extends Ticket {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
+        SimpleDateFormat formateador = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("es_ES"));
 
 
         Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
@@ -82,11 +85,13 @@ public class ImpresionPresupuesto extends Ticket {
         String numParte = String.valueOf(parte.getNum_parte());
         result+="Num. Parte: "+numParte+"\n";
         String fechaAvisoParte = parte.getFecha_aviso();
-        result+="Fecha aviso: "+fechaAvisoParte+"\n";
+        String fechaAvisoParteFormateado=FormatearfechaTimeStamp(fechaAvisoParte);
+        result+="Fecha aviso: "+fechaAvisoParteFormateado+"\n";
         String fechaFacturaParte = parte.getFecha_factura();
         result+="Fecha factura: "+fechaFacturaParte+"\n";
         String fechaIntervParte = parte.getFecha_visita();
-        result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
+        String fechaIntervParteFormateada= FormatearfechaDate(fechaIntervParte);
+        result+="Fecha intervencion: "+fechaIntervParteFormateada+"\n"+"\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
         String numCliente = "";
         result+="Num. Cliente: "+numCliente+"\n";
@@ -149,7 +154,8 @@ public class ImpresionPresupuesto extends Ticket {
         String numSerie = maquina.getNum_serie();
         result+="N. Serie: "+numSerie+"\n";
         String puestaMarchaMaquina = maquina.getPuesta_marcha();
-        result+="Puesta Marcha: "+puestaMarchaMaquina+"\n"+"\n";
+        String puestaMarcaaMaquinaFormateada=FormatearfechaDate(puestaMarchaMaquina);
+        result+="Puesta Marcha: "+puestaMarcaaMaquinaFormateada+"\n"+"\n";
         result+="----------INTERVENCION----------"+"\n";
         String operacion = datosAdicionales.getOperacion_efectuada();
         result+="Operacion: "+operacion+"\n";
@@ -216,6 +222,10 @@ public class ImpresionPresupuesto extends Ticket {
         result+=""+"\n";
         result+=""+"\n";
         return result;
+
+
+
+
     }
 
     @Override
@@ -238,4 +248,11 @@ public class ImpresionPresupuesto extends Ticket {
 
         return result;
     }
+
+
+
+
+
+
+
 }
