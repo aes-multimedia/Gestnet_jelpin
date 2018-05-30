@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -438,7 +439,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
 
         }else if(view.getId()==R.id.btnImprimir){
-            ((Index)getContext()).impresion();
+            if(parte.getEstado_android()!=3){
+
+                Toast.makeText(getContext(),R.string.imprimir_finalizados,Toast.LENGTH_SHORT).show();
+            }else{
+                ((Index)getContext()).impresion();
+            }
+
         }else if(view.getId()==R.id.ibLocation){
             Intent i = new Intent(getContext(),Mapa.class);
             Double a = Double.parseDouble(parte.getLatitud_direccion());

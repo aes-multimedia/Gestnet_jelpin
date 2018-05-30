@@ -100,6 +100,8 @@
     <string name="si">si</string>
     <string name="no">no</string>
     <string name="hora_entrada">Hora de entrada:</string>
+    <string name="actualizar_stock">Actualizar Stock tecnico</string>
+    <string name="imprimir_finalizados">Solo se pueden imprimir partes finalizados</string>
     <string name="tipo_contrato">Tipo de Contrato:</string>
     <string name="intervenciones_anteriores">Mostrar intervenciones anteriores</string>
     <string name="ver_documentacion_del_parte">Ver documentación del parte</string>
