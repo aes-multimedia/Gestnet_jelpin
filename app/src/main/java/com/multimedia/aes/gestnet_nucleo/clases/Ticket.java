@@ -110,7 +110,7 @@ public abstract class Ticket {
 
     public String FormatearfechaTimeStamp(String fechaRecibida){
 
-        if (fechaRecibida!=""){
+        if (!fechaRecibida.equals("")){
             String fechaFormateada="";
 
             String[] recogerFecha1=fechaRecibida.split(" ");
@@ -123,9 +123,10 @@ public abstract class Ticket {
         }
     }
     public String FormatearfechaDate(String fechaRecibida){
-        if (fechaRecibida!=""){
+        if (!fechaRecibida.equals("")){
             String fechaFormateada="";
             String fechaIngles=fechaRecibida;
+            Log.d("fechaRecibida",fechaRecibida);
             String[] recogerFecha2=fechaIngles.split("-");
             fechaFormateada=recogerFecha2[2]+"-"+recogerFecha2[1]+"-"+recogerFecha2[0];
             return  fechaFormateada;
