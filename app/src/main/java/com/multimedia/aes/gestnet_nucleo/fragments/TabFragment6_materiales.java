@@ -229,13 +229,16 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 }
 
             }
-           if (context!=null&&activity!=null){
+           if (context!=null && activity!=null){
                adaptadorListaMateriales = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity, parte.getId_parte());
                lvMateriales.setAdapter(adaptadorListaMateriales);
                lvMateriales.setVisibility(View.VISIBLE);
                lvBusquedaMaterial.setVisibility(View.GONE);
            }
         } else {
+            ArrayList<Articulo> articulos = new ArrayList<>();
+            adaptadorListaMateriales = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity, parte.getId_parte());
+            lvMateriales.setAdapter(adaptadorListaMateriales);
             lvBusquedaMaterial.setVisibility(View.VISIBLE);
             lvMateriales.setVisibility(View.GONE);
         }
@@ -358,10 +361,18 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
-                            int cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
-                            int usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
+
+                            int cantidad=0;
+                            int usados=0;
+
+                           // if(ArticuloDAO.buscarArticuloPorID(context,idArticulo)!=null)
+                                cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
+
+                            //if(ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte())!=null)
+                                usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
                             ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
                             ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);
+
                             llenarMateriales();
                         } catch (SQLException e) {
                             e.printStackTrace();

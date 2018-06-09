@@ -13,6 +13,7 @@ import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Galeria;
+import com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2;
 
 import java.util.ArrayList;
 
@@ -47,10 +48,11 @@ public class AdaptadorListaImagenes extends ArrayAdapter implements View.OnClick
         }
         txtNombre.setText(nombre);
         ivFoto.setImageBitmap(arrayList.get(position).bitmap);
+
         return item;
     }
     @Override
     public void onClick(View v) {
-        Galeria.borrarArrayImagenes((int)v.getTag(),context);
+        GaleriaV2.borrarArrayImagenes((int)v.getTag(),context);
     }
 }

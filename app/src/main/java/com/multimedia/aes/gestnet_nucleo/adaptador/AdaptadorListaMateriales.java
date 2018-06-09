@@ -56,7 +56,10 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
         txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo()+"-"+arrayList.get(position).getReferencia());
         int usados = 1;
         try {
-            usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,arrayList.get(position).getId_articulo(),fk_parte).getUsados();
+            if(ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,arrayList.get(position).getId_articulo(),fk_parte) != null) {
+                usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, arrayList.get(position).getId_articulo(), fk_parte).getUsados();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

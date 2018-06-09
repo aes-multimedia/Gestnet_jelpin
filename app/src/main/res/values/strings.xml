@@ -132,7 +132,11 @@
     <string name="pieza_en_garantia">Pieza en garantia</string>
     <string name="crear_presupuestos">Creación de presupuestos</string>
     <string name="solicitud_presupuesto">Solicitud de Presupuesto</string>
-    <string name="datos_presupuesto" >Datos del Presupuesto</string>
+    <string name="datos_presupuesto">Datos del Presupuesto</string>
+    <string name="nuevo_presupuesto">Nuevo presupuesto</string>
+    <string name="pick_image_intent_text">Seleccionar imagen</string>
+    <string name="cargando_presupuesto">Esto puede tardar unos segundos debido a las imagenes y la velocidad de conexion.</string>
+    <string name="titulo_pd_presupuestos">Enviado presupuesto</string>
 
 </resources>
 

@@ -230,12 +230,23 @@ public class ArticuloDAO extends DBHelperMOS {
 
     }
 
-    public static void actualizarEntregado(Context context, int id_articulo) throws SQLException {
+    public synchronized static void actualizarEntregado(Context context, int id_articulo) throws SQLException {
 
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
         updateBuilder.updateColumnValue(Articulo.ENTREGADO,true);
+        updateBuilder.update();
+
+
+    }
+
+    public synchronized static void actualizarUtilizado(Context context, int id_articulo) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.ENTREGADO,false);
         updateBuilder.update();
 
 

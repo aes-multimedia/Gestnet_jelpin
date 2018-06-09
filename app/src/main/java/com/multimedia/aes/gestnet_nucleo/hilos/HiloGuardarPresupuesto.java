@@ -4,11 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.multimedia.aes.gestnet_nucleo.clases.Presupuesto;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Presupuestos;
+import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,44 +28,33 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HiloPartesId extends AsyncTask<Void,Void,Void>{
+public class HiloGuardarPresupuesto extends AsyncTask<Void,Void,Void> {
 
-    private String mensaje="",ipCliente;
-    private int idUser;
-    private int idParte;
-    private String apiKey;
+
+
+    private String mensaje;
     private Context context;
     private ProgressDialog dialog;
     private Cliente cliente;
+    private Presupuesto presupuesto;
+    private Gson gson;
 
-    public HiloPartesId(Context context,int idUser,int idParte, String ipCliente,String apiKey) {
-        this.idUser=idUser;
-        this.idParte=idParte;
-        this.context = context;
-        this.apiKey=apiKey;
-        this.ipCliente=ipCliente;
-        try {
-            this.cliente= ClienteDAO.buscarCliente(context);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setTitle("Descargando Partes.");
-        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
-        dialog.setCancelable(false);
-        dialog.setIndeterminate(true);
-        dialog.show();
-        super.onPreExecute();
+    public HiloGuardarPresupuesto(Context context, Presupuesto p, Cliente c) {
+
+        ManagerProgressDialog.cargandoPresupuesto(context);
+
+        this.context=context;
+        this.presupuesto=p;
+        this.cliente=c;
+        gson= new Gson();
+
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = partes();
+            mensaje = guardarDatosDelPresupuesto();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -69,51 +62,52 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         return null;
     }
 
+
+
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        dialog.dismiss();
+        ManagerProgressDialog.cerrarDialog();
         if (mensaje.indexOf('}')!=-1){
-            ((Index)context).guardarPartes(mensaje);
+            ((Presupuestos)context).borrarImagenesPorExito("Presupuesto enviado");
         }else{
-            ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
+            ((Presupuestos)context).sacarMensaje("Parte sin documentos");
         }
 
     }
 
-    private String partes() throws JSONException{
-        JSONObject msg = new JSONObject();
-        msg.put("tecnico",idUser);
-        msg.put("fk_parte",idParte);
+
+
+
+    private String guardarDatosDelPresupuesto() throws JSONException {
+        presupuesto.serializarImagenes();
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_ID_EXTERNAPRUEBAS;
+            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_GUARDAR_PRESUPUESTO;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
-            uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+            uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             uc.setRequestMethod("POST");
-            uc.addRequestProperty("apikey",apiKey);
-            uc.addRequestProperty("id",String.valueOf(idUser));
             uc.connect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado",5);
-            error.put("mensaje","Error de conexión, URL malformada");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado",5);
-            error.put("mensaje","Error de conexión, error de protocolo");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            error.put("estado",5);
-            error.put("mensaje","Error de conexión, IOException");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -121,7 +115,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         try {
             os = uc.getOutputStream();
             OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-            osw.write(msg.toString());
+            osw.write(gson.toJsonTree(presupuesto).toString());
             osw.flush();
             BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             String inputLine;
@@ -133,10 +127,13 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado",5);
-            error.put("mensaje","Error de conexión, error en lectura");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
         return contenido;
     }
+
+
+
 }

@@ -44,7 +44,7 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = buscarDocumentos();
+            mensaje = buscarDatosParaElPresupuesto();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -56,7 +56,10 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-         //   ((Presupuestos)context).darValoresSpinner(mensaje,context);
+
+
+
+           ((Presupuestos)context).darValoresSpinner(mensaje);
         }else{
 
             ((Presupuestos)context).sacarMensaje("Parte sin documentos");
@@ -67,8 +70,10 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
 
 
 
-    private String buscarDocumentos() throws JSONException {
+    private String buscarDatosParaElPresupuesto() throws JSONException {
         JSONObject msg = new JSONObject();
+        msg.put("fk_tipo_presupuesto",0);
+        msg.put("fk_usuario",0);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
@@ -83,19 +88,19 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, URL malformada");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error de protocolo");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, IOException");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -115,8 +120,8 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error en lectura");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
         return contenido;

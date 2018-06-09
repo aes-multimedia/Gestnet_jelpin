@@ -51,6 +51,7 @@ public class ArticuloParte {
     }
 
     public int getUsados() {
+
         return usados;
     }
 

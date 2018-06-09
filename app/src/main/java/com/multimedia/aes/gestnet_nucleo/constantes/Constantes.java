@@ -29,6 +29,7 @@ public class Constantes {
     public static final String URL_BUSCAR_DOCUMENTOS_MODELO = "/api-gestnet-datos/v1/partes/documentosModelo";
     public static final String URL_LISTAR_STOCK_TECNICOS = "/api-gestnet-datos/v1/partes/stockAlmacenes";
     public static final String URL_DATOS_PRESUPUESTO = "/api-gestnet-datos/v1/partes/datosPresupuesto";
+    public static final String URL_GUARDAR_PRESUPUESTO = "/api-gestnet-datos/v1/partes/guardarPresupuesto";
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_nucleo/app_imageDir";
 
 }

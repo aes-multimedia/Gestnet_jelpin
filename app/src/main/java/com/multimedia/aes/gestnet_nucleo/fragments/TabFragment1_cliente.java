@@ -28,19 +28,23 @@ import com.multimedia.aes.gestnet_nucleo.Mapa;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Galeria;
+
+import com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Presupuestos;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +69,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
-    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes;
+    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
     private String horaInicio;
@@ -75,42 +79,44 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     //METODO
     private void inicializarVariables() {
         //TEXT VIEWS
-        txtNumParte  = (TextView) vista.findViewById(R.id.txtNumParte);
-        txtCreadoPor= (TextView) vista.findViewById(R.id.txtCreadoPor);
-        txtMaquina = (TextView) vista.findViewById(R.id.txtMaquina);
-        txtTipoIntervencion= (TextView) vista.findViewById(R.id.txtTipoIntervencion);
-        txtSituacionEquipo = (TextView) vista.findViewById(R.id.txtSituacionEquipo);
-        txtNombreContrato = (TextView) vista.findViewById(R.id.txtNombreContrato);
-        txtDierccionTitular= (TextView) vista.findViewById(R.id.txtDierccionTitular);
-        txtSintomaLista= (TextView) vista.findViewById(R.id.txtSintomaLista);
-        txtSintomas= (TextView)vista.findViewById(R.id.txtSintomas);
-        txtHoraInicio =(TextView)vista.findViewById(R.id.txtHoraInicio);
-        tvHoraInicio=(TextView)vista.findViewById(R.id.tvHoraInicio);
+        txtNumParte  =  vista.findViewById(R.id.txtNumParte);
+        txtCreadoPor=  vista.findViewById(R.id.txtCreadoPor);
+        txtMaquina =  vista.findViewById(R.id.txtMaquina);
+        txtTipoIntervencion=  vista.findViewById(R.id.txtTipoIntervencion);
+        txtSituacionEquipo =  vista.findViewById(R.id.txtSituacionEquipo);
+        txtNombreContrato =  vista.findViewById(R.id.txtNombreContrato);
+        txtDierccionTitular=  vista.findViewById(R.id.txtDierccionTitular);
+        txtSintomaLista=  vista.findViewById(R.id.txtSintomaLista);
+        txtSintomas= vista.findViewById(R.id.txtSintomas);
+        txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
+        tvHoraInicio=vista.findViewById(R.id.tvHoraInicio);
 
         //EDIT TEXTS
-        etNombreTitular = (EditText) vista.findViewById(R.id.etNombreTitular);
-        etDni= (EditText) vista.findViewById(R.id.etDni);
-        etTelefono1 = (EditText) vista.findViewById(R.id.etTelefono1);
-        etTelefono2= (EditText) vista.findViewById(R.id.etTelefono2);
-        etTelefono3= (EditText) vista.findViewById(R.id.etTelefono3);
-        etTelefono4= (EditText) vista.findViewById(R.id.etTelefono4);
-        etObservaciones= (EditText) vista.findViewById(R.id.etObservaciones);
+        etNombreTitular =  vista.findViewById(R.id.etNombreTitular);
+        etDni=  vista.findViewById(R.id.etDni);
+        etTelefono1 =  vista.findViewById(R.id.etTelefono1);
+        etTelefono2=  vista.findViewById(R.id.etTelefono2);
+        etTelefono3=  vista.findViewById(R.id.etTelefono3);
+        etTelefono4=  vista.findViewById(R.id.etTelefono4);
+        etObservaciones=  vista.findViewById(R.id.etObservaciones);
         //BOTONES
         btnImagenes= vista.findViewById(R.id.btnAñadirImagen);
-        btnIniciarParte= (Button) vista.findViewById(R.id.btnIniciarParte);
-        btnClienteAusente = (Button) vista.findViewById(R.id.btnClienteAusente);
-        btnImprimir = (Button) vista.findViewById(R.id.btnImprimir);
-        btnVerDocumentos =(Button) vista.findViewById(R.id.btnVerDocumentos);
+        btnIniciarParte=  vista.findViewById(R.id.btnIniciarParte);
+        btnClienteAusente =  vista.findViewById(R.id.btnClienteAusente);
+        btnImprimir =  vista.findViewById(R.id.btnImprimir);
+        btnVerDocumentos = vista.findViewById(R.id.btnVerDocumentos);
+        btnAñadirPresupuesto = vista.findViewById(R.id.btnAñadirPresupuesto);
 
         //IMAGEBUTTON
-        ibLocation = (ImageButton) vista.findViewById(R.id.ibLocation);
-        ibIr = (ImageButton) vista.findViewById(R.id.ibIr);
+        ibLocation =  vista.findViewById(R.id.ibLocation);
+        ibIr =  vista.findViewById(R.id.ibIr);
         //IMAGEVIEW
-        ivLlamar1 = (ImageView) vista.findViewById(R.id.ivLlamar1);
-        ivLlamar2 = (ImageView) vista.findViewById(R.id.ivLlamar2);
-        ivLlamar3 = (ImageView) vista.findViewById(R.id.ivLlamar3);
-        ivLlamar4 = (ImageView) vista.findViewById(R.id.ivLlamar4);
+        ivLlamar1 =  vista.findViewById(R.id.ivLlamar1);
+        ivLlamar2 =  vista.findViewById(R.id.ivLlamar2);
+        ivLlamar3 =  vista.findViewById(R.id.ivLlamar3);
+        ivLlamar4 =  vista.findViewById(R.id.ivLlamar4);
         //ONCLICK
+        btnAñadirPresupuesto.setOnClickListener(this);
         btnImagenes.setOnClickListener(this);
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
@@ -123,7 +129,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar3.setOnClickListener(this);
         ivLlamar4.setOnClickListener(this);
         //SWITCH
-        swEdicion = (Switch)vista.findViewById(R.id.swEdicion);
+        swEdicion = vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
         //TEXTWATCHER
         etNombreTitular.addTextChangedListener(new TextWatcher() {
@@ -350,7 +356,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment1_cliente, container, false);
-        JSONObject jsonObject = null;
+        JSONObject jsonObject;
         int idParte = 0;
 
         try {
@@ -364,6 +370,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
             maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
             datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -392,7 +399,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     public void onClick(View view) {
 
         if(view.getId()==btnImagenes.getId()){
-            Intent i = new Intent(getContext(), Galeria.class);
+            Intent i = new Intent(getContext(), GaleriaV2.class);
             getContext().startActivity(i);
 
         }else if(view.getId()==btnVerDocumentos.getId()){
@@ -498,6 +505,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             } else {
                 llamar(etTelefono4.getText().toString());
             }
+        }else if(view.getId() == R.id.btnAñadirPresupuesto){
+
+
+            Intent i = new Intent(getContext(), Presupuestos.class);
+            i.putExtra("id_parte",parte.getId_parte());
+            startActivity(i);
+
+
+
         }
     }
 
@@ -535,9 +551,9 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         // Recupera todas las redes (tanto móviles como wifi)
         NetworkInfo[] redes = connec.getAllNetworkInfo();
 
-        for (int i = 0; i < redes.length; i++) {
+        for (NetworkInfo rede : redes) {
             // Si alguna red tiene conexión, se devuelve true
-            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+            if (rede.getState() == NetworkInfo.State.CONNECTED) {
                 connected = true;
             }
         }
