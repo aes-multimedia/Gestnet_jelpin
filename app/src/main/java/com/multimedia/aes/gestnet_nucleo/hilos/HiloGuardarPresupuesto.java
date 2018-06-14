@@ -71,7 +71,7 @@ public class HiloGuardarPresupuesto extends AsyncTask<Void,Void,Void> {
         if (mensaje.indexOf('}')!=-1){
             ((Presupuestos)context).borrarImagenesPorExito("Presupuesto enviado");
         }else{
-            ((Presupuestos)context).sacarMensaje("Parte sin documentos");
+            ((Presupuestos)context).sacarMensaje("Presupuesto no enviado");
         }
 
     }
@@ -81,6 +81,7 @@ public class HiloGuardarPresupuesto extends AsyncTask<Void,Void,Void> {
 
     private String guardarDatosDelPresupuesto() throws JSONException {
         presupuesto.serializarImagenes();
+
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
