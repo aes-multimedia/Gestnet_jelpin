@@ -396,5 +396,15 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
     }
 
+     public static void actualizarOperacionEfectuada(Context context,int id_rel,String op) throws java.sql.SQLException {
+            cargarDao(context);
+            UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+            updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+            updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,op);
+
+            updateBuilder.update();
+
+        }
+
 
 }

@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +29,6 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloDatosPresupuesto;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloGuardarPresupuesto;
-import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -81,11 +78,6 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
         idParte = getIntent().getIntExtra("id_parte", 0);
 
         listaImagenes=new ArrayList<>();
-
-
-
-
-
 
         try {
 
@@ -160,11 +152,14 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        darValoresSpinnerTiposPesupuesto(jsonArrayTiposPresupuesto);
-        darValoresSpinnerTiposTrabajo(jsonArrayTiposTrabajo);
-
+        if(jsonArrayTiposPresupuesto==null || jsonArrayTiposTrabajo==null){
+            sacarMensaje("Sin conexion, por favor intentelo de nuevo mas tarde.");
+            finish();
+        }else{
+            darValoresSpinnerTiposPesupuesto(jsonArrayTiposPresupuesto);
+            darValoresSpinnerTiposTrabajo(jsonArrayTiposTrabajo);
+        }
         //SPINNER FORMAS PAGO
-
     }
 
 
@@ -239,25 +234,25 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
 
         List<TipoPresupuesto> l = new ArrayList<>();
 
-        for (int i = 0; i < jsonArrayTiposPresupuesto.length(); i++) {
-            JSONObject jsonObject = new JSONObject(String.valueOf(jsonArrayTiposPresupuesto.getJSONObject(i)));
-            int id;
-            if (jsonObject.getString("id_instalacion_presupuesto").equals("null") || jsonObject.getString("id_instalacion_presupuesto").equals("")) {
-                id = -1;
-            } else {
-                id = jsonObject.getInt("id_instalacion_presupuesto");
-            }
+            for (int i = 0; i < jsonArrayTiposPresupuesto.length(); i++) {
+                JSONObject jsonObject = new JSONObject(String.valueOf(jsonArrayTiposPresupuesto.getJSONObject(i)));
+                int id;
+                if (jsonObject.getString("id_instalacion_presupuesto").equals("null") || jsonObject.getString("id_instalacion_presupuesto").equals("")) {
+                    id = -1;
+                } else {
+                    id = jsonObject.getInt("id_instalacion_presupuesto");
+                }
 
-            String nombre_instalacion;
-            if (jsonObject.getString("nombre_instalacion").equals("null")) {
-                nombre_instalacion = "";
-            } else {
-                nombre_instalacion = jsonObject.getString("nombre_instalacion");
-            }
-            TipoPresupuesto t = new TipoPresupuesto(id, nombre_instalacion);
+                String nombre_instalacion;
+                if (jsonObject.getString("nombre_instalacion").equals("null")) {
+                    nombre_instalacion = "";
+                } else {
+                    nombre_instalacion = jsonObject.getString("nombre_instalacion");
+                }
+                TipoPresupuesto t = new TipoPresupuesto(id, nombre_instalacion);
 
-            l.add(t);
-        }
+                l.add(t);
+            }
 
 
         tipoPresupuestoList = l;
@@ -289,8 +284,6 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
 
-      /*  ManagerProgressDialog.abrirDialog(this);
-        ManagerProgressDialog.cargandoPresupuesto(this);*/
 
         if (v.getId() == btnAdjuntarImagen.getId()) {
 
@@ -303,9 +296,6 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
 
         } else if (v.getId() == btnGuardarPresupuesto.getId()) {
 
-
-
-
             Presupuesto p = new Presupuesto()
                     .setFk_usuario(parte.getFk_usuario())
                     .setFk_user_creador(1)
@@ -314,6 +304,7 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
                     .setFk_tipo_trabajo(getFkTipoITrabajo(tipoTrabajoList,spTipoTrabajo.getSelectedItem().toString(),0))
                     .setObservaciones_presupuesto(observaciones.getText().toString())
                     .setListaImagenes(listaImagenes)
+                    .setFk_empresa(parte.getFk_compania())
                     .setFk_parte(parte.getId_parte());
 
             new HiloGuardarPresupuesto(this,p,cliente).execute();

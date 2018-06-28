@@ -24,6 +24,7 @@ public class Presupuesto {
     private int fk_tipo_presupuesto;
     private int fk_tipo_trabajo;
     private int fk_parte;
+    private int fk_empresa;
     private String observaciones_presupuesto;
     private ArrayList<String> listaImagenes;
 
@@ -117,29 +118,30 @@ public class Presupuesto {
         return this;
     }
 
+    public int getFk_empresa() {
+        return fk_empresa;
+    }
+
+    public Presupuesto setFk_empresa(int fk_empresa) {
+        this.fk_empresa = fk_empresa;
+        return this;
+    }
+
     public void serializarImagenes(){
 
 
         ArrayList<String> a = new ArrayList<>();
         if(!listaImagenes.isEmpty()){
+
+
             for (int i = 0; i < listaImagenes.size(); i++) {
-                File f = new File(listaImagenes.get(i));
-                Bitmap b = null;
 
-                try {
+                Bitmap  b = ShrinkBitmap(listaImagenes.get(i),300,300);
 
-                    b = BitmapFactory.decodeStream(new FileInputStream(f));
-
-                } catch (FileNotFoundException e) {
-                    Log.e("FileNotFoundException","Presupuestos linea 126");
-                    e.printStackTrace();
-
-                }
-
-
-                b = resizeImage(b);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                b.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+                b.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                 a.add(encodedImage);
@@ -153,6 +155,32 @@ public class Presupuesto {
 
 
     }
+    private Bitmap ShrinkBitmap(String file, int width, int height){
 
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        bmpFactoryOptions.inJustDecodeBounds = true;
+        Bitmap bitmap;
+
+        int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+        int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+
+        if (heightRatio > 1 || widthRatio > 1)
+        {
+            if (heightRatio > widthRatio)
+            {
+                bmpFactoryOptions.inSampleSize = heightRatio;
+            } else {
+                bmpFactoryOptions.inSampleSize = widthRatio;
+            }
+        }
+
+        bmpFactoryOptions.inJustDecodeBounds = false;
+        bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+        //ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        //bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
+
+        return bitmap;
+    }
 
 }

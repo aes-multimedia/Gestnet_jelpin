@@ -5,9 +5,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Presupuestos;
+import com.multimedia.aes.gestnet_nucleo.nucleo.FotosIntervenciones;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.nucleo.InfoArticulos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,73 +27,64 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
-
-
-
+public class HiloActualizarStock extends AsyncTask<Void,Void,Void> {
+    private int fk_entidad;
     private String mensaje;
     private Context context;
     private ProgressDialog dialog;
-    private Cliente cliente;
+    Cliente cliente;
 
-
-    public HiloDatosPresupuesto(Context context) throws SQLException {
-
+    public HiloActualizarStock(Context context,int fk_entidad) {
+        this.fk_entidad = fk_entidad;
         this.context=context;
-        cliente = ClienteDAO.buscarCliente(context);
+        try {
+            this.cliente= ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Actualizando stock del almacén");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+
+        super.onPreExecute();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = buscarDatosParaElPresupuesto();
+            mensaje = iniciar();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
         }
         return null;
     }
-
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}')!=-1){
-
-            int estado=0;
-            try {
-                JSONObject jsonObject= new JSONObject(mensaje);
-                if(jsonObject.getString("estado")!=null && !jsonObject.getString("estado").equals(""))
-
-                estado=jsonObject.getInt("estado");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if(estado==5){
-                ((Presupuestos)context).sacarMensaje("Sin conexion, por favor intentelo de nuevo mas tarde.");
-            }else{
-
-                ((Presupuestos)context).darValoresSpinner(mensaje);
-            }
+            actualizarStock(mensaje);
+            dialog.dismiss();
         }else{
-            ((Presupuestos)context).sacarMensaje("Parte sin documentos");
+            ((Index) context).sacarMensaje(mensaje);
         }
-
     }
-
-
-
-
-    private String buscarDatosParaElPresupuesto() throws JSONException {
+    private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_tipo_presupuesto",0);
-        msg.put("fk_usuario",0);
+        msg.put("fkEntidad", fk_entidad);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_DATOS_PRESUPUESTO;
-            urlws = new URL(url);
+            urlws = new URL("http://"+cliente.getIp_cliente()+ Constantes.URL_ACTUALZIAR_STOCK_ALMACEN);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -101,18 +95,19 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
-            error.put("mensaje", "Error de conexión, URL malformada");
+            error.put("mensaje", "Error de conexion, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
-            error.put("mensaje", "Error de conexión, error de protocolo");
+            error.put("mensaje", "Error de conexion, error de protocolo");
             return error.toString();
         } catch (IOException e) {
+            e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
-            error.put("mensaje", "Error de conexión, IOException");
+            error.put("mensaje", "Error de conexion, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -131,14 +126,44 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            JSONObject error = new JSONObject();
-            error.put("estado", 5);
-            error.put("mensaje", "Error de conexión, error en lectura");
-            contenido = error.toString();
         }
         return contenido;
     }
 
+    private  void actualizarStock(String mensaje) {
 
+        try {
+            JSONArray jsonElements = new JSONArray(mensaje);
+            for (int i = 0; i < jsonElements.length(); i++) {
+
+
+                int id;
+                if (jsonElements.getJSONObject(i).getString("id_articulo").equals("") || jsonElements.getJSONObject(i).getString("id_articulo").equals("null"))
+                    id = 0;
+                else
+                    id = jsonElements.getJSONObject(i).getInt("id_articulo");
+
+
+                double stock;
+                if (jsonElements.getJSONObject(i).getString("cantidad").equals("") || jsonElements.getJSONObject(i).getString("cantidad").equals("null"))
+                    stock = 0;
+                else
+                    stock = jsonElements.getJSONObject(i).getDouble("cantidad");
+
+
+
+
+                ArticuloDAO.actualizarStockPorfK(context,id,stock);
+
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SQLException sql) {
+            sql.printStackTrace();
+        }
+    }
 
 }

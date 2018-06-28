@@ -28,7 +28,7 @@ public class Articulo {
     @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
     @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
     @DatabaseField(columnName = NOMBRE_ARTICULO)                        private String nombre_articulo;
-    @DatabaseField(columnName = STOCK)                                  private int stock;
+    @DatabaseField(columnName = STOCK)                                  private double stock;
     @DatabaseField(columnName = REFERENCIA)                             private String referencia;
     @DatabaseField(columnName = REFERENCIA_AUX)                         private String referencia_aux;
     @DatabaseField(columnName = FAMILIA)                                private String familia;
@@ -49,7 +49,7 @@ public class Articulo {
     public Articulo() {
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
@@ -73,7 +73,7 @@ public class Articulo {
     }
 
 
-    public Articulo(int fk_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
@@ -90,7 +90,7 @@ public class Articulo {
         this.facturar=true;
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
@@ -151,11 +151,11 @@ public class Articulo {
         this.nombre_articulo = nombre_articulo;
     }
 
-    public int getStock() {
+    public double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(double stock) {
         this.stock = stock;
     }
 

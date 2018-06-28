@@ -44,6 +44,7 @@ import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
+import com.multimedia.aes.gestnet_nucleo.nucleo.IntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Presupuestos;
 
 import org.json.JSONException;
@@ -69,7 +70,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
-    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto;
+    private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
     private String horaInicio;
@@ -106,6 +107,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnImprimir =  vista.findViewById(R.id.btnImprimir);
         btnVerDocumentos = vista.findViewById(R.id.btnVerDocumentos);
         btnAñadirPresupuesto = vista.findViewById(R.id.btnAñadirPresupuesto);
+        btnVerIntervenciones=vista.findViewById(R.id.btnIntervencionesAnteriotes);
 
         //IMAGEBUTTON
         ibLocation =  vista.findViewById(R.id.ibLocation);
@@ -122,6 +124,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
         btnVerDocumentos.setOnClickListener(this);
+        btnVerIntervenciones.setOnClickListener(this);
         ibLocation.setOnClickListener(this);
         ibIr.setOnClickListener(this);
         ivLlamar1.setOnClickListener(this);
@@ -402,7 +405,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             Intent i = new Intent(getContext(), GaleriaV2.class);
             getContext().startActivity(i);
 
-        }else if(view.getId()==btnVerDocumentos.getId()){
+        }else if(view.getId() == btnVerIntervenciones.getId()) {
+                Intent e = new Intent(getContext(), IntervencionesAnteriores.class);
+                e.putExtra("fk_maquina", parte.getFk_maquina());
+                startActivityForResult(e, 104);
+
+        } else if(view.getId()==btnVerDocumentos.getId()){
 
 
             if(hayConexion()) {

@@ -80,7 +80,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         if (jsonArray.length()!=0){
-            JSONObject jsonObject2 = new JSONObject();
+            JSONObject jsonObject2;
             for(int i =0 ;i<jsonArray.length();i++){
 
                 jsonObject2= jsonArray.getJSONObject(i).getJSONObject("datosAdicionales");
@@ -564,6 +564,8 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                             retencion_porc, matem_hora_entrada, matem_hora_salida, observacionesPago, cobrar_analisis_combustion);
                     bien = true;
                 }
+
+                datos.clear();
 
             }
         }else{

@@ -16,6 +16,7 @@ public class ProtocoloAccion {
     public static final String NOMBRE_PROTOCOLO = "nombre_protocolo";
     public static final String ID_ACCION = "id_accion";
     public static final String TIPO_ACCION = "tipo_accion";
+    public static final String ORDEN = "orden";
     public static final String DESCRIPCION = "descripcion";
 
 
@@ -28,12 +29,13 @@ public class ProtocoloAccion {
     @DatabaseField(columnName = NOMBRE_PROTOCOLO)                   private String nombre_protocolo;
     @DatabaseField(columnName = ID_ACCION)                   private int id_accion;
     @DatabaseField(columnName = TIPO_ACCION)                   private boolean tipo_accion;
+    @DatabaseField(columnName = ORDEN)                   private int orden;
     @DatabaseField(columnName = DESCRIPCION)                   private String descripcion;
 
 
     public ProtocoloAccion(){}
 
-    public ProtocoloAccion(int id_protocolo_accion, String valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion) {
+    public ProtocoloAccion(int id_protocolo_accion, String valor, int fk_maquina, int fk_parte, int fk_protocolo, String nombre_protocolo, int id_accion, boolean tipo_accion, String descripcion,int orden) {
         this.id_protocolo_accion = id_protocolo_accion;
         this.valor = valor;
         this.fk_maquina = fk_maquina;
@@ -43,6 +45,7 @@ public class ProtocoloAccion {
         this.id_accion = id_accion;
         this.tipo_accion = tipo_accion;
         this.descripcion = descripcion;
+        this.orden = orden;
     }
 
     public int getId_protocolo_accion() {
@@ -98,5 +101,13 @@ public class ProtocoloAccion {
     }
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 }

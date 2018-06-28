@@ -93,18 +93,33 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
     private void actualizarHoras(){
         int horInicio = Integer.parseInt(btnHoraInicio.getText().toString().split(":")[0]);
         int minInicio = Integer.parseInt(btnHoraInicio.getText().toString().split(":")[1]);
+
+
         int horFin = Integer.parseInt(btnHoraFin.getText().toString().split(":")[0]);
         int minFin = Integer.parseInt(btnHoraFin.getText().toString().split(":")[1]);
+
+
+
+
+
         int horComida = Integer.parseInt(btnHorasComida.getText().toString().split(":")[0]);
         int minComida = Integer.parseInt(btnHorasComida.getText().toString().split(":")[1]);
+
         long inicio = horInicio*3600000+minInicio*60000;
         long fin = horFin*3600000+minFin*60000;
         long comida = horComida*3600000+minComida*60000;
+
         long result = fin-inicio-comida;
-        Date date = new Date(result);
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-        String myTime = formatter.format(date );
-        txtTotalHoras.setText(myTime);
+
+        int minutes = (int) ((result / (1000*60)) % 60);
+        int hours   = (int) ((result / (1000*60*60)) % 24);
+
+
+        String horas = hours < 10? "0"+String.valueOf(hours) : String.valueOf(hours);
+        String minutos = minutes < 10? "0"+String.valueOf(minutes) : String.valueOf(minutes);
+
+
+        txtTotalHoras.setText(String.valueOf(horas)+":"+String.valueOf(minutos));
     }
     private void actualizarTotal(){
         double dietas=0,parking=0,combustible=0,material=0;

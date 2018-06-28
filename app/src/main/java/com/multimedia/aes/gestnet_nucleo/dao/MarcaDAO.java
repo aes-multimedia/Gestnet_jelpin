@@ -8,6 +8,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
+import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -51,6 +52,8 @@ public class MarcaDAO extends DBHelperMOS {
         DeleteBuilder<Marca, Integer> deleteBuilder = dao.deleteBuilder();
         deleteBuilder.delete();
     }
+
+
 
     public static void borrarMarcaPorID(Context context, int id) throws SQLException {
         cargarDao(context);

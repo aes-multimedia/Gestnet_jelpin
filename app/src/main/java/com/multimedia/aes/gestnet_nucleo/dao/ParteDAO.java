@@ -680,4 +680,15 @@ public class ParteDAO extends DBHelperMOS{
 
         return true;
     }
+
+
+    public static boolean actualizarTextoDuracion(Context context, int id_parte, String txt) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.TEXTO_DURACION,txt);
+        updateBuilder.update();
+
+        return true;
+    }
 }

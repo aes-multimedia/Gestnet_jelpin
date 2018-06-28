@@ -158,11 +158,23 @@ public class GuardarFormasPago extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
-                FormasPagoDAO.actualizarFormasPago(context,id_forma_pago,forma_pago,financiado,mostrar_cuenta,sumar_dias,bAparecerEnInforme,mostrarcuenta);
-            }
 
+
+
+
+        try {
+            FormasPagoDAO.actualizarFormasPago(context, id_forma_pago, forma_pago, financiado, mostrar_cuenta, sumar_dias, bAparecerEnInforme, mostrarcuenta);
+        }catch (SQLException e){
+            bien = false;
+
+            }
+            bien = true;
+
+            }
+            formas.clear();
         }
 
     }
 
-}
+    }
+

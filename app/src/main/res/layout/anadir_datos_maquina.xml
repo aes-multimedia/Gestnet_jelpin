@@ -14,16 +14,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Datos del Equipo"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:id="@+id/llMaquina"
                 android:layout_width="match_parent"
@@ -284,16 +274,6 @@
                         android:text="Ver documento del equipo"
                         android:textColor="#000000" />
 
-                    <Button
-                        android:id="@+id/btnIntervencionesAnteriotes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/botones"
-                        android:gravity="center"
-                        android:text="@string/intervenciones_anteriores" />
 
                     <Button
                         android:id="@+id/btnAñadirMaquina"

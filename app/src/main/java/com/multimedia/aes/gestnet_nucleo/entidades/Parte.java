@@ -126,6 +126,7 @@ public class Parte {
     public static final String EMAIL = "email";
     public static final String SINTOMAS = "sintomas";
     public static final String POLITICAPRIVACIDAD = "politicaPrivacidad";
+    public static final String TEXTO_DURACION = "texto_duracion";
 
 
 
@@ -257,6 +258,7 @@ public class Parte {
     @DatabaseField(columnName = TELEFONO2)             private String telefono2;
     @DatabaseField(columnName = EMAIL)            private String email;
     @DatabaseField(columnName = POLITICAPRIVACIDAD)            private String politicaPrivacidad;
+    @DatabaseField(columnName = TEXTO_DURACION)            private String textoDuracion;
 
 
     public Parte(){}
@@ -422,6 +424,7 @@ public class Parte {
         this.telefono2=telefono2;
         this.email=email;
         this.politicaPrivacidad=politicaPrivacidad;
+        textoDuracion="";
     }
 
     public static String getIdParte() {
@@ -1162,5 +1165,14 @@ public class Parte {
     }
     public void setTicket(String ticket) {
         this.ticket = ticket;
+    }
+
+
+    public String getTextoDuracion() {
+        return textoDuracion;
+    }
+
+    public void setTextoDuracion(String textoDuracion) {
+        this.textoDuracion = textoDuracion;
     }
 }

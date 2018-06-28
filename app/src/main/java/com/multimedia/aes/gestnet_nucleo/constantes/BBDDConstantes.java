@@ -126,9 +126,11 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Analisis.class, true);
 		TableUtils.dropTable(connectionSource, Imagen.class, true);
 		TableUtils.dropTable(connectionSource, Envio.class, true);
+
+
 	}
 
-	public static void borrarDatosTablas(Context context) throws SQLException {
+	public synchronized static void borrarDatosTablas(Context context) throws SQLException {
 
 		ClienteDAO.borrarTodosLosClientes(context);
 		UsuarioDAO.borrarTodosLosUsuarios(context);

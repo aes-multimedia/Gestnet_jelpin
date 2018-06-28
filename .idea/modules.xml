@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Gestnet_Nucleo.iml" filepath="$PROJECT_DIR$/Gestnet_Nucleo.iml" />
       <module fileurl="file://$PROJECT_DIR$/SML_Android_1.042/SML_Android_1.042.iml" filepath="$PROJECT_DIR$/SML_Android_1.042/SML_Android_1.042.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
     </modules>
   </component>
 </project>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.WindowManager;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
@@ -24,7 +25,9 @@ public class Dialogo {
 
                     }
                 });
+
         AlertDialog alert11 = builder1.create();
+        //alert11.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }

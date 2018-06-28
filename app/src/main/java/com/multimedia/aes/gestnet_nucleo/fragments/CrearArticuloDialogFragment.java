@@ -32,7 +32,8 @@ public class CrearArticuloDialogFragment extends DialogFragment {
 
     private EditText etNombre,etUnidades,etPrecio,etCoste,etIva;
     private String nombre;
-    private int unidades,iva,cantidadStock;
+    private int iva,cantidadStock;
+    private int unidades;
     private float precio,coste;
     private int idParte;
     private RadioButton radioButtonPedir,radioButtonUsar;
@@ -61,11 +62,11 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.crear, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        etNombre= (EditText)getDialog().findViewById(R.id.etNombre);
-                        etUnidades= (EditText)getDialog().findViewById(R.id.etUnidades);
-                        etPrecio= (EditText)getDialog().findViewById(R.id.etPrecio);
-                        etCoste= (EditText)getDialog().findViewById(R.id.etCoste);
-                        etIva= (EditText)getDialog().findViewById(R.id.etIva);
+                        etNombre= getDialog().findViewById(R.id.etNombre);
+                        etUnidades=getDialog().findViewById(R.id.etUnidades);
+                        etPrecio= getDialog().findViewById(R.id.etPrecio);
+                        etCoste= getDialog().findViewById(R.id.etCoste);
+                        etIva= getDialog().findViewById(R.id.etIva);
                         radioButtonPedir = getDialog().findViewById(R.id.rButtonPedir);
                         radioButtonUsar = getDialog().findViewById(R.id.rButtonUsar);
                         chGarantia = getDialog().findViewById(R.id.chGarantia);

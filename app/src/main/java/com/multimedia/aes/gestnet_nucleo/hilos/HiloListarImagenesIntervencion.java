@@ -3,13 +3,14 @@ package com.multimedia.aes.gestnet_nucleo.hilos;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Presupuestos;
+import com.multimedia.aes.gestnet_nucleo.nucleo.FotosIntervenciones;
+import com.multimedia.aes.gestnet_nucleo.nucleo.IntervencionesAnteriores;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,27 +25,42 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
+public class HiloListarImagenesIntervencion extends AsyncTask<Void,Void,Void> {
+    private String mensaje = "";
 
 
-
-    private String mensaje;
+    private int fk_parte;
     private Context context;
     private ProgressDialog dialog;
-    private Cliente cliente;
+    Cliente cliente;
+
+    public HiloListarImagenesIntervencion(Context context, int fk_parte) {
+        this.fk_parte = fk_parte;
+        this.context = context;
+        try {
+            this.cliente = ClienteDAO.buscarCliente(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-    public HiloDatosPresupuesto(Context context) throws SQLException {
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setTitle("Buscando imagenes");
+        dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
 
-        this.context=context;
-        cliente = ClienteDAO.buscarCliente(context);
-
+        super.onPreExecute();
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = buscarDatosParaElPresupuesto();
+            mensaje = partes();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -55,41 +71,27 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        if (mensaje.indexOf('}')!=-1){
-
-            int estado=0;
-            try {
-                JSONObject jsonObject= new JSONObject(mensaje);
-                if(jsonObject.getString("estado")!=null && !jsonObject.getString("estado").equals(""))
-
-                estado=jsonObject.getInt("estado");
-            } catch (JSONException e) {
-                e.printStackTrace();
+        dialog.dismiss();
+        Log.d("Hilo imagenes inter", String.valueOf(context.getClass()));
+        if (mensaje.indexOf('}') != -1) {
+            if (context.getClass() == FotosIntervenciones.class) {
+                 ((FotosIntervenciones) context).almacenarRutas(mensaje);
             }
+        } else {
+            ((FotosIntervenciones) context).sacarMensaje("Sin imagenes");
 
-            if(estado==5){
-                ((Presupuestos)context).sacarMensaje("Sin conexion, por favor intentelo de nuevo mas tarde.");
-            }else{
-
-                ((Presupuestos)context).darValoresSpinner(mensaje);
-            }
-        }else{
-            ((Presupuestos)context).sacarMensaje("Parte sin documentos");
         }
 
     }
 
 
-
-
-    private String buscarDatosParaElPresupuesto() throws JSONException {
+    private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_tipo_presupuesto",0);
-        msg.put("fk_usuario",0);
+        msg.put("fk_parte", fk_parte);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_DATOS_PRESUPUESTO;
+            String url = "http://" + cliente.getIp_cliente() + Constantes.URL_IMAGENES_INTERVENCIONES_ANTERIORES;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
@@ -136,9 +138,10 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
             error.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
+
+
         return contenido;
     }
-
 
 
 }

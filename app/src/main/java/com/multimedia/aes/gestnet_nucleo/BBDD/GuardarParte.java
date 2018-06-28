@@ -936,6 +936,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     }
 
                 }
+                partes.clear();
             }
         }else{
             bien = true;

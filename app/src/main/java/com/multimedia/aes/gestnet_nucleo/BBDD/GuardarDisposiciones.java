@@ -80,6 +80,7 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
         boolean esta = false;
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("disposiciones_servicio");
+
         for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -119,6 +120,7 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
                 precio_disposicion = jsonArray.getJSONObject(i).getDouble("precio_disposicion");
             }
             if (!esta) {
+
                 if (DisposicionesDAO.newDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion)) {
                     bien = true;
                 } else {
@@ -126,11 +128,15 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
-                DisposicionesDAO.actualizarDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion);
+
+
+
+
+                 DisposicionesDAO.actualizarDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion);
             }
 
 
-
+            disposiciones.clear();
         }
 
     }

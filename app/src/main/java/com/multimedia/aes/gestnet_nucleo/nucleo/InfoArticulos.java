@@ -60,23 +60,23 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
 
     private void inicializarVariables(){
-        ivFoto = (ImageView) findViewById(R.id.expandedImage);
-        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
-        tvStock = (TextView) findViewById(R.id.tvStock);
-        tvCantidad = (EditText) findViewById(R.id.tvCantidad);
-        tvPrecio = (TextView) findViewById(R.id.tvPrecio);
-        btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
+        ivFoto =  findViewById(R.id.expandedImage);
+        tvTitulo = findViewById(R.id.tvTitulo);
+        tvStock = findViewById(R.id.tvStock);
+        tvCantidad =  findViewById(R.id.tvCantidad);
+        tvPrecio =  findViewById(R.id.tvPrecio);
+        btnAñadirMaterial=findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
 
-        btnPedirMaterial=(Button)findViewById(R.id.btnPedirMaterial);
+        btnPedirMaterial=findViewById(R.id.btnPedirMaterial);
         btnPedirMaterial.setOnClickListener(this);
 
 
 
-        lvStockEntidad= (ListView) findViewById(R.id.lvStockEntidad);
+        lvStockEntidad=  findViewById(R.id.lvStockEntidad);
 
         // Construct the data source
-        dataStock = new ArrayList<DataStock>();
+        dataStock = new ArrayList<>();
         // Create the adapter to convert the array to views
 
 
@@ -102,7 +102,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         height = display.getHeight()/8;
         dataStock= new ArrayList<>();
         buscarStockAlmacenes();
-        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
+        chkGarantia = findViewById( R.id.chkGarantia );
         chkGarantia.setOnCheckedChangeListener(this);
 
         idParte = 0;
@@ -131,12 +131,12 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         darValores();
 
 
-        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        AppBarLayout mAppBarLayout =  findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;

@@ -173,6 +173,8 @@ public class MaquinaDAO extends DBHelperMOS {
 		}
 	}
 
+
+
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 	public static void actualizarMaquina(Context context, int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String fk_tipo_combustion,
 										 int fk_protocolo, int fk_instalador, int fk_remoto_central, int fk_tipo, int fk_instalacion,

@@ -120,8 +120,18 @@ public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
+           try{
                 MarcaDAO.actualizarMarca(context, id_marca, nombre_marca);
+           }catch (SQLException e){
+               bien = false;
+
+           }
+                bien = true;
+
+
+
             }
+            marcas.clear();
         }
     }
 }

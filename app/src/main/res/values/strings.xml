@@ -137,6 +137,9 @@
     <string name="pick_image_intent_text">Seleccionar imagen</string>
     <string name="cargando_presupuesto">Esto puede tardar unos segundos debido a las imagenes y la velocidad de conexion.</string>
     <string name="titulo_pd_presupuestos">Enviado presupuesto</string>
+    <string name="fecha_visita">fecha:</string>
+    <string name="tecnico">Tecnico:</string>
+    <string name="title_activity_fotos_intervenciones">FotosIntervenciones</string>
 
 </resources>
 

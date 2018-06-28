@@ -362,7 +362,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                     public void onClick(DialogInterface dialog, int id) {
                         try {
 
-                            int cantidad=0;
+                            double cantidad=0;
                             int usados=0;
 
                            // if(ArticuloDAO.buscarArticuloPorID(context,idArticulo)!=null)

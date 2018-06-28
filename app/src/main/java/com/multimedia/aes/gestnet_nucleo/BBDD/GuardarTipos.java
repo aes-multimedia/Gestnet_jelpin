@@ -118,8 +118,11 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
+
                 TipoCalderaDAO.actualizarTipos(context, id_tipo_combustion, nombre_tipo_combustion);
             }
+            tipos.clear();
         }
+
     }
 }

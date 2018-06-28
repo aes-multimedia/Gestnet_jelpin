@@ -25,7 +25,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+
+import id.zelory.compressor.Compressor;
 
 public class FirmaCliente extends Activity implements View.OnClickListener, View.OnTouchListener {
     private Button btnGuardar,btnBorrar;
@@ -71,11 +74,11 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.firma_cliente);
-        etNombreFirmante = (EditText)findViewById(R.id.etNombreFirmante);
-        btnGuardar = (Button) findViewById(R.id.btnGuardar);
-        btnBorrar = (Button) findViewById(R.id.btnBorrar);
-        frFirma = (FrameLayout) findViewById(R.id.frFirma);
-        cvFirma = (TouchView) findViewById(R.id.cvFirma);
+        etNombreFirmante = findViewById(R.id.etNombreFirmante);
+        btnGuardar =  findViewById(R.id.btnGuardar);
+        btnBorrar =  findViewById(R.id.btnBorrar);
+        frFirma =  findViewById(R.id.frFirma);
+        cvFirma =  findViewById(R.id.cvFirma);
         cvFirma.setOnTouchListener(this);
         tocado = false;
         btnGuardar.setOnClickListener(this);
@@ -103,14 +106,31 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
                     Canvas canvas = new Canvas(bitmap);
                     frFirma.draw(canvas);
                     bitmap = redimensionarImagenMaximo(bitmap,320,320);
-                    saveToInternalSorage(bitmap);
+                    String path = saveToInternalSorage(bitmap);
+                    File image = new File(path);
+                    File compressedImageFile=null;
+                    try {
+
+                        compressedImageFile = new Compressor(this)
+                                .setMaxWidth(640)
+                                .setMaxHeight(480)
+                                .setQuality(75)
+                                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                                .setDestinationDirectoryPath(path)
+                                .compressToFile(image);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         ParteDAO.actualizarNombreFirma(this,parte.getId_parte(),etNombreFirmante.getText().toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                     Intent returnIntent = new Intent();
+                    returnIntent.putExtra("path",path);
                     setResult(Activity.RESULT_OK,returnIntent);
+
                     finish();
                 }else {
                     Dialogo.dialogoError("Es necesaria la firma del consumidor.",this);

@@ -131,10 +131,19 @@ public class GuardarManoObra extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
-                ManoObraDAO.actualizarManoObra(context,id_mano,concepto,precio,coste);
+                try {
+                    ManoObraDAO.actualizarManoObra(context, id_mano, concepto, precio, coste);
+                }catch (SQLException e){
+                    bien = false;
+
+                }
+                    bien = true;
+
+                }
+            manoObras.clear();
             }
 
 
         }
     }
-}
+

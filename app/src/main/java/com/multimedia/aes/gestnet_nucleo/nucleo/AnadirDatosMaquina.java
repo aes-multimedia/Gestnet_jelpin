@@ -57,6 +57,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
@@ -64,7 +65,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     private static EditText etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
             etTempAguaGeneCalorSalida,etNumeroSerie;
-    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes,btnVerDocumentosModelo;
+    private Button btnAñadirMaquina,btnDatosTesto,btnVerDocumentosModelo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvAnalisis;
     private static int alto1=0,height=0;
@@ -167,7 +168,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         //BUTTON
         btnAñadirMaquina = (Button)findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)findViewById(R.id.btnDatosTesto);
-        btnIntervencionesAnteriotes = (Button)findViewById(R.id.btnIntervencionesAnteriotes);
+
         btnVerDocumentosModelo=(Button)findViewById(R.id.btnVerDocumentosModelo);
 
         //LISTVIEW
@@ -177,7 +178,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         btnAñadirMaquina.setOnClickListener(this);
         btnDatosTesto.setOnClickListener(this);
         btnVerDocumentosModelo.setOnClickListener(this);
-        btnIntervencionesAnteriotes.setOnClickListener(this);
+
         activity = this;
     }
 
@@ -280,7 +281,12 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         }
         int id = getIntent().getIntExtra("id",-1);
         if (id ==-1){
-            maquina = MaquinaDAO.newMaquinaRet(this,0,parte.getFk_direccion(),0,
+
+            int fkMaquina= calcularMaquina();
+
+
+
+            maquina = MaquinaDAO.newMaquinaRet(this,fkMaquina,parte.getFk_direccion(),0,
                     0,"",0,0,0,0,
                     0,0, 0,0,0,"",
                     "","","","","","",
@@ -304,6 +310,32 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         arrayListAnalisis.clear();
         añadirAnalisis();
     }
+
+    private int calcularMaquina() {
+
+        List<Maquina> maquinaList=null;
+        try {
+             maquinaList = MaquinaDAO.buscarMaquinaPorFkParte(activity,parte.getId_parte());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            if(maquinaList!=null)return buscarUnFkRecursivo(maquinaList);
+            else return 0;
+    }
+
+    private int buscarUnFkRecursivo(List<Maquina> maquinaList) {
+        int rand = new Random().nextInt(999)*-1;
+        int i=0;
+        boolean esta=false;
+        while(i<maquinaList.size() && !esta){
+            if(maquinaList.get(i).getFk_maquina()==rand)esta=true;
+            i++;
+        }
+        if(esta)return buscarUnFkRecursivo(maquinaList);
+        else return rand;
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==103 && resultCode==RESULT_OK) {
@@ -342,17 +374,6 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                 i.putExtra("id", parte.getId_parte());
                 i.putExtra("fkMaquina", maquina.getId_maquina());
                 startActivityForResult(i, 103);
-        } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
-            if (maquina==null){
-                Dialogo.dialogoError("Necesitas seleccionar una maquina.",this);
-            } else{
-                Intent e = new Intent(this, IntervencionesAnteriores.class);
-                e.putExtra("id", parte.getId_parte());
-                e.putExtra("fk_maquina", parte.getFk_maquina());
-                e.putExtra("fk_entidad", usuario.getFk_entidad());
-                e.putExtra("ip_cliente", cliente.getIp_cliente());
-                startActivityForResult(e, 104);
-            }
         } else if (view.getId() == btnAñadirMaquina.getId()) {
             if (spMarca.getSelectedItemPosition() == 0)
                 Dialogo.dialogoError("Es necesario seleccionar una marca", this);
