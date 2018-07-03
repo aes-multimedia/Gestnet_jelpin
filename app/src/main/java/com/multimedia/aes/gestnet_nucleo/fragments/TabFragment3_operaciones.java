@@ -86,7 +86,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             arrayNombreProtocolos[0]= "--Seleciones un valor--";
             for (int i = 1; i < ordenadosNombre.size() + 1; i++) {
                 if (ordenadosNombre.get(i - 1).getFk_maquina()!=0&&ordenadosNombre.get(i - 1).getFk_maquina()!=-1){
-                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo()+"-"+ordenadosNombre.get(i - 1).getFk_maquina();
+                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo()+"-"+ordenadosNombre.get(i - 1).getFk_maquina()+"-"+ordenadosNombre.get(i-1).getFk_protocolo();
                 }else{
                     arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo();
                 }
@@ -117,8 +117,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
     private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
         ArrayList<ProtocoloAccion>arrayList= new ArrayList<>();
-
+            int c =0;
         for (ProtocoloAccion p:protocoloAccionArrayList){
+            if(p.getFk_protocolo()==20 && p.getFk_maquina() == 42339)
+                c++;
             if(!arrayListContieneProtocolo(arrayList,p))
                 arrayList.add(p);
 
@@ -150,9 +152,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         if (protocolo.contains("-")){
             String [] a = protocolo.split("-");
             try {
-                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1]))!=null){
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(),Integer.parseInt(a[2]),Integer.parseInt(a[1]))!=null){
                     ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
-                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1])));
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(),Integer.parseInt(a[2]),Integer.parseInt(a[1])));
                     for (int i = 0; i < protocolos.size(); i++) {
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);

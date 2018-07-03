@@ -379,7 +379,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         }
         inicializarVariables();
         darValoresVariables();
-        if (parte.getEstado_android()==3||parte.getEstado_android()==1){
+
+        if (parte.getEstado_android()==3||parte.getEstado_android()==1 || parte.getEstado_android()==436){
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);
@@ -468,7 +469,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 e.printStackTrace();
             }
             if (bit!=null) {
-                if (parte.getEstado_android() != 3) {
+                if (parte.getEstado_android() != 3 && parte.getEstado_android()!=436) {
 
                     Toast.makeText(getContext(), R.string.imprimir_finalizados, Toast.LENGTH_SHORT).show();
                 } else {

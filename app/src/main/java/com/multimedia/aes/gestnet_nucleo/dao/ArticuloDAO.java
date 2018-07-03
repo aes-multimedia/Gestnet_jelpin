@@ -126,6 +126,17 @@ public class ArticuloDAO extends DBHelperMOS {
             return listadoArticulo;
         }
     }
+
+
+    public static List<Articulo> buscarArticulosPorReferencia(Context context,String ref) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().eq(Articulo.REFERENCIA,ref).query();
+        if(listadoArticulo.isEmpty()) {
+            return null;
+        }else{
+            return listadoArticulo;
+        }
+    }
     public static ArrayList<String> buscarNombreArticulosPorNombre(Context context, String cadena) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").or().like(Articulo.REFERENCIA,"%"+cadena+"%").query();
@@ -134,7 +145,7 @@ public class ArticuloDAO extends DBHelperMOS {
         }else{
             ArrayList<String> nombres = new ArrayList<>();
             for (Articulo articulo:listadoArticulo) {
-                nombres.add(articulo.getNombre_articulo()+"-"+articulo.getReferencia());
+                nombres.add(articulo.getReferencia()+" <-> "+articulo.getNombre_articulo());
             }
             return nombres;
         }

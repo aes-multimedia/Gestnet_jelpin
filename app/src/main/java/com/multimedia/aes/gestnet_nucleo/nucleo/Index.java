@@ -116,6 +116,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         alert11.show();
 
     }
+
+
     public void guardarPartes(String msg) {
         try {
             JSONObject jsonObject = new JSONObject(msg);
@@ -128,13 +130,21 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
+
     public void datosActualizados() {
+
+        /*
         Intent intent = new Intent(this, Index.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
         startActivity(intent);
-        finish();
+        finish();*/
+
+
+
+
+        recreate();
     }
     public void impresion() {
         Class fragmentClass = FragmentImpresion.class;
@@ -176,6 +186,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -231,6 +242,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 4:
                     try {
+
                         arrayListParte.clear();
                         ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
                         DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
@@ -452,14 +464,56 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onRefresh() {
+        Calendar calendar = Calendar.getInstance();
+        int d = calendar.get(Calendar.DAY_OF_MONTH);
+        int m = calendar.get(Calendar.MONTH)+1;
+        int y = calendar.get(Calendar.YEAR);
+
+        String fechar= String.valueOf(d+"-"+m+"-"+y);
+
+
+        List<Envio> envios=null;
         try {
-            Usuario u = UsuarioDAO.buscarUsuario(this);
-            Cliente c = ClienteDAO.buscarCliente(this);
-            srl.setRefreshing(true);
-            new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
+           envios= EnvioDAO.buscarTodosLosEnvios(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if(envios!=null && envios.size()>0 ){
+
+            new AlertDialog.Builder(this).setMessage("Por favor, antes de continuar envie los cierres pendientes.")
+                    .setCancelable(false)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface hi, int dd)
+                                {
+
+                                    srl.setRefreshing(false);
+                                }
+                            }
+                    ).show();
+
+        }else {
+
+            JSONObject js = new JSONObject();
+            try {
+                js.put("dia", fechar);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
+            try {
+                ParteDAO.borrarTodosLosPartes(this);
+                BBDDConstantes.borrarDatosTablasPorDia(Index.this);
+                Usuario u = UsuarioDAO.buscarUsuario(this);
+                Cliente c = ClienteDAO.buscarCliente(this);
+                srl.setRefreshing(true);
+                new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 

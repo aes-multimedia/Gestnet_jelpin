@@ -11,6 +11,7 @@ public class Parte {
     public static final String FK_TECNICO="fk_tecnico";
     public static final String FK_USUARIO="fk_usuario";
     public static final String FK_DIRECCION="fk_direccion";
+    public static final String NUMERO_CLIENTE="numero_cliente";
     public static final String FK_MAQUINA="fk_maquina";
     public static final String FECHA_CREACION="fecha_creacion";
     public static final String FECHA_AVISO="fecha_aviso";
@@ -250,6 +251,7 @@ public class Parte {
     @DatabaseField(columnName = TELEFONO4_CLIENTE)              private String telefono4_cliente;
     @DatabaseField(columnName = EMAIL_CLIENTE)                  private String email_cliente;
     @DatabaseField(columnName = OBSERVACIONES_CLIENTE)          private String observaciones_cliente;
+    @DatabaseField(columnName = NUMERO_CLIENTE)                 private String numero_cliente;
     //DATOS EMPRESA
     @DatabaseField(columnName = NOMBRE_COMPANIA)   private String nombre_compania;
     @DatabaseField(columnName = DIRECCION)         private String direccion;
@@ -301,7 +303,7 @@ public class Parte {
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
                  String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
-                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad) {
+                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,String numero_cliente) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -424,6 +426,7 @@ public class Parte {
         this.telefono2=telefono2;
         this.email=email;
         this.politicaPrivacidad=politicaPrivacidad;
+        this.numero_cliente=numero_cliente;
         textoDuracion="";
     }
 
@@ -1167,6 +1170,13 @@ public class Parte {
         this.ticket = ticket;
     }
 
+    public String getNumero_cliente() {
+        return numero_cliente;
+    }
+
+    public void setNumero_cliente(String numero_cliente) {
+        this.numero_cliente = numero_cliente;
+    }
 
     public String getTextoDuracion() {
         return textoDuracion;

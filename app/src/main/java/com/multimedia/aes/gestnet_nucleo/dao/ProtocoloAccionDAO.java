@@ -152,6 +152,18 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 			return listadoProtocoloAccion;
 		}
 	}
+
+
+	public static List<ProtocoloAccion> buscarProtocoloAccionPorFkProtocoloFkMaquina(Context context, int fkProtocolo, int fk_maquina) throws android.database.SQLException, java.sql.SQLException {
+		cargarDao(context);
+		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().orderBy(ProtocoloAccion.ORDEN,true).where().eq(ProtocoloAccion.FK_PROTOCOLO,fkProtocolo).and().eq(ProtocoloAccion.FK_MAQUINA,fk_maquina).query();
+		if(listadoProtocoloAccion.isEmpty()) {
+			return null;
+		}else{
+			return listadoProtocoloAccion;
+		}
+	}
+
 	public static List<ProtocoloAccion> buscarProtocoloAccionPorNombreProtocoloFkParte(Context context, String nombre, int fk_parte) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
 		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_PARTE,fk_parte).query();

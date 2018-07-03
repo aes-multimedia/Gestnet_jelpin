@@ -128,13 +128,13 @@ public class Impresion {
     result+="Num. Parte: "+numParte+"\n";
     String fechaAvisoParte = parte.getFecha_aviso();
     result+="Fecha aviso: "+fechaAvisoParte+"\n";
-    String fechaFacturaParte = parte.getFecha_factura();
-    result+="Fecha factura: "+fechaFacturaParte+"\n";
+    result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
+    result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
     String fechaIntervParte = parte.getFecha_visita();
     result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
     result+="-------DATOS DEL CLIENTE--------"+"\n";
-    String numCliente = "";
-    result+="Num. Cliente: "+numCliente+"\n";
+        String numCliente = parte.getNumero_cliente();
+        result+="Numero cliente: "+numCliente+"\n";
     String nomCliente = parte.getNombre_cliente();
     result+="Nombre: "+nomCliente+"\n";
     String telfCliente = "";

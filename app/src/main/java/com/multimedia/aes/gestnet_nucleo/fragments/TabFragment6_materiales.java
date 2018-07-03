@@ -312,7 +312,21 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 if (dataArticulos.isEmpty()) {
                     Intent i = new Intent(getActivity(), InfoArticulos.class);
                     try {
-                        i.putExtra("articuloId", ArticuloDAO.buscarArticulosPorNombre(getContext(), lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
+
+                        String r =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[0];
+                        String n =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[1];
+                        int idArticulo;
+
+
+
+
+                        if(r!=null && !r.equals(""))
+                            idArticulo=ArticuloDAO.buscarArticulosPorReferencia(getContext(), r).get(0).getId_articulo();
+                        else
+                            idArticulo=ArticuloDAO.buscarArticulosPorNombre(getContext(), n).get(0).getId_articulo();
+
+                        i.putExtra("articuloId",idArticulo);
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

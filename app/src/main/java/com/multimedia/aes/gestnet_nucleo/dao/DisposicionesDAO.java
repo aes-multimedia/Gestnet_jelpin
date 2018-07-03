@@ -132,4 +132,26 @@ public class DisposicionesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(Disposiciones.PRECIO_DISPOSICION,precio_disposicion);
         updateBuilder.update();
     }
+
+
+    public static void actualizarManoDeObra(Context context, int id_disposicion_servicio, String nombre_disposicion, double coste_disposicion, double precio_disposicion) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<Disposiciones, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Disposiciones.ID_DISPOSICION_SERVICIO,id_disposicion_servicio);
+        updateBuilder.updateColumnValue(Disposiciones.NOMBRE_DISPOSICION,nombre_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.COSTE_DISPOSICION,coste_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.PRECIO_DISPOSICION,precio_disposicion);
+        updateBuilder.update();
+    }
+
+
+    public static void actualizarDisposicionDeServicio(Context context, int id_disposicion_servicio, String nombre_disposicion, double coste_disposicion, double precio_disposicion) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<Disposiciones, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Disposiciones.ID_DISPOSICION_SERVICIO,id_disposicion_servicio);
+        updateBuilder.updateColumnValue(Disposiciones.NOMBRE_DISPOSICION,nombre_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.COSTE_DISPOSICION,coste_disposicion);
+        updateBuilder.updateColumnValue(Disposiciones.PRECIO_DISPOSICION,precio_disposicion);
+        updateBuilder.update();
+    }
 }

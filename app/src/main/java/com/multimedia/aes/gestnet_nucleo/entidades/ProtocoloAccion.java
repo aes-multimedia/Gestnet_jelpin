@@ -8,7 +8,8 @@ public class ProtocoloAccion {
 
 
 
-    public static final String ID_PROTOCOLO_ACCION = "_id_protocolo_accion";
+    public static final String ID = "_id";
+    public static final String ID_PROTOCOLO_ACCION = "id_protocolo_accion";
     public static final String FK_MAQUINA = "fk_maquina";
     public static final String FK_PARTE = "fk_parte";
     public static final String VALOR = "valor";
@@ -20,8 +21,9 @@ public class ProtocoloAccion {
     public static final String DESCRIPCION = "descripcion";
 
 
-    @DatabaseField(id = true, columnName = ID_PROTOCOLO_ACCION)    private int id_protocolo_accion;
+    @DatabaseField(generatedId = true, columnName = ID)    private int id;
 
+    @DatabaseField(columnName = ID_PROTOCOLO_ACCION)                 private int id_protocolo_accion;
     @DatabaseField(columnName = FK_MAQUINA)                 private int fk_maquina;
     @DatabaseField(columnName = FK_PARTE)                   private int fk_parte;
     @DatabaseField(columnName = VALOR)                      private String valor;

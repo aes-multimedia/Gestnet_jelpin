@@ -27,6 +27,7 @@ public class GcmIntentService extends FirebaseMessagingService {
     public GcmIntentService() {
     }
     @Override
+
     public void onMessageReceived(RemoteMessage message){
         Map data = message.getData();
         String c [] = new String[data.size()];
@@ -34,6 +35,8 @@ public class GcmIntentService extends FirebaseMessagingService {
         c[1] = data.get("data").toString();
         sendNotification(c);
     }
+
+
     private void sendNotification(String [] msg) {
         try {
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
