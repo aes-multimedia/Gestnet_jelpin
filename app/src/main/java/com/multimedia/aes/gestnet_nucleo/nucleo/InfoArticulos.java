@@ -60,24 +60,23 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
 
     private void inicializarVariables(){
-        ivFoto = (ImageView) findViewById(R.id.expandedImage);
-        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
-        tvStock = (TextView) findViewById(R.id.tvStock);
-        tvCantidad = (EditText) findViewById(R.id.tvCantidad);
-        tvPrecio = (TextView) findViewById(R.id.tvPrecio);
-        btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
+        ivFoto =  findViewById(R.id.expandedImage);
+        tvTitulo = findViewById(R.id.tvTitulo);
+        tvStock = findViewById(R.id.tvStock);
+        tvCantidad =  findViewById(R.id.tvCantidad);
+        tvPrecio =  findViewById(R.id.tvPrecio);
+        btnAñadirMaterial=findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
 
-        btnPedirMaterial=(Button)findViewById(R.id.btnPedirMaterial);
+        btnPedirMaterial=findViewById(R.id.btnPedirMaterial);
         btnPedirMaterial.setOnClickListener(this);
 
-        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
-        chkGarantia.setOnCheckedChangeListener(this);
 
-        lvStockEntidad= (ListView) findViewById(R.id.lvStockEntidad);
+
+        lvStockEntidad=  findViewById(R.id.lvStockEntidad);
 
         // Construct the data source
-        dataStock = new ArrayList<DataStock>();
+        dataStock = new ArrayList<>();
         // Create the adapter to convert the array to views
 
 
@@ -103,6 +102,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         height = display.getHeight()/8;
         dataStock= new ArrayList<>();
         buscarStockAlmacenes();
+        chkGarantia = findViewById( R.id.chkGarantia );
+        chkGarantia.setOnCheckedChangeListener(this);
 
         idParte = 0;
         try {
@@ -117,6 +118,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+            if (articulo.isGarantia()) {
+                chkGarantia.setChecked(true);
+            } else {
+                chkGarantia.setChecked(false);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -124,21 +130,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         inicializarVariables();
         darValores();
 
-        
-        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        final Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        AppBarLayout mAppBarLayout =  findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -172,8 +170,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         new HiloStockAlmacenes(this,articulo.getFk_articulo()).execute();
-
-
 
     }
 
@@ -254,8 +250,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-
-
         String cantidad=tvCantidad.getText().toString();
         if(cantidad.matches("")){
             unidades=1;
@@ -272,9 +266,10 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             }
             try {
 
-                if(v.getId()==btnAñadirMaterial.getId())
-                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-Integer.valueOf(tvCantidad.getText().toString()),articulo.getCoste());
-                else if(v.getId()==btnPedirMaterial.getId()){
+                if(v.getId()==btnAñadirMaterial.getId()) {
+                    ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
+                    ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Integer.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
+                }else if(v.getId()==btnPedirMaterial.getId()){
                     try {
                         ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
                     } catch (SQLException e) {

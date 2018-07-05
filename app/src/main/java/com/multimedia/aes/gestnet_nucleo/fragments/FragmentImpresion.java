@@ -27,12 +27,17 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
-import com.multimedia.aes.gestnet_nucleo.clases.Impresion;
+
+import com.multimedia.aes.gestnet_nucleo.clases.ImpresionFactura;
+import com.multimedia.aes.gestnet_nucleo.clases.ImpresionPresupuesto;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
+import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
+import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
@@ -65,6 +70,9 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     private ScrollView scTicket;
     private Parte parte;
     private Usuario usuario;
+    private Ticket ticket;
+    private DatosAdicionales datosAdicionales;
+
 
     //METODOS
     private final BroadcastReceiver bReciever = new BroadcastReceiver() {
@@ -174,6 +182,8 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             int id = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(),id);
             usuario = UsuarioDAO.buscarUsuario(getContext());
+            datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),id);
+
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -212,14 +222,26 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        if(datosAdicionales.getBaceptapresupuesto())
+            ticket = new ImpresionFactura();
+        else
+            ticket = new ImpresionPresupuesto();
+
+
         String impreso = "";
         String impreso2 = "";
         try {
-            impreso+= Impresion.encabezadoPresupuesto();
-            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
-            impreso+= Impresion.piePresupuesto();
-            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
-            impreso2+= Impresion.conformeTecnico(getContext());
+
+
+            impreso+= ticket.encabezado();
+            impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
+            impreso+= ticket.pie();
+            impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= ticket.conformeTecnico(getContext());
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -243,18 +265,18 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             openButton.setVisibility(View.GONE);
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
-            if (parte.getFirma64().equals("")||parte.getFirma64()==null){
+                if (/*parte.getFirma64().equals("")||*/parte.getFirma64()==null){
                 Dialogo.dialogoError("Falta firma del cliente.(Pestaña de Documentos)",getContext());
             }else{
                 byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
                 Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                ivFirma1.setImageBitmap(bfirma);
-                if (usuario.getFirma().equals("")||usuario.getFirma()==null){
+                ivFirma2.setImageBitmap(bfirma);
+                if (/*usuario.getFirma().equals("")||*/usuario.getFirma()==null){
                     Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)",getContext());
                 }else{
                     decodedBytes = Base64.decode(usuario.getFirma(), 0);
                     bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                    ivFirma2.setImageBitmap(bfirma);
+                    ivFirma1.setImageBitmap(bfirma);
                     sendButton.setVisibility(View.GONE);
                     closeButton.setVisibility(View.VISIBLE);
                     openButton.setVisibility(View.GONE);
@@ -267,7 +289,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             closeButton.setVisibility(View.GONE);
             if (parte.getTicket()!=null){
                 impresora = new Impresora(getActivity(),mmDevice,getContext());
-                impresora.imprimir();
+                impresora.imprimir(ticket);
             }else{
                 Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap1);
@@ -279,7 +301,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                 try {
                     if (ParteDAO.actualizarTicket(getContext(),parte.getId_parte(),encodedImage)) {
                         impresora = new Impresora(getActivity(), mmDevice,getContext());
-                        impresora.imprimir();
+                        impresora.imprimir(ticket);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -294,6 +316,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             mBluetoothAdapter.startDiscovery();
         }
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         llBotones.setVisibility(View.VISIBLE);
@@ -307,11 +330,11 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         String impreso = "";
         String impreso2 = "";
         try {
-            impreso+= Impresion.encabezadoPresupuesto();
-            impreso+= Impresion.ticket(parte.getId_parte(),getContext());
-            impreso+= Impresion.piePresupuesto();
-            impreso+= Impresion.conformeCliente(parte.getId_parte(),getContext());
-            impreso2+= Impresion.conformeTecnico(getContext());
+            impreso+= ticket.encabezado();
+            impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
+            impreso+= ticket.pie();
+            impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
+            impreso2+= ticket.conformeTecnico(getContext());
         } catch (SQLException e) {
             e.printStackTrace();
         }

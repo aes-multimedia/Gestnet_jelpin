@@ -38,6 +38,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -51,6 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion.resizeImage;
+
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
@@ -97,17 +100,37 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     }
     @Override
     protected void onPostExecute(Void aVoid) {
+
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             try {
-                Log.d("json_respuesta",mensaje);
-                ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
-                ((Index)context).recreate();
+
+                int estado=0;
+                try {
+                    JSONObject jsonObject= new JSONObject(mensaje);
+                    if(jsonObject.getString("estado")!=null && !jsonObject.getString("estado").equals(""))
+
+                        estado=jsonObject.getInt("estado");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(estado==436){
+                    Log.d("json_respuesta",mensaje);
+                    ParteDAO.actualizarEstadoAndroid(context,fk_parte,436);
+                    ((Index)context).recreate();
+                }else{
+
+                    Log.d("json_respuesta",mensaje);
+                    ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
+                    ((Index)context).recreate();
+                }
+
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
         }
     }
     private String iniciar() throws JSONException, SQLException {
@@ -133,7 +156,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
+            error.put("estado", 404);
             error.put("mensaje", "Error de conexion, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
@@ -141,7 +164,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
+            error.put("estado", 505);
             error.put("mensaje", "Error de conexion, error de protocolo");
             return error.toString();
         } catch (IOException e) {
@@ -149,7 +172,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            error.put("estado", 5);
+            error.put("estado", 436);
             error.put("mensaje", "Error de conexion, IOException");
             return error.toString();
         }
@@ -211,25 +234,18 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("preeu_km_precio_total", datos_adicionales.getPreeu_km_precio_total());
         jsonObject2.put("preeu_analisis_combustion", datos_adicionales.getPreeu_analisis_combustion());
         jsonObject2.put("preeu_otros_nombre", datos_adicionales.getPreeu_otros_nombre());
-        jsonObject2.put("preeu_adicional", datos_adicionales.getPreeu_adicional_coste());
+        jsonObject2.put("preeu_adicional_coste", datos_adicionales.getPreeu_adicional());
         jsonObject2.put("preeu_iva_aplicado", datos_adicionales.getPreeu_iva_aplicado());
+
         jsonObject2.put("total", datos_adicionales.getTotal_ppto());
+        jsonObject2.put("fact_total_con_iva", datos_adicionales.getFact_total_con_iva());
+        jsonObject2.put("fact_por_iva_aplicado", datos_adicionales.getFact_por_iva_aplicado());
+        jsonObject2.put("fact_materiales", datos_adicionales.getFact_materiales());
         jsonObject2.put("acepta_presupuesto", datos_adicionales.getBaceptapresupuesto());
-
-
-
-
-
-
-
-
-
         jsonObject2.put("matem_hora_entrada", datos_adicionales.getMatem_hora_entrada());
         jsonObject2.put("matem_hora_salida", datos_adicionales.getMatem_hora_salida());
-
-
         jsonObject2.put("operacion_efectuada", datos_adicionales.getOperacion_efectuada());
-        jsonObject2.put("fact_materiales", datos_adicionales.getFact_materiales());
+
 
         ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
         JSONArray jsonArray1 = new JSONArray();
@@ -247,21 +263,26 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("marca", a.getMarca());
                     obj.put("modelo", a.getModelo());
                     obj.put("iva", a.getIva());
-                    obj.put("tarifa", a.getTarifa());
                     obj.put("descuento", a.getDescuento());
                     obj.put("coste", a.getCoste());
                     obj.put("garantia", a.isGarantia());
                     obj.put("entregado", a.isEntregado());
                     obj.put("cantidad", articuloParte.getUsados());
+                    if (datos_adicionales.getBaceptapresupuesto())  obj.put("presupuesto", 1);
+                            else obj.put("presupuesto", 0);
+                    if(datos_adicionales.getBaceptapresupuesto() && a.isEntregado()==1) obj.put("preparada_pieza", 1);
+                            else obj.put("preparada_pieza", 0);
                     if (a.isGarantia())
+                        {
                         obj.put("garantia", 1);
+                        obj.put("tarifa", 0);
+                        }
                     else
+                        {
+                        obj.put("tarifa", a.getTarifa());
                         obj.put("garantia", 0);
+                        }
                     jsonArray1.put(obj);
-
-
-
-
             }
         }
 
@@ -346,6 +367,35 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject7.put("base64",parte.getFirma64());
 
 
+
+
+
+
+/*
+        JSONArray jsonArray8 = new JSONArray();
+        ArrayList<ProtocoloAccion> arrayLisAnalisis = new ArrayList<>();
+        List<Maquina> listaMaquina = new ArrayList<>();
+        if (MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte()) != null) {
+            listaMaquina = MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte());
+            for (Maquina maquina : listaMaquina) {
+                if(AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina())!=null){
+
+
+
+
+
+
+                }
+            }
+        }
+
+
+
+
+        */
+
+
+
         msg.put("sat_partes",jsonObject1);
         msg.put("datos_adicionales",jsonObject2);
         msg.put("da_items",jsonArray1);
@@ -389,23 +439,32 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
     }
 
-    private JSONArray rellenarJsonImagenes(Parte parte) throws JSONException, IOException, SQLException {
+    private JSONArray rellenarJsonImagenes(Parte parte) throws  IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
         JSONObject js = new JSONObject();
         JSONArray jsa = new JSONArray();
-        JSONObject jso = new JSONObject();
+
         if(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte)!=null) {
             arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context, fk_parte));
 
             for (int i = 0; i < arraylistImagenes.size(); i++) {
+                JSONObject jso = new JSONObject();
                 File f = new File(arraylistImagenes.get(i).getRuta_imagen());
-                Bitmap b = null;
-                b = BitmapFactory.decodeStream(new FileInputStream(f));
-                b = resizeImage(b);
+                Bitmap b;
+
+
+
+                b =ShrinkBitmap(f.getAbsolutePath(),300,300);
+
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                b.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                b.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                b.getByteCount();
+
                 byte[] imageBytes = baos.toByteArray();
+
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
                 try {
                     jso.put("fk_parte", arraylistImagenes.get(i).getFk_parte());
                     jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
@@ -422,4 +481,36 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
         return jsa;
     }
+
+
+    private Bitmap ShrinkBitmap(String file, int width, int height){
+
+        BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+        bmpFactoryOptions.inJustDecodeBounds = true;
+        Bitmap bitmap;
+
+        int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+        int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+
+        if (heightRatio > 1 || widthRatio > 1)
+        {
+            if (heightRatio > widthRatio)
+            {
+                bmpFactoryOptions.inSampleSize = heightRatio;
+            } else {
+                bmpFactoryOptions.inSampleSize = widthRatio;
+            }
+        }
+
+        bmpFactoryOptions.inJustDecodeBounds = false;
+        bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        return bitmap;
+    }
+
+
+
 }

@@ -216,6 +216,49 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
             return listadoDatos.get(0);
         }
     }
+    public static double buscarDisposicionDeServicio(Context context, int id) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.ID_REL, id);
+        if(listadoDatos.isEmpty()) {
+            return 0;
+        }else{
+            return listadoDatos.get(0).getPreeu_disposicion_servicio();
+        }
+    }
+
+    public static double buscarPrecioManoDeObra(Context context, int id) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.ID_REL, id);
+        if(listadoDatos.isEmpty()) {
+            return 0;
+        }else{
+            return listadoDatos.get(0).getPreeu_mano_de_obra_precio();
+        }
+    }
+
+    public static int buscarFormaDePago(Context context, int id) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.ID_REL, id);
+        if(listadoDatos.isEmpty()) {
+            return 0;
+        }else{
+            return listadoDatos.get(0).getFk_forma_pago();
+        }
+    }
+
+    public static double buscarHorasManoDeObra(Context context, int id) throws SQLException, java.sql.SQLException {
+        cargarDao(context);
+        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.ID_REL, id);
+        if(listadoDatos.isEmpty()) {
+            return 0;
+        }else{
+            return listadoDatos.get(0).getPreeu_mano_de_obra();
+        }
+    }
+
+
+
+
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
     public static void actualizarDatosAdicionales(Context context, int id_rel,int fk_parte,int fk_forma_pago,String sintomas_averia, String operacion_efectuada,String observaciones, boolean preeu_disposicion_servicio_si_no, double preeu_disposicion_servicio,
@@ -341,7 +384,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_KM_PRECIO_TOTAL,preeu_km_precio_total);
         updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,operacionEfectuada);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_OTROS_NOMBRE,preeu_otros_nombre);
-        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL_COSTE,preeu_adicional);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ADICIONAL,preeu_adicional);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MATERIALES,preeu_materiales);
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_ANALISIS_COMBUSTION,preeu_analisis_combustion);
         updateBuilder.updateColumnValue(DatosAdicionales.TOTAL_PPTO,total);
@@ -349,7 +392,32 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(DatosAdicionales.PREEU_IVA_APLICADO,preeu_iva_aplicado);
 
         updateBuilder.update();
+
+
+
     }
+
+
+
+    public static void actualizarDatosAdicionalesParteFacturable(Context context,int id_rel,
+                                                  double fact_materiales,
+                                                  double fact_por_iva_aplicado,
+                                                  double fact_total_con_iva) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_MATERIALES,fact_materiales);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_TOTAL_CON_IVA,fact_total_con_iva);
+        updateBuilder.updateColumnValue(DatosAdicionales.FACT_POR_IVA_APLICADO,fact_por_iva_aplicado);
+
+        updateBuilder.update();
+
+
+
+    }
+
+
+
 
     public static void actualizarHoraEntrada(Context context,int id_rel,String horaEntrada) throws java.sql.SQLException {
         cargarDao(context);
@@ -371,5 +439,55 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
     }
 
+     public static void actualizarOperacionEfectuada(Context context,int id_rel,String op) throws java.sql.SQLException {
+            cargarDao(context);
+            UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+            updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+            updateBuilder.updateColumnValue(DatosAdicionales.OPERACION_EFECTUADA,op);
 
+            updateBuilder.update();
+
+        }
+
+    public static void actualizarDisposicionDeServicio(Context context,int id_rel,double precio) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_DISPOSICION_SERVICIO,precio);
+
+        updateBuilder.update();
+
+    }
+
+
+    public static void actializarManoDeObraPrecio(Context context,int id_rel,double precio) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA_PRECIO,precio);
+
+        updateBuilder.update();
+
+    }
+
+    public static void actualizarFormaPago(Context context,int id_rel,int fp) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.FK_FORMA_PAGO,fp);
+
+        updateBuilder.update();
+
+    }
+
+
+    public static void actualizarHorasManoDeObra(Context context,int id_rel,double horas) throws java.sql.SQLException {
+        cargarDao(context);
+        UpdateBuilder<DatosAdicionales, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(DatosAdicionales.ID_REL,id_rel);
+        updateBuilder.updateColumnValue(DatosAdicionales.PREEU_MANO_DE_OBRA,horas);
+
+        updateBuilder.update();
+
+    }
 }

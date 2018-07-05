@@ -65,6 +65,7 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
         height=height/16;
         id=getIntent().getIntExtra("id",-1);
         fk_maquina=getIntent().getIntExtra("fkMaquina",-1);
+
         fkAnalisis = getIntent().getIntExtra("fkAnalisis",-1);
         ponerAnalisis();
 
@@ -341,7 +342,7 @@ public class AnadirDatosAnalisis extends AppCompatActivity implements View.OnCli
         //LISTVIEW
         lvDatosAnalisis = (ListView) findViewById(R.id.lvDatosAnalisis);
         //ONCLICK
-        btnDatosTesto.setOnClickListener(this);
+      //  btnDatosTesto.setOnClickListener(this);
         btnAñadirAnalisis.setOnClickListener(this);
         btnBorrarMedicion.setOnClickListener(this);
         btnFinalizarAnalisis.setOnClickListener(this);

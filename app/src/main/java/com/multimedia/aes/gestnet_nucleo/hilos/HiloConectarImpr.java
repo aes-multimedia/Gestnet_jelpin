@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
+import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
@@ -25,12 +26,14 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	private Impresora impresora;
 	private Activity activity;
 	private Context context;
+	private Ticket ticket;
 
-	public HiloConectarImpr(Activity activity, Impresora impresora,Context context) {
+	public HiloConectarImpr(Activity activity, Impresora impresora,Context context,Ticket ticket) {
 		super();
         this.activity = activity;
         this.impresora=impresora;
         this.context=context;
+        this.ticket=ticket;
     }
 
 	@Override
@@ -40,7 +43,7 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
             RequestHandler rh = new RequestHandler();
             impresora.hThread = new Thread(rh);
             impresora.hThread.start();
-            impresora.realizarImpresionSeitron();
+            impresora.realizarImpresionSeitron(ticket);
             return Constantes.SUCCES;
         } catch (IOException e) {
             return Constantes.ERROR;

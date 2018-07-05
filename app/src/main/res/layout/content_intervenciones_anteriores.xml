@@ -16,10 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lllistview">
+
+
+
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:dividerHeight="3dp"
-            android:id="@+id/lvIndex" />
+            android:id="@+id/lvIndexIntervenciones" />
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
@@ -34,7 +35,13 @@ import java.util.List;
 
 
 public class Impresion {
+
+
+
     ////////////METODOS////////////////
+    private static boolean aceptaPresupuesto=false;
+
+
     public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
@@ -45,6 +52,9 @@ public class Impresion {
         }
         return b;
     }
+
+
+
     public static Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
         Bitmap b = null;
         try {
@@ -56,6 +66,9 @@ public class Impresion {
         }
         return b;
     }
+
+
+
     public static String limpiarAcentos(String texto_entrada) {
         String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇº€";
         String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCCE";
@@ -65,15 +78,22 @@ public class Impresion {
         }
         return output;
     }
+
+
+
 ////////////METODOS////////////////
 
 /////////////SEITRON///////////////
+
+
     public static String ticket(int id, Context context) throws SQLException {
     //BAJAR TODA LA INFORMACION QUE FALTA DE LA BBDD Y GUARDARLA EN LA TABLA CORRESPONDIENTE
     Cliente cliente = ClienteDAO.buscarCliente(context);
     Usuario usuario = UsuarioDAO.buscarUsuario(context);
     Parte parte = ParteDAO.buscarPartePorId(context,id);
     DatosAdicionales datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context,id);
+    aceptaPresupuesto=datosAdicionales.getBaceptapresupuesto();
+
     Maquina maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(context,parte.getFk_maquina());
     List<ArticuloParte> articuloPartes = ArticuloParteDAO.buscarArticuloParteFkParte(context,id);
 
@@ -108,13 +128,13 @@ public class Impresion {
     result+="Num. Parte: "+numParte+"\n";
     String fechaAvisoParte = parte.getFecha_aviso();
     result+="Fecha aviso: "+fechaAvisoParte+"\n";
-    String fechaFacturaParte = parte.getFecha_factura();
-    result+="Fecha factura: "+fechaFacturaParte+"\n";
+    result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
+    result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
     String fechaIntervParte = parte.getFecha_visita();
     result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
     result+="-------DATOS DEL CLIENTE--------"+"\n";
-    String numCliente = "";
-    result+="Num. Cliente: "+numCliente+"\n";
+        String numCliente = parte.getNumero_cliente();
+        result+="Numero cliente: "+numCliente+"\n";
     String nomCliente = parte.getNombre_cliente();
     result+="Nombre: "+nomCliente+"\n";
     String telfCliente = "";
@@ -182,11 +202,11 @@ public class Impresion {
     result+="Tipo Intervencion: "+tipoInter+"\n";
     String duracion = parte.getDuracion();
     result+="Duracion: "+duracion+"\n";
-    String manoObra = String.valueOf(datosAdicionales.getPreeu_mano_de_obra_precio());
+    String manoObra = String.valueOf(datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra());
     result+="Mano Obra: "+manoObra+" €"+"\n";
     String dispServi = String.valueOf(datosAdicionales.getPreeu_disposicion_servicio());
     result+="Disp. servicio: "+dispServi+" €"+"\n";
-    String otros = String.valueOf(datosAdicionales.getPreeu_adicional_coste());
+    String otros = String.valueOf(datosAdicionales.getPreeu_adicional());
     result+="Otros: "+otros+" €"+"\n";
     String analisiscombustion = String.valueOf(datosAdicionales.getPreeu_analisis_combustion());
     result+="Analisis de combustion: "+analisiscombustion+"\n";
@@ -194,27 +214,36 @@ public class Impresion {
     result+="Puesta en marcha: "+puestaMarcha+"\n";
     String servicioUrgencia = String.valueOf(datosAdicionales.getPreeu_servicio_urgencia());
     result+="Servicio de urgencia: "+servicioUrgencia+"\n";
-    String desplazamiento = "("+datosAdicionales.getPreeu_km()+"KM/"+datosAdicionales.getPreeu_km_precio()+"): "+datosAdicionales.getFact_km_precio_total();
+    String desplazamiento = "("+datosAdicionales.getPreeu_km()+"KM/"+datosAdicionales.getPreeu_km_precio()+"): "+datosAdicionales.getPreeu_km_precio_total();
     result+="Desplazamiento "+desplazamiento+"\n";
     if (FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago())!=null){
         String formaPago = FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago()).getForma_pago();
         result+="Forma pago: "+formaPago+"\n";
     }
-    double ba = datosAdicionales.getPreeu_mano_de_obra_precio()+datosAdicionales.getPreeu_disposicion_servicio()+
-            datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
-            datosAdicionales.getPreeu_servicio_urgencia()+datosAdicionales.getFact_km_precio_total();
+    double ba = (datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra())+datosAdicionales.getPreeu_disposicion_servicio()+
+            datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getFact_adicional()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
+            datosAdicionales.getPreeu_servicio_urgencia()+(datosAdicionales.getPreeu_km()*datosAdicionales.getPreeu_km_precio());
     result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
     if (!articulos.isEmpty()){
         result+="\n"+"-----------MATERIALES-----------"+"\n";
         double totalArticulos = 0;
         for (Articulo art:articulos) {
-            ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,art.getId_articulo(),parte.getId_parte());
+            ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
             int usados = articuloParte.getUsados();
-            double coste = art.getCoste();
-            double totalArt = usados*coste;
-            totalArticulos+=totalArt;
-            result+="-"+art.getNombre_articulo()+"\n";
-            result+=" Und:"+usados+" PVP:"+coste+" Total:"+totalArt+"\n"+"\n";
+            double coste = 0;
+            if(art.isEntregado()==0) {
+                if (!art.isGarantia()) coste = art.getTarifa();
+                double totalArt = usados * coste;
+                totalArticulos += totalArt;
+                result += "-" + art.getNombre_articulo() + "\n";
+                result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n" + "\n";
+            }else if(art.isEntregado()==1 && datosAdicionales.isBaceptapresupuesto()){
+                double totalArt = usados * coste;
+                totalArticulos += totalArt;
+                result += "-" + art.getNombre_articulo() + "\n";
+                result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n";
+                result += "(Pedido)" + "\n" + "\n";
+            }
         }
         result+="TOTAL MATERIALES: "+totalArticulos+" €"+"\n";
         result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
@@ -230,7 +259,7 @@ public class Impresion {
     result+="TOTAL I.V.A: "+totalIva+"\n";
     String total = String.valueOf(df2.format(totIva+ba));
     result+="TOTAL: "+total+"\n"+"\n";
-    result+="---CONFORME FINAL DEL CLIENTE---"+"\n";
+    result+="---CONFORME FINAL DEL FIRMANTE---"+"\n";
     result+="*Renuncio a presupuesto previo "+"\n"+
             "autorizando la reparacion."+"\n";
     result+=""+"\n";
@@ -239,11 +268,16 @@ public class Impresion {
 }
     public static String encabezadoPresupuesto() throws SQLException {
         String result = "\n";
+        String encabezado="";
+        if(aceptaPresupuesto)encabezado="FACTURA SIMPLIFICADA";
+            else encabezado="PRESUPUESTO";
+
         result+="--------------------------------"+"\n";
-        result+="----------PRESUPUESTO-----------"+"\n";
+        result+="----------"+encabezado+"-----------"+"\n";
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
+
     public static String encabezadoFacturaSimplificada() throws SQLException {
         String result = "\n";
         result+="--------------------------------"+"\n";
@@ -251,6 +285,8 @@ public class Impresion {
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
+
+
     public static String piePresupuesto(){
         String result = "\n";
         result+="*Este presupuesto tiene una "+"\n"+
@@ -266,6 +302,10 @@ public class Impresion {
                 "No95 DE 20 DE MAYO."+"\n"+"\n";
         return result;
     }
+
+
+
+
     public static String conformeCliente (int id, Context context) throws SQLException {
         Parte parte = ParteDAO.buscarPartePorId(context,id);
         String result="";
@@ -275,14 +315,18 @@ public class Impresion {
         int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
         final int mHour = mcurrentDate.get(Calendar.HOUR_OF_DAY);
         final int mMin = mcurrentDate.get(Calendar.MINUTE);
-        result+="-------CONFORME CLIENTE---------"+"\n";
+        result+="-------CONFORME FIRMANTE---------"+"\n";
         String fecha = mDay+"/"+mMonth+"/"+mYear+" - "+mHour+":"+mMin;
         result+=fecha+"\n";
         String nombre=parte.getNombre_cliente(),dni=parte.getDni_cliente();
-        result+="Nombre y dni: "+nombre+"-"+dni+"\n";
+        result+="Nombre y dni: "+" "+"\n";
         result+="Firma"+"\n";
         return result;
     }
+
+
+
+
     public static String conformeTecnico (Context context) throws SQLException {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         String result="";

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.multimedia.aes.gestnet_nucleo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,11 +18,15 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
         <activity
             android:name=".nucleo.PreLogin"
@@ -88,19 +93,28 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.multimedia.aes.gestnet_nucleo.fileprovider"
+            android:authorities="${applicationId}.com.vansuita.pickimage.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/picker_provider_paths" />
         </provider>
 
-        <activity android:name=".nucleo.MisAjustes" />
+        <activity android:name=".nucleo.MiFirma" />
         <activity
             android:name=".nucleo.DocumentosParte"
-            android:label="@string/title_activity_documentos_parte"
-           ></activity>
+            android:label="@string/title_activity_documentos_parte" />
+        <activity android:name=".nucleo.Galeria" />
+        <activity android:name=".nucleo.AnadirDatosMaquina" />
+        <activity android:name=".nucleo.GestionMateriales" />
+        <activity android:name=".nucleo.Presupuestos" />
+        <activity android:name=".nucleo.GaleriaV2" />
+        <activity
+            android:name=".nucleo.FotosIntervenciones"
+            android:label="@string/title_activity_fotos_intervenciones"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
     </application>
 
 </manifest>

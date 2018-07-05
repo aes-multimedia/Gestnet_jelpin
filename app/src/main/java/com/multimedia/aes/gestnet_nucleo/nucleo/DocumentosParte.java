@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ public class DocumentosParte extends AppCompatActivity implements  AdapterView.O
     private static ArrayList<Documento> arrayListDocumentos = new ArrayList<>();
     private ListView lvDocumentos;
     private Cliente cliente;
+    private Dialogo dialogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +59,26 @@ public class DocumentosParte extends AppCompatActivity implements  AdapterView.O
 
 
     public void sacarMensaje(String s) {
-        Dialogo.dialogoError(s,this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(s);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+
+
+
     }
+
+
 
     public void mostrarDocumentos(String mensaje, Context context) {
         try {
@@ -95,7 +116,7 @@ public class DocumentosParte extends AppCompatActivity implements  AdapterView.O
                 if (!arrayListDocumentos.isEmpty()) {
 
                     String nombre= arrayListDocumentos.get(position).getNombre();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + arrayListDocumentos.get(position).getDireccion()));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + arrayListDocumentos.get(position).getDireccion()));
                     startActivity(browserIntent);
 
 

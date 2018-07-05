@@ -59,7 +59,7 @@ public class GuardarArticulos {
             String referencia;
             String referencia_aux;
             String ean;
-            int stock;
+            double stock;
             double coste;
             double iva;
             double tarifa;
@@ -88,7 +88,7 @@ public class GuardarArticulos {
             if (jsonArray.getJSONObject(i).getString("stock").equals("null") || jsonArray.getJSONObject(i).getString("stock").equals("")) {
                 stock = -1;
             } else {
-                stock = jsonArray.getJSONObject(i).getInt("stock");
+                stock = jsonArray.getJSONObject(i).getDouble("stock");
             }
             if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {
                 coste = -1;
@@ -124,7 +124,7 @@ public class GuardarArticulos {
             } else {
                 ArticuloDAO.actualizarArticuloP(context, id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
             }
-
+            articulos.clear();
 
         }
         if (bien) {

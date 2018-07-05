@@ -76,10 +76,11 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
 
         int id_disposicion_servicio;
         String nombre_disposicion;
-        int coste_disposicion, precio_disposicion;
+        double coste_disposicion, precio_disposicion;
         boolean esta = false;
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("disposiciones_servicio");
+
         for (int i = 0; i < jsonArray.length(); i++) {
 
 
@@ -110,15 +111,16 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
             if (jsonArray.getJSONObject(i).getString("coste_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("coste_disposicion").equals("")) {
                 coste_disposicion = 0;
             } else {
-                coste_disposicion = jsonArray.getJSONObject(i).getInt("coste_disposicion");
+                coste_disposicion = jsonArray.getJSONObject(i).getDouble("coste_disposicion");
             }
 
             if (jsonArray.getJSONObject(i).getString("precio_disposicion").equals("null") || jsonArray.getJSONObject(i).getString("precio_disposicion").equals("")) {
                 precio_disposicion = 0;
             } else {
-                precio_disposicion = jsonArray.getJSONObject(i).getInt("precio_disposicion");
+                precio_disposicion = jsonArray.getJSONObject(i).getDouble("precio_disposicion");
             }
             if (!esta) {
+
                 if (DisposicionesDAO.newDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion)) {
                     bien = true;
                 } else {
@@ -126,11 +128,15 @@ public class GuardarDisposiciones extends AsyncTask<Void,Void,Void> {
                 }
 
             }else{
-                DisposicionesDAO.actualizarDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion);
+
+
+
+
+                 DisposicionesDAO.actualizarDisposiciones(context, id_disposicion_servicio, nombre_disposicion, coste_disposicion, precio_disposicion);
             }
 
 
-
+            disposiciones.clear();
         }
 
     }

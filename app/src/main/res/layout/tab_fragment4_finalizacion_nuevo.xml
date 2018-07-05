@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".nucleo.Index">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,7 +54,6 @@
                             android:ems="10"
                             android:inputType="textMultiLine"
                             android:padding="5dp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -75,11 +72,11 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_materiales"
@@ -89,9 +86,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
+                    </LinearLayout>
 
-
-                        </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -108,11 +104,12 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                     <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
                         <Spinner
                             android:id="@+id/sp_preeu_disposicion_servicio"
                             android:layout_width="match_parent"
@@ -120,8 +117,8 @@
                             android:layout_weight="1"
                             android:background="@drawable/caldera_spiners"
                             android:padding="3dp" />
-
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -144,7 +141,6 @@
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
 
-
                         <EditText
                             android:id="@+id/et_preeu_total_disposicion_servicio"
                             android:layout_width="match_parent"
@@ -153,9 +149,8 @@
                             android:background="@drawable/edit_texts_naranja_bloqueado"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -163,17 +158,30 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/textView25"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
-                            android:text="Disposicion servicios:"
+                            android:text="@string/mano_obra"
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
+                        android:orientation="horizontal">
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
-
+                        <Spinner
+                            android:id="@+id/sp_preeu_mano_de_obra_precio"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/caldera_spiners"
+                            android:padding="5dp" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -191,11 +199,12 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_preeu_mano_de_obra"
                             android:layout_width="match_parent"
@@ -221,12 +230,11 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_total_mano_de_obra_horas"
@@ -236,10 +244,7 @@
                             android:background="@drawable/edit_texts_naranja_bloqueado"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -257,12 +262,11 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_puesta_marcha"
@@ -272,8 +276,6 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -291,12 +293,12 @@
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
                     </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_servicio_urgencia"
@@ -306,8 +308,6 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -326,12 +326,11 @@
                             android:textSize="18dp" />
                     </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_km"
@@ -359,8 +358,6 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -377,12 +374,12 @@
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
                     </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/et_preeu_analisis_combustion"
@@ -392,8 +389,6 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:inputType="numberDecimal"
                             android:padding="5dp" />
-
-
                     </LinearLayout>
 
                     <TextView
@@ -415,7 +410,6 @@
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
 
-
                         <EditText
                             android:id="@+id/et_preeu_otros_nombre"
                             android:layout_width="wrap_content"
@@ -424,7 +418,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
                             android:inputType="number"
-                            android:padding="5dp" />
+                            android:padding="5dp"
+                            android:text="0" />
 
                         <TextView
                             android:id="@+id/textVie12"
@@ -443,9 +438,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
                             android:inputType="numberDecimal"
-                            android:padding="5dp" />
-
-
+                            android:padding="5dp"
+                            android:text="0" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -463,12 +457,12 @@
                             android:textColor="@color/cast_expanded_controller_background_color"
                             android:textSize="18dp" />
                     </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="5dp"
-                            android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <Spinner
                             android:id="@+id/spFormaPago"
@@ -477,17 +471,15 @@
                             android:layout_weight="1"
                             android:background="@drawable/caldera_spiners"
                             android:padding="5dp" />
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvSubTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -501,22 +493,20 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja_bloqueado"
-                            android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:focusable="false"
                             android:enabled="false"
-                            android:gravity="right"/>
-
-
+                            android:focusable="false"
+                            android:gravity="right"
+                            android:inputType="numberDecimal"
+                            android:padding="5dp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvIvaAplicado"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -530,24 +520,20 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja_bloqueado"
-                            android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:focusable="false"
                             android:enabled="false"
+                            android:focusable="false"
                             android:gravity="right"
-                            />
-
-
+                            android:inputType="numberDecimal"
+                            android:padding="5dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
@@ -563,15 +549,10 @@
                             android:background="@drawable/edit_texts_naranja_bloqueado"
                             android:enabled="false"
                             android:focusable="false"
+                            android:gravity="right"
                             android:inputType="numberDecimal"
-                            android:padding="5dp"
-                            android:gravity="right"/>
-
-
+                            android:padding="5dp" />
                     </LinearLayout>
-
-
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -579,28 +560,33 @@
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvAceptaPresupuesto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="3dp"
-                            android:text="@string/acepto_presupuesto"
-                            android:textColor="@color/cast_expanded_controller_background_color"
-                            android:textSize="18dp" />
-
                         <CheckBox
                             android:id="@+id/cb_acepta_presupuesto"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorAccent"
                             android:foregroundGravity="center"
-                            android:gravity="center" />
-
-
+                            android:gravity="center"
+                            android:text="@string/acepto_presupuesto"
+                            android:textSize="18sp" />
                     </LinearLayout>
-
-
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnFirmar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:text="Firma" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -616,36 +602,7 @@
                         android:background="@drawable/botones"
                         android:text="Finalizar" />
                 </LinearLayout>
-
-
             </LinearLayout>
-
-
         </ScrollView>
-
-
     </LinearLayout>
-<!--
-    <FrameLayout
-        android:id="@+id/frame_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/navigation"
-        android:layout_weight="1"
-        android:animateLayoutChanges="true">
-
-    </FrameLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
-        app:itemIconTint="@color/nav_item_state_list"
-        app:itemTextColor="@color/nav_item_state_list"
-        app:menu="@menu/bottom_navigation_items" />
-
--->
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

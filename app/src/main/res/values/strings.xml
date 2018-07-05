@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gestnet_Nucleo</string>
+    <string name="app_name">Gestnet nucleo</string>
     <string name="cod_cliente">Codigo del Cliente</string>
     <string name="enviar">Enviar</string>
     <string name="usuario">Usuario</string>
@@ -7,13 +7,13 @@
     <string name="login">Login</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_index">Gestnet_Nucleo</string>
+    <string name="title_activity_index">Gestnet nucleo</string>
     <string name="cambiar_fecha">Cambiar Fecha</string>
     <string name="cierres_pendientes">Enviar cierres pendientes</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
     <string name="almacen">Almacén</string>
     <string name="documentos">Documentos</string>
-    <string name="averias">Averías</string>
+    <string name="averias">Avisos</string>
     <string name="fecha_llamada">Fecha visita: </string>
     <string name="contrato">Num. Contrato: </string>
     <string name="venta">Venta: </string>
@@ -100,9 +100,11 @@
     <string name="si">si</string>
     <string name="no">no</string>
     <string name="hora_entrada">Hora de entrada:</string>
+    <string name="actualizar_stock">Actualizar Stock tecnico</string>
+    <string name="imprimir_finalizados">Solo se pueden imprimir partes finalizados</string>
     <string name="tipo_contrato">Tipo de Contrato:</string>
     <string name="intervenciones_anteriores">Mostrar intervenciones anteriores</string>
-    <string name="ver_documentos_del_parte">Ver documentos del parte</string>
+    <string name="ver_documentacion_del_parte">Ver documentación del parte</string>
     <string-array name="forma_pago">
         <item>--Seleccione forma de pago--</item>
         <item>Contado</item>
@@ -120,6 +122,24 @@
         <item>Transferencia</item>
     </string-array>
     <string name="title_activity_documentos_parte">DocumentosParte</string>
+    <string name="Archivos">Archivos</string>
+    <string name="imagenes">Imágenes</string>
+    <string name="nueva_maquina">Nueva Maquina</string>
+    <string name="aviso_guardia">Aviso de guardia</string>
+    <string name="mi_firma">Guardar mi firma</string>
+    <string name="pedir_pieza">Pedir pieza</string>
+    <string name="utilizar_pieza">Utilizar pieza</string>
+    <string name="pieza_en_garantia">Pieza en garantia</string>
+    <string name="crear_presupuestos">Creación de presupuestos</string>
+    <string name="solicitud_presupuesto">Solicitud de Presupuesto</string>
+    <string name="datos_presupuesto">Datos del Presupuesto</string>
+    <string name="nuevo_presupuesto">Nuevo presupuesto</string>
+    <string name="pick_image_intent_text">Seleccionar imagen</string>
+    <string name="cargando_presupuesto">Esto puede tardar unos segundos debido a las imagenes y la velocidad de conexion.</string>
+    <string name="titulo_pd_presupuestos">Enviado presupuesto</string>
+    <string name="fecha_visita">fecha:</string>
+    <string name="tecnico">Tecnico:</string>
+    <string name="title_activity_fotos_intervenciones">FotosIntervenciones</string>
 
 </resources>
 

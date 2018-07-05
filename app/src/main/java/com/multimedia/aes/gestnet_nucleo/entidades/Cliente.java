@@ -10,6 +10,7 @@ public class Cliente {
     public static final String NOMBRE_CLIENTE = "nombre_cliente";
     public static final String COLOR_CLIENTE = "color_cliente";
     public static final String LOGO_CLIENTE = "logo_cliente";
+    public static final String DIR_DOCUMENTOS="dir_documentos";
     public static final String IP_CLIENTE = "ip_cliente";
     public static final String COD_CLIENTE = "cod_cliente";
 
@@ -20,15 +21,17 @@ public class Cliente {
     @DatabaseField(columnName = LOGO_CLIENTE)           private String logo_cliente;
     @DatabaseField(columnName = IP_CLIENTE)             private String ip_cliente;
     @DatabaseField(columnName = COD_CLIENTE)            private String cod_cliente;
+    @DatabaseField(columnName = DIR_DOCUMENTOS)                 private String dir_documentos;
 
     public Cliente (){}
-    public Cliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente) {
+    public Cliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos) {
         this.id_cliente = id_cliente;
         this.nombre_cliente = nombre_cliente;
         this.color_cliente = color_cliente;
         this.logo_cliente = logo_cliente;
         this.ip_cliente = ip_cliente;
         this.cod_cliente = cod_cliente;
+        this.dir_documentos = dir_documentos;
     }
 
     public int getId_cliente() {
@@ -66,5 +69,13 @@ public class Cliente {
     }
     public void setCod_cliente(String cod_cliente) {
         this.cod_cliente = cod_cliente;
+    }
+
+    public String getDir_documentos() {
+        return dir_documentos;
+    }
+
+    public void setDir_documentos(String dir_documentos) {
+        this.dir_documentos = dir_documentos;
     }
 }

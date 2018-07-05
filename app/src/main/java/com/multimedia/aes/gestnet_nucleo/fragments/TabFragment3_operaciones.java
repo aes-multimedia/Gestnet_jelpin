@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.Utils.HeapSort;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -67,19 +68,27 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         //SPINNER FORMAS PAGO
         if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte())!=null){
             try {
-                protocoloAccionArrayList.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(),parte.getId_parte()));
+                protocoloAccionArrayList.addAll(ProtocoloAccionDAO.buscarPrueba(getContext(),parte.getId_parte()));
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
             int indice=0;
-            ordenarArrayAccionProtocolos(protocoloAccionArrayList,indice);
-            arrayNombreProtocolos = new String[protocoloAccionArrayList.size()+ 1];
+
+           // ArrayList<ProtocoloAccion> lista = new HeapSort().sort(protocoloAccionArrayList);
+
+
+            //ordenarArrayAccionProtocolos(protocoloAccionArrayList,indice);
+            ArrayList <ProtocoloAccion> ordenadosNombre=new ArrayList<>();
+            ordenadosNombre=ordenarArrayAccionProtocolosV2(protocoloAccionArrayList);
+
+
+            arrayNombreProtocolos = new String[ordenadosNombre.size()+ 1];
             arrayNombreProtocolos[0]= "--Seleciones un valor--";
-            for (int i = 1; i < protocoloAccionArrayList.size() + 1; i++) {
-                if (protocoloAccionArrayList.get(i - 1).getFk_maquina()!=0&&protocoloAccionArrayList.get(i - 1).getFk_maquina()!=-1){
-                    arrayNombreProtocolos[i] = protocoloAccionArrayList.get(i - 1).getNombre_protocolo()+"-"+protocoloAccionArrayList.get(i - 1).getFk_maquina();
+            for (int i = 1; i < ordenadosNombre.size() + 1; i++) {
+                if (ordenadosNombre.get(i - 1).getFk_maquina()!=0&&ordenadosNombre.get(i - 1).getFk_maquina()!=-1){
+                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo()+"-"+ordenadosNombre.get(i - 1).getFk_maquina()+"-"+ordenadosNombre.get(i-1).getFk_protocolo();
                 }else{
-                    arrayNombreProtocolos[i] = protocoloAccionArrayList.get(i - 1).getNombre_protocolo();
+                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo();
                 }
             }
             spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
@@ -89,6 +98,8 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
         }
     }
+
+
     private void ordenarArrayAccionProtocolos(ArrayList<ProtocoloAccion> protocoloAccionArrayList,int indice) {
 
         if(protocoloAccionArrayList.size()>1 && indice < protocoloAccionArrayList.size() -1) {
@@ -101,6 +112,39 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         }
     }
+
+
+
+    private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
+        ArrayList<ProtocoloAccion>arrayList= new ArrayList<>();
+            int c =0;
+        for (ProtocoloAccion p:protocoloAccionArrayList){
+            if(p.getFk_protocolo()==20 && p.getFk_maquina() == 42339)
+                c++;
+            if(!arrayListContieneProtocolo(arrayList,p))
+                arrayList.add(p);
+
+        }
+
+
+            return arrayList;
+    }
+
+
+
+    private boolean arrayListContieneProtocolo( ArrayList<ProtocoloAccion>arrayList, ProtocoloAccion p){
+        boolean esta=false;
+
+
+        for (ProtocoloAccion pA: arrayList) {
+            if(p.getFk_maquina()==pA.getFk_maquina() && p.getFk_protocolo()==pA.getFk_protocolo())
+                esta=true;
+        }
+
+        return esta;
+    }
+
+
     private void crearLinearProtocolo(String protocolo){
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);
@@ -108,9 +152,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         if (protocolo.contains("-")){
             String [] a = protocolo.split("-");
             try {
-                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1]))!=null){
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(),Integer.parseInt(a[2]),Integer.parseInt(a[1]))!=null){
                     ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
-                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquina(getContext(),a[0],Integer.parseInt(a[1])));
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(),Integer.parseInt(a[2]),Integer.parseInt(a[1])));
                     for (int i = 0; i < protocolos.size(); i++) {
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);

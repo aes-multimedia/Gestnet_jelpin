@@ -80,7 +80,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         if (jsonArray.length()!=0){
-            JSONObject jsonObject2 = new JSONObject();
+            JSONObject jsonObject2;
             for(int i =0 ;i<jsonArray.length();i++){
 
                 jsonObject2= jsonArray.getJSONObject(i).getJSONObject("datosAdicionales");
@@ -146,7 +146,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_disposicion_servicio;
                 if (jsonObject2.getString("preeu_disposicion_servicio").equals("null") || jsonObject2.getString("preeu_disposicion_servicio").equals("")) {
-                    preeu_disposicion_servicio = -1;
+                    preeu_disposicion_servicio = 0;
                 } else {
                     preeu_disposicion_servicio = jsonObject2.getDouble("preeu_disposicion_servicio");
                 }
@@ -162,13 +162,13 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_mano_de_obra_precio;
                 if (jsonObject2.getString("preeu_mano_de_obra_precio").equals("null") || jsonObject2.getString("preeu_mano_de_obra_precio").equals("")) {
-                    preeu_mano_de_obra_precio = -1;
+                    preeu_mano_de_obra_precio = 0;
                 } else {
                     preeu_mano_de_obra_precio = jsonObject2.getDouble("preeu_mano_de_obra_precio");
                 }
                 double preeu_mano_de_obra;
                 if (jsonObject2.getString("preeu_mano_de_obra").equals("null") || jsonObject2.getString("preeu_mano_de_obra").equals("")) {
-                    preeu_mano_de_obra = -1;
+                    preeu_mano_de_obra = 0;
                 } else {
                     preeu_mano_de_obra = jsonObject2.getDouble("preeu_mano_de_obra");
                 }
@@ -184,7 +184,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_materiales;
                 if (jsonObject2.getString("preeu_materiales").equals("null") || jsonObject2.getString("preeu_materiales").equals("")) {
-                    preeu_materiales = -1;
+                    preeu_materiales = 0;
                 } else {
                     preeu_materiales = jsonObject2.getDouble("preeu_materiales");
                 }
@@ -200,7 +200,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_puesta_marcha;
                 if (jsonObject2.getString("preeu_puesta_marcha").equals("null") || jsonObject2.getString("preeu_puesta_marcha").equals("")) {
-                    preeu_puesta_marcha = -1;
+                    preeu_puesta_marcha = 0;
                 } else {
                     preeu_puesta_marcha = jsonObject2.getDouble("preeu_puesta_marcha");
                 }
@@ -216,7 +216,7 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_servicio_urgencia;
                 if (jsonObject2.getString("preeu_servicio_urgencia").equals("null") || jsonObject2.getString("preeu_servicio_urgencia").equals("")) {
-                    preeu_servicio_urgencia = -1;
+                    preeu_servicio_urgencia = 0;
                 } else {
                     preeu_servicio_urgencia = jsonObject2.getDouble("preeu_servicio_urgencia");
                 }
@@ -232,37 +232,37 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_km_precio;
                 if (jsonObject2.getString("preeu_km_precio").equals("null") || jsonObject2.getString("preeu_km_precio").equals("")) {
-                    preeu_km_precio = -1;
+                    preeu_km_precio = 0;
                 } else {
                     preeu_km_precio = jsonObject2.getDouble("preeu_km_precio");
                 }
                 double preeu_km;
                 if (jsonObject2.getString("preeu_km").equals("null") || jsonObject2.getString("preeu_km").equals("")) {
-                    preeu_km = -1;
+                    preeu_km = 0;
                 } else {
                     preeu_km = jsonObject2.getDouble("preeu_km");
                 }
                 double preeu_km_precio_total;
                 if (jsonObject2.getString("preeu_km_precio_total").equals("null") || jsonObject2.getString("preeu_km_precio_total").equals("")) {
-                    preeu_km_precio_total = -1;
+                    preeu_km_precio_total = 0;
                 } else {
                     preeu_km_precio_total = jsonObject2.getDouble("preeu_km_precio_total");
                 }
                 double preeu_analisis_combustion;
                 if (jsonObject2.getString("preeu_analisis_combustion").equals("null") || jsonObject2.getString("preeu_analisis_combustion").equals("")) {
-                    preeu_analisis_combustion = -1;
+                    preeu_analisis_combustion = 0;
                 } else {
                     preeu_analisis_combustion = jsonObject2.getDouble("preeu_analisis_combustion");
                 }
                 double preeu_adicional;
                 if (jsonObject2.getString("preeu_adicional").equals("null") || jsonObject2.getString("preeu_adicional").equals("")) {
-                    preeu_adicional = -1;
+                    preeu_adicional = 0;
                 } else {
                     preeu_adicional = jsonObject2.getDouble("preeu_adicional");
                 }
                 double preeu_adicional_coste;
                 if (jsonObject2.getString("preeu_adicional_coste").equals("null") || jsonObject2.getString("preeu_adicional_coste").equals("")) {
-                    preeu_adicional_coste = -1;
+                    preeu_adicional_coste = 0;
                 } else {
                     preeu_adicional_coste = jsonObject2.getDouble("preeu_adicional_coste");
                 }
@@ -290,13 +290,13 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double preeu_iva_aplicado;
                 if (jsonObject2.getString("preeu_iva_aplicado").equals("null") || jsonObject2.getString("preeu_iva_aplicado").equals("")) {
-                    preeu_iva_aplicado = -1;
+                    preeu_iva_aplicado = 0;
                 } else {
                     preeu_iva_aplicado = jsonObject2.getDouble("preeu_iva_aplicado");
                 }
                 double total_ppto;
                 if (jsonObject2.getString("total_ppto").equals("null") || jsonObject2.getString("total_ppto").equals("")) {
-                    total_ppto = -1;
+                    total_ppto = 0;
                 } else {
                     total_ppto = jsonObject2.getDouble("total_ppto");
                 }
@@ -388,73 +388,73 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double fact_materiales;
                 if (jsonObject2.getString("fact_materiales").equals("null") || jsonObject2.getString("fact_materiales").equals("")) {
-                    fact_materiales = -1;
+                    fact_materiales = 0;
                 } else {
                     fact_materiales = jsonObject2.getDouble("fact_materiales");
                 }
                 double fact_disposicion_servicio;
                 if (jsonObject2.getString("fact_disposicion_servicio").equals("null") || jsonObject2.getString("fact_disposicion_servicio").equals("")) {
-                    fact_disposicion_servicio = -1;
+                    fact_disposicion_servicio = 0;
                 } else {
                     fact_disposicion_servicio = jsonObject2.getDouble("fact_disposicion_servicio");
                 }
                 double fact_manodeobra_precio;
                 if (jsonObject2.getString("fact_manodeobra_precio").equals("null") || jsonObject2.getString("fact_manodeobra_precio").equals("")) {
-                    fact_manodeobra_precio = -1;
+                    fact_manodeobra_precio = 0;
                 } else {
                     fact_manodeobra_precio = jsonObject2.getDouble("fact_manodeobra_precio");
                 }
                 double fact_manodeobra;
                 if (jsonObject2.getString("fact_manodeobra").equals("null") || jsonObject2.getString("fact_manodeobra").equals("")) {
-                    fact_manodeobra = -1;
+                    fact_manodeobra = 0;
                 } else {
                     fact_manodeobra = jsonObject2.getDouble("fact_manodeobra");
                 }
                 double fact_puesta_en_marcha;
                 if (jsonObject2.getString("fact_puesta_en_marcha").equals("null") || jsonObject2.getString("fact_puesta_en_marcha").equals("")) {
-                    fact_puesta_en_marcha = -1;
+                    fact_puesta_en_marcha = 0;
                 } else {
                     fact_puesta_en_marcha = jsonObject2.getDouble("fact_puesta_en_marcha");
                 }
                 double fact_analisis_combustion;
                 if (jsonObject2.getString("fact_analisis_combustion").equals("null") || jsonObject2.getString("fact_analisis_combustion").equals("")) {
-                    fact_analisis_combustion = -1;
+                    fact_analisis_combustion = 0;
                 } else {
                     fact_analisis_combustion = jsonObject2.getDouble("fact_analisis_combustion");
                 }
                 double fact_servicio_urgencia;
                 if (jsonObject2.getString("fact_servicio_urgencia").equals("null") || jsonObject2.getString("fact_servicio_urgencia").equals("")) {
-                    fact_servicio_urgencia = -1;
+                    fact_servicio_urgencia = 0;
                 } else {
                     fact_servicio_urgencia = jsonObject2.getDouble("fact_servicio_urgencia");
                 }
                 double fact_km;
                 if (jsonObject2.getString("fact_km").equals("null") || jsonObject2.getString("fact_km").equals("")) {
-                    fact_km = -1;
+                    fact_km = 0;
                 } else {
                     fact_km = jsonObject2.getDouble("fact_km");
                 }
                 double fact_km_precio;
                 if (jsonObject2.getString("fact_km_precio").equals("null") || jsonObject2.getString("fact_km_precio").equals("")) {
-                    fact_km_precio = -1;
+                    fact_km_precio = 0;
                 } else {
                     fact_km_precio = jsonObject2.getDouble("fact_km_precio");
                 }
                 double fact_km_precio_total;
                 if (jsonObject2.getString("fact_km_precio_total").equals("null") || jsonObject2.getString("fact_km_precio_total").equals("")) {
-                    fact_km_precio_total = -1;
+                    fact_km_precio_total = 0;
                 } else {
                     fact_km_precio_total = jsonObject2.getDouble("fact_km_precio_total");
                 }
                 double fact_adicional;
                 if (jsonObject2.getString("fact_adicional").equals("null") || jsonObject2.getString("fact_adicional").equals("")) {
-                    fact_adicional = -1;
+                    fact_adicional = 0;
                 } else {
                     fact_adicional = jsonObject2.getDouble("fact_adicional");
                 }
                 double fact_adicional_coste;
                 if (jsonObject2.getString("fact_adicional_coste").equals("null") || jsonObject2.getString("fact_adicional_coste").equals("")) {
-                    fact_adicional_coste = -1;
+                    fact_adicional_coste = 0;
                 } else {
                     fact_adicional_coste = jsonObject2.getDouble("fact_adicional_coste");
                 }
@@ -472,25 +472,25 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 }
                 double fact_por_iva_aplicado;
                 if (jsonObject2.getString("fact_por_iva_aplicado").equals("null") || jsonObject2.getString("fact_por_iva_aplicado").equals("")) {
-                    fact_por_iva_aplicado = -1;
+                    fact_por_iva_aplicado = 0;
                 } else {
                     fact_por_iva_aplicado = jsonObject2.getDouble("fact_por_iva_aplicado");
                 }
                 double fact_total_con_iva;
                 if (jsonObject2.getString("fact_total_con_iva").equals("null") || jsonObject2.getString("fact_total_con_iva").equals("")) {
-                    fact_total_con_iva = -1;
+                    fact_total_con_iva = 0;
                 } else {
                     fact_total_con_iva = jsonObject2.getDouble("fact_total_con_iva");
                 }
                 double retencion;
                 if (jsonObject2.getString("retencion").equals("null") || jsonObject2.getString("retencion").equals("")) {
-                    retencion = -1;
+                    retencion = 0;
                 } else {
                     retencion = jsonObject2.getDouble("retencion");
                 }
                 double retencion_porc;
                 if (jsonObject2.getString("retencion_porc").equals("null") || jsonObject2.getString("retencion_porc").equals("")) {
-                    retencion_porc = -1;
+                    retencion_porc = 0;
                 } else {
                     retencion_porc = jsonObject2.getDouble("retencion_porc");
                 }
@@ -564,6 +564,8 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                             retencion_porc, matem_hora_entrada, matem_hora_salida, observacionesPago, cobrar_analisis_combustion);
                     bien = true;
                 }
+
+                datos.clear();
 
             }
         }else{

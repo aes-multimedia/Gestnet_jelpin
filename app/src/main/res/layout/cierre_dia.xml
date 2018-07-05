@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:weightSum="2">
 
                 <TextView
@@ -34,7 +34,7 @@
 
                 <Button
                     android:id="@+id/btnFechaCierre"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1.5"
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <TextView
@@ -75,7 +75,7 @@
 
                     <Button
                         android:id="@+id/btnHoraInicio"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <TextView
@@ -100,7 +100,7 @@
 
                     <Button
                         android:id="@+id/btnHoraFin"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -113,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <TextView
@@ -126,7 +126,7 @@
 
                     <Button
                         android:id="@+id/btnHorasComida"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -187,7 +187,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Dietas"
                     android:inputType="numberDecimal"
                     android:padding="5dp" />
@@ -202,7 +201,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Parking"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -217,7 +215,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Combustible"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -232,7 +229,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="L. Combustible"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -247,7 +243,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Material"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -262,7 +257,6 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_texts_naranja"
                     android:ems="10"
-                    android:gravity="center"
                     android:hint="Entregado"
                     android:inputType="number|numberDecimal"
                     android:padding="5dp" />
@@ -270,6 +264,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -308,7 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <TextView
@@ -320,7 +316,7 @@
 
                     <Button
                         android:id="@+id/btnHorasExtra"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -333,7 +329,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <TextView
@@ -345,7 +341,7 @@
 
                     <Button
                         android:id="@+id/btnHoraGuardia"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_weight="1"
@@ -388,14 +384,6 @@
                     android:background="@drawable/botones"
                     android:text="Enviar" />
 
-                <Button
-                    android:id="@+id/btnTerminar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/botones"
-                    android:text="Terminar" />
             </LinearLayout>
         </LinearLayout>
 

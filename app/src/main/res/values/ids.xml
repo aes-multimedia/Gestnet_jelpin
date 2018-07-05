@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="txtCliente" type="id" />
-    <item name="btn_cancelar" type="id">cancelar</item>
-    <item name="btn_añadir" type="id">añadir</item>
-    <item name="btnVerDocumentosModelo" type="id">Ver docuemnto</item>
+    <item name="btn_cancelar" type="id"/>
+    <item name="btn_añadir" type="id"/>
+    <item name="btnVerDocumentosModelo" type="id"/>
 </resources>

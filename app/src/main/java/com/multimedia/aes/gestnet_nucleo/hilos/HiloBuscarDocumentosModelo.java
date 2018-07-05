@@ -11,6 +11,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import org.json.JSONException;
@@ -63,7 +64,7 @@ public class HiloBuscarDocumentosModelo extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (!mensaje.equals("")){
-           TabFragment2_equipo.abrirWebView(mensaje);
+           AnadirDatosMaquina.abrirWebView(mensaje);
 
         }else{
 
@@ -92,19 +93,19 @@ public class HiloBuscarDocumentosModelo extends AsyncTask<Void, Void, Void> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, URL malformada");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error de protocolo");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, IOException");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";

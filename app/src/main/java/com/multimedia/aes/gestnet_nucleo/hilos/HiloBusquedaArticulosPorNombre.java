@@ -82,19 +82,19 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, URL malformada");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error de protocolo");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, IOException");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -114,8 +114,8 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error en lectura");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
         return contenido;

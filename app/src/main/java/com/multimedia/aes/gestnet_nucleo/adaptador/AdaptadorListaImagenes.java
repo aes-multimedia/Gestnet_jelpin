@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
+import com.multimedia.aes.gestnet_nucleo.nucleo.Galeria;
+import com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2;
 
 import java.util.ArrayList;
 
@@ -35,21 +37,28 @@ public class AdaptadorListaImagenes extends ArrayAdapter implements View.OnClick
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        TextView txtNombre = (TextView)item.findViewById(R.id.txtNombre);
-        ImageView ivFoto = (ImageView)item.findViewById(R.id.ivFoto);
-        Button btnBorrar = (Button)item.findViewById(R.id.btnBorrar);
+        TextView txtNombre =item.findViewById(R.id.txtNombre);
+        ImageView ivFoto = item.findViewById(R.id.ivFoto);
+        Button btnBorrar = item.findViewById(R.id.btnBorrar);
         btnBorrar.setTag(position);
         btnBorrar.setOnClickListener(this);
         String nombre = arrayList.get(position).nombre;
+
         if (nombre.length()>20){
             nombre=nombre.substring(0,10)+"..."+nombre.substring(nombre.length()-5, nombre.length());
         }
+
         txtNombre.setText(nombre);
+
         ivFoto.setImageBitmap(arrayList.get(position).bitmap);
+
+
+
         return item;
     }
     @Override
     public void onClick(View v) {
-        TabFragment5_documentacion.borrarArrayImagenes((int)v.getTag(),context);
+
+        GaleriaV2.borrarArrayImagenes((int)v.getTag(),context);
     }
 }

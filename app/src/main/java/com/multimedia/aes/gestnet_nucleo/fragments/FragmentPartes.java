@@ -29,6 +29,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
     private TabFragment4_finalizacion tab4;
     private TabFragment5_documentacion tab5;
     private TabFragment6_materiales tab6;
+
     private Parte parte;
     @Nullable
     @Override
@@ -54,8 +55,8 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
             tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
             tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
             tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
-            tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
+
 
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -74,8 +75,8 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab2 = adapter.getTab2();
                 tab3 = adapter.getTab3();
                 tab4 = adapter.getTab4();
-                tab5 = adapter.getTab5();
                 tab6 = adapter.getTab6();
+              //  pruebas = adapter.getPruebas();
                 if (tab.getPosition()==0){
 
                 }else if (tab.getPosition()==1){
