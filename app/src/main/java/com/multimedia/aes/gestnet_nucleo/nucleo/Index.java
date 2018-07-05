@@ -133,18 +133,21 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     public void datosActualizados() {
 
-        /*
+
         Intent intent = new Intent(this, Index.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-
+        /*intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
+        getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getIntent().removeExtra("metodo");
+        getIntent().removeExtra("notId");
         startActivity(intent);
-        finish();*/
+        finish();
 
 
 
 
-        recreate();
+
+
+        //recreate();
     }
     public void impresion() {
         Class fragmentClass = FragmentImpresion.class;
@@ -439,10 +442,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", view.getTag());
+
             GestorSharedPreferences.clearSharedPreferencesParte(this);
+
             GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this), jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -460,6 +467,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -503,8 +511,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
             GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
             try {
-                ParteDAO.borrarTodosLosPartes(this);
-                BBDDConstantes.borrarDatosTablasPorDia(Index.this);
+                BBDDConstantes.borrarDatosTablasPorDia(this);
                 Usuario u = UsuarioDAO.buscarUsuario(this);
                 Cliente c = ClienteDAO.buscarCliente(this);
                 srl.setRefreshing(true);

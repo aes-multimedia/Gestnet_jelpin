@@ -82,5 +82,6 @@ public class GcmIntentService extends FirebaseMessagingService {
     }
     public static void cerrarNotificacion(int id){
         mNotificationManager.cancel(id);
+
     }
 }

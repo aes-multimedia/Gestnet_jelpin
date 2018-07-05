@@ -85,12 +85,12 @@ public class ImpresionFactura extends Ticket {
         result+="Num. Parte: "+numParte+"\n";
         String fechaAvisoParte =FormatearfechaTimeStamp( parte.getFecha_aviso());
         result+="Fecha aviso: "+fechaAvisoParte+"\n";
-        String fechaFacturaParte = parte.getFecha_factura();
-        result+="Fecha factura: "+fechaFacturaParte+"\n";
+        result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
+        result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
         String fechaIntervParte = FormatearfechaDate(parte.getFecha_visita());
         result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
-        String numCliente = "";
+        String numCliente = parte.getNumero_cliente();
         result+="Num. Cliente: "+numCliente+"\n";
         String nomCliente = parte.getNombre_cliente();
         result+="Nombre: "+nomCliente+"\n";
@@ -178,7 +178,7 @@ public class ImpresionFactura extends Ticket {
             result+="Forma pago: "+formaPago+"\n";
         }
         double ba = (datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra())+datosAdicionales.getPreeu_disposicion_servicio()+
-                datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
+                datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_adicional()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
                 datosAdicionales.getPreeu_servicio_urgencia()+(datosAdicionales.getPreeu_km()*datosAdicionales.getPreeu_km_precio());
         result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
         if (!articulos.isEmpty()){
