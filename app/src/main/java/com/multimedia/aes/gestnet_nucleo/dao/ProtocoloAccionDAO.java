@@ -166,7 +166,18 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 
 	public static List<ProtocoloAccion> buscarProtocoloAccionPorNombreProtocoloFkParte(Context context, String nombre, int fk_parte) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
-		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_PARTE,fk_parte).query();
+		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_PARTE,fk_parte).and().eq(ProtocoloAccion.FK_MAQUINA,-1).query();
+		if(listadoProtocoloAccion.isEmpty()) {
+			return null;
+		}else{
+			return listadoProtocoloAccion;
+		}
+	}
+
+
+	public static List<ProtocoloAccion> buscarProtocoloAccionPorNombreProtocolo(Context context, String nombre) throws android.database.SQLException, java.sql.SQLException {
+		cargarDao(context);
+		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).query();
 		if(listadoProtocoloAccion.isEmpty()) {
 			return null;
 		}else{
@@ -187,7 +198,7 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	}
 	public static ProtocoloAccion buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(Context context, String nombre, int fk_parte,String descripcion) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
-		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_PARTE,fk_parte).and().eq(ProtocoloAccion.DESCRIPCION,descripcion).query();
+		List<ProtocoloAccion> listadoProtocoloAccion= dao.queryBuilder().where().eq(ProtocoloAccion.NOMBRE_PROTOCOLO,nombre).and().eq(ProtocoloAccion.FK_PARTE,fk_parte).and().eq(ProtocoloAccion.DESCRIPCION,descripcion).and().eq(ProtocoloAccion.FK_MAQUINA,-1).query();
 		if(listadoProtocoloAccion.isEmpty()) {
 			return null;
 		}else{
@@ -211,10 +222,18 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(ProtocoloAccion.ORDEN,orden);
 		updateBuilder.update();
 	}
-	public static void actualizarValor(Context context, String valor, int id) throws SQLException {
+	public static void actualizarValorFkProtocoloIdParte(Context context, String valor, int id_protocolo_accion,int idParte) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<ProtocoloAccion, Integer> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION,id);
+		updateBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION,id_protocolo_accion).and().eq(ProtocoloAccion.FK_PARTE,idParte).and().eq(ProtocoloAccion.FK_MAQUINA,-1);
+		updateBuilder.updateColumnValue(ProtocoloAccion.VALOR,valor);
+		updateBuilder.update();
+	}
+
+	public static void actualizarValorFkProtocoloFkMaquina(Context context, String valor, int id_protocolo_accion,int fkMaquina) throws SQLException {
+		cargarDao(context);
+		UpdateBuilder<ProtocoloAccion, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(ProtocoloAccion.ID_PROTOCOLO_ACCION,id_protocolo_accion).and().eq(ProtocoloAccion.FK_MAQUINA,fkMaquina);
 		updateBuilder.updateColumnValue(ProtocoloAccion.VALOR,valor);
 		updateBuilder.update();
 	}

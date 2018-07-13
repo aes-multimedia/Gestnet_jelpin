@@ -121,7 +121,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     ParteDAO.actualizarEstadoAndroid(context,fk_parte,436);
                     ((Index)context).recreate();
                 }else{
-
                     Log.d("json_respuesta",mensaje);
                     ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
                     ((Index)context).recreate();
@@ -254,7 +253,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             for (ArticuloParte articuloParte : articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
-
 
                     obj.put("fk_parte", parte.getId_parte());
                     obj.put("fk_producto", a.getFk_articulo());
@@ -412,6 +410,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
         return msg;
+
 
     }
 

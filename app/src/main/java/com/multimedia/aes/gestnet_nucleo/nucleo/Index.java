@@ -412,6 +412,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             try{
             new HiloActualizarStock(this,fkEntidad).execute();
             } catch (Exception e){
+
                 ProgressDialog dialog;
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Error al actualizar almacén");

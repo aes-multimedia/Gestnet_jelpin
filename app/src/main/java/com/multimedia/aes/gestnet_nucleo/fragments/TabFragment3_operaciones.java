@@ -86,7 +86,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             arrayNombreProtocolos[0]= "--Seleciones un valor--";
             for (int i = 1; i < ordenadosNombre.size() + 1; i++) {
                 if (ordenadosNombre.get(i - 1).getFk_maquina()!=0&&ordenadosNombre.get(i - 1).getFk_maquina()!=-1){
-                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo()+"-"+ordenadosNombre.get(i - 1).getFk_maquina()+"-"+ordenadosNombre.get(i-1).getFk_protocolo();
+                    arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo()+"<->"+ordenadosNombre.get(i - 1).getFk_maquina()+"<->"+ordenadosNombre.get(i-1).getFk_protocolo();
                 }else{
                     arrayNombreProtocolos[i] = ordenadosNombre.get(i - 1).getNombre_protocolo();
                 }
@@ -117,10 +117,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
     private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
         ArrayList<ProtocoloAccion>arrayList= new ArrayList<>();
-            int c =0;
+
         for (ProtocoloAccion p:protocoloAccionArrayList){
-            if(p.getFk_protocolo()==20 && p.getFk_maquina() == 42339)
-                c++;
+
             if(!arrayListContieneProtocolo(arrayList,p))
                 arrayList.add(p);
 
@@ -149,8 +148,8 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);
         btnFinalizar.setVisibility(View.VISIBLE);
-        if (protocolo.contains("-")){
-            String [] a = protocolo.split("-");
+        if (protocolo.contains("<->")){
+            String [] a = protocolo.split("<->");
             try {
                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(),Integer.parseInt(a[2]),Integer.parseInt(a[1]))!=null){
                     ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
@@ -262,9 +261,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     public void onClick(View view) {
         selected=spProtocolos.getSelectedItem().toString();
         if (view.getId()==R.id.btnFinalizar){
-            if (spProtocolos.getSelectedItem().toString().contains("-")){
+            if (spProtocolos.getSelectedItem().toString().contains("<->")){
                 final int childCount = llPadre.getChildCount();
-                String [] a = spProtocolos.getSelectedItem().toString().split("-");
+                String [] a = spProtocolos.getSelectedItem().toString().split("<->");
                 String nombre = a[0];
                 int fk_maquina = Integer.parseInt(a[1]);
                 for (int i = 0; i < childCount; i++) {
@@ -284,7 +283,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             try {
                                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
                                     int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
-                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                    ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(),valor,id,fk_maquina);
                                 }
 
                             } catch (java.sql.SQLException e) {
@@ -301,7 +300,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             try {
                                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion)!=null){
                                     int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaDescripcion(getContext(),nombre,fk_maquina,descripcion).getId_protocolo_accion();
-                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                    ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(),valor,id,fk_maquina);
                                 }
 
                             } catch (java.sql.SQLException e) {
@@ -331,7 +330,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             try {
                                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion)!=null){
                                     int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion).getId_protocolo_accion();
-                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                    ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(),valor,id,parte.getId_parte());
                                 }
 
                             } catch (java.sql.SQLException e) {
@@ -348,7 +347,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             try {
                                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion)!=null){
                                     int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParteDescripcion(getContext(),nombre,parte.getId_parte(),descripcion).getId_protocolo_accion();
-                                    ProtocoloAccionDAO.actualizarValor(getContext(),valor,id);
+                                    ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(),valor,id,parte.getId_parte());
                                 }
 
                             } catch (java.sql.SQLException e) {

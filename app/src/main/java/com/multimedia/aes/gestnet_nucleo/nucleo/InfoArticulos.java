@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -250,49 +251,56 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-        String cantidad=tvCantidad.getText().toString();
-        if(cantidad.matches("")){
-            unidades=1;
+        if(tvCantidad.getText().toString().equals("")){
+            new AlertDialog.Builder(this)
+                    .setTitle("ATENCIÓN!")
+                    .setMessage("Debes introducir una cantidad")
+                    .setPositiveButton("Aceptar", (dialog, id) -> dialog.cancel()).show();
         }else {
-            unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
-        }
-        try {
-            if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
-                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);
-                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+unidades);
-            }else{
-                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,unidades)){
-                }
+
+            String cantidad = tvCantidad.getText().toString();
+            if (cantidad.matches("")) {
+                unidades = 1;
+            } else {
+                unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
             }
             try {
-
-                if(v.getId()==btnAñadirMaterial.getId()) {
-                    ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
-                    ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Integer.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
-                }else if(v.getId()==btnPedirMaterial.getId()){
-                    try {
-                        ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte) != null) {
+                    ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
+                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades);
+                } else {
+                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte, unidades)) {
                     }
-
-
                 }
-            } catch (SQLException e) {
+                try {
+
+                    if (v.getId() == btnAñadirMaterial.getId()) {
+                        ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
+                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Integer.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
+                    } else if (v.getId() == btnPedirMaterial.getId()) {
+                        try {
+                            ArticuloDAO.actualizarEntregado(this, articulo.getId_articulo());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                } catch (SQLException e) {
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_CANCELED, returnIntent);
+                    finish();
+                    e.printStackTrace();
+                }
                 Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
+
+
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK,returnIntent);
-            finish();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
     }
 
 
