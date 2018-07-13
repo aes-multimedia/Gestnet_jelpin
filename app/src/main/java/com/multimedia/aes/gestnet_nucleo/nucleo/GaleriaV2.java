@@ -192,9 +192,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                     dialog.dismiss();
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
-
-
-
+        
     }
     public static void result(String path){
 
