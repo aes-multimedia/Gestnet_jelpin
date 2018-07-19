@@ -84,7 +84,7 @@ public class Impresora {
 			imprimirFirmaClienteSeitron(ticket,pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeTecnico(context)),pps);
 			imprimirFirmaTecnicoSeitron(ticket,pps);
-			bluetoothAdapter.disable();
+			//bluetoothAdapter.disable();
 		} catch (IOException | InterruptedException e) {
 			Dialogo.errorDuranteImpresion(activity);
 		} catch (JposException e) {

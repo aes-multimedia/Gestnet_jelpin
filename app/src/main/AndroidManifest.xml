@@ -102,19 +102,27 @@
                 android:resource="@xml/picker_provider_paths" />
         </provider>
 
-        <activity android:name=".nucleo.MiFirma" />
+        <activity android:name=".nucleo.MiFirma"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nucleo.DocumentosParte"
-            android:label="@string/title_activity_documentos_parte" />
-        <activity android:name=".nucleo.Galeria" />
-        <activity android:name=".nucleo.AnadirDatosMaquina" />
-        <activity android:name=".nucleo.GestionMateriales" />
-        <activity android:name=".nucleo.Presupuestos" />
-        <activity android:name=".nucleo.GaleriaV2" />
+            android:label="@string/title_activity_documentos_parte"
+            android:screenOrientation="portrait" />
+        <activity android:name=".nucleo.Galeria"
+            android:screenOrientation="portrait" />
+        <activity android:name=".nucleo.AnadirDatosMaquina"
+            android:screenOrientation="portrait" />
+        <activity android:name=".nucleo.GestionMateriales"
+            android:screenOrientation="portrait" />
+        <activity android:name=".nucleo.Presupuestos"
+            android:screenOrientation="portrait" />
+        <activity android:name=".nucleo.GaleriaV2"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nucleo.FotosIntervenciones"
             android:label="@string/title_activity_fotos_intervenciones"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

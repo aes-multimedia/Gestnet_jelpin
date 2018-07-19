@@ -223,7 +223,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
     }
     public void irIndex() {
-        startService(new Intent(this, ServicioLocalizacion.class));
         Intent i = new Intent(this,Index.class);
         startActivity(i);
     }

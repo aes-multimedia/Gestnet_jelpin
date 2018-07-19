@@ -52,6 +52,7 @@ public class ServicioLocalizacion extends Service{
     }
 
 
+    @SuppressLint("RestrictedApi")
     public void onCreate() {
 
         try {

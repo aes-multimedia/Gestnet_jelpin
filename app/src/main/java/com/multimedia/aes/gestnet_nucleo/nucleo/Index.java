@@ -75,9 +75,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
     private String fecha;
-
-
-
     //METODO
     private void inicializarVariables() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -116,8 +113,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         alert11.show();
 
     }
-
-
     public void guardarPartes(String msg) {
         try {
             JSONObject jsonObject = new JSONObject(msg);
@@ -130,10 +125,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
     }
-
     public void datosActualizados() {
-
-
         Intent intent = new Intent(this, Index.class);
         /*intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
         getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -141,9 +133,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         getIntent().removeExtra("notId");
         startActivity(intent);
         finish();
-
-
-
 
 
 
@@ -167,21 +156,18 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         Date date = new Date();
         return dateFormat.format(date);
     }
-
     private void actualizarFecha(String fecha){
 
 
 
 
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         inicializarVariables();
         fecha = getDateTime();
-
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
@@ -189,7 +175,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -245,7 +230,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     break;
                 case 4:
                     try {
-
                         arrayListParte.clear();
                         ProtocoloAccionDAO.borrarTodosLosProtocolo(this);
                         DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(this);
@@ -254,7 +238,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                         adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
                         lvIndex.setAdapter(adaptadorPartes);
                         Dialogo.dialogoError("ruta borrada", this);
-
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -267,7 +250,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
         }
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -277,7 +259,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             recreate();
         }
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -426,7 +407,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));
-
                 BBDDConstantes.borrarDatosTablas(this);
                 Intent i = new Intent(this, PreLogin.class);
                 startActivity(i);
@@ -440,17 +420,12 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", view.getTag());
-
             GestorSharedPreferences.clearSharedPreferencesParte(this);
-
             GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this), jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -461,7 +436,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
             fragment = (Fragment) fragmentClass.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
-
             fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -470,7 +444,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         }
 
     }
-
     @Override
     public void onRefresh() {
         Calendar calendar = Calendar.getInstance();
@@ -524,7 +497,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
 
     }
-
     @Override
     public void onClick(View v) {
 

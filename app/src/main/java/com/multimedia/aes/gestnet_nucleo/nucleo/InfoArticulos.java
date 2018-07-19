@@ -86,7 +86,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
       //ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
 
-        tvStock.setText(String.valueOf(articulo.getStock()));
+        tvStock.setText(String.valueOf((int)articulo.getStock()));
         if(articulo.getStock()<1){
             btnAñadirMaterial.setClickable(false);
             btnAñadirMaterial.setEnabled(false);

@@ -140,6 +140,6 @@
     <string name="fecha_visita">fecha:</string>
     <string name="tecnico">Tecnico:</string>
     <string name="title_activity_fotos_intervenciones">FotosIntervenciones</string>
-
+    <string name="err_impr">Se ha producido un error al conectar con la impresora.</string>
 </resources>
 

@@ -25,7 +25,6 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloCompresorImagen;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;

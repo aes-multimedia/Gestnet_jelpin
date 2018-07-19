@@ -46,7 +46,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_nucleo.db";
-	public static final int DATABASE_VERSION = 8;
+	public static final int DATABASE_VERSION = 9;
 
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;

@@ -450,10 +450,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             new HiloIniciarParte(getContext(),parte,1,2).execute();
-
-
         }else if(view.getId()==R.id.btnClienteAusente){
 
 
@@ -462,7 +459,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         }else if(view.getId()==R.id.btnImprimir){
             Bitmap bit=null;
-
             try {
                  bit = loadFirmaTecnicoFromStorage(parte.getId_parte(),getActivity());
             } catch (SQLException e) {

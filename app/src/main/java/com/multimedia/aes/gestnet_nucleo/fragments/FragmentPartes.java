@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -98,7 +99,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==1){
 
                 }else if (tab.getPosition()==2){
-
+                    tab3.guardarProtocolo();
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){

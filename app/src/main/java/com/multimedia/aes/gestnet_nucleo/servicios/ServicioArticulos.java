@@ -60,9 +60,10 @@ public class ServicioArticulos extends Service {
 
     public void guardarArticulos(String msg){
         try {
-
-            if(new GuardarArticulos(this, msg).guardarArticulos()) stopService(new Intent(this, ServicioArticulos.class));
-
+            if(new GuardarArticulos(this, msg).guardarArticulos()){
+                stopService(new Intent(this, ServicioArticulos.class));
+                startService(new Intent(this, ServicioLocalizacion.class));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {

@@ -41,20 +41,13 @@
                 android:id="@+id/llPadre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
                 android:padding="10dp">
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnFinalizar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/botones"
-                android:text="Guardar" />
 
         </LinearLayout>
     </ScrollView>

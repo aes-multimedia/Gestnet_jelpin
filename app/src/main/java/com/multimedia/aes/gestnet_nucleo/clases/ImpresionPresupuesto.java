@@ -91,7 +91,8 @@ public class ImpresionPresupuesto extends Ticket {
         result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
         String fechaIntervParte = parte.getFecha_visita();
         String fechaIntervParteFormateada= FormatearfechaDate(fechaIntervParte);
-        result+="Fecha intervencion: "+fechaIntervParteFormateada+"\n"+"\n";
+        result+="Fecha intervencion: "+fechaIntervParteFormateada+"\n";
+        result+="Nombre tecnico: "+usuario.getNombreUsuario()+"\n"+"\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
         String numCliente = parte.getNumero_cliente();
         result+="Numero cliente: "+numCliente+"\n";

@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.fragments;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -139,17 +140,13 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     void findBT() {
         try {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
             if (mBluetoothAdapter == null) {
             }
-
             if (!mBluetoothAdapter.isEnabled()) {
-
                 Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBluetooth, 0);
             }
             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-
             if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
                     listaDevice.add(device);
@@ -256,13 +253,13 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             btnOtra.setVisibility(View.VISIBLE);
             listaDevice.clear();
             listaNombre.clear();
-            findBT();
             lvNombres.setVisibility(View.VISIBLE);
             llImpreso.setVisibility(View.GONE);
             scTicket.setVisibility(View.GONE);
             sendButton.setVisibility(View.GONE);
             closeButton.setVisibility(View.GONE);
             openButton.setVisibility(View.GONE);
+            findBT();
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
                 if (/*parte.getFirma64().equals("")||*/parte.getFirma64()==null){
@@ -287,6 +284,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             }
         } else if (view.getId() == R.id.close) {
             closeButton.setVisibility(View.GONE);
+            openButton.setVisibility(View.VISIBLE);
             if (parte.getTicket()!=null){
                 impresora = new Impresora(getActivity(),mmDevice,getContext());
                 impresora.imprimir(ticket);
@@ -348,7 +346,18 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         mmDevice = listaDevice.get(adapterView.getPositionForView(view));
         Dialogo.impresoraSeleccionada(getContext());
         if (parte.getFirma64()!=null){
-            sendButton.setText("Imprimir");
+            sendButton.setText("Poner Firmas");
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0){
+            if (resultCode == Activity.RESULT_OK) {
+
+            }else{
+                Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBluetooth, 0);
+            }
         }
     }
 }
