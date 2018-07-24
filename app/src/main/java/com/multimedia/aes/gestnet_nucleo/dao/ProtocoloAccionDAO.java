@@ -132,7 +132,6 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 			return listadoProtocoloAccion;
         }
 	}
-
 	public static ArrayList<ProtocoloAccion> buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
 		ArrayList<ProtocoloAccion> listadoProtocoloAccion = null;

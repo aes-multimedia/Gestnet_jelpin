@@ -48,6 +48,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private Maquina maquina = null;
     private DatosAdicionales datos = null;
     private LinearLayout llPadre;
+    private int posicion = 0;
 
     //METODO
     private void inicializarVariables() {
@@ -147,6 +148,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                     for (int i = 0; i < protocolos.size(); i++) {
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setTag(protocolos.get(i).getId_accion());
                         linearLayout.setPadding(5, 5, 5, 5);
                         if (protocolos.get(i).isTipo_accion()) {
                             CheckBox checkBox = new CheckBox(getContext());
@@ -185,6 +187,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                     for (int i = 0; i < protocolos.size(); i++) {
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setTag(protocolos.get(i).getId_accion());
                         linearLayout.setPadding(5, 5, 5, 5);
                         if (protocolos.get(i).isTipo_accion()) {
                             CheckBox checkBox = new CheckBox(getContext());
@@ -219,9 +222,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     }
 
     public void guardarProtocolo() {
-        if (spProtocolos.getSelectedItem().toString().contains("<->")) {
+        if (spProtocolos.getItemAtPosition(posicion).toString().contains("<->")) {
             final int childCount = llPadre.getChildCount();
-            String[] a = spProtocolos.getSelectedItem().toString().split("<->");
+            String[] a = spProtocolos.getItemAtPosition(posicion).toString().split("<->");
             String nombre = a[0];
             int fk_maquina = Integer.parseInt(a[1]);
             for (int i = 0; i < childCount; i++) {
@@ -270,7 +273,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         } else {
             final int childCount = llPadre.getChildCount();
-            String nombre = spProtocolos.getSelectedItem().toString();
+            String nombre = spProtocolos.getItemAtPosition(posicion).toString();
             for (int i = 0; i < childCount; i++) {
                 View v = llPadre.getChildAt(i);
                 LinearLayout ll = (LinearLayout) v;
@@ -358,8 +361,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             guardarProtocolo();
         }
         if (position != 0) {
+            posicion=position;
             crearLinearProtocolo(spProtocolos.getSelectedItem().toString());
         } else {
+            posicion=0;
             llPadre.removeAllViews();
             llPadre.setVisibility(View.GONE);
         }
@@ -367,6 +372,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        int a = 5 ;
+        a++;
     }
 }

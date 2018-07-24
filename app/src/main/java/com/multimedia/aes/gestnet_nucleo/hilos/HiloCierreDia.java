@@ -93,7 +93,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         dialog.dismiss();
-        if (mensaje.indexOf('{')==0){
+        if (mensaje.indexOf('}')!=-1){
             try {
                 JSONObject jsonObject = new JSONObject(mensaje);
                 if (jsonObject.getInt("estado")==1){

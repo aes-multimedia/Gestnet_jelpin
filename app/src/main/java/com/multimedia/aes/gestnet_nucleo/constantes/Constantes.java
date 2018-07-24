@@ -8,8 +8,8 @@ public class Constantes {
    // public static final String IP_EXTERNA = "90.69.105.123:8085";
     public static final String IP_EXTERNA = "apicentral.gestnet.es";
     public static final String IP_ARRIBA = "imd.gestnet.es";
-    public static final String URL_COD_CLIENTE = "http://"+IP_INTERNA+"/api-gesnet/v1/login/codigo";
-    public static final String URL_LOGIN_EXTERNA_PRUEBAS = "http://"+IP_INTERNA+"/api-gesnet/v1/login/login";
+    public static final String URL_COD_CLIENTE = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/codigo";
+    public static final String URL_LOGIN_EXTERNA_PRUEBAS = "http://"+IP_EXTERNA+"/api-gesnet/v1/login/login";
     public static final String URL_PARTES_ID_EXTERNAPRUEBAS = "/api-gestnet-datos/v1/partes/buscarPartePorId";
     public static final String URL_PARTES_EXTERNAPRUEBAS = "/api-gestnet-datos/v1/partes/listarPartes";
     public static final String URL_GEOPOS_EXTERNAPRUEBAS = "/api-gestnet-datos/v1/partes/cargaPosicion";
@@ -33,7 +33,6 @@ public class Constantes {
     public static final String URL_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarIntervencionesAnteriores";
     public static final String URL_IMAGENES_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarImagenesPorFkParte";
     public static final String URL_ACTUALZIAR_STOCK_ALMACEN = "/api-gestnet-datos/v1/partes/actualizarStockAlmacenTecnico";
-
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_nucleo/app_imageDir";
 
 }
