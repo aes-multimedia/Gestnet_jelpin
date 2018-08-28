@@ -69,7 +69,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
-    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
+    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
@@ -100,6 +100,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3=  vista.findViewById(R.id.etTelefono3);
         etTelefono4=  vista.findViewById(R.id.etTelefono4);
         etObservaciones=  vista.findViewById(R.id.etObservaciones);
+        etCorreoElectronico = vista.findViewById(R.id.etCorreoElectronico);
+
         //BOTONES
         btnImagenes= vista.findViewById(R.id.btnAñadirImagen);
         btnIniciarParte=  vista.findViewById(R.id.btnIniciarParte);
@@ -348,6 +350,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono2.setText(parte.getTelefono2_cliente());
         etTelefono3.setText(parte.getTelefono3_cliente());
         etTelefono4.setText(parte.getTelefono4_cliente());
+        etCorreoElectronico.setText(parte.getEmail_cliente());
         etObservaciones.setText(parte.getObservaciones());
 
     }
