@@ -245,6 +245,29 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 }
             }
         });
+
+        etCorreoElectronico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    ParteDAO.actualizarCorreCliente(getContext(),parte.getId_parte(),etCorreoElectronico.getText().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         etObservaciones.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -264,31 +287,31 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
         });
         //CHECKEDCHANGE
-        swEdicion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(swEdicion.isChecked()){
+        swEdicion.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(swEdicion.isChecked()){
 
-                    etNombreTitular.setEnabled(true);
-                    etDni.setEnabled(true);
-                    etTelefono1.setEnabled(true);
-                    etTelefono2.setEnabled(true);
-                    etTelefono3.setEnabled(true);
-                    etTelefono4.setEnabled(true);
-                    etObservaciones.setEnabled(true);
-                }
-
-                else {
-                    etNombreTitular.setEnabled(false);
-                    etDni.setEnabled(false);
-                    etTelefono1.setEnabled(false);
-                    etTelefono2.setEnabled(false);
-                    etTelefono3.setEnabled(false);
-                    etTelefono4.setEnabled(false);
-                    etObservaciones.setEnabled(false);
-                }
-
-
+                etNombreTitular.setEnabled(true);
+                etDni.setEnabled(true);
+                etTelefono1.setEnabled(true);
+                etTelefono2.setEnabled(true);
+                etTelefono3.setEnabled(true);
+                etTelefono4.setEnabled(true);
+                etCorreoElectronico.setEnabled(true);
+                etObservaciones.setEnabled(true);
             }
+
+            else {
+                etNombreTitular.setEnabled(false);
+                etDni.setEnabled(false);
+                etTelefono1.setEnabled(false);
+                etTelefono2.setEnabled(false);
+                etTelefono3.setEnabled(false);
+                etTelefono4.setEnabled(false);
+                etCorreoElectronico.setEnabled(false);
+                etObservaciones.setEnabled(false);
+            }
+
+
         });
 
 
