@@ -463,6 +463,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 String tel2 = etTelefono2.getText().toString();
                 String tel3 = etTelefono3.getText().toString();
                 String tel4 = etTelefono4.getText().toString();
+                String correo = etCorreoElectronico.getText().toString();
                 parte.setObservaciones(observaciones);
                 parte.setNombre_cliente(nombre);
                 parte.setDni_cliente(dni);
@@ -472,7 +473,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 parte.setTelefono4_cliente(tel4);
                 datos.setMatem_hora_entrada(formattedDate);
                 DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(),formattedDate);
-                ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+                ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,correo,observaciones);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -558,6 +559,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             String tel2 = etTelefono2.getText().toString();
             String tel3 = etTelefono3.getText().toString();
             String tel4 = etTelefono4.getText().toString();
+            String email = etCorreoElectronico.getText().toString();
             parte.setObservaciones(observaciones);
             parte.setNombre_cliente(nombre);
             parte.setDni_cliente(dni);
@@ -565,7 +567,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             parte.setTelefono2_cliente(tel2);
             parte.setTelefono3_cliente(tel3);
             parte.setTelefono4_cliente(tel4);
-            ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+            ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,email,observaciones);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -577,7 +577,7 @@ public class ParteDAO extends DBHelperMOS{
     }
     public static void actualizarParte(Context context, int id_parte, String nombre_cliente,
                                        String dni_cliente, String telefono1_cliente, String telefono2_cliente,
-                                       String telefono3_cliente, String telefono4_cliente,
+                                       String telefono3_cliente, String telefono4_cliente,String correo,
                                        String observaciones) throws SQLException
     {
 
@@ -591,6 +591,7 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(Parte.TELEFONO2_CLIENTE, telefono2_cliente);
         updateBuilder.updateColumnValue(Parte.TELEFONO3_CLIENTE, telefono3_cliente);
         updateBuilder.updateColumnValue(Parte.TELEFONO4_CLIENTE, telefono4_cliente);
+        updateBuilder.updateColumnValue(Parte.EMAIL_CLIENTE, correo);
 
 
         updateBuilder.update();

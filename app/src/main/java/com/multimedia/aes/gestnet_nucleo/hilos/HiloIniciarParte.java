@@ -116,6 +116,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         jsonObject2.put("telefono1", parte.getTelefono1_cliente());
         jsonObject2.put("telefono2", parte.getTelefono2_cliente());
         jsonObject2.put("telefono3", parte.getTelefono3_cliente());
+        jsonObject2.put("email_cliente", parte.getEmail_cliente());
         jsonObject2.put("otros_telefonos", parte.getTelefono4_cliente());
         msg.put("sat_partes",jsonObject1);
         msg.put("sat_usuarios",jsonObject2);
