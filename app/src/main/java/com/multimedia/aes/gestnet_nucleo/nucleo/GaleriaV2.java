@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -24,7 +25,6 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
-import com.multimedia.aes.gestnet_nucleo.hilos.HiloCompresorImagen;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -55,12 +55,14 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
     public static List<Imagen> listaImagenes = new ArrayList<>();
     private static Context context;
     private static AdaptadorListaImagenes adaptadorListaImagenes;
+    private static Context thisContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_v2);
         GaleriaV2.context = getApplicationContext();
+        thisContext = this;
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
@@ -172,14 +174,24 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         }
     }
     public static void borrarArrayImagenes(int position, Context context){
-        try {
-            ImagenDAO.borrarImagenPorRuta(context,arraylistImagenes.get(position).ruta);
-            arraylistImagenes.remove(position);
-            adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
-            lvImagenes.setAdapter(adaptadorListaImagenes);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+
+        new AlertDialog.Builder(thisContext)
+                .setTitle("Atención")
+                .setMessage("¿Estas seguro de que deseas borrar la imagen?")
+                .setPositiveButton("Aceptar", (dialog, which) -> {
+                    try {
+                        ImagenDAO.borrarImagenPorRuta(context,arraylistImagenes.get(position).ruta);
+                        arraylistImagenes.remove(position);
+                        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+                        lvImagenes.setAdapter(adaptadorListaImagenes);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
+
     }
     public static void result(String path){
 

@@ -88,7 +88,8 @@ public class ImpresionFactura extends Ticket {
         result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
         result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
         String fechaIntervParte = FormatearfechaDate(parte.getFecha_visita());
-        result+="Fecha intervencion: "+fechaIntervParte+"\n"+"\n";
+        result+="Fecha intervencion: "+fechaIntervParte+"\n";
+        result+="Nombre tecnico: "+usuario.getNombreUsuario()+"\n"+"\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
         String numCliente = parte.getNumero_cliente();
         result+="Num. Cliente: "+numCliente+"\n";

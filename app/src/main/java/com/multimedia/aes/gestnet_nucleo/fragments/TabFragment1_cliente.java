@@ -69,7 +69,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
-    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones;
+    private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
@@ -90,7 +90,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtSintomaLista=  vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
-        tvHoraInicio=vista.findViewById(R.id.tvHoraInicio);
+        //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
         //EDIT TEXTS
         etNombreTitular =  vista.findViewById(R.id.etNombreTitular);
@@ -100,6 +100,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3=  vista.findViewById(R.id.etTelefono3);
         etTelefono4=  vista.findViewById(R.id.etTelefono4);
         etObservaciones=  vista.findViewById(R.id.etObservaciones);
+        etCorreoElectronico = vista.findViewById(R.id.etCorreoElectronico);
+
         //BOTONES
         btnImagenes= vista.findViewById(R.id.btnAñadirImagen);
         btnIniciarParte=  vista.findViewById(R.id.btnIniciarParte);
@@ -243,6 +245,29 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 }
             }
         });
+
+        etCorreoElectronico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    ParteDAO.actualizarCorreCliente(getContext(),parte.getId_parte(),etCorreoElectronico.getText().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         etObservaciones.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -262,31 +287,31 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
         });
         //CHECKEDCHANGE
-        swEdicion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(swEdicion.isChecked()){
+        swEdicion.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(swEdicion.isChecked()){
 
-                    etNombreTitular.setEnabled(true);
-                    etDni.setEnabled(true);
-                    etTelefono1.setEnabled(true);
-                    etTelefono2.setEnabled(true);
-                    etTelefono3.setEnabled(true);
-                    etTelefono4.setEnabled(true);
-                    etObservaciones.setEnabled(true);
-                }
-
-                else {
-                    etNombreTitular.setEnabled(false);
-                    etDni.setEnabled(false);
-                    etTelefono1.setEnabled(false);
-                    etTelefono2.setEnabled(false);
-                    etTelefono3.setEnabled(false);
-                    etTelefono4.setEnabled(false);
-                    etObservaciones.setEnabled(false);
-                }
-
-
+                etNombreTitular.setEnabled(true);
+                etDni.setEnabled(true);
+                etTelefono1.setEnabled(true);
+                etTelefono2.setEnabled(true);
+                etTelefono3.setEnabled(true);
+                etTelefono4.setEnabled(true);
+                etCorreoElectronico.setEnabled(true);
+                etObservaciones.setEnabled(true);
             }
+
+            else {
+                etNombreTitular.setEnabled(false);
+                etDni.setEnabled(false);
+                etTelefono1.setEnabled(false);
+                etTelefono2.setEnabled(false);
+                etTelefono3.setEnabled(false);
+                etTelefono4.setEnabled(false);
+                etCorreoElectronico.setEnabled(false);
+                etObservaciones.setEnabled(false);
+            }
+
+
         });
 
 
@@ -348,6 +373,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono2.setText(parte.getTelefono2_cliente());
         etTelefono3.setText(parte.getTelefono3_cliente());
         etTelefono4.setText(parte.getTelefono4_cliente());
+        etCorreoElectronico.setText(parte.getEmail_cliente());
         etObservaciones.setText(parte.getObservaciones());
 
     }
@@ -437,6 +463,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 String tel2 = etTelefono2.getText().toString();
                 String tel3 = etTelefono3.getText().toString();
                 String tel4 = etTelefono4.getText().toString();
+                String correo = etCorreoElectronico.getText().toString();
                 parte.setObservaciones(observaciones);
                 parte.setNombre_cliente(nombre);
                 parte.setDni_cliente(dni);
@@ -446,14 +473,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 parte.setTelefono4_cliente(tel4);
                 datos.setMatem_hora_entrada(formattedDate);
                 DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(),formattedDate);
-                ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+                ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,correo,observaciones);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             new HiloIniciarParte(getContext(),parte,1,2).execute();
-
-
         }else if(view.getId()==R.id.btnClienteAusente){
 
 
@@ -462,7 +486,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         }else if(view.getId()==R.id.btnImprimir){
             Bitmap bit=null;
-
             try {
                  bit = loadFirmaTecnicoFromStorage(parte.getId_parte(),getActivity());
             } catch (SQLException e) {
@@ -536,6 +559,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             String tel2 = etTelefono2.getText().toString();
             String tel3 = etTelefono3.getText().toString();
             String tel4 = etTelefono4.getText().toString();
+            String email = etCorreoElectronico.getText().toString();
             parte.setObservaciones(observaciones);
             parte.setNombre_cliente(nombre);
             parte.setDni_cliente(dni);
@@ -543,7 +567,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             parte.setTelefono2_cliente(tel2);
             parte.setTelefono3_cliente(tel3);
             parte.setTelefono4_cliente(tel4);
-            ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,observaciones);
+            ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,email,observaciones);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -73,20 +73,13 @@ public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
         }
     }
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
-
         int id_marca;
         String nombre_marca;
-
-
         boolean esta = false;
-
-
         JSONObject jsonObject = new JSONObject(json);
         Log.d("bajada",json);
         JSONArray jsonArray = jsonObject.getJSONArray("marcas");
         for (int i = 0; i < jsonArray.length(); i++) {
-
-
             if (jsonArray.getJSONObject(i).getString("id_marca").equals("null") || jsonArray.getJSONObject(i).getString("id_marca").equals("")) {
                 id_marca = -1;
             } else {
@@ -110,8 +103,6 @@ public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
             } else {
                 nombre_marca = jsonArray.getJSONObject(i).getString("nombre_marca");
             }
-
-
             if (!esta) {
                 if (MarcaDAO.newMarca(context, id_marca, nombre_marca)) {
                     bien = true;
@@ -127,9 +118,6 @@ public class GuardarMarcas extends AsyncTask<Void,Void,Void> {
 
            }
                 bien = true;
-
-
-
             }
             marcas.clear();
         }

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -50,13 +51,12 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
+       if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
             tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
             tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
             tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
-
 
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -99,7 +99,11 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==1){
 
                 }else if (tab.getPosition()==2){
-
+                    try {
+                        tab3.guardarProtocolo();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){

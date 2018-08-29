@@ -379,12 +379,16 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                             double cantidad=0;
                             int usados=0;
 
-                           // if(ArticuloDAO.buscarArticuloPorID(context,idArticulo)!=null)
+
+
+
                                 cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
 
-                            //if(ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte())!=null)
-                                usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
+
+                            usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
                             ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
+
+                            if(ArticuloDAO.buscarArticuloPorID(context,idArticulo).isEntregado()==0)
                             ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);
 
                             llenarMateriales();

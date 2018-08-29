@@ -112,4 +112,9 @@ public class ProtocoloAccion {
     public void setOrden(int orden) {
         this.orden = orden;
     }
+
+    public String toString()
+    {
+        return( getNombre_protocolo() );
+    }
 }

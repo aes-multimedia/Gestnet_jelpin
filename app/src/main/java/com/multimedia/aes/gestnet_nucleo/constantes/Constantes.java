@@ -4,7 +4,7 @@ public class Constantes {
 
     public static final String ERROR = "NOK";
     public static final String SUCCES = "OK";
-    public static final String IP_INTERNA = "192.168.0.228:8085";
+    public static final String IP_INTERNA = "90.69.105.123:8085";
    // public static final String IP_EXTERNA = "90.69.105.123:8085";
     public static final String IP_EXTERNA = "apicentral.gestnet.es";
     public static final String IP_ARRIBA = "imd.gestnet.es";
@@ -33,7 +33,6 @@ public class Constantes {
     public static final String URL_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarIntervencionesAnteriores";
     public static final String URL_IMAGENES_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarImagenesPorFkParte";
     public static final String URL_ACTUALZIAR_STOCK_ALMACEN = "/api-gestnet-datos/v1/partes/actualizarStockAlmacenTecnico";
-
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_nucleo/app_imageDir";
 
 }

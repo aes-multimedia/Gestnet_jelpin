@@ -93,33 +93,52 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
     private void actualizarHoras(){
         int horInicio = Integer.parseInt(btnHoraInicio.getText().toString().split(":")[0]);
         int minInicio = Integer.parseInt(btnHoraInicio.getText().toString().split(":")[1]);
-
-
         int horFin = Integer.parseInt(btnHoraFin.getText().toString().split(":")[0]);
         int minFin = Integer.parseInt(btnHoraFin.getText().toString().split(":")[1]);
-
-
-
-
-
         int horComida = Integer.parseInt(btnHorasComida.getText().toString().split(":")[0]);
         int minComida = Integer.parseInt(btnHorasComida.getText().toString().split(":")[1]);
-
         long inicio = horInicio*3600000+minInicio*60000;
         long fin = horFin*3600000+minFin*60000;
         long comida = horComida*3600000+minComida*60000;
-
         long result = fin-inicio-comida;
-
         int minutes = (int) ((result / (1000*60)) % 60);
         int hours   = (int) ((result / (1000*60*60)) % 24);
-
-
         String horas = hours < 10? "0"+String.valueOf(hours) : String.valueOf(hours);
         String minutos = minutes < 10? "0"+String.valueOf(minutes) : String.valueOf(minutes);
-
-
         txtTotalHoras.setText(String.valueOf(horas)+":"+String.valueOf(minutos));
+    }
+    public void finalizar(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Cierre del dia guardado correctamente.");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+
+    }
+    public void error(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("No se ha podido guardar el cierre del dia en estos momentos, por favor intentelo mas tarde.");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+
     }
     private void actualizarTotal(){
         double dietas=0,parking=0,combustible=0,material=0;

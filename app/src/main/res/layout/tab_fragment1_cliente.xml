@@ -1,543 +1,631 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/datos_cliente"
-                        android:textColor="@android:color/black"
-                        android:textSize="19sp" />
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <Switch
-                        android:id="@+id/swEdicion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Edición" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/datos_cliente"
+                            android:textColor="@android:color/black"
+                            android:textSize="19sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/black"
-                    android:orientation="horizontal"
-                    android:padding="0.5dp">
-
-                </LinearLayout>
+                        <Switch
+                            android:id="@+id/swEdicion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Edición" />
+                    </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/linearLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-                    <TextView
-                        android:id="@+id/txtDierccionTitular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        <TextView
+                            android:id="@+id/txtDierccionTitular"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="20"
+                            android:text="direccion"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textSize="18dp" />
+
+                        <ImageButton
+                            android:id="@+id/ibLocation"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/ic_localizar" />
+
+                        <ImageButton
+                            android:id="@+id/ibIr"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="0.5"
+                            android:background="@drawable/ic_navigation_black_24dp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutNombreTitular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+                        <EditText
+                            android:id="@+id/etNombreTitular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:hint="@string/nombre_titular"
+                            android:padding="5dp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/LinearLayoutDniTitular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="20"
-                        android:text="direccion"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textSize="18dp" />
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNombreTitular">
 
-                    <ImageButton
-                        android:id="@+id/ibLocation"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/ic_localizar" />
+                        <EditText
+                            android:id="@+id/etDni"
 
-                    <ImageButton
-                        android:id="@+id/ibIr"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="0.5"
-                        android:background="@drawable/ic_navigation_black_24dp" />
-                </LinearLayout>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:hint="@string/dni_titular"
+                            android:padding="5dp" />
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/etNombreTitular"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutTelefono1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:hint="@string/nombre_titular"
-                        android:padding="5dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/etDni"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:hint="@string/dni_titular"
-                        android:padding="5dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="10"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/etTelefono1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="10"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:ems="10"
-                        android:hint="telefono1"
-                        android:inputType="number"
-                        android:padding="5dp" />
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/LinearLayoutDniTitular">
 
-                    <ImageView
-                        android:id="@+id/ivLlamar1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_call" />
-                </LinearLayout>
+                        <EditText
+                            android:id="@+id/etTelefono1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:ems="10"
+                            android:hint="telefono1"
+                            android:inputType="number"
+                            android:padding="5dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/ivLlamar1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@android:drawable/ic_menu_call" />
+                    </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/etTelefono2"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutTelefono2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:enabled="true"
-                        android:gravity="left"
-                        android:hint="@string/telefono_2"
-                        android:inputType="number"
-                        android:padding="5dp" />
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono1">
 
-                    <ImageView
-                        android:id="@+id/ivLlamar2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_call" />
+                        <EditText
+                            android:id="@+id/etTelefono2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:gravity="left"
+                            android:hint="@string/telefono_2"
+                            android:inputType="number"
+                            android:padding="5dp" />
+
+                        <ImageView
+                            android:id="@+id/ivLlamar2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@android:drawable/ic_menu_call" />
 
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <EditText
-                        android:id="@+id/etTelefono3"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutTelefono3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:enabled="true"
-                        android:gravity="left"
-                        android:hint="@string/telefono_3"
-                        android:inputType="number"
-                        android:minHeight="30dp"
-                        android:padding="5dp" />
-
-                    <ImageView
-                        android:id="@+id/ivLlamar3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_call" />
-                </LinearLayout>
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono2">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/etTelefono3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:gravity="left"
+                            android:hint="@string/telefono_3"
+                            android:inputType="number"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+
+                        <ImageView
+                            android:id="@+id/ivLlamar3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@android:drawable/ic_menu_call" />
+                    </LinearLayout>
 
 
-                    <EditText
-                        android:id="@+id/etTelefono4"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutTelefono4"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="10"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:enabled="true"
-                        android:gravity="left"
-                        android:hint="@string/telefono_4"
-                        android:inputType="number"
-                        android:padding="5dp" />
-
-                    <ImageView
-                        android:id="@+id/ivLlamar4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_call" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono3">
 
 
-                    <EditText
-                        android:id="@+id/etObservaciones"
+                        <EditText
+                            android:id="@+id/etTelefono4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:gravity="left"
+                            android:hint="@string/telefono_4"
+                            android:inputType="number"
+                            android:padding="5dp" />
+
+                        <ImageView
+                            android:id="@+id/ivLlamar4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:src="@android:drawable/ic_menu_call" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutCorreo"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_texts_naranja"
-                        android:enabled="true"
-                        android:hint="Observaciones"
-                        android:lines="4"
-                        android:minHeight="30dp"
-                        android:padding="5dp" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono4">
+
+
+                        <EditText
+                            android:id="@+id/etCorreoElectronico"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="10"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:gravity="left"
+                            android:hint="@string/correo_electrónico"
+                            android:inputType="number"
+                            android:padding="5dp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutObservaciones"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCorreo">
+
+
+                        <EditText
+                            android:id="@+id/etObservaciones"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:hint="Observaciones"
+                            android:lines="4"
+                            android:minHeight="30dp"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutBottom4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/datos_parte"
-                    android:textColor="@android:color/black"
-                    android:textSize="19sp" />
-
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/black"
-                    android:orientation="horizontal"
-                    android:padding="0.5dp">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
+                    android:baselineAligned="false">
 
                     <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/datos_parte"
+                        android:textColor="@android:color/black"
+                        android:textSize="19sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginStart="2dp"
+                        android:background="@android:color/black"
+                        android:orientation="horizontal"
+                        android:padding="0.5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView33"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
                         android:text="@string/num_parte"
+                        android:textAlignment="viewStart"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtNumParte"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/tipo_contrato"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtNombreContrato"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/otros_sintomas"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtSintomas"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/situacion_equipo"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtSituacionEquipo"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView34"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/tipo_intervencion"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtTipoIntervencion"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/maquina"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtMaquina"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView36"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/creado_por"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtCreadoPor"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView37"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/sintomas"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtSintomaLista"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView38"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/hora_entrada"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtHoraInicio"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <android.support.constraint.Barrier
+                        android:id="@+id/barrier2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="end"
+                        app:constraint_referenced_ids="textView33,textView37,textView34,textView36,textView30,textView31,textView35,textView29,textView38"
+                        tools:layout_editor_absoluteX="344dp" />
 
                     <TextView
                         android:id="@+id/txtNumParte"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/num_parte"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/creado_por"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier2"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
                     <TextView
                         android:id="@+id/txtCreadoPor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/creado_por"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/maquina"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtNumParte"
+                        app:layout_constraintStart_toStartOf="@+id/txtNumParte"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNumParte" />
 
                     <TextView
                         android:id="@+id/txtMaquina"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/maquina"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/tipo_intervencion"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtCreadoPor"
+                        app:layout_constraintStart_toStartOf="@+id/txtCreadoPor"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCreadoPor" />
 
                     <TextView
                         android:id="@+id/txtTipoIntervencion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/tipo_intervencion"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/situacion_equipo"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtMaquina"
+                        app:layout_constraintStart_toStartOf="@+id/txtMaquina"
+                        app:layout_constraintTop_toBottomOf="@+id/txtMaquina" />
 
                     <TextView
                         android:id="@+id/txtSituacionEquipo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/situacion_equipo"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/tipo_contrato"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtTipoIntervencion"
+                        app:layout_constraintStart_toStartOf="@+id/txtTipoIntervencion"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTipoIntervencion" />
 
                     <TextView
                         android:id="@+id/txtNombreContrato"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/tipo_contrato"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-                        android:layout_width="63dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/sintomas"
-                        android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtSituacionEquipo"
+                        app:layout_constraintStart_toStartOf="@+id/txtSituacionEquipo"
+                        app:layout_constraintTop_toBottomOf="@+id/txtSituacionEquipo" />
 
                     <TextView
                         android:id="@+id/txtSintomas"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sintomas"
-                        android:textColor="@color/cast_expanded_controller_background_color" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-
-                        android:layout_width="160dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sintomas"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtNombreContrato"
+                        app:layout_constraintStart_toStartOf="@+id/txtNombreContrato"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNombreContrato" />
 
                     <TextView
                         android:id="@+id/txtSintomaLista"
-                        android:layout_width="154dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sintomas"
-                        android:textColor="@color/cast_expanded_controller_background_color" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvHoraInicio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/hora_entrada"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtSintomas"
+                        app:layout_constraintStart_toStartOf="@+id/txtSintomas"
+                        app:layout_constraintTop_toBottomOf="@+id/txtSintomas" />
 
                     <TextView
                         android:id="@+id/txtHoraInicio"
-                        android:layout_width="154dp"
-                        android:layout_height="match_parent"
-                        android:text=""
-                        android:textColor="@color/cast_expanded_controller_background_color"
-                        android:visibility="gone" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/texto_largo_prueba"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtSintomaLista"
+                        app:layout_constraintStart_toStartOf="@+id/txtSintomaLista"
+                        app:layout_constraintTop_toBottomOf="@+id/txtSintomaLista" />
 
-                </LinearLayout>
+
+                </android.support.constraint.ConstraintLayout>
 
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutBottom5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom4"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+                tools:layout_editor_absoluteY="457dp">
 
                 <TextView
                     android:id="@+id/textView26"
@@ -549,7 +637,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/black"
@@ -560,7 +648,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
@@ -581,7 +669,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
@@ -602,35 +690,38 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
 
-
-                <Button
-                    android:id="@+id/btnIntervencionesAnteriotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/botones"
-                    android:gravity="center"
-                    android:text="@string/intervenciones_anteriores" />
+                    <Button
+                        android:id="@+id/btnIntervencionesAnteriotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/botones"
+                        android:gravity="center"
+                        android:text="@string/intervenciones_anteriores" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom5">
 
                 <TextView
                     android:id="@+id/textView260"
@@ -642,7 +733,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@android:color/black"
@@ -653,7 +744,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
@@ -672,14 +763,17 @@
                 </LinearLayout>
 
 
-
-
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
                 <Button
                     android:id="@+id/btnIniciarParte"
@@ -703,9 +797,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
                 <Button
                     android:id="@+id/btnImprimir"
@@ -719,13 +818,8 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="file:///C:/Users/acp/AppData/Local/slack/app-3.1.1/resources/app.asar/src/static/logo_spinner.webp" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

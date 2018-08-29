@@ -38,7 +38,6 @@ public class MiFirma extends AppCompatActivity implements View.OnClickListener {
         //BUTTON
         btnFirmar = (Button) findViewById(R.id.btnFirmar);
         btnSalir = (Button) findViewById(R.id.btnSalir);
-
         //IMAGEVIEW
         ivMiFirma = (ImageView) findViewById(R.id.ivMiFirma);
         //ONCLICK
@@ -49,7 +48,6 @@ public class MiFirma extends AppCompatActivity implements View.OnClickListener {
 
     private void darValores() throws SQLException {
         if (!usuario.getFirma().equals("")) {
-            btnFirmar.setVisibility(View.GONE);
             ivMiFirma.setImageBitmap(loadFirmaTecnicoFromStorage(this));
         }else{
             btnFirmar.setVisibility(View.VISIBLE);
@@ -102,7 +100,6 @@ public class MiFirma extends AppCompatActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 99) {
             if (resultCode == Activity.RESULT_OK) {
-                btnFirmar.setVisibility(View.GONE);
                 ivMiFirma.setVisibility(View.VISIBLE);
                 Bitmap bitmap = null;
                 try {

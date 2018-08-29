@@ -514,10 +514,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                                         Log.e("finaliza entra", "entro aqui");
                                         if (parte.getFirma64() != null && !parte.getFirma64().equals("")) {
-
-
                                             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-
                                             try {
                                                     if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
                                                     articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
@@ -525,19 +522,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                             } catch (SQLException e) {
                                                 e.printStackTrace();
                                             }
-
-
                                             String operacionEfectuada = "";
                                             if (!etOperacionEfectuada.getText().toString().equals("")) {
                                                 operacionEfectuada = etOperacionEfectuada.getText().toString();
                                             }
-
                                             String preeu_otros_nombre = "";
                                             if (!et_preeu_otros_nombre.getText().toString().equals("")) {
                                                 preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
                                             }
-
-
                                             preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
 
                                             if (!et_preeu_materiales.getText().toString().equals("")) {
@@ -546,7 +538,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                                 //preeu_materiales = Double.valueOf(et_preeu_materiales.getText().toString());
                                                 preeu_materiales = Double.valueOf(str);
                                             }
-
                                             if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
                                                 preeu_puesta_marcha = Double.valueOf(et_preeu_puesta_marcha.getText().toString());
                                             }
@@ -571,8 +562,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                             if (!et_preeu_adicional.getText().toString().equals("")) {
                                                 preeu_adicional = Double.valueOf(et_preeu_adicional.getText().toString());
                                             }
-
-
                                             double SubTotal =
                                                     preeu_adicional
                                                             + preeu_analisis_combustion

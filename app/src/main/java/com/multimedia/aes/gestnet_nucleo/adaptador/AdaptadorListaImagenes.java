@@ -1,6 +1,8 @@
 package com.multimedia.aes.gestnet_nucleo.adaptador;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,10 @@ public class AdaptadorListaImagenes extends ArrayAdapter implements View.OnClick
     @Override
     public void onClick(View v) {
 
+
+
         GaleriaV2.borrarArrayImagenes((int)v.getTag(),context);
+
+
     }
 }
