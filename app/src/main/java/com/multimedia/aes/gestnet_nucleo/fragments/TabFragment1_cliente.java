@@ -90,7 +90,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtSintomaLista=  vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
-        tvHoraInicio=vista.findViewById(R.id.tvHoraInicio);
+        //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
         //EDIT TEXTS
         etNombreTitular =  vista.findViewById(R.id.etNombreTitular);
