@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
@@ -51,6 +52,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion.resizeImage;
 
@@ -353,35 +355,17 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         }
     }
 
+
+
+        JSONObject jsonObject8 = new JSONObject();
+        jsonObject8.put("enviar",parte.isEnviarPorCorreo());
+        jsonObject8.put("dir",parte.getEmailEnviarFactura());
+
         JSONObject jsonObject7 = new JSONObject();
         jsonObject7.put("fk_parte",parte.getId_parte());
         jsonObject7.put("nombre",parte.getNombre_firmante());
         jsonObject7.put("firma","1");
         jsonObject7.put("base64",parte.getFirma64());
-
-
-/*
-        JSONArray jsonArray8 = new JSONArray();
-        ArrayList<ProtocoloAccion> arrayLisAnalisis = new ArrayList<>();
-        List<Maquina> listaMaquina = new ArrayList<>();
-        if (MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte()) != null) {
-            listaMaquina = MaquinaDAO.buscarMaquinaPorFkParte(context, parte.getId_parte());
-            for (Maquina maquina : listaMaquina) {
-                if(AnalisisDAO.buscarAnalisisPorFkMaquina(context,maquina.getId_maquina())!=null){
-
-
-
-
-
-
-                }
-            }
-        }
-
-
-
-
-        */
 
 
 
@@ -393,6 +377,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("maquina",jsonArraya);
         msg.put("protocolos",jsonArray6);
         msg.put("firma",jsonObject7);
+        msg.put("factura",jsonObject8);
 
 
         Log.d("json_subida",msg.toString());

@@ -128,6 +128,8 @@ public class Parte {
     public static final String SINTOMAS = "sintomas";
     public static final String POLITICAPRIVACIDAD = "politicaPrivacidad";
     public static final String TEXTO_DURACION = "texto_duracion";
+    public static final String ENVIAR_POR_CORREO = "enviar_por_correo";
+    public static final String EMAIL_ENVIAR_FACTURA = "email_enviar_factura";
 
 
 
@@ -261,6 +263,8 @@ public class Parte {
     @DatabaseField(columnName = EMAIL)            private String email;
     @DatabaseField(columnName = POLITICAPRIVACIDAD)            private String politicaPrivacidad;
     @DatabaseField(columnName = TEXTO_DURACION)            private String textoDuracion;
+    @DatabaseField(columnName = ENVIAR_POR_CORREO)            private boolean enviarPorCorreo;
+    @DatabaseField(columnName = EMAIL_ENVIAR_FACTURA)            private String emailEnviarFactura;
 
 
     public Parte(){}
@@ -428,6 +432,7 @@ public class Parte {
         this.politicaPrivacidad=politicaPrivacidad;
         this.numero_cliente=numero_cliente;
         textoDuracion="";
+        this.enviarPorCorreo=false;
     }
 
     public static String getIdParte() {
@@ -1184,5 +1189,21 @@ public class Parte {
 
     public void setTextoDuracion(String textoDuracion) {
         this.textoDuracion = textoDuracion;
+    }
+
+    public boolean isEnviarPorCorreo() {
+        return enviarPorCorreo;
+    }
+
+    public void setEnviarPorCorreo(boolean enviarPorCorreo) {
+        this.enviarPorCorreo = enviarPorCorreo;
+    }
+
+    public String getEmailEnviarFactura() {
+        return emailEnviarFactura;
+    }
+
+    public void setEmailEnviarFactura(String emailEnviarFactura) {
+        this.emailEnviarFactura = emailEnviarFactura;
     }
 }

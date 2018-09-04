@@ -582,6 +582,50 @@
                             android:text="@string/acepto_presupuesto"
                             android:textSize="18sp" />
                     </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/cb_enviar_por_correo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/colorAccent"
+                            android:foregroundGravity="center"
+                            android:gravity="center"
+                            android:text="@string/enviar_por_correo"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/llEnviarPorCorreo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/et_enviar_por_correo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:enabled="true"
+                            android:focusable="true"
+                            android:gravity="left"
+                            android:inputType="text"
+                            android:padding="5dp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

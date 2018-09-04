@@ -703,4 +703,25 @@ public class ParteDAO extends DBHelperMOS{
 
         return true;
     }
+
+
+    public static boolean enviarPorCorreo(Context context, int id_parte, boolean enviar) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.ENVIAR_POR_CORREO,enviar);
+        updateBuilder.update();
+
+        return true;
+    }
+
+    public static boolean actualizarCorreoEnvioDeFactura(Context context, int id_parte, String correo) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.EMAIL_ENVIAR_FACTURA,correo);
+        updateBuilder.update();
+
+        return true;
+    }
 }
