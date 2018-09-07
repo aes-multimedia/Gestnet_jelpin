@@ -387,109 +387,103 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
                         "Si",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                try {
-                                    int fk_maquina = maquina.getFk_maquina();
-                                    int fk_parte = parte.getId_parte();
-                                    int fk_direccion = parte.getFk_direccion();
-                                    int fk_marca = MarcaDAO.buscarIdMarcaPorNombre(AnadirDatosMaquina.this,spMarca.getSelectedItem().toString());
-                                    String fk_tipo_combustion ="";
-                                    int fk_protocolo = 0;
-                                    int fk_instalador = 0;
-                                    int fk_remoto_central = 0;
-                                    int fk_tipo = 0;
-                                    int fk_instalacion = 0;
-                                    int fk_estado = 0;
-                                    int fk_contrato_mantenimiento = 0;
-                                    int fk_gama = 0;
-                                    int fk_tipo_gama = 0;
-                                    String fecha_creacion = "";
-                                    String modelo = etModelo.getText().toString();
-                                    String num_serie = etNumeroSerie.getText().toString();
-                                    String num_producto = "";
-                                    String aparato = "";
-                                    String puesta_marcha = spPuestaMarcha.getSelectedItem().toString()+"-01-01";
-                                    String fecha_compra = "";
-                                    String fecha_fin_garantia = "";
-                                    String mantenimiento_anual = "";
-                                    String observaciones = "";
-                                    String ubicacion = "";
-                                    String tienda_compra = "";
-                                    String garantia_extendida = "";
-                                    String factura_compra = "";
-                                    String refrigerante = "";
-                                    boolean bEsInstalacion = false;
-                                    String nombre_instalacion = "";
-                                    String en_propiedad = "";
-                                    String esPrincipal = "";
-                                    String situacion = "";
-                                    String temperatura_max_acs = etTempMaxACS.getText().toString();
-                                    String caudal_acs = etCaudalACS.getText().toString();
-                                    String potencia_util = etPotenciaUtil.getText().toString();
-                                    String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
-                                    String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
-                                    String combustible_txt = "SIN COMBUSTIBLE";
-                                    String nombre_contr_man = "";
-                                    String documento_modelo="";
-                                    if (maquina!=null){
-                                        MaquinaDAO.actualizarMaquina(AnadirDatosMaquina.this,
-                                                fk_maquina,fk_parte, fk_direccion, fk_marca,
-                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+                        (dialog, id) -> {
+                            try {
+                                int fk_maquina = maquina.getFk_maquina();
+                                int fk_parte = parte.getId_parte();
+                                int fk_direccion = parte.getFk_direccion();
+                                int fk_marca = MarcaDAO.buscarIdMarcaPorNombre(AnadirDatosMaquina.this,spMarca.getSelectedItem().toString());
+                                String fk_tipo_combustion ="";
+                                int fk_protocolo = 0;
+                                int fk_instalador = 0;
+                                int fk_remoto_central = 0;
+                                int fk_tipo = 0;
+                                int fk_instalacion = 0;
+                                int fk_estado = 0;
+                                int fk_contrato_mantenimiento = 0;
+                                int fk_gama = 0;
+                                int fk_tipo_gama = 0;
+                                String fecha_creacion = "";
+                                String modelo = etModelo.getText().toString();
+                                String num_serie = etNumeroSerie.getText().toString();
+                                String num_producto = "";
+                                String aparato = "";
+                                String puesta_marcha = spPuestaMarcha.getSelectedItem().toString()+"-01-01";
+                                String fecha_compra = "";
+                                String fecha_fin_garantia = "";
+                                String mantenimiento_anual = "";
+                                String observaciones = "";
+                                String ubicacion = "";
+                                String tienda_compra = "";
+                                String garantia_extendida = "";
+                                String factura_compra = "";
+                                String refrigerante = "";
+                                boolean bEsInstalacion = false;
+                                String nombre_instalacion = "";
+                                String en_propiedad = "";
+                                String esPrincipal = "";
+                                String situacion = "";
+                                String temperatura_max_acs = etTempMaxACS.getText().toString();
+                                String caudal_acs = etCaudalACS.getText().toString();
+                                String potencia_util = etPotenciaUtil.getText().toString();
+                                String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
+                                String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
+                                String combustible_txt = "SIN COMBUSTIBLE";
+                                String nombre_contr_man = "";
+                                String documento_modelo="";
+                                if (maquina!=null){
+                                    MaquinaDAO.actualizarMaquina(AnadirDatosMaquina.this,
+                                            fk_maquina,fk_parte, fk_direccion, fk_marca,
+                                            modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
+                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
 
-                                        new HiloActualizaMaquina( fk_maquina,fk_parte, fk_direccion, fk_marca,
-                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida).execute();
-                                    }else{
-                                        MaquinaDAO.newMaquina(AnadirDatosMaquina.this,
-                                                fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo
-                                        );
-                                        new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida).execute();
-                                    }
-                                    etModelo.setText("");
-                                    etTempMaxACS.setText("");
-                                    etCaudalACS.setText("");
-                                    etPotenciaUtil.setText("");
-                                    etTempAguaGeneCalorEntrada.setText("");
-                                    etTempAguaGeneCalorSalida.setText("");
-                                    etNumeroSerie.setText("");
-                                    spMarca.setSelection(0);
-                                    spPuestaMarcha.setSelection(0);
-                                    Dialogo.dialogoError("Maquina añadida", AnadirDatosMaquina.this);
-                                    TabFragment2_equipo.añadirMaquina();
-                                    finish();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
+                                    new HiloActualizaMaquina( fk_maquina,fk_parte, fk_direccion, fk_marca,
+                                            modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
+                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida).execute();
+                                }else{
+                                    MaquinaDAO.newMaquina(AnadirDatosMaquina.this,
+                                            fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
+                                            fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
+                                            fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
+                                            fecha_creacion, modelo, num_serie, num_producto, aparato,
+                                            puesta_marcha, fecha_compra, fecha_fin_garantia,
+                                            mantenimiento_anual, observaciones, ubicacion, tienda_compra,
+                                            garantia_extendida, factura_compra, refrigerante,
+                                            bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
+                                            temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
+                                            temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo
+                                    );
+                                    new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
+                                            fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
+                                            fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
+                                            fecha_creacion, modelo, num_serie, num_producto, aparato,
+                                            puesta_marcha, fecha_compra, fecha_fin_garantia,
+                                            mantenimiento_anual, observaciones, ubicacion, tienda_compra,
+                                            garantia_extendida, factura_compra, refrigerante,
+                                            bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
+                                            temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
+                                            temperatura_agua_generador_calor_salida).execute();
                                 }
-                                dialog.cancel();
+                                etModelo.setText("");
+                                etTempMaxACS.setText("");
+                                etCaudalACS.setText("");
+                                etPotenciaUtil.setText("");
+                                etTempAguaGeneCalorEntrada.setText("");
+                                etTempAguaGeneCalorSalida.setText("");
+                                etNumeroSerie.setText("");
+                                spMarca.setSelection(0);
+                                spPuestaMarcha.setSelection(0);
+                                Dialogo.dialogoError("Maquina añadida", AnadirDatosMaquina.this);
+                                TabFragment2_equipo.añadirMaquina();
+                                finish();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
                             }
+                            dialog.cancel();
                         });
                 builder1.setNegativeButton(
                         "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        (dialog, id) -> dialog.cancel());
                 AlertDialog alert11 = builder1.create();
                 alert11.setCanceledOnTouchOutside(false);
                 alert11.show();

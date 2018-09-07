@@ -35,7 +35,7 @@ public class ImpresionFactura extends Ticket {
     public String encabezado() throws SQLException {
         String result = "\n";
         result+="--------------------------------"+"\n";
-        result+="------FACTURA SIMPLIFICADA------"+"\n";
+        result+="------PARTE DE TRABAJO------"+"\n";
         result+="--------------------------------"+"\n"+"\n";
         return result;
     }
