@@ -400,6 +400,19 @@
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtNumParte"
                         app:layout_constraintStart_toStartOf="parent" />
 
+
+                    <TextView
+                        android:id="@+id/textView338"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/estado_parte"
+                        android:textAlignment="viewStart"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtEstadoParte"
+                        app:layout_constraintStart_toStartOf="parent" />
+
                     <TextView
                         android:id="@+id/textView29"
                         android:layout_width="wrap_content"
@@ -511,6 +524,20 @@
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
                     <TextView
+                        android:id="@+id/txtEstadoParte"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/texto_largo_prueba"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier2"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNumParte" />
+
+                    <TextView
                         android:id="@+id/txtCreadoPor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -518,9 +545,9 @@
                         android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/txtNumParte"
-                        app:layout_constraintStart_toStartOf="@+id/txtNumParte"
-                        app:layout_constraintTop_toBottomOf="@+id/txtNumParte" />
+                        app:layout_constraintEnd_toEndOf="@+id/txtEstadoParte"
+                        app:layout_constraintStart_toStartOf="@+id/txtEstadoParte"
+                        app:layout_constraintTop_toBottomOf="@+id/txtEstadoParte" />
 
                     <TextView
                         android:id="@+id/txtMaquina"
