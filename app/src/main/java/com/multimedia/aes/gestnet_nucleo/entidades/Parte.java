@@ -130,6 +130,7 @@ public class Parte {
     public static final String TEXTO_DURACION = "texto_duracion";
     public static final String ENVIAR_POR_CORREO = "enviar_por_correo";
     public static final String EMAIL_ENVIAR_FACTURA = "email_enviar_factura";
+    public static final String ESTADO_PARTE = "estado_parte";
 
 
 
@@ -226,6 +227,7 @@ public class Parte {
     @DatabaseField(columnName = USER_CREADOR)                   private String user_creador;
     @DatabaseField(columnName = TIPO)                           private String tipo;
     @DatabaseField(columnName = SINTOMAS)                       private String sintomas;
+    @DatabaseField(columnName = ESTADO_PARTE)                   private String estado_parte;
     //DATOS DEL FIRMANTE
     @DatabaseField(columnName = NOMBRE_FIRMANTE)                private String nombre_firmante;
     @DatabaseField(columnName = DNI_FIRMANTE)                   private String dni_firmante;
@@ -255,16 +257,16 @@ public class Parte {
     @DatabaseField(columnName = OBSERVACIONES_CLIENTE)          private String observaciones_cliente;
     @DatabaseField(columnName = NUMERO_CLIENTE)                 private String numero_cliente;
     //DATOS EMPRESA
-    @DatabaseField(columnName = NOMBRE_COMPANIA)   private String nombre_compania;
-    @DatabaseField(columnName = DIRECCION)         private String direccion;
-    @DatabaseField(columnName = CIF)                private String cif;
-    @DatabaseField(columnName = TELEFONO1)           private String telefono1;
-    @DatabaseField(columnName = TELEFONO2)             private String telefono2;
-    @DatabaseField(columnName = EMAIL)            private String email;
-    @DatabaseField(columnName = POLITICAPRIVACIDAD)            private String politicaPrivacidad;
-    @DatabaseField(columnName = TEXTO_DURACION)            private String textoDuracion;
-    @DatabaseField(columnName = ENVIAR_POR_CORREO)            private boolean enviarPorCorreo;
-    @DatabaseField(columnName = EMAIL_ENVIAR_FACTURA)            private String emailEnviarFactura;
+    @DatabaseField(columnName = NOMBRE_COMPANIA)                private String nombre_compania;
+    @DatabaseField(columnName = DIRECCION)                      private String direccion;
+    @DatabaseField(columnName = CIF)                            private String cif;
+    @DatabaseField(columnName = TELEFONO1)                      private String telefono1;
+    @DatabaseField(columnName = TELEFONO2)                      private String telefono2;
+    @DatabaseField(columnName = EMAIL)                          private String email;
+    @DatabaseField(columnName = POLITICAPRIVACIDAD)             private String politicaPrivacidad;
+    @DatabaseField(columnName = TEXTO_DURACION)                 private String textoDuracion;
+    @DatabaseField(columnName = ENVIAR_POR_CORREO)              private boolean enviarPorCorreo;
+    @DatabaseField(columnName = EMAIL_ENVIAR_FACTURA)           private String emailEnviarFactura;
 
 
     public Parte(){}
@@ -307,7 +309,7 @@ public class Parte {
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
                  String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
-                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,String numero_cliente) {
+                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,String numero_cliente,String estado_parte) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -433,6 +435,7 @@ public class Parte {
         this.numero_cliente=numero_cliente;
         textoDuracion="";
         this.enviarPorCorreo=false;
+        this.estado_parte=estado_parte;
     }
 
     public static String getIdParte() {
@@ -814,6 +817,15 @@ public class Parte {
     public void setFk_remoto_central(int fk_remoto_central) {
         this.fk_remoto_central = fk_remoto_central;
     }
+
+    public String getEstado_parte() {
+        return estado_parte;
+    }
+
+    public void setEstado_parte(String estado_parte) {
+        this.estado_parte = estado_parte;
+    }
+
     public String getFac_nombre() {
         return fac_nombre;
     }

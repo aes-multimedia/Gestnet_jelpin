@@ -68,7 +68,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
@@ -90,6 +90,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtSintomaLista=  vista.findViewById(R.id.txtSintomaLista);
         txtSintomas= vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
+        txtEstadoParte =vista.findViewById(R.id.txtEstadoParte);
+
         //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
         //EDIT TEXTS
@@ -333,6 +335,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtNumParte.setText(String.valueOf(parte.getNum_parte()));
         txtCreadoPor.setText(String.valueOf(parte.getUser_creador()));
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
+        txtEstadoParte.setText(String.valueOf(parte.getEstado_parte()));
 
         String dir = "";
         if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){
@@ -374,6 +377,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3.setText(parte.getTelefono3_cliente());
         etTelefono4.setText(parte.getTelefono4_cliente());
         etCorreoElectronico.setText(parte.getEmail_cliente());
+
         etObservaciones.setText(parte.getObservaciones());
 
     }

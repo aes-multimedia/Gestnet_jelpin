@@ -219,6 +219,18 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         sobre = jsonArray.getJSONObject(i).getString("sobre");
                     }
+
+
+
+                    String estado_parte;
+                    if (jsonArray.getJSONObject(i).getString("estado").equals("null")) {
+                        estado_parte = "";
+                    } else {
+                        estado_parte = jsonArray.getJSONObject(i).getString("estado");
+                    }
+
+
+
                     int franja_horaria;
                     if (jsonArray.getJSONObject(i).getString("franja_horaria").equals("null") || jsonArray.getJSONObject(i).getString("franja_horaria").equals("")) {
                         franja_horaria = -1;
@@ -904,7 +916,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,numero_cliente);
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,numero_cliente,estado_parte);
                         bien=true;
                     }else{
                         if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
@@ -936,7 +948,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas,politicaPrivacidad,numero_cliente)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas,politicaPrivacidad,numero_cliente,estado_parte)) {
                             bien = true;
                         } else {
                             bien = false;
