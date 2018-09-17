@@ -84,9 +84,17 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
 
         } else {
-            arrayNombreProtocolos = new String[1];
-            arrayNombreProtocolos[0] = "Sin protocolos";
-            spProtocolos.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayNombreProtocolos));
+
+            ArrayList<ProtocoloAccion> ordenadosNombre = new ArrayList<>();
+            ordenadosNombre.add(0,new ProtocoloAccion(-1,"",-1,parte.getId_parte(),-1,"Sin Protocolos",-1,false,"",-1));
+            ProtocoloAccion[] arrayProtocolos =  new ProtocoloAccion[ordenadosNombre.size()];
+            for(int i=0;i<arrayProtocolos.length;i++){
+                arrayProtocolos[i]=ordenadosNombre.get(i);
+            }
+
+            spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
+
+
         }
     }
 
@@ -204,6 +212,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     }
 
     public void guardarProtocolo() throws SQLException {
+
         ProtocoloAccion protocoloAccion = (ProtocoloAccion)spProtocolos.getItemAtPosition(posicion);
         if (protocoloAccion.getFk_maquina()!= 0 && protocoloAccion.getFk_maquina()!= -1  ) {
             final int childCount = llPadre.getChildCount();
@@ -271,6 +280,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                 }
             }
         }
+
     }
 
     //OVERRIDE

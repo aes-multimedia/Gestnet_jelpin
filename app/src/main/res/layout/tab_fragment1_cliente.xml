@@ -410,8 +410,8 @@
                         android:textAlignment="viewStart"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:layout_editor_absoluteY="89dp" />
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtEstadoParte"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
                         android:id="@+id/textView29"
