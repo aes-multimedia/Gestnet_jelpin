@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -65,6 +67,9 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
@@ -93,7 +98,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     private boolean acepta_presupuesto = false, enviar_correo = false;
     private static DecimalFormat df2 = new DecimalFormat(",##");
-    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar;
+    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar,btn_calcular_tiempo;
     private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago;
     private CheckBox cb_acepta_presupuesto,cb_enviar_por_correo;
 
@@ -145,12 +150,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         btn_preeu_mano_de_obra =  vista.findViewById(R.id.btn_preeu_mano_de_obra);
         btnFinalizar =  vista.findViewById(R.id.btnFinalizar);
         btnFirmar =  vista.findViewById(R.id.btnFirmar);
+        btn_calcular_tiempo =  vista.findViewById(R.id.btn_calcular_tiempo);
 
 
         //ONCLICK
         btn_preeu_mano_de_obra.setOnClickListener(this);
         btnFinalizar.setOnClickListener(this);
         btnFirmar.setOnClickListener(this);
+        btn_calcular_tiempo.setOnClickListener(this);
         //SPINNER
         spFormaPago =  vista.findViewById(R.id.spFormaPago);
         spFormaPago.setOnItemSelectedListener(this);
@@ -452,8 +459,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     }
 
+
     @Override
     public void onClick(View view) {
+
+
+
+
+
         if(view.getId()==BtnVerMateriales.getId()){
 
             Intent i = new Intent(getContext(), GestionMateriales.class);
@@ -474,7 +487,89 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             startActivityForResult(i, 99);
 
 
-        }else if (view.getId() == R.id.btn_preeu_mano_de_obra) {
+        }else if(view.getId()==R.id.btn_calcular_tiempo){
+
+            String horaEntrada = datos.getMatem_hora_entrada();
+            String[] tiempos= horaEntrada.split(":");
+
+
+            int hour = Integer.valueOf(tiempos[0]);
+            int minute =Integer.valueOf(tiempos[1]);
+            int second = Integer.valueOf(tiempos[2]);
+
+
+            int segDesdeElInicio = hour*60*60+minute*60+second;
+
+
+            Calendar c2 = Calendar.getInstance();
+            SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate2 = df.format(c.getTime());
+            String[] tiempos2= formattedDate2.split(":");
+
+
+            int hourFin = Integer.valueOf(tiempos2[0]);
+            int minuteFin = Integer.valueOf(tiempos2[1]);
+            int secondFin = Integer.valueOf(tiempos2[2]);
+
+            int segDesdeFin = hourFin*60*60+minuteFin*60+secondFin;
+
+
+
+            int segTotales = segDesdeFin-segDesdeElInicio;
+            int horaTotal=segTotales/3600;
+            int segTotal = segTotales % 3600;
+            int minTotal= segTotal/60;
+            segTotal %= 60;
+/*
+            String hh,mm,ss;
+
+            if(horaTotal<10)
+                hh="0"+horaTotal;
+            else hh=horaTotal+"";
+
+            if(minTotal<10)
+                mm="0"+minTotal;
+            else mm=minTotal+"";
+
+
+            if(segTotal<10)
+                ss="0"+segTotal;
+            else ss=segTotal+"";
+
+
+
+            String tiempoTotal= hh+":"+mm+":"+ss;
+            btn_preeu_mano_de_obra.setText(tiempoTotal);
+
+*/
+
+
+            btn_preeu_mano_de_obra.setText(horaTotal + " horas " + minTotal + " minutos");
+            textoBoton=horaTotal + " horas " + minTotal + " minutos";
+            preeu_mano_de_obra_horas = Double.valueOf(horaTotal + minTotal);
+
+            try {
+                ParteDAO.actualizarTextoDuracion(getContext(),parte.getId_parte(),textoBoton);
+                DatosAdicionalesDAO.actualizarHorasManoDeObra(getContext(),datos.getId_rel(),preeu_mano_de_obra_horas);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
+
+                double mH = 0;
+                try {
+                    mH = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
+
+            }
+
+
+            }else if (view.getId() == R.id.btn_preeu_mano_de_obra) {
             int hour = 0;
             final int minute = 0;
             TimePickerDialog mTimePicker;

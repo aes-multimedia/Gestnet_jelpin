@@ -215,14 +215,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
                         <Button
                             android:id="@+id/btn_preeu_mano_de_obra"
-                            android:layout_width="match_parent"
+                            android:layout_width="192dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.6"
                             android:background="@drawable/fondo_naranja"
                             android:text="00:00"
+                            app:srcCompat="@color/colorAccent" />
+
+                        <Button
+                            android:id="@+id/btn_calcular_tiempo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="0.4"
+                            android:background="@drawable/fondo_naranja"
+                            android:text="Automatico"
                             app:srcCompat="@color/colorAccent" />
                     </LinearLayout>
 

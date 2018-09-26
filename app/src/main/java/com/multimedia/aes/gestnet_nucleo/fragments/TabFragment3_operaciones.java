@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.j256.ormlite.field.types.SqlDateType;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
@@ -52,9 +53,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
     //METODO
     private void inicializarVariables() {
-        spProtocolos = (Spinner) vista.findViewById(R.id.spProtocolos);
+        spProtocolos =  vista.findViewById(R.id.spProtocolos);
         spProtocolos.setOnItemSelectedListener(this);
-        llPadre = (LinearLayout) vista.findViewById(R.id.llPadre);
+        llPadre =  vista.findViewById(R.id.llPadre);
     }
 
     private void darValores() throws java.sql.SQLException {
@@ -212,6 +213,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     }
 
     public void guardarProtocolo() throws SQLException {
+
+
+
+
 
         ProtocoloAccion protocoloAccion = (ProtocoloAccion)spProtocolos.getItemAtPosition(posicion);
         if (protocoloAccion.getFk_maquina()!= 0 && protocoloAccion.getFk_maquina()!= -1  ) {

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 
 android {
@@ -9,9 +10,9 @@ android {
         applicationId "com.multimedia.aes.gestnet_nucleo"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 18
+        versionCode 19
         multiDexEnabled true
-        versionName "1.8.13"
+        versionName "1.8.14"
     }
     buildTypes {
         release {
@@ -47,7 +48,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'id.zelory:compressor:2.1.0'
-
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
