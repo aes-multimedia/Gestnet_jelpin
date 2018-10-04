@@ -573,41 +573,36 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             int hour = 0;
             final int minute = 0;
             TimePickerDialog mTimePicker;
-            mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            mTimePicker = new TimePickerDialog(getContext(), (timePicker, selectedHour, selectedMinute) -> {
 
 
-                @Override
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                btn_preeu_mano_de_obra.setText(selectedHour + " horas " + selectedMinute + " minutos");
+                textoBoton=selectedHour + " horas " + selectedMinute + " minutos";
+                double minutos = selectedMinute;
+                minutos = minutos / 60;
+                preeu_mano_de_obra_horas = Double.valueOf(selectedHour + minutos);
+                try {
+                    ParteDAO.actualizarTextoDuracion(getContext(),parte.getId_parte(),textoBoton);
+                    DatosAdicionalesDAO.actualizarHorasManoDeObra(getContext(),datos.getId_rel(),preeu_mano_de_obra_horas);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
 
+                if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
 
-                    btn_preeu_mano_de_obra.setText(selectedHour + " horas " + selectedMinute + " minutos");
-                    textoBoton=selectedHour + " horas " + selectedMinute + " minutos";
-                    double minutos = selectedMinute;
-                    minutos = minutos / 60;
-                    preeu_mano_de_obra_horas = Double.valueOf(selectedHour + minutos);
+                    double mH = 0;
                     try {
-                        ParteDAO.actualizarTextoDuracion(getContext(),parte.getId_parte(),textoBoton);
-                        DatosAdicionalesDAO.actualizarHorasManoDeObra(getContext(),datos.getId_rel(),preeu_mano_de_obra_horas);
+                        mH = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
-                    if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
-
-                        double mH = 0;
-                        try {
-                            mH = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-
-                        et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
+                    et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
 
 
-
-                    }
 
                 }
+
             }, hour, minute, true);
             mTimePicker.setTitle("Selecciona la duración");
             mTimePicker.show();
