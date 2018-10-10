@@ -308,6 +308,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     jsonObject4.put("lambda", analisis.getLambda());
                     jsonObject4.put("nombre_medicion", analisis.getNombre_medicion());
                 }
+                jsonObject4.put("fk_maquina", maquina.getId_maquina());
                 jsonObject4.put("fk_parte", parte.getId_parte());
                 jsonObject4.put("tempMaxACS", maquina.getTemperatura_max_acs());
                 jsonObject4.put("caudalACS", maquina.getCaudal_acs());
@@ -328,6 +329,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             jsonObject5.put("num_serie", maquina.getNum_serie());
             jsonObject5.put("puesta_marcha", maquina.getPuesta_marcha());
             jsonObject5.put("fk_marca", maquina.getFk_marca());
+
             jsonArraya.put(jsonObject5);
         }
 

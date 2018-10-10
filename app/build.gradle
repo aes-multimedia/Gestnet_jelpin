@@ -10,7 +10,7 @@ android {
         applicationId "com.multimedia.aes.gestnet_nucleo"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 22
+        versionCode 25
         multiDexEnabled true
         versionName "1.9.0"
     }

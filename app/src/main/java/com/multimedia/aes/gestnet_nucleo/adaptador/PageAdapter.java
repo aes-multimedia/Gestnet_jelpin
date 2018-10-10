@@ -65,9 +65,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     public TabFragment3_operaciones getTab3() {
         return tab3;
     }
-    public TabFragment4_finalizacion getTab4() {
-        return tab6;
-    }
+    public TabFragment4_finalizacion getTab4() {return tab6;}
     public TabFragment6_materiales getTab6() { return tab4; }
 
 

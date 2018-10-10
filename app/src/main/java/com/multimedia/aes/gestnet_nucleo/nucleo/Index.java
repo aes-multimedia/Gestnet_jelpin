@@ -223,6 +223,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     try {
                         Usuario u = UsuarioDAO.buscarUsuario(this);
                         Cliente c = ClienteDAO.buscarCliente(this);
+
                         new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
                     } catch (SQLException e) {
                         e.printStackTrace();

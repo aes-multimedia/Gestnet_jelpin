@@ -88,7 +88,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     private String[] arrayFormasPago, arrayManosObra, arrayDisposiciones;
     private Parte parte = null;
     private Usuario usuario = null;
-    private Maquina maquina = null;
     private DatosAdicionales datos = null;
 
     private EditText etOperacionEfectuada, et_preeu_materiales, et_preeu_mano_de_obra_horas,
@@ -213,7 +212,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(), parte.getFk_maquina());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -246,8 +244,24 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             for (int i = 1; i < formasPagos.size() + 1; i++) {
                 arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
             }
-            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
 
+            if(datos.getFk_forma_pago()>0){
+                try{
+                int idFormaPago=datos.getFk_forma_pago();
+                String nombreFormaPago=FormasPagoDAO.buscarFormasPagoPorId(getContext(),idFormaPago).getForma_pago();
+                arrayFormasPago[0] = nombreFormaPago;
+                spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+                spFormaPago.setEnabled(false);
+                spFormaPago.setClickable(false);
+                }catch (Exception e){
+                    //si algo falla se utiliza la rutina habitual.
+                arrayFormasPago[0] = "--Seleciones un valor--";
+                spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+                }
+            }else{
+
+                spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+            }
         }
 
 
@@ -260,7 +274,11 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 arrayManosObra[i] = manosObra.get(i - 1).getConcepto();
             }
             sp_preeu_mano_de_obra_precio.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayManosObra));
+
+
         }
+
+
         //SPINNER DISPOSICIONES SERVICIO
         if (DisposicionesDAO.buscarTodasLasDisposiciones(getContext()) != null) {
             disposicionesServicio.addAll(DisposicionesDAO.buscarTodasLasDisposiciones(getContext()));
@@ -358,7 +376,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
             idParte = jsonObject.getInt("id");
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(), parte.getFk_tecnico());
-            maquina = MaquinaDAO.buscarMaquinaPorId(getContext(), parte.getFk_maquina());
             if (DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte()) != null) {
                 datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
             } else {
