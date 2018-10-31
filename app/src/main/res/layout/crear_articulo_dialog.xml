@@ -44,7 +44,7 @@
                 android:background="@drawable/edit_texts_naranja"
                 android:ems="10"
                 android:hint="Unidades"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="5dp" />
         </LinearLayout>
 

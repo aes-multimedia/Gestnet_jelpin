@@ -25,6 +25,7 @@ public class Presupuesto {
     private int fk_tipo_trabajo;
     private int fk_parte;
     private int fk_empresa;
+    private int fk_direccion;
     private String observaciones_presupuesto;
     private ArrayList<String> listaImagenes;
 
@@ -124,6 +125,16 @@ public class Presupuesto {
 
     public Presupuesto setFk_empresa(int fk_empresa) {
         this.fk_empresa = fk_empresa;
+        return this;
+    }
+
+
+    public int getFk_direccion() {
+        return fk_direccion;
+    }
+
+    public Presupuesto setFk_direccion(int fk_direccion) {
+        this.fk_direccion = fk_direccion;
         return this;
     }
 

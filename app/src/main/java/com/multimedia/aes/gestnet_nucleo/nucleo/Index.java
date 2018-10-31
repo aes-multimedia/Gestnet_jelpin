@@ -478,6 +478,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         }else {
 
+
+
+
             JSONObject js = new JSONObject();
             try {
                 js.put("dia", fechar);

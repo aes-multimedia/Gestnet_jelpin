@@ -937,10 +937,10 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
                 }
             } else if ( parent.getId() == spFormaPago.getId()) {
-                if (spFormaPago.getSelectedItemPosition() != 0) {
-
+                if (spFormaPago.getSelectedItemPosition() != -1) {
                     try {
                         forma_pago = FormasPagoDAO.buscarIdFormaPagoPorNombre(getContext(), spFormaPago.getSelectedItem().toString());
+                        if(forma_pago==-1)forma_pago=0;
                         DatosAdicionalesDAO.actualizarFormaPago(getContext(), datos.getId_rel(), forma_pago);
                     } catch (SQLException e) {
                         e.printStackTrace();

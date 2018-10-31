@@ -305,6 +305,7 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
                     .setObservaciones_presupuesto(observaciones.getText().toString())
                     .setListaImagenes(listaImagenes)
                     .setFk_empresa(parte.getFk_compania())
+                    .setFk_direccion(parte.getFk_direccion())
                     .setFk_parte(parte.getId_parte());
 
             new HiloGuardarPresupuesto(this,p,cliente).execute();

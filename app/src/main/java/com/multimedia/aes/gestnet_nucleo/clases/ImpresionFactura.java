@@ -187,7 +187,7 @@ public class ImpresionFactura extends Ticket {
             double totalArticulos = 0;
             for (Articulo art:articulos) {
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
-                int usados = articuloParte.getUsados();
+                double usados = articuloParte.getUsados();
                 double coste = 0;
                 if(art.isFacturar()) {
                     if (!art.isGarantia()) coste = art.getTarifa();

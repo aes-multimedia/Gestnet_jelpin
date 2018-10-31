@@ -87,6 +87,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private void buscarMaterial(String text) throws SQLException {
         ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(), text) != null) {
             if (dataArticulos.size() != 0) {
                 dataArticulos.clear();
@@ -147,7 +148,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             String referencia;
             String referencia_aux;
             String ean;
-            int stock;
+            double stock;
             double coste;
             double iva;
             double tarifa;
@@ -181,7 +182,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             if (jsonObject.getString("stock").equals("null") || jsonObject.getString("stock").equals("")) {
                 stock = -1;
             } else {
-                stock = jsonObject.getInt("stock");
+                stock = jsonObject.getDouble("stock");
             }
             if (jsonObject.getString("coste").equals("null") || jsonObject.getString("coste").equals("")) {
                 coste = -1;
@@ -377,7 +378,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                         try {
 
                             double cantidad=0;
-                            int usados=0;
+                            double usados=0;
 
 
 

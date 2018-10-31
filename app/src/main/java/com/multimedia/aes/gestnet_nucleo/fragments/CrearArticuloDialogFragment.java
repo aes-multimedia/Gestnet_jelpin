@@ -32,8 +32,8 @@ public class CrearArticuloDialogFragment extends DialogFragment {
 
     private EditText etNombre,etUnidades,etPrecio,etCoste,etIva;
     private String nombre;
-    private int iva,cantidadStock;
-    private int unidades;
+    private int iva;
+    private double unidades,cantidadStock;
     private float precio,coste;
     private int idParte;
     private RadioButton radioButtonPedir,radioButtonUsar;
@@ -91,9 +91,9 @@ public class CrearArticuloDialogFragment extends DialogFragment {
 
                         }else{
                             nombre=etNombre.getText().toString();
-                            unidades=Integer.parseInt(etUnidades.getText().toString());
+                            unidades=Double.parseDouble(etUnidades.getText().toString());
                             iva=Integer.parseInt(etIva.getText().toString());
-                            cantidadStock=Integer.parseInt(etUnidades.getText().toString());
+                            cantidadStock=Double.parseDouble(etUnidades.getText().toString());
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
 

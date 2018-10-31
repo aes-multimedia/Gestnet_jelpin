@@ -283,6 +283,8 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         if (id ==-1){
 
             int fkMaquina= calcularMaquina();
+            if(fkMaquina<0)fkMaquina=-1*fkMaquina;
+
 
 
 
@@ -324,7 +326,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     }
 
     private int buscarUnFkRecursivo(List<Maquina> maquinaList) {
-        int rand = new Random().nextInt(999)*-1;
+        int rand = new Random().nextInt(10000000-9000000)*-1  + 9000000;
         int i=0;
         boolean esta=false;
         while(i<maquinaList.size() && !esta){
@@ -431,7 +433,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                 String combustible_txt = "SIN COMBUSTIBLE";
                                 String nombre_contr_man = "";
                                 String documento_modelo="";
-                                if (maquina!=null){
+                                if (id!=-1){
                                     MaquinaDAO.actualizarMaquina(AnadirDatosMaquina.this,
                                             fk_maquina,fk_parte, fk_direccion, fk_marca,
                                             modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,

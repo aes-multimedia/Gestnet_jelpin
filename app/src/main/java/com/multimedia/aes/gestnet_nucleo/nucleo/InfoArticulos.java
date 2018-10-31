@@ -57,7 +57,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private static ArrayList<DataStock> dataStock;
     private AdaptadorListaStock adapter;
     private static int alto=0,alto1=0,height=0;
-    private int unidades;
+    private double unidades;
 
 
     private void inicializarVariables(){
@@ -86,8 +86,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
       //ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
 
-        tvStock.setText(String.valueOf((int)articulo.getStock()));
-        if(articulo.getStock()<1){
+        tvStock.setText(String.valueOf(articulo.getStock()));
+        if(articulo.getStock()<0){
             btnAñadirMaterial.setClickable(false);
             btnAñadirMaterial.setEnabled(false);
         }
@@ -191,7 +191,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                     int idStock= jsonArray.getJSONObject(i).getInt("id_stock");
                     String nombreEntidad=jsonArray.getJSONObject(i).getString("nombre_entidad");
                     int fkProducto= jsonArray.getJSONObject(i).getInt("fk_producto");
-                    int stock= jsonArray.getJSONObject(i).getInt("cantidad");
+                    double stock= jsonArray.getJSONObject(i).getDouble("cantidad");
 
                     DataStock d = new DataStock(idStock, nombreEntidad, fkProducto, stock);
                     dataStock.add(d);
@@ -203,7 +203,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 lvStockEntidad.setAdapter(adapter);
 
             } else {
-                DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0);
+                DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0.0);
                 dataStock.add(d);
                 alto =height * dataStock.size();
                 lvStockEntidad.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
@@ -262,7 +262,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             if (cantidad.matches("")) {
                 unidades = 1;
             } else {
-                unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
+                unidades =  Double.parseDouble(tvCantidad.getText().toString());
             }
             try {
                 if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte) != null) {
@@ -276,7 +276,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
                     if (v.getId() == btnAñadirMaterial.getId()) {
                         ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
-                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Integer.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
+                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Double.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
                     } else if (v.getId() == btnPedirMaterial.getId()) {
                         try {
                             ArticuloDAO.actualizarEntregado(this, articulo.getId_articulo());

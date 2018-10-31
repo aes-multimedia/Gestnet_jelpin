@@ -782,10 +782,10 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         telefono2_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono2");
                     }
                     String telefono3_cliente;
-                    if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono3").equals("null")) {
+                    if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("tel_contacto").equals("null")) {
                         telefono3_cliente = "";
                     } else {
-                        telefono3_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono3");
+                        telefono3_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("tel_contacto");
                     }
                     String telefono4_cliente;
                     if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("otros_telefonos").equals("null")) {

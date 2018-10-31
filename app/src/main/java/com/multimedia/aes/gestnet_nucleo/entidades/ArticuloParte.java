@@ -16,10 +16,10 @@ public class ArticuloParte {
     @DatabaseField(generatedId = true, columnName = ID)     private int id;
     @DatabaseField(columnName = FK_ARTICULO)                private int fk_articulo;
     @DatabaseField(columnName = FK_PARTE)                   private int fk_parte;
-    @DatabaseField(columnName = USADOS)                     private int usados;
+    @DatabaseField(columnName = USADOS)                     private double usados;
 
     public ArticuloParte(){}
-    public ArticuloParte(int fk_articulo, int fk_parte,int usados) {
+    public ArticuloParte(int fk_articulo, int fk_parte,double usados) {
         this.id = id;
         this.fk_articulo = fk_articulo;
         this.fk_parte = fk_parte;
@@ -50,12 +50,12 @@ public class ArticuloParte {
         this.fk_parte = fk_parte;
     }
 
-    public int getUsados() {
+    public double getUsados() {
 
         return usados;
     }
 
-    public void setUsados(int usados) {
+    public void setUsados(double usados) {
         this.usados = usados;
     }
 }

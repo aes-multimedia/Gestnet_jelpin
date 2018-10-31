@@ -45,16 +45,16 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        LinearLayout linearLayout = (LinearLayout) item.findViewById(R.id.llRow);
+        LinearLayout linearLayout =  item.findViewById(R.id.llRow);
         linearLayout.setTag(arrayList.get(position).getId_articulo());
         linearLayout.setOnLongClickListener(this);
-        TextView txtTituloArticulo = (TextView) item.findViewById(R.id.txtTituloArticulo);
-        TextView txtUsadas = (TextView) item.findViewById(R.id.txtUsadas);
-        TextView txtPrecio = (TextView) item.findViewById(R.id.txtPrecio);
-        ImageView imagen = (ImageView) item.findViewById(R.id.imagenMaterialEntregadoSiNo);
+        TextView txtTituloArticulo =  item.findViewById(R.id.txtTituloArticulo);
+        TextView txtUsadas =  item.findViewById(R.id.txtUsadas);
+        TextView txtPrecio =  item.findViewById(R.id.txtPrecio);
+        ImageView imagen =  item.findViewById(R.id.imagenMaterialEntregadoSiNo);
 
         txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo()+"-"+arrayList.get(position).getReferencia());
-        int usados = 1;
+        double usados = 1;
         try {
             if(ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,arrayList.get(position).getId_articulo(),fk_parte) != null) {
                 usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, arrayList.get(position).getId_articulo(), fk_parte).getUsados();
