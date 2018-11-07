@@ -133,9 +133,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         if (protocolo.getFk_maquina()!=0 || protocolo.getFk_maquina()!=-1 ) { ///CAMBIAR
 
             try {
-                if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina()) != null) {
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina(), protocolo.getFk_parte()) != null) {
                     ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
-                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina()));
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina(), protocolo.getFk_parte()));
                     for (int i = 0; i < protocolos.size(); i++) {
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);
