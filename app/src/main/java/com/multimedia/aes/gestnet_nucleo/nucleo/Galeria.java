@@ -55,7 +55,6 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
     private static Parte parte = null;
     public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
     public static List<Imagen> listaImagenes = new ArrayList<>();
-    public static int alto=0, height;
     private static Context context;
     private static AdaptadorListaImagenes adaptadorListaImagenes;
 
@@ -84,29 +83,20 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
     public static Context getAppContext() {
         return Galeria.context;
     }
+
     private void inicializar(){
 
         Button btnArchivo,btnFoto;
         btnArchivo = findViewById(R.id.btnArchivo);
         btnFoto = findViewById(R.id.btnFoto);
-
-
-
-
-
         lvImagenes = findViewById(R.id.lvImagenes);
-
         btnArchivo.setOnClickListener(this);
         btnFoto.setOnClickListener(this);
         darValores();
     }
     private void darValores()  {
 
-        Display display = (this.getWindowManager().getDefaultDisplay());
-        height = display.getHeight();
-        height=height/16;
-        alto+=height;
-        /*
+        arraylistImagenes.clear();
         try {
             listaImagenes=ImagenDAO.buscarImagenPorFk_parte(this,parte.getId_parte());
             if(listaImagenes.size()>0) {
@@ -114,10 +104,9 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
                     File image = new File(img.getRuta_imagen());
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                     Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
-                //    bitmap = resizeImage(bitmap);
+                    bitmap = resizeImage(bitmap);
                     arraylistImagenes.add(new DataImagenes(img.getRuta_imagen(), img.getNombre_imagen(), bitmap, parte.getId_parte()));
                 }
-                lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
                 adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
                 lvImagenes.setAdapter(adaptadorListaImagenes);
             }
@@ -128,7 +117,7 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
 
 
         }
-*/
+
     }
 
 
@@ -166,11 +155,14 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
     }
 
     public static void borrarArrayImagenes(int position, Context context){
+        try {
+        ImagenDAO.borrarImagenPorRuta(context,arraylistImagenes.get(position).ruta);
         arraylistImagenes.remove(position);
-        alto-=height;
-        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
         adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
         lvImagenes.setAdapter(adaptadorListaImagenes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void result(String path){
@@ -182,12 +174,10 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
         String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
         ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte());
         arraylistImagenes.add(new DataImagenes(path,nombre,bitmap,parte.getId_parte()));
-        alto+=height;
-        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
         adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
         lvImagenes.setAdapter(adaptadorListaImagenes);
-    }
 
+    }
 
     public static Bitmap resizeImage(Bitmap bitmap) {
 

@@ -24,6 +24,7 @@ public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
     private static ArrayList<ProtocoloAccion> protocoloAcciones = new ArrayList() {};
     private ProgressDialog dialog;
 
+
     public GuardarProtocoloAccion(Context context, String json) {
         this.context = context;
         this.json = json;
@@ -68,37 +69,51 @@ public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
         }
     }
     private static void guardarJsonProtocoloAccion() throws JSONException, SQLException {
+        int ca =0;
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("acciones");
             for (int j = 0; j < jsonArray1.length(); j++) {
-                int id_protocolo_accion;
-                if (jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("")) {
-                    id_protocolo_accion = -1;
-                } else {
-                    id_protocolo_accion = jsonArray1.getJSONObject(j).getInt("fk_accion_protocolo");
-                }
-                if (ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context)!=null){
-                    protocoloAcciones.addAll(ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context));
-                }
-                boolean esta = false;
-                if (protocoloAcciones != null) {
-                    for (int k = 0; k < protocoloAcciones.size(); k++) {
-                        if (protocoloAcciones.get(k).getId_protocolo_accion() == id_protocolo_accion) {
-                            esta = true;
-                            break;
-                        } else {
-                            esta = false;
-                        }
-                    }
-                }
+
                 int fk_maquina;
                 if(jsonArray1.getJSONObject(j).getString("fk_maquina").equals("null") ||  jsonArray1.getJSONObject(j).getString("fk_maquina").equals("0")){
                     fk_maquina = -1;
                 }else{
                     fk_maquina = jsonArray1.getJSONObject(j).getInt("fk_maquina");
                 }
+
+                int fk_protocolo;
+                if(jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("null") ||  jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("0")){
+                    fk_protocolo = -1;
+                }else{
+                    fk_protocolo = jsonArray1.getJSONObject(j).getInt("fk_protocolo");
+                }
+
+                if (ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context)!=null){
+                    protocoloAcciones.addAll(ProtocoloAccionDAO.buscarTodosLosProtocoloAccion(context));
+                }
+                int id_protocolo_accion;
+                if (jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_accion_protocolo").equals("")) {
+                    id_protocolo_accion = -1;
+                } else {
+                    id_protocolo_accion = jsonArray1.getJSONObject(j).getInt("fk_accion_protocolo");
+                }
+                boolean esta = false;
+                if (protocoloAcciones != null) {
+                    for (int k = 0; k < protocoloAcciones.size(); k++) {
+                        if (protocoloAcciones.get(k).getFk_maquina() == fk_maquina &&
+                            protocoloAcciones.get(k).getFk_protocolo()== fk_protocolo &&
+                            protocoloAcciones.get(k).getId_protocolo_accion()==id_protocolo_accion) {
+                            esta = true;
+                        } else {
+                            esta = false;
+                        }
+                    }
+                }
+
+
+
                 int fk_parte;
                 if(jsonArray1.getJSONObject(j).getString("fk_parte").equals("null") ||  jsonArray1.getJSONObject(j).getString("fk_parte").equals("0")){
                     fk_parte = -1;
@@ -125,11 +140,11 @@ public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
                     id_accion = jsonArray1.getJSONObject(j).getInt("id_accion");
                 }
 
-                int fk_protocolo;
-                if(jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("null") ||  jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("0")){
-                    fk_protocolo = -1;
+                int orden;
+                if(jsonArray1.getJSONObject(j).getString("orden").equals("null") ||  jsonArray1.getJSONObject(j).getString("orden").equals("0")){
+                    orden = 0;
                 }else{
-                    fk_protocolo = jsonArray1.getJSONObject(j).getInt("fk_protocolo");
+                    orden = jsonArray1.getJSONObject(j).getInt("orden");
                 }
 
                 String descripcion;
@@ -145,13 +160,16 @@ public class GuardarProtocoloAccion extends AsyncTask<Void,Void,Void> {
                 }else{
                     nombre_protocolo = jsonArray1.getJSONObject(j).getString("nombre_protocolo");
                 }
+
                 if (!esta) {
-                    if (!ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion)) {
+                    ca++;
+                    if (!ProtocoloAccionDAO.newProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion,orden)) {
                         bien = false;
                     }
                 }else{
-                    ProtocoloAccionDAO.actualizarProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion);
+                    ProtocoloAccionDAO.actualizarProtocoloAccion(context,id_protocolo_accion,valor,fk_maquina,fk_parte,fk_protocolo,nombre_protocolo,id_accion,tipo_accion,descripcion,orden);
                 }
+                protocoloAcciones.clear();
             }
         }
 

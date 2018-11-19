@@ -7,9 +7,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -29,11 +32,13 @@ public class CrearArticuloDialogFragment extends DialogFragment {
 
     private EditText etNombre,etUnidades,etPrecio,etCoste,etIva;
     private String nombre;
-    private int unidades,iva,cantidadStock;
+    private int iva;
+    private double unidades,cantidadStock;
     private float precio,coste;
     private int idParte;
+    private RadioButton radioButtonPedir,radioButtonUsar;
     private Context context;
-
+    private CheckBox chGarantia;
     public CrearArticuloDialogFragment(Context context) {
         this.context = context;
     }
@@ -57,37 +62,45 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.crear, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        etNombre= (EditText)getDialog().findViewById(R.id.etNombre);
-                        etUnidades= (EditText)getDialog().findViewById(R.id.etUnidades);
-                        etPrecio= (EditText)getDialog().findViewById(R.id.etPrecio);
-                        etCoste= (EditText)getDialog().findViewById(R.id.etCoste);
-                        etIva= (EditText)getDialog().findViewById(R.id.etIva);
+                        etNombre= getDialog().findViewById(R.id.etNombre);
+                        etUnidades=getDialog().findViewById(R.id.etUnidades);
+                        etPrecio= getDialog().findViewById(R.id.etPrecio);
+                        etCoste= getDialog().findViewById(R.id.etCoste);
+                        etIva= getDialog().findViewById(R.id.etIva);
+                        radioButtonPedir = getDialog().findViewById(R.id.rButtonPedir);
+                        radioButtonUsar = getDialog().findViewById(R.id.rButtonUsar);
+                        chGarantia = getDialog().findViewById(R.id.chGarantia);
+
+                    if(etUnidades.getText().toString().equals("")){
+                        etUnidades.setText("1");
+                    }
+                    if(etPrecio.getText().toString().equals("")){
+                        etPrecio.setText("0");
+                    }
+                    if(etCoste.getText().toString().equals("")){
+                        etCoste.setText("0");
+                    }
+                    if(etIva.getText().toString().equals("")) {
+                        etIva.setText("0");
+                    }
 
 
 
-
-
-                        if(etNombre.getText().toString().equals("") ||
-                                etUnidades.getText().toString().equals("") ||
-                                etPrecio.getText().toString().equals("") ||
-                                etCoste.getText().toString().equals("") ||
-                                etIva.getText().toString().equals("") ||
-                                etUnidades.getText().toString().equals("")
-                                ){
+                        if(etNombre.getText().toString().equals("")){
                             Dialogo.errorCrearMaterial(context);
 
                         }else{
                             nombre=etNombre.getText().toString();
-                            unidades=Integer.parseInt(etUnidades.getText().toString());
+                            unidades=Double.parseDouble(etUnidades.getText().toString());
                             iva=Integer.parseInt(etIva.getText().toString());
-                            cantidadStock=Integer.parseInt(etUnidades.getText().toString());
+                            cantidadStock=Double.parseDouble(etUnidades.getText().toString());
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
 
-                            Articulo a = ArticuloDAO.newArticuloRet(getContext(),
+                            Articulo a = ArticuloDAO.newArticuloDialogFragment(getContext(),
                                     0,nombre,cantidadStock,"",
                                     "","","","",
-                                    0,iva,precio,0,coste,"",0);
+                                    0,iva,precio,0,coste,"",0,radioButtonPedir.isChecked(),chGarantia.isChecked());
                             ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
 
                         }
@@ -107,5 +120,11 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+
+
+    public int isChecked(RadioButton radioButton){
+       return  radioButton.isChecked() ? 1 : 0;
     }
 }

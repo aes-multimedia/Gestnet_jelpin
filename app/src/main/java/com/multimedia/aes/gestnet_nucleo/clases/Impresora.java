@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -27,6 +28,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 public class Impresora {
+
 	public Activity activity;
 	private BluetoothAdapter bluetoothAdapter;
 	public BluetoothPort bp;
@@ -52,9 +54,9 @@ public class Impresora {
 			e.printStackTrace();
 		}
 	}
-	public void imprimir() {
+	public void imprimir(Ticket ticket) {
 		iniciarConexion();
-		HiloConectarImpr hci = new HiloConectarImpr(activity,this,context);
+		HiloConectarImpr hci = new HiloConectarImpr(activity,this,context,ticket);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			hci.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mmDevice);
 		} else {
@@ -71,18 +73,18 @@ public class Impresora {
 		}
 	}
 	/////IMPRESION SEITRON
-	public void realizarImpresionSeitron() {
+	public void realizarImpresionSeitron(Ticket ticket) {
 		POSPrinterService pps = new POSPrinterService();
 		try {
-			imprimirImagenEncabezadoSeitron(pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.encabezadoPresupuesto()),pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.ticket(parte.getId_parte(),context)),pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.piePresupuesto()),pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.conformeCliente(parte.getId_parte(),context)),pps);
-			imprimirFirmaClienteSeitron(pps);
-			imprimirSeitron(Impresion.limpiarAcentos(Impresion.conformeTecnico(context)),pps);
-			imprimirFirmaTecnicoSeitron(pps);
-			bluetoothAdapter.disable();
+			//imprimirImagenEncabezadoSeitron(pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.encabezado()),pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.cuerpo(parte.getId_parte(),context)),pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.pie(parte.getId_parte(),context)),pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeCliente(parte.getId_parte(),context)),pps);
+			imprimirFirmaClienteSeitron(ticket,pps);
+			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeTecnico(context)),pps);
+			imprimirFirmaTecnicoSeitron(ticket,pps);
+			//bluetoothAdapter.disable();
 		} catch (IOException | InterruptedException e) {
 			Dialogo.errorDuranteImpresion(activity);
 		} catch (JposException e) {
@@ -91,39 +93,56 @@ public class Impresora {
 			e.printStackTrace();
 		}
 	}
+
 	private void imprimirSeitron(String texto,POSPrinterService pps) throws JposException, InterruptedException {
-		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, Impresion.limpiarAcentos(texto));
+		pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
 		Thread.sleep(1000);
 	}
-	private void imprimirFirmaClienteSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
+
+	private void imprimirFirmaClienteSeitron(Ticket ticket,POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
 		int img[][] = null;
 		int ancho = 1;
-		Bitmap bit = Impresion.loadFirmaClienteFromStorage(parte.getId_parte(),activity);
-		img = new int[bit.getWidth()][bit.getHeight()];
-		ancho = bit.getWidth();
-		for (int i = 0; i < bit.getHeight(); i++) {
-			for (int j = 0; j < bit.getWidth(); j++) {
-				img[j][i] = bit.getPixel(j, i);
+		Bitmap bit = ticket.loadFirmaClienteFromStorage(parte.getId_parte(),activity);
+		if(bit != null) {
+			img = new int[bit.getWidth()][bit.getHeight()];
+			ancho = bit.getWidth();
+			for (int i = 0; i < bit.getHeight(); i++) {
+				for (int j = 0; j < bit.getWidth(); j++) {
+					img[j][i] = bit.getPixel(j, i);
+				}
 			}
+			pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
+			Thread.sleep(4000);
+		} else {
+			String texto = "\n\n\n\n";
+			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
+			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
-		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(4000);
 	}
-	private void imprimirFirmaTecnicoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
+	private void imprimirFirmaTecnicoSeitron(Ticket ticket,POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
 		int img[][] = null;
 		int ancho = 1;
-		Bitmap bit = Impresion.loadFirmaTecnicoFromStorage(parte.getId_parte(),activity);
-		img = new int[bit.getWidth()][bit.getHeight()];
-		ancho = bit.getWidth();
-		for (int i = 0; i < bit.getHeight(); i++) {
-			for (int j = 0; j < bit.getWidth(); j++) {
-				img[j][i] = bit.getPixel(j, i);
+		Bitmap bit = ticket.loadFirmaTecnicoFromStorage(parte.getId_parte(),activity);
+		if(bit!=null) {
+			img = new int[bit.getWidth()][bit.getHeight()];
+			ancho = bit.getWidth();
+			for (int i = 0; i < bit.getHeight(); i++) {
+				for (int j = 0; j < bit.getWidth(); j++) {
+					img[j][i] = bit.getPixel(j, i);
+				}
 			}
+			pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
+			Thread.sleep(4000);
+		} else {
+			String texto = "\n\n\n\n";
+			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
+			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
-		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(4000);
 	}
-	private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
+
+
+
+	/*private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
 		InputStream bitmap = null;
 		int img[][] = null;
 		int ancho = 1;
@@ -145,6 +164,6 @@ public class Impresora {
 		}
 		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
 		Thread.sleep(2000);
-	}
+	}*/
 
 }

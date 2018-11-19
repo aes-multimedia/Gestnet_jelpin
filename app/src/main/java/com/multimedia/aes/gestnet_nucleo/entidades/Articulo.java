@@ -22,11 +22,13 @@ public class Articulo {
     public static final String IMAGEN = "imagen";
     public static final String GARANTIA = "garantia";
     public static final String ENTREGADO ="entregado";
+    public static final String PRESUPUESTAR="presupuestar";
+    public static final String FACTURAR = "facturar";
 
     @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
     @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
     @DatabaseField(columnName = NOMBRE_ARTICULO)                        private String nombre_articulo;
-    @DatabaseField(columnName = STOCK)                                  private int stock;
+    @DatabaseField(columnName = STOCK)                                  private double stock;
     @DatabaseField(columnName = REFERENCIA)                             private String referencia;
     @DatabaseField(columnName = REFERENCIA_AUX)                         private String referencia_aux;
     @DatabaseField(columnName = FAMILIA)                                private String familia;
@@ -40,12 +42,14 @@ public class Articulo {
     @DatabaseField(columnName = EAN)                                    private String ean;
     @DatabaseField(columnName = IMAGEN)                                 private int imagen;
     @DatabaseField(columnName = GARANTIA)                               private boolean garantia;
-    @DatabaseField(columnName = ENTREGADO)                               private boolean entregado;
+    @DatabaseField(columnName = ENTREGADO)                              private boolean entregado;
+    @DatabaseField(columnName = PRESUPUESTAR)                           private boolean presupuestar;
+    @DatabaseField(columnName = FACTURAR)                               private boolean facturar;
 
     public Articulo() {
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
@@ -64,9 +68,12 @@ public class Articulo {
         this.imagen = imagen;
         this.garantia= false;
         this.entregado=false;
+        this.presupuestar=true;
+        this.facturar=true;
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
@@ -79,6 +86,31 @@ public class Articulo {
         this.descuento = descuento;
         this.garantia=false;
         this.entregado=false;
+        this.presupuestar=true;
+        this.facturar=true;
+    }
+
+    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+                    String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
+        this.fk_articulo = fk_articulo;
+        this.nombre_articulo = nombre_articulo;
+        this.stock = stock;
+        this.referencia = referencia;
+        this.referencia_aux = referencia_aux;
+        this.familia = familia;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.proveedor = proveedor;
+        this.iva = iva;
+        this.tarifa = tarifa;
+        this.descuento = descuento;
+        this.coste = coste;
+        this.ean = ean;
+        this.imagen = imagen;
+        this.garantia= garantia;
+        this.entregado=entregado;
+        this.presupuestar=true;
+        this.facturar=true;
     }
 
     public boolean isGarantia() {
@@ -119,11 +151,11 @@ public class Articulo {
         this.nombre_articulo = nombre_articulo;
     }
 
-    public int getStock() {
+    public double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(double stock) {
         this.stock = stock;
     }
 
@@ -225,5 +257,22 @@ public class Articulo {
 
     public void setEntregado(boolean entregado) {
         this.entregado = entregado;
+    }
+
+
+    public boolean isPresupuestar() {
+        return presupuestar;
+    }
+
+    public void setPresupuestar(boolean presupuestar) {
+        this.presupuestar = presupuestar;
+    }
+
+    public boolean isFacturar() {
+        return facturar;
+    }
+
+    public void setFacturar(boolean facturar) {
+        this.facturar = facturar;
     }
 }

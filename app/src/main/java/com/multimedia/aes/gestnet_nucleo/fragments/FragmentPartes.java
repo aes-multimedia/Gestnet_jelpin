@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -29,6 +30,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
     private TabFragment4_finalizacion tab4;
     private TabFragment5_documentacion tab5;
     private TabFragment6_materiales tab6;
+
     private Parte parte;
     @Nullable
     @Override
@@ -49,12 +51,11 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
+       if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
             tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
             tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
             tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
-            tabLayout.addTab(tabLayout.newTab().setText("Documentación"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
 
         }
@@ -74,8 +75,8 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab2 = adapter.getTab2();
                 tab3 = adapter.getTab3();
                 tab4 = adapter.getTab4();
-                tab5 = adapter.getTab5();
                 tab6 = adapter.getTab6();
+              //  pruebas = adapter.getPruebas();
                 if (tab.getPosition()==0){
 
                 }else if (tab.getPosition()==1){
@@ -98,7 +99,11 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==1){
 
                 }else if (tab.getPosition()==2){
-
+                    try {
+                        tab3.guardarProtocolo();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){

@@ -72,19 +72,12 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
         }
     }
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
-
         int id_tipo_combustion;
         String nombre_tipo_combustion;
-
-
         boolean esta = false;
-
-
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("tipos");
         for (int i = 0; i < jsonArray.length(); i++) {
-
-
             if (jsonArray.getJSONObject(i).getString("id_tipo_combustion").equals("null") || jsonArray.getJSONObject(i).getString("id_tipo_combustion").equals("")) {
                 id_tipo_combustion = -1;
             } else {
@@ -116,10 +109,11 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
                 } else {
                     bien = false;
                 }
-
             }else{
                 TipoCalderaDAO.actualizarTipos(context, id_tipo_combustion, nombre_tipo_combustion);
             }
+            tipos.clear();
         }
+
     }
 }

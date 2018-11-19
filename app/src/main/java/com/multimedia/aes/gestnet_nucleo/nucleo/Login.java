@@ -70,6 +70,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private static final String TAG = "GCMRelated";
     GoogleCloudMessaging gcm;
     String regid;
+    private Activity activity;
 
     @SuppressLint("MissingPermission")
     public static String getImei(Context c, Activity a) {
@@ -222,7 +223,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
     }
     public void irIndex() {
-        startService(new Intent(this, ServicioLocalizacion.class));
         Intent i = new Intent(this,Index.class);
         startActivity(i);
     }
@@ -239,6 +239,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        activity=this;
         try {
             inicializarVariables();
             if (checkPlayServices()) {
@@ -328,6 +329,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
     }
 
+    @Override
+    public void onBackPressed() {
+      finish();
+    }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        activity.finish();
 
+    }
 }

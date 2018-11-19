@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
+import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterFactory;
 import com.multimedia.aes.gestnet_nucleo.printer_0554_0553.PrinterHelper;
@@ -25,14 +27,26 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	private Impresora impresora;
 	private Activity activity;
 	private Context context;
+	private Ticket ticket;
+    private ProgressDialog dialog;
 
-	public HiloConectarImpr(Activity activity, Impresora impresora,Context context) {
+	public HiloConectarImpr(Activity activity, Impresora impresora,Context context,Ticket ticket) {
 		super();
         this.activity = activity;
         this.impresora=impresora;
         this.context=context;
+        this.ticket=ticket;
     }
-
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        dialog = new ProgressDialog(activity);
+        dialog.setTitle(activity.getResources().getString(R.string.bluetooth));
+        dialog.setMessage(activity.getResources().getString(R.string.conectando));
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.show();
+    }
 	@Override
 	protected String doInBackground(BluetoothDevice... params) {
           try {
@@ -40,7 +54,7 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
             RequestHandler rh = new RequestHandler();
             impresora.hThread = new Thread(rh);
             impresora.hThread.start();
-            impresora.realizarImpresionSeitron();
+            impresora.realizarImpresionSeitron(ticket);
             return Constantes.SUCCES;
         } catch (IOException e) {
             return Constantes.ERROR;
@@ -72,7 +86,13 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-        ((Index)context).datosActualizados();
+        if (result.equals(Constantes.SUCCES)) {
+            ((Index)context).datosActualizados();
+        } else {
+            Dialogo.errorConectarImpresora(activity);
+        }
+        dialog.dismiss();
+
     }
 
 }

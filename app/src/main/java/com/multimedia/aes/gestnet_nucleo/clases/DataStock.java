@@ -9,9 +9,9 @@ public class DataStock {
     private int idStock;
     private String nombreEntidad;
     private int fkProducto;
-    private int stock;
+    private Double stock;
 
-    public DataStock(int idStock, String nombreEntidad, int fkProducto, int stock) {
+    public DataStock(int idStock, String nombreEntidad, int fkProducto, Double stock) {
         this.idStock = idStock;
         this.nombreEntidad = nombreEntidad;
         this.fkProducto = fkProducto;
@@ -42,11 +42,11 @@ public class DataStock {
         this.fkProducto = fkProducto;
     }
 
-    public int getStock() {
+    public Double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(Double stock) {
         this.stock = stock;
     }
 }

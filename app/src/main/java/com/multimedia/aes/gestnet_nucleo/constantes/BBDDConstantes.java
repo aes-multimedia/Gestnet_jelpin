@@ -46,7 +46,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_nucleo.db";
-	public static final int DATABASE_VERSION = 4;
+	public static final int DATABASE_VERSION = 14;
 
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;
@@ -126,9 +126,11 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, Analisis.class, true);
 		TableUtils.dropTable(connectionSource, Imagen.class, true);
 		TableUtils.dropTable(connectionSource, Envio.class, true);
+
+
 	}
 
-	public static void borrarDatosTablas(Context context) throws SQLException {
+	public synchronized static void borrarDatosTablas(Context context) throws SQLException {
 
 		ClienteDAO.borrarTodosLosClientes(context);
 		UsuarioDAO.borrarTodosLosUsuarios(context);
@@ -173,8 +175,8 @@ public class BBDDConstantes {
 		MaquinaDAO.borrarTodasLasMaquinas(context);
 		DatosAdicionalesDAO.borrarTodosLosDatosAdicionales(context);
 		AnalisisDAO.borrarTodasLasAnalisis(context);
-		ArticuloDAO.borrarTodosLosArticulos(context);
-		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
-		ImagenDAO.borrarTodasLasImagenes(context);
+		//ArticuloDAO.borrarTodosLosArticulos(context);
+		//ArticuloParteDAO.borrarTodosLosArticuloParte(context);
+
 	}
 }

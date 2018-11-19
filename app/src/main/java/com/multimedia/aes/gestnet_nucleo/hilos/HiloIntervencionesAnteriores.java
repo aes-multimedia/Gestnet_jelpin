@@ -32,18 +32,16 @@ import java.sql.SQLException;
 
 public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
     private String mensaje = "", ipCliente;
-    Parte parteAntiguos;
 
-    private int fkMarca,idUser;
+
+    private int fkMaquina;
     private Context context;
     private ProgressDialog dialog;
     Cliente cliente;
 
-    public HiloIntervencionesAnteriores(Context context, int idUser, int fkMarca, String ipCliente) {
-        //this.idUser = idUser;
-        this.fkMarca = fkMarca;
+    public HiloIntervencionesAnteriores(Context context,int fkMaquina) {
+        this.fkMaquina = fkMaquina;
         this.context = context;
-        this.ipCliente = ipCliente;
         try {
             this.cliente= ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
@@ -60,7 +58,6 @@ public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
         dialog.show();
-
         super.onPreExecute();
     }
 
@@ -82,14 +79,10 @@ public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
         Log.d("Hilo Intervenciones", String.valueOf(context.getClass()));
         if (mensaje.indexOf('}')!=-1){
             if(context.getClass() == IntervencionesAnteriores.class) {
-                ((IntervencionesAnteriores) context).guardarPartes(mensaje);
+                ((IntervencionesAnteriores) context).listarIntervenciones(mensaje);
             }
         }else{
-            if (context.getClass()==Login.class){
-                ((Login)context).sacarMensaje("No se ha devuelto correctamente de la api");
-            }else if (context.getClass()==Index.class){
-                ((Index)context).sacarMensaje("No se ha devuelto correctamente de la api");
-            }
+            ((IntervencionesAnteriores) context).sacarMensaje(mensaje);
 
         }
 
@@ -98,13 +91,11 @@ public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
 
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        // msg.put("tecnico", idUser);
-        //msg.put("tecnico", idUser);
-        msg.put("fk_maquina", fkMarca);
+        msg.put("fk_maquina", fkMaquina);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_FK_MAQUINA;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_INTERVENCIONES_ANTERIORES;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
@@ -115,19 +106,19 @@ public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, URL malformada");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, URL malformada");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error de protocolo");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, IOException");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, IOException");
             return error.toString();
         }
         String contenido = "";
@@ -147,8 +138,8 @@ public class HiloIntervencionesAnteriores extends AsyncTask<Void,Void,Void> {
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
-            msg.put("estado", 5);
-            msg.put("mensaje", "Error de conexión, error en lectura");
+            error.put("estado", 5);
+            error.put("mensaje", "Error de conexión, error en lectura");
             contenido = error.toString();
         }
 

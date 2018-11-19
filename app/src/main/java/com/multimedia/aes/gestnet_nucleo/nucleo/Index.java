@@ -2,8 +2,11 @@ package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -42,6 +45,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragments.FragmentImpresion;
 import com.multimedia.aes.gestnet_nucleo.fragments.FragmentPartes;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizarStock;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
@@ -50,6 +54,7 @@ import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioLocalizacion;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -70,28 +75,43 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
     private String fecha;
-
     //METODO
     private void inicializarVariables() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        srl = (SwipeRefreshLayout) findViewById(R.id.lllistview);
+        srl =  findViewById(R.id.lllistview);
         srl.setOnRefreshListener(this);
-        lvIndex = (ListView) findViewById(R.id.lvIndex);
+        lvIndex = findViewById(R.id.lvIndex);
         lvIndex.setOnItemClickListener(this);
-        ivIncidencias = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
+        ivIncidencias = navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
-        cuerpo = (LinearLayout) findViewById(R.id.cuerpo);
+        cuerpo = findViewById(R.id.cuerpo);
     }
     public void sacarMensaje(String msg) {
         srl.setRefreshing(false);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(msg);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+
     }
     public void guardarPartes(String msg) {
         try {
@@ -107,11 +127,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     }
     public void datosActualizados() {
         Intent intent = new Intent(this, Index.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-
+        /*intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
+        getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getIntent().removeExtra("metodo");
+        getIntent().removeExtra("notId");
         startActivity(intent);
         finish();
+
+
+
+        //recreate();
     }
     public void impresion() {
         Class fragmentClass = FragmentImpresion.class;
@@ -131,31 +156,36 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         Date date = new Date();
         return dateFormat.format(date);
     }
-    //OVERRIDE
+    private void actualizarFecha(String fecha){
 
+
+
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.index);
         inicializarVariables();
         fecha = getDateTime();
-        setTitle("Avisos"+" "+fecha);
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             }
+            arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        JSONObject jo= new JSONObject();
-        String dia = null;
+        JSONObject jo;
+        String dia;
         try {
             jo = GestorSharedPreferences.getJsonDia(GestorSharedPreferences.getSharedPreferencesDia(this));
             dia = jo.getString("dia");
             fecha = dia;
+            setTitle("Avisos"+" "+fecha);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -193,6 +223,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     try {
                         Usuario u = UsuarioDAO.buscarUsuario(this);
                         Cliente c = ClienteDAO.buscarCliente(this);
+
                         new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -208,7 +239,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                         adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
                         lvIndex.setAdapter(adaptadorPartes);
                         Dialogo.dialogoError("ruta borrada", this);
-
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -221,17 +251,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
         }
     }
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             recreate();
         }
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -239,12 +267,25 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         int id = item.getItemId();
         if (id == R.id.averias) {
             recreate();
-        } else if (id == R.id.mis_ajustes) {
-            Intent i = new Intent(this, MisAjustes.class);
+        } else if (id == R.id.mi_firma) {
+            Intent i = new Intent(this, MiFirma.class);
             startActivity(i);
         } else if (id == R.id.cierre_dia) {
             Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
+        }else if (id == R.id.aviso_guardia) {
+            try {
+            Usuario u = UsuarioDAO.buscarUsuario(this);
+            Cliente c = ClienteDAO.buscarCliente(this);
+            String ip = c.getIp_cliente();
+            String fk_tecnico = u.getFk_entidad()+"";
+            String url = "http://"+ip+"/webservices/webview/avisoGuardia.php?fk_tecnico="+fk_tecnico;
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else if (id == R.id.cambiar_fecha) {
             try {
                 final Usuario u = UsuarioDAO.buscarUsuario(this);
@@ -342,6 +383,28 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             alert11.setCanceledOnTouchOutside(false);
             alert11.show();
 
+        }   else if (id == R.id.actualizar_stock) {
+            int fkEntidad=0;
+            try {
+                fkEntidad= UsuarioDAO.buscarUsuario(this).getFk_entidad();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try{
+            new HiloActualizarStock(this,fkEntidad).execute();
+            } catch (Exception e){
+
+                ProgressDialog dialog;
+                dialog = new ProgressDialog(this);
+                dialog.setTitle("Error al actualizar almacén");
+                dialog.setMessage("Conectando con el servidor, porfavor espere..." + "\n" + "Esto puede tardar unos minutos si la cobertura es baja.");
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setIndeterminate(true);
+                dialog.show();
+            }
+
         }else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));
@@ -354,16 +417,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
 
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", (String) view.getTag());
+            jsonObject.put("id", view.getTag());
             GestorSharedPreferences.clearSharedPreferencesParte(this);
             GestorSharedPreferences.setJsonParte(GestorSharedPreferences.getSharedPreferencesParte(this), jsonObject);
         } catch (JSONException e) {
@@ -381,24 +443,70 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
 
+    }
     @Override
     public void onRefresh() {
+        Calendar calendar = Calendar.getInstance();
+        int d = calendar.get(Calendar.DAY_OF_MONTH);
+        int m = calendar.get(Calendar.MONTH)+1;
+        int y = calendar.get(Calendar.YEAR);
+
+        String fechar= String.valueOf(d+"-"+m+"-"+y);
+
+
+        List<Envio> envios=null;
         try {
-            Usuario u = UsuarioDAO.buscarUsuario(this);
-            Cliente c = ClienteDAO.buscarCliente(this);
-            srl.setRefreshing(true);
-            new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
+           envios= EnvioDAO.buscarTodosLosEnvios(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
+        if(envios!=null && envios.size()>0 ){
 
+            new AlertDialog.Builder(this).setMessage("Por favor, antes de continuar envie los cierres pendientes.")
+                    .setCancelable(false)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface hi, int dd)
+                                {
+
+                                    srl.setRefreshing(false);
+                                }
+                            }
+                    ).show();
+
+        }else {
+
+
+
+
+            JSONObject js = new JSONObject();
+            try {
+                js.put("dia", fechar);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
+            try {
+                BBDDConstantes.borrarDatosTablasPorDia(this);
+                Usuario u = UsuarioDAO.buscarUsuario(this);
+                Cliente c = ClienteDAO.buscarCliente(this);
+                srl.setRefreshing(true);
+                new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
     @Override
     public void onClick(View v) {
+
+
     }
+
 
 
 }

@@ -49,6 +49,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloBuscarDocumentosModelo;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCrearMaquina;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis;
+import com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosMaquina;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.IntervencionesAnteriores;
 import com.multimedia.aes.gestnet_nucleo.progressDialog.ManagerProgressDialog;
@@ -65,32 +66,15 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 
-public class TabFragment2_equipo extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+public class TabFragment2_equipo extends Fragment implements View.OnClickListener {
 
     private View vista;
-    private static Spinner spMarca, spPuestaMarcha;
-    private static EditText  etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
-            etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
-            etTempAguaGeneCalorSalida,etNumeroSerie;
-    private Button btnAñadirMaquina,btnDatosTesto,btnIntervencionesAnteriotes,btnVerDocumentosModelo;
-    private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
-    private static ListView lvMaquinas,lvAnalisis;
-    private static int alto=0,alto1=0,height=0;
-    private String[] arrayMarcas,puestaMarcha;
+    private static ListView lvMaquinas;
+    private Button btnNuevaMaquina;
     private static Parte parte = null;
-    private Usuario usuario = null;
-    private static Maquina maquina = null;
-    private DatosAdicionales datos = null;
     private static ArrayList<Maquina> arrayListMaquina = new ArrayList<>();
-    private static ArrayList<Analisis>  arrayListAnalisis = new ArrayList<>();
-    private static AdaptadorListaAnalisis adaptadorListaAnalisis;
     private static AdaptadorListaMaquinas adaptadorListaMaquinas;
-    private static AsyncTask<Void, Void, Void> hiloIntervencionesAnteriores;
     private static Activity activity;
-
-    private String serialNumber;
-    private static  Cliente cliente;
-    private static String webUrl="";
     public void sacarMensaje(String msg) {
         if (ManagerProgressDialog.getDialog()!=null){
             ManagerProgressDialog.cerrarDialog();
@@ -99,270 +83,28 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
     }
 
     //METODOS
-    private void darValores(){
-        try {
-            cliente= ClienteDAO.buscarCliente(getContext());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        alto=0;
-        alto1=0;
-        //SPINNER MARCAS
-        try {
-            if (MarcaDAO.buscarTodasLasMarcas(getContext())!=null){
-                try {
-                    arrayListMarcas.addAll(MarcaDAO.buscarTodasLasMarcas(getContext()));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                int indice=0;
-
-                arrayMarcas = new String[arrayListMarcas.size() + 1];
-                arrayMarcas[0]= "--Seleciones un valor--";
-                for (int i = 1; i < arrayListMarcas.size() + 1; i++) {
-                    if (arrayListMarcas.get(i - 1).getId_marca()!=0||arrayListMarcas.get(i - 1).getId_marca()!=-1){
-                        arrayMarcas[i] = arrayListMarcas.get(i - 1).getNombre_marca();
-                    }
-                }
-                spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
-            }else {
-                arrayMarcas= new String[1];
-                arrayMarcas[0]= "SIN MARCA";
-                spMarca.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayMarcas));
-            }
-            String marca = null;
-            if (MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_marca()) != null) {
-                marca = MarcaDAO.buscarMarcaPorId(getContext(), maquina.getFk_marca()).getNombre_marca();
-            }
-            if (marca != null) {
-                String myString = marca;
-                ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
-                int spinnerPosition = myAdap.getPosition(myString);
-                spMarca.setSelection(spinnerPosition);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Dialogo.dialogoError("ERROR EN LAS MAQUINAS",getContext());
-        }
-        //SPINNER PUESTA MARCHA
-        Date d = new Date();
-        String s = String.valueOf(DateFormat.format("yyyy", d.getTime()));
-        int año = Integer.parseInt(s);
-        puestaMarcha = new String[30];
-        puestaMarcha[0] = "--Seleccione un valor--";
-        int a = 1;
-        for (int i = año; i >= año - 28; i--) {
-            puestaMarcha[a] = String.valueOf(i);
-            a++;
-        }
-        spPuestaMarcha.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, puestaMarcha));
-
-        String puesta = null;
-        if (maquina.getPuesta_marcha().equals("null") || maquina.getPuesta_marcha().equals("")) {
-        } else {
-            puesta = maquina.getPuesta_marcha();
-            puesta = puesta.substring(0, 4);
-        }
-        if (puesta != null) {
-            String myString = puesta;
-            ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
-            int spinnerPosition = myAdap.getPosition(myString);
-            spPuestaMarcha.setSelection(spinnerPosition);
-        }
-        etNumeroSerie.setText(maquina.getNum_serie());
-        etModelo.setText(maquina.getModelo());
-
-    }
     public void inicializarVariables(){
-        //SPINNER
-        spMarca = (Spinner)vista.findViewById(R.id.spMarca);
-        spPuestaMarcha = (Spinner)vista.findViewById(R.id.spPuestaMarcha);
-        //EDITTEXT
-        etModelo = (EditText)vista.findViewById(R.id.etModelo);
-        etTempMaxACS = (EditText)vista.findViewById(R.id.etTempMaxACS);
-        etCaudalACS = (EditText)vista.findViewById(R.id.etCaudalACS);
-        etPotenciaUtil = (EditText)vista.findViewById(R.id.etPotenciaUtil);
-        etTempAguaGeneCalorEntrada = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorEntrada);
-        etTempAguaGeneCalorSalida = (EditText)vista.findViewById(R.id.etTempAguaGeneCalorSalida);
-        etNumeroSerie = (EditText)vista.findViewById(R.id.etNumSerie);
         //BUTTON
-        btnAñadirMaquina = (Button)vista.findViewById(R.id.btnAñadirMaquina);
-        btnDatosTesto = (Button)vista.findViewById(R.id.btnDatosTesto);
-        btnIntervencionesAnteriotes = (Button)vista.findViewById(R.id.btnIntervencionesAnteriotes);
-        btnVerDocumentosModelo=(Button)vista.findViewById(R.id.btnVerDocumentosModelo);
-
+        btnNuevaMaquina = vista.findViewById(R.id.btnNuevaMaquina);
+        btnNuevaMaquina.setOnClickListener(this);
         //LISTVIEW
         lvMaquinas = (ListView)vista.findViewById(R.id.lvMaquinas);
-        lvAnalisis = (ListView)vista.findViewById(R.id.lvAnalisis);
-        lvAnalisis.setOnItemClickListener(this);
-        //ONCLICKLISTENER
-        btnAñadirMaquina.setOnClickListener(this);
-        btnDatosTesto.setOnClickListener(this);
-        btnVerDocumentosModelo.setOnClickListener(this);
-        btnIntervencionesAnteriotes.setOnClickListener(this);
         activity = getActivity();
     }
 
-    public static void añadirMaquina(Context context){
+    public static void añadirMaquina(){
         try {
             arrayListMaquina.clear();
-            List<Maquina> a = MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte());
+            List<Maquina> a = MaquinaDAO.buscarMaquinaPorFkParte(activity,parte.getId_parte());
             if (a!=null) {
-                alto =height * a.size();
                 arrayListMaquina.addAll(a);
-                lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-                adaptadorListaMaquinas  = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina, activity );
+                adaptadorListaMaquinas  = new AdaptadorListaMaquinas(activity, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina, activity );
                 lvMaquinas.setAdapter(adaptadorListaMaquinas);
                 lvMaquinas.setVisibility(View.VISIBLE);
             }else{
-                alto =0;
-                lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-                adaptadorListaMaquinas  = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina, activity);
+                adaptadorListaMaquinas  = new AdaptadorListaMaquinas(activity, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina, activity);
                 lvMaquinas.setAdapter(adaptadorListaMaquinas);
                 lvMaquinas.setVisibility(View.VISIBLE);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
-    public static void borrarArrayMaquina(final int idMaquina, final Context context){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setMessage("Seguro que desea borrar la máquina, una vez borrada no se podrá recuperar");
-        builder1.setCancelable(true);
-        builder1.setPositiveButton(
-                "Si",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            MaquinaDAO.borrarMaquinaPorId(context,idMaquina);
-                            arrayListMaquina.clear();
-                            List<Maquina> a = MaquinaDAO.buscarMaquinaPorFkParte(context,parte.getId_parte());
-                            if (a!=null) {
-                                alto =height * a.size();
-                                arrayListMaquina.addAll(a);
-                                lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-                                adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina,activity);
-                                lvMaquinas.setAdapter(adaptadorListaMaquinas);
-                            }else{
-                                alto = 0;
-                                lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-                                adaptadorListaMaquinas = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina,activity);
-                                lvMaquinas.setAdapter(adaptadorListaMaquinas);
-                            }
-
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        dialog.cancel();
-                    }
-                });
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.setCanceledOnTouchOutside(false);
-        alert11.show();
-
-    }
-    public static void rellenarDatosMaquina(int id_maquina, Context context,int position) {
-        try {
-            Maquina m = MaquinaDAO.buscarMaquinaPorId(context,id_maquina);
-            maquina=m;
-            ponerValores(context);
-            arrayListMaquina.remove(position);
-            alto =height * arrayListMaquina.size();
-            lvMaquinas.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-            adaptadorListaMaquinas  = new AdaptadorListaMaquinas(context, R.layout.camp_adapter_list_view_maquinas, arrayListMaquina, activity);
-            lvMaquinas.setAdapter(adaptadorListaMaquinas);
-            lvMaquinas.setVisibility(View.VISIBLE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    private static void ponerValores(Context context){
-        try {
-            //SPINNER PUESTA EN MARCHA
-            if (maquina!=null){
-                String puesta = null;
-                if (maquina.getPuesta_marcha()!=null){
-                    if (maquina.getPuesta_marcha().equals("null") || maquina.getPuesta_marcha().equals("")) {
-                    } else {
-                        puesta = maquina.getPuesta_marcha();
-                        puesta = puesta.substring(0, 4);
-                    }
-                    if (puesta != null) {
-                        String myString = puesta;
-                        ArrayAdapter myAdap = (ArrayAdapter) spPuestaMarcha.getAdapter();
-                        int spinnerPosition = myAdap.getPosition(myString);
-                        spPuestaMarcha.setSelection(spinnerPosition);
-                    }
-                }
-
-            }
-            //SPINNER MARCAS
-            if (maquina!=null){
-                String marca = null;
-                if (MarcaDAO.buscarMarcaPorId(context, maquina.getFk_marca()) != null) {
-                    marca = MarcaDAO.buscarMarcaPorId(context, maquina.getFk_marca()).getNombre_marca();
-                }
-                if (marca != null) {
-                    String myString = marca;
-                    ArrayAdapter myAdap = (ArrayAdapter) spMarca.getAdapter();
-                    int spinnerPosition = myAdap.getPosition(myString);
-                    spMarca.setSelection(spinnerPosition);
-                }
-            }else{
-
-
-
-            }
-            if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
-                etModelo.setText(String.valueOf(maquina.getModelo()));
-            }
-            if (!String.valueOf(maquina.getTemperatura_max_acs()).equals("")&&!String.valueOf(maquina.getTemperatura_max_acs()).equals("0")){
-                etTempMaxACS.setText(String.valueOf(maquina.getTemperatura_max_acs()));
-            }
-            if (!String.valueOf(maquina.getCaudal_acs()).equals("")&&!String.valueOf(maquina.getCaudal_acs()).equals("0")){
-                etCaudalACS.setText(String.valueOf(maquina.getCaudal_acs()));
-            }
-            if (!String.valueOf(maquina.getPotencia_util()).equals("")&&!String.valueOf(maquina.getPotencia_util()).equals("0")){
-                etPotenciaUtil.setText(String.valueOf(maquina.getPotencia_util()));
-            }
-            if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()).equals("0")){
-                etTempAguaGeneCalorEntrada.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_entrada()));
-            }
-            if (!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("")&&!String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()).equals("0")){
-                etTempAguaGeneCalorSalida.setText(String.valueOf(maquina.getTemperatura_agua_generador_calor_salida()));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    public void añadirAnalisis(){
-        try {
-            arrayListAnalisis.clear();
-            List<Analisis> a = AnalisisDAO.buscarAnalisisPorFkMaquina(getContext(),maquina.getId_maquina());
-            if (a!=null) {
-                alto1 =height * a.size();
-                arrayListAnalisis.addAll(a);
-                lvAnalisis.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto1));
-                adaptadorListaAnalisis = new AdaptadorListaAnalisis(getContext(), R.layout.camp_adapter_list_view_analisis_solicitud, arrayListAnalisis);
-                lvAnalisis.setAdapter(adaptadorListaAnalisis);
-                lvAnalisis.setVisibility(View.VISIBLE);
-            }else{
-                alto1 =0;
-                lvAnalisis.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto1));
-                adaptadorListaAnalisis = new AdaptadorListaAnalisis(getContext(), R.layout.camp_adapter_list_view_analisis_solicitud, arrayListAnalisis);
-                lvAnalisis.setAdapter(adaptadorListaAnalisis);
-                lvAnalisis.setVisibility(View.VISIBLE);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -383,285 +125,20 @@ public class TabFragment2_equipo extends Fragment implements View.OnClickListene
 
         try {
             parte = ParteDAO.buscarPartePorId(getContext(), idParte);
-            usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
-            maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
-            datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(maquina==null){
-            maquina = MaquinaDAO.newMaquinaRet(getContext(),0,parte.getFk_direccion(),0,
-                    0,"",0,0,0,0,
-                    0,0, 0,0,0,"",
-                    "","","","","","",
-                    "","","", "","",
-                    "","","",false,"",
-                    "","","","","","",
-                    "","","","","");
-        }
         inicializarVariables();
-        darValores();
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        height = display.getHeight();
-        height=height/8;
-        arrayListAnalisis.clear();
         arrayListMaquina.clear();
-        añadirMaquina(getContext());
-        añadirAnalisis();
+        añadirMaquina();
         return vista;
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==103 && resultCode==RESULT_OK) {
-            añadirAnalisis();
-            serialNumber = data.getStringExtra("serial");
-            try {
-                MaquinaDAO.actualizaNumeroSerie(getContext(),maquina.getId_maquina(),serialNumber);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else if(requestCode==104 && resultCode==RESULT_OK) {
-            Log.d("Act. Result", "Intervenciones anteriores");
-        }
-
-    }
-
-
-    public static void abrirWebView(String direccion){
-
-        try {
-            JSONArray jsonArray = new JSONArray(direccion);
-            String documento = jsonArray.getJSONObject(0).getString("documento");
-
-                webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/sanguesa/modelos/" + documento;
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-
-
-    @Override
     public void onClick(View view) {
-        if(view.getId()==btnVerDocumentosModelo.getId()){
-
-
-        if(maquina.getDocumento_modelo().equals("")){
-            Dialogo.dialogoError("Esta maquina no tiene documentos",getContext());
-        }else {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + maquina.getDocumento_modelo()));
-            startActivity(browserIntent);
+        if (view.getId()==R.id.btnNuevaMaquina){
+            Intent i = new Intent(getContext(), AnadirDatosMaquina.class);
+            i.putExtra("id",-1);
+            startActivity(i);
         }
-
-
-
-
-
-        }
-
-
-        if (view.getId() == btnDatosTesto.getId()) {
-            if (maquina==null){
-                Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
-            }else{
-                Intent i = new Intent(getActivity(), AnadirDatosAnalisis.class);
-                i.putExtra("id", parte.getId_parte());
-                i.putExtra("fkMaquina", maquina.getId_maquina());
-                startActivityForResult(i, 103);
-            }
-
-        } else if(view.getId() == btnIntervencionesAnteriotes.getId()) {
-
-            Usuario u=new Usuario();
-            Cliente c= new Cliente();
-
-
-            try {
-                u = UsuarioDAO.buscarUsuario(getContext());
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();}
-            try {
-                c = ClienteDAO.buscarCliente(getContext());
-            }catch (java.sql.SQLException e) {
-                e.printStackTrace();
-            }
-
-
-
-            if (maquina==null){
-                Dialogo.dialogoError("Necesitas seleccionar una maquina.",getContext());
-            } else{
-                Intent e = new Intent(getActivity(), IntervencionesAnteriores.class);
-                e.putExtra("id", parte.getId_parte());
-                e.putExtra("fk_maquina", parte.getFk_maquina());
-                e.putExtra("fk_entidad", u.getFk_entidad());
-                e.putExtra("ip_cliente", c.getIp_cliente());
-                startActivityForResult(e, 104);
-            }
-
-
-        }
-        else if (view.getId() == btnAñadirMaquina.getId()) {
-            if (spMarca.getSelectedItemPosition() == 0)
-                Dialogo.dialogoError("Es necesario seleccionar una marca", getContext());
-            else if (spPuestaMarcha.getSelectedItemPosition() == 0)
-                Dialogo.dialogoError("Es necesario seleccionar una puesta en marcha", getContext());
-            else if (etModelo.getText().length() == 0)
-                Dialogo.dialogoError("Es necesario introducir el modelo", getContext());
-            else {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
-                builder1.setMessage("Seguro que desea añadir esta máquina");
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(
-                        "Si",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                try {
-                                    int fk_maquina = maquina.getFk_maquina();
-                                    int fk_parte = parte.getId_parte();
-                                    int fk_direccion = parte.getFk_direccion();
-                                    int fk_marca = MarcaDAO.buscarIdMarcaPorNombre(getContext(),spMarca.getSelectedItem().toString());
-                                    String fk_tipo_combustion ="";
-                                    int fk_protocolo = 0;
-                                    int fk_instalador = 0;
-                                    int fk_remoto_central = 0;
-                                    int fk_tipo = 0;
-                                    int fk_instalacion = 0;
-                                    int fk_estado = 0;
-                                    int fk_contrato_mantenimiento = 0;
-                                    int fk_gama = 0;
-                                    int fk_tipo_gama = 0;
-                                    String fecha_creacion = "";
-                                    String modelo = etModelo.getText().toString();
-                                    String num_serie = etNumeroSerie.getText().toString();
-                                    String num_producto = "";
-                                    String aparato = "";
-                                    String puesta_marcha = spPuestaMarcha.getSelectedItem().toString()+"-01-01";
-                                    String fecha_compra = "";
-                                    String fecha_fin_garantia = "";
-                                    String mantenimiento_anual = "";
-                                    String observaciones = "";
-                                    String ubicacion = "";
-                                    String tienda_compra = "";
-                                    String garantia_extendida = "";
-                                    String factura_compra = "";
-                                    String refrigerante = "";
-                                    boolean bEsInstalacion = false;
-                                    String nombre_instalacion = "";
-                                    String en_propiedad = "";
-                                    String esPrincipal = "";
-                                    String situacion = "";
-                                    String temperatura_max_acs = etTempMaxACS.getText().toString();
-                                    String caudal_acs = etCaudalACS.getText().toString();
-                                    String potencia_util = etPotenciaUtil.getText().toString();
-                                    String temperatura_agua_generador_calor_entrada = etTempAguaGeneCalorEntrada.getText().toString();
-                                    String temperatura_agua_generador_calor_salida = etTempAguaGeneCalorSalida.getText().toString();
-                                    String combustible_txt = "";
-                                    String nombre_contr_man = "";
-                                    String documento_modelo="";
-                                    if (maquina!=null){
-                                        MaquinaDAO.actualizarMaquina(getContext(),
-                                                fk_maquina,fk_parte, fk_direccion, fk_marca,
-                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
-
-                                    new HiloActualizaMaquina( fk_maquina,fk_parte, fk_direccion, fk_marca,
-                                                modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                                potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida).execute();
-                                    }else{
-                                        MaquinaDAO.newMaquina(getContext(),
-                                                fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo
-                                        );
-                                        new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
-                                                fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
-                                                fk_estado, fk_contrato_mantenimiento, fk_gama, fk_tipo_gama,
-                                                fecha_creacion, modelo, num_serie, num_producto, aparato,
-                                                puesta_marcha, fecha_compra, fecha_fin_garantia,
-                                                mantenimiento_anual, observaciones, ubicacion, tienda_compra,
-                                                garantia_extendida, factura_compra, refrigerante,
-                                                bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
-                                                temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                                temperatura_agua_generador_calor_salida).execute();
-                                    }
-                                    añadirMaquina(getContext());
-                                    etModelo.setText("");
-                                    etTempMaxACS.setText("");
-                                    etCaudalACS.setText("");
-                                    etPotenciaUtil.setText("");
-                                    etTempAguaGeneCalorEntrada.setText("");
-                                    etTempAguaGeneCalorSalida.setText("");
-                                    etNumeroSerie.setText("");
-                                    spMarca.setSelection(0);
-                                    spPuestaMarcha.setSelection(0);
-                                    Dialogo.dialogoError("Maquina añadida", getContext());
-                                    maquina=null;
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                                dialog.cancel();
-                            }
-                        });
-                builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert11 = builder1.create();
-                alert11.setCanceledOnTouchOutside(false);
-                alert11.show();
-            }
-        }
-    }
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId()==R.id.lvAnalisis){
-            Analisis a = null;
-            try {
-                a = AnalisisDAO.buscarAnalisisPorId(getContext(),Integer.parseInt(String.valueOf(view.getTag())));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Intent i = new Intent(getActivity(), AnadirDatosAnalisis.class);
-            i.putExtra("id",a.getFk_parte());
-            i.putExtra("fkMaquina",a.getFk_maquina());
-            i.putExtra("fkAnalisis",a.getId_analisis());
-            startActivityForResult(i,103);
-        }
-    }
-
-    @Override
-    public void onPause() {
-
-
-
-
-
-
-
-
-        super.onPause();
     }
 }

@@ -219,6 +219,18 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         sobre = jsonArray.getJSONObject(i).getString("sobre");
                     }
+
+
+
+                    String estado_parte;
+                    if (jsonArray.getJSONObject(i).getString("estado").equals("null")) {
+                        estado_parte = "";
+                    } else {
+                        estado_parte = jsonArray.getJSONObject(i).getString("estado");
+                    }
+
+
+
                     int franja_horaria;
                     if (jsonArray.getJSONObject(i).getString("franja_horaria").equals("null") || jsonArray.getJSONObject(i).getString("franja_horaria").equals("")) {
                         franja_horaria = -1;
@@ -770,10 +782,10 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         telefono2_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono2");
                     }
                     String telefono3_cliente;
-                    if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono3").equals("null")) {
+                    if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("tel_contacto").equals("null")) {
                         telefono3_cliente = "";
                     } else {
-                        telefono3_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("telefono3");
+                        telefono3_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("tel_contacto");
                     }
                     String telefono4_cliente;
                     if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("otros_telefonos").equals("null")) {
@@ -792,6 +804,14 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         observaciones_cliente = "";
                     } else {
                         observaciones_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("observaciones");
+                    }
+
+                    String numero_cliente;
+                    if (jsonArray.getJSONObject(i).getJSONObject("cliente").getString("numero_usuario").equals("null")) {
+                        numero_cliente = "";
+                    } else {
+
+                        numero_cliente = jsonArray.getJSONObject(i).getJSONObject("cliente").getString("numero_usuario");
                     }
 
                     String user_creador;
@@ -847,6 +867,12 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     } else {
                         email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
                     }
+                    String politicaPrivacidad;
+                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad").equals("null")) {
+                        politicaPrivacidad = "";
+                    } else {
+                        politicaPrivacidad = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad");
+                    }
 
                     String sintomas = "";
                     if (jsonArray.getJSONObject(i).getJSONArray("sintomas").length() == 0 ) {
@@ -890,7 +916,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket);
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,numero_cliente,estado_parte);
                         bien=true;
                     }else{
                         if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
@@ -922,7 +948,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 latitud_direccion, longitud_direccion, nombre_cliente,
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
-                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas)) {
+                                observaciones_cliente,user_creador,tipo,dni_firmante,firma64,ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,sintomas,politicaPrivacidad,numero_cliente,estado_parte)) {
                             bien = true;
                         } else {
                             bien = false;
@@ -930,6 +956,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     }
 
                 }
+                partes.clear();
             }
         }else{
             bien = true;

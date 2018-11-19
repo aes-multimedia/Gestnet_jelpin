@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,28 +57,27 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private static ArrayList<DataStock> dataStock;
     private AdaptadorListaStock adapter;
     private static int alto=0,alto1=0,height=0;
-    private int unidades;
+    private double unidades;
 
 
     private void inicializarVariables(){
-        ivFoto = (ImageView) findViewById(R.id.expandedImage);
-        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
-        tvStock = (TextView) findViewById(R.id.tvStock);
-        tvCantidad = (EditText) findViewById(R.id.tvCantidad);
-        tvPrecio = (TextView) findViewById(R.id.tvPrecio);
-        btnAñadirMaterial=(Button)findViewById(R.id.btnAñadirMaterial);
+        ivFoto =  findViewById(R.id.expandedImage);
+        tvTitulo = findViewById(R.id.tvTitulo);
+        tvStock = findViewById(R.id.tvStock);
+        tvCantidad =  findViewById(R.id.tvCantidad);
+        tvPrecio =  findViewById(R.id.tvPrecio);
+        btnAñadirMaterial=findViewById(R.id.btnAñadirMaterial);
         btnAñadirMaterial.setOnClickListener(this);
 
-        btnPedirMaterial=(Button)findViewById(R.id.btnPedirMaterial);
+        btnPedirMaterial=findViewById(R.id.btnPedirMaterial);
         btnPedirMaterial.setOnClickListener(this);
 
-        chkGarantia = ( CheckBox ) findViewById( R.id.chkGarantia );
-        chkGarantia.setOnCheckedChangeListener(this);
 
-        lvStockEntidad= (ListView) findViewById(R.id.lvStockEntidad);
+
+        lvStockEntidad=  findViewById(R.id.lvStockEntidad);
 
         // Construct the data source
-        dataStock = new ArrayList<DataStock>();
+        dataStock = new ArrayList<>();
         // Create the adapter to convert the array to views
 
 
@@ -87,7 +87,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         tvTitulo.setText(articulo.getNombre_articulo());
 
         tvStock.setText(String.valueOf(articulo.getStock()));
-        if(articulo.getStock()<1){
+        if(articulo.getStock()<0){
             btnAñadirMaterial.setClickable(false);
             btnAñadirMaterial.setEnabled(false);
         }
@@ -103,6 +103,8 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         height = display.getHeight()/8;
         dataStock= new ArrayList<>();
         buscarStockAlmacenes();
+        chkGarantia = findViewById( R.id.chkGarantia );
+        chkGarantia.setOnCheckedChangeListener(this);
 
         idParte = 0;
         try {
@@ -117,6 +119,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
         try {
             articulo = ArticuloDAO.buscarArticuloPorID(this,id);
+            if (articulo.isGarantia()) {
+                chkGarantia.setChecked(true);
+            } else {
+                chkGarantia.setChecked(false);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -124,21 +131,13 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         inicializarVariables();
         darValores();
 
-        
-        final Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        final Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
-        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        AppBarLayout mAppBarLayout =  findViewById(R.id.app_bar);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -173,8 +172,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         }
         new HiloStockAlmacenes(this,articulo.getFk_articulo()).execute();
 
-
-
     }
 
 
@@ -194,7 +191,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                     int idStock= jsonArray.getJSONObject(i).getInt("id_stock");
                     String nombreEntidad=jsonArray.getJSONObject(i).getString("nombre_entidad");
                     int fkProducto= jsonArray.getJSONObject(i).getInt("fk_producto");
-                    int stock= jsonArray.getJSONObject(i).getInt("cantidad");
+                    double stock= jsonArray.getJSONObject(i).getDouble("cantidad");
 
                     DataStock d = new DataStock(idStock, nombreEntidad, fkProducto, stock);
                     dataStock.add(d);
@@ -206,7 +203,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 lvStockEntidad.setAdapter(adapter);
 
             } else {
-                DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0);
+                DataStock d = new DataStock(0, "NINGUNA COINCIDENCIA", 0, 0.0);
                 dataStock.add(d);
                 alto =height * dataStock.size();
                 lvStockEntidad.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
@@ -254,50 +251,56 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
-
-
-        String cantidad=tvCantidad.getText().toString();
-        if(cantidad.matches("")){
-            unidades=1;
+        if(tvCantidad.getText().toString().equals("")){
+            new AlertDialog.Builder(this)
+                    .setTitle("ATENCIÓN!")
+                    .setMessage("Debes introducir una cantidad")
+                    .setPositiveButton("Aceptar", (dialog, id) -> dialog.cancel()).show();
         }else {
-            unidades = (int) Double.parseDouble(tvCantidad.getText().toString());
-        }
-        try {
-            if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte)!=null){
-                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articulo.getId_articulo(),idParte);
-                ArticuloParteDAO.actualizarArticuloParte(this,articuloParte.getId(),articuloParte.getUsados()+unidades);
-            }else{
-                if(ArticuloParteDAO.newArticuloParte(this,articulo.getId_articulo(),idParte,unidades)){
-                }
+
+            String cantidad = tvCantidad.getText().toString();
+            if (cantidad.matches("")) {
+                unidades = 1;
+            } else {
+                unidades =  Double.parseDouble(tvCantidad.getText().toString());
             }
             try {
-
-                if(v.getId()==btnAñadirMaterial.getId())
-                ArticuloDAO.actualizarArticulo(this,articulo.getId_articulo(),articulo.getNombre_articulo(),articulo.getStock()-Integer.valueOf(tvCantidad.getText().toString()),articulo.getCoste());
-                else if(v.getId()==btnPedirMaterial.getId()){
-                    try {
-                        ArticuloDAO.actualizarEntregado(this,articulo.getId_articulo());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte) != null) {
+                    ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
+                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades);
+                } else {
+                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte, unidades)) {
                     }
-
-
                 }
-            } catch (SQLException e) {
+                try {
+
+                    if (v.getId() == btnAñadirMaterial.getId()) {
+                        ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
+                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Double.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
+                    } else if (v.getId() == btnPedirMaterial.getId()) {
+                        try {
+                            ArticuloDAO.actualizarEntregado(this, articulo.getId_articulo());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                } catch (SQLException e) {
+                    Intent returnIntent = new Intent();
+                    setResult(Activity.RESULT_CANCELED, returnIntent);
+                    finish();
+                    e.printStackTrace();
+                }
                 Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_CANCELED,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
+
+
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-            Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK,returnIntent);
-            finish();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
     }
 
 

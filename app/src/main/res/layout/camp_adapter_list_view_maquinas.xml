@@ -1,88 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="120dp"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:elevation="1dp"
+        android:focusable="true">
 
         <LinearLayout
-            android:id="@+id/llMaquina"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="110dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/llMaquina"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtModelo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="Modelo"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/txtMarca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="Marca"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/txtCombustible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:text="Combustible"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="13dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/txtModelo"
-                    android:layout_width="match_parent"
+                    android:id="@+id/txtPotencia"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:text="Modelo"
+                    android:layout_weight="1"
+                    android:text="Potencia"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="13dp" />
 
-                <TextView
-                    android:id="@+id/txtMarca"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:text="Marca"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="13dp" />
-
-            <TextView
-                    android:id="@+id/txtCombustible"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:text="Combustible"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="13dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtPotencia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:text="Potencia"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="13dp" />
-
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnBorrar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:background="@android:drawable/ic_delete" />
-
-    </LinearLayout>
-
+    </android.support.v7.widget.CardView>
 </LinearLayout>

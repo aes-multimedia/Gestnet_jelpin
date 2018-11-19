@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.google.gson.JsonObject;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
@@ -93,9 +94,19 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
-            ((CierreDia)context).finish();
+            try {
+                JSONObject jsonObject = new JSONObject(mensaje);
+                if (jsonObject.getInt("estado")==1){
+                    ((CierreDia)context).finalizar();
+                }else{
+                    ((CierreDia)context).error();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                ((CierreDia)context).error();
+            }
         }else{
-
+            ((CierreDia)context).error();
         }
     }
     private String iniciar() throws JSONException {

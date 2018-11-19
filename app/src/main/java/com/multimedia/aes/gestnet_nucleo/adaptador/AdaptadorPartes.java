@@ -33,11 +33,11 @@ public class AdaptadorPartes extends ArrayAdapter {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        TextView direccion = (TextView) item.findViewById(R.id.txtDireccion);
-        TextView cp = (TextView) item.findViewById(R.id.txtCP);
-        TextView hora = (TextView) item.findViewById(R.id.txtHora);
-        TextView cliente = (TextView) item.findViewById(R.id.txtCliente);
-        LinearLayout global = (LinearLayout)item.findViewById(R.id.global);
+        TextView direccion = item.findViewById(R.id.txtDireccion);
+        TextView cp =  item.findViewById(R.id.txtCP);
+        TextView hora =  item.findViewById(R.id.txtHora);
+        TextView cliente =  item.findViewById(R.id.txtCliente);
+        LinearLayout global = item.findViewById(R.id.global);
         String dir = "";
         if (!arrayList.get(position).getTipo_via().trim().equals("")&&!arrayList.get(position).getTipo_via().trim().equals("null")){
             dir+=arrayList.get(position).getTipo_via()+" ";
@@ -63,6 +63,8 @@ public class AdaptadorPartes extends ArrayAdapter {
         if (!arrayList.get(position).getProvincia_direccion().trim().equals("")&&!arrayList.get(position).getProvincia_direccion().trim().equals("null")){
             dir+=arrayList.get(position).getProvincia_direccion()+")";
         }
+
+
         switch (arrayList.get(position).getEstado_android()){
             case 0:
                 global.setBackgroundResource(R.drawable.fondo_rojo);
@@ -78,6 +80,9 @@ public class AdaptadorPartes extends ArrayAdapter {
                 break;
             case 4:
                 global.setBackgroundResource(R.drawable.fondo_tenue);
+                break;
+            case 436:
+                global.setBackgroundResource(R.drawable.verde_oscuro);
                 break;
         }
         direccion.setText(dir);

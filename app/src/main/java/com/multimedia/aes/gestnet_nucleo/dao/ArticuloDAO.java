@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
@@ -22,18 +23,29 @@ public class ArticuloDAO extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticulo(Context context,int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public static boolean newArticulo(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                                       String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
         Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticulo(a,context);
     }
-    public static Articulo newArticuloRet(Context context,int id_articulo, String nombre_articulo,int stock, String referencia, String referencia_aux, String familia,
+    public static Articulo newArticuloRet(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                                       String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
         Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticuloRet(a,context);
     }
 
-    public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+
+
+    public static Articulo newArticuloDialogFragment(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+                                          String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
+        Articulo a = montarArticuloDialogFragment(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+        return crearArticuloRet(a,context);
+    }
+
+
+
+
+    public static boolean newArticuloP(Context context,int id_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         Articulo a = montarArticuloP( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
         return crearArticulo(a,context);
     }
@@ -59,15 +71,21 @@ public class ArticuloDAO extends DBHelperMOS {
         }
     }
 
+    private static Articulo montarArticuloDialogFragment(int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia, String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen, boolean entregado, boolean garantia) {
 
-    public static Articulo  montarArticulo(int id_articulo, String nombre_articulo, int stock, String referencia, String referencia_aux, String familia,
+       return new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+
+    }
+
+
+    public static Articulo  montarArticulo(int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia,
                                            String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen) {
         Articulo a =new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return a;
     }
 
 
-    public static Articulo  montarArticuloP(int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
+    public static Articulo  montarArticuloP(int id_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento) {
         Articulo a =new Articulo( id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
         return a;
     }
@@ -108,6 +126,17 @@ public class ArticuloDAO extends DBHelperMOS {
             return listadoArticulo;
         }
     }
+
+
+    public static List<Articulo> buscarArticulosPorReferencia(Context context,String ref) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().eq(Articulo.REFERENCIA,ref).query();
+        if(listadoArticulo.isEmpty()) {
+            return null;
+        }else{
+            return listadoArticulo;
+        }
+    }
     public static ArrayList<String> buscarNombreArticulosPorNombre(Context context, String cadena) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryBuilder().where().like(Articulo.NOMBRE_ARTICULO,"%"+cadena+"%").or().like(Articulo.REFERENCIA,"%"+cadena+"%").query();
@@ -116,7 +145,7 @@ public class ArticuloDAO extends DBHelperMOS {
         }else{
             ArrayList<String> nombres = new ArrayList<>();
             for (Articulo articulo:listadoArticulo) {
-                nombres.add(articulo.getNombre_articulo()+"-"+articulo.getReferencia());
+                nombres.add(articulo.getReferencia()+" <-> "+articulo.getNombre_articulo());
             }
             return nombres;
         }
@@ -141,7 +170,7 @@ public class ArticuloDAO extends DBHelperMOS {
     public static void actualizarArticulo(Context context, Articulo articulo ) throws SQLException {
         int id_articulo=articulo.getId_articulo();
         String nombre_articulo=articulo.getNombre_articulo();
-        int stock=articulo.getStock();
+        double stock=articulo.getStock();
         String referencia=articulo.getReferencia();
         String referencia_aux=articulo.getReferencia_aux();
         String familia=articulo.getFamilia();
@@ -175,7 +204,7 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
-    public static void actualizarArticulo(Context context, int id_articulo, String nombre_articulo,int stock, double coste)throws SQLException {
+    public static void actualizarArticulo(Context context, int id_articulo, String nombre_articulo,double stock, double coste)throws SQLException {
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
@@ -184,7 +213,7 @@ public class ArticuloDAO extends DBHelperMOS {
         updateBuilder.updateColumnValue(Articulo.COSTE, coste);
         updateBuilder.update();
     }
-    public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo,int stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento)throws SQLException {
+    public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento)throws SQLException {
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
@@ -212,7 +241,7 @@ public class ArticuloDAO extends DBHelperMOS {
 
     }
 
-    public static void actualizarEntregado(Context context, int id_articulo) throws SQLException {
+    public synchronized static void actualizarEntregado(Context context, int id_articulo) throws SQLException {
 
         cargarDao(context);
         UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
@@ -222,5 +251,73 @@ public class ArticuloDAO extends DBHelperMOS {
 
 
     }
+
+    public synchronized static void actualizarUtilizado(Context context, int id_articulo) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.ENTREGADO,false);
+        updateBuilder.update();
+
+
+    }
+
+    public synchronized static void actualizarStock(Context context, int id_articulo,double cantidad) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+
+        updateBuilder.updateColumnValue(Articulo.STOCK,cantidad);
+        updateBuilder.update();
+
+
+    }
+
+
+
+    public static void actualizarFacturar(Context context, int id_articulo,boolean facturar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.FACTURAR,facturar);
+        updateBuilder.update();
+
+
+    }
+
+
+    public static void actualizarPresupuestar(Context context, int id_articulo,boolean presupuestar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(Articulo.PRESUPUESTAR,presupuestar);
+        updateBuilder.update();
+
+
+    }
+
+    public synchronized static void actualizarStockPorfK(Context context, int fk_articulo,double cantidad) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(Articulo.FK_ARTICULO,fk_articulo);
+
+        updateBuilder.updateColumnValue(Articulo.STOCK,cantidad);
+        updateBuilder.update();
+
+
+    }
+
+
+
+
+
     }
 

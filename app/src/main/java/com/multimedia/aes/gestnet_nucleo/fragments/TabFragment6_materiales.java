@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
@@ -46,7 +48,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener {
+public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener,View.OnTouchListener {
     private View vista;
     private static Parte parte = null;
     private Usuario usuario = null;
@@ -72,6 +74,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         lvMateriales = (ListView) vista.findViewById(R.id.lvMateriales);
         //ONQUERYTEXTLISTENER
         svMateriales.setOnQueryTextListener(this);
+        svMateriales.setOnTouchListener(this);
         //ONITEMSELECTED
         lvBusquedaMaterial.setOnItemClickListener(this);
         //lvMateriales.setOnItemClickListener(this);
@@ -84,6 +87,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     private void buscarMaterial(String text) throws SQLException {
         ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+
         if (ArticuloDAO.buscarNombreArticulosPorNombre(getContext(), text) != null) {
             if (dataArticulos.size() != 0) {
                 dataArticulos.clear();
@@ -144,7 +148,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             String referencia;
             String referencia_aux;
             String ean;
-            int stock;
+            double stock;
             double coste;
             double iva;
             double tarifa;
@@ -178,7 +182,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             if (jsonObject.getString("stock").equals("null") || jsonObject.getString("stock").equals("")) {
                 stock = -1;
             } else {
-                stock = jsonObject.getInt("stock");
+                stock = jsonObject.getDouble("stock");
             }
             if (jsonObject.getString("coste").equals("null") || jsonObject.getString("coste").equals("")) {
                 coste = -1;
@@ -226,13 +230,16 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 }
 
             }
-           if (context!=null&&activity!=null){
+           if (context!=null && activity!=null){
                adaptadorListaMateriales = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity, parte.getId_parte());
                lvMateriales.setAdapter(adaptadorListaMateriales);
                lvMateriales.setVisibility(View.VISIBLE);
                lvBusquedaMaterial.setVisibility(View.GONE);
            }
         } else {
+            ArrayList<Articulo> articulos = new ArrayList<>();
+            adaptadorListaMateriales = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity, parte.getId_parte());
+            lvMateriales.setAdapter(adaptadorListaMateriales);
             lvBusquedaMaterial.setVisibility(View.VISIBLE);
             lvMateriales.setVisibility(View.GONE);
         }
@@ -306,7 +313,21 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 if (dataArticulos.isEmpty()) {
                     Intent i = new Intent(getActivity(), InfoArticulos.class);
                     try {
-                        i.putExtra("articuloId", ArticuloDAO.buscarArticulosPorNombre(getContext(), lvBusquedaMaterial.getItemAtPosition(position).toString().split("-")[0]).get(0).getId_articulo());
+
+                        String r =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[0];
+                        String n =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[1];
+                        int idArticulo;
+
+
+
+
+                        if(r!=null && !r.equals(""))
+                            idArticulo=ArticuloDAO.buscarArticulosPorReferencia(getContext(), r).get(0).getId_articulo();
+                        else
+                            idArticulo=ArticuloDAO.buscarArticulosPorNombre(getContext(), n).get(0).getId_articulo();
+
+                        i.putExtra("articuloId",idArticulo);
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -319,7 +340,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                         }
                     }
                 }
-
             }
         }
     }
@@ -333,6 +353,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 svMateriales.setQuery("", false);
                 svMateriales.clearFocus();
                 svMateriales.onActionViewCollapsed();
+
                 try {
                     llenarMateriales();
                 } catch (SQLException e) {
@@ -355,7 +376,22 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         try {
+
+                            double cantidad=0;
+                            double usados=0;
+
+
+
+
+                                cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
+
+
+                            usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
                             ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
+
+                            if(ArticuloDAO.buscarArticuloPorID(context,idArticulo).isEntregado()==0)
+                            ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);
+
                             llenarMateriales();
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -391,4 +427,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
     }
 
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
+    }
 }

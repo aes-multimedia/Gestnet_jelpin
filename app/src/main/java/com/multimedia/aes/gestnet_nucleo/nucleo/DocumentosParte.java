@@ -116,7 +116,7 @@ public class DocumentosParte extends AppCompatActivity implements  AdapterView.O
                 if (!arrayListDocumentos.isEmpty()) {
 
                     String nombre= arrayListDocumentos.get(position).getNombre();
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + arrayListDocumentos.get(position).getDireccion()));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/partes/" + arrayListDocumentos.get(position).getDireccion()));
                     startActivity(browserIntent);
 
 

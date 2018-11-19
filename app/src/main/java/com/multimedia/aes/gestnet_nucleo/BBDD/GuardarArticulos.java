@@ -40,26 +40,16 @@ public class GuardarArticulos {
             } else {
                 id_articulo = jsonArray.getJSONObject(i).getInt("id_articulo");
             }
-
-            if (ArticuloDAO.buscarTodosLosArticulos(context) != null) {
-                articulos.addAll(ArticuloDAO.buscarTodosLosArticulos(context));
+            if (ArticuloDAO.buscarArticuloPorID(context,id_articulo)!=null){
+                esta = true;
+            }else{
+                esta=false;
             }
-            if (articulos != null) {
-                for (int k = 0; k < articulos.size(); k++) {
-                    if (articulos.get(k).getId_articulo() == id_articulo) {
-                        esta = true;
-                        break;
-                    } else {
-                        esta = false;
-                    }
-                }
-            }
-
             String nombre_articulo;
             String referencia;
             String referencia_aux;
             String ean;
-            int stock;
+            double stock;
             double coste;
             double iva;
             double tarifa;
@@ -88,7 +78,7 @@ public class GuardarArticulos {
             if (jsonArray.getJSONObject(i).getString("stock").equals("null") || jsonArray.getJSONObject(i).getString("stock").equals("")) {
                 stock = -1;
             } else {
-                stock = jsonArray.getJSONObject(i).getInt("stock");
+                stock = jsonArray.getJSONObject(i).getDouble("stock");
             }
             if (jsonArray.getJSONObject(i).getString("coste").equals("null") || jsonArray.getJSONObject(i).getString("coste").equals("")) {
                 coste = -1;
@@ -111,9 +101,6 @@ public class GuardarArticulos {
                 descuento = jsonArray.getJSONObject(i).getDouble("descuento");
             }
 
-
-
-
             if (!esta) {
                 if (ArticuloDAO.newArticuloP(context, id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento)) {
                     bien = true;
@@ -124,16 +111,16 @@ public class GuardarArticulos {
             } else {
                 ArticuloDAO.actualizarArticuloP(context, id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento);
             }
-
+            articulos.clear();
 
         }
         if (bien) {
             todoBien = true;
         } else {
             if (context.getClass() == Login.class) {
-                ((Login) context).sacarMensaje("error al guardar las marcas");
+                ((Login) context).sacarMensaje("error al guardar los articulos");
             } else if (context.getClass() == Index.class) {
-                ((Index) context).sacarMensaje("error al guardar las marcas");
+                ((Index) context).sacarMensaje("error al guardar los articulos");
             }
 
         }

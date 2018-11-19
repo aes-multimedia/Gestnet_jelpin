@@ -22,7 +22,7 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,int usados) {
+    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,double usados) {
         ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,usados);
         return crearArticuloParte(a,context);
     }
@@ -41,7 +41,7 @@ public class ArticuloParteDAO  extends DBHelperMOS {
     }
 
 
-    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,int usados) {
+    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,double usados) {
         ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,usados);
         return a;
     }
@@ -147,7 +147,7 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-    public static void actualizarArticuloParte(Context context, int id_articulo_parte, int usados)throws SQLException {
+    public static void actualizarArticuloParte(Context context, int id_articulo_parte, double usados)throws SQLException {
 
         cargarDao(context);
         UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
