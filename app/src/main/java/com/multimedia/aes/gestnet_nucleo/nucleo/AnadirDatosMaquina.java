@@ -79,6 +79,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     private String serialNumber;
     private static Cliente cliente;
     private static String webUrl="";
+    private static int id;
 
     //METODOS
     private void darValores(){
@@ -279,7 +280,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        int id = getIntent().getIntExtra("id",-1);
+        id = getIntent().getIntExtra("id",-1);
         if (id ==-1){
 
             int fkMaquina= calcularMaquina();
@@ -385,11 +386,15 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                 Dialogo.dialogoError("Es necesario introducir el modelo", this);
             else {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setMessage("Seguro que desea añadir esta máquina");
+                if(id == -1) {
+                    builder1.setMessage("¿Seguro que desea añadir esta máquina?");
+                } else {
+                    builder1.setMessage("¿Seguro que desea modificar esta máquina?");
+                }
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
                         "Si",
-                        (dialog, id) -> {
+                        (dialog, which) -> {
                             try {
                                 int fk_maquina = maquina.getFk_maquina();
                                 int fk_parte = parte.getId_parte();
@@ -475,7 +480,12 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                 etNumeroSerie.setText("");
                                 spMarca.setSelection(0);
                                 spPuestaMarcha.setSelection(0);
-                                Dialogo.dialogoError("Maquina añadida", AnadirDatosMaquina.this);
+                                if(id == -1) {
+                                    Dialogo.dialogoError("Maquina añadida", AnadirDatosMaquina.this);
+                                } else {
+                                    Dialogo.dialogoError("Maquina modificada", AnadirDatosMaquina.this);
+                                }
+
                                 TabFragment2_equipo.añadirMaquina();
                                 finish();
                             } catch (SQLException e) {
@@ -485,7 +495,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                         });
                 builder1.setNegativeButton(
                         "No",
-                        (dialog, id) -> dialog.cancel());
+                        (dialog, which) -> dialog.cancel());
                 AlertDialog alert11 = builder1.create();
                 alert11.setCanceledOnTouchOutside(false);
                 alert11.show();
