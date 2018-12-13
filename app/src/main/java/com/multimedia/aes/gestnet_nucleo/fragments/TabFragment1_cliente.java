@@ -475,6 +475,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 parte.setTelefono2_cliente(tel2);
                 parte.setTelefono3_cliente(tel3);
                 parte.setTelefono4_cliente(tel4);
+                parte.setEmail_cliente(correo);
                 datos.setMatem_hora_entrada(formattedDate);
                 DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(),formattedDate);
                 ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,correo,observaciones);
@@ -571,6 +572,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             parte.setTelefono2_cliente(tel2);
             parte.setTelefono3_cliente(tel3);
             parte.setTelefono4_cliente(tel4);
+            parte.setEmail_cliente(email);
             ParteDAO.actualizarParte(getContext(),parte.getId_parte(),nombre,dni,tel1,tel2,tel3,tel4,email,observaciones);
         } catch (SQLException e) {
             e.printStackTrace();
