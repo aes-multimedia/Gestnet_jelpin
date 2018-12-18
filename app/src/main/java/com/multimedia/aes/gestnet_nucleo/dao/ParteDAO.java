@@ -677,6 +677,13 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(Parte.NOMBRE_FIRMANTE,nombre);
         updateBuilder.update();
     }
+    public static void actualizarDniFirma(Context context, int id_parte, String dni)throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.DNI_FIRMANTE,dni);
+        updateBuilder.update();
+    }
     public static boolean actualizarTicket(Context context, int id_parte, String ticket)throws SQLException {
         cargarDao(context);
         UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();

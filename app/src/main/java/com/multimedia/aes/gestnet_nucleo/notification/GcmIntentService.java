@@ -1,11 +1,13 @@
 package com.multimedia.aes.gestnet_nucleo.notification;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -75,6 +77,14 @@ public class GcmIntentService extends FirebaseMessagingService {
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setPriority(Notification.PRIORITY_MAX);
         builder.setContentIntent(contentIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String channelId = "8";
+                NotificationChannel channel = new NotificationChannel(channelId,
+                        "Channel aplicacion",
+                        NotificationManager.IMPORTANCE_DEFAULT);
+                mNotificationManager.createNotificationChannel(channel);
+                builder.setChannelId(channelId);
+            }
         mNotificationManager.notify(notification_id, builder.build());
         } catch (JSONException e) {
             e.printStackTrace();

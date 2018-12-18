@@ -34,7 +34,7 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
     private Button btnGuardar,btnBorrar;
     private FrameLayout frFirma;
     private TouchView cvFirma;
-    private EditText etNombreFirmante;
+    private EditText etNombreFirmante,etDniFirmante;
     private boolean tocado = false;
     private Parte parte;
 
@@ -75,6 +75,7 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.firma_cliente);
         etNombreFirmante = findViewById(R.id.etNombreFirmante);
+        etDniFirmante = findViewById(R.id.etDniFirmante);
         btnGuardar =  findViewById(R.id.btnGuardar);
         btnBorrar =  findViewById(R.id.btnBorrar);
         frFirma =  findViewById(R.id.frFirma);
@@ -124,6 +125,9 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
                     }
                     try {
                         ParteDAO.actualizarNombreFirma(this,parte.getId_parte(),etNombreFirmante.getText().toString());
+                        if (!etDniFirmante.getText().toString().trim().equals("")){
+                            ParteDAO.actualizarDniFirma(this,parte.getId_parte(),etDniFirmante.getText().toString());
+                        }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
