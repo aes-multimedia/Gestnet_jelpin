@@ -68,7 +68,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte,txtNumOrden;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
@@ -91,6 +91,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtSintomas= vista.findViewById(R.id.txtSintomas);
         txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
         txtEstadoParte =vista.findViewById(R.id.txtEstadoParte);
+        txtNumOrden =vista.findViewById(R.id.txtNumOrden);
 
         //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
@@ -322,6 +323,9 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private void darValoresVariables(){
         if (maquina!=null){
             txtMaquina.setText(String.valueOf(maquina.getModelo()));
+            if (maquina.getSituacion().equals("")){
+
+            }
             txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
             txtNombreContrato.setText(String.valueOf(maquina.getNombre_contr_man()));
         }
@@ -336,6 +340,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtCreadoPor.setText(String.valueOf(parte.getUser_creador()));
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
         txtEstadoParte.setText(String.valueOf(parte.getEstado_parte()));
+        txtNumOrden.setText(String.valueOf(parte.getNum_orden_endesa()));
 
         String dir = "";
         if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){

@@ -649,13 +649,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                                 } catch (SQLException e) {
                                                     e.printStackTrace();
                                                 }
-
-
                                                 try {
-
-
                                                     DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
-
                                                             operacionEfectuada,
                                                             preeu_materiales,
                                                             preeu_disposicion_servicio,
