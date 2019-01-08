@@ -22,6 +22,10 @@
             android:icon="@drawable/ic_fecha"
             android:title="@string/cambiar_fecha" />
         <item
+            android:id="@+id/buscar_partes"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/buscar_partes" />
+        <item
             android:id="@+id/cierres_pendientes"
             android:icon="@drawable/ic_storage_black_24dp"
             android:title="@string/cierres_pendientes" />

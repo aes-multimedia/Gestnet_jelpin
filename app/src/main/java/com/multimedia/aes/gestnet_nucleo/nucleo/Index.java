@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -416,6 +417,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 e.printStackTrace();
             }
 
+        } else if (id == R.id.buscar_partes) {
+            Toast.makeText(this, "Buscar partes", Toast.LENGTH_LONG).show();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
