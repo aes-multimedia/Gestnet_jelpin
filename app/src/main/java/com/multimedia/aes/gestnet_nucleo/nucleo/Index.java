@@ -337,7 +337,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 e.printStackTrace();
             }
 
-
         } else if (id == R.id.cierres_pendientes) {
             AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
             builder1.setMessage("¿Se enviaran todos los cambios pendientes, desea continuar?");
@@ -418,7 +417,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
 
         } else if (id == R.id.buscar_partes) {
-            Toast.makeText(this, "Buscar partes", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(this,BuscadorPartes.class);
+            startActivity(i);
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

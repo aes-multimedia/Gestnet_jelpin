@@ -242,7 +242,9 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                     int idFormaPago = datos.getFk_forma_pago();
                     String nombreFormaPago = FormasPagoDAO.buscarFormasPagoPorId(getContext(), idFormaPago).getForma_pago();
                     arrayFormasPago[0] = nombreFormaPago;
+                    arrayFormasPago[1] = nombreFormaPago;
                     spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+                    spFormaPago.setSelection(1);
                     spFormaPago.setEnabled(false);
                     spFormaPago.setClickable(false);
                 } catch (Exception e) {

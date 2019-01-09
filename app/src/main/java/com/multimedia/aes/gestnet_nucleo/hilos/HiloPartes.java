@@ -70,7 +70,6 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             if (context.getClass()==Login.class){
@@ -86,7 +85,7 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
             }
 
         }
-
+        super.onPostExecute(aVoid);
     }
 
     private String partes() throws JSONException{
@@ -144,8 +143,6 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
             error.put("mensaje","Error de conexión, error en lectura");
             contenido = error.toString();
         }
-
-
         return contenido;
     }
 }
