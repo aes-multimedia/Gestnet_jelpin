@@ -72,8 +72,8 @@ public abstract class Ticket {
         result+="-------CONFORME FIRMANTE---------"+"\n";
         String fecha = mDay+"/"+mMonth+"/"+mYear+" - "+mHour+":"+mMin;
         result+=fecha+"\n";
-        String nombre=parte.getNombre_cliente(),dni=parte.getDni_cliente();
-        result+="Nombre y dni: "+" "+"\n";
+        String nombre=parte.getNombre_firmante(),dni=parte.getDni_firmante();
+        result+="Nombre y dni: "+nombre+"-"+dni+"\n";
         result+="Firma"+"\n";
         return result;
     }

@@ -29,12 +29,14 @@ import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -68,7 +70,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<Usuario> listaUsuarios;
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
-    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte,txtNumOrden;
+    private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,
+            txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte,txtNumOrden,txtVerPresupuesto;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
@@ -92,6 +95,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtHoraInicio =vista.findViewById(R.id.txtHoraInicio);
         txtEstadoParte =vista.findViewById(R.id.txtEstadoParte);
         txtNumOrden =vista.findViewById(R.id.txtNumOrden);
+        txtVerPresupuesto =vista.findViewById(R.id.txtVerPresupuesto);
 
         //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
@@ -136,6 +140,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar2.setOnClickListener(this);
         ivLlamar3.setOnClickListener(this);
         ivLlamar4.setOnClickListener(this);
+        txtVerPresupuesto.setOnClickListener(this);
         //SWITCH
         swEdicion = vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -341,7 +346,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
         txtEstadoParte.setText(String.valueOf(parte.getEstado_parte()));
         txtNumOrden.setText(String.valueOf(parte.getNum_orden_endesa()));
-
+        if (parte.getFk_instalacion()!=-1){
+            txtVerPresupuesto.setVisibility(View.VISIBLE);
+            txtVerPresupuesto.setText("VER PRESUPUESTO ("+parte.getFk_instalacion()+")");
+        }else{
+            txtVerPresupuesto.setVisibility(View.GONE);
+        }
         String dir = "";
         if (!parte.getTipo_via().trim().equals("")&&!parte.getTipo_via().trim().equals("null")){
             dir+=parte.getTipo_via()+" ";
@@ -548,14 +558,19 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
                 llamar(etTelefono4.getText().toString());
             }
         }else if(view.getId() == R.id.btnAñadirPresupuesto){
-
-
             Intent i = new Intent(getContext(), Presupuestos.class);
             i.putExtra("id_parte",parte.getId_parte());
             startActivity(i);
-
-
-
+        }else if(view.getId() == R.id.txtVerPresupuesto){
+            try {
+                Cliente cliente = ClienteDAO.buscarCliente(getContext());
+                String url = "http://"+cliente.getIp_cliente()+"/perso_impresiones/"+cliente.getDir_documentos()+"/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto="+parte.getFk_instalacion()+"&sendForEmail=0&tipo_imprimir=0";
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

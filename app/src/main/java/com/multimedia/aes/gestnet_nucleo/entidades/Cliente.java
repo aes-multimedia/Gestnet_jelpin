@@ -21,7 +21,7 @@ public class Cliente {
     @DatabaseField(columnName = LOGO_CLIENTE)           private String logo_cliente;
     @DatabaseField(columnName = IP_CLIENTE)             private String ip_cliente;
     @DatabaseField(columnName = COD_CLIENTE)            private String cod_cliente;
-    @DatabaseField(columnName = DIR_DOCUMENTOS)                 private String dir_documentos;
+    @DatabaseField(columnName = DIR_DOCUMENTOS)         private String dir_documentos;
 
     public Cliente (){}
     public Cliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos) {

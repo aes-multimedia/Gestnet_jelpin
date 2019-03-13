@@ -210,7 +210,7 @@ public class ArticuloDAO extends DBHelperMOS {
         updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
         updateBuilder.updateColumnValue(Articulo.NOMBRE_ARTICULO,nombre_articulo);
         updateBuilder.updateColumnValue(Articulo.STOCK, stock);
-        updateBuilder.updateColumnValue(Articulo.COSTE, coste);
+        updateBuilder.updateColumnValue(Articulo.TARIFA, coste);
         updateBuilder.update();
     }
     public static void actualizarArticuloP(Context context, int id_articulo, String nombre_articulo,double stock, double coste,String referencia, String referencia_aux,String ean,double iva, double tarifa, double descuento)throws SQLException {

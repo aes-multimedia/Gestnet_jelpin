@@ -328,8 +328,8 @@
                             android:background="@drawable/edit_texts_naranja"
                             android:enabled="true"
                             android:hint="Observaciones"
-                            android:lines="4"
                             android:minHeight="30dp"
+                            android:minLines="4"
                             android:padding="5dp" />
                     </LinearLayout>
 
@@ -595,7 +595,18 @@
                         app:layout_constraintEnd_toEndOf="@+id/txtMaquina"
                         app:layout_constraintStart_toStartOf="@+id/txtMaquina"
                         app:layout_constraintTop_toBottomOf="@+id/txtMaquina" />
-
+                    <TextView
+                        android:id="@+id/txtVerPresupuesto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/texto_largo_prueba"
+                        android:textColor="@color/wallet_link_text_light"
+                        android:textSize="15sp"
+                        android:textStyle="bold|italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTipoIntervencion" />
                     <TextView
                         android:id="@+id/txtSituacionEquipo"
                         android:layout_width="0dp"
@@ -604,9 +615,9 @@
                         android:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/txtTipoIntervencion"
-                        app:layout_constraintStart_toStartOf="@+id/txtTipoIntervencion"
-                        app:layout_constraintTop_toBottomOf="@+id/txtTipoIntervencion" />
+                        app:layout_constraintEnd_toEndOf="@+id/txtMaquina"
+                        app:layout_constraintStart_toStartOf="@+id/txtMaquina"
+                        app:layout_constraintTop_toBottomOf="@+id/txtVerPresupuesto" />
 
                     <TextView
                         android:id="@+id/txtNombreContrato"
@@ -655,7 +666,6 @@
                         app:layout_constraintEnd_toEndOf="@+id/txtSintomaLista"
                         app:layout_constraintStart_toStartOf="@+id/txtSintomaLista"
                         app:layout_constraintTop_toBottomOf="@+id/txtSintomaLista" />
-
 
                 </android.support.constraint.ConstraintLayout>
 

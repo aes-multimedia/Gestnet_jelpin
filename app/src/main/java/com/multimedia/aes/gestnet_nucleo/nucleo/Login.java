@@ -110,9 +110,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
 
         ActivityCompat.requestPermissions(Login.this, new String[]
                 {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, CALL_PHONE,
-        ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
-        READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
-        GET_ACCOUNTS,WAKE_LOCK, VIBRATE
+                        ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
+                        READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
+                        GET_ACCOUNTS,WAKE_LOCK, VIBRATE
                 }, REQUEST_PERMISSION);
 
     }
@@ -213,7 +213,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void guardarPartes(String msg){
         try {
             JSONObject jsonObject = new JSONObject(msg);
-            if (jsonObject.getInt("estado")==1){
+            if (jsonObject.getInt("estado")==1||jsonObject.getInt("estado")==272){
                 new GuardarParte(this,msg).execute();
             }else{
                 sacarMensaje(jsonObject.getString("mensaje"));

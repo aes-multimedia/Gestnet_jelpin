@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_nucleo.nucleo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -40,6 +41,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -50,6 +52,7 @@ import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizarStock;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesIdAsignar;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_nucleo.notification.GcmIntentService;
 import com.multimedia.aes.gestnet_nucleo.servicios.ServicioArticulos;
@@ -117,7 +120,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     public void guardarPartes(String msg) {
         try {
             JSONObject jsonObject = new JSONObject(msg);
-            if (jsonObject.getInt("estado") == 1) {
+            if (jsonObject.getInt("estado") == 1||jsonObject.getInt("estado")==272) {
                 new GuardarParte(this, msg).execute();
             } else {
                 sacarMensaje(jsonObject.getString("mensaje"));
@@ -172,6 +175,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
+            }else{
+                startService(new Intent(this, ServicioLocalizacion.class));
             }
             arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
@@ -251,6 +256,33 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 GcmIntentService.cerrarNotificacion(notId);
             }
         }
+        JSONObject kil = new JSONObject();
+        try {
+            kil = GestorSharedPreferences.getJsonKilometros(GestorSharedPreferences.getSharedPreferencesKilometros(this));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (kil==null||kil.toString().equals("{}")){
+            DialogoKilometros dialog = new DialogoKilometros ().newInstance(0);
+            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+            dialog.setCancelable(false);
+            dialog.show(ft, "DialogoKilometros");
+        }else{
+            try {
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String strDate = sdf.format(c.getTime());
+                if (!kil.getString("fecha").equals(strDate)){
+                    DialogoKilometros dialog = new DialogoKilometros ().newInstance(0);
+                    android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    dialog.setCancelable(false);
+                    dialog.show(ft, "DialogoKilometros");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
     @Override
     public void onBackPressed() {
@@ -416,10 +448,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 e.printStackTrace();
             }
 
-        } else if (id == R.id.buscar_partes) {
+        } /*else if (id == R.id.buscar_partes) {
             Intent i = new Intent(this,BuscadorPartes.class);
-            startActivity(i);
-        }
+            startActivityForResult(i,100);
+        }*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -510,6 +542,24 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     }
 
-
-
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100) {
+            if(resultCode == Activity.RESULT_OK){
+                int id = data.getIntExtra("result",0);
+                try {
+                    Usuario u = UsuarioDAO.buscarUsuario(this);
+                    Cliente c = ClienteDAO.buscarCliente(this);
+                    new HiloPartesIdAsignar(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (resultCode == 2) {
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Dialogo.dialogoError("Se ha producido un error al conectar con el servidor, porfavor intentelo mas tarde y compruebe su cobertura.",this);
+            }
+        }
+    }*/
 }

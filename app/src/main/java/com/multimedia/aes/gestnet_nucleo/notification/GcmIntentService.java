@@ -71,11 +71,11 @@ public class GcmIntentService extends FirebaseMessagingService {
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_almacen))
                         .setStyle(new NotificationCompat.BigTextStyle())
                         .setAutoCancel(true)
-                        .setOngoing(true)
+                        .setOngoing(false)
                         .setTicker("hola")
                         .setContentText(mensaje)
                         .setDefaults(Notification.DEFAULT_ALL)
-                        .setPriority(Notification.PRIORITY_MAX);
+                        .setPriority(Notification.PRIORITY_HIGH);
         builder.setContentIntent(contentIntent);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 String channelId = "8";

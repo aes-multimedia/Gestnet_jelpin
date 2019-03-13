@@ -72,5 +72,26 @@ public abstract class GestorSharedPreferences {
         SharedPreferences.Editor spe = sharedPreferences.edit();
         spe.clear();
         spe.commit();
+    }//<---------------------------------------------------------------------------------->
+    public static SharedPreferences getSharedPreferencesKilometros(Context context) {
+        return context.getSharedPreferences("spKilometros", context.MODE_PRIVATE);
+    }
+
+    public static void setJsonKilometros(SharedPreferences sharedPreferences, JSONObject jsonObject) {
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.putString("kilometros", jsonObject.toString());
+        spe.commit();
+    }
+
+    public static JSONObject getJsonKilometros(SharedPreferences sharedPreferences) throws JSONException {
+        String s = sharedPreferences.getString("kilometros", "{}");
+        return new JSONObject(s);
+    }
+
+    public static void clearSharedPreferencesKilometros(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferencesDia(context);
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.clear();
+        spe.commit();
     }
 }

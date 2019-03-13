@@ -99,7 +99,6 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 		return BBDDConstantes.maquinaDao;
 	}
 
-
 	public Dao<DatosAdicionales, Integer> getDatosAdicionalesDAO() throws SQLException {
 		if (BBDDConstantes.datosAdicionalesDao == null) {
 			BBDDConstantes.datosAdicionalesDao = getDao(DatosAdicionales.class);

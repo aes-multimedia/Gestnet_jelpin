@@ -127,7 +127,8 @@
             android:label="@string/title_activity_fotos_intervenciones"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-        <activity android:name=".nucleo.BuscadorPartes"></activity>
+        <activity android:name=".nucleo.BuscadorPartes"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

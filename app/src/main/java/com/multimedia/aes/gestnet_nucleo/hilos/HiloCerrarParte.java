@@ -215,6 +215,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject1.put("estado_android", 3);
         jsonObject1.put("firma64", parte.getFirma64());
         jsonObject1.put("firmante", parte.getNombre_firmante());
+        jsonObject1.put("dnifirma", parte.getDni_firmante());
 
         DatosAdicionales datos_adicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(context, fk_parte);
         jsonObject2.put("fk_parte", parte.getId_parte());

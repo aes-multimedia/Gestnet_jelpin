@@ -8,11 +8,11 @@ android {
 
     defaultConfig {
         applicationId "com.multimedia.aes.gestnet_nucleo"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 26
-        versionCode 34
+        versionCode 40
         multiDexEnabled true
-        versionName "1.9.3"
+        versionName "1.9.10"
     }
     buildTypes {
         release {
