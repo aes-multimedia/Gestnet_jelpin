@@ -89,7 +89,7 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
         HttpURLConnection uc = null;
         try {
 
-            urlws = new URL(Constantes.URL_LOGIN_EXTERNA_PRUEBAS);
+            urlws = new URL(Constantes.URL_LOGIN);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

@@ -276,7 +276,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
                     if (v.getId() == btnAñadirMaterial.getId()) {
                         ArticuloDAO.actualizarUtilizado(this, articulo.getId_articulo());
-                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Double.valueOf(tvCantidad.getText().toString()), articulo.getCoste());
+                        ArticuloDAO.actualizarArticulo(this, articulo.getId_articulo(), articulo.getNombre_articulo(), articulo.getStock() - Double.valueOf(tvCantidad.getText().toString()), articulo.getTarifa());
                     } else if (v.getId() == btnPedirMaterial.getId()) {
                         try {
                             ArticuloDAO.actualizarEntregado(this, articulo.getId_articulo());

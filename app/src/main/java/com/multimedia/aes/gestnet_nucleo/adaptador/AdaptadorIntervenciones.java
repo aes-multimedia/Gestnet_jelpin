@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,7 @@ public class AdaptadorIntervenciones extends ArrayAdapter implements View.OnClic
             item = inflater.inflate(view, null);
         }
         TextView tvTecnico,tvFecha,tvSintomas,tvOperacionEfectuada,tvTotal;
-        LinearLayout linearLayout;
-        linearLayout  =  item.findViewById(R.id.lLRowIntervenciones);
+        ConstraintLayout linearLayout  =  item.findViewById(R.id.lLRowIntervenciones);
         linearLayout.setTag(String.valueOf(intervencionArrayList.get(position).getId_parte()));
 
         tvTecnico=item.findViewById(R.id.tvTecnico);

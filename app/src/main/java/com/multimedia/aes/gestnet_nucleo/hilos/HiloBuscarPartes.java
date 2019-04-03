@@ -4,15 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.google.gson.JsonObject;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.BuscadorPartes;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,7 +95,7 @@ public class HiloBuscarPartes extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url="http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_PARTES_EXTERNAPRUEBAS;
+            String url="http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_PARTES;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

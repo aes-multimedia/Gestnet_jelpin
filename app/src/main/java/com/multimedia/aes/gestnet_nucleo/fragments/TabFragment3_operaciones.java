@@ -53,11 +53,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
     //METODO
     private void inicializarVariables() {
-        spProtocolos =  vista.findViewById(R.id.spProtocolos);
+        spProtocolos = vista.findViewById(R.id.spProtocolos);
         spProtocolos.setOnItemSelectedListener(this);
-        llPadre =  vista.findViewById(R.id.llPadre);
+        llPadre = vista.findViewById(R.id.llPadre);
     }
-
     private void darValores() throws java.sql.SQLException {
 
 
@@ -73,13 +72,13 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             ArrayList<ProtocoloAccion> ordenadosNombre;
             ordenadosNombre = ordenarArrayAccionProtocolosV2(protocoloAccionArrayList);
 
-            ordenadosNombre.add(0,new ProtocoloAccion(-1,"",-1,parte.getId_parte(),-1,"--Selecione un valor--",-1,false,"",-1));
+            ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "--Selecione un valor--", -1, false, "", -1));
 
 
-            ProtocoloAccion[] arrayProtocolos =  new ProtocoloAccion[ordenadosNombre.size()];
+            ProtocoloAccion[] arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
 
-            for(int i=0;i<arrayProtocolos.length;i++){
-                arrayProtocolos[i]=ordenadosNombre.get(i);
+            for (int i = 0; i < arrayProtocolos.length; i++) {
+                arrayProtocolos[i] = ordenadosNombre.get(i);
             }
 
             spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
@@ -87,10 +86,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         } else {
 
             ArrayList<ProtocoloAccion> ordenadosNombre = new ArrayList<>();
-            ordenadosNombre.add(0,new ProtocoloAccion(-1,"",-1,parte.getId_parte(),-1,"Sin Protocolos",-1,false,"",-1));
-            ProtocoloAccion[] arrayProtocolos =  new ProtocoloAccion[ordenadosNombre.size()];
-            for(int i=0;i<arrayProtocolos.length;i++){
-                arrayProtocolos[i]=ordenadosNombre.get(i);
+            ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "Sin Protocolos", -1, false, "", -1));
+            ProtocoloAccion[] arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
+            for (int i = 0; i < arrayProtocolos.length; i++) {
+                arrayProtocolos[i] = ordenadosNombre.get(i);
             }
 
             spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
@@ -98,9 +97,6 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
         }
     }
-
-
-
     private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
         ArrayList<ProtocoloAccion> arrayList = new ArrayList<>();
 
@@ -114,7 +110,6 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
         return arrayList;
     }
-
     private boolean arrayListContieneProtocolo(ArrayList<ProtocoloAccion> arrayList, ProtocoloAccion p) {
         boolean esta = false;
 
@@ -126,12 +121,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
 
         return esta;
     }
-
     private void crearLinearProtocolo(ProtocoloAccion protocolo) {
         llPadre.removeAllViews();
         llPadre.setVisibility(View.VISIBLE);
-        if (protocolo.getFk_maquina()!=0 || protocolo.getFk_maquina()!=-1 ) { ///CAMBIAR
-
+        if (protocolo.getFk_maquina() != 0 && protocolo.getFk_maquina() != -1) { ///CAMBIAR
             try {
                 if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina(), protocolo.getFk_parte()) != null) {
                     ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
@@ -211,15 +204,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         }
     }
-
     public void guardarProtocolo() throws SQLException {
-
-
-
-
-
-        ProtocoloAccion protocoloAccion = (ProtocoloAccion)spProtocolos.getItemAtPosition(posicion);
-        if (protocoloAccion.getFk_maquina()!= 0 && protocoloAccion.getFk_maquina()!= -1  ) {
+        ProtocoloAccion protocoloAccion = (ProtocoloAccion) spProtocolos.getItemAtPosition(posicion);
+        if (protocoloAccion.getFk_maquina() != 0 && protocoloAccion.getFk_maquina() != -1) {
             final int childCount = llPadre.getChildCount();
             int fk_maquina = protocoloAccion.getFk_maquina();
             for (int i = 0; i < childCount; i++) {
@@ -232,9 +219,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                     if (view1 instanceof EditText) {
                         EditText et = (EditText) view1;
                         valor = et.getText().toString();
-                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(),protocoloAccion.getFk_protocolo(),fk_maquina,Integer.parseInt( ll.getTag().toString()))!=null){
-                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(),protocoloAccion.getFk_protocolo(),fk_maquina,Integer.parseInt( ll.getTag().toString())).getId_protocolo_accion();
-                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(),valor,id,fk_maquina);
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(), valor, id, fk_maquina);
                         }
                     } else if (view1 instanceof CheckBox) {
                         CheckBox cb = (CheckBox) view1;
@@ -243,9 +230,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                         } else {
                             valor = "0";
                         }
-                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(),protocoloAccion.getFk_protocolo(),fk_maquina,Integer.parseInt( ll.getTag().toString()))!=null){
-                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(),protocoloAccion.getFk_protocolo(),fk_maquina,Integer.parseInt( ll.getTag().toString())).getId_protocolo_accion();
-                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(),valor,id,fk_maquina);
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(), valor, id, fk_maquina);
                         }
                     }
                 }
@@ -265,9 +252,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                         EditText et = (EditText) view1;
                         valor = et.getText().toString();
 
-                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(),protocoloAccion.getFk_protocolo(),parte.getId_parte(),Integer.parseInt(ll.getTag().toString()))!=null){
-                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(),protocoloAccion.getFk_protocolo(),parte.getId_parte(),Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
-                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(),valor,id,parte.getId_parte());
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(), valor, id, parte.getId_parte());
                         }
                     } else if (view1 instanceof CheckBox) {
                         CheckBox cb = (CheckBox) view1;
@@ -276,9 +263,9 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                         } else {
                             valor = "0";
                         }
-                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(),protocoloAccion.getFk_protocolo(),parte.getId_parte(),Integer.parseInt(ll.getTag().toString()))!=null){
-                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(),protocoloAccion.getFk_protocolo(),parte.getId_parte(),Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
-                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(),valor,id,parte.getId_parte());
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(), valor, id, parte.getId_parte());
                         }
 
                     }
@@ -287,12 +274,10 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         }
 
     }
-
     //OVERRIDE
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.tab_fragment3_operaciones, container, false);
-
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
@@ -312,17 +297,14 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         try {
             inicializarVariables();
             darValores();
-
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
         return vista;
     }
-
     @Override
     public void onClick(View view) {
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (llPadre.getChildCount() != 0) {
@@ -334,15 +316,14 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         }
         if (position != 0) {
-            posicion=position;
+            posicion = position;
             crearLinearProtocolo((ProtocoloAccion) spProtocolos.getSelectedItem());
         } else {
-            posicion=0;
+            posicion = 0;
             llPadre.removeAllViews();
             llPadre.setVisibility(View.GONE);
         }
     }
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }

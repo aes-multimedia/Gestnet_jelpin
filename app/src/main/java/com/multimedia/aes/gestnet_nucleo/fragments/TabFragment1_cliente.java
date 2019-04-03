@@ -71,7 +71,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
     private TextView txtNumParte,txtCreadoPor,txtMaquina,txtTipoIntervencion,txtSituacionEquipo,txtDierccionTitular,
-            txtSintomas,txtHoraInicio,tvHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte,txtNumOrden,txtVerPresupuesto;
+            txtSintomas,txtHoraInicio,txtSintomaLista,txtNombreContrato,txtEstadoParte,txtNumOrden,txtVerPresupuesto;
     private EditText etNombreTitular,etDni,etTelefono1,etTelefono2,etTelefono3,etTelefono4,etObservaciones,etCorreoElectronico;
     private Button btnIniciarParte,btnClienteAusente,btnImprimir,btnVerDocumentos,btnImagenes,btnAñadirPresupuesto,btnVerIntervenciones;
     private ImageButton ibLocation,ibIr;
@@ -425,15 +425,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         inicializarVariables();
         darValoresVariables();
 
-        if (parte.getEstado_android()==3||parte.getEstado_android()==1 || parte.getEstado_android()==436){
+        if (parte.getEstado_android()==3||parte.getEstado_android()==1 ||parte.getEstado_android()==4 || parte.getEstado_android()==436){
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);
             txtHoraInicio.setVisibility(View.VISIBLE);
+            swEdicion.setEnabled(false);
 
         }else if(parte.getEstado_android()==2){
             btnImprimir.setVisibility(View.GONE);
-            tvHoraInicio.setVisibility(View.GONE);
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);

@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.CierreDia;
 
@@ -25,40 +26,24 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
+public class HiloKilometros extends AsyncTask<Void,Void,Void> {
 
-    private int fk_tecnico,duracion,horas_guardia,horas_extra;
-    private double dietas,parking,combustible,litros_reposta,entregado,material;
-    private String mensaje,horas_comida,hora_inicio,hora_fin,observaciones,fecha_cierre;
-    private boolean festivo;
+    private int fk_tecnico;
+    private double litros_reposta,kilometros;
+    private String mensaje;
     private Context context;
     private ProgressDialog dialog;
     private Cliente cliente;
+    private DialogoKilometros dialogoKilometros;
 
 
 
-    public HiloCierreDia(Context context, int fk_tecnico, int duracion, int horas_guardia,
-                         int horas_extra,double dietas, double parking, double combustible,
-                         double litros_reposta, double entregado, double material,
-                         String horas_comida, String hora_inicio, String hora_fin,
-                         String observaciones, String fecha_cierre,boolean festivo) {
+    public HiloKilometros(Context context, DialogoKilometros dialogoKilometros, int fk_tecnico, double litros_reposta, double kilometros) {
         this.fk_tecnico = fk_tecnico;
-        this.duracion = duracion;
-        this.horas_guardia = horas_guardia;
-        this.horas_extra = horas_extra;
-        this.dietas = dietas;
-        this.parking = parking;
-        this.combustible = combustible;
         this.litros_reposta = litros_reposta;
-        this.entregado = entregado;
-        this.material = material;
-        this.horas_comida = horas_comida;
-        this.hora_inicio = hora_inicio;
-        this.hora_fin = hora_fin;
-        this.observaciones = observaciones;
-        this.fecha_cierre = fecha_cierre;
-        this.festivo = festivo;
+        this.kilometros = kilometros;
         this.context=context;
+        this.dialogoKilometros=dialogoKilometros;
         try {
             cliente= ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
@@ -79,7 +64,7 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
-        dialog.setTitle("Cerrando el dia.");
+        dialog.setTitle("Guardando kilometros.");
         dialog.setMessage("Conectando con el servidor, porfavor espere..."+"\n"+"Esto puede tardar unos minutos si la cobertura es baja.");
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);
@@ -94,40 +79,27 @@ public class HiloCierreDia extends AsyncTask<Void,Void,Void> {
             try {
                 JSONObject jsonObject = new JSONObject(mensaje);
                 if (jsonObject.getInt("estado")==1){
-                    ((CierreDia)context).finalizar();
+                    dialogoKilometros.hiloBien();
                 }else{
-                    ((CierreDia)context).error();
+                    dialogoKilometros.errorHilo();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                ((CierreDia)context).error();
+                dialogoKilometros.errorHilo();
             }
         }else{
-            ((CierreDia)context).error();
+            dialogoKilometros.errorHilo();
         }
     }
     private String iniciar() throws JSONException {
         JSONObject msg = new JSONObject();
         msg.put("fk_tecnico", fk_tecnico);
-        msg.put("duracion", duracion);
-        msg.put("horas_guardia", horas_guardia);
-        msg.put("horas_extra", horas_extra);
-        msg.put("dietas", dietas);
-        msg.put("parking", parking);
-        msg.put("combustible", combustible);
         msg.put("litros_reposta", litros_reposta);
-        msg.put("entregado", entregado);
-        msg.put("material", material);
-        msg.put("horas_comida", horas_comida);
-        msg.put("hora_inicio", hora_inicio);
-        msg.put("hora_fin", hora_fin);
-        msg.put("observaciones", observaciones);
-        msg.put("fecha_cierre", fecha_cierre);
-        msg.put("festivo", festivo);
+        msg.put("kilometros", kilometros);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_DIA);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_KILOMETROS);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);

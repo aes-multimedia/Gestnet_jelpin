@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
-import android.util.Patterns;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
@@ -20,6 +19,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
@@ -29,6 +29,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 
 import org.json.JSONArray;
@@ -38,9 +39,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -52,9 +50,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment5_documentacion.resizeImage;
 
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
@@ -64,12 +59,14 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     private int fk_parte;
     private ProgressDialog dialog;
     private Cliente cliente;
+    private Usuario usuario;
 
     public HiloCerrarParte(Context context, int fk_parte) {
         this.context = context;
         this.fk_parte = fk_parte;
         try {
             cliente= ClienteDAO.buscarCliente(context);
+            usuario = UsuarioDAO.buscarUsuario(context);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -145,7 +142,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS);
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
@@ -154,7 +151,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 404);
@@ -162,7 +159,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 505);
@@ -170,7 +167,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 436);
@@ -193,7 +190,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE_EXTERNAPRUEBAS,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -212,8 +209,13 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         jsonObject1.put("id_parte", parte.getId_parte());
         jsonObject1.put("confirmado", parte.getConfirmado());
         jsonObject1.put("observaciones", parte.getObservaciones());
-        jsonObject1.put("estado_android", 3);
+        if (asignarEstado()==8){
+            jsonObject1.put("estado_android", 2);
+        }else{
+            jsonObject1.put("estado_android", 3);
+        }
         jsonObject1.put("firma64", parte.getFirma64());
+        jsonObject1.put("firma64Tecnico", usuario.getFirma());
         jsonObject1.put("firmante", parte.getNombre_firmante());
         jsonObject1.put("dnifirma", parte.getDni_firmante());
 
@@ -394,15 +396,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     }
 
     private int asignarEstado() throws SQLException {
-
-
-
        int estado = 4;
         if (ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte) != null) {
             ArrayList<ArticuloParte> articulosParte = new ArrayList<>();
             articulosParte.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context, fk_parte));
-
-
             for(ArticuloParte articulo : articulosParte) {
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context, articulo.getFk_articulo());
                 if(a.isEntregado()==1) {
@@ -410,8 +407,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     estado = 8;
                 }
             }
-
-
         }
         return estado;
 

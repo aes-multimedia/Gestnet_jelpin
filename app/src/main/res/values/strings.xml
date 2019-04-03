@@ -147,5 +147,6 @@
     <string name="enviar_por_correo">Enviar ticket por correo</string>
     <string name="estado_parte">Estado del parte</string>
     <string name="buscar_partes">Buscar partes</string>
+    <string name="buscar_articulos">Buscar articulos</string>
 </resources>
 

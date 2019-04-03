@@ -8,7 +8,6 @@ import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
-import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,7 +87,7 @@ public class HiloPartesId extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_ID_EXTERNAPRUEBAS;
+            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_ID;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

@@ -7,7 +7,6 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ProtocoloAccion {
 
 
-
     public static final String ID = "_id";
     public static final String ID_PROTOCOLO_ACCION = "id_protocolo_accion";
     public static final String FK_MAQUINA = "fk_maquina";

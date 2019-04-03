@@ -94,7 +94,7 @@ public class HiloPartes extends AsyncTask<Void,Void,Void>{
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES_EXTERNAPRUEBAS;
+            String url="http://"+cliente.getIp_cliente()+Constantes.URL_PARTES;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

@@ -484,6 +484,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 Intent i = new Intent(getContext(), FirmaCliente.class);
                 startActivityForResult(i, 99);
             } else if (view.getId() == R.id.btn_calcular_tiempo) {
+                preeu_mano_de_obra_horas = 0;
                 String horaEntrada = datos.getMatem_hora_entrada();
                 String[] tiempos = horaEntrada.split(":");
                 int hour = Integer.valueOf(tiempos[0]);
@@ -504,7 +505,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 int minTotal = segTotal / 60;
                 btn_preeu_mano_de_obra.setText(horaTotal + " horas " + minTotal + " minutos");
                 textoBoton = horaTotal + " horas " + minTotal + " minutos";
-                preeu_mano_de_obra_horas = Double.valueOf(horaTotal + minTotal);
+                double mins = Double.parseDouble(String.format("%.2f", minTotal/60.0).replace(",","."));
+                preeu_mano_de_obra_horas = Double.valueOf(horaTotal + mins);
 
                 try {
                     ParteDAO.actualizarTextoDuracion(getContext(), parte.getId_parte(), textoBoton);
@@ -521,10 +523,11 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                         e.printStackTrace();
                     }
 
-                    et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
+                    et_preeu_total_mano_de_obra_horas.setText(String.format("%.2f", mH * preeu_mano_de_obra_horas).replace(",","."));
 
                 }
             } else if (view.getId() == R.id.btn_preeu_mano_de_obra) {
+                preeu_mano_de_obra_horas = 0;
                 int hour = 0;
                 final int minute = 0;
                 TimePickerDialog mTimePicker;
@@ -542,19 +545,14 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-
                     if (sp_preeu_mano_de_obra_precio.getSelectedItemPosition() != 0) {
-
                         double mH = 0;
                         try {
                             mH = ManoObraDAO.buscarPrecioManoObraPorNombre(getContext(), sp_preeu_mano_de_obra_precio.getSelectedItem().toString());
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
                         et_preeu_total_mano_de_obra_horas.setText(String.valueOf(mH * preeu_mano_de_obra_horas));
-
-
                     }
 
                 }, hour, minute, true);

@@ -44,11 +44,11 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
             item = inflater.inflate(view, null);
         }
 
-        LinearLayout llMaquina = (LinearLayout) item.findViewById(R.id.llMaquina);
-        TextView txtMarca = (TextView)item.findViewById(R.id.txtMarca);
-        TextView txtModelo = (TextView)item.findViewById(R.id.txtModelo);
-        TextView txtCombustion = (TextView)item.findViewById(R.id.txtCombustible);
-        TextView txtPotencia = (TextView)item.findViewById(R.id.txtPotencia);
+        LinearLayout llMaquina = item.findViewById(R.id.llMaquina);
+        TextView txtMarca =item.findViewById(R.id.txtMarca);
+        TextView txtModelo = item.findViewById(R.id.txtModelo);
+        TextView txtCombustion = item.findViewById(R.id.txtCombustible);
+        TextView txtPotencia = item.findViewById(R.id.txtPotencia);
         llMaquina.setOnClickListener(this);
         llMaquina.setTag(arrayList.get(position).getFk_maquina());
         String marca = null;
@@ -59,7 +59,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
             e.printStackTrace();
         }
         txtMarca.setText(marca);
-        txtModelo.setText(arrayList.get(position).getModelo());
+        txtModelo.setText(arrayList.get(position).getModelo()+""+arrayList.get(position).getUbicacion());
         txtPotencia.setText(potencia);
         txtCombustion.setText(arrayList.get(position).getCombustible_txt());
 

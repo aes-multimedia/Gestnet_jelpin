@@ -34,6 +34,7 @@ import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
@@ -43,6 +44,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -79,6 +81,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private AdaptadorPartes adaptadorPartes;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
     private String fecha;
+    private Usuario u;
+    private Cliente c;
     //METODO
     private void inicializarVariables() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -163,8 +167,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private void actualizarFecha(String fecha){
 
 
-
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +175,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         inicializarVariables();
         fecha = getDateTime();
         try {
+            u = UsuarioDAO.buscarUsuario(this);
+            c = ClienteDAO.buscarCliente(this);
             if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             }else{
@@ -226,14 +230,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     }
                     break;
                 case 3:
-                    try {
-                        Usuario u = UsuarioDAO.buscarUsuario(this);
-                        Cliente c = ClienteDAO.buscarCliente(this);
-
-                        new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    new HiloPartesId(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
                     break;
                 case 4:
                     try {
@@ -256,33 +253,39 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 GcmIntentService.cerrarNotificacion(notId);
             }
         }
-        JSONObject kil = new JSONObject();
         try {
-            kil = GestorSharedPreferences.getJsonKilometros(GestorSharedPreferences.getSharedPreferencesKilometros(this));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (kil==null||kil.toString().equals("{}")){
-            DialogoKilometros dialog = new DialogoKilometros ().newInstance(0);
-            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-            dialog.setCancelable(false);
-            dialog.show(ft, "DialogoKilometros");
-        }else{
-            try {
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                String strDate = sdf.format(c.getTime());
-                if (!kil.getString("fecha").equals(strDate)){
-                    DialogoKilometros dialog = new DialogoKilometros ().newInstance(0);
+            Configuracion co = ConfiguracionDAO.buscarTodasLasConfiguraciones(this).get(0);
+            if (ConfiguracionDAO.buscarTodasLasConfiguraciones(this)!=null&&ConfiguracionDAO.buscarTodasLasConfiguraciones(this).get(0).isKms_finalizacion()){
+                JSONObject kil = new JSONObject();
+                try {
+                    kil = GestorSharedPreferences.getJsonKilometros(GestorSharedPreferences.getSharedPreferencesKilometros(this));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (kil==null||kil.toString().equals("{}")){
+                    DialogoKilometros dialog = new DialogoKilometros ().newInstance(u.getId_usuario());
                     android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                     dialog.setCancelable(false);
                     dialog.show(ft, "DialogoKilometros");
+                }else{
+                    try {
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        String strDate = sdf.format(c.getTime());
+                        if (!kil.getString("fecha").equals(strDate)){
+                            DialogoKilometros dialog = new DialogoKilometros ().newInstance(0);
+                            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            dialog.setCancelable(false);
+                            dialog.show(ft, "DialogoKilometros");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
     }
     @Override
     public void onBackPressed() {
@@ -307,22 +310,14 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
         }else if (id == R.id.aviso_guardia) {
-            try {
-            Usuario u = UsuarioDAO.buscarUsuario(this);
-            Cliente c = ClienteDAO.buscarCliente(this);
             String ip = c.getIp_cliente();
             String fk_tecnico = u.getFk_entidad()+"";
             String url = "http://"+ip+"/webservices/webview/avisoGuardia.php?fk_tecnico="+fk_tecnico;
             Uri uri = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         } else if (id == R.id.cambiar_fecha) {
             try {
-                final Usuario u = UsuarioDAO.buscarUsuario(this);
-                final Cliente c = ClienteDAO.buscarCliente(this);
                 List<Parte> part = ParteDAO.buscarTodosLosPartes(this);
                 //if (part==null){
                 Calendar mcurrentDate = Calendar.getInstance();
@@ -416,13 +411,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             alert11.show();
 
         }   else if (id == R.id.actualizar_stock) {
-            int fkEntidad=0;
-            try {
-                fkEntidad= UsuarioDAO.buscarUsuario(this).getFk_entidad();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+             int fkEntidad= u.getFk_entidad();
             try{
             new HiloActualizarStock(this,fkEntidad).execute();
             } catch (Exception e){
@@ -437,6 +426,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 dialog.show();
             }
 
+        }else if (id == R.id.buscar_articulos) {
+
+
         }else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));
@@ -448,10 +440,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 e.printStackTrace();
             }
 
-        } /*else if (id == R.id.buscar_partes) {
-            Intent i = new Intent(this,BuscadorPartes.class);
-            startActivityForResult(i,100);
-        }*/
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -525,8 +514,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this),js);
             try {
                 BBDDConstantes.borrarDatosTablasPorDia(this);
-                Usuario u = UsuarioDAO.buscarUsuario(this);
-                Cliente c = ClienteDAO.buscarCliente(this);
                 srl.setRefreshing(true);
                 new HiloPartes(this, u.getFk_entidad(), c.getIp_cliente(), u.getApi_key()).execute();
             } catch (SQLException e) {
@@ -541,25 +528,4 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
 
     }
-
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
-            if(resultCode == Activity.RESULT_OK){
-                int id = data.getIntExtra("result",0);
-                try {
-                    Usuario u = UsuarioDAO.buscarUsuario(this);
-                    Cliente c = ClienteDAO.buscarCliente(this);
-                    new HiloPartesIdAsignar(this, u.getFk_entidad(), id, c.getIp_cliente(), u.getApi_key()).execute();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (resultCode == 2) {
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                Dialogo.dialogoError("Se ha producido un error al conectar con el servidor, porfavor intentelo mas tarde y compruebe su cobertura.",this);
-            }
-        }
-    }*/
 }
