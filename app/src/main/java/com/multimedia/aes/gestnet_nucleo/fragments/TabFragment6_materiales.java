@@ -96,15 +96,15 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         } else {
             if (hiloBusquedaArticulos != null) {
                 if (hiloBusquedaArticulos.getStatus() != AsyncTask.Status.RUNNING) {
-                    hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text);
+                    hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text,0);
                     hiloBusquedaArticulos.execute();
                 } else {
                     hiloBusquedaArticulos.cancel(true);
-                    hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text);
+                    hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text,0);
                     hiloBusquedaArticulos.execute();
                 }
             } else {
-                hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text);
+                hiloBusquedaArticulos = new HiloBusquedaArticulosPorNombre(getContext(), text,0);
                 hiloBusquedaArticulos.execute();
             }
 
@@ -207,6 +207,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             Articulo a = ArticuloDAO.newArticuloRet(context, id_articulo,nombre_articulo,stock,referencia,referencia_aux,"","","",0,iva,tarifa,descuento,coste,ean,0);
             Intent i = new Intent(activity, InfoArticulos.class);
             i.putExtra("articuloId", a.getId_articulo());
+            i.putExtra("sitio",0);
             tab.startActivityForResult(i, 1);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -313,21 +314,16 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 if (dataArticulos.isEmpty()) {
                     Intent i = new Intent(getActivity(), InfoArticulos.class);
                     try {
-
                         String r =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[0];
                         String n =  lvBusquedaMaterial.getItemAtPosition(position).toString().split(" <-> ")[1];
                         int idArticulo;
-
-
-
-
                         if(r!=null && !r.equals(""))
                             idArticulo=ArticuloDAO.buscarArticulosPorReferencia(getContext(), r).get(0).getId_articulo();
                         else
                             idArticulo=ArticuloDAO.buscarArticulosPorNombre(getContext(), n).get(0).getId_articulo();
 
                         i.putExtra("articuloId",idArticulo);
-
+                        i.putExtra("sitio",0);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

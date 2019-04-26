@@ -42,6 +42,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
@@ -427,8 +428,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }
 
         }else if (id == R.id.buscar_articulos) {
-
-
+            DialogoBuscarArticulo dialog = new DialogoBuscarArticulo();
+            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+            dialog.setCancelable(false);
+            dialog.show(ft, "DialogoBuscarArticulo");
         }else if (id == R.id.cerrar_sesion) {
             try {
                 stopService(new Intent(this, ServicioLocalizacion.class));

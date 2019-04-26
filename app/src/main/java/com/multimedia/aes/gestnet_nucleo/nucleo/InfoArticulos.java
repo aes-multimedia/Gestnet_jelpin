@@ -58,6 +58,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
     private AdaptadorListaStock adapter;
     private static int alto=0,alto1=0,height=0;
     private double unidades;
+    private LinearLayout llCantidad,llGarantia;
 
 
     private void inicializarVariables(){
@@ -67,14 +68,14 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         tvCantidad =  findViewById(R.id.tvCantidad);
         tvPrecio =  findViewById(R.id.tvPrecio);
         btnAñadirMaterial=findViewById(R.id.btnAñadirMaterial);
-        btnAñadirMaterial.setOnClickListener(this);
+        llCantidad=findViewById(R.id.llCantidad);
+        llGarantia=findViewById(R.id.llGarantia);
+        lvStockEntidad=  findViewById(R.id.lvStockEntidad);
 
+        btnAñadirMaterial.setOnClickListener(this);
         btnPedirMaterial=findViewById(R.id.btnPedirMaterial);
         btnPedirMaterial.setOnClickListener(this);
 
-
-
-        lvStockEntidad=  findViewById(R.id.lvStockEntidad);
 
         // Construct the data source
         dataStock = new ArrayList<>();
@@ -130,7 +131,12 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
         }
         inicializarVariables();
         darValores();
-
+        if (getIntent().getIntExtra("sitio",-1)==1){
+            llCantidad.setVisibility(View.GONE);
+            llGarantia.setVisibility(View.GONE);
+            btnAñadirMaterial.setVisibility(View.GONE);
+            btnPedirMaterial.setVisibility(View.GONE);
+        }
 
         final Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

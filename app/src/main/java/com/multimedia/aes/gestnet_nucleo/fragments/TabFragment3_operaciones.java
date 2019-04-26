@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,9 +59,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         llPadre = vista.findViewById(R.id.llPadre);
     }
     private void darValores() throws java.sql.SQLException {
-
-
-        //SPINNER FORMAS PAGO
+        //SPINNER PROTOCOLO
         if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(), parte.getId_parte()) != null) {
             try {
                 protocoloAccionArrayList.addAll(ProtocoloAccionDAO.buscarPrueba(getContext(), parte.getId_parte()));
@@ -68,46 +67,30 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                 e.printStackTrace();
             }
             int indice = 0;
-
             ArrayList<ProtocoloAccion> ordenadosNombre;
             ordenadosNombre = ordenarArrayAccionProtocolosV2(protocoloAccionArrayList);
-
             ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "--Selecione un valor--", -1, false, "", -1));
-
-
             ProtocoloAccion[] arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
-
             for (int i = 0; i < arrayProtocolos.length; i++) {
                 arrayProtocolos[i] = ordenadosNombre.get(i);
             }
-
             spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
-
         } else {
-
             ArrayList<ProtocoloAccion> ordenadosNombre = new ArrayList<>();
             ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "Sin Protocolos", -1, false, "", -1));
             ProtocoloAccion[] arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
             for (int i = 0; i < arrayProtocolos.length; i++) {
                 arrayProtocolos[i] = ordenadosNombre.get(i);
             }
-
             spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
-
-
         }
     }
     private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
         ArrayList<ProtocoloAccion> arrayList = new ArrayList<>();
-
         for (ProtocoloAccion p : protocoloAccionArrayList) {
-
             if (!arrayListContieneProtocolo(arrayList, p))
                 arrayList.add(p);
-
         }
-
-
         return arrayList;
     }
     private boolean arrayListContieneProtocolo(ArrayList<ProtocoloAccion> arrayList, ProtocoloAccion p) {
@@ -133,8 +116,14 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                         LinearLayout linearLayout = new LinearLayout(getContext());
                         linearLayout.setOrientation(LinearLayout.VERTICAL);
                         linearLayout.setTag(protocolos.get(i).getId_accion());
-                        linearLayout.setPadding(5, 5, 5, 5);
+                        //linearLayout.setPadding(5, 5, 5, 5);
                         if (protocolos.get(i).isTipo_accion()) {
+                            LinearLayout linearLayout1 = new LinearLayout(getContext());
+                            linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                            ImageButton imageButton = new ImageButton(getContext());
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(70, 70);
+                            imageButton.setLayoutParams(lp);
+                            imageButton.setBackgroundResource(R.drawable.ic_menu_camera);
                             CheckBox checkBox = new CheckBox(getContext());
                             checkBox.setHintTextColor(Color.parseColor("#ff9002"));
                             checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
@@ -144,8 +133,18 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             } else {
                                 checkBox.setChecked(false);
                             }
-                            linearLayout.addView(checkBox);
+                            linearLayout1.addView(imageButton);
+                            linearLayout1.addView(checkBox);
+                            linearLayout.addView(linearLayout1);
                         } else {
+                            LinearLayout linearLayout1 = new LinearLayout(getContext());
+                            LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                            linearLayout1.setLayoutParams(l);
+                            linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                            ImageButton imageButton = new ImageButton(getContext());
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(70, 70);
+                            imageButton.setLayoutParams(lp);
+                            imageButton.setBackgroundResource(R.drawable.ic_menu_camera);
                             TextView textView = new TextView(getContext());
                             textView.setTextSize(18);
                             textView.setTextColor(Color.BLACK);
@@ -154,8 +153,12 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                             EditText editText = new EditText(getContext());
                             editText.setBackgroundResource(R.drawable.edit_texts_naranja);
                             editText.setPadding(5, 5, 5, 5);
+                            LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            editText.setLayoutParams(lp2);
                             editText.setText(protocolos.get(i).getValor());
-                            linearLayout.addView(editText);
+                            linearLayout1.addView(imageButton);
+                            linearLayout1.addView(editText);
+                            linearLayout.addView(linearLayout1);
                         }
                         llPadre.addView(linearLayout);
                     }

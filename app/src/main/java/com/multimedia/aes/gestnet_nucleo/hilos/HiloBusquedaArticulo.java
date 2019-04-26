@@ -8,6 +8,7 @@ import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
@@ -35,7 +36,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     private int id;
     private Context context;
     private ProgressDialog dialog;
-    private TabFragment6_materiales tab;
+    private TabFragment6_materiales tab = null;
     private Cliente cliente;
     private Usuario tecnico;
 
@@ -43,6 +44,16 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         this.context = context;
         this.id = id;
         this.tab = tab;
+        try {
+            cliente = ClienteDAO.buscarCliente(context);
+            tecnico = UsuarioDAO.buscarUsuario(context);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public HiloBusquedaArticulo(Context context, int id) {
+        this.context = context;
+        this.id = id;
         try {
             cliente = ClienteDAO.buscarCliente(context);
             tecnico = UsuarioDAO.buscarUsuario(context);
@@ -66,7 +77,12 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}') != -1) {
-            guardarArticulo(mensaje,context,tab);
+            if (tab!=null){
+                guardarArticulo(mensaje,context,tab);
+            }else{
+                DialogoBuscarArticulo.guardarArticuloDialogo(mensaje,context);
+            }
+
         } else {
             Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
         }

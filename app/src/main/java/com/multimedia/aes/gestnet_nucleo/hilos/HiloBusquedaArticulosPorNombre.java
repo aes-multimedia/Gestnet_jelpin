@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales;
 
@@ -31,9 +32,11 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
     private Context context;
     private ProgressDialog dialog;
     private Cliente cliente;
+    private int sitio;
 
-    public HiloBusquedaArticulosPorNombre(Context context, String cadena){
+    public HiloBusquedaArticulosPorNombre(Context context, String cadena,int sitio){
         this.context = context;
+        this.sitio = sitio;
         this.cadena = cadena;
         try {
             cliente= ClienteDAO.buscarCliente(context);
@@ -57,7 +60,12 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}') != -1) {
-            TabFragment6_materiales.sacarArticulos(mensaje,context);
+            if (sitio == 0) {
+                TabFragment6_materiales.sacarArticulos(mensaje,context);
+            }else{
+                DialogoBuscarArticulo.sacarArticulos(mensaje,context);
+            }
+
         } else {
             Dialogo.dialogoError("No hay coincidencias",context);
         }

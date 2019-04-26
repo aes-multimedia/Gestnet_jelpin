@@ -97,31 +97,33 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llCantidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
-        <TextView
-            android:id="@+id/tv8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cantidad"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cantidad"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/tvCantidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/edit_texts_naranja"
-            android:inputType="numberDecimal"
-            android:padding="5dp" />
+            <EditText
+                android:id="@+id/tvCantidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/edit_texts_naranja"
+                android:inputType="numberDecimal"
+                android:padding="5dp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llGarantia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

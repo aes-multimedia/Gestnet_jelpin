@@ -6,76 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Kilometros"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etKilometros"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/borde_edit_text"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Litros de combustible"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etKilometros" />
-
-    <EditText
-        android:id="@+id/etLitros"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/borde_edit_text"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <Button
         android:id="@+id/btnAceptar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
-        android:background="@drawable/botones"
+        android:background="@drawable/botones_3"
         android:text="Aceptar"
-        app:layout_constraintTop_toBottomOf="@+id/etLitros"
-        tools:layout_editor_absoluteX="26dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
-    <Button
-        android:id="@+id/btnCancelar"
-        android:layout_width="match_parent"
+    <SearchView
+        android:id="@+id/svBuscarArticulo"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_weight="1"
-        android:background="@drawable/botones"
-        android:text="Saltar Este Paso"
-        app:layout_constraintTop_toBottomOf="@+id/btnAceptar"
-        tools:layout_editor_absoluteX="26dp" />
+        android:background="@drawable/botones_2"
+        android:closeIcon="@drawable/ic_close_black"
+        android:searchIcon="@drawable/ic_search_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lvArticulo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnAceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svBuscarArticulo" />
 
 </android.support.constraint.ConstraintLayout>
