@@ -3,17 +3,8 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
-
-import org.json.JSONException;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-import static com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2.resizeImage;
 
 public class Presupuesto {
 

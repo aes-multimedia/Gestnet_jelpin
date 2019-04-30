@@ -94,18 +94,17 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
         btnFoto.setOnClickListener(this);
         darValores();
     }
-    private void darValores()  {
-
+    private static void darValores()  {
         arraylistImagenes.clear();
         try {
-            listaImagenes=ImagenDAO.buscarImagenPorFk_parte(this,parte.getId_parte());
+            listaImagenes=ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
             if(listaImagenes.size()>0) {
                 for (Imagen img : listaImagenes) {
                     File image = new File(img.getRuta_imagen());
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                     Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
                     bitmap = resizeImage(bitmap);
-                    arraylistImagenes.add(new DataImagenes(img.getRuta_imagen(), img.getNombre_imagen(), bitmap, parte.getId_parte()));
+                    arraylistImagenes.add(new DataImagenes(img.getId_imagen(),img.getRuta_imagen(), img.getNombre_imagen(), bitmap, parte.getId_parte(),img.isGaleria(),img.isEnviado()));
                 }
                 adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
                 lvImagenes.setAdapter(adaptadorListaImagenes);
@@ -114,8 +113,6 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
             e.printStackTrace();
         }catch (NullPointerException e){
             e.printStackTrace();
-
-
         }
 
     }
@@ -166,16 +163,13 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
     }
 
     public static void result(String path){
-
         File image = new File(path);
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
         bitmap = resizeImage(bitmap);
         String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
-        ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte());
-        arraylistImagenes.add(new DataImagenes(path,nombre,bitmap,parte.getId_parte()));
-        adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
-        lvImagenes.setAdapter(adaptadorListaImagenes);
+        ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false);
+        darValores();
 
     }
 

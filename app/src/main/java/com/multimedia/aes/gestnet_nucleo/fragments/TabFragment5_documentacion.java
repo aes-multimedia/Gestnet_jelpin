@@ -33,6 +33,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
+import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -50,6 +51,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TabFragment5_documentacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -67,6 +69,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
     public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
     public static int alto=0, height;
     private static Context context;
+    public static List<Imagen> listaImagenes = new ArrayList<>();
     //METODO
     private void inicializar(){
         //TEXTVIEW
@@ -153,12 +156,28 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
         bitmap = resizeImage(bitmap);
         String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
-        ImagenDAO.newImagen(context, nombre, path, parte.getId_parte());
-        arraylistImagenes.add(new DataImagenes(path,nombre,bitmap,parte.getId_parte()));
-        alto+=height;
-        lvImagenes.setLayoutParams(new LinearLayout.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, alto));
-        adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
-        lvImagenes.setAdapter(adaptadorListaImagenes);
+        ImagenDAO.newImagen(context, nombre, path, parte.getId_parte(),-1,false,false);
+        llenarLista();
+    }
+    public static void llenarLista(){
+        arraylistImagenes.clear();
+        try {
+            listaImagenes= ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
+            if(listaImagenes.size()>0) {
+                for (Imagen img : listaImagenes) {
+                    arraylistImagenes.add(new DataImagenes(img.getId_imagen(),img.getRuta_imagen(), img.getNombre_imagen(), decodeSampledBitmapFromResource(img.getRuta_imagen(),100,100), parte.getId_parte(),true,false));
+                    alto+=height;
+                }
+                adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+                lvImagenes.setAdapter(adaptadorListaImagenes);
+            }
+        } catch (OutOfMemoryError memoryError){
+            memoryError.printStackTrace();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static void borrarArrayImagenes(int position, Context context){
         arraylistImagenes.remove(position);
@@ -276,5 +295,36 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
             }
         }
     }
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
 
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) >= reqHeight
+                    && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+    public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(path, options);
+    }
 }

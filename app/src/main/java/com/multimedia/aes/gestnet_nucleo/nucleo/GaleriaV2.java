@@ -47,8 +47,6 @@ import id.zelory.compressor.Compressor;
 
 public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener, IPickResult{
 
-
-
     private static ListView lvImagenes;
     private static Parte parte = null;
     public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
@@ -74,108 +72,74 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         inicializar();
     }
     private void inicializar(){
-
         ImageButton btnAñadirImagen;
         btnAñadirImagen = findViewById(R.id.btnAñadirImagenGaleria);
         lvImagenes = findViewById(R.id.lvImagenes);
         btnAñadirImagen.setOnClickListener(this);
         darValores();
     }
-
-
-
-
-    private void darValores()  {
-
+    private static void darValores()  {
         arraylistImagenes.clear();
         try {
-            listaImagenes= ImagenDAO.buscarImagenPorFk_parte(this,parte.getId_parte());
+            listaImagenes= ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
             if(listaImagenes.size()>0) {
                 for (Imagen img : listaImagenes) {
-
-                    arraylistImagenes.add(new DataImagenes(img.getRuta_imagen(), img.getNombre_imagen(), decodeSampledBitmapFromResource(img.getRuta_imagen(),100,100), parte.getId_parte()));
-
+                    arraylistImagenes.add(new DataImagenes(img.getId_imagen(),img.getRuta_imagen(), img.getNombre_imagen(), decodeSampledBitmapFromResource(img.getRuta_imagen(),100,100), parte.getId_parte(),true,false));
                 }
                 adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
                 lvImagenes.setAdapter(adaptadorListaImagenes);
             }
         } catch (OutOfMemoryError memoryError){
             memoryError.printStackTrace();
-
-
         }catch (NullPointerException e){
             e.printStackTrace();
-
-
         }catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public static Bitmap resizeImage(Bitmap bitmap) throws OutOfMemoryError{
-
         Bitmap BitmapOrg = bitmap;
-
         int width = BitmapOrg.getWidth();
         int height = BitmapOrg.getHeight();
-
         if(width>1000&&height>1000) {
             int newWidth = (width * 50) / 100;
             int newHeight = (height * 50) / 100;
-
             float scaleWidth = ((float) newWidth) / width;
             float scaleHeight = ((float) newHeight) / height;
-
             Matrix matrix = new Matrix();
-
             matrix.postScale(scaleWidth, scaleHeight);
-
             Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
                     width, height, matrix, true);
-
             return resizedBitmap;
         }else if (width>1500&&height>1500) {
             int newWidth = (width * 50) / 100;
             int newHeight = (height * 50) / 100;
-
             float scaleWidth = ((float) newWidth) / width;
             float scaleHeight = ((float) newHeight) / height;
-
             Matrix matrix = new Matrix();
-
             matrix.postScale(scaleWidth, scaleHeight);
-
             Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
                     width, height, matrix, true);
-
             return resizedBitmap;
         }else if (width>2000&&height>2000) {
             int newWidth = (width * 50) / 100;
             int newHeight = (height * 50) / 100;
-
             float scaleWidth = ((float) newWidth) / width;
             float scaleHeight = ((float) newHeight) / height;
-
             Matrix matrix = new Matrix();
-
             matrix.postScale(scaleWidth, scaleHeight);
-
             Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
                     width, height, matrix, true);
-
             return resizedBitmap;
         }else{
             return bitmap;
         }
     }
     public static void borrarArrayImagenes(int position, Context context){
-
-
         new AlertDialog.Builder(thisContext)
                 .setTitle("Atención")
                 .setMessage("¿Estas seguro de que deseas borrar la imagen?")
@@ -191,56 +155,36 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                     dialog.dismiss();
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
-
     }
     public static void result(String path){
-
-
         try {
-
             String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
-
-            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte());
-            arraylistImagenes.add(new DataImagenes(path,nombre,decodeSampledBitmapFromResource(path,100,100),parte.getId_parte()));
-            adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
-            lvImagenes.setAdapter(adaptadorListaImagenes);
-
-
-
+            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false);
+            darValores();
         } catch (OutOfMemoryError memoryError){
             memoryError.printStackTrace();
-
             //Dialogo.dialogoError("No hay espacio suficiente en su telefono movil, es probable que las imagenes no puedan ser cargadas debido a esta falta de memoria, porfavor libere espacio",getAppContext());
         }
-
-
     }
-
     public static Context getAppContext() {
         return GaleriaV2.context;
     }
 
     @Override
     public void onClick(View v) {
-
         PickImageDialog.build(new PickSetup()
                 .setTitle("Selecciona una opción")
                 .setCameraButtonText("Camara")
                 .setGalleryButtonText("Galeria")
                 .setCancelText("CANCELAR")
                 .setCancelTextColor(Color.RED)).show(this);
-
     }
 
     @Override
     public void onPickResult(PickResult pickResult) {
         result(pickResult.getPath());
     }
-
-
-
-    public static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -261,18 +205,13 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
 
         return inSampleSize;
     }
-
-
     public static Bitmap decodeSampledBitmapFromResource(String path, int reqWidth, int reqHeight) {
-
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);
-
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeFile(path, options);

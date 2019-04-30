@@ -414,30 +414,20 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
     private JSONArray rellenarJsonImagenes(Parte parte) throws  IOException, SQLException {
         List<Imagen> arraylistImagenes = new ArrayList<>();
-        JSONObject js = new JSONObject();
         JSONArray jsa = new JSONArray();
-
         if(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte)!=null) {
             arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context, fk_parte));
-
             for (int i = 0; i < arraylistImagenes.size(); i++) {
                 JSONObject jso = new JSONObject();
                 File f = new File(arraylistImagenes.get(i).getRuta_imagen());
                 Bitmap b;
-
-
-
                 b =ShrinkBitmap(f.getAbsolutePath(),300,300);
-
-
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 b.compress(Bitmap.CompressFormat.JPEG, 10, baos);
                 b.getByteCount();
 
                 byte[] imageBytes = baos.toByteArray();
-
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
                 try {
                     jso.put("fk_parte", arraylistImagenes.get(i).getFk_parte());
                     jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
@@ -449,22 +439,16 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 }
             }
         }
-
-
-
         return jsa;
     }
 
 
     private Bitmap ShrinkBitmap(String file, int width, int height){
-
         BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
         bmpFactoryOptions.inJustDecodeBounds = true;
         Bitmap bitmap;
-
         int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
         int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
-
         if (heightRatio > 1 || widthRatio > 1)
         {
             if (heightRatio > widthRatio)
@@ -474,13 +458,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 bmpFactoryOptions.inSampleSize = widthRatio;
             }
         }
-
         bmpFactoryOptions.inJustDecodeBounds = false;
         bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
         return bitmap;
     }
 

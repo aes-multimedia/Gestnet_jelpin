@@ -26,6 +26,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
+        <activity android:name=".nucleo.FotosProtocoloAccion"></activity>
         <activity
             android:name=".nucleo.PreLogin"
             android:screenOrientation="portrait">
@@ -127,8 +128,9 @@
             android:label="@string/title_activity_fotos_intervenciones"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-        <activity android:name=".nucleo.BuscadorPartes"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".nucleo.BuscadorPartes"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

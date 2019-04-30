@@ -1,10 +1,12 @@
 package com.multimedia.aes.gestnet_nucleo.dao;
 
 import android.content.Context;
+import android.media.Image;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCerrarParte;
@@ -22,8 +24,8 @@ public class ImagenDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte) {
-		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte);
+	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado) {
+		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado);
 		return crearImagen(i,context);
 	}
 	public static boolean crearImagen(Imagen i, Context context) {
@@ -36,8 +38,8 @@ public class ImagenDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Imagen montarImagen(String nombre_imagen, String ruta_imagen, int fk_parte) {
-		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte);
+	public static Imagen montarImagen(String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado) {
+		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado);
 		return i;
 	}
 
@@ -101,6 +103,24 @@ public class ImagenDAO extends DBHelperMOS {
 			return listadoImagenes;
 		}
 	}
+	public static List<Imagen> buscarImagenPorFkProtocoloAccion(Context context, int protocolo) throws SQLException {
+		cargarDao(context);
+		List<Imagen> listadoImagenes= dao.queryForEq(Imagen.FK_ACCION_PROTOCOLO, protocolo);
+		if(listadoImagenes.isEmpty()){
+			return  null;
+		}else{
+			return listadoImagenes;
+		}
+	}
+	public static List<Imagen> buscarImagenPorFkProtocoloAccionNoEnviados(Context context, int protocolo) throws SQLException {
+		cargarDao(context);
+		List<Imagen> listadoImagenes= dao.queryBuilder().where().eq(Imagen.FK_ACCION_PROTOCOLO, protocolo).and().eq(Imagen.ENVIADO,false).query();
+		if(listadoImagenes.isEmpty()){
+			return  null;
+		}else{
+			return listadoImagenes;
+		}
+	}
 
 	public static synchronized List<Imagen> buscarImagenPresupuestoPorFk_parte(Context context, int fk_parte) throws SQLException {
 		cargarDao(context);
@@ -112,10 +132,6 @@ public class ImagenDAO extends DBHelperMOS {
 		}
 	}
 
-
-
-
-
 	public static int buscarUltimoIdImagen(Context context) throws SQLException {
 		cargarDao(context);
 		List<Imagen> listadoImagenes= dao.queryForAll();
@@ -126,5 +142,15 @@ public class ImagenDAO extends DBHelperMOS {
 			listadoImagenes.get(size-1);
 			return listadoImagenes.get(0).getId_imagen();
 		}
+	}
+
+	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
+	public static void actualizarEnviado(Context context,int id,boolean enviado) throws java.sql.SQLException {
+		cargarDao(context);
+		UpdateBuilder<Imagen, Integer> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(Imagen.ID_IMAGEN,id);
+		updateBuilder.updateColumnValue(Imagen.ENVIADO,enviado);
+		updateBuilder.update();
+
 	}
 }

@@ -30,6 +30,7 @@ import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferenc
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
@@ -37,6 +38,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
 
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
@@ -77,6 +79,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private ImageButton ibLocation,ibIr;
     private ImageView ivLlamar1,ivLlamar2,ivLlamar3,ivLlamar4;
     private String horaInicio;
+    private Configuracion configuracion;
 
 
 
@@ -346,7 +349,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtTipoIntervencion.setText(String.valueOf(parte.getTipo()));
         txtEstadoParte.setText(String.valueOf(parte.getEstado_parte()));
         txtNumOrden.setText(String.valueOf(parte.getNum_orden_endesa()));
-        if (parte.getFk_instalacion()!=-1){
+        if (parte.getFk_instalacion()!=-1&&configuracion.isPresupuestar()){
             txtVerPresupuesto.setVisibility(View.VISIBLE);
             txtVerPresupuesto.setText("VER PRESUPUESTO ("+parte.getFk_instalacion()+")");
         }else{
@@ -418,7 +421,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             usuario = UsuarioDAO.buscarUsuarioPorFkEntidad(getContext(),parte.getFk_tecnico());
             maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(),parte.getFk_maquina());
             datos =DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),parte.getId_parte());
-
+            configuracion = ConfiguracionDAO.buscarTodasLasConfiguraciones(getContext()).get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
