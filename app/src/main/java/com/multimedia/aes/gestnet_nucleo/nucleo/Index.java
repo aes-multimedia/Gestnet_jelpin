@@ -323,7 +323,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 //if (part==null){
                 Calendar mcurrentDate = Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
-                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -359,8 +359,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 }, mYear, mMonth, mDay);
                 mDatePicker.setTitle("Select Date");
                 mDatePicker.show();
-
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }

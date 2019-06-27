@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivImagen"
+        android:scaleType="centerCrop"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_margin="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/background_linear_parent_index" />
+
+    <ImageView
+        android:id="@+id/ivEnviar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_done_red"
+        app:layout_constraintStart_toStartOf="@+id/ivImagen"
+        app:layout_constraintTop_toTopOf="@+id/ivImagen" />
+
+    <ImageView
+        android:id="@+id/ivBorrar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_delete"
+        app:layout_constraintEnd_toEndOf="@+id/ivImagen"
+        app:layout_constraintTop_toTopOf="@+id/ivImagen" />
+</android.support.constraint.ConstraintLayout>

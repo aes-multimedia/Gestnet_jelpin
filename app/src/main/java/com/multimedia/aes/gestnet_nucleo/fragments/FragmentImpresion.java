@@ -229,6 +229,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
 
         String impreso = "";
         String impreso2 = "";
+        String impreso3 = "";
         try {
 
 
@@ -237,6 +238,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             impreso+= ticket.pie();
             impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
             impreso2+= ticket.conformeTecnico(getContext());
+            impreso3+= ticket.proteccionDatos(getContext());
 
 
         } catch (SQLException e) {
@@ -244,6 +246,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         }
         txtImpreso.setText(impreso);
         txtImpreso2.setText(impreso2);
+        txtImpreso3.setText(impreso3);
         findBT();
         return vista;
     }
@@ -327,17 +330,20 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         btnOtra.setVisibility(View.GONE);
         String impreso = "";
         String impreso2 = "";
+        String impreso3 = "";
         try {
             impreso+= ticket.encabezado();
             impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
             impreso+= ticket.pie();
             impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
             impreso2+= ticket.conformeTecnico(getContext());
+            impreso3+= ticket.proteccionDatos(getContext());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         txtImpreso.setText(impreso);
         txtImpreso2.setText(impreso2);
+        txtImpreso3.setText(impreso3);
         try {
             ivLogo.setImageBitmap(generarImagen());
         } catch (IOException e) {

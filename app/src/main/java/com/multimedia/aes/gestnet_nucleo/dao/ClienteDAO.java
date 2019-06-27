@@ -21,8 +21,8 @@ public class ClienteDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newCliente(Context context,int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente, String dir_documentos) {
-		Cliente c = montarCliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente,dir_documentos);
+	public static boolean newCliente(Context context,int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente, String dir_documentos, String proteccion_datos) {
+		Cliente c = montarCliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente,dir_documentos,proteccion_datos);
 		return crearCliente(c,context);
 	}
 	public static boolean crearCliente(Cliente c,Context context) {
@@ -37,8 +37,8 @@ public class ClienteDAO extends DBHelperMOS {
 	}
 
 
-	public static Cliente montarCliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos) {
-		Cliente c =new Cliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente, dir_documentos);
+	public static Cliente montarCliente(int id_cliente, String nombre_cliente, String color_cliente, String logo_cliente, String ip_cliente, String cod_cliente,String dir_documentos,String proteccion_datos) {
+		Cliente c =new Cliente(id_cliente, nombre_cliente, color_cliente, logo_cliente, ip_cliente, cod_cliente, dir_documentos,proteccion_datos);
 		return c;
 	}
 

@@ -40,15 +40,17 @@ public class HiloBorrarImagenesAcciones extends AsyncTask<Void,Void,Void> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje,nombre;
-    private int fk_accion,id_imagen;
+    private int fk_accion,id_imagen,fk_parte,fk_maquina;
     private Cliente cliente;
 
 
-    public HiloBorrarImagenesAcciones(Context context, int fk_accion,String nombre,int id_imagen) {
+    public HiloBorrarImagenesAcciones(Context context, int fk_accion,String nombre,int id_imagen,int fk_parte,int fk_maquina) {
         this.context=context;
         this.fk_accion=fk_accion;
         this.nombre=nombre;
         this.id_imagen=id_imagen;
+        this.fk_parte=fk_parte;
+        this.fk_maquina=fk_maquina;
         try {
             cliente= ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
@@ -103,7 +105,9 @@ public class HiloBorrarImagenesAcciones extends AsyncTask<Void,Void,Void> {
     private String iniciar() throws JSONException, IOException, SQLException {
         JSONObject msg = new JSONObject();
         msg.put("nombre", nombre);
-        msg.put("fk_accion_parte", fk_accion);
+        msg.put("fk_accion_protocolo", fk_accion);
+        msg.put("fk_parte", fk_parte);
+        msg.put("fk_maquina", fk_maquina);
         URL urlws = null;
         HttpURLConnection uc = null;
         try {

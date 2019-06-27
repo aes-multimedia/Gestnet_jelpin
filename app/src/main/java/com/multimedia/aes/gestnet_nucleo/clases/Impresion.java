@@ -311,7 +311,7 @@ public class Impresion {
         String result="";
         Calendar mcurrentDate = Calendar.getInstance();
         int mYear = mcurrentDate.get(Calendar.YEAR);
-        int mMonth = mcurrentDate.get(Calendar.MONTH);
+        int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
         int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
         final int mHour = mcurrentDate.get(Calendar.HOUR_OF_DAY);
         final int mMin = mcurrentDate.get(Calendar.MINUTE);

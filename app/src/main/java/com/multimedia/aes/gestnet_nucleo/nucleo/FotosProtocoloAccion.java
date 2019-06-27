@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaImagenes;
+import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorListaImagenesAccion;
 import com.multimedia.aes.gestnet_nucleo.clases.DataImagenes;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
@@ -38,16 +41,19 @@ import java.util.List;
 
 public class FotosProtocoloAccion extends AppCompatActivity implements View.OnClickListener, IPickResult {
 
-    private static ListView lvImagenes;
-    private ImageView ivAtras, btnAñadirImagenGaleria;
+    private static RecyclerView lvImagenes;
+    private static GridLayoutManager layoutManager;
+
+    private ImageView ivAtras;
+    private ImageView btnAñadirImagenGaleria;
+    private static ImageView btnEnviar;
     private TextView txtProtocolo, txtAccion;
     public static ArrayList<DataImagenes> arraylistImagenes = new ArrayList<>();
-    private static AdaptadorListaImagenes adaptadorListaImagenes;
+    private static AdaptadorListaImagenesAccion adaptadorListaImagenes;
     public static List<Imagen> listaImagenes = new ArrayList<>();
     private int id;
     private static ProtocoloAccion protocoloAccion;
     private static Context context;
-    private static Button btnEnviar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +107,16 @@ public class FotosProtocoloAccion extends AppCompatActivity implements View.OnCl
                     }
                 }
             }
-            adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
+            if (listaImagenes.size()==1){
+                layoutManager = new GridLayoutManager(context, 1);
+            }else{
+                layoutManager = new GridLayoutManager(context, 2);
+            }
+
+            lvImagenes.setHasFixedSize(true);
+
+            lvImagenes.setLayoutManager(layoutManager);
+            adaptadorListaImagenes = new AdaptadorListaImagenesAccion(arraylistImagenes,context);
             lvImagenes.setAdapter(adaptadorListaImagenes);
         } catch (OutOfMemoryError memoryError) {
             memoryError.printStackTrace();
@@ -142,13 +157,11 @@ public class FotosProtocoloAccion extends AppCompatActivity implements View.OnCl
                 .setMessage("¿Estas seguro de que deseas borrar la imagen, tambien se borrara de gestnet?")
                 .setPositiveButton("Aceptar", (dialog, which) -> {
                     if (arraylistImagenes.get(position).enviado) {
-                        new HiloBorrarImagenesAcciones(context, protocoloAccion.getId_protocolo_accion(), arraylistImagenes.get(position).nombre, arraylistImagenes.get(position).id).execute();
+                        new HiloBorrarImagenesAcciones(context, protocoloAccion.getId_protocolo_accion(), arraylistImagenes.get(position).nombre, arraylistImagenes.get(position).id,protocoloAccion.getFk_parte(),protocoloAccion.getFk_maquina()).execute();
                     } else {
                         try {
                             ImagenDAO.borrarImagenPorRuta(context, arraylistImagenes.get(position).ruta);
-                            arraylistImagenes.remove(position);
-                            adaptadorListaImagenes = new AdaptadorListaImagenes(context, R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
-                            lvImagenes.setAdapter(adaptadorListaImagenes);
+                            llenarLista();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -186,7 +199,7 @@ public class FotosProtocoloAccion extends AppCompatActivity implements View.OnCl
                     .setCancelText("CANCELAR")
                     .setCancelTextColor(Color.RED)).show(this);
         } else if (v.getId() == R.id.btnEnviar) {
-            new HiloImagenesAcciones(this,protocoloAccion.getId_protocolo_accion()).execute();
+            new HiloImagenesAcciones(this,protocoloAccion.getId_protocolo_accion(),protocoloAccion.getFk_parte(),protocoloAccion.getFk_maquina()).execute();
         }
     }
 

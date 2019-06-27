@@ -35,7 +35,6 @@ public class DialogoKilometros extends DialogFragment implements View.OnClickLis
 
     public static DialogoKilometros newInstance(int id) {
         DialogoKilometros fragment = new DialogoKilometros();
-
         Bundle bundle = new Bundle();
         bundle.putInt("id", id);
         fragment.setArguments(bundle);

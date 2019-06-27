@@ -75,7 +75,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             int indice = 0;
             ArrayList<ProtocoloAccion> ordenadosNombre;
             ordenadosNombre = ordenarArrayAccionProtocolosV2(protocoloAccionArrayList);
-            ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "--Selecione un valor--", -1, false, "", -1));
+            ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "--Seleccione un protocolo--", -1, false, "", -1));
             ProtocoloAccion[] arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
             for (int i = 0; i < arrayProtocolos.length; i++) {
                 arrayProtocolos[i] = ordenadosNombre.get(i);
@@ -123,11 +123,12 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         }
             for (int i = 0; i < protocolos.size(); i++) {
                 LinearLayout linearLayout = new LinearLayout(getContext());
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
                 linearLayout.setTag(protocolos.get(i).getId_accion());
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
                 linearLayout.setPadding(5, 5, 5, 5);
                 if (protocolos.get(i).isTipo_accion()) {
                     LinearLayout linearLayout1 = new LinearLayout(getContext());
+                    linearLayout1.setTag(protocolos.get(i).getId_accion());
                     linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(70, 70);
                     if (configuracion.isParte_galeria()){
@@ -157,6 +158,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
                     linearLayout.addView(linearLayout1);
                 } else {
                     LinearLayout linearLayout1 = new LinearLayout(getContext());
+                    linearLayout1.setTag(protocolos.get(i).getId_accion());
                     LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     linearLayout1.setLayoutParams(l);
                     linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
@@ -204,6 +206,11 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             for (int i = 0; i < childCount; i++) {
                 View v = llPadre.getChildAt(i);
                 LinearLayout ll = (LinearLayout) v;
+                if (ll.getChildAt(0) instanceof TextView) {
+                    ll = (LinearLayout) ll.getChildAt(1);
+                }else{
+                    ll = (LinearLayout) ll.getChildAt(0);
+                }
                 final int childCount1 = (ll.getChildCount());
                 for (int j = 0; j < childCount1; j++) {
                     View view1 = ll.getChildAt(j);
@@ -232,10 +239,16 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             }
         } else {
             final int childCount = llPadre.getChildCount();
-
             for (int i = 0; i < childCount; i++) {
                 View v = llPadre.getChildAt(i);
                 LinearLayout ll = (LinearLayout) v;
+                if (configuracion.isParte_galeria()){
+                    if (ll.getChildAt(0) instanceof TextView) {
+                        ll = (LinearLayout) ll.getChildAt(1);
+                    }else{
+                        ll = (LinearLayout) ll.getChildAt(0);
+                    }
+                }
                 final int childCount1 = (ll.getChildCount());
                 for (int j = 0; j < childCount1; j++) {
                     View view1 = ll.getChildAt(j);
@@ -301,7 +314,6 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (llPadre.getChildCount() != 0) {
-
             try {
                 guardarProtocolo();
             } catch (SQLException e) {

@@ -119,6 +119,15 @@ public class ConfiguracionDAO extends DBHelperMOS {
 			return listadoConfiguraciones;
 		}
 	}
+	public static Configuracion buscarConfiguracion(Context context) throws SQLException {
+		cargarDao(context);
+		List<Configuracion> listadoConfiguraciones= dao.queryForAll();
+		if(listadoConfiguraciones.isEmpty()) {
+			return null;
+		}else{
+			return listadoConfiguraciones.get(0);
+		}
+	}
 	public static Configuracion buscarConfiguracionPorId(Context context, int id) throws SQLException {
 		cargarDao(context);
 		List<Configuracion> listadoConfiguraciones= dao.queryForEq(Configuracion.ID_CONFIGURACION, id);

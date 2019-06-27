@@ -135,7 +135,7 @@ public class ProtocoloAccionDAO extends DBHelperMOS {
 	public static ArrayList<ProtocoloAccion> buscarProtocoloAccionPorFkParte(Context context, int id) throws android.database.SQLException, java.sql.SQLException {
 		cargarDao(context);
 		ArrayList<ProtocoloAccion> listadoProtocoloAccion = null;
-		listadoProtocoloAccion = (ArrayList<ProtocoloAccion>) dao.queryForEq(ProtocoloAccion.FK_PARTE, id);
+		listadoProtocoloAccion = (ArrayList<ProtocoloAccion>) dao.queryBuilder().orderBy(ProtocoloAccion.ORDEN,true).where().eq(ProtocoloAccion.FK_PARTE, id).query();
 		if (listadoProtocoloAccion.isEmpty()) {
 			return null;
 		} else {

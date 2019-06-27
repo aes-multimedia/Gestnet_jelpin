@@ -503,9 +503,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             new HiloIniciarParte(getContext(),parte,1,2).execute();
         }else if(view.getId()==R.id.btnClienteAusente){
 
-
         new HiloIniciarParte(getContext(),parte,2,13).execute();
-
 
         }else if(view.getId()==R.id.btnImprimir){
             Bitmap bit=null;

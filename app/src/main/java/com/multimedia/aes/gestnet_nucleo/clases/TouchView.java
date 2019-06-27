@@ -29,7 +29,7 @@ public class TouchView extends View {
         drawPaint.setColor(Color.parseColor("#000000"));
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeWidth(3);
+        drawPaint.setStrokeWidth(6);
         setWillNotDraw(false);
     }
 

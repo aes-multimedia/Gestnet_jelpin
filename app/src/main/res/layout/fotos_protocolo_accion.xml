@@ -6,32 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".nucleo.FotosProtocoloAccion">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/lvImagenes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnEnviar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAñadirImagenGaleria" />
-
-    <ImageButton
-        android:id="@+id/btnAñadirImagenGaleria"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="12dp"
-
-
-        android:background="@drawable/botones_2"
-        android:elevation="6dp"
-        android:src="@drawable/ic_add_a_photo_black_36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
 
     <LinearLayout
         android:id="@+id/linearLayout8"
@@ -79,16 +67,33 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout9"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/botones"
-        android:text="Enviar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#ff9002"
+        android:gravity="right"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+
+        <ImageButton
+            android:id="@+id/btnAñadirImagenGaleria"
+            android:layout_width="50dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginRight="5dp"
+            android:background="#ff9002"
+            android:elevation="6dp"
+            android:src="@drawable/ic_add_a_photo_black_36dp" />
+
+        <ImageButton
+            android:id="@+id/btnEnviar"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:background="#ff9002"
+            android:src="@drawable/ic_send"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

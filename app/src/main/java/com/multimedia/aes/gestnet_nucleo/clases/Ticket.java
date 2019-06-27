@@ -6,8 +6,12 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_nucleo.constantes.Constantes;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 
@@ -65,7 +69,7 @@ public abstract class Ticket {
         String result="";
         Calendar mcurrentDate = Calendar.getInstance();
         int mYear = mcurrentDate.get(Calendar.YEAR);
-        int mMonth = mcurrentDate.get(Calendar.MONTH);
+        int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
         int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
         final int mHour = mcurrentDate.get(Calendar.HOUR_OF_DAY);
         final int mMin = mcurrentDate.get(Calendar.MINUTE);
@@ -77,7 +81,16 @@ public abstract class Ticket {
         result+="Firma"+"\n";
         return result;
     }
-
+    public String proteccionDatos(Context context) throws SQLException {
+        Configuracion c = ConfiguracionDAO.buscarConfiguracion(context);
+        Cliente cli = ClienteDAO.buscarCliente(context);
+        String result="";
+        if (c.isDisp_servicio()){
+            result+= cli.getProteccion_datos();
+            result+= "\n"+"\n"+"\n";
+        }
+        return result;
+    }
     public String conformeTecnico (Context context) throws SQLException {
         Usuario usuario = UsuarioDAO.buscarUsuario(context);
         String result="";
