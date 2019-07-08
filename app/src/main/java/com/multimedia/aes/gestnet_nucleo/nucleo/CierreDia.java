@@ -177,7 +177,7 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
                         public void onClick(DialogInterface dialog, int id) {
                             Calendar mcurrentDate = Calendar.getInstance();
                             int mYear = mcurrentDate.get(Calendar.YEAR);
-                            int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
+                            int mMonth = mcurrentDate.get(Calendar.MONTH);
                             int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                             DatePickerDialog mDatePicker;
                             mDatePicker = new DatePickerDialog(CierreDia.this, new DatePickerDialog.OnDateSetListener() {
