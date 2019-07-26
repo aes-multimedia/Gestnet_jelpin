@@ -72,8 +72,10 @@ public class DialogoKilometros extends DialogFragment implements View.OnClickLis
         new HiloKilometros(getContext(),this,id,Double.parseDouble(etLitros.getText().toString()),Double.parseDouble(etKilometros.getText().toString())).execute();
         return true;
     }
-    public void errorHilo(){
-        Dialogo.dialogoError("No se ha podido conectar con el servidor, porfavor intentelo mas tarde.",getContext());
+    public void errorHilo(String mensaje) throws JSONException {
+        JSONObject jsonObject = new JSONObject(mensaje);
+        Dialogo.dialogoError(jsonObject.getString("mensaje"),getContext());
+        getDialog().dismiss();
     }
     public void hiloBien(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());

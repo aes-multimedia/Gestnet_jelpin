@@ -264,7 +264,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     e.printStackTrace();
                 }
                 if (kil==null||kil.toString().equals("{}")){
-                    DialogoKilometros dialog = new DialogoKilometros ().newInstance(u.getId_usuario());
+                    DialogoKilometros dialog = new DialogoKilometros ().newInstance(u.getFk_entidad());
                     android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                     dialog.setCancelable(false);
                     dialog.show(ft, "DialogoKilometros");

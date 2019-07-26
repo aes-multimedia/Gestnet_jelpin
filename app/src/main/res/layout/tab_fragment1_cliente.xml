@@ -308,6 +308,19 @@
 
                     </LinearLayout>
 
+                    <Button
+                        android:id="@+id/btnGuardarDatos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/botones"
+                        android:text="Guardar Datos"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayoutObservaciones" />
+
                     <LinearLayout
                         android:id="@+id/linearLayoutObservaciones"
                         android:layout_width="match_parent"

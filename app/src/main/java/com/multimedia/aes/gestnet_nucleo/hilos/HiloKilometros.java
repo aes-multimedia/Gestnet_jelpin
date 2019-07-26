@@ -81,14 +81,22 @@ public class HiloKilometros extends AsyncTask<Void,Void,Void> {
                 if (jsonObject.getInt("estado")==1){
                     dialogoKilometros.hiloBien();
                 }else{
-                    dialogoKilometros.errorHilo();
+                    dialogoKilometros.errorHilo(mensaje);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                dialogoKilometros.errorHilo();
+                try {
+                    dialogoKilometros.errorHilo("{\"estado\":188,\"mensaje\":\"Error al conectar con el servidor\"}");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
         }else{
-            dialogoKilometros.errorHilo();
+            try {
+                dialogoKilometros.errorHilo("{\"estado\":188,\"mensaje\":\"Error al conectar con el servidor.\"}");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
     private String iniciar() throws JSONException {
