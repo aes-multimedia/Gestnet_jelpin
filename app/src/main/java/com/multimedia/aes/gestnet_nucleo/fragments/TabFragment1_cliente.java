@@ -68,13 +68,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Usuario usuario = null;
     private Maquina maquina = null;
     private DatosAdicionales datos;
-    private List<Usuario> listaUsuarios;
-    private List<DatosAdicionales> datosAdicionalesList;
     private Switch swEdicion;
     private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular,
             txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico;
-    private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes, btnAñadirPresupuesto, btnVerIntervenciones, btnGuardarDatos;
+    private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes, btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
     private ImageButton ibLocation, ibIr;
     private ImageView ivLlamar1, ivLlamar2, ivLlamar3, ivLlamar4;
     private String horaInicio;
@@ -117,6 +115,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnImprimir = vista.findViewById(R.id.btnImprimir);
         btnVerDocumentos = vista.findViewById(R.id.btnVerDocumentos);
         btnAñadirPresupuesto = vista.findViewById(R.id.btnAñadirPresupuesto);
+        btnVerPresupuesto = vista.findViewById(R.id.btnVerPresupuesto);
         btnVerIntervenciones = vista.findViewById(R.id.btnIntervencionesAnteriotes);
         btnGuardarDatos = vista.findViewById(R.id.btnGuardarDatos);
 
@@ -130,6 +129,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar4 = vista.findViewById(R.id.ivLlamar4);
         //ONCLICK
         btnAñadirPresupuesto.setOnClickListener(this);
+        btnVerPresupuesto.setOnClickListener(this);
         btnImagenes.setOnClickListener(this);
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
@@ -427,7 +427,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         }
         inicializarVariables();
         darValoresVariables();
-
+        presupuestoVisible();
         if (parte.getEstado_android() == 3 || parte.getEstado_android() == 1 || parte.getEstado_android() == 4 || parte.getEstado_android() == 436) {
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
@@ -473,6 +473,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         } else if (view.getId() == R.id.btnIniciarParte) {
             guardarDatosParte();
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
+            datos.setMatem_hora_entrada(formattedDate);
+            try {
+                DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(), formattedDate);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             new HiloIniciarParte(getContext(), parte, 1, 2).execute();
         } else if (view.getId() == R.id.btnClienteAusente) {
 
@@ -534,7 +543,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         } else if (view.getId() == R.id.btnAñadirPresupuesto) {
             Intent i = new Intent(getContext(), Presupuestos.class);
             i.putExtra("id_parte", parte.getId_parte());
-            startActivity(i);
+            startActivityForResult(i,111);
+        }else if (view.getId() == R.id.btnVerPresupuesto) {
+            Uri uri = Uri.parse(parte.getUrl_presupuesto());
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         } else if (view.getId() == R.id.btnGuardarDatos) {
             guardarDatosParte();
             new HiloIniciarParte(getContext(),parte,parte.getEstado_android(),parte.getFk_estado()).execute();
@@ -552,15 +565,41 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 111){
+            presupuestoVisible();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void presupuestoVisible(){
+        if (parte !=null){
+            try {
+                parte = ParteDAO.buscarPartePorId(getContext(), parte.getId_parte());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                int idParte = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext())).getInt("id");
+                parte = ParteDAO.buscarPartePorId(getContext(), idParte);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (!parte.getUrl_presupuesto().equals("")){
+            btnVerPresupuesto.setVisibility(View.VISIBLE);
+        }
+    }
+    @Override
     public void onPause() {
         guardarDatosParte();
         super.onPause();
     }
 
     public void guardarDatosParte() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-        String formattedDate = df.format(c.getTime());
         try {
             String observaciones = etObservaciones.getText().toString();
             String nombre = etNombreTitular.getText().toString();
@@ -578,8 +617,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             parte.setTelefono3_cliente(tel3);
             parte.setTelefono4_cliente(tel4);
             parte.setEmail_cliente(correo);
-            datos.setMatem_hora_entrada(formattedDate);
-            DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(), formattedDate);
             ParteDAO.actualizarParte(getContext(), parte.getId_parte(), nombre, dni, tel1, tel2, tel3, tel4, correo, observaciones);
         } catch (SQLException e) {
             e.printStackTrace();

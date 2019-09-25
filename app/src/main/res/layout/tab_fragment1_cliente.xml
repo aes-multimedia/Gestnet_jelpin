@@ -832,6 +832,17 @@
                         android:padding="4dp"
                         android:text="@string/nuevo_presupuesto" />
 
+                    <Button
+                        android:id="@+id/btnVerPresupuesto"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:padding="4dp"
+                        android:text="Ver presupuesto"
+                        android:visibility="gone" />
+
 
                 </LinearLayout>
 

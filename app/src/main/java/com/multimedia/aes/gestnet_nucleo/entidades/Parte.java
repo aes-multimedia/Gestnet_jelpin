@@ -131,6 +131,7 @@ public class Parte {
     public static final String ENVIAR_POR_CORREO = "enviar_por_correo";
     public static final String EMAIL_ENVIAR_FACTURA = "email_enviar_factura";
     public static final String ESTADO_PARTE = "estado_parte";
+    public static final String URL_PRESUPUESTO = "url_presupuesto";
 
 
 
@@ -228,6 +229,7 @@ public class Parte {
     @DatabaseField(columnName = TIPO)                           private String tipo;
     @DatabaseField(columnName = SINTOMAS)                       private String sintomas;
     @DatabaseField(columnName = ESTADO_PARTE)                   private String estado_parte;
+    @DatabaseField(columnName = URL_PRESUPUESTO)                private String url_presupuesto;
     //DATOS DEL FIRMANTE
     @DatabaseField(columnName = NOMBRE_FIRMANTE)                private String nombre_firmante;
     @DatabaseField(columnName = DNI_FIRMANTE)                   private String dni_firmante;
@@ -309,7 +311,9 @@ public class Parte {
                  String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                  String telefono3_cliente, String telefono4_cliente, String email_cliente,
                  String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
-                 String firma64, String ticket, String nombre_compania, String direccion , String CIF , String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,String numero_cliente,String estado_parte) {
+                 String firma64, String ticket, String nombre_compania, String direccion, String CIF,
+                 String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,
+                 String numero_cliente,String estado_parte, String url_presupuesto) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -436,6 +440,7 @@ public class Parte {
         textoDuracion="";
         this.enviarPorCorreo=false;
         this.estado_parte=estado_parte;
+        this.url_presupuesto=url_presupuesto;
     }
 
     public static String getIdParte() {
@@ -1217,5 +1222,13 @@ public class Parte {
 
     public void setEmailEnviarFactura(String emailEnviarFactura) {
         this.emailEnviarFactura = emailEnviarFactura;
+    }
+
+    public String getUrl_presupuesto() {
+        return url_presupuesto;
+    }
+
+    public void setUrl_presupuesto(String url_presupuesto) {
+        this.url_presupuesto = url_presupuesto;
     }
 }

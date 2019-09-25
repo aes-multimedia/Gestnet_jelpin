@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,10 +21,12 @@ import com.multimedia.aes.gestnet_nucleo.clases.Presupuesto;
 import com.multimedia.aes.gestnet_nucleo.clases.TipoPresupuesto;
 import com.multimedia.aes.gestnet_nucleo.clases.TipoTrabajo;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
@@ -399,13 +402,20 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
                 ).show();
     }
 
-    public void borrarImagenesPorExito(String s) {
+    public void borrarImagenesPorExito(String s) throws JSONException, SQLException {
+        JSONObject jsonObject = new JSONObject(s);
+        String url = "";
+        Configuracion c = ConfiguracionDAO.buscarConfiguracion(this);
+        if (jsonObject.getInt("estado")==1 && ConfiguracionDAO.buscarConfiguracion(this).isMenu_presupuesto()){
+            url = "http://"+cliente.getIp_cliente()+"/presupuestos/detalle_obra.php?id="+jsonObject.getString("id_presupuesto")+"&fk_tecnico="+usuario.getFk_entidad();
+            ParteDAO.actualizarUrlPresupuesto(this, parte.getId_parte(),url);
+        }
         try {
             ImagenDAO.borrarImagenesPresupuestoPorFk_parte(this,idParte);
         }catch (SQLException e){
             e.printStackTrace();
         }finally {
-            sacarMensaje(s);
+            sacarMensaje(jsonObject.getString("mensaje"));
         }
     }
 

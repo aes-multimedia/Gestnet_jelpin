@@ -69,7 +69,13 @@ public class HiloGuardarPresupuesto extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         ManagerProgressDialog.cerrarDialog();
         if (mensaje.indexOf('}')!=-1){
-            ((Presupuestos)context).borrarImagenesPorExito("Presupuesto enviado");
+            try {
+                ((Presupuestos)context).borrarImagenesPorExito(mensaje);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }else{
             ((Presupuestos)context).sacarMensaje("Presupuesto no enviado");
         }

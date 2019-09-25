@@ -137,7 +137,6 @@ public class ConfiguracionDAO extends DBHelperMOS {
 			return listadoConfiguraciones.get(0);
 		}
 	}
-
 	//____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 	public static void actualizarConfiguracion(Context context, int id_configuracion, boolean horarios, boolean operarios, boolean definiciones,
 											   boolean equipos, boolean empresas, boolean marcas, boolean tipos_trabajo,
