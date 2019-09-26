@@ -142,6 +142,7 @@
     <string name="tecnico">Tecnico:</string>
     <string name="title_activity_fotos_intervenciones">FotosIntervenciones</string>
     <string name="err_impr">Se ha producido un error al conectar con la impresora.</string>
+    <string name="imp_ok">Impresion correcta</string>
     <string name="correo_electrónico">Correo electrónico</string>
     <string name="texto_largo_prueba">esto es un texto muy largo para hacer pruebas</string>
     <string name="enviar_por_correo">Enviar ticket por correo</string>

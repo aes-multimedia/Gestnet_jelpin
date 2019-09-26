@@ -46,6 +46,21 @@ public class Dialogo {
         alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }
+    public static void impresionOk(Context context){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(R.string.imp_ok);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
+        alert11.show();
+    }
 
 
     public static void dialogHaySinSubir(final Context context) {

@@ -87,9 +87,11 @@ public class HiloConectarImpr extends AsyncTask<BluetoothDevice, Void, String> {
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
         if (result.equals(Constantes.SUCCES)) {
-            ((Index)context).datosActualizados();
+            Dialogo.impresionOk(activity);
+            //((Index)context).datosActualizados();
         } else {
             Dialogo.errorConectarImpresora(activity);
+
         }
         dialog.dismiss();
 

@@ -423,7 +423,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 Bitmap b;
                 b =ShrinkBitmap(f.getAbsolutePath(),300,300);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                b.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                b.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                 b.getByteCount();
 
                 byte[] imageBytes = baos.toByteArray();
@@ -441,7 +441,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         }
         return jsa;
     }
-
 
     private Bitmap ShrinkBitmap(String file, int width, int height){
         BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
@@ -464,7 +463,5 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return bitmap;
     }
-
-
 
 }
