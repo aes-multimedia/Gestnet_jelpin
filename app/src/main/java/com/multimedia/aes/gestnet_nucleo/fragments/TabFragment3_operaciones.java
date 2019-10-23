@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.j256.ormlite.field.types.SqlDateType;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
@@ -29,6 +31,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
@@ -53,16 +56,23 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private Parte parte = null;
     private Usuario usuario = null;
     private Maquina maquina = null;
+    private Cliente cliente;
     private DatosAdicionales datos = null;
     private LinearLayout llPadre;
     private int posicion = 0;
     private Configuracion configuracion;
+    private Button btnObra;
 
     //METODO
     private void inicializarVariables() {
         spProtocolos = vista.findViewById(R.id.spProtocolos);
         spProtocolos.setOnItemSelectedListener(this);
         llPadre = vista.findViewById(R.id.llPadre);
+        btnObra = vista.findViewById(R.id.btnObra);
+        btnObra.setOnClickListener(this);
+        if (!configuracion.isOperacion_finalizacion()){
+            btnObra.setVisibility(View.GONE);
+        }
     }
     private void darValores() throws java.sql.SQLException {
         //SPINNER PROTOCOLO
@@ -297,6 +307,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
             maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(), parte.getFk_maquina());
             datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), parte.getId_parte());
             configuracion = ConfiguracionDAO.buscarTodasLasConfiguraciones(getContext()).get(0);
+            cliente = ClienteDAO.buscarCliente(getContext());
         } catch (java.sql.SQLException e) {
             e.printStackTrace();
         }
@@ -310,6 +321,12 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     }
     @Override
     public void onClick(View view) {
+        if (view.getId()==R.id.btnObra){
+            String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

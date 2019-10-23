@@ -34,10 +34,16 @@ public class FotosIntervenciones extends AppCompatActivity {
         setContentView(R.layout.activity_fotos_intervenciones);
         Toolbar toolbar = findViewById(R.id.toolbarFotosIntervenciones);
         setSupportActionBar(toolbar);
-        setTitle("Imagenes de la intervención");
-        int fk_parte=getIntent().getIntExtra("id_parte",-1);
-        new HiloListarImagenesIntervencion(this,fk_parte).execute();
 
+        int id = getIntent().getIntExtra("id_parte",-1);
+        boolean porParte = true;
+        setTitle("Imagenes de la intervención");
+        if (id ==-1){
+            setTitle("Imagenes del usuario");
+            porParte = false;
+            id = getIntent().getIntExtra("id_usuario",-1);
+        }
+        new HiloListarImagenesIntervencion(this,id,porParte).execute();
 
 
     }

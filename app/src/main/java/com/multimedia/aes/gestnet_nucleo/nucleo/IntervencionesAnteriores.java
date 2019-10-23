@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -25,11 +26,14 @@ import com.multimedia.aes.gestnet_nucleo.R;
 
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorIntervenciones;
 import com.multimedia.aes.gestnet_nucleo.clases.Intervencion;
+import com.multimedia.aes.gestnet_nucleo.dao.ConfiguracionDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIntervencionesAnteriores;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -37,16 +41,22 @@ public class IntervencionesAnteriores extends AppCompatActivity implements View.
 
     private ListView lvIndexIntervenciones;
     private SwipeRefreshLayout srl;
-
-
+    private Button btnTodasFotos;
+    private int fk_usuario;
+    private Configuracion configuracion;
 
 
     private void inicializarVariables() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         srl = findViewById(R.id.lllistview);
-        lvIndexIntervenciones =  findViewById(R.id.lvIndexIntervenciones);
+        lvIndexIntervenciones = findViewById(R.id.lvIndexIntervenciones);
+        btnTodasFotos = findViewById(R.id.btnTodasFotos);
         lvIndexIntervenciones.setOnItemClickListener(this);
+        btnTodasFotos.setOnClickListener(this);
+        if (!configuracion.isMenu_documentos()){
+            btnTodasFotos.setVisibility(View.GONE);
+        }
     }
 
     public void listarIntervenciones(String msg) {
@@ -113,20 +123,30 @@ public class IntervencionesAnteriores extends AppCompatActivity implements View.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intervenciones_aneriores);
+        try {
+            configuracion = ConfiguracionDAO.buscarConfiguracion(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         inicializarVariables();
         srl.setRefreshing(false);
         setTitle("Histórico de Intervenciones");
         Intent intent = getIntent();
         if (intent != null) {
             int fk_maquina = intent.getIntExtra("fk_maquina", 0);
+            fk_usuario = intent.getIntExtra("fk_usuario", 0);
             new HiloIntervencionesAnteriores(this,fk_maquina).execute();
-
         }
+
     }
 
     @Override
     public void onClick(View view) {
-
+        if (view.getId()==R.id.btnTodasFotos){
+            Intent i = new Intent(this, FotosIntervenciones.class);
+            i.putExtra("id_usuario",fk_usuario);
+            startActivity(i);
+        }
     }
 
     @Override

@@ -32,15 +32,23 @@ public class HiloListarImagenesIntervencion extends AsyncTask<Void,Void,Void> {
     private int fk_parte;
     private Context context;
     private ProgressDialog dialog;
-    Cliente cliente;
+    private Cliente cliente;
+    private boolean porParte;
+    private String URL;
 
-    public HiloListarImagenesIntervencion(Context context, int fk_parte) {
+    public HiloListarImagenesIntervencion(Context context, int fk_parte,boolean porParte) {
         this.fk_parte = fk_parte;
         this.context = context;
+        this.porParte = porParte;
         try {
             this.cliente = ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (porParte){
+            URL = Constantes.URL_IMAGENES_INTERVENCIONES_ANTERIORES;
+        }else{
+            URL = Constantes.URL_IMAGENES_INTERVENCIONES_ANTERIORES_USUARIO;
         }
     }
 
@@ -87,11 +95,16 @@ public class HiloListarImagenesIntervencion extends AsyncTask<Void,Void,Void> {
 
     private String partes() throws JSONException {
         JSONObject msg = new JSONObject();
-        msg.put("fk_parte", fk_parte);
+        if (porParte){
+            msg.put("fk_parte", fk_parte);
+        }else{
+            msg.put("fk_usuario", fk_parte);
+        }
+
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
-            String url = "http://" + cliente.getIp_cliente() + Constantes.URL_IMAGENES_INTERVENCIONES_ANTERIORES;
+            String url = "http://" + cliente.getIp_cliente() + URL;
             urlws = new URL(url);
             uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

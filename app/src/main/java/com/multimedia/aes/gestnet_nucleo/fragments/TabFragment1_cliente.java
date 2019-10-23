@@ -329,11 +329,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private void darValoresVariables() {
         if (maquina != null) {
             txtMaquina.setText(String.valueOf(maquina.getModelo()));
-            if (maquina.getSituacion().equals("")) {
-
+            if (!maquina.getSituacion().equals("")) {
+                txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
             }
-            txtSituacionEquipo.setText(String.valueOf(maquina.getSituacion()));
-            txtNombreContrato.setText(String.valueOf(maquina.getNombre_contr_man()));
+            if (!maquina.getNombre_contr_man().equals("")) {
+                txtNombreContrato.setText(String.valueOf(maquina.getNombre_contr_man()));
+            }
         }
         etNombreTitular.setEnabled(false);
         etDni.setEnabled(false);
@@ -457,6 +458,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         } else if (view.getId() == btnVerIntervenciones.getId()) {
             Intent e = new Intent(getContext(), IntervencionesAnteriores.class);
             e.putExtra("fk_maquina", parte.getFk_maquina());
+            e.putExtra("fk_usuario", parte.getFk_usuario());
             startActivityForResult(e, 104);
 
         } else if (view.getId() == btnVerDocumentos.getId()) {

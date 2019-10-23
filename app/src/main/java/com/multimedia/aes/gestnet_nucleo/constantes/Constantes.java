@@ -34,6 +34,7 @@ public class Constantes {
     public static final String URL_GUARDAR_PRESUPUESTO = "/api-gestnet-datos/v1/partes/guardarPresupuesto";
     public static final String URL_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarIntervencionesAnteriores";
     public static final String URL_IMAGENES_INTERVENCIONES_ANTERIORES = "/api-gestnet-datos/v1/partes/listarImagenesPorFkParte";
+    public static final String URL_IMAGENES_INTERVENCIONES_ANTERIORES_USUARIO = "/api-gestnet-datos/v1/partes/listarImagenesPorFkUsuario";
     public static final String URL_ACTUALZIAR_STOCK_ALMACEN = "/api-gestnet-datos/v1/partes/actualizarStockAlmacenTecnico";
     public static final String URL_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/imagenAccion";
     public static final String URL_BORRAR_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/borrarImagenAccion";
