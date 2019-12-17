@@ -72,7 +72,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular,
             txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico;
-    private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes, btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
+    private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes,
+            btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos,btnObra;
     private ImageButton ibLocation, ibIr;
     private ImageView ivLlamar1, ivLlamar2, ivLlamar3, ivLlamar4;
     private String horaInicio;
@@ -118,6 +119,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnVerPresupuesto = vista.findViewById(R.id.btnVerPresupuesto);
         btnVerIntervenciones = vista.findViewById(R.id.btnIntervencionesAnteriotes);
         btnGuardarDatos = vista.findViewById(R.id.btnGuardarDatos);
+        btnObra = vista.findViewById(R.id.btnObra);
 
         //IMAGEBUTTON
         ibLocation = vista.findViewById(R.id.ibLocation);
@@ -144,6 +146,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar3.setOnClickListener(this);
         ivLlamar4.setOnClickListener(this);
         txtVerPresupuesto.setOnClickListener(this);
+        btnObra.setOnClickListener(this);
         //SWITCH
         swEdicion = vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -474,17 +477,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
 
         } else if (view.getId() == R.id.btnIniciarParte) {
-            guardarDatosParte();
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-            String formattedDate = df.format(c.getTime());
-            datos.setMatem_hora_entrada(formattedDate);
-            try {
-                DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(), formattedDate);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            new HiloIniciarParte(getContext(), parte, 1, 2).execute();
+            iniciarParte();
         } else if (view.getId() == R.id.btnClienteAusente) {
 
             new HiloIniciarParte(getContext(), parte, 2, 13).execute();
@@ -563,6 +556,34 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }else if (view.getId() == R.id.btnObra) {
+
+            Cliente cliente = null;
+            try {
+                cliente = ClienteDAO.buscarCliente(getContext());
+                String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            iniciarParte();
+        }
+    }
+    private void iniciarParte(){
+        if (parte.getEstado_android()==0){
+            guardarDatosParte();
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
+            datos.setMatem_hora_entrada(formattedDate);
+            try {
+                DatosAdicionalesDAO.actualizarHoraEntrada(getContext(), datos.getId_rel(), formattedDate);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            new HiloIniciarParte(getContext(), parte, 1, 2).execute();
         }
     }
 
