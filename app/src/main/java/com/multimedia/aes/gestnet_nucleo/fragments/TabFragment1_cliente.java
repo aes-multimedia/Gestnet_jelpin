@@ -73,7 +73,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico;
     private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes,
-            btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos,btnObra;
+            btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
     private ImageButton ibLocation, ibIr;
     private ImageView ivLlamar1, ivLlamar2, ivLlamar3, ivLlamar4;
     private String horaInicio;
@@ -119,7 +119,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnVerPresupuesto = vista.findViewById(R.id.btnVerPresupuesto);
         btnVerIntervenciones = vista.findViewById(R.id.btnIntervencionesAnteriotes);
         btnGuardarDatos = vista.findViewById(R.id.btnGuardarDatos);
-        btnObra = vista.findViewById(R.id.btnObra);
 
         //IMAGEBUTTON
         ibLocation = vista.findViewById(R.id.ibLocation);
@@ -146,7 +145,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         ivLlamar3.setOnClickListener(this);
         ivLlamar4.setOnClickListener(this);
         txtVerPresupuesto.setOnClickListener(this);
-        btnObra.setOnClickListener(this);
         //SWITCH
         swEdicion = vista.findViewById(R.id.swEdicion);
         swEdicion.setChecked(false);
@@ -448,6 +446,20 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
         }
+        if (parte.getFk_tipo() == 4){
+            Cliente cliente = null;
+            try {
+                cliente = ClienteDAO.buscarCliente(getContext());
+                String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            iniciarParte();
+        }
+
         return vista;
     }
 
@@ -556,19 +568,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else if (view.getId() == R.id.btnObra) {
-
-            Cliente cliente = null;
-            try {
-                cliente = ClienteDAO.buscarCliente(getContext());
-                String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            iniciarParte();
         }
     }
     private void iniciarParte(){
