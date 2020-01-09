@@ -496,7 +496,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     }
     private void iniciarParte(Parte parte) throws SQLException {
-        //TODO saber el estado y el estado android
         if (parte.getEstado_android()==0){
             DatosAdicionales datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(this, parte.getId_parte());
             Calendar c = Calendar.getInstance();
