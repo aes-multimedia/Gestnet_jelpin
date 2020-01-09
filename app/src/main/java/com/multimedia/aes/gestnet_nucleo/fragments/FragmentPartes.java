@@ -76,7 +76,6 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab3 = adapter.getTab3();
                 tab4 = adapter.getTab4();
                 tab6 = adapter.getTab6();
-              //  pruebas = adapter.getPruebas();
                 if (tab.getPosition()==0){
 
                 }else if (tab.getPosition()==1){

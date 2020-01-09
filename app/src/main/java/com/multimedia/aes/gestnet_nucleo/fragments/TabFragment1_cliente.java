@@ -446,19 +446,6 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
         }
-        if (parte.getFk_tipo() == 4){
-            Cliente cliente = null;
-            try {
-                cliente = ClienteDAO.buscarCliente(getContext());
-                String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            iniciarParte();
-        }
 
         return vista;
     }

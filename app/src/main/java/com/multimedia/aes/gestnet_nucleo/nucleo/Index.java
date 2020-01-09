@@ -46,12 +46,14 @@ import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Configuracion;
+import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Envio;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.fragments.FragmentImpresion;
 import com.multimedia.aes.gestnet_nucleo.fragments.FragmentPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloActualizarStock;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloPartesId;
@@ -457,18 +459,57 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             e.printStackTrace();
         }
         srl.setVisibility(View.GONE);
-        Class fragmentClass = FragmentPartes.class;
-        Fragment fragment;
+        Parte parte = null;
         try {
-            fragment = (Fragment) fragmentClass.newInstance();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            parte = ParteDAO.buscarPartePorId(this, Integer.parseInt(view.getTag().toString()));
+            if (parte.getFk_tipo() == 4){
+                iniciarParte(parte);
+                Cliente cliente = null;
+                try {
+                    cliente = ClienteDAO.buscarCliente(this);
+                    String url = "http://"+cliente.getIp_cliente()+"/webservices/webview/trabajos_obra.php?fk_parte=" + parte.getId_parte();
+                    Uri uri = Uri.parse(url);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+            }else{
+                Class fragmentClass = FragmentPartes.class;
+                Fragment fragment;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
+
+
+    }
+    private void iniciarParte(Parte parte) throws SQLException {
+        //TODO saber el estado y el estado android
+        if (parte.getEstado_android()==0){
+            DatosAdicionales datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(this, parte.getId_parte());
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+            String formattedDate = df.format(c.getTime());
+            datos.setMatem_hora_entrada(formattedDate);
+            try {
+                DatosAdicionalesDAO.actualizarHoraEntrada(this, datos.getId_rel(), formattedDate);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            new HiloIniciarParte(this, parte, 1, 2).execute();
+        }
     }
     @Override
     public void onRefresh() {
