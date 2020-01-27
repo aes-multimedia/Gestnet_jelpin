@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 
 import android.content.Context;
 
+import com.multimedia.aes.gestnet_nucleo.dao.AnalisisDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
@@ -11,6 +12,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
 import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
@@ -153,6 +155,61 @@ public class ImpresionFactura extends Ticket {
         result+="N. Serie: "+numSerie+"\n";
         String puestaMarchaMaquina = FormatearfechaDate(maquina.getPuesta_marcha());
         result+="Puesta Marcha: "+puestaMarchaMaquina+"\n"+"\n";
+
+        ArrayList<Analisis> analisises = new ArrayList<>();
+        if (AnalisisDAO.buscarAnalisisPorFkMaquinaFkParte(context, parte.getId_parte(), maquina.getId_maquina()) != null) {
+            analisises.addAll(AnalisisDAO.buscarAnalisisPorFkMaquinaFkParte(context, parte.getId_parte(), maquina.getId_maquina()));
+        }
+        if (!analisises.isEmpty()) {
+            for (int j = 0; j < analisises.size(); j++) {
+                String co_amb = analisises.get(j).getCo_ambiente();
+                String co_ambiente = "CO ambiente: " + co_amb + " ppm \n";
+                String observaciones_tecnico = "-------ANALISIS--------" + "\n";
+                String nom_med = analisises.get(j).getNombre_medicion();
+                String nombre_medicion = "Tipo: " + nom_med + "\n";
+                String tem_max_acs = maquina.getTemperatura_max_acs();
+                String temperatura_max_acs = "T. Max. ACS: " + tem_max_acs + " ºC \n";
+                String caud_acs = maquina.getCaudal_acs();
+                String caudal_acs = "Caudal ACS: " + caud_acs + " l/min\n";
+                String pot_uti = maquina.getPotencia_util();
+                String potencia_util = "Potencia útil: " + pot_uti + " Kw\n";
+                String tem_agu_ent = maquina.getTemperatura_agua_generador_calor_entrada();
+                String temp_agua_entrada = "T. agua entrada: " + tem_agu_ent + " ºC \n";
+                String tem_agu_sal = maquina.getTemperatura_agua_generador_calor_salida();
+                String temp_agua_salida = "T. agua salida: " + tem_agu_sal + " ºC \n";
+                String tem_gas_comb = analisises.get(j).getTemperatura_gases_combustion();
+                String temp_gases_combust = "T. gases PDC: " + tem_gas_comb + " ºC \n";
+                String rend_apar = analisises.get(j).getRendimiento_aparato();
+                String rendimiento_aparato = "Rendimiento aparato: " + rend_apar + " %" + "\n";
+                String co_cor = analisises.get(j).getCo_corregido();
+                String co_corregido = "CO corregido: " + co_cor + " ppm \n";
+                String co2_amb = analisises.get(j).getCo2_ambiente();
+                String co2_ambiente = "";
+                if (!co2_amb.equals("")) {
+                    co2_ambiente = "CO2 ambiente: " + co2_amb + " ppm \n";
+                }
+                String co = analisises.get(j).getC0_maquina();
+                String cO = "CO: " + co + " ppm \n";
+                String tir = analisises.get(j).getTiro();
+                String tiro = "Tiro: " + tir + " mbar \n";
+                String c2 = analisises.get(j).getCo2();
+                String co2 = "CO2: " + c2 + " % \n";
+                String o02 = analisises.get(j).getO2();
+                String o2 = "O2: " + o02 + " % \n";
+                String lamb = analisises.get(j).getLambda();
+                String lambda = "Lambda: " + lamb + "\n";
+                String tmp_amb = analisises.get(j).getTemperatura_ambiente_local();
+                String temperatura_Ambiente = "T. Amb.: " + tmp_amb + " ºC\n";
+                String num_serie_tex = "";
+                String numero_serie_texto = "Num.Serie Equip.Testo: " + "\n" + num_serie_tex + "\n";
+                result += observaciones_tecnico + nombre_medicion +
+                        temperatura_max_acs + caudal_acs + potencia_util + temp_agua_entrada + temp_agua_salida +
+                        temp_gases_combust + co_corregido + o2 + cO + lambda + co2 + temperatura_Ambiente + tiro + rendimiento_aparato + co_ambiente +
+                        co2_ambiente;
+            }
+        }
+
+
         result+="----------INTERVENCION----------"+"\n";
         String operacion = datosAdicionales.getOperacion_efectuada();
         result+="Operacion: "+operacion+"\n";

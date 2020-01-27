@@ -121,6 +121,15 @@ public class AnalisisDAO extends DBHelperMOS {
 			return listadoAnalisis;
 		}
 	}
+	public static List<Analisis> buscarAnalisisPorFkMaquinaFkParte(Context context, int fkParte,int fk_maquina) throws SQLException {
+		cargarDao(context);
+		List<Analisis> listadoAnalisis= dao.queryBuilder().where().eq(Analisis.FK_PARTE,fkParte).and().eq(Analisis.FK_MAQUINA,fk_maquina).query();
+		if(listadoAnalisis.isEmpty()) {
+			return null;
+		}else{
+			return listadoAnalisis;
+		}
+	}
 	public static List<Analisis> buscarAnalisisPorIdMantenimiento(Context context, int id) throws SQLException {
 		cargarDao(context);
 		List<Analisis> listadoAnalisis= dao.queryForEq(Analisis.FK_PARTE, id);
