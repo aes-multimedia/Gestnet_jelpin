@@ -51,6 +51,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         }
     }
+
     public HiloBusquedaArticulo(Context context, int id) {
         this.context = context;
         this.id = id;
