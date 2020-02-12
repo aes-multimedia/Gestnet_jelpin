@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -73,11 +75,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private Activity activity;
 
     @SuppressLint("MissingPermission")
-    public static String getImei(Context c, Activity a) {
-        TelephonyManager telephonyManager = (TelephonyManager) c
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        return telephonyManager.getDeviceId();
+    public static String getImeiDevice(Context c, Activity a) {
+        TelephonyManager telephonyManager = (TelephonyManager) c.getSystemService(Context.TELEPHONY_SERVICE);
+        String imei ;
+        String imei2 ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //imei = telephonyManager.getImei();
+            imei = Settings.Secure.getString(c.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        } else {
+            imei = telephonyManager.getDeviceId();
+        }
+
+        return imei;
     }
+
     public boolean checkPermission() {
         int permisoUno= ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
         int permisoDos= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH);
@@ -197,16 +209,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void inicializarConfiguracion(){
         try {
             usuario = UsuarioDAO.buscarUsuario(this);
-            String imei = "";
-            imei = getImei(this,this);
-            if (imei.equals("")) {
-                imei = getImei(this,this);
+            String imei ;
+            imei = getImeiDevice(this,this);
+            if (imei == null) {
+                imei = getImeiDevice(this,this);
+            }else{
+                if(imei.equals("")){
+                    imei = getImeiDevice(this,this);
+                }
             }
             new HiloNotific(this,regid,imei).execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     public void hiloPartes(){
         new HiloPartes(this,usuario.getFk_entidad(),cliente.getIp_cliente(),usuario.getApi_key()).execute();
     }
