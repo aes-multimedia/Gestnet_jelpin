@@ -100,6 +100,7 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
             error.put("mensaje","Error de conexión, error de protocolo");
             return error.toString();
         } catch (IOException e) {
+            e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
             error.put("mensaje","Error de conexión, IOException");
