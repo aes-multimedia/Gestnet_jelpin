@@ -85,16 +85,9 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     }
     private void darValores(){
-      //ivFoto.setImageResource(articulo.getImagen());
         tvTitulo.setText(articulo.getNombre_articulo());
-
         if(articulo.getStock()<0){
-
-            // TODO CAMBIO  setText(0) X setText(String.valueOf(0)) DABA PETE Y NO INICIABA EL ACTIVITY
             tvStock.setText(String.valueOf(0));
-            // TODO ACTIVO BT btnAñadirMaterial CUANDO EL STOCK ES 0;
-            /*btnAñadirMaterial.setClickable(false);
-            btnAñadirMaterial.setEnabled(false);*/
         }else  tvStock.setText(String.valueOf(articulo.getStock()));
 
         tvPrecio.setText(String.valueOf(articulo.getTarifa())+ "\u20ac");
