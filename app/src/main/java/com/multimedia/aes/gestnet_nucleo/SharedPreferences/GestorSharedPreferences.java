@@ -94,4 +94,47 @@ public abstract class GestorSharedPreferences {
         spe.clear();
         spe.commit();
     }
+    public static SharedPreferences getSharedPreferencesHoraCie(Context context) {
+        return context.getSharedPreferences("HoCie", context.MODE_PRIVATE);
+    }
+
+    public static void setJsonHoraCie(SharedPreferences sharedPreferences, JSONObject jsonObject) {
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.putString("hora_cierre", jsonObject.toString());
+        spe.commit();
+    }
+
+    public static JSONObject getJsonHoraCie(SharedPreferences sharedPreferences) throws JSONException {
+        String s = sharedPreferences.getString("hora_cierre", "{}");
+        return new JSONObject(s);
+    }
+
+    public static void clearSharedPreferencesHoraCie(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferencesDia(context);
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.clear();
+        spe.commit();
+    }
+    //<---------------------------------------------------------------------------------->
+    public static SharedPreferences getSharedPreferencesMinCie(Context context) {
+        return context.getSharedPreferences("MiCie", context.MODE_PRIVATE);
+    }
+
+    public static void setJsonMinCie(SharedPreferences sharedPreferences, JSONObject jsonObject) {
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.putString("min_cierre", jsonObject.toString());
+        spe.commit();
+    }
+
+    public static JSONObject getJsonMinCie(SharedPreferences sharedPreferences) throws JSONException {
+        String s = sharedPreferences.getString("min_cierre", "{}");
+        return new JSONObject(s);
+    }
+
+    public static void clearSharedPreferencesMinCie(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferencesDia(context);
+        SharedPreferences.Editor spe = sharedPreferences.edit();
+        spe.clear();
+        spe.commit();
+    }
 }
