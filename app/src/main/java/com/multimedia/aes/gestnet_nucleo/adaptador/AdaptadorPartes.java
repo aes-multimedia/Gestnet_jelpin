@@ -37,6 +37,7 @@ public class AdaptadorPartes extends ArrayAdapter {
         TextView cp =  item.findViewById(R.id.txtCP);
         TextView hora =  item.findViewById(R.id.txtHora);
         TextView cliente =  item.findViewById(R.id.txtCliente);
+        TextView compania =  item.findViewById(R.id.txtCompania);
         TextView txtTipoIntervencion =  item.findViewById(R.id.txtTipoIntervencion);
         LinearLayout global = item.findViewById(R.id.global);
         String dir = "";
@@ -89,6 +90,7 @@ public class AdaptadorPartes extends ArrayAdapter {
         direccion.setText(dir);
         cp.setText(String.valueOf(arrayList.get(position).getCp_direccion()));
         hora.setText(String.valueOf(arrayList.get(position).getHorario()));
+        compania.setText("Compañia: "+ arrayList.get(position).getNombre_compania());
         cliente.setText(arrayList.get(position).getNombre_cliente());
         txtTipoIntervencion.setText(arrayList.get(position).getTipo());
         global.setTag(String.valueOf(arrayList.get(position).getId_parte()));
