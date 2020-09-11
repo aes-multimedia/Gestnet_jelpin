@@ -15,10 +15,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
+import android.content.Context;
+import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloCierreDia;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -31,6 +36,9 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
     private TextView txtTotalHoras,txtTotalGastos;
     private EditText etDietas,etParking,etCombustible,etLitrosCombustible,etMaterial,etEntregado,etObservaciones;
     private CheckBox cbFestivo;
+
+    private Usuario usuario;
+    private static Context context;
     //METODOS
     private void inicializarVariables(){
         //BUTTON
@@ -71,10 +79,13 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         etMaterial.addTextChangedListener(this);
         etEntregado.addTextChangedListener(this);
     }
-    private void darValoresVariables(){
+    private void darValoresVariables() throws SQLException, JSONException {
         Calendar mcurrentDate = Calendar.getInstance();
         int mYear = mcurrentDate.get(Calendar.YEAR);
         int mMonth = mcurrentDate.get(Calendar.MONTH)+1;
+        int mHour= mcurrentDate.get(Calendar.HOUR_OF_DAY);
+        int mMinute= mcurrentDate.get(Calendar.MINUTE);
+
         String mes = "";
         if (mMonth<10){
             mes = "0"+mMonth;
@@ -88,7 +99,64 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         }else{
             dia = ""+mDay;
         }
+
         btnFechaCierre.setText(dia+"/"+mes+"/"+mYear);
+
+        String min = "";
+        String hora = "";
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = GestorSharedPreferences.getJsonHoraCie(GestorSharedPreferences.getSharedPreferencesHoraCie(this));
+            hora = jsonObject.getString("hora");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonObject = GestorSharedPreferences.getJsonMinCie(GestorSharedPreferences.getSharedPreferencesMinCie(this));
+            min = jsonObject.getString("min");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println(hora);
+        if(hora=="") {
+            if (mHour < 10) {
+                hora = "0" + mHour;
+            } else {
+                hora = "" + mHour;
+            }
+        }
+
+
+
+
+        if(min=="") {
+            if (mMinute < 10) {
+                min = "0" + mMinute;
+            } else {
+                min = "" + mMinute;
+            }
+        }
+
+        btnHoraInicio.setText(hora+":"+min);
+
+        JSONObject jsonHoraObject = new JSONObject();
+        JSONObject jsonMinObject = new JSONObject();
+        try {
+            jsonHoraObject.put("hora", hora);
+            GestorSharedPreferences.clearSharedPreferencesHoraCie(this);
+            GestorSharedPreferences.setJsonHoraCie(GestorSharedPreferences.getSharedPreferencesHoraCie(this), jsonHoraObject);
+
+            jsonMinObject.put("min", min);
+            GestorSharedPreferences.clearSharedPreferencesMinCie(this);
+            GestorSharedPreferences.setJsonMinCie(GestorSharedPreferences.getSharedPreferencesMinCie(this), jsonMinObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     private void actualizarHoras(){
         int horInicio = Integer.parseInt(btnHoraInicio.getText().toString().split(":")[0]);
@@ -106,6 +174,21 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         String horas = hours < 10? "0"+String.valueOf(hours) : String.valueOf(hours);
         String minutos = minutes < 10? "0"+String.valueOf(minutes) : String.valueOf(minutes);
         txtTotalHoras.setText(String.valueOf(horas)+":"+String.valueOf(minutos));
+
+        JSONObject jsonHoraObject = new JSONObject();
+        JSONObject jsonMinObject = new JSONObject();
+        try {
+            jsonHoraObject.put("hora", horInicio);
+            GestorSharedPreferences.clearSharedPreferencesHoraCie(this);
+            GestorSharedPreferences.setJsonHoraCie(GestorSharedPreferences.getSharedPreferencesHoraCie(this), jsonHoraObject);
+
+            jsonMinObject.put("min", minInicio);
+            GestorSharedPreferences.clearSharedPreferencesMinCie(this);
+            GestorSharedPreferences.setJsonMinCie(GestorSharedPreferences.getSharedPreferencesMinCie(this), jsonMinObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     public void finalizar(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -163,7 +246,20 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cierre_dia);
         inicializarVariables();
-        darValoresVariables();
+
+        try {
+            usuario = UsuarioDAO.buscarUsuario(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            darValoresVariables();
+        } catch (SQLException | JSONException e) {
+            e.printStackTrace();
+        }
+
+
     }
     @Override
     public void onClick(View v) {
