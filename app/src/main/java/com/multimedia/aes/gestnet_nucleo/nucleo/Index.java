@@ -208,6 +208,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         lvIndex.setAdapter(adaptadorPartes);
         Intent intent = getIntent();
         if (intent != null) {
+
             int metodo = intent.getIntExtra("metodo", 0);
             int notId = intent.getIntExtra("notiId", 0);
             int id = intent.getIntExtra("id", 0);
@@ -228,7 +229,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                             }
                             adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
                             lvIndex.setAdapter(adaptadorPartes);
-                            Dialogo.dialogoError("Parte " + id + " borrado", this);
+                            Dialogo.dialogoError("Un Parte de Intervención ha sido eliminado de su ruta diaria", this);
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
