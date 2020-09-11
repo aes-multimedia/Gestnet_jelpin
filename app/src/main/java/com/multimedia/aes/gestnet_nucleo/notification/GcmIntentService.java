@@ -59,8 +59,13 @@ public class GcmIntentService extends FirebaseMessagingService {
         i.putExtra("id", id);
         Random r = new Random();
         String n = r.nextInt(9999) + "" + id;
-        notification_id = Integer.parseInt(n);
-        i.putExtra("notiId", notification_id);
+        if(n.length() > 9){
+            notification_id = Integer.parseInt(n.substring(0,9));
+        }else{
+            notification_id = Integer.parseInt(n);
+        }
+
+        i.putExtra("notiId", id);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), i, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -92,6 +97,5 @@ public class GcmIntentService extends FirebaseMessagingService {
     }
     public static void cerrarNotificacion(int id){
         mNotificationManager.cancel(id);
-
     }
 }
