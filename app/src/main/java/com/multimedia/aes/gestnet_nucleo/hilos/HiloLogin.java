@@ -100,19 +100,19 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","Error de conexión, URL malformada");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","Error de conexión, error de protocolo");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","Error de conexión, IOException");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         }
         String contenido = "";
