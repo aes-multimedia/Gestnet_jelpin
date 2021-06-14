@@ -104,6 +104,7 @@ public class GuardarArticulos {
             if (!esta) {
                 if (ArticuloDAO.newArticuloP(context, id_articulo, nombre_articulo, stock, coste,referencia,referencia_aux,ean,iva,tarifa,descuento)) {
                     bien = true;
+
                 } else {
                     bien = false;
                 }

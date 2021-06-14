@@ -3,16 +3,16 @@ apply plugin: 'io.fabric'
 
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "com.multimedia.aes.gestnet_nucleo"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 62
+        targetSdkVersion 29
+        versionCode 81
         multiDexEnabled true
-        versionName "1.62"
+        versionName "1.81"
     }
     buildTypes {
         release {
@@ -24,6 +24,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
 }
 
 dependencies {

@@ -87,11 +87,17 @@ public class ImpresionFactura extends Ticket {
         result+="Num. Parte: "+numParte+"\n";
         String fechaAvisoParte =FormatearfechaTimeStamp( parte.getFecha_aviso());
         result+="Fecha aviso: "+fechaAvisoParte+"\n";
-        result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
-        result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
+        if(clienteId != 28){
+            result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
+            result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
+        }
         String fechaIntervParte = FormatearfechaDate(parte.getFecha_visita());
         result+="Fecha intervencion: "+fechaIntervParte+"\n";
-        result+="Nombre tecnico: "+usuario.getNombreUsuario()+"\n"+"\n";
+        result+="Nombre tecnico: "+usuario.getNombreUsuario()+"\n";
+        if(clienteId == 28){
+            result+="Detalle Avería: "+parte.getOtros_sintomas()+"\n";
+        }
+        result+="\n";
         result+="-------DATOS DEL CLIENTE--------"+"\n";
         String numCliente = parte.getNumero_cliente();
         result+="Num. Cliente: "+numCliente+"\n";
@@ -154,7 +160,13 @@ public class ImpresionFactura extends Ticket {
         String numSerie = maquina.getNum_serie();
         result+="N. Serie: "+numSerie+"\n";
         String puestaMarchaMaquina = FormatearfechaDate(maquina.getPuesta_marcha());
-        result+="Puesta Marcha: "+puestaMarchaMaquina+"\n"+"\n";
+        if(clienteId != 28){
+            result+="Puesta Marcha: "+puestaMarchaMaquina+"\n";
+        }
+        if(clienteId == 28){
+            result+="Ubicacion: "+maquina.getUbicacion()+"\n";
+        }
+        result+="\n";
 
         ArrayList<Analisis> analisises = new ArrayList<>();
         if (AnalisisDAO.buscarAnalisisPorFkMaquinaFkParte(context, parte.getId_parte(), maquina.getId_maquina()) != null) {
@@ -212,25 +224,50 @@ public class ImpresionFactura extends Ticket {
 
         result+="----------INTERVENCION----------"+"\n";
         String operacion = datosAdicionales.getOperacion_efectuada();
-        result+="Operacion: "+operacion+"\n";
+        result+="Operacion efectuada: "+operacion+"\n";
         String tipoInter = parte.getTipo();
         result+="Tipo Intervencion: "+tipoInter+"\n";
+
+        String zero = "0.0";
         String duracion = parte.getDuracion();
-        result+="Duracion: "+duracion+"\n";
+        if(!duracion.equals(zero)){
+            result+="Duracion: "+duracion+"\n";
+        }
+
         String manoObra = String.valueOf(datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra());
-        result+="Mano Obra: "+manoObra+" €"+"\n";
+        if(!manoObra.equals(zero)){
+            result+="Mano Obra: "+manoObra+" €"+"\n";
+        }
         String dispServi = String.valueOf(datosAdicionales.getPreeu_disposicion_servicio());
-        result+="Disp. servicio: "+dispServi+" €"+"\n";
+        if(!dispServi.equals(zero)){
+            result+="Disp. servicio: "+dispServi+" €"+"\n";
+        }
+
         String otros = String.valueOf(datosAdicionales.getPreeu_adicional());
-        result+="Otros: "+otros+" €"+"\n";
+        if(!otros.equals(zero)){
+            result+="Otros: "+otros+" €"+"\n";
+        }
+
         String analisiscombustion = String.valueOf(datosAdicionales.getPreeu_analisis_combustion());
-        result+="Analisis de combustion: "+analisiscombustion+"\n";
+        if(!analisiscombustion.equals(zero)){
+            result+="Analisis de combustion: "+analisiscombustion+"\n";
+        }
+
         String puestaMarcha = String.valueOf(datosAdicionales.getPreeu_puesta_marcha());
-        result+="Puesta en marcha: "+puestaMarcha+"\n";
+        if(!puestaMarcha.equals(zero)){
+            result+="Puesta en marcha: "+puestaMarcha+"\n";
+        }
+
         String servicioUrgencia = String.valueOf(datosAdicionales.getPreeu_servicio_urgencia());
-        result+="Servicio de urgencia: "+servicioUrgencia+"\n";
+        if(!servicioUrgencia.equals(zero)){
+            result+="Servicio de urgencia: "+servicioUrgencia+"\n";
+        }
+
         String desplazamiento = "("+datosAdicionales.getPreeu_km()+"KM/"+datosAdicionales.getPreeu_km_precio()+"): "+datosAdicionales.getPreeu_km_precio_total();
-        result+="Desplazamiento "+desplazamiento+"\n";
+        if(datosAdicionales.getPreeu_km_precio_total() != 0){
+            result+="Desplazamiento "+desplazamiento+"\n";
+        }
+
         if (FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago())!=null){
             String formaPago = FormasPagoDAO.buscarFormasPagoPorId(context,datosAdicionales.getFk_forma_pago()).getForma_pago();
             result+="Forma pago: "+formaPago+"\n";
@@ -238,7 +275,11 @@ public class ImpresionFactura extends Ticket {
         double ba = (datosAdicionales.getPreeu_mano_de_obra_precio()*datosAdicionales.getPreeu_mano_de_obra())+datosAdicionales.getPreeu_disposicion_servicio()+
                 datosAdicionales.getPreeu_adicional_coste()+datosAdicionales.getPreeu_adicional()+datosAdicionales.getPreeu_analisis_combustion()+datosAdicionales.getPreeu_puesta_marcha()+
                 datosAdicionales.getPreeu_servicio_urgencia()+(datosAdicionales.getPreeu_km()*datosAdicionales.getPreeu_km_precio());
-        result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
+
+        if(clienteId != 28){
+            result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
+        }
+
         if (!articulos.isEmpty()){
             result+="\n"+"-----------MATERIALES-----------"+"\n";
             double totalArticulos = 0;
@@ -246,33 +287,41 @@ public class ImpresionFactura extends Ticket {
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, art.getId_articulo(), parte.getId_parte());
                 double usados = articuloParte.getUsados();
                 double coste = 0;
-                if(art.isFacturar()) {
-                    if (!art.isGarantia()) coste = art.getTarifa();
+                if(articuloParte.getFacturar()) {
+                    if (!articuloParte.getGarantia()) coste = art.getTarifa();
                     double totalArt = usados * coste;
                     totalArticulos += totalArt;
                     result += "-" + art.getNombre_articulo() + "\n";
                     result += " Uds:" + usados + " PVP:" + coste + " Total:" + totalArt + "\n" ;
-                    if(art.isEntregado()==1)result += "(pedido)"+ "\n" + "\n";
+                    if(articuloParte.getEntregado())result += "(pedido)"+ "\n" + "\n";
                     else result += "\n";
                 }
             }
             result+="TOTAL MATERIALES: "+totalArticulos+" €"+"\n";
-            result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+"\n";
+            if(clienteId != 28){
+                result+="TOTAL INTERVENCIONES:  "+String.valueOf(ba)+" €"+"\n";
+            }
+
             ba+=totalArticulos;
         }
+        if(clienteId == 28){
+            result+="\n"+"------SUMA TOTAL DEL AVISO------"+"\n";
+            result+="SUMA TOTAL:  "+String.valueOf(ba)+" €"+"\n";
+        }
+            String base = String.valueOf(ba);
+            result+="BASE IMPONIBLE: "+base+" €"+"\n";
+            result+="I.V.A:"+"21.00%"+"\n";
+            DecimalFormat df2 = new DecimalFormat(".##");
+            double totIva = ba*0.21;
+            String totalIva = String.valueOf(df2.format(totIva));
+            result+="TOTAL I.V.A: "+totalIva+" €"+"\n";
+            String total = String.valueOf(df2.format(totIva+ba));
+            result+="TOTAL: "+total+" €"+"\n"+"\n";
 
-        String base = String.valueOf(ba);
-        result+="BASE IMPONIBLE: "+base+" €"+"\n";
-        result+="I.V.A:"+"21.00%"+"\n";
-        DecimalFormat df2 = new DecimalFormat(".##");
-        double totIva = ba*0.21;
-        String totalIva = String.valueOf(df2.format(totIva));
-        result+="TOTAL I.V.A: "+totalIva+"\n";
-        String total = String.valueOf(df2.format(totIva+ba));
-        result+="TOTAL: "+total+"\n"+"\n";
-        result+="---CONFORME FINAL DEL FIRMANTE---"+"\n";
+
+        result+="\n"+"--CONFORME FINAL DEL FIRMANTE--"+"\n";
         result+="*Renuncio a presupuesto previo "+"\n"+
-                "autorizando la reparacion."+"\n";
+                "autorizando reparacion."+"\n";
         result+=""+"\n";
         result+=""+"\n";
         return result;

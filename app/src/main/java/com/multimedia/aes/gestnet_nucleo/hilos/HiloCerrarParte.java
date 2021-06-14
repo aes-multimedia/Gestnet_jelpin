@@ -60,6 +60,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     private ProgressDialog dialog;
     private Cliente cliente;
     private Usuario usuario;
+    private  String data;
 
     public HiloCerrarParte(Context context, int fk_parte) {
         this.context = context;
@@ -71,8 +72,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             e.printStackTrace();
         }
     }
-
-
 
     @Override
     protected void onPreExecute() {
@@ -104,13 +103,36 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         dialog.dismiss();
         if (mensaje.indexOf('}')!=-1){
             try {
-
                 int estado=0;
                 try {
                     JSONObject jsonObject= new JSONObject(mensaje);
                     if(jsonObject.getString("estado")!=null && !jsonObject.getString("estado").equals(""))
 
                         estado=jsonObject.getInt("estado");
+
+                        JSONArray resultados =jsonObject.getJSONArray("datos");
+                    JSONArray items = resultados.getJSONArray(1);
+                    for (int i=0; i<items.length(); i++) {
+                        JSONObject item = items.getJSONObject(i);
+                        JSONObject itemsValues  =  item.getJSONObject("entrada");
+                        int id_gestnet = Integer.parseInt(itemsValues.getString("id_item_gestnet").toString());
+                        int id_parte= Integer.parseInt(itemsValues.getString("id_parte").toString());
+                        int id_android = Integer.parseInt(itemsValues.getString("id_android").toString());
+                        try{
+                            ArticuloParte artParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,id_android,id_parte);
+                            int idArtParte = artParte.getId();
+                            ArticuloParteDAO.actualizarIdItemGestnet(context,id_gestnet,idArtParte);
+                        }catch (SQLException E){
+                            E.printStackTrace();
+                        }
+                        Log.d("resultados",item.get("entrada").toString());
+
+
+
+                        // TODO: HACER ACTUALIZACION DE ID_ITEM_GESTNET'
+                    }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -124,21 +146,21 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
                     ((Index)context).recreate();
                 }
-
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+
     private String iniciar() throws JSONException, SQLException {
         JSONObject msg = new JSONObject();
         try {
             msg=rellenarJsonMantenimientos();
+            data = msg.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.w("JSON_SUBIDA", String.valueOf(msg));
+       /* Log.w("JSON_SUBIDA", String.valueOf(msg));*/
         URL urlws = null;
         HttpURLConnection uc = null;
         try {
@@ -207,6 +229,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         Parte parte = ParteDAO.buscarPartePorId(context, fk_parte);
         jsonObject1.put("fk_estado", asignarEstado());
         jsonObject1.put("id_parte", parte.getId_parte());
+        jsonObject1.put("fk_tipo_os", parte.getFk_tipo_os0());
         jsonObject1.put("confirmado", parte.getConfirmado());
         jsonObject1.put("observaciones", parte.getObservaciones());
         if (asignarEstado()==8){
@@ -254,7 +277,11 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             for (ArticuloParte articuloParte : articulosParte) {
                 JSONObject obj = new JSONObject();
                 Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
+                //a.isGarantia()
+                //a.isEntregado()
                     obj.put("fk_parte", parte.getId_parte());
+                    obj.put("id_item", a.getId_item_gestnet());
+                    obj.put("id_articulo_android", a.getId_articulo());
                     obj.put("fk_producto", a.getFk_articulo());
                     obj.put("nombre_articulo", a.getNombre_articulo());
                     obj.put("stock", a.getStock());
@@ -263,14 +290,13 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("iva", a.getIva());
                     obj.put("descuento", a.getDescuento());
                     obj.put("coste", a.getCoste());
-                    obj.put("garantia", a.isGarantia());
-                    obj.put("entregado", a.isEntregado());
+                    obj.put("entregado",articuloParte.getEntregado());
                     obj.put("cantidad", articuloParte.getUsados());
                     if (datos_adicionales.getBaceptapresupuesto())  obj.put("presupuesto", 1);
                             else obj.put("presupuesto", 0);
-                    if(datos_adicionales.getBaceptapresupuesto() && a.isEntregado()==1) obj.put("preparada_pieza", 1);
+                    if(datos_adicionales.getBaceptapresupuesto() && articuloParte.getEntregado()) obj.put("preparada_pieza", 1);
                             else obj.put("preparada_pieza", 0);
-                    if (a.isGarantia())
+                    if (articuloParte.getGarantia())
                         {
                         obj.put("garantia", 1);
                         obj.put("tarifa", 0);
@@ -385,7 +411,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         msg.put("factura",jsonObject8);
 
 
-        Log.d("json_subida",msg.toString());
+       // Log.d("json_subida",msg.toString());
 
 
 
@@ -409,7 +435,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             }
         }
         return estado;
-
     }
 
     private JSONArray rellenarJsonImagenes(Parte parte) throws  IOException, SQLException {
@@ -421,7 +446,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                 JSONObject jso = new JSONObject();
                 File f = new File(arraylistImagenes.get(i).getRuta_imagen());
                 Bitmap b;
-                b =ShrinkBitmap(f.getAbsolutePath(),300,300);
+                b=ShrinkBitmap(f.getAbsolutePath(),300,300);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 b.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                 b.getByteCount();
@@ -445,7 +470,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
     private Bitmap ShrinkBitmap(String file, int width, int height){
         BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
         bmpFactoryOptions.inJustDecodeBounds = true;
-        Bitmap bitmap;
+        Bitmap bitmap = null;
         int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
         int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
         if (heightRatio > 1 || widthRatio > 1)
@@ -458,9 +483,22 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             }
         }
         bmpFactoryOptions.inJustDecodeBounds = false;
-        bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        try {
+            bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        } catch (OutOfMemoryError e) {
+            try {
+                bmpFactoryOptions.inSampleSize = 2;
+                bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+            } catch(Exception eExc) {
+                eExc.printStackTrace();
+            }
+              e.printStackTrace();
+        }
         return bitmap;
     }
 

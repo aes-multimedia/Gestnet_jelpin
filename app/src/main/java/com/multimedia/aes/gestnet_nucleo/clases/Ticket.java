@@ -24,6 +24,18 @@ import java.util.Locale;
 
 public abstract class Ticket {
 
+    int clienteId;
+
+public void setCliente( Context context){
+
+    try{
+        Cliente cliente = ClienteDAO.buscarCliente(context);
+        clienteId = cliente.getId_cliente();
+    }catch(SQLException e){
+
+        e.printStackTrace();
+    }
+}
 
 
 
@@ -65,7 +77,7 @@ public abstract class Ticket {
 
     public String conformeCliente (int id, Context context) throws SQLException {
         Parte parte = ParteDAO.buscarPartePorId(context,id);
-        Log.e("datos cliente Impresion",parte.toString());
+        //Log.e("datos cliente Impresion",parte.toString());
         String result="";
         Calendar mcurrentDate = Calendar.getInstance();
         int mYear = mcurrentDate.get(Calendar.YEAR);
@@ -73,9 +85,12 @@ public abstract class Ticket {
         int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
         final int mHour = mcurrentDate.get(Calendar.HOUR_OF_DAY);
         final int mMin = mcurrentDate.get(Calendar.MINUTE);
-        result+="-------CONFORME FIRMANTE---------"+"\n";
+        result+="---------CONFORME FIRMANTE---------"+"\n";
         String fecha = mDay+"/"+mMonth+"/"+mYear+" - "+mHour+":"+mMin;
-        result+=fecha+"\n";
+        if(clienteId != 28){
+            result+=fecha+"\n";
+        }
+
         String nombre=parte.getNombre_firmante(),dni=parte.getDni_firmante();
         result+="Nombre y dni: "+nombre+"-"+dni+"\n";
         result+="Firma"+"\n";

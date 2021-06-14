@@ -55,6 +55,9 @@ public class GestionMateriales extends AppCompatActivity implements View.OnClick
                     for (ArticuloParte articuloParte : articuloParteArrayList)
                         articuloArrayList.add(ArticuloDAO.buscarArticuloPorID(this, articuloParte.getFk_articulo()));
                     for (int i = 0; i < articuloArrayList.size(); i++) {
+                        ArticuloParte art = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articuloArrayList.get(i).getId_articulo(),fk_parte);
+                        boolean presupuestar = art.getPresupuestar();
+                        boolean facturar = art.getFacturar();
                         LinearLayout linearLayoutHorizontal = new LinearLayout(this);
                         linearLayoutHorizontal.setWeightSum(10);
 
@@ -80,10 +83,10 @@ public class GestionMateriales extends AppCompatActivity implements View.OnClick
 
                         checkBoxPresupuestar.setHintTextColor(Color.parseColor("#ff9002"));
                         checkBoxPresupuestar.setLinkTextColor(Color.parseColor("#ff9002"));
-                        checkBoxPresupuestar.setChecked(articuloArrayList.get(i).isPresupuestar());
+                        checkBoxPresupuestar.setChecked(presupuestar);
                         checkBoxFacturar.setHintTextColor(Color.parseColor("#ff9002"));
                         checkBoxFacturar.setLinkTextColor(Color.parseColor("#ff9002"));
-                        checkBoxFacturar.setChecked(articuloArrayList.get(i).isFacturar());
+                        checkBoxFacturar.setChecked(facturar);
 
                         linearLayoutHorizontal.addView(tvNombreArticulo);
                         linearLayoutHorizontal.addView(checkBoxPresupuestar);
@@ -119,24 +122,21 @@ public class GestionMateriales extends AppCompatActivity implements View.OnClick
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
         if(createdView) {
 
             CheckBoxMateriales chk = (CheckBoxMateriales) buttonView;
 
             try {
+                int idArtParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,chk.getIdArticulo(),parte.getId_parte()).getId();
                 if (chk.getTipo().equals("presupuestar")) {
-                    ArticuloDAO.actualizarPresupuestar(this, chk.getIdArticulo(), isChecked);
+                    ArticuloParteDAO.actualizarPresupuestar(this, idArtParte, isChecked);
                 } else {
-
-                    ArticuloDAO.actualizarFacturar(this, chk.getIdArticulo(), isChecked);
+                    ArticuloParteDAO.actualizarFacturar(this, idArtParte, isChecked);
                 }
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-
         }
 
         }

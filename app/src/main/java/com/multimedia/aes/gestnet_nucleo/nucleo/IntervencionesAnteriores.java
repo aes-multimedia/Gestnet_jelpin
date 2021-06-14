@@ -70,10 +70,19 @@ public class IntervencionesAnteriores extends AppCompatActivity implements View.
             for (int i = 0; i < jsonElements.length() ; i++) {
                 Intervencion intervencion = new Intervencion();
                 int id_parte;
-                if(jsonElements.getJSONObject(i).getString("id_parte").equals("") || jsonElements.getJSONObject(i).getString("id_parte").equals("null"))
-                    id_parte=-1;
+                if (jsonElements.getJSONObject(i).getString("id_parte").equals("") || jsonElements.getJSONObject(i).getString("id_parte").equals("null"))
+                    id_parte = -1;
                 else
-                    id_parte=jsonElements.getJSONObject(i).getInt("id_parte");
+                    id_parte = jsonElements.getJSONObject(i).getInt("id_parte");
+                String num_parte = "";
+                if (jsonElements.getJSONObject(i).has("num_parte")){
+                    if (jsonElements.getJSONObject(i).getString("num_parte").equals("") || jsonElements.getJSONObject(i).getString("tecnico").equals("null")) {
+                        num_parte = "";
+                    } else {
+                        num_parte = jsonElements.getJSONObject(i).getString("num_parte");
+                    }
+                }
+
                 String tecnico;
                 if(jsonElements.getJSONObject(i).getString("tecnico").equals("") || jsonElements.getJSONObject(i).getString("tecnico").equals("null"))
                     tecnico="Sin nombre";
@@ -105,6 +114,7 @@ public class IntervencionesAnteriores extends AppCompatActivity implements View.
                             .setFecha_visita(fecha_visita)
                             .setFacturado(facturado)
                             .setOperacion_efectuada(operacion)
+                            .setNum_parte(num_parte)
                             .setOtros_sintomas(otros_sintomas);
 
                 listaIntervenciones.add(intervencion);

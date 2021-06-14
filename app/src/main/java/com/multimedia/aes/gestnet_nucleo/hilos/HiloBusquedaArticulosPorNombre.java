@@ -48,7 +48,7 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
     @Override
     protected Void doInBackground(Void... voids) {
         try {
-            mensaje = partes();
+            mensaje = buscarMateriales();
         } catch (JSONException e) {
             mensaje = "JSONException";
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
     }
 
 
-    private String partes() throws JSONException {
+    private String buscarMateriales() throws JSONException {
         JSONObject msg = new JSONObject();
         msg.put("cadena", cadena);
         URL urlws = null;

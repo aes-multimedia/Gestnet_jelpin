@@ -23,14 +23,14 @@ public class ArticuloDAO extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticulo(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+    public static boolean newArticulo(Context context,int id_item_gestnet,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                                       String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
-        Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
+        Articulo a = montarArticulo(id_item_gestnet,id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticulo(a,context);
     }
-    public static Articulo newArticuloRet(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+    public static Articulo newArticuloRet(Context context,int id_item_gestnet,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                                       String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
-        Articulo a = montarArticulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
+        Articulo a = montarArticulo(id_item_gestnet,id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return crearArticuloRet(a,context);
     }
 
@@ -78,9 +78,9 @@ public class ArticuloDAO extends DBHelperMOS {
     }
 
 
-    public static Articulo  montarArticulo(int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia,
+    public static Articulo  montarArticulo(int id_item_gestnet,int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia,
                                            String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen) {
-        Articulo a =new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
+        Articulo a =new Articulo(id_item_gestnet,id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen);
         return a;
     }
 
@@ -98,6 +98,7 @@ public class ArticuloDAO extends DBHelperMOS {
         DeleteBuilder<Articulo, Integer> deleteBuilder = dao.deleteBuilder();
         deleteBuilder.delete();
     }
+
     public static void borrarArticuloPorID(Context context, int id) throws SQLException {
         cargarDao(context);
         DeleteBuilder<Articulo, Integer> deleteBuilder = dao.deleteBuilder();
@@ -126,7 +127,15 @@ public class ArticuloDAO extends DBHelperMOS {
             return listadoArticulo;
         }
     }
-
+    public static List<Articulo> buscarPorFkArticulo(Context context,int fk) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().eq(Articulo.FK_ARTICULO,fk).query();
+        if(listadoArticulo.isEmpty()) {
+            return null;
+        }else{
+            return listadoArticulo;
+        }
+    }
 
     public static List<Articulo> buscarArticulosPorReferencia(Context context,String ref) throws SQLException {
         cargarDao(context);
@@ -162,11 +171,36 @@ public class ArticuloDAO extends DBHelperMOS {
             return listadoArticulo.get(0);
         }
     }
+    public static Boolean existeArticuloPorFkArticulo(Context context, int id) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryForEq(Articulo.FK_ARTICULO, id);
 
+        if(listadoArticulo.isEmpty()) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public static Boolean existeArticuloPorIdItem(Context context, int id) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryForEq(Articulo.ID_ITEM_GESTNET, id);
+
+        if(listadoArticulo.isEmpty()) {
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
-
+public  static void actualizarIdItemGestnet(Context context, int id_item_gestnet,int id_articulo) throws SQLException {
+    cargarDao(context);
+    UpdateBuilder<Articulo, Integer> updateBuilder = dao.updateBuilder();
+    updateBuilder.where().eq(Articulo.ID_ARTICULO,id_articulo);
+    updateBuilder.updateColumnValue(Articulo.ID_ITEM_GESTNET,id_item_gestnet);
+    updateBuilder.update();
+}
     public static void actualizarArticulo(Context context, Articulo articulo ) throws SQLException {
         int id_articulo=articulo.getId_articulo();
         String nombre_articulo=articulo.getNombre_articulo();

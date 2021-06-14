@@ -6,6 +6,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
 
 import java.sql.SQLException;
@@ -22,8 +23,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,double usados) {
-        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,usados);
+    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia) {
+        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia);
         return crearArticuloParte(a,context);
     }
 
@@ -39,10 +40,32 @@ public class ArticuloParteDAO  extends DBHelperMOS {
             return false;
         }
     }
+    public static void actualizarFacturar(Context context, int id_articulo,boolean facturar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(ArticuloParte.FK_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(ArticuloParte.FACTURAR,facturar);
+        updateBuilder.update();
 
 
-    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,double usados) {
-        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,usados);
+    }
+
+
+    public static void actualizarPresupuestar(Context context, int id_articulo,boolean presupuestar) throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
+
+        updateBuilder.where().eq(ArticuloParte.FK_ARTICULO,id_articulo);
+        updateBuilder.updateColumnValue(ArticuloParte.PRESUPUESTAR,presupuestar);
+        updateBuilder.update();
+
+
+    }
+
+    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado, boolean garantia) {
+        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia);
         return a;
     }
 
@@ -133,7 +156,6 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
         return listadoArticuloParte.get(0);
     }
 }
-
     public static List<ArticuloParte> buscarArticuloParteFkParte(Context context, int id) throws SQLException {
         cargarDao(context);
         List<ArticuloParte> listadoArticuloParte = dao.queryForEq(ArticuloParte.FK_PARTE, id);
@@ -143,16 +165,34 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
             return listadoArticuloParte;
         }
     }
-
+    public static Boolean existeArticuloPartePorIdItemGestnet(Context context, int id) throws SQLException {
+        cargarDao(context);
+        List<ArticuloParte> listadoArticuloParte= dao.queryForEq(ArticuloParte.FK_ITEM_GESTNET, id);
+        if(listadoArticuloParte.isEmpty()) {
+            return false;
+        }else{
+            return true;
+        }
+    }
     //____________________________FUNCIONES DE ACTUALIZAR_________________________________________//
 
 
-    public static void actualizarArticuloParte(Context context, int id_articulo_parte, double usados)throws SQLException {
+    public static void actualizarArticuloParte(Context context, int id_articulo_parte, double usados,boolean entregado, boolean garantia)throws SQLException {
 
         cargarDao(context);
         UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
         updateBuilder.where().eq(ArticuloParte.ID,id_articulo_parte);
         updateBuilder.updateColumnValue(ArticuloParte.USADOS,usados);
+        updateBuilder.updateColumnValue(ArticuloParte.ENTREGADO,entregado);
+        updateBuilder.updateColumnValue(ArticuloParte.GARANTIA,garantia);
+        updateBuilder.update();
+    }
+    public static void actualizarIdItemGestnet(Context context, int id_item_gestnet, int id_articulo_parte)throws SQLException {
+
+        cargarDao(context);
+        UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(ArticuloParte.ID,id_articulo_parte);
+        updateBuilder.updateColumnValue(ArticuloParte.FK_ITEM_GESTNET,id_item_gestnet);
         updateBuilder.update();
     }
     }

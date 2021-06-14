@@ -753,4 +753,13 @@ public class ParteDAO extends DBHelperMOS{
 
         return true;
     }
+    public static boolean actualizarFk_tipo_os(Context context, int id_parte, int fk_tipo_os) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<Parte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(Parte.ID_PARTE,id_parte);
+        updateBuilder.updateColumnValue(Parte.FK_TIPO_OS0,fk_tipo_os);
+        updateBuilder.update();
+
+        return true;
+    }
 }

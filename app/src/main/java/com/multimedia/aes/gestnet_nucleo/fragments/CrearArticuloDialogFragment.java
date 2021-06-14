@@ -83,12 +83,8 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                     if(etIva.getText().toString().equals("")) {
                         etIva.setText("0");
                     }
-
-
-
                         if(etNombre.getText().toString().equals("")){
                             Dialogo.errorCrearMaterial(context);
-
                         }else{
                             nombre=etNombre.getText().toString();
                             unidades=Double.parseDouble(etUnidades.getText().toString());
@@ -96,13 +92,11 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                             cantidadStock=Double.parseDouble(etUnidades.getText().toString());
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
-
                             Articulo a = ArticuloDAO.newArticuloDialogFragment(getContext(),
                                     0,nombre,cantidadStock,"",
                                     "","","","",
                                     0,iva,precio,0,coste,"",0,radioButtonPedir.isChecked(),chGarantia.isChecked());
-                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,unidades);
-
+                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,0,unidades,radioButtonPedir.isChecked(),chGarantia.isChecked());
                         }
 
                         try {

@@ -22,6 +22,31 @@
             android:layout_height="wrap_content">
 
             <TextView
+            android:id="@+id/numParteLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+            android:layout_margin="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            android:text="@string/num_parte" />
+
+            <TextView
+                android:id="@+id/tvNumero"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="TextView"
+                card_view:layout_constraintTop_toBottomOf="@+id/numParteLabel"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
                 android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,7 +56,8 @@
                 android:text="@string/tecnico"
                 android:textColor="@android:color/black"
                 card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toBottomOf="@+id/tvNumero"
+               />
 
             <TextView
                 android:id="@+id/tvTecnico"

@@ -56,6 +56,7 @@
     <string name="tipo_intervencion">Tipo Intervención:</string>
     <string name="situacion_equipo">Situación del Equipo:</string>
     <string name="otros_sintomas">Otros síntomas:</string>
+    <string name="detalle_averia">Detalle de la Avería:</string>
     <string name="sintomas">síntomas:</string>
     <string name="direccion_titular">Direccion titular</string>
     <string name="direccion">direccion:</string>
@@ -149,5 +150,6 @@
     <string name="estado_parte">Estado del parte</string>
     <string name="buscar_partes">Buscar partes</string>
     <string name="buscar_articulos">Buscar articulos</string>
+    <string name="Tipos_OServicio">Tipos Ordenes de Servicio</string>
 </resources>
 

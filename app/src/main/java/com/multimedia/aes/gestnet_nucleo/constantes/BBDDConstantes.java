@@ -21,6 +21,7 @@ import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.TiposOsDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.entidades.Analisis;
@@ -36,6 +37,7 @@ import com.multimedia.aes.gestnet_nucleo.entidades.Imagen;
 import com.multimedia.aes.gestnet_nucleo.entidades.ManoObra;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Marca;
+import com.multimedia.aes.gestnet_nucleo.entidades.TiposOs;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_nucleo.entidades.TipoCaldera;
@@ -46,7 +48,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_nucleo.db";
-	public static final int DATABASE_VERSION = 15;
+	public static final int DATABASE_VERSION = 96;
 
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;
@@ -60,6 +62,7 @@ public class BBDDConstantes {
 	public static Dao<FormasPago, Integer> formasPagoDao;
 	public static Dao<Articulo, Integer> articuloDao;
 	public static Dao<Marca, Integer> marcaDao;
+	public static Dao<TiposOs, Integer> tiposOSDao;
 	public static Dao<TipoCaldera, Integer> tipoCalderaDao;
 	public static Dao<ArticuloParte, Integer> tipoArticuloParteDao;
 	public static Dao<Analisis, Integer> analisisDao;
@@ -79,13 +82,12 @@ public class BBDDConstantes {
 		formasPagoDao=null;
 		articuloDao=null;
 		marcaDao=null;
+		tiposOSDao=null;
 		tipoCalderaDao=null;
 		tipoArticuloParteDao=null;
 		analisisDao=null;
 		imagenDao=null;
 		envioDao=null;
-
-
 	}
 
 	public static void crearTablas(ConnectionSource connectionSource) throws SQLException {
@@ -101,6 +103,7 @@ public class BBDDConstantes {
 		TableUtils.createTable(connectionSource, FormasPago.class);
 		TableUtils.createTable(connectionSource, Articulo.class);
 		TableUtils.createTable(connectionSource, Marca.class);
+		TableUtils.createTable(connectionSource, TiposOs.class);
 		TableUtils.createTable(connectionSource, TipoCaldera.class);
 		TableUtils.createTable(connectionSource, ArticuloParte.class);
 		TableUtils.createTable(connectionSource, Analisis.class);
@@ -121,6 +124,7 @@ public class BBDDConstantes {
 		TableUtils.dropTable(connectionSource, FormasPago.class, true);
 		TableUtils.dropTable(connectionSource, Articulo.class, true);
 		TableUtils.dropTable(connectionSource, Marca.class, true);
+		TableUtils.dropTable(connectionSource, TiposOs.class, true);
 		TableUtils.dropTable(connectionSource, TipoCaldera.class, true);
 		TableUtils.dropTable(connectionSource, ArticuloParte.class, true);
 		TableUtils.dropTable(connectionSource, Analisis.class, true);
@@ -144,6 +148,7 @@ public class BBDDConstantes {
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
+		TiposOsDAO.borrarTodasLosTipoOs(context);
 		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
 		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 		AnalisisDAO.borrarTodasLasAnalisis(context);
@@ -163,6 +168,7 @@ public class BBDDConstantes {
 		DisposicionesDAO.borrarTodasLasDisposiciones(context);
 		ArticuloDAO.borrarTodosLosArticulos(context);
 		MarcaDAO.borrarTodasLasMarcas(context);
+		TiposOsDAO.borrarTodasLosTipoOs(context);
 		TipoCalderaDAO.borrarTodasLosTipoCaldera(context);
 		ArticuloParteDAO.borrarTodosLosArticuloParte(context);
 		AnalisisDAO.borrarTodasLasAnalisis(context);

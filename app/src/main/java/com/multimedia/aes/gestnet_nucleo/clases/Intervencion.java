@@ -3,14 +3,21 @@ package com.multimedia.aes.gestnet_nucleo.clases;
 public class Intervencion {
 
 
-    private String tecnico,fecha_visita,otros_sintomas,operacion_efectuada;
+    private String tecnico,fecha_visita,otros_sintomas,operacion_efectuada,num_parte;
     private double facturado;
     private int id_parte;
 
     public Intervencion() {
 
     }
+    public String getNum_parte() {
+        return num_parte;
+    }
 
+    public Intervencion setNum_parte(String num_parte) {
+        this.num_parte = num_parte;
+        return this;
+    }
     public int getId_parte() {
         return id_parte;
     }

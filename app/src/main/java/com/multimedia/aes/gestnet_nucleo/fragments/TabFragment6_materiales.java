@@ -44,8 +44,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TabFragment6_materiales extends Fragment implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener,View.OnTouchListener {
@@ -81,8 +83,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
         btnCrearArticulo = (Button) vista.findViewById(R.id.btnCrearArticulo);
         btnCrearArticulo.setOnClickListener(this);
-
     }
+
 
     private void buscarMaterial(String text) throws SQLException {
         ArrayAdapter<String> adaptador;
@@ -204,7 +206,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             } else {
                 descuento = jsonObject.getDouble("descuento");
             }
-            Articulo a = ArticuloDAO.newArticuloRet(context, id_articulo,nombre_articulo,stock,referencia,referencia_aux,"","","",0,iva,tarifa,descuento,coste,ean,0);
+            Articulo a = ArticuloDAO.newArticuloRet(context,-1, id_articulo,nombre_articulo,stock,referencia,referencia_aux,"","","",0,iva,tarifa,descuento,coste,ean,0);
             Intent i = new Intent(activity, InfoArticulos.class);
             i.putExtra("articuloId", a.getId_articulo());
             i.putExtra("sitio",0);
@@ -219,7 +221,10 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             ArrayList<Articulo> articulos = new ArrayList<>();
             ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
             articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context, parte.getId_parte()));
+            List<Articulo> articulos_prueba = ArticuloDAO.buscarTodosLosArticulos(context);
             for (ArticuloParte articuloParte : articuloPartes) {
+                Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
+
                 boolean esta = false;
                 for (Articulo articulo : articulos) {
                     if (articulo.getId_articulo() == articuloParte.getFk_articulo()) {
@@ -229,8 +234,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                 if (!esta) {
                     articulos.add(ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo()));
                 }
-
             }
+
            if (context!=null && activity!=null){
                adaptadorListaMateriales = new AdaptadorListaMateriales(context, R.layout.camp_adapter_list_view_material, articulos, activity, parte.getId_parte());
                lvMateriales.setAdapter(adaptadorListaMateriales);
@@ -244,7 +249,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             lvBusquedaMaterial.setVisibility(View.VISIBLE);
             lvMateriales.setVisibility(View.GONE);
         }
-
     }
 
     //OVERRIDE
@@ -286,7 +290,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if(newText.length()>1){
+        if(newText.length() >1 ){
         lvMateriales.setVisibility(View.GONE);
         lvBusquedaMaterial.setVisibility(View.VISIBLE);
 
@@ -364,49 +368,76 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
 
     public static void borrarArticulo(int id){
         final int idArticulo = id;
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setMessage("¿Seguro que deseas borrar este artículo? Se borrarán todas las unidades");
-        builder1.setCancelable(true);
-        builder1.setPositiveButton(
-                "Aceptar",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-
-                            double cantidad=0;
-                            double usados=0;
+        try {
 
 
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+            ArticuloParte art = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, idArticulo, parte.getId_parte());
+
+            if(art.getFk_item_gestnet() != 0 && art.getFk_item_gestnet() != -1){
+                builder1.setMessage("Este artículo  ya esta actualizado en el sistema de Oficina y no puede ser eliminado.\n\nGracias.");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Cerrar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert11 = builder1.create();
+                alert11.setCanceledOnTouchOutside(false);
+                alert11.show();
+            }else{
+                builder1.setMessage("¿Seguro que deseas borrar este artículo? Se borrarán todas las unidades");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Aceptar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                try {
+
+                                    double cantidad=0;
+                                    double usados=0;
 
 
-                                cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
+                                    cantidad = ArticuloDAO.buscarArticuloPorID(context,idArticulo).getStock();
+
+                                    usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
+
+                                    ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
+                                    ArticuloParte artOtroParte = ArticuloParteDAO.buscarArticuloPartePorFkArticulo(context,idArticulo);
+                                    if(artOtroParte == null){
+                                        ArticuloDAO.borrarArticuloPorID(context,idArticulo);
+                                    }
 
 
-                            usados = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,idArticulo,parte.getId_parte()).getUsados();
-                            ArticuloParteDAO.borrarArticuloPartePorFkArticuloFkParte(context,idArticulo,parte.getId_parte());
+                                   /* if(ArticuloDAO.buscarArticuloPorID(context,idArticulo).isEntregado()==0)
+                                        ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);*/
 
-                            if(ArticuloDAO.buscarArticuloPorID(context,idArticulo).isEntregado()==0)
-                            ArticuloDAO.actualizarStock(context,idArticulo,cantidad+usados);
+                                    llenarMateriales();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
 
-                            llenarMateriales();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                                dialog.cancel();
+                            }
+                        });
+                builder1.setNegativeButton(
+                        "Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert11 = builder1.create();
+                alert11.setCanceledOnTouchOutside(false);
+                alert11.show();
+            }
+        }catch (SQLException E){
+            E.printStackTrace();
+        }
 
 
-                        dialog.cancel();
-                    }
-                });
-        builder1.setNegativeButton(
-                "Cancelar",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.setCanceledOnTouchOutside(false);
-        alert11.show();
 
     }
 
@@ -418,10 +449,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             newFragment.setCancelable(false);
             newFragment.show(getFragmentManager(), "crear articulo");
         }
-
-
     }
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

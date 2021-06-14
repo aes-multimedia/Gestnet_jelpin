@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.SQLException;
 import android.os.AsyncTask;
 
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.TipoCalderaDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.TipoCaldera;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
@@ -56,20 +58,32 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
         dialog.dismiss();
         if (bien) {
-            if (context.getClass()==Login.class){
-                ((Login) context).irIndex();
-            }else if (context.getClass()==Index.class){
-                ((Index) context).datosActualizados();
+            try {
+                Cliente cliente = ClienteDAO.buscarCliente(context);
+                int clienteId = cliente.getId_cliente();
+                if(clienteId == 21){
+                    new GuardarTiposOs(context,json).execute();
+                }else{
+                    if (context.getClass()==Login.class){
+                        ((Login) context).irIndex();
+                    }else if (context.getClass()==Index.class){
+                        ((Index) context).datosActualizados();
+                    }
+                }
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
         } else {
             if (context.getClass()==Login.class){
-                ((Login) context).sacarMensaje("error al guardar las tipos");
+                ((Login) context).sacarMensaje("error al guardar las Tipos de Combustión");
             }else if (context.getClass()==Index.class){
-                ((Index) context).sacarMensaje("error al guardar las tipos");
+                ((Index) context).sacarMensaje("error al guardar las Tipos de Combustión");
             }
 
         }
+
     }
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
         int id_tipo_combustion;
@@ -83,6 +97,7 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
             } else {
                 id_tipo_combustion = jsonArray.getJSONObject(i).getInt("id_tipo_combustion");
             }
+
             if (TipoCalderaDAO.buscarTodasLosTipoCaldera(context)!=null){
                 tipos.addAll(TipoCalderaDAO.buscarTodasLosTipoCaldera(context));
             }

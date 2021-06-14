@@ -50,7 +50,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
         TextView txtCombustion = item.findViewById(R.id.txtCombustible);
         TextView txtPotencia = item.findViewById(R.id.txtPotencia);
         llMaquina.setOnClickListener(this);
-        llMaquina.setTag(arrayList.get(position).getFk_maquina());
+        llMaquina.setTag(arrayList.get(position).getId_maquina());
         String marca = null;
         String potencia = null;
         try {
@@ -59,7 +59,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
             e.printStackTrace();
         }
         txtMarca.setText(marca);
-        txtModelo.setText(arrayList.get(position).getModelo()+""+arrayList.get(position).getUbicacion());
+        txtModelo.setText(arrayList.get(position).getModelo()+" | "+arrayList.get(position).getUbicacion());
         txtPotencia.setText(potencia);
         txtCombustion.setText(arrayList.get(position).getCombustible_txt());
 
@@ -67,6 +67,7 @@ public class AdaptadorListaMaquinas extends ArrayAdapter implements View.OnClick
     }
     @Override
     public void onClick(View v) {
+
        if(v.getId()==R.id.llMaquina){
            Intent i = new Intent(getContext(), AnadirDatosMaquina.class);
            i.putExtra("id",Integer.parseInt(String.valueOf(v.getTag())));

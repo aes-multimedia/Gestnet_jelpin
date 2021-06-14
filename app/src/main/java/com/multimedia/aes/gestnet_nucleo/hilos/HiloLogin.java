@@ -100,19 +100,19 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompruebe su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         } catch (ProtocolException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompruebe su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         } catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompreube su conexión de Datos y/o Wifi\n\nGracias");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompruebe su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         }
         String contenido = "";
@@ -136,7 +136,6 @@ public class HiloLogin extends AsyncTask<Void,Void,Void>{
             error.put("mensaje","Error de conexión, error en lectura");
             contenido = error.toString();
         }
-
 
         return contenido;
     }

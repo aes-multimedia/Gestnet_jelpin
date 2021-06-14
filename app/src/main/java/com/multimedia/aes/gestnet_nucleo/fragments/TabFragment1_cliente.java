@@ -558,7 +558,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         }
     }
     private void iniciarParte(){
-        if (parte.getEstado_android()==0){
+        if (parte.getEstado_android()==0 || parte.getEstado_android()==2){
             guardarDatosParte();
             Calendar c = Calendar.getInstance();
             SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");

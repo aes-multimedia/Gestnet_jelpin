@@ -34,6 +34,7 @@ import com.multimedia.aes.gestnet_nucleo.clases.ImpresionPresupuesto;
 import com.multimedia.aes.gestnet_nucleo.clases.Impresora;
 import com.multimedia.aes.gestnet_nucleo.clases.PrinterCommunicator;
 import com.multimedia.aes.gestnet_nucleo.clases.Ticket;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
@@ -226,6 +227,9 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         else
             ticket = new ImpresionPresupuesto();
 
+        //
+        ticket.setCliente(this.getContext());
+
 
         String impreso = "";
         String impreso2 = "";
@@ -235,7 +239,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
 
             impreso+= ticket.encabezado();
             impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
-            impreso+= ticket.pie();
+            impreso+= (ticket.pie() != null)?ticket.pie():"";
             impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
             impreso2+= ticket.conformeTecnico(getContext());
             impreso3+= ticket.proteccionDatos(getContext());

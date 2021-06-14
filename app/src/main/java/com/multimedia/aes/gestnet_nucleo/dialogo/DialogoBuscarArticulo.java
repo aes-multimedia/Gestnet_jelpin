@@ -241,7 +241,7 @@ public class DialogoBuscarArticulo extends DialogFragment implements View.OnClic
             } else {
                 descuento = jsonObject.getDouble("descuento");
             }
-            Articulo a = ArticuloDAO.newArticuloRet(context, id_articulo,nombre_articulo,stock,referencia,referencia_aux,"","","",0,iva,tarifa,descuento,coste,ean,0);
+            Articulo a = ArticuloDAO.newArticuloRet(context,-1, id_articulo,nombre_articulo,stock,referencia,referencia_aux,"","","",0,iva,tarifa,descuento,coste,ean,0);
             Intent i = new Intent(context, InfoArticulos.class);
             i.putExtra("articuloId", a.getId_articulo());
             i.putExtra("sitio",1);

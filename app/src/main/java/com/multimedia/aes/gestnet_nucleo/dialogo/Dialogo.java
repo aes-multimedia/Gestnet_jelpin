@@ -21,8 +21,6 @@ public class Dialogo {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
 
-
-
                     }
                 });
 
@@ -31,6 +29,7 @@ public class Dialogo {
         alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }
+
     public static void errorConectarImpresora(Context context){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(R.string.err_impr);
@@ -46,6 +45,7 @@ public class Dialogo {
         alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }
+
     public static void impresionOk(Context context){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(R.string.imp_ok);

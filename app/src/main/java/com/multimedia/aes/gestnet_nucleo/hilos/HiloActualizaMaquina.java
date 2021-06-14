@@ -37,6 +37,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
     private int fk_direccion;
     private int fk_marca;
     private String modelo;
+    private String ubicacion;
     private String num_serie;
 
     private String puesta_marcha;
@@ -54,7 +55,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
 
     public HiloActualizaMaquina(int fk_maquina, int fk_parte, int fk_direccion, int fk_marca,
                                  String modelo, String num_serie, String puesta_marcha,  String temperatura_max_acs, String caudal_acs,
-                                String potencia_util, String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida) {
+                                String potencia_util, String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String ubicacion) {
 
         this.fk_maquina=fk_maquina;
         this.fk_parte=fk_parte;
@@ -68,6 +69,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
         this.potencia_util=potencia_util;
         this.temperatura_agua_generador_calor_entrada=temperatura_agua_generador_calor_entrada;
         this.temperatura_agua_generador_calor_salida=temperatura_agua_generador_calor_salida;
+        this.ubicacion=ubicacion;
         try {
             cliente = ClienteDAO.buscarCliente(context);
         } catch (SQLException e) {
@@ -120,6 +122,7 @@ public class HiloActualizaMaquina  extends AsyncTask<Void,Void,Void> {
         msg.put("potencia_util",potencia_util);
         msg.put("temperatura_agua_generador_calor_entrada",temperatura_agua_generador_calor_entrada);
         msg.put("temperatura_agua_generador_calor_salida",temperatura_agua_generador_calor_salida);
+        msg.put("ubicacion",ubicacion);
         Log.d("JSON_ACTUALIZAR",msg.toString());
         URL urlws = null;
         HttpURLConnection uc = null;

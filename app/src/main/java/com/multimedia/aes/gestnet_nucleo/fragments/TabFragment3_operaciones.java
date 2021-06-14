@@ -62,7 +62,7 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
     private int posicion = 0;
     private Configuracion configuracion;
     private Button btnObra;
-
+    private static Cliente c;
     //METODO
     private void inicializarVariables() {
         spProtocolos = vista.findViewById(R.id.spProtocolos);
@@ -73,6 +73,15 @@ public class TabFragment3_operaciones extends Fragment implements View.OnClickLi
         if (!configuracion.isOperacion_finalizacion()){
             btnObra.setVisibility(View.GONE);
         }
+        try{
+            c = ClienteDAO.buscarCliente(getContext());
+            if(c.getId_cliente()==21){
+                btnObra.setVisibility(View.GONE);
+            }
+        }catch( SQLException sqlE){
+            sqlE.printStackTrace();
+        }
+
     }
     private void darValores() throws java.sql.SQLException {
         //SPINNER PROTOCOLO

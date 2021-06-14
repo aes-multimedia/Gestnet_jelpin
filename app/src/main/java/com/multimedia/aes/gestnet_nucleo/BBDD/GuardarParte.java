@@ -4,7 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Articulo;
+import com.multimedia.aes.gestnet_nucleo.entidades.ArticuloParte;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
@@ -23,12 +29,20 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
     private static Context context;
     private static boolean bien=false;
     private static ArrayList<Parte> partes = new ArrayList<>();
+    private static ArrayList<Articulo> articulos = new ArrayList<>();
     private ProgressDialog dialog;
     private static int estado = 0;
+    private static Cliente c;
 
     public GuardarParte(Context context, String json) {
         this.context = context;
         this.json = json;
+        try{
+            c = ClienteDAO.buscarCliente(context);
+        }catch( SQLException sqlE){
+            sqlE.printStackTrace();
+        }
+
     }
 
     @Override
@@ -73,14 +87,88 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
         JSONObject jsonObject = new JSONObject(json);
         estado = Integer.parseInt(jsonObject.getString("estado"));
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
+
+
         if (jsonArray.length()!=0){
             for (int i = 0; i < jsonArray.length(); i++) {
+
                 int id_parte;
                 if (jsonArray.getJSONObject(i).getString("id_parte").equals("null") || jsonArray.getJSONObject(i).getString("id_parte").equals("")) {
                     id_parte = -1;
                 } else {
                     id_parte = jsonArray.getJSONObject(i).getInt("id_parte");
                 }
+
+                // RECOGER LOS MATERIALES QUE VENGAN EN EL PARTE Y AÑADIRLOS A LOS ARTICULOS
+
+                // CLIMASAT Y TRENC
+                if(c.getId_cliente()==28 || c.getId_cliente()==21){
+                JSONArray jsonArrayArticulos = jsonArray.getJSONObject(i).getJSONArray("daitems");
+                if (jsonArrayArticulos.length() != 0) {
+                    for (int j = 0; j < jsonArrayArticulos.length(); j++) {
+                        JSONObject materialParte = jsonArrayArticulos.getJSONObject(j);
+                        int id_articulo = -1;
+                        int id_item_gestnet = -1;
+                        String id_item_gestnetJson = materialParte.getString("id_item");
+
+                        if (!id_item_gestnetJson.isEmpty()) {
+                            id_item_gestnet = Integer.valueOf(materialParte.getString("id_item"));
+                        }
+
+                       // Boolean bExistente = ArticuloDAO.existeArticuloPorIdItem(context, id_item_gestnet);
+                        Boolean bExistente = ArticuloParteDAO.existeArticuloPartePorIdItemGestnet(context, id_item_gestnet);
+
+                        if (!bExistente) {
+                            //SI NO EXISTE YA SE CREO EL ARTÍCULO PARTE
+                        int Proveedor = -1;
+                        Double iva = Double.parseDouble(materialParte.getString("fk_iva"));
+                        Double tarifa = Double.parseDouble(materialParte.getString("precio_tarifa"));
+                        Double undItem = Double.parseDouble(materialParte.getString("unidadesITEM"));
+                        Double dto = 0.0;
+                        Double coste = 0.0;
+                        String id_articuloJson = materialParte.getString("id_articulo");
+
+
+
+                        if (!id_articuloJson.isEmpty()) {
+
+                            id_articulo = Integer.valueOf(materialParte.getString("id_articulo"));
+
+                            if (!materialParte.getString("fk_proveedor").equals("null") && !materialParte.getString("fk_proveedor").isEmpty()) {
+                                Proveedor = Integer.valueOf(materialParte.getString("fk_proveedor"));
+                            }
+                            dto = Double.parseDouble(materialParte.getString("dto_prov"));
+                            coste = Double.parseDouble(materialParte.getString("coste_actual"));
+                        }
+
+                        String imagen = materialParte.getString("articulo_imagen");
+                        int bImg = 0;
+                        if (!imagen.isEmpty()) {
+                            bImg = 1;
+                        } else {
+                            bImg = 0;
+                        }
+
+                            List<Articulo> a = ArticuloDAO.buscarPorFkArticulo(context,id_articulo);
+                            Articulo material = null;
+                            if(a == null){
+                                material = ArticuloDAO.montarArticulo(id_item_gestnet, id_articulo, materialParte.getString("nombre"), undItem, materialParte.getString("referencia"), materialParte.getString("referencia_aux"), materialParte.getString("nombre_familia"), materialParte.getString("nombre_marca"), materialParte.getString("nombre_modelo"), Proveedor, iva, tarifa, dto, coste, materialParte.getString("ean"), bImg);
+                                ArticuloDAO.crearArticulo(material, context);
+                            }else{
+                                material = a.get(0);
+                            }
+                            int idArticuloCreado = material.getId_articulo();
+
+
+                        ArticuloParteDAO.newArticuloParte(context, idArticuloCreado,id_parte,id_item_gestnet, undItem,false,false);
+                      }
+
+                        // GUARDAR LOS MATERIALES DEL PARTE SI HAY
+                    }
+                }
+            }
+
+
                 if (ParteDAO.buscarTodosLosPartes(context)!=null){
                     partes.addAll(ParteDAO.buscarTodosLosPartes(context));
                 }

@@ -64,7 +64,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     private static Spinner spMarca, spPuestaMarcha;
     private static EditText etModelo, etTempMaxACS, etCaudalACS, etPotenciaUtil,
             etTempGasesComb, etTempAmbienteLocal, etTempAguaGeneCalorEntrada,
-            etTempAguaGeneCalorSalida,etNumeroSerie;
+            etTempAguaGeneCalorSalida,etNumeroSerie,etUbicacion;
     private Button btnAñadirMaquina,btnDatosTesto,btnVerDocumentosModelo;
     private ArrayList<Marca> arrayListMarcas= new ArrayList<>();
     private static ListView lvAnalisis;
@@ -79,7 +79,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
     private String serialNumber;
     private static Cliente cliente;
     private static String webUrl="";
-    private static int id;
+    private  int id;
 
     //METODOS
     private void darValores(){
@@ -151,6 +151,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
             spPuestaMarcha.setSelection(spinnerPosition);
         }
         etNumeroSerie.setText(maquina.getNum_serie());
+        etUbicacion.setText(maquina.getUbicacion());
         etModelo.setText(maquina.getModelo());
 
     }
@@ -166,6 +167,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
         etTempAguaGeneCalorEntrada = (EditText)findViewById(R.id.etTempAguaGeneCalorEntrada);
         etTempAguaGeneCalorSalida = (EditText)findViewById(R.id.etTempAguaGeneCalorSalida);
         etNumeroSerie = (EditText)findViewById(R.id.etNumSerie);
+        etUbicacion = (EditText)findViewById(R.id.etUbicacion);
         //BUTTON
         btnAñadirMaquina = (Button)findViewById(R.id.btnAñadirMaquina);
         btnDatosTesto = (Button)findViewById(R.id.btnDatosTesto);
@@ -218,6 +220,9 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
             }
             if (!String.valueOf(maquina.getModelo()).equals("")&&!String.valueOf(maquina.getModelo()).equals("0")){
                 etModelo.setText(String.valueOf(maquina.getModelo()));
+            }
+            if (!String.valueOf(maquina.getUbicacion()).equals("")&&!String.valueOf(maquina.getUbicacion()).equals("0")){
+                etUbicacion.setText(String.valueOf(maquina.getUbicacion()));
             }
             if (!String.valueOf(maquina.getTemperatura_max_acs()).equals("")&&!String.valueOf(maquina.getTemperatura_max_acs()).equals("0")){
                 etTempMaxACS.setText(String.valueOf(maquina.getTemperatura_max_acs()));
@@ -281,6 +286,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
         }
         id = getIntent().getIntExtra("id",-1);
+
         if (id ==-1){
 
             int fkMaquina= calcularMaquina();
@@ -299,7 +305,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                     "","","SIN COMBUSTIBLE","","");
         }else{
             try {
-                maquina = MaquinaDAO.buscarMaquinaPorFkMaquina(this,id);
+                maquina = MaquinaDAO.buscarMaquinaPorId(this,id);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -369,7 +375,10 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
             if(maquina.getDocumento_modelo().equals("")){
                 Dialogo.dialogoError("Esta maquina no tiene documentos",this);
             }else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + cliente.getIp_cliente() + "/uploaded/"+cliente.getDir_documentos()+"/modelos/" + maquina.getDocumento_modelo()));
+                String ipCliente = cliente.getIp_cliente();
+                String docFolder = cliente.getDir_documentos();
+                String documento = maquina.getDocumento_modelo();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webUrl = "http://" + ipCliente + "/uploaded/"+docFolder+"/modelos/" +documento));
                 startActivity(browserIntent);
             }
         } else if (view.getId() == btnDatosTesto.getId()) {
@@ -412,6 +421,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                 int fk_tipo_gama = 0;
                                 String fecha_creacion = "";
                                 String modelo = etModelo.getText().toString();
+                                String ubicacion = etUbicacion.getText().toString();
                                 String num_serie = etNumeroSerie.getText().toString();
                                 String num_producto = "";
                                 String aparato = "";
@@ -420,7 +430,6 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                 String fecha_fin_garantia = "";
                                 String mantenimiento_anual = "";
                                 String observaciones = "";
-                                String ubicacion = "";
                                 String tienda_compra = "";
                                 String garantia_extendida = "";
                                 String factura_compra = "";
@@ -440,13 +449,13 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                 String documento_modelo="";
                                 if (id!=-1){
                                     MaquinaDAO.actualizarMaquina(AnadirDatosMaquina.this,
-                                            fk_maquina,fk_parte, fk_direccion, fk_marca,
+                                            id,fk_maquina,fk_parte, fk_direccion, fk_marca,
                                             modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,ubicacion);
 
                                     new HiloActualizaMaquina( fk_maquina,fk_parte, fk_direccion, fk_marca,
                                             modelo, num_serie,  puesta_marcha,  temperatura_max_acs, caudal_acs,
-                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida).execute();
+                                            potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,ubicacion).execute();
                                 }else{
                                     MaquinaDAO.newMaquina(AnadirDatosMaquina.this,
                                             fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,

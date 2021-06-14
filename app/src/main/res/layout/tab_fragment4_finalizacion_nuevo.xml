@@ -417,7 +417,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:padding="5dp"
                             android:text="0" />
 

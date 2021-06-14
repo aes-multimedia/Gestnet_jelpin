@@ -31,6 +31,30 @@
                     android:padding="10dp">
 
                     <LinearLayout
+                        android:id="@+id/ll_tiposOS"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView47"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left"
+                            android:padding="3dp"
+                            android:text="@string/Tipos_OServicio"
+                            android:textColor="@color/cast_expanded_controller_background_color"
+                            android:textSize="18dp" />
+
+                        <Spinner
+                            android:id="@+id/sp_tipos_os"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
@@ -442,9 +466,9 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:padding="5dp"
-                            android:text="0" />
+                            android:text="@string/Otros" />
 
                         <TextView
                             android:id="@+id/textVie12"

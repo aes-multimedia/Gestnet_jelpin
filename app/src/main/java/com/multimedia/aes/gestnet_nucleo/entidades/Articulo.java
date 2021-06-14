@@ -24,8 +24,10 @@ public class Articulo {
     public static final String ENTREGADO ="entregado";
     public static final String PRESUPUESTAR="presupuestar";
     public static final String FACTURAR = "facturar";
+    public static final String ID_ITEM_GESTNET = "id_item_gestnet";
 
     @DatabaseField(generatedId = true, columnName = ID_ARTICULO)        private int id_articulo;
+    @DatabaseField(columnName = ID_ITEM_GESTNET)                        private int id_item_gestnet;
     @DatabaseField(columnName = FK_ARTICULO)                            private int fk_articulo;
     @DatabaseField(columnName = NOMBRE_ARTICULO)                        private String nombre_articulo;
     @DatabaseField(columnName = STOCK)                                  private double stock;
@@ -49,8 +51,9 @@ public class Articulo {
     public Articulo() {
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int id_item_gestnet,int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen) {
+        this.id_item_gestnet = id_item_gestnet;
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;
@@ -139,6 +142,8 @@ public class Articulo {
 
     public int getFk_articulo() {return fk_articulo;}
 
+    public int getId_item_gestnet() {return id_item_gestnet;}
+
     public void setFk_articulo(int fk_articulo) {
         this.fk_articulo = fk_articulo;
     }
@@ -149,6 +154,9 @@ public class Articulo {
 
     public void setNombre_articulo(String nombre_articulo) {
         this.nombre_articulo = nombre_articulo;
+    }
+    public void setId_item_gestnet(int id_item_gestnet) {
+        this.id_item_gestnet = id_item_gestnet;
     }
 
     public double getStock() {

@@ -160,11 +160,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-
-
-
-
-
     }
 
     private void buscarStockAlmacenes()  {
@@ -253,6 +248,21 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        boolean entregado = false;
+        boolean garantia = false;
+        if(chkGarantia.isChecked()){
+            garantia = true;
+        }else{
+            garantia = false;
+        }
+
+        if (v.getId() == btnAñadirMaterial.getId()) {
+
+             entregado = false;
+
+        }else if(v.getId() == btnPedirMaterial.getId()){
+             entregado = true;
+        }
 
         if(tvCantidad.getText().toString().equals("")){
             new AlertDialog.Builder(this)
@@ -268,11 +278,15 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 unidades =  Double.parseDouble(tvCantidad.getText().toString());
             }
             try {
-                if (ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte) != null) {
-                    ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
-                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades);
+                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
+                if (articuloParte != null) {
+
+
+
+                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades, entregado,garantia );
+
                 } else {
-                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte, unidades)) {
+                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte,-1, unidades,entregado,garantia)) {
                     }
                 }
                 try {
@@ -286,8 +300,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 } catch (SQLException e) {
                     Intent returnIntent = new Intent();
@@ -309,9 +321,7 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
         try {
-
         if ( isChecked )
         {
                 ArticuloDAO.actualizarGarantia(this,articulo.getId_articulo(),true);

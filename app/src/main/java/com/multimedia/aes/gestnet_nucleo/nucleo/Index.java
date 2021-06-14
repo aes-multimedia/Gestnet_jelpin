@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,7 @@ import com.multimedia.aes.gestnet_nucleo.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_nucleo.R;
 import com.multimedia.aes.gestnet_nucleo.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes;
+import com.multimedia.aes.gestnet_nucleo.adaptador.AdaptadorPartes_trenc;
 import com.multimedia.aes.gestnet_nucleo.constantes.BBDDConstantes;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
@@ -77,6 +79,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private ImageView ivIncidencias;
     private LinearLayout cuerpo;
     private AdaptadorPartes adaptadorPartes;
+    private AdaptadorPartes_trenc adaptadorPartes_trenc;
     private ArrayList<Parte> arrayListParte = new ArrayList<>();
     private String fecha;
     private Usuario u;
@@ -100,6 +103,10 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias = navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
         cuerpo = findViewById(R.id.cuerpo);
+
+
+
+
     }
 
     public void sacarMensaje(String msg) {
@@ -204,8 +211,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
-        lvIndex.setAdapter(adaptadorPartes);
+        
+        if(c.getId_cliente()==28){
+            adaptadorPartes_trenc = new AdaptadorPartes_trenc(this, R.layout.camp_adapter_list_view_parte_trenc, arrayListParte);
+            lvIndex.setAdapter(adaptadorPartes_trenc);
+        }else{
+            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+            lvIndex.setAdapter(adaptadorPartes);
+        }
+
         Intent intent = getIntent();
         if (intent != null) {
 
@@ -300,7 +314,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            recreate();
+
+            finish();
+            startActivity(getIntent());
         }
     }
 
@@ -310,7 +326,9 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
         int id = item.getItemId();
         if (id == R.id.averias) {
-            recreate();
+            finish();
+            startActivity(getIntent());
+
         } else if (id == R.id.mi_firma) {
             Intent i = new Intent(this, MiFirma.class);
             startActivity(i);
@@ -455,7 +473,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> adapterView, @NonNull View view , int i, long l) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", view.getTag());
@@ -501,7 +519,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     }
 
-    private void iniciarParte(Parte parte) throws SQLException {
+    private void iniciarParte(@NonNull Parte parte) throws SQLException {
         if (parte.getEstado_android() == 0) {
             DatosAdicionales datos = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(this, parte.getId_parte());
             Calendar c = Calendar.getInstance();

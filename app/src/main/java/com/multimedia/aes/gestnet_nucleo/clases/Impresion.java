@@ -312,7 +312,7 @@ public class Impresion {
         result += "TOTAL: " + total + "\n" + "\n";
         result += "---CONFORME FINAL DEL FIRMANTE---" + "\n";
         result += "*Renuncio a presupuesto previo " + "\n" +
-                "autorizando la reparacion." + "\n";
+                "autorizando reparacion." + "\n";
         result += "" + "\n";
         result += "" + "\n";
         return result;

@@ -159,6 +159,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
     public static void result(String path){
         try {
             String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
+
             ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false);
             darValores();
         } catch (OutOfMemoryError memoryError){
@@ -209,7 +210,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
+        Bitmap b = BitmapFactory.decodeFile(path, options);
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         // Decode bitmap with inSampleSize set
