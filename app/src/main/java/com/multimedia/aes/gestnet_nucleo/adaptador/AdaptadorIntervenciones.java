@@ -41,7 +41,7 @@ public class AdaptadorIntervenciones extends ArrayAdapter implements View.OnClic
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(view, null);
         }
-        TextView tvTecnico,tvFecha,tvSintomas,tvOperacionEfectuada,tvTotal;
+        TextView tvTecnico,tvFecha,tvSintomas,tvOperacionEfectuada,tvTotal,tvNumParte,tvnumParteLabel;
         ConstraintLayout linearLayout  =  item.findViewById(R.id.lLRowIntervenciones);
         linearLayout.setTag(String.valueOf(intervencionArrayList.get(position).getId_parte()));
 
@@ -50,15 +50,21 @@ public class AdaptadorIntervenciones extends ArrayAdapter implements View.OnClic
         tvSintomas=item.findViewById(R.id.tvSintomas);
         tvOperacionEfectuada=item.findViewById(R.id.tvOperacionEfectuada);
         tvTotal=item.findViewById(R.id.tvTotal);
-
-
+        tvNumParte = item.findViewById(R.id.tvNumero);
+        tvnumParteLabel = item.findViewById(R.id.numParteLabel);
+        String numParte = intervencionArrayList.get(position).getNum_parte();
 
         tvTecnico.setText(intervencionArrayList.get(position).getTecnico());
         tvFecha.setText(intervencionArrayList.get(position).getFecha_visita());
         tvSintomas.setText(intervencionArrayList.get(position).getOtros_sintomas());
         tvOperacionEfectuada.setText(intervencionArrayList.get(position).getOperacion_efectuada());
         tvTotal.setText(String.valueOf(intervencionArrayList.get(position).getFacturado()));
+        tvNumParte.setText(String.valueOf(intervencionArrayList.get(position).getNum_parte()));
 
+        if(numParte.equals("")){
+            tvNumParte.setVisibility(View.GONE);
+            tvnumParteLabel.setVisibility(View.GONE);
+        }
 
 
         linearLayout.setOnClickListener(this);
