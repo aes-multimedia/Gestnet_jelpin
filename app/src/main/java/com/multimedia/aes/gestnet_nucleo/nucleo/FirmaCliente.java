@@ -30,6 +30,7 @@ import java.sql.SQLException;
 
 import id.zelory.compressor.Compressor;
 
+
 public class FirmaCliente extends Activity implements View.OnClickListener, View.OnTouchListener {
     private Button btnGuardar,btnBorrar;
     private FrameLayout frFirma;
