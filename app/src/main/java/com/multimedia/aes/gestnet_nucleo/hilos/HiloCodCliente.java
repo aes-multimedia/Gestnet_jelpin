@@ -39,7 +39,6 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
         }
     }
 
-
     @Override
     protected void onPreExecute() {
         dialog = new ProgressDialog(context);
@@ -103,7 +102,7 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
-            error.put("mensaje","Error de conexión, IOException");
+            error.put("mensaje","No se ha podido establecer conexión con el Servidor.\n\nCompruebe su conexión de Datos y/o Wifi\n\nGracias");
             return error.toString();
         }
         String contenido = "";
@@ -120,7 +119,7 @@ public class HiloCodCliente extends AsyncTask<Void,Void,Void>{
             }
             in.close();
             osw.close();
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado",5);
