@@ -139,9 +139,12 @@ public class HiloListarImagenesIntervencion extends AsyncTask<Void,Void,Void> {
             osw.flush();
             BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             String inputLine;
+            StringBuilder sb = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
-                contenido += inputLine + "\n";
+                sb.append(inputLine + "\n");
+                //contenido += inputLine + "\n";
             }
+            contenido = sb.toString();
             in.close();
             osw.close();
         } catch (IOException e) {
