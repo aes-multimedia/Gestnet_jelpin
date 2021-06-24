@@ -136,7 +136,15 @@ public class ArticuloDAO extends DBHelperMOS {
             return listadoArticulo;
         }
     }
-
+    public static List<Articulo> buscarPorIdItemGestnet(Context context,int fk) throws SQLException {
+        cargarDao(context);
+        List<Articulo> listadoArticulo= dao.queryBuilder().where().eq(Articulo.ID_ITEM_GESTNET,fk).query();
+        if(listadoArticulo.isEmpty()) {
+            return null;
+        }else{
+            return listadoArticulo;
+        }
+    }
     public static List<Articulo> buscarArticulosPorReferencia(Context context,String ref) throws SQLException {
         cargarDao(context);
         List<Articulo> listadoArticulo= dao.queryBuilder().where().eq(Articulo.REFERENCIA,ref).query();

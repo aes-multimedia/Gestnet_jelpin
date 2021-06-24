@@ -3,6 +3,8 @@ package com.multimedia.aes.gestnet_nucleo.BBDD;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ArticuloParteDAO;
@@ -21,7 +23,10 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class GuardarParte extends AsyncTask<Void,Void,Void> {
 
@@ -149,13 +154,22 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                             bImg = 0;
                         }
 
-                            List<Articulo> a = ArticuloDAO.buscarPorFkArticulo(context,id_articulo);
+                          List<Articulo> a = null;
+                          if(id_articulo != -1){
+                              a = ArticuloDAO.buscarPorFkArticulo(context,id_articulo);
+                          }else{
+                              a = ArticuloDAO.buscarPorIdItemGestnet(context,id_item_gestnet);
+                          }
+
                             Articulo material = null;
+
                             if(a == null){
                                 material = ArticuloDAO.montarArticulo(id_item_gestnet, id_articulo, materialParte.getString("nombre"), undItem, materialParte.getString("referencia"), materialParte.getString("referencia_aux"), materialParte.getString("nombre_familia"), materialParte.getString("nombre_marca"), materialParte.getString("nombre_modelo"), Proveedor, iva, tarifa, dto, coste, materialParte.getString("ean"), bImg);
                                 ArticuloDAO.crearArticulo(material, context);
                             }else{
-                                material = a.get(0);
+
+                                //buscar articulos por fk_gestnet
+                                    material = a.get(0);
                             }
                             int idArticuloCreado = material.getId_articulo();
 

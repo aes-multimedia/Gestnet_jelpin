@@ -126,6 +126,7 @@ public class HiloGuardarPresupuesto extends AsyncTask<Void,Void,Void> {
             osw.flush();
             BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
             String inputLine;
+            StringBuilder sb = new StringBuilder();
             while ((inputLine = in.readLine()) != null) {
                 contenido += inputLine + "\n";
             }
