@@ -16,6 +16,10 @@ public class ArticuloParte {
     public static final String ENTREGADO ="entregado";
     public static final String PRESUPUESTAR="presupuestar";
     public static final String FACTURAR = "facturar";
+    public static final String IVA = "iva";
+    public static final String TARIFA = "tarifa";
+    public static final String DESCUENTO = "descuento";
+    public static final String COSTE = "coste";
 
 
     @DatabaseField(generatedId = true, columnName = ID)     private int id;
@@ -27,9 +31,13 @@ public class ArticuloParte {
     @DatabaseField(columnName = ENTREGADO)                  private boolean entregado;
     @DatabaseField(columnName = PRESUPUESTAR)               private boolean presupuestar;
     @DatabaseField(columnName = FACTURAR)                   private boolean facturar;
+    @DatabaseField(columnName = IVA)                        private double iva;
+    @DatabaseField(columnName = TARIFA)                     private double tarifa;
+    @DatabaseField(columnName = DESCUENTO)                  private double descuento;
+    @DatabaseField(columnName = COSTE)                      private double coste;
 
     public ArticuloParte(){}
-    public ArticuloParte(int fk_articulo, int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia) {
+    public ArticuloParte(int fk_articulo, int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia,double iva,double tarifa,double descuento,double coste) {
         this.id = id;
         this.fk_articulo = fk_articulo;
         this.fk_parte = fk_parte;
@@ -39,6 +47,10 @@ public class ArticuloParte {
         this.entregado = entregado;
         this.presupuestar=true;
         this.facturar=true;
+        this.iva=iva;
+        this.tarifa=tarifa;
+        this.descuento=descuento;
+        this.coste=coste;
     }
 
     public int getId() {
@@ -93,5 +105,25 @@ public class ArticuloParte {
     public boolean getFacturar() { return facturar; }
     public void setFacturar(boolean facturar) {
         this.facturar = facturar;
+    }
+
+    public double getIva() { return iva; }
+    public void setIva(double iva) {
+        this.iva = iva;
+    }
+
+    public double getCoste() { return coste; }
+    public void setCoste(double coste) {
+        this.coste = coste;
+    }
+
+    public double getDescuento() { return descuento; }
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
+
+    public double getTarifa() { return tarifa; }
+    public void setTarifa(double tarifa) {
+        this.tarifa = tarifa;
     }
 }

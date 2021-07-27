@@ -61,12 +61,21 @@ public class ImpresionPresupuesto extends Ticket {
         ArrayList<Articulo> articulos = new ArrayList<>();
         if(articuloPartes != null) {
             int [] ids = new int [articuloPartes.size()];
+            int [] idsAp = new int [articuloPartes.size()];
             for (int i = 0; i < articuloPartes.size(); i++) {
                 ids[i] = articuloPartes.get(i).getFk_articulo();
+                idsAp[i] = articuloPartes.get(i).getId();
             }
 
             for (int i = 0; i < ids.length; i++) {
-                articulos.add(ArticuloDAO.buscarArticuloPorID(context,ids[i]));
+                ArticuloParte ap = ArticuloParteDAO.buscarArticuloPartePorID(context,idsAp[i]);
+                Articulo a = ArticuloDAO.buscarArticuloPorID(context,ids[i]);
+                a.setIva(ap.getIva());
+                a.setCoste(ap.getCoste());
+                a.setDescuento(ap.getDescuento());
+                a.setTarifa(ap.getTarifa());
+                articulos.add(a);
+                //articulos.add(ArticuloDAO.buscarArticuloPorID(context,ids[i]));
             }
         }
 

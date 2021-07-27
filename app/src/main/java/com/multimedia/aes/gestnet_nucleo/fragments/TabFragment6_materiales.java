@@ -223,7 +223,7 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
             articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(context, parte.getId_parte()));
             List<Articulo> articulos_prueba = ArticuloDAO.buscarTodosLosArticulos(context);
             for (ArticuloParte articuloParte : articuloPartes) {
-                Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
+                //Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
 
                 boolean esta = false;
                 for (Articulo articulo : articulos) {
@@ -231,8 +231,15 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                         esta = true;
                     }
                 }
+
                 if (!esta) {
-                    articulos.add(ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo()));
+                    Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
+                    ArticuloParte ap = ArticuloParteDAO.buscarArticuloPartePorID(context,articuloParte.getId());
+                    a.setIva(ap.getIva());
+                    a.setCoste(ap.getCoste());
+                    a.setDescuento(ap.getDescuento());
+                    a.setTarifa(ap.getTarifa());
+                    articulos.add(a);
                 }
             }
 

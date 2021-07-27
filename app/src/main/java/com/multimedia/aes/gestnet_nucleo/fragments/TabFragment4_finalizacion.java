@@ -374,7 +374,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 art = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
 
                 if (articulo.getGarantia() != true && articulo.getPresupuestar()) {
-                    precio = precio + art.getTarifa() * articulo.getUsados();
+                    precio = precio + articulo.getTarifa() * articulo.getUsados();
                 }
             }
         } catch (SQLException e) {
@@ -397,7 +397,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 Articulo art;
                 art = ArticuloDAO.buscarArticuloPorID(getContext(), articulo.getFk_articulo());
                 if (articulo.getGarantia() != true && articulo.getFacturar()) {
-                    precio = precio + art.getTarifa() * articulo.getUsados();
+                    precio = precio + articulo.getTarifa() * articulo.getUsados();
                 }
             }
         } catch (SQLException e) {

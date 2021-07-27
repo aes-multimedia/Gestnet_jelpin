@@ -278,16 +278,6 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 unidades =  Double.parseDouble(tvCantidad.getText().toString());
             }
             try {
-                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
-                if (articuloParte != null) {
-
-                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades, entregado,garantia );
-
-                } else {
-                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte,-1, unidades,entregado,garantia)) {
-
-                    }
-                }
                 try {
 
                     if (v.getId() == btnAñadirMaterial.getId()) {
@@ -305,6 +295,16 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                     setResult(Activity.RESULT_CANCELED, returnIntent);
                     finish();
                     e.printStackTrace();
+                }
+                ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
+                if (articuloParte != null) {
+
+                    ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades, entregado,garantia );
+
+                } else {
+                    if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte,-1, unidades,entregado,garantia,articulo.getIva(),articulo.getTarifa(),articulo.getDescuento(),articulo.getCoste())) {
+
+                    }
                 }
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);

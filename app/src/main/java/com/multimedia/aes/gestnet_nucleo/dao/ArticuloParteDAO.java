@@ -3,6 +3,7 @@ package com.multimedia.aes.gestnet_nucleo.dao;
 import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.multimedia.aes.gestnet_nucleo.dbhelper.DBHelperMOS;
@@ -23,8 +24,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     //__________FUNCIONES DE CREACIÓN________________________//
 
-    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia) {
-        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia);
+    public static boolean newArticuloParte(Context context, int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia,double iva,double tarifa,double descuento,double coste) {
+        ArticuloParte a = montarArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia,iva,tarifa,descuento,coste);
         return crearArticuloParte(a,context);
     }
 
@@ -64,8 +65,8 @@ public class ArticuloParteDAO  extends DBHelperMOS {
 
     }
 
-    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado, boolean garantia) {
-        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia);
+    public static ArticuloParte  montarArticuloParte(int fk_articulo,int fk_parte,int fk_item_gestnet,double usados,boolean entregado, boolean garantia,double iva,double tarifa,double descuento,double coste) {
+        ArticuloParte a =new ArticuloParte(fk_articulo,fk_parte,fk_item_gestnet,usados,entregado,garantia,iva,tarifa,descuento,coste);
         return a;
     }
 

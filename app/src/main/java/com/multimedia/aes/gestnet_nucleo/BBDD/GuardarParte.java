@@ -171,10 +171,12 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 //buscar articulos por fk_gestnet
                                     material = a.get(0);
                             }
+
+
                             int idArticuloCreado = material.getId_articulo();
 
 
-                        ArticuloParteDAO.newArticuloParte(context, idArticuloCreado,id_parte,id_item_gestnet, undItem,false,false);
+                        ArticuloParteDAO.newArticuloParte(context, idArticuloCreado,id_parte,id_item_gestnet, undItem,false,false,iva,tarifa,dto,coste);
                       }
 
                         // GUARDAR LOS MATERIALES DEL PARTE SI HAY

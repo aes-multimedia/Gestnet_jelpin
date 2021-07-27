@@ -96,7 +96,7 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                                     -1,-1,nombre,cantidadStock,"",
                                     "","","","",
                                     0,iva,precio,0,coste,"",0,radioButtonPedir.isChecked(),chGarantia.isChecked());
-                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,-1,unidades,radioButtonPedir.isChecked(),chGarantia.isChecked());
+                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,-1,unidades,radioButtonPedir.isChecked(),chGarantia.isChecked(),iva,precio,0,coste);
                         }
 
                         try {
