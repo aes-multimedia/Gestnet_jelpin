@@ -36,9 +36,9 @@ public class ArticuloDAO extends DBHelperMOS {
 
 
 
-    public static Articulo newArticuloDialogFragment(Context context,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+    public static Articulo newArticuloDialogFragment(Context context,int id_item_gestnet,int id_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                                           String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
-        Articulo a = montarArticuloDialogFragment(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+        Articulo a = montarArticuloDialogFragment(id_item_gestnet,id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
         return crearArticuloRet(a,context);
     }
 
@@ -71,9 +71,9 @@ public class ArticuloDAO extends DBHelperMOS {
         }
     }
 
-    private static Articulo montarArticuloDialogFragment(int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia, String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen, boolean entregado, boolean garantia) {
+    private static Articulo montarArticuloDialogFragment(int id_item_gestnet,int id_articulo, String nombre_articulo, double stock, String referencia, String referencia_aux, String familia, String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean, int imagen, boolean entregado, boolean garantia) {
 
-       return new Articulo(id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
+       return new Articulo(id_item_gestnet,id_articulo,nombre_articulo,stock,referencia, referencia_aux, familia, marca,  modelo, proveedor, iva, tarifa, descuento, coste, ean,imagen,entregado,garantia);
 
     }
 

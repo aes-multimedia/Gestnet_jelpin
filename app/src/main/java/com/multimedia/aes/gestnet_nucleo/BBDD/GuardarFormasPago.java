@@ -80,6 +80,7 @@ public class GuardarFormasPago extends AsyncTask<Void,Void,Void> {
 
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("formasPago");
+
         for (int i = 0; i < jsonArray.length(); i++) {
 
 

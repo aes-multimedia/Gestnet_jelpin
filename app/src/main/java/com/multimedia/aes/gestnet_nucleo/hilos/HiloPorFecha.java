@@ -139,7 +139,6 @@ public class HiloPorFecha extends AsyncTask<Void, Void, Void> {
             contenido = error.toString();
         }
 
-
         return contenido;
     }
 }

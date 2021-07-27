@@ -281,12 +281,11 @@ public class InfoArticulos  extends AppCompatActivity implements View.OnClickLis
                 ArticuloParte articuloParte = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this, articulo.getId_articulo(), idParte);
                 if (articuloParte != null) {
 
-
-
                     ArticuloParteDAO.actualizarArticuloParte(this, articuloParte.getId(), articuloParte.getUsados() + unidades, entregado,garantia );
 
                 } else {
                     if (ArticuloParteDAO.newArticuloParte(this, articulo.getId_articulo(), idParte,-1, unidades,entregado,garantia)) {
+
                     }
                 }
                 try {

@@ -79,7 +79,7 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
         if (mensaje.indexOf('}') != -1) {
             if (tab!=null){
-                guardarArticulo(mensaje,context,tab);
+               guardarArticulo(mensaje,context,tab);
             }else{
                 DialogoBuscarArticulo.guardarArticuloDialogo(mensaje,context);
             }

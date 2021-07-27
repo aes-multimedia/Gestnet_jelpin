@@ -370,7 +370,6 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
         final int idArticulo = id;
         try {
 
-
             AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
             ArticuloParte art = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context, idArticulo, parte.getId_parte());
 
@@ -408,6 +407,8 @@ public class TabFragment6_materiales extends Fragment implements SearchView.OnQu
                                     ArticuloParte artOtroParte = ArticuloParteDAO.buscarArticuloPartePorFkArticulo(context,idArticulo);
                                     if(artOtroParte == null){
                                         ArticuloDAO.borrarArticuloPorID(context,idArticulo);
+                                    }else{
+                                        //ArticuloDAO.actualizarStock(context,artOtroParte.getId(),(cantidad-usados));
                                     }
 
 

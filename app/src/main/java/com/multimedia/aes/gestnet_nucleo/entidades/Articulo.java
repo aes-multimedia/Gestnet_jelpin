@@ -93,8 +93,9 @@ public class Articulo {
         this.facturar=true;
     }
 
-    public Articulo(int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
+    public Articulo(int id_item_gestnet,int fk_articulo, String nombre_articulo,double stock, String referencia, String referencia_aux, String familia,
                     String marca, String modelo, int proveedor, double iva, double tarifa, double descuento, double coste, String ean,int imagen,boolean entregado, boolean garantia) {
+        this.id_item_gestnet = id_item_gestnet;
         this.fk_articulo = fk_articulo;
         this.nombre_articulo = nombre_articulo;
         this.stock = stock;

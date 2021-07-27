@@ -310,6 +310,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             }
         }
 
+
         JSONArray jsonArray2 = new JSONArray();
         ArrayList<Maquina> arrayList = new ArrayList<>();
 
@@ -412,8 +413,6 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
 
 
        // Log.d("json_subida",msg.toString());
-
-
 
 
         return msg;

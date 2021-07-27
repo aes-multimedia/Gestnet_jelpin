@@ -93,10 +93,10 @@ public class CrearArticuloDialogFragment extends DialogFragment {
                             precio=Float.parseFloat(etPrecio.getText().toString());
                             coste=Float.parseFloat(etCoste.getText().toString());
                             Articulo a = ArticuloDAO.newArticuloDialogFragment(getContext(),
-                                    0,nombre,cantidadStock,"",
+                                    -1,-1,nombre,cantidadStock,"",
                                     "","","","",
                                     0,iva,precio,0,coste,"",0,radioButtonPedir.isChecked(),chGarantia.isChecked());
-                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,0,unidades,radioButtonPedir.isChecked(),chGarantia.isChecked());
+                            ArticuloParteDAO.newArticuloParte(getContext(),a.getId_articulo(),idParte,-1,unidades,radioButtonPedir.isChecked(),chGarantia.isChecked());
                         }
 
                         try {
