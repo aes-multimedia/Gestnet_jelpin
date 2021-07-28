@@ -127,11 +127,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                         }
                         Log.d("resultados",item.get("entrada").toString());
 
-
-
                         // TODO: HACER ACTUALIZACION DE ID_ITEM_GESTNET'
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -287,9 +284,9 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("stock", a.getStock());
                     obj.put("marca", a.getMarca());
                     obj.put("modelo", a.getModelo());
-                    obj.put("iva", a.getIva());
-                    obj.put("descuento", a.getDescuento());
-                    obj.put("coste", a.getCoste());
+                    obj.put("iva", articuloParte.getIva());
+                    obj.put("descuento",articuloParte.getDescuento());
+                    obj.put("coste",articuloParte.getCoste());
                     obj.put("entregado",articuloParte.getEntregado());
                     obj.put("cantidad", articuloParte.getUsados());
                     if (datos_adicionales.getBaceptapresupuesto())  obj.put("presupuesto", 1);
@@ -303,7 +300,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                         }
                     else
                         {
-                        obj.put("tarifa", a.getTarifa());
+                        obj.put("tarifa", articuloParte.getTarifa());
                         obj.put("garantia", 0);
                         }
                     jsonArray1.put(obj);

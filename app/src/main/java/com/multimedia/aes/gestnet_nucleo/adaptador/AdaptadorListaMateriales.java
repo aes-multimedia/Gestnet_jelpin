@@ -51,9 +51,14 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
         TextView txtTituloArticulo =  item.findViewById(R.id.txtTituloArticulo);
         TextView txtUsadas =  item.findViewById(R.id.txtUsadas);
         TextView txtPrecio =  item.findViewById(R.id.txtPrecio);
+        TextView txtPrecioUnidad =  item.findViewById(R.id.txtPrecioUnidad);
         ImageView imagen =  item.findViewById(R.id.imagenMaterialEntregadoSiNo);
-
+    if(!arrayList.get(position).getReferencia().equals("")){
         txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo()+"-"+arrayList.get(position).getReferencia());
+    }else{
+        txtTituloArticulo.setText(arrayList.get(position).getNombre_articulo());
+    }
+
         double usados = 1;
         try {
             if(ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(context,arrayList.get(position).getId_articulo(),fk_parte) != null) {
@@ -68,7 +73,8 @@ public class AdaptadorListaMateriales extends ArrayAdapter implements View.OnLon
             imagen.setImageResource(R.drawable.ic_done_black_24dp);
 
         }
-        txtPrecio.setText(   (String.format("%.2f", arrayList.get(position).getTarifa()*usados)+"€"));
+        txtPrecio.setText((String.format("%.2f", arrayList.get(position).getTarifa()*usados)+"€"));
+        txtPrecioUnidad.setText((String.format("%.2f", arrayList.get(position).getTarifa())+"€"));
 
         return item;
     }

@@ -53,7 +53,19 @@ public class GestionMateriales extends AppCompatActivity implements View.OnClick
                     parte = ParteDAO.buscarPartePorId(this, fk_parte);
                     articuloParteArrayList.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(this, fk_parte));
                     for (ArticuloParte articuloParte : articuloParteArrayList)
-                        articuloArrayList.add(ArticuloDAO.buscarArticuloPorID(this, articuloParte.getFk_articulo()));
+                        try {
+                            Articulo a = ArticuloDAO.buscarArticuloPorID(this, articuloParte.getFk_articulo());
+                            ArticuloParte ap = ArticuloParteDAO.buscarArticuloPartePorID(this,articuloParte.getId());
+                            a.setIva(ap.getIva());
+                            a.setCoste(ap.getCoste());
+                            a.setDescuento(ap.getDescuento());
+                            a.setTarifa(ap.getTarifa());
+                            articuloArrayList.add(a);
+                        }catch (SQLException e){
+                            e.printStackTrace();
+                        }
+
+
                     for (int i = 0; i < articuloArrayList.size(); i++) {
                         ArticuloParte art = ArticuloParteDAO.buscarArticuloPartePorFkParteFkArticulo(this,articuloArrayList.get(i).getId_articulo(),fk_parte);
                         boolean presupuestar = art.getPresupuestar();
