@@ -238,7 +238,7 @@ public class DatosAdicionalesDAO extends DBHelperMOS {
 
     public static int buscarFormaDePago(Context context, int id) throws SQLException, java.sql.SQLException {
         cargarDao(context);
-        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.ID_REL, id);
+        List<DatosAdicionales> listadoDatos= dao.queryForEq(DatosAdicionales.FK_PARTE, id);
         if(listadoDatos.isEmpty()) {
             return 0;
         }else{

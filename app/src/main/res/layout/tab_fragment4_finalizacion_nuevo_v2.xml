@@ -51,7 +51,8 @@
                             android:id="@+id/sp_tipos_os"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:background="@drawable/caldera_spiners" />
+                            android:background="@drawable/caldera_spiners"
+                            android:gravity="top" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -61,7 +62,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textVie10"
+                            android:id="@+id/textVie99"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
@@ -78,6 +79,30 @@
                             android:ems="10"
                             android:inputType="textMultiLine"
                             android:padding="5dp" />
+
+                        <TextView
+                            android:id="@+id/textVie10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:padding="3dp"
+                            android:text="@string/Obs_Cliente"
+                            android:textColor="@color/cast_expanded_controller_background_color"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/etObsCliente"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_texts_naranja"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:padding="5dp"
+                            android:textAlignment="gravity"
+                            android:textColor="#000"
+                            android:textSize="18sp"
+                            android:textStyle="normal" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,7 +177,8 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/caldera_spiners"
-                            android:padding="3dp" />
+                            android:padding="3dp"
+                            tools:ignore="SpeakableTextPresentCheck" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -216,7 +242,8 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:background="@drawable/caldera_spiners"
-                            android:padding="5dp" />
+                            android:padding="5dp"
+                            tools:ignore="SpeakableTextPresentCheck" />
                     </LinearLayout>
 
                     <LinearLayout

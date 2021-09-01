@@ -33,6 +33,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
 	public DBHelper(Context context) {
 		super(context, BBDDConstantes.DATABASE_NAME, null, BBDDConstantes.DATABASE_VERSION);
+		context.openOrCreateDatabase(BBDDConstantes.DATABASE_NAME, context.MODE_PRIVATE, null);
 		this.context = context;
 	}
 

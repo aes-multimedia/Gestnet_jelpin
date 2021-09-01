@@ -151,5 +151,6 @@
     <string name="buscar_partes">Buscar partes</string>
     <string name="buscar_articulos">Buscar articulos</string>
     <string name="Tipos_OServicio">Tipos Ordenes de Servicio</string>
+    <string name="Obs_Cliente">Observaciones para el cliente</string>
 </resources>
 

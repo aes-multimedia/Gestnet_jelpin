@@ -78,10 +78,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private ImageView ivLlamar1, ivLlamar2, ivLlamar3, ivLlamar4;
     private String horaInicio;
     private Configuracion configuracion;
-
+    private Cliente c;
 
     //METODO
     private void inicializarVariables() {
+        try{
+            c = ClienteDAO.buscarCliente(getContext());
+        }catch( SQLException sqlE){
+            sqlE.printStackTrace();
+        }
         //TEXT VIEWS
         txtNumParte = vista.findViewById(R.id.txtNumParte);
         txtCreadoPor = vista.findViewById(R.id.txtCreadoPor);
@@ -106,6 +111,9 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono2 = vista.findViewById(R.id.etTelefono2);
         etTelefono3 = vista.findViewById(R.id.etTelefono3);
         etTelefono4 = vista.findViewById(R.id.etTelefono4);
+        if(c.getId_cliente() == 28){
+            etTelefono1.setHint("");
+        }
         etObservaciones = vista.findViewById(R.id.etObservaciones);
         etCorreoElectronico = vista.findViewById(R.id.etCorreoElectronico);
 

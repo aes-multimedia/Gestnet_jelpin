@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -113,15 +114,29 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     private String textoBoton;
     private int forma_pago,tipoOsId;
-
-
+    private Cliente c;
+private TextView etObsCliente;
     private Button BtnVerMateriales;
 
 
     //METODO
     private void inicializar() {
+        try{
+            c = ClienteDAO.buscarCliente(getContext());
+        }catch( SQLException sqlE){
+            sqlE.printStackTrace();
+        }
+
         //EDITTEXT
+        etObsCliente = vista.findViewById(R.id.etObsCliente);
         et_preeu_materiales = vista.findViewById(R.id.et_preeu_materiales);
+        if(c.getId_cliente()==28 ){
+            etObsCliente.setVisibility(View.VISIBLE);
+            //etObsCliente.setEnabled(false);
+        }else{
+            etObsCliente.setVisibility(View.GONE);
+        }
+
         et_preeu_materiales.setEnabled(false);
         et_preeu_materiales.setText(String.valueOf(0));
         et_preeu_total_mano_de_obra_horas = vista.findViewById(R.id.et_preeu_total_mano_de_obra_horas);
@@ -213,7 +228,6 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                         e.printStackTrace();
                     }
                 }
-
             }
         });
 
@@ -288,24 +302,29 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 arrayFormasPago[i] = formasPagos.get(i - 1).getForma_pago();
             }
 
+            spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+
             if (datos.getFk_forma_pago() > 0) {
                 try {
                     int idFormaPago = datos.getFk_forma_pago();
                     String nombreFormaPago = FormasPagoDAO.buscarFormasPagoPorId(getContext(), idFormaPago).getForma_pago();
-                    arrayFormasPago[0] = nombreFormaPago;
-                    arrayFormasPago[1] = nombreFormaPago;
-                    spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
-                    spFormaPago.setSelection(1);
+                   /* arrayFormasPago[0] = nombreFormaPago;
+                    arrayFormasPago[1] = nombreFormaPago;*/
+                    for (int i = 0; i < arrayFormasPago.length; ++i) {
+                        String fpagoSpinner = arrayFormasPago[i];
+                      if(fpagoSpinner.equals(nombreFormaPago)){
+                          spFormaPago.setSelection(i);
+                      }
+                    }
+
                     /*spFormaPago.setEnabled(false);
                     spFormaPago.setClickable(false);*/
                 } catch (Exception e) {
+                    e.printStackTrace();
                     //si algo falla se utiliza la rutina habitual.
-                    arrayFormasPago[0] = "--Seleciones un valor--";
-                    spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
+                    /*arrayFormasPago[0] = "--Seleciones un valor--";
+                    spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));*/
                 }
-            } else {
-
-                spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));
             }
         }
 
@@ -347,6 +366,8 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
         }
 
+        if (datos.getObservaciones() != null && !datos.getObservaciones().equals(""))
+            etObsCliente.setText(datos.getObservaciones());
 
         if (datos.getOperacion_efectuada() != null && !datos.getOperacion_efectuada().equals(""))
             etOperacionEfectuada.setText(datos.getOperacion_efectuada());

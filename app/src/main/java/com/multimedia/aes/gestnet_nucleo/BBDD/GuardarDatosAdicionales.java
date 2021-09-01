@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.DatosAdicionalesDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Login;
@@ -27,10 +29,16 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
     private static boolean bien = false;
     private static ArrayList<DatosAdicionales> datos = new ArrayList<>();
     private ProgressDialog dialog;
+    private static Cliente c;
 
-    public GuardarDatosAdicionales(Context context, String json) {
+    public GuardarDatosAdicionales(Context context, String json)  {
         this.context = context;
         this.json = json;
+        try{
+            c = ClienteDAO.buscarCliente(context);
+        }catch( SQLException sqlE){
+            sqlE.printStackTrace();
+        }
     }
     @Override
     protected void onPreExecute() {
@@ -128,12 +136,22 @@ public class GuardarDatosAdicionales extends AsyncTask<Void,Void,Void>{
                 } else {
                     operacion_efectuada = jsonObject2.getString("operacion_efectuada");
                 }
+
                 String observaciones;
-                if (jsonObject2.getString("observaciones").equals("null")) {
-                    observaciones = "";
-                } else {
-                    observaciones = jsonObject2.getString("observaciones");
+                if(c.getId_cliente()==28 ){
+                    if (jsonObject2.getString("observacionesCliente").equals("null")) {
+                        observaciones = "";
+                    } else {
+                        observaciones = jsonObject2.getString("observacionesCliente");
+                    }
+                }else{
+                    if (jsonObject2.getString("observaciones").equals("null")) {
+                        observaciones = "";
+                    } else {
+                        observaciones = jsonObject2.getString("observaciones");
+                    }
                 }
+
                 boolean preeu_disposicion_servicio_si_no;
                 if (jsonObject2.getString("preeu_disposicion_servicio_si_no").equals("null")) {
                     preeu_disposicion_servicio_si_no = false;

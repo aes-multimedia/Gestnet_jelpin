@@ -168,7 +168,7 @@
                             android:layout_weight="10"
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
-                            android:hint="telefono1"
+                            android:hint="Teléfono1"
                             android:inputType="number"
                             android:padding="5dp" />
 
