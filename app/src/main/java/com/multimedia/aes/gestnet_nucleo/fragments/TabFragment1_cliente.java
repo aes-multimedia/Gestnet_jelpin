@@ -76,7 +76,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Switch swEdicion;
     private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular,
             txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
-    private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico;
+    private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico,etmailFirmante;
     private Button btnIniciarParte, btnClienteAusente, btnImprimir,btnSendMail, btnVerDocumentos, btnImagenes,
             btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
     private ImageButton ibLocation, ibIr;
@@ -121,6 +121,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         }
         etObservaciones = vista.findViewById(R.id.etObservaciones);
         etCorreoElectronico = vista.findViewById(R.id.etCorreoElectronico);
+        etmailFirmante = vista.findViewById(R.id.etmailFac);
 
         //BOTONES
         btnImagenes = vista.findViewById(R.id.btnAñadirImagen);
@@ -294,6 +295,27 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             }
         });
 
+        etmailFirmante.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    ParteDAO.actualizarCorreoEnvioDeFactura(getContext(), parte.getId_parte(), etmailFirmante.getText().toString());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         etObservaciones.addTextChangedListener(new TextWatcher() {
             @Override
@@ -410,6 +432,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etTelefono3.setText(parte.getTelefono3_cliente());
         etTelefono4.setText(parte.getTelefono4_cliente());
         etCorreoElectronico.setText(parte.getEmail_cliente());
+        etmailFirmante.setText(parte.getEmailEnviarFactura());
 
         etObservaciones.setText(parte.getObservaciones());
 
@@ -447,11 +470,15 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         darValoresVariables();
         presupuestoVisible();
         btnSendMail.setVisibility(View.GONE);
+        etmailFirmante.setVisibility(View.GONE);
         if (parte.getEstado_android() == 3 || parte.getEstado_android() == 1 || parte.getEstado_android() == 4 || parte.getEstado_android() == 436) {
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);
-            if(c.getId_cliente()== 5 && parte.getFk_tipo()==1) btnSendMail.setVisibility(View.VISIBLE);
+            if(c.getId_cliente()== 5 && parte.getFk_tipo()==1){
+                btnSendMail.setVisibility(View.VISIBLE);
+                etmailFirmante.setVisibility(View.VISIBLE);
+            }
             txtHoraInicio.setVisibility(View.VISIBLE);
 
         } else if (parte.getEstado_android() == 2) {
@@ -485,9 +512,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         } else if (view.getId() == btnVerDocumentos.getId()) {
 
-
             if (hayConexion()) {
-
                 Intent i = new Intent(getContext(), DocumentosParte.class);
                 i.putExtra("fk_parte", parte.getId_parte());
                 getContext().startActivity(i);
@@ -499,9 +524,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             iniciarParte();
         }else if (view.getId() == R.id.btnSendMail) {
             //NUEVO HILO ENVIAR MAIL
-            HiloMailParte hmp = new HiloMailParte(getContext(),parte.getId_parte(),parte.getEmail_cliente());
+            if(etmailFirmante.getText().toString() != ""){
+                HiloMailParte hmp = new HiloMailParte(getContext(),parte.getId_parte(),etmailFirmante.getText().toString());
+                hmp.execute();
+            }else{
+                Dialogo.dialogoError("Para poder enviar el mensaje el campo email Envio no puede estar vac&iacute;o.<br><br>Gracias.",getContext());
+            }
 
-            hmp.execute();
 
         } else if (view.getId() == R.id.btnClienteAusente) {
 

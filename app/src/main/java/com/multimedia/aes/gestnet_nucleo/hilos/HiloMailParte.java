@@ -9,9 +9,12 @@ import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.EnvioDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.UsuarioDAO;
+import com.multimedia.aes.gestnet_nucleo.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_nucleo.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.fragments.FragmentPartes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +31,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
+import static com.multimedia.aes.gestnet_nucleo.fragments.TabFragment6_materiales.guardarArticulo;
+
 public class HiloMailParte extends AsyncTask<Void,Void,Void> {
 
     private String mensaje;
@@ -38,13 +43,14 @@ public class HiloMailParte extends AsyncTask<Void,Void,Void> {
     private Usuario usuario;
     private  String email;
     private  String data;
+    private  FragmentPartes tabPartes;
 
     public HiloMailParte(Context context, int fk_parte, String email) {
         this.context = context;
         this.fk_parte = fk_parte;
         try {
             Parte parte = ParteDAO.buscarPartePorId(context,fk_parte);
-            this.email = parte.getEmailEnviarFactura();
+            this.email = email;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -82,7 +88,26 @@ public class HiloMailParte extends AsyncTask<Void,Void,Void> {
     }
     @Override
     protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        if (mensaje.indexOf('}') != -1) {
+            try {
+                JSONObject result = new JSONObject(mensaje);
+                int estado = result.getInt("estado");
+                dialog.cancel();
+                if(estado == 1){
+                    Dialogo.dialogoError("El correo electrónico ha sido enviado correctamente a <br><br><b>"+email+"</b><br><br>Gracias.",context);
+                }else{
 
+                    Dialogo.dialogoError("El correo electrónico no ha podido ser enviado a <br><br>"+email+"<br><br>Por favor compruebe la dirección de correo.<br><br>Gracias.",context);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            dialog.cancel();
+            Dialogo.dialogoError("No se ha devuelto correctamente de la api",context);
+        }
     }
 
     private String iniciar() throws JSONException, SQLException{

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Html;
 import android.view.WindowManager;
 
 import com.multimedia.aes.gestnet_nucleo.R;
@@ -13,7 +14,7 @@ public class Dialogo {
 
     public static void dialogoError(String texto, Context context) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setMessage(texto);
+        builder1.setMessage(Html.fromHtml(texto,Html.FROM_HTML_MODE_LEGACY));
         builder1.setCancelable(true);
         builder1.setPositiveButton(
                 "Aceptar",

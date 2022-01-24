@@ -853,8 +853,11 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/fondo_linear_gris"
                 android:orientation="horizontal"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
@@ -884,8 +887,10 @@
                 android:id="@+id/linearLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
@@ -900,6 +905,20 @@
                     android:layout_weight="1"
                     android:background="@drawable/botones"
                     android:text="Imprimir" />
+
+                <EditText
+                    android:id="@+id/etmailFac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_texts_naranja"
+                    android:ems="10"
+                    android:hint="@string/mail_firmante"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp" />
 
                 <Button
                     android:id="@+id/btnSendMail"
