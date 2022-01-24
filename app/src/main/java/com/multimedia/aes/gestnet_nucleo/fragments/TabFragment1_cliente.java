@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -42,7 +44,10 @@ import com.multimedia.aes.gestnet_nucleo.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.entidades.Usuario;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloBusquedaArticulosPorNombre;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloConectarImpr;
 import com.multimedia.aes.gestnet_nucleo.hilos.HiloIniciarParte;
+import com.multimedia.aes.gestnet_nucleo.hilos.HiloMailParte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.DocumentosParte;
 
 import com.multimedia.aes.gestnet_nucleo.nucleo.GaleriaV2;
@@ -72,7 +77,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular,
             txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico;
-    private Button btnIniciarParte, btnClienteAusente, btnImprimir, btnVerDocumentos, btnImagenes,
+    private Button btnIniciarParte, btnClienteAusente, btnImprimir,btnSendMail, btnVerDocumentos, btnImagenes,
             btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
     private ImageButton ibLocation, ibIr;
     private ImageView ivLlamar1, ivLlamar2, ivLlamar3, ivLlamar4;
@@ -122,6 +127,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnIniciarParte = vista.findViewById(R.id.btnIniciarParte);
         btnClienteAusente = vista.findViewById(R.id.btnClienteAusente);
         btnImprimir = vista.findViewById(R.id.btnImprimir);
+        btnSendMail = vista.findViewById(R.id.btnSendMail);
         btnVerDocumentos = vista.findViewById(R.id.btnVerDocumentos);
         btnAñadirPresupuesto = vista.findViewById(R.id.btnAñadirPresupuesto);
         btnVerPresupuesto = vista.findViewById(R.id.btnVerPresupuesto);
@@ -143,6 +149,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         btnIniciarParte.setOnClickListener(this);
         btnClienteAusente.setOnClickListener(this);
         btnImprimir.setOnClickListener(this);
+        btnSendMail.setOnClickListener(this);
         btnVerDocumentos.setOnClickListener(this);
         btnVerIntervenciones.setOnClickListener(this);
         btnGuardarDatos.setOnClickListener(this);
@@ -420,6 +427,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         JSONObject jsonObject;
         int idParte = 0;
 
+
         try {
             jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             idParte = jsonObject.getInt("id");
@@ -438,10 +446,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         inicializarVariables();
         darValoresVariables();
         presupuestoVisible();
+        btnSendMail.setVisibility(View.GONE);
         if (parte.getEstado_android() == 3 || parte.getEstado_android() == 1 || parte.getEstado_android() == 4 || parte.getEstado_android() == 436) {
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.GONE);
             btnImprimir.setVisibility(View.VISIBLE);
+            if(c.getId_cliente()== 5 && parte.getFk_tipo()==1) btnSendMail.setVisibility(View.VISIBLE);
             txtHoraInicio.setVisibility(View.VISIBLE);
 
         } else if (parte.getEstado_android() == 2) {
@@ -449,10 +459,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnClienteAusente.setVisibility(View.GONE);
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
+            btnSendMail.setVisibility(View.GONE);
         } else {
             btnClienteAusente.setVisibility(View.VISIBLE);
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
+            btnSendMail.setVisibility(View.GONE);
         }
 
         return vista;
@@ -485,6 +497,12 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         } else if (view.getId() == R.id.btnIniciarParte) {
             iniciarParte();
+        }else if (view.getId() == R.id.btnSendMail) {
+            //NUEVO HILO ENVIAR MAIL
+            HiloMailParte hmp = new HiloMailParte(getContext(),parte.getId_parte(),parte.getEmail_cliente());
+
+            hmp.execute();
+
         } else if (view.getId() == R.id.btnClienteAusente) {
 
             new HiloIniciarParte(getContext(), parte, 2, 13).execute();

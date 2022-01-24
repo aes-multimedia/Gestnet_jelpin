@@ -13,6 +13,7 @@ android {
         multiDexEnabled true
         versionName "1.96"
     }
+
     buildTypes {
         release {
             minifyEnabled false

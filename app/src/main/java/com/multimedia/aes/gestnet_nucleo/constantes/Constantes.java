@@ -21,6 +21,7 @@ public class Constantes {
     public static final String URL_CIERRE_DIA = "/api-gestnet-datos/v1/partes/cierreDiario";
     public static final String URL_KILOMETROS = "/api-gestnet-datos/v1/partes/kilometros";
     public static final String URL_CIERRE_PARTE = "/api-gestnet-datos/v1/partes/cierreParte";
+    public static final String URL_MAIL_PARTE = "/api-gestnet-datos/v1/partes/mailParte";
     public static final String URL_ACTUALIZA_MAQUINA = "/api-gestnet-datos/v1/partes/actualizaMaquina";
     public static final String URL_CREA_MAQUINA = "/api-gestnet-datos/v1/partes/creaMaquina";
     public static final String URL_CREA_MATERIAL = "/api-gestnet-datos/v1/partes/crearMaterial";

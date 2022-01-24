@@ -724,7 +724,6 @@ private TextView etObsCliente;
                                                 fact_por_iva_aplicado = fact_subtotal * 21 / 100;
                                                 fact_total_con_iva = fact_por_iva_aplicado + fact_subtotal;
 
-
                                                 try {
                                                     DatosAdicionalesDAO.actualizarDatosAdicionalesParteFacturable(getContext(), datos.getId_rel(), fact_materiales, fact_por_iva_aplicado, fact_total_con_iva);
                                                 } catch (SQLException e) {

@@ -68,6 +68,7 @@ public class ClienteDAO extends DBHelperMOS {
 			return listadoClientes.get(0);
 		}
 	}
+
 	public static Cliente buscarClientePorId(Context context, int id) throws SQLException {
 		cargarDao(context);
 		List<Cliente> listadoClientes= dao.queryForEq(Cliente.ID_CLIENTE, id);
