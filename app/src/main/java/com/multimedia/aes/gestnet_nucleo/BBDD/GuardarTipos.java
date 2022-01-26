@@ -85,6 +85,7 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
         }
 
     }
+
     private void guardarJsonParte()  throws JSONException, SQLException, java.sql.SQLException {
         int id_tipo_combustion;
         String nombre_tipo_combustion;

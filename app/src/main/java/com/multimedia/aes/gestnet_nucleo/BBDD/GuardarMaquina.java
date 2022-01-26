@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
 import com.multimedia.aes.gestnet_nucleo.dao.ParteDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
 import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 import com.multimedia.aes.gestnet_nucleo.nucleo.Index;
@@ -71,6 +73,9 @@ public class GuardarMaquina extends AsyncTask<Void,Void,Void> {
     private static void guardarJsonMaquina() throws JSONException, SQLException {
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("partes");
+
+        Cliente c = ClienteDAO.buscarCliente(context);
+        int idcli = c.getId_cliente();
         for (int i = 0; i < jsonArray.length(); i++) {
             int id_parte;
             if (jsonArray.getJSONObject(i).getString("id_parte").equals("null") || jsonArray.getJSONObject(i).getString("id_parte").equals("")) {
@@ -113,12 +118,20 @@ public class GuardarMaquina extends AsyncTask<Void,Void,Void> {
                 } else {
                     fk_marca = jsonArray1.getJSONObject(j).getInt("fk_marca");
                 }
+
                 String fk_tipo_combustion = "";
-                /*if (jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("null") || jsonArray1.getJSONObject(j).getString("fk_tipo_combustion").equals("")) {
+                if(idcli == 42){
+                    if (jsonArray1.getJSONObject(j).getString("tipo_combustion").equals("null") || jsonArray1.getJSONObject(j).getString("tipo_combustion").equals("")) {
                     fk_tipo_combustion = "";
                 } else {
-                    fk_tipo_combustion = jsonArray1.getJSONObject(j).getString("fk_tipo_combustion");
-                }*/
+                    fk_tipo_combustion = jsonArray1.getJSONObject(j).getString("tipo_combustion");
+                }
+
+                if (!jsonArray1.getJSONObject(j).getString("marca").equals("null") && !jsonArray1.getJSONObject(j).getString("marca").equals("")) {
+                    fk_tipo_combustion += " - "+jsonArray1.getJSONObject(j).getString("marca");
+                }
+                }
+
                 int fk_protocolo;
                 if (jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("null") || jsonArray1.getJSONObject(j).getString("fk_protocolo").equals("")) {
                     fk_protocolo = -1;

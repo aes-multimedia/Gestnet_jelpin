@@ -3,11 +3,11 @@ package com.multimedia.aes.gestnet_nucleo.constantes;
 public class Constantes {
     public static final String ERROR = "NOK";
     public static final String SUCCES = "OK";
-    public static final String IP_EXTERNA_ABAJO = "90.69.105.123:8085";
+    public static final String IP_EXTERNA_DEV = "90.69.105.123:8085";
     public static final String IP_INTERNA= "192.168.111.228:8085";
-    public static final String IP_EXTERNA_ARRIBA = "apicentral.gestnet.es";
-    public static final String URL_COD_CLIENTE = "http://"+ IP_INTERNA +"/api-gesnet/v1/login/codigo";
-    public static final String URL_LOGIN = "http://"+ IP_INTERNA +"/api-gesnet/v1/login/login";
+    public static final String IP_EXTERNA_PROD = "apicentral.gestnet.es";
+    public static final String URL_COD_CLIENTE = "http://"+ IP_EXTERNA_PROD +"/api-gesnet/v1/login/codigo";
+    public static final String URL_LOGIN = "http://"+ IP_EXTERNA_PROD +"/api-gesnet/v1/login/login";
     public static final String URL_PARTES_ID = "/api-gestnet-datos/v1/partes/buscarPartePorId";
     public static final String URL_PARTES_ID_ASIGNAR = "/api-gestnet-datos/v1/partes/asignarPartePorId";
     public static final String URL_PARTES = "/api-gestnet-datos/v1/partes/listarPartes";

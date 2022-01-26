@@ -1,6 +1,7 @@
 package com.multimedia.aes.gestnet_nucleo.adaptador;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.multimedia.aes.gestnet_nucleo.R;
+import com.multimedia.aes.gestnet_nucleo.dao.ClienteDAO;
+import com.multimedia.aes.gestnet_nucleo.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_nucleo.entidades.Cliente;
+import com.multimedia.aes.gestnet_nucleo.entidades.Maquina;
 import com.multimedia.aes.gestnet_nucleo.entidades.Parte;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AdaptadorPartes extends ArrayAdapter {
@@ -28,6 +34,14 @@ public class AdaptadorPartes extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Cliente c = null;
+        try {
+            c = ClienteDAO.buscarCliente(context);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        int idcli = c.getId_cliente();
         View item = convertView;
         if (item == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -92,7 +106,21 @@ public class AdaptadorPartes extends ArrayAdapter {
         hora.setText(String.valueOf(arrayList.get(position).getHorario()));
         compania.setText("Compañia: "+ arrayList.get(position).getNombre_compania());
         cliente.setText(arrayList.get(position).getNombre_cliente());
-        txtTipoIntervencion.setText(arrayList.get(position).getTipo());
+        String txt = "";
+        if(idcli == 42){
+            int fk_maquina= arrayList.get(position).getFk_maquina();
+            try {
+                Maquina mq = MaquinaDAO.buscarMaquinaPorFkMaquina(context,fk_maquina);
+                String marca_tipo_combustion = mq.getTipo_combustion();
+                 txt = marca_tipo_combustion;
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+
+        txtTipoIntervencion.setText(arrayList.get(position).getTipo() + " - "+ txt);
         global.setTag(String.valueOf(arrayList.get(position).getId_parte()));
         return item;
     }

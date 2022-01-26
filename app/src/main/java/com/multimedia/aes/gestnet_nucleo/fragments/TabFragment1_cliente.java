@@ -74,8 +74,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Maquina maquina = null;
     private DatosAdicionales datos;
     private Switch swEdicion;
-    private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular,
-            txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
+    private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular, txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico,etmailFirmante;
     private Button btnIniciarParte, btnClienteAusente, btnImprimir,btnSendMail, btnVerDocumentos, btnImagenes,
             btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
@@ -487,11 +486,13 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
             btnSendMail.setVisibility(View.GONE);
+            etmailFirmante.setVisibility(View.GONE);
         } else {
             btnClienteAusente.setVisibility(View.VISIBLE);
             btnIniciarParte.setVisibility(View.VISIBLE);
             btnImprimir.setVisibility(View.GONE);
             btnSendMail.setVisibility(View.GONE);
+            etmailFirmante.setVisibility(View.GONE);
         }
 
         return vista;
