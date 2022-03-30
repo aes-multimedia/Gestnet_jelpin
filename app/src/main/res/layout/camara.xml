@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.Camara"
+    tools:context="gestnet_ssl.nucleo.Camara"
     android:orientation="vertical">
 
     <ScrollView

@@ -14,12 +14,21 @@
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/camp_adapter_list_view_detalle_parte.xml" value="0.22871376811594202" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/camp_adapter_list_view_parte.xml" value="0.5" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/camp_adapter_list_view_parte_trenc.xml" value="0.27355072463768115" />
+        <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/cierre_dia.xml" value="0.5" />
+        <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/dialogo_kilometros.xml" value="0.27355072463768115" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/mi_firma.xml" value="0.17777777777777778" />
+        <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/pre_login.xml" value="0.13855116514690982" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/tab_fragment1_cliente.xml" value="0.25" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/tab_fragment3_operaciones.xml" value="0.1" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/tab_fragment4_finalizacion_nuevo.xml" value="0.22239108409321176" />
-        <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/tab_fragment4_finalizacion_nuevo_v2.xml" value="0.2111111111111111" />
+        <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/layout/tab_fragment4_finalizacion_nuevo_v2.xml" value="0.1" />
         <entry key="..\:/androidProjects/Gestnet_Nucleo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/layout/activity_fotos_intervenciones.xml" value="0.1" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/layout/firma_cliente.xml" value="0.18206521739130435" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/layout/firma_tecnico.xml" value="0.1" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/layout/pre_login.xml" value="0.1" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/androidProjects/Gestnet_NucleoSsl/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

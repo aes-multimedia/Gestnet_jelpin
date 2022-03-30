@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.MisAjustes">
+    tools:context="gestnet_ssl.nucleo.MisAjustes">
 
     <Button
         android:id="@+id/btnFirmar"

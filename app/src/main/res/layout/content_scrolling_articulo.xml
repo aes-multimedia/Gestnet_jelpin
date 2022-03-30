@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".nucleo.InfoArticulos"
+    tools:context="com.multimedia.aes.gestnet_ssl.nucleo.InfoArticulos"
     tools:showIn="@layout/informacion_articulo">
 
 

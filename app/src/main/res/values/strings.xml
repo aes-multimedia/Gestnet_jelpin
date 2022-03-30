@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gestnet nucleo</string>
+    <string name="app_name">Gestnet</string>
     <string name="cod_cliente">Codigo del Cliente</string>
     <string name="enviar">Enviar</string>
     <string name="usuario">Usuario</string>
@@ -154,5 +154,8 @@
     <string name="Obs_Cliente">Observaciones para el cliente</string>
     <string name="sendMail">Enviar Mail</string>
     <string name="mail_firmante">email envio</string>
+    <string name="firmaTec">Firma del Técnico</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnBorrar">Borrar</string>
 </resources>
 

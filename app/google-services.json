@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1090232239984:android:a53f1293d955328d",
         "android_client_info": {
-          "package_name": "com.multimedia.aes.gestnet_nucleo"
+          "package_name": "com.multimedia.aes.gestnet_ssl"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1090232239984-i9ad0n808n8l24o8vqcefhhmfkhfcub0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.multimedia.aes.gestnet_nucleo",
+            "package_name": "com.multimedia.aes.gestnet_ssl",
             "certificate_hash": "8da82056e13223c22bff3c4ecaf3d707746b8151"
           }
         },

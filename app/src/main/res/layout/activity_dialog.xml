@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.DialogActivity">
+    tools:context="gestnet_ssl.nucleo.DialogActivity">
 
 
     <LinearLayout

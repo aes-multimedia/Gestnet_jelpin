@@ -4,19 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nucleo.FotosIntervenciones">
+    tools:context="com.multimedia.aes.gestnet_ssl.nucleo.FotosIntervenciones">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.NoActionBar.FullScreen.AppBarOverlay">
-
-
-
-
-
-
-
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarFotosIntervenciones"

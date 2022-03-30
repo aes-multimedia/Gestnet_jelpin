@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.multimedia.aes.gestnet_nucleo.nucleo.AnadirDatosAnalisis">
+    tools:context="gestnet_ssl.nucleo.AnadirDatosAnalisis">
 
 
     <ScrollView

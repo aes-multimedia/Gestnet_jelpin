@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.multimedia.aes.gestnet_nucleo">
+    package="com.multimedia.aes.gestnet_ssl">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -29,9 +29,9 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
-        <activity android:name=".nucleo.FotosProtocoloAccion"></activity>
+        <activity android:name="com.multimedia.aes.gestnet_ssl.nucleo.FotosProtocoloAccion"></activity>
         <activity
-            android:name=".nucleo.PreLogin"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.PreLogin"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,22 +40,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".nucleo.Login"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.InfoArticulos"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.InfoArticulos"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.AnadirDatosAnalisis"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.AnadirDatosAnalisis"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.FirmaCliente"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.FirmaCliente"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".nucleo.FirmaTecnico"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.FirmaTecnico"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".Mapa"
+            android:name="com.multimedia.aes.gestnet_ssl.Mapa"
             android:label="@string/title_activity_mapa" />
 
         <meta-data
@@ -63,34 +63,34 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".nucleo.Camara"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.Camara"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.IntervencionesAnteriores"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.IntervencionesAnteriores"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.Index"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.Index"
             android:label="@string/title_activity_index"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-        <activity android:name=".nucleo.DialogActivity" />
+        <activity android:name="com.multimedia.aes.gestnet_ssl.nucleo.DialogActivity" />
 
-        <service android:name=".notification.GcmIntentService">
+        <service android:name="com.multimedia.aes.gestnet_ssl.notification.GcmIntentService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".servicios.ServicioLocalizacion"
+            android:name="com.multimedia.aes.gestnet_ssl.servicios.ServicioLocalizacion"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".servicios.ServicioArticulos"
+            android:name="com.multimedia.aes.gestnet_ssl.servicios.ServicioArticulos"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".nucleo.CierreDia"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.CierreDia"
             android:screenOrientation="portrait" />
 
         <provider
@@ -105,34 +105,34 @@
         </provider>
 
         <activity
-            android:name=".nucleo.MiFirma"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.MiFirma"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.DocumentosParte"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.DocumentosParte"
             android:label="@string/title_activity_documentos_parte"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.Galeria"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.Galeria"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.AnadirDatosMaquina"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.AnadirDatosMaquina"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.GestionMateriales"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.GestionMateriales"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.Presupuestos"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.Presupuestos"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.GaleriaV2"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.GaleriaV2"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".nucleo.FotosIntervenciones"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.FotosIntervenciones"
             android:label="@string/title_activity_fotos_intervenciones"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
         <activity
-            android:name=".nucleo.BuscadorPartes"
+            android:name="com.multimedia.aes.gestnet_ssl.nucleo.BuscadorPartes"
             android:screenOrientation="portrait" />
     </application>
 

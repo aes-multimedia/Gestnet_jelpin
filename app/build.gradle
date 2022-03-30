@@ -6,12 +6,12 @@ android {
     compileSdkVersion 30
     buildToolsVersion '29.0.2'
     defaultConfig {
-        applicationId "com.multimedia.aes.gestnet_nucleo"
+        applicationId "com.multimedia.aes.gestnet_ssl"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 98
+        versionCode 210
         multiDexEnabled true
-        versionName "1.98"
+        versionName "2.10"
     }
 
     buildTypes {
