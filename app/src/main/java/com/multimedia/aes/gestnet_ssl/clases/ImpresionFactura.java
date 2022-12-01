@@ -94,13 +94,18 @@ public class ImpresionFactura extends Ticket {
         String numParte = String.valueOf(parte.getNum_parte());
         result+="Num. Parte: "+numParte+"\n";
         String fechaAvisoParte =FormatearfechaTimeStamp( parte.getFecha_aviso());
-        result+="Fecha aviso: "+fechaAvisoParte+"\n";
-        if(clienteId != 28){
+
+            result += "Fecha aviso: " + fechaAvisoParte + "\n";
+        
+        if(clienteId != 28 && clienteId != 51){
             result+="Hora de entrada: "+datosAdicionales.getMatem_hora_entrada()+"\n";
             result+="Hora de salida: "+datosAdicionales.getMatem_hora_salida()+"\n";
         }
         String fechaIntervParte = FormatearfechaDate(parte.getFecha_visita());
-        result+="Fecha intervencion: "+fechaIntervParte+"\n";
+        if(clienteId != 51) {
+            result+="Fecha intervencion: "+fechaIntervParte+"\n";
+        }
+
         result+="Nombre tecnico: "+usuario.getNombreUsuario()+"\n";
         if(clienteId == 28){
             result+="Detalle Avería: "+parte.getOtros_sintomas()+"\n";

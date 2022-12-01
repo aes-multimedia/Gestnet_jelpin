@@ -108,6 +108,7 @@ public class HiloImagenesAcciones extends AsyncTask<Void,Void,Void> {
         msg.put("fk_parte", fk_parte);
         msg.put("fk_maquina", fk_maquina);
         msg.put("imagenes", rellenarJsonImagenes(fk_accion));
+        String dataJsonMsg = msg.toString();
         URL urlws = null;
         HttpsURLConnection uc = null;
         try {

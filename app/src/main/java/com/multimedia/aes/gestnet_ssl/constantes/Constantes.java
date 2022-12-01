@@ -38,5 +38,6 @@ public class Constantes {
     public static final String URL_ACTUALZIAR_STOCK_ALMACEN = "/api-gestnet-datos/v1/partes/actualizarStockAlmacenTecnico";
     public static final String URL_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/imagenAccion";
     public static final String URL_BORRAR_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/borrarImagenAccion";
+    public static final String URL_VER_PPTO_PARTE = "";
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_ssl/app_imageDir";
 }

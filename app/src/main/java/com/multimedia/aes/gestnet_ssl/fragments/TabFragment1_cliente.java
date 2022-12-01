@@ -489,6 +489,16 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             btnSendMail.setVisibility(View.GONE);
             etmailFirmante.setVisibility(View.GONE);
         }
+        boolean verPresu = false;
+        try {
+             verPresu = ConfiguracionDAO.buscarConfiguracion(getContext()).isMenu_presupuesto();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(parte.getFk_instalacion() == -1){
+            btnVerPresupuesto.setVisibility(View.GONE);
+        }
 
         return vista;
     }
@@ -590,16 +600,19 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             i.putExtra("id_parte", parte.getId_parte());
             startActivityForResult(i,111);
         }else if (view.getId() == R.id.btnVerPresupuesto) {
-            Uri uri = Uri.parse(parte.getUrl_presupuesto());
+
+            String url="http://"+c.getIp_cliente()+"/perso_impresiones/"+c.getDir_documentos()+"/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto="+parte.getFk_instalacion()+"&impresionSimplificada=1";
+            Uri uri = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
+
         } else if (view.getId() == R.id.btnGuardarDatos) {
             guardarDatosParte();
             new HiloIniciarParte(getContext(),parte,parte.getEstado_android(),parte.getFk_estado()).execute();
         } else if (view.getId() == R.id.txtVerPresupuesto) {
             try {
                 Cliente cliente = ClienteDAO.buscarCliente(getContext());
-                String url = "http://" + cliente.getIp_cliente() + "/perso_impresiones/" + cliente.getDir_documentos() + "/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto=" + parte.getFk_instalacion() + "&sendForEmail=0&tipo_imprimir=0";
+                String url = "https://" + cliente.getIp_cliente() + "/perso_impresiones/" + cliente.getDir_documentos() + "/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto=" + parte.getFk_instalacion() + "&sendForEmail=0&tipo_imprimir=0";
                 Uri uri = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);

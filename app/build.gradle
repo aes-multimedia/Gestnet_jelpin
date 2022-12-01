@@ -9,9 +9,9 @@ android {
         applicationId "com.multimedia.aes.gestnet_ssl"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 210
+        versionCode 225
         multiDexEnabled true
-        versionName "2.10"
+        versionName "2.25"
     }
 
     buildTypes {
