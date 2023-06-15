@@ -9,6 +9,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -32,7 +35,6 @@ import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloLogin;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPartes;
-import com.multimedia.aes.gestnet_ssl.notification.RegisterApp;
 
 
 import static android.Manifest.permission.INTERNET;
@@ -48,10 +50,6 @@ import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.GET_ACCOUNTS;
 import static android.Manifest.permission.WAKE_LOCK;
 import static android.Manifest.permission.VIBRATE;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +67,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String TAG = "GCMRelated";
-    Object gcm;
     String regid;
     private Activity activity;
 
@@ -141,30 +138,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
         return true;
     }
-    private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = getGCMPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = getAppVersion(getApplicationContext());
-        if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
-    private SharedPreferences getGCMPreferences(Context context) {
-        // This sample app persists the registration ID in shared preferences, but
-        // how you store the regID in your app is up to you.
-        return getSharedPreferences(Login.class.getSimpleName(),
-                Context.MODE_PRIVATE);
-    }
+
     private static int getAppVersion(Context context) {
         try {
             PackageInfo packageInfo = context.getPackageManager()
@@ -257,13 +231,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         activity=this;
         try {
             inicializarVariables();
-            if (checkPlayServices()) {
-                gcm = null;
-                regid = getRegistrationId(getApplicationContext());
-            }
 
             if (UsuarioDAO.buscarUsuario(this)!=null) {
-                    irIndex();
+                irIndex();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -288,8 +258,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                     boolean access_fine_location = grantResults[4] == PackageManager.PERMISSION_GRANTED;
                     boolean access_coarse_location = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                     boolean camera = grantResults[6] == PackageManager.PERMISSION_GRANTED;
-                    boolean read_external_storage = grantResults[7] == PackageManager.PERMISSION_GRANTED;
-                    boolean write_external_storage = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    //TODO: a partir de android 11 no se tiene acceso a estos permisos
+                    boolean read_external_storage = true;
+                    boolean write_external_storage = true;
+
                     boolean read_phone_state = grantResults[9] == PackageManager.PERMISSION_GRANTED;
                     boolean get_accounts = grantResults[10] == PackageManager.PERMISSION_GRANTED;
                     boolean wake_lock = grantResults[11] == PackageManager.PERMISSION_GRANTED;
@@ -329,24 +301,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void onClick(View v) {
         if (v.getId()==R.id.btnLogin){
 
-            if (checkPlayServices()) {
-                gcm = null;
-                regid = getRegistrationId(activity.getApplicationContext());
-
-                if (regid.isEmpty()) {
-                    new RegisterApp(activity.getApplicationContext(), gcm, getAppVersion(activity.getApplicationContext())).execute();
-                }
-            } else {
-                Log.i(TAG, "No valid Google Play Services APK found.");
-            }
-
             new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
         }
     }
 
     @Override
     public void onBackPressed() {
-      finish();
+        finish();
     }
 
     @Override

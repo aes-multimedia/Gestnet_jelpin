@@ -5,21 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="gestnet_ssl.nucleo.Index"
+    tools:context=".nucleo.Index"
     tools:showIn="@layout/index"
     android:orientation="vertical"
     android:id="@+id/cuerpo"
-    android:background="#fff">
+    android:background="@color/md_theme_light_background">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/lllistview">
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
-        android:id="@+id/lvIndex" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dividerHeight="3dp"
+            android:id="@+id/lvIndex" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
