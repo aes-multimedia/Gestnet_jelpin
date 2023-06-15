@@ -2,7 +2,9 @@ package com.multimedia.aes.gestnet_ssl.Utils;
 
 import android.content.Context;
 
-public class CheckBoxMateriales extends android.support.v7.widget.AppCompatCheckBox {
+import androidx.appcompat.widget.AppCompatCheckBox;
+
+public class CheckBoxMateriales extends AppCompatCheckBox {
 
     private int idArticulo;
     private String tipo;

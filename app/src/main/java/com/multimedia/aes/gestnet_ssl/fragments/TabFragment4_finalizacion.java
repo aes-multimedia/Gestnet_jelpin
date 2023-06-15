@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -70,6 +69,8 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import static java.lang.Math.round;
+
+import androidx.fragment.app.Fragment;
 
 
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {

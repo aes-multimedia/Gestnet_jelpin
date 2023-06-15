@@ -8,8 +8,6 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.google.android.gms.location.LocationCallback;
@@ -30,6 +28,9 @@ import java.util.TimerTask;
 
 import static android.content.ContentValues.TAG;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 
 public class ServicioLocalizacion extends Service{

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+
 import com.multimedia.aes.gestnet_ssl.nucleo.Login;
 
 import java.io.IOException;
@@ -15,11 +15,11 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
 
     private static final String TAG = "GCMRelated";
     Context ctx;
-    GoogleCloudMessaging gcm;
+    Object gcm;
     String SENDER_ID = "1090232239984";
     String regid = null;
     private int appVersion;
-    public RegisterApp(Context ctx, GoogleCloudMessaging gcm, int appVersion){
+    public RegisterApp(Context ctx, Object gcm, int appVersion){
         this.ctx = ctx;
         this.gcm = gcm;
         this.appVersion = appVersion;
@@ -35,7 +35,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... arg0) {
         String msg = "";
-        try {
+        /*try {
             if (gcm == null) {
                 gcm = GoogleCloudMessaging.getInstance(ctx);
             }
@@ -58,7 +58,7 @@ public class RegisterApp extends AsyncTask<Void, Void, String> {
             // If there is an error, don't just keep trying to register.
             // Require the user to click a button again, or perform
             // exponential back-off.
-        }
+        }*/
         return msg;
     }
 

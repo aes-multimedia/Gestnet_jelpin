@@ -9,9 +9,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -23,7 +20,6 @@ import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.multimedia.aes.gestnet_ssl.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_ssl.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_ssl.R;
@@ -53,6 +49,10 @@ import static android.Manifest.permission.GET_ACCOUNTS;
 import static android.Manifest.permission.WAKE_LOCK;
 import static android.Manifest.permission.VIBRATE;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String TAG = "GCMRelated";
-    GoogleCloudMessaging gcm;
+    Object gcm;
     String regid;
     private Activity activity;
 
@@ -258,7 +258,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         try {
             inicializarVariables();
             if (checkPlayServices()) {
-                gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                gcm = null;
                 regid = getRegistrationId(getApplicationContext());
             }
 
@@ -276,6 +276,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
 
             case REQUEST_PERMISSION:
@@ -294,11 +295,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                     boolean wake_lock = grantResults[11] == PackageManager.PERMISSION_GRANTED;
                     boolean vibrate = grantResults[12] == PackageManager.PERMISSION_GRANTED;
 
-                    if (internet && bluetooth && bluetooth_admin&& call_phone&& access_fine_location&& access_coarse_location&& camera&&
-                            read_external_storage&& write_external_storage&& read_phone_state&& get_accounts&& wake_lock&& vibrate) {
+                    if (internet && bluetooth && bluetooth_admin && call_phone && access_fine_location && access_coarse_location && camera &&
+                            read_external_storage && write_external_storage && read_phone_state && get_accounts && wake_lock && vibrate) {
 
-                    }
-                    else {
+                    } else {
                         requestPermission();
                     }
                 }
@@ -330,11 +330,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         if (v.getId()==R.id.btnLogin){
 
             if (checkPlayServices()) {
-                gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                regid = getRegistrationId(getApplicationContext());
+                gcm = null;
+                regid = getRegistrationId(activity.getApplicationContext());
 
                 if (regid.isEmpty()) {
-                    new RegisterApp(getApplicationContext(), gcm, getAppVersion(getApplicationContext())).execute();
+                    new RegisterApp(activity.getApplicationContext(), gcm, getAppVersion(activity.getApplicationContext())).execute();
                 }
             } else {
                 Log.i(TAG, "No valid Google Play Services APK found.");

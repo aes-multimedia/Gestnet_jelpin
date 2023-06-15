@@ -2,14 +2,16 @@ package com.multimedia.aes.gestnet_ssl.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.adaptador.PageAdapter;
@@ -60,12 +62,12 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        final ViewPager viewPager = (ViewPager) vista.findViewById(R.id.pager);
+        final ViewPager2 viewPager = vista.findViewById(R.id.pager);
         final PageAdapter adapter = new PageAdapter
-                (getFragmentManager(), tabLayout.getTabCount());
+                (this, tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener (new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

@@ -109,20 +109,6 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
                     bitmap = redimensionarImagenMaximo(bitmap,320,320);
                     String path = saveToInternalSorage(bitmap);
                     File image = new File(path);
-                    File compressedImageFile=null;
-                    try {
-
-                        compressedImageFile = new Compressor(this)
-                                .setMaxWidth(640)
-                                .setMaxHeight(480)
-                                .setQuality(75)
-                                .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                                .setDestinationDirectoryPath(path)
-                                .compressToFile(image);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     try {
                         ParteDAO.actualizarNombreFirma(this,parte.getId_parte(),etNombreFirmante.getText().toString());
                         if (!etDniFirmante.getText().toString().trim().equals("")){
