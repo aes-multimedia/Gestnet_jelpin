@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -78,10 +79,8 @@ public class FirmaTecnico extends Activity implements View.OnClickListener, View
     }
 
     private String saveToInternalSorage(Bitmap bitmapImage) {
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         File mypath;
-        mypath = new File(directory, "firmaTecnico.png");
+        mypath = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "firmaTecnico.png");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);

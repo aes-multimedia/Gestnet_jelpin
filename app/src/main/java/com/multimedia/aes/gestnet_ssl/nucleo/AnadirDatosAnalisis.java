@@ -3,7 +3,6 @@ package com.multimedia.aes.gestnet_ssl.nucleo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.widget.AbsListView;
@@ -13,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.adaptador.AdaptadorListaAnalisis;

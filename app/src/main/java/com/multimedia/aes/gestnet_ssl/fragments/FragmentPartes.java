@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.adaptador.PageAdapter;
@@ -37,7 +38,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vista = inflater.inflate(R.layout.settings_main, container, false);
-        TabLayout tabLayout = (TabLayout) vista.findViewById(R.id.tab_layout);
+        TabLayout tabLayout = vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Cliente"));
         JSONObject jsonObject = null;
         int idParte = 0;
@@ -67,7 +68,43 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 (this, tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
-        //viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                if (parte.getEstado_android() != 0 && parte.getEstado_android() != 3) {
+                    switch (position) {
+                        case 0:
+                            tab.setText("Cliente");
+                            break;
+                        case 1:
+                            tab.setText("Equipo");
+                            break;
+                        case 2:
+                            tab.setText("Operaciones");
+                            break;
+                        case 3:
+                            tab.setText("Materiales");
+                            break;
+                        case 4:
+                            tab.setText("Finalización");
+                            break;
+                    }
+                } else if(parte.getEstado_android() == 0) {
+                    switch (position) {
+                        case 0:
+                            tab.setText("Cliente");
+                            break;
+                    }
+                } else {
+                    switch (position) {
+                        case 0:
+                            tab.setText("Cliente");
+                            break;
+                    }
+                }
+            }
+        });
+        tabLayoutMediator.attach();
         tabLayout.addOnTabSelectedListener (new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -77,20 +114,6 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab3 = adapter.getTab3();
                 tab4 = adapter.getTab4();
                 tab6 = adapter.getTab6();
-                if (tab.getPosition()==0){
-
-                }else if (tab.getPosition()==1){
-
-                }else if (tab.getPosition()==2){
-
-                }else if (tab.getPosition()==3){
-
-                }else if (tab.getPosition()==4){
-                    tab4.recalcular();
-                }else if (tab.getPosition()==5){
-
-
-                }
             }
 
             @Override
@@ -108,7 +131,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){
-
+                    tab4.recalcular();
                 }else if (tab.getPosition()==6){
 
                 }

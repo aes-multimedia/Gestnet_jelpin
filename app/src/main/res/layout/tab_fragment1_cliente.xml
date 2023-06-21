@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -95,7 +95,8 @@
                             android:layout_height="30dp"
                             android:layout_marginRight="10dp"
                             android:layout_weight="0.5"
-                            android:background="@drawable/ic_localizar" />
+                            android:background="@drawable/ic_localizar"
+                            android:visibility="invisible" />
 
                         <ImageButton
                             android:id="@+id/ibIr"
@@ -177,7 +178,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@android:drawable/ic_menu_call" />
+                            android:src="@drawable/baseline_call_24" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -208,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@android:drawable/ic_menu_call" />
+                            android:src="@drawable/baseline_call_24" />
 
 
                     </LinearLayout>
@@ -243,7 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@android:drawable/ic_menu_call" />
+                            android:src="@drawable/baseline_call_24" />
                     </LinearLayout>
 
 
@@ -276,7 +277,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:src="@android:drawable/ic_menu_call" />
+                            android:src="@drawable/baseline_call_24" />
                     </LinearLayout>
 
 
@@ -346,7 +347,7 @@
                             android:padding="5dp" />
                     </LinearLayout>
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
@@ -366,7 +367,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:baselineAligned="false">
@@ -524,7 +525,7 @@
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtHoraInicio"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <android.support.constraint.Barrier
+                    <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -680,7 +681,7 @@
                         app:layout_constraintStart_toStartOf="@+id/txtSintomaLista"
                         app:layout_constraintTop_toBottomOf="@+id/txtSintomaLista" />
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </LinearLayout>
@@ -935,8 +936,8 @@
 
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

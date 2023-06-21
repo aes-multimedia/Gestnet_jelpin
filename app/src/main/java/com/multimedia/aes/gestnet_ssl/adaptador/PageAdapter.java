@@ -2,7 +2,6 @@ package com.multimedia.aes.gestnet_ssl.adaptador;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.multimedia.aes.gestnet_ssl.fragments.FragmentPartes;
@@ -13,12 +12,12 @@ import com.multimedia.aes.gestnet_ssl.fragments.TabFragment4_finalizacion;
 import com.multimedia.aes.gestnet_ssl.fragments.TabFragment6_materiales;
 
 public class PageAdapter extends FragmentStateAdapter {
-    private int mNumOfTabs;
+    private final int mNumOfTabs;
     private TabFragment1_cliente tab1;
     private TabFragment2_equipo tab2;
     private TabFragment3_operaciones tab3;
     private TabFragment6_materiales tab4;
-    private  TabFragment4_finalizacion tab6;
+    private TabFragment4_finalizacion tab6;
     private final FragmentPartes fm;
 
     public PageAdapter(FragmentPartes fm, int NumOfTabs) {
@@ -59,8 +58,6 @@ public class PageAdapter extends FragmentStateAdapter {
             case 4:
                 tab6 = new TabFragment4_finalizacion();
                 return tab6;
-
-
             default:
                 return null;
         }
@@ -68,6 +65,6 @@ public class PageAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mNumOfTabs;
     }
 }

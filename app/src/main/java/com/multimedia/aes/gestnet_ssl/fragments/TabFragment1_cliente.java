@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,9 +59,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import kotlin.text.Charsets;
 
 public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
 
@@ -429,7 +433,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         etCorreoElectronico.setText(parte.getEmail_cliente());
         etmailFirmante.setText(parte.getEmailEnviarFactura());
 
-        etObservaciones.setText(parte.getObservaciones());
+        etObservaciones.setText(android.text.Html.fromHtml(parte.getObservaciones()).toString());
 
     }
 
@@ -569,9 +573,14 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             getContext().startActivity(i);
         } else if (view.getId() == R.id.ibIr) {
             String geoUri = null;
-            geoUri = "http://maps.google.com/maps?q=loc:" + parte.getLatitud_direccion() + "," + parte.getLongitud_direccion() + " (" + parte.getNombre_cliente() + ")";
+            try {
+                String dirr = URLEncoder.encode(parte.getVia(), Charsets.UTF_8.name());
+            geoUri = "https://www.google.com/maps/search/?api=1&query=" + dirr;
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
             getContext().startActivity(intent);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
         } else if (view.getId() == R.id.ivLlamar1) {
             if (etTelefono1.getText().toString().equals("") || etTelefono1.getText().toString().equals("null")) {
                 Dialogo.dialogoError("Movil no valido", getContext());

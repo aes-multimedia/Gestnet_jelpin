@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -53,10 +54,8 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
         return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
     }
     private String saveToInternalSorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         File mypath;
-        mypath =new File(directory,"firmaCliente"+parte.getId_parte()+".png");
+        mypath =new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),"firmaCliente"+parte.getId_parte()+".png");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
@@ -108,7 +107,6 @@ public class FirmaCliente extends Activity implements View.OnClickListener, View
                     frFirma.draw(canvas);
                     bitmap = redimensionarImagenMaximo(bitmap,320,320);
                     String path = saveToInternalSorage(bitmap);
-                    File image = new File(path);
                     try {
                         ParteDAO.actualizarNombreFirma(this,parte.getId_parte(),etNombreFirmante.getText().toString());
                         if (!etDniFirmante.getText().toString().trim().equals("")){
