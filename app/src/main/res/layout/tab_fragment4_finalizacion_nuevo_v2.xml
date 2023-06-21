@@ -640,7 +640,6 @@
                             android:id="@+id/cb_acepta_presupuesto"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:buttonTint="@color/colorAccent"
                             android:foregroundGravity="center"
                             android:gravity="center"
                             android:text="@string/acepto_presupuesto"

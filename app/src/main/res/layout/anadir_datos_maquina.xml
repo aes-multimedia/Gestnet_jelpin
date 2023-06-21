@@ -296,8 +296,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/botones"
                         android:gravity="center"
-                        android:text="Ver documento del equipo"
-                        android:textColor="#000000" />
+                        android:text="Ver documento del equipo" />
 
 
                     <Button

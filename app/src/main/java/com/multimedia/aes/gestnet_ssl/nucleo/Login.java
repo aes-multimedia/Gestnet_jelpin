@@ -9,6 +9,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
+
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +39,8 @@ import com.multimedia.aes.gestnet_ssl.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPartes;
 
 
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.BLUETOOTH;
 import static android.Manifest.permission.BLUETOOTH_ADMIN;
@@ -86,6 +90,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         return imei;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     public boolean checkPermission() {
         int permisoUno= ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
         int permisoDos= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH);
@@ -100,6 +105,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         int permisoOnce= ContextCompat.checkSelfPermission(getApplicationContext(), GET_ACCOUNTS);
         int permisoDoce= ContextCompat.checkSelfPermission(getApplicationContext(), WAKE_LOCK);
         int permisoTrece= ContextCompat.checkSelfPermission(getApplicationContext(), VIBRATE);
+        int permisoCartoce= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH_SCAN);
+        int permisoQuince= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH_CONNECT);
         return permisoUno == PackageManager.PERMISSION_GRANTED &&
                 permisoDos == PackageManager.PERMISSION_GRANTED &&
                 permisoTres == PackageManager.PERMISSION_GRANTED &&
@@ -112,12 +119,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 permisoDiez == PackageManager.PERMISSION_GRANTED &&
                 permisoOnce == PackageManager.PERMISSION_GRANTED &&
                 permisoDoce == PackageManager.PERMISSION_GRANTED &&
-                permisoTrece == PackageManager.PERMISSION_GRANTED;
+                permisoTrece == PackageManager.PERMISSION_GRANTED &&
+                permisoCartoce == PackageManager.PERMISSION_GRANTED &&
+                permisoQuince == PackageManager.PERMISSION_GRANTED;
     }
     private void requestPermission() {
 
         ActivityCompat.requestPermissions(Login.this, new String[]
-                {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, CALL_PHONE,
+                {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, BLUETOOTH_SCAN, BLUETOOTH_CONNECT,  CALL_PHONE,
                         ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
                         READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
                         GET_ACCOUNTS,WAKE_LOCK, VIBRATE

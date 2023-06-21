@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_ssl.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,11 +8,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
@@ -62,11 +68,11 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
     private ArrayList<BluetoothDevice> listaDevice = new ArrayList<>();
     private ArrayList<String> listaNombre = new ArrayList<>();
     private ListView lvNombres;
-    private Button openButton, sendButton, closeButton,btnOtra;
-    private TextView txtImpreso,txtImpreso2,txtImpreso3;
-    private LinearLayout llImpreso,llBotones;
+    private Button openButton, sendButton, closeButton, btnOtra;
+    private TextView txtImpreso, txtImpreso2, txtImpreso3;
+    private LinearLayout llImpreso, llBotones;
     private Impresora impresora;
-    private ImageView ivLogo,ivFirma1,ivFirma2;
+    private ImageView ivLogo, ivFirma1, ivFirma2;
     private View vista;
     private ScrollView scTicket;
     private Parte parte;
@@ -94,12 +100,13 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                 }
             }
             ponerLista();
-            if (ManagerProgressDialog.getDialog()!=null) {
+            if (ManagerProgressDialog.getDialog() != null) {
                 ManagerProgressDialog.cerrarDialog();
             }
             getContext().unregisterReceiver(bReciever);
         }
     };
+
     private class PrinterConnectTask extends android.os.AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(final String... arg0) {
@@ -117,6 +124,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         } // doInBackground
 
     } // PrinterConnectTask
+
     private void connectPrinter(String address) {
         try {
             PrinterCommunicator.getInstance().printerMacAddress = address;
@@ -137,6 +145,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                     + ". Error: " + ex);
         }
     }
+
     void findBT() {
         try {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -158,14 +167,16 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         }
         ponerLista();
     }
+
     public void ponerLista() {
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listaNombre);
         lvNombres.setAdapter(adaptador);
     }
+
     private Bitmap generarImagen() throws IOException {
         InputStream bitmap = null;
-        bitmap =  getContext().getAssets().open("logo.png");
-        Bitmap btmp= BitmapFactory.decodeStream(bitmap);
+        bitmap = getContext().getAssets().open("logo.png");
+        Bitmap btmp = BitmapFactory.decodeStream(bitmap);
         return btmp;
     }
 
@@ -177,9 +188,9 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         try {
             JSONObject jsonObject = GestorSharedPreferences.getJsonParte(GestorSharedPreferences.getSharedPreferencesParte(getContext()));
             int id = jsonObject.getInt("id");
-            parte = ParteDAO.buscarPartePorId(getContext(),id);
+            parte = ParteDAO.buscarPartePorId(getContext(), id);
             usuario = UsuarioDAO.buscarUsuario(getContext());
-            datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(),id);
+            datosAdicionales = DatosAdicionalesDAO.buscarDatosAdicionalesPorFkParte(getContext(), id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -221,7 +232,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         }
 
 
-        if(datosAdicionales.getBaceptapresupuesto())
+        if (datosAdicionales.getBaceptapresupuesto())
             ticket = new ImpresionFactura();
         else
             ticket = new ImpresionPresupuesto();
@@ -236,12 +247,12 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         try {
 
 
-            impreso+= ticket.encabezado();
-            impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
-            impreso+= (ticket.pie() != null)?ticket.pie():"";
-            impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
-            impreso2+= ticket.conformeTecnico(getContext());
-            impreso3+= ticket.proteccionDatos(getContext());
+            impreso += ticket.encabezado();
+            impreso += ticket.cuerpo(parte.getId_parte(), getContext());
+            impreso += (ticket.pie() != null) ? ticket.pie() : "";
+            impreso += ticket.conformeCliente(parte.getId_parte(), getContext());
+            impreso2 += ticket.conformeTecnico(getContext());
+            impreso3 += ticket.proteccionDatos(getContext());
 
 
         } catch (SQLException e) {
@@ -253,6 +264,7 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         findBT();
         return vista;
     }
+
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.open) {
@@ -268,17 +280,17 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             findBT();
         } else if (view.getId() == R.id.send) {
             llBotones.setVisibility(View.VISIBLE);
-                if (/*parte.getFirma64().equals("")||*/parte.getFirma64()==null){
-                Dialogo.dialogoError("Falta firma del cliente.(Pestaña de Documentos)",getContext());
-            }else{
+            if (/*parte.getFirma64().equals("")||*/parte.getFirma64() == null) {
+                Dialogo.dialogoError("Falta firma del cliente.(Pestaña de Documentos)", getContext());
+            } else {
                 byte[] decodedBytes = Base64.decode(parte.getFirma64(), 0);
-                Bitmap bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                Bitmap bfirma = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 ivFirma2.setImageBitmap(bfirma);
-                if (/*usuario.getFirma().equals("")||*/usuario.getFirma()==null){
-                    Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)",getContext());
-                }else{
+                if (/*usuario.getFirma().equals("")||*/usuario.getFirma() == null) {
+                    Dialogo.dialogoError("Falta firma del tecnico.(Mis Ajustes-Mi firma)", getContext());
+                } else {
                     decodedBytes = Base64.decode(usuario.getFirma(), 0);
-                    bfirma =  BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    bfirma = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                     ivFirma1.setImageBitmap(bfirma);
                     sendButton.setVisibility(View.GONE);
                     closeButton.setVisibility(View.VISIBLE);
@@ -291,11 +303,11 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         } else if (view.getId() == R.id.close) {
             closeButton.setVisibility(View.GONE);
             openButton.setVisibility(View.VISIBLE);
-            if (parte.getTicket()!=null){
-                impresora = new Impresora(getActivity(),mmDevice,getContext());
+            if (parte.getTicket() != null) {
+                impresora = new Impresora(getActivity(), mmDevice, getContext());
                 impresora.imprimir(ticket);
-            }else{
-                Bitmap bitmap1 = Bitmap.createBitmap( llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
+            } else {
+                Bitmap bitmap1 = Bitmap.createBitmap(llImpreso.getWidth(), llImpreso.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap1);
                 llImpreso.draw(canvas);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -303,8 +315,8 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                 byte[] imageBytes = baos.toByteArray();
                 String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
                 try {
-                    if (ParteDAO.actualizarTicket(getContext(),parte.getId_parte(),encodedImage)) {
-                        impresora = new Impresora(getActivity(), mmDevice,getContext());
+                    if (ParteDAO.actualizarTicket(getContext(), parte.getId_parte(), encodedImage)) {
+                        impresora = new Impresora(getActivity(), mmDevice, getContext());
                         impresora.imprimir(ticket);
                     }
                 } catch (SQLException e) {
@@ -312,11 +324,22 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
                 }
             }
 
-        }else if (view.getId() == R.id.btnOtra) {
+        } else if (view.getId() == R.id.btnOtra) {
             ManagerProgressDialog.abrirDialog(getContext());
             ManagerProgressDialog.buscandoBluetooth(getContext());
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             getContext().registerReceiver(bReciever, filter);
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                Toast.makeText(getContext(), "No dispones de permisos", Toast.LENGTH_LONG).show();
+                return;
+            }
             mBluetoothAdapter.startDiscovery();
         }
     }

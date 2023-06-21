@@ -8,12 +8,12 @@
         android:shape="rectangle"
         >
         <solid
-            android:color="#ff9002"
+            android:color="@color/md_theme_light_primary"
             >
         </solid>
         <stroke
             android:width="2dp"
-            android:color="#F47435"
+            android:color="@color/md_theme_light_primary"
             >
         </stroke>
         <corners

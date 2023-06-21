@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -550,7 +551,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         } else if (view.getId() == R.id.btnImprimir) {
             Bitmap bit = null;
             try {
-                bit = loadFirmaTecnicoFromStorage(parte.getId_parte(), getActivity());
+                bit = loadFirmaTecnicoFromStorage(getActivity());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -724,12 +725,11 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         return connected;
     }
 
-    public Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
+    public Bitmap loadFirmaTecnicoFromStorage(Context context) throws SQLException {
         Bitmap b = null;
         try {
-            File f = new File(Constantes.PATH, "firmaTecnico.png");
+            File f = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "firmaTecnico.png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
