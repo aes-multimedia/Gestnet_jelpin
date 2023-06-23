@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="gestnet_ssl.nucleo.IntervencionesAnteriores"
+    tools:context=".nucleo.IntervencionesAnteriores"
     tools:showIn="@layout/index"
     android:orientation="vertical"
     android:id="@+id/cuerpo"
     android:background="#fff">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +24,6 @@
             android:layout_height="wrap_content"
             android:dividerHeight="3dp"
             android:id="@+id/lvIndexIntervenciones" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

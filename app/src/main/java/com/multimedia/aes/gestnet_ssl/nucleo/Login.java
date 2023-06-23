@@ -9,9 +9,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -23,7 +25,6 @@ import android.widget.EditText;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.multimedia.aes.gestnet_ssl.BBDD.GuardarParte;
 import com.multimedia.aes.gestnet_ssl.BBDD.GuardarUsuario;
 import com.multimedia.aes.gestnet_ssl.R;
@@ -36,9 +37,10 @@ import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloLogin;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloNotific;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPartes;
-import com.multimedia.aes.gestnet_ssl.notification.RegisterApp;
 
 
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.BLUETOOTH;
 import static android.Manifest.permission.BLUETOOTH_ADMIN;
@@ -69,7 +71,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final String TAG = "GCMRelated";
-    GoogleCloudMessaging gcm;
     String regid;
     private Activity activity;
 
@@ -89,6 +90,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         return imei;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     public boolean checkPermission() {
         int permisoUno= ContextCompat.checkSelfPermission(getApplicationContext(), INTERNET);
         int permisoDos= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH);
@@ -103,6 +105,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         int permisoOnce= ContextCompat.checkSelfPermission(getApplicationContext(), GET_ACCOUNTS);
         int permisoDoce= ContextCompat.checkSelfPermission(getApplicationContext(), WAKE_LOCK);
         int permisoTrece= ContextCompat.checkSelfPermission(getApplicationContext(), VIBRATE);
+        int permisoCartoce= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH_SCAN);
+        int permisoQuince= ContextCompat.checkSelfPermission(getApplicationContext(), BLUETOOTH_CONNECT);
         return permisoUno == PackageManager.PERMISSION_GRANTED &&
                 permisoDos == PackageManager.PERMISSION_GRANTED &&
                 permisoTres == PackageManager.PERMISSION_GRANTED &&
@@ -115,12 +119,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 permisoDiez == PackageManager.PERMISSION_GRANTED &&
                 permisoOnce == PackageManager.PERMISSION_GRANTED &&
                 permisoDoce == PackageManager.PERMISSION_GRANTED &&
-                permisoTrece == PackageManager.PERMISSION_GRANTED;
+                permisoTrece == PackageManager.PERMISSION_GRANTED &&
+                permisoCartoce == PackageManager.PERMISSION_GRANTED &&
+                permisoQuince == PackageManager.PERMISSION_GRANTED;
     }
     private void requestPermission() {
 
         ActivityCompat.requestPermissions(Login.this, new String[]
-                {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, CALL_PHONE,
+                {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, BLUETOOTH_SCAN, BLUETOOTH_CONNECT,  CALL_PHONE,
                         ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
                         READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
                         GET_ACCOUNTS,WAKE_LOCK, VIBRATE
@@ -141,30 +147,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         }
         return true;
     }
-    private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = getGCMPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = getAppVersion(getApplicationContext());
-        if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
-    private SharedPreferences getGCMPreferences(Context context) {
-        // This sample app persists the registration ID in shared preferences, but
-        // how you store the regID in your app is up to you.
-        return getSharedPreferences(Login.class.getSimpleName(),
-                Context.MODE_PRIVATE);
-    }
+
     private static int getAppVersion(Context context) {
         try {
             PackageInfo packageInfo = context.getPackageManager()
@@ -257,13 +240,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         activity=this;
         try {
             inicializarVariables();
-            if (checkPlayServices()) {
-                gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                regid = getRegistrationId(getApplicationContext());
-            }
 
             if (UsuarioDAO.buscarUsuario(this)!=null) {
-                    irIndex();
+                irIndex();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,6 +255,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
 
             case REQUEST_PERMISSION:
@@ -287,18 +267,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                     boolean access_fine_location = grantResults[4] == PackageManager.PERMISSION_GRANTED;
                     boolean access_coarse_location = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                     boolean camera = grantResults[6] == PackageManager.PERMISSION_GRANTED;
-                    boolean read_external_storage = grantResults[7] == PackageManager.PERMISSION_GRANTED;
-                    boolean write_external_storage = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    //TODO: a partir de android 11 no se tiene acceso a estos permisos
+                    boolean read_external_storage = true;
+                    boolean write_external_storage = true;
+
                     boolean read_phone_state = grantResults[9] == PackageManager.PERMISSION_GRANTED;
                     boolean get_accounts = grantResults[10] == PackageManager.PERMISSION_GRANTED;
                     boolean wake_lock = grantResults[11] == PackageManager.PERMISSION_GRANTED;
                     boolean vibrate = grantResults[12] == PackageManager.PERMISSION_GRANTED;
 
-                    if (internet && bluetooth && bluetooth_admin&& call_phone&& access_fine_location&& access_coarse_location&& camera&&
-                            read_external_storage&& write_external_storage&& read_phone_state&& get_accounts&& wake_lock&& vibrate) {
+                    if (internet && bluetooth && bluetooth_admin && call_phone && access_fine_location && access_coarse_location && camera &&
+                            read_external_storage && write_external_storage && read_phone_state && get_accounts && wake_lock && vibrate) {
 
-                    }
-                    else {
+                    } else {
                         requestPermission();
                     }
                 }
@@ -329,24 +310,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void onClick(View v) {
         if (v.getId()==R.id.btnLogin){
 
-            if (checkPlayServices()) {
-                gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-                regid = getRegistrationId(getApplicationContext());
-
-                if (regid.isEmpty()) {
-                    new RegisterApp(getApplicationContext(), gcm, getAppVersion(getApplicationContext())).execute();
-                }
-            } else {
-                Log.i(TAG, "No valid Google Play Services APK found.");
-            }
-
             new HiloLogin(etUsuario.getText().toString().trim(),etContraseña.getText().toString().trim(),cliente.getIp_cliente(),this).execute();
         }
     }
 
     @Override
     public void onBackPressed() {
-      finish();
+        finish();
     }
 
     @Override

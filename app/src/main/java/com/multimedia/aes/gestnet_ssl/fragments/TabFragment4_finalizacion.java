@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -70,6 +70,8 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import static java.lang.Math.round;
+
+import androidx.fragment.app.Fragment;
 
 
 public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
@@ -964,7 +966,16 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         else vista.findViewById(R.id.llEnviarPorCorreo).setVisibility(View.GONE);
     }
 
-
+    public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
+        Bitmap b = null;
+        try {
+            File f = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "firmaCliente" + id + ".png");
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return b;
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 99) {
@@ -1012,16 +1023,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
     }
 
 
-    public static Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
-        Bitmap b = null;
-        try {
-            File f = new File(Constantes.PATH, "firmaCliente" + id + ".png");
-            b = BitmapFactory.decodeStream(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return b;
-    }
+
     TextWatcher watcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {

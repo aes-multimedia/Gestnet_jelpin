@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -54,10 +55,10 @@ public class MiFirma extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    public static Bitmap loadFirmaTecnicoFromStorage(Context context) throws SQLException {
+    public Bitmap loadFirmaTecnicoFromStorage(Context context) throws SQLException {
         Bitmap b = null;
         try {
-            File f = new File(Constantes.PATH, "firmaTecnico.png");
+            File f = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "firmaTecnico.png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -97,6 +98,7 @@ public class MiFirma extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 99) {
             if (resultCode == Activity.RESULT_OK) {
                 ivMiFirma.setVisibility(View.VISIBLE);

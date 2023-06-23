@@ -16,7 +16,10 @@ import com.multimedia.aes.gestnet_ssl.entidades.Maquina;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdaptadorPartes extends ArrayAdapter {
 
