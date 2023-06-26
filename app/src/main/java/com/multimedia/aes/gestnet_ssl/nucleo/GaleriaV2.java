@@ -7,19 +7,26 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.adaptador.AdaptadorListaImagenes;
 import com.multimedia.aes.gestnet_ssl.clases.DataImagenes;
+import com.multimedia.aes.gestnet_ssl.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
+import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_ssl.entidades.Imagen;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
+import com.multimedia.aes.gestnet_ssl.hilos.HiloSubirImagen;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -41,6 +48,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
     private static Context context;
     private static AdaptadorListaImagenes adaptadorListaImagenes;
     private static Context thisContext;
+    static ImageButton btnSubir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +73,49 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         ImageButton btnAñadirImagen;
         btnAñadirImagen = findViewById(R.id.btnAñadirImagenGaleria);
         lvImagenes = findViewById(R.id.lvImagenes);
+        btnSubir = findViewById(R.id.btnSubirPendientes);
+        btnSubir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(thisContext)
+                        .setTitle("Atención")
+                        .setMessage("¿Estas seguro de que deseas enviar las imagenes pendientes por subir?")
+                        .setPositiveButton("Sí", (dialog, which) -> {
+                            if(listaImagenes.size()>0) {
+                                for (int i = 0; i < listaImagenes.size(); i++) {
+                                    if(!listaImagenes.get(i).isEnviado()){
+                                        if (hayConexion(context))
+                                            new HiloSubirImagen(context, parte.getId_parte(), listaImagenes.get(i).getId_imagen()).execute();
+                                        else
+                                        {
+                                            Toast.makeText(GaleriaV2.this, "No dispones de conexión a internet para poder subir las imágenes.", Toast.LENGTH_SHORT).show();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            Toast.makeText(GaleriaV2.this, "Imágenes enviadas correctamente.", Toast.LENGTH_SHORT).show();
+                            darValores();
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
+
+
+            }
+        });
         btnAñadirImagen.setOnClickListener(this);
         darValores();
     }
     private static void darValores()  {
+        btnSubir.setVisibility(View.INVISIBLE);
         arraylistImagenes.clear();
         try {
             listaImagenes= ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
             if(listaImagenes.size()>0) {
                 for (Imagen img : listaImagenes) {
+                    if(!img.isEnviado())
+                        btnSubir.setVisibility(View.VISIBLE);
                     arraylistImagenes.add(new DataImagenes(img.getId_imagen(),img.getRuta_imagen(), img.getNombre_imagen(), decodeSampledBitmapFromResource(img.getRuta_imagen(),100,100), parte.getId_parte(),true,false));
                 }
                 adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
@@ -147,13 +189,45 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         try {
             String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
 
-            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false);
+            boolean enviado = false;
+            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true, enviado);
+            if(ConfiguracionDAO.buscarConfiguracion(context).isbSubidaInmediataImagen()){
+                if(!hayConexion(context)){
+                    Toast.makeText(context, "No dispones de conexión para enviar la imagen en estos momentos.", Toast.LENGTH_LONG).show();
+                } else {
+                    List<Imagen> a = ImagenDAO.buscarImagenPorFk_parte(context, parte.getId_parte());
+                    new HiloSubirImagen(context, parte.getId_parte(), a.get(a.size() -1).getId_imagen()).execute();
+                }
+
+
+
+            }
+
             darValores();
-        } catch (OutOfMemoryError memoryError){
+        } catch (OutOfMemoryError | SQLException memoryError){
             memoryError.printStackTrace();
             //Dialogo.dialogoError("No hay espacio suficiente en su telefono movil, es probable que las imagenes no puedan ser cargadas debido a esta falta de memoria, porfavor libere espacio",getAppContext());
         }
     }
+
+    public static boolean hayConexion(Context c) {
+
+        boolean connected = false;
+
+        ConnectivityManager connec = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (NetworkInfo rede : redes) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (rede.getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
+
     public static Context getAppContext() {
         return GaleriaV2.context;
     }

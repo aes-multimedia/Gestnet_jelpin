@@ -34,7 +34,8 @@ public class ConfiguracionDAO extends DBHelperMOS {
 										   boolean menu_cierre, boolean menu_ubicacion, boolean menu_datos_completos,
 										   boolean menu_informar, boolean menu_datos_actualizados, boolean menu_presupuesto,
 										   boolean requiere_firma, boolean usuario_conf, boolean pass_conf, boolean intersat,
-										   boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km) {
+										   boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km,
+										   boolean bSubidaInmediataImagen) {
 		Configuracion c = montarConfiguracion(id_configuracion,   horarios,   operarios,   definiciones,
 				equipos,   empresas,   marcas,   tipos_trabajo,
 				tipos_presupuesto,   cuenta_bancaria,   fk_combustion,
@@ -48,7 +49,8 @@ public class ConfiguracionDAO extends DBHelperMOS {
 				menu_cierre,   menu_ubicacion,   menu_datos_completos,
 				menu_informar,   menu_datos_actualizados,   menu_presupuesto,
 				requiere_firma,   usuario_conf,   pass_conf,   intersat,
-				gas_natural,   jlsat,   duracion_automatica,   contador_km);
+				gas_natural,   jlsat,   duracion_automatica,   contador_km,
+				bSubidaInmediataImagen);
 		return crearConfiguracion(c,context);
 	}
 	public static boolean crearConfiguracion(Configuracion c,Context context) {
@@ -74,7 +76,8 @@ public class ConfiguracionDAO extends DBHelperMOS {
 													boolean menu_cierre, boolean menu_ubicacion, boolean menu_datos_completos,
 													boolean menu_informar, boolean menu_datos_actualizados, boolean menu_presupuesto,
 													boolean requiere_firma, boolean usuario_conf, boolean pass_conf, boolean intersat,
-													boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km) {
+													boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km,
+													boolean bSubidaInmediataImagen) {
 		Configuracion c =new Configuracion(id_configuracion,   horarios,   operarios,   definiciones,
 				equipos,   empresas,   marcas,   tipos_trabajo,
 				tipos_presupuesto,   cuenta_bancaria,   fk_combustion,
@@ -88,7 +91,8 @@ public class ConfiguracionDAO extends DBHelperMOS {
 				menu_cierre,   menu_ubicacion,   menu_datos_completos,
 				menu_informar,   menu_datos_actualizados,   menu_presupuesto,
 				requiere_firma,   usuario_conf,   pass_conf,   intersat,
-				gas_natural,   jlsat,   duracion_automatica,   contador_km);
+				gas_natural,   jlsat,   duracion_automatica,   contador_km,
+				bSubidaInmediataImagen);
 		return c;
 	}
 

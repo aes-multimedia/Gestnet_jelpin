@@ -530,6 +530,17 @@ public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
             }
         }
 
+        boolean bSubidaInmediataImagen;
+        if (jsonObject.getString("bSubidaInmediataImagen").equals("null")) {
+            bSubidaInmediataImagen = false;
+        } else {
+            if (jsonObject.getString("bSubidaInmediataImagen").equals("0")) {
+                bSubidaInmediataImagen = false;
+            } else {
+                bSubidaInmediataImagen = true;
+            }
+        }
+
         if (ConfiguracionDAO.newConfiguracion(context,id_configuracion,   horarios,   operarios,   definiciones,
                 equipos,   empresas,   marcas,   tipos_trabajo,
                 tipos_presupuesto,   cuenta_bancaria,   fk_combustion,
@@ -543,7 +554,8 @@ public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
                 menu_cierre,   menu_ubicacion,   menu_datos_completos,
                 menu_informar,   menu_datos_actualizados,   menu_presupuesto,
                 requiere_firma,   usuario_conf,   pass_conf,   intersat,
-                gas_natural,   jlsat,   duracion_automatica,   contador_km)){
+                gas_natural,   jlsat,   duracion_automatica,   contador_km,
+                bSubidaInmediataImagen)){
             bien = true;
         }
     }

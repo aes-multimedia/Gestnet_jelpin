@@ -53,6 +53,7 @@ public class Configuracion {
     public static final String JLSAT = "jlsat";
     public static final String DURACION_AUTOMATICA = "duracion_automatica";
     public static final String CONTADOR_KM = "contador_km";
+    public static final String SUBIDA_INMEDIATA = "bSubidaInmediataImagen";
 
 
     @DatabaseField(id = true, columnName = ID_CONFIGURACION)    private int id_configuracion;
@@ -102,6 +103,7 @@ public class Configuracion {
     @DatabaseField(columnName = JLSAT)                          private boolean jlsat;
     @DatabaseField(columnName = DURACION_AUTOMATICA)            private boolean duracion_automatica;
     @DatabaseField(columnName = CONTADOR_KM)                    private boolean contador_km;
+    @DatabaseField(columnName = SUBIDA_INMEDIATA)               private boolean bSubidaInmediataImagen;
 
     public Configuracion(){}
     public Configuracion(int id_configuracion, boolean horarios, boolean operarios, boolean definiciones,
@@ -117,7 +119,8 @@ public class Configuracion {
                          boolean menu_cierre, boolean menu_ubicacion, boolean menu_datos_completos,
                          boolean menu_informar, boolean menu_datos_actualizados, boolean menu_presupuesto,
                          boolean requiere_firma, boolean usuario_conf, boolean pass_conf, boolean intersat,
-                         boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km) {
+                         boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km,
+                         boolean bSubidaInmediataImagen) {
         this.id_configuracion = id_configuracion;
         this.horarios = horarios;
         this.operarios = operarios;
@@ -165,6 +168,7 @@ public class Configuracion {
         this.jlsat = jlsat;
         this.duracion_automatica = duracion_automatica;
         this.contador_km = contador_km;
+        this.bSubidaInmediataImagen = bSubidaInmediataImagen;
     }
 
     public int getId_configuracion() {
@@ -448,5 +452,13 @@ public class Configuracion {
     }
     public void setContador_km(boolean contador_km) {
         this.contador_km = contador_km;
+    }
+
+    public boolean isbSubidaInmediataImagen() {
+        return bSubidaInmediataImagen;
+    }
+
+    public void setbSubidaInmediataImagen(boolean bSubidaInmediataImagen) {
+        this.bSubidaInmediataImagen = bSubidaInmediataImagen;
     }
 }
