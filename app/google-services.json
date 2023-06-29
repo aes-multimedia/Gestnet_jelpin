@@ -1,52 +1,36 @@
 {
   "project_info": {
-    "project_number": "1090232239984",
-    "firebase_url": "https://gestnet-18212.firebaseio.com",
-    "project_id": "gestnet-18212",
-    "storage_bucket": "gestnet-18212.appspot.com"
+    "project_number": "9973661664",
+    "project_id": "aesmultimedia-d805f",
+    "storage_bucket": "aesmultimedia-d805f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090232239984:android:a53f1293d955328d",
+        "mobilesdk_app_id": "1:9973661664:android:e6f622e8c807cc47ec7585",
         "android_client_info": {
-          "package_name": "com.multimedia.aes.gestnet_ssl"
+          "package_name": "com.multimedia.aes.gestnet_ssl_v2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1090232239984-i9ad0n808n8l24o8vqcefhhmfkhfcub0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.multimedia.aes.gestnet_ssl",
-            "certificate_hash": "8da82056e13223c22bff3c4ecaf3d707746b8151"
-          }
-        },
-        {
-          "client_id": "1090232239984-aa1h5g544ek3rvskh07i0ik7qnk7trtr.apps.googleusercontent.com",
+          "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDA1VFo4DmgsixG7w1hcHnW1DggC7lQ0lo"
+          "current_key": "AIzaSyAGCkVbT-9CazY_QsIfuwx0aaTPipidY8c"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "1090232239984-aa1h5g544ek3rvskh07i0ik7qnk7trtr.apps.googleusercontent.com",
+              "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

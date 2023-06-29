@@ -7,12 +7,12 @@ android {
     buildToolsVersion '33.0.2'
     namespace 'com.multimedia.aes.gestnet_ssl'
     defaultConfig {
-        applicationId 'com.multimedia.aes.gestnet_ssl'
+        applicationId 'com.multimedia.aes.gestnet_ssl_v2'
         minSdkVersion 28
         targetSdkVersion 33
-        versionCode 30000 // 3 primeros digitos = {MAYOR, MENOR, BUGFIXS }, otros dos digitos son el nº de compilacion
+        versionCode 30100 // 3 primeros digitos = {MAYOR, MENOR, BUGFIXS }, otros dos digitos son el nº de compilacion
         multiDexEnabled true
-        versionName "3.0.0"
+        versionName "3.0.1"
     }
 
     buildTypes {

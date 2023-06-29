@@ -99,8 +99,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         int permisoCinco= ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION);
         int permisoSeis= ContextCompat.checkSelfPermission(getApplicationContext(), ACCESS_COARSE_LOCATION);
         int permisoSiete= ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
-        int permisoOcho= ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
-        int permisoNueve= ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        /*int permisoOcho= ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
+        int permisoNueve= ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);*/
         int permisoDiez= ContextCompat.checkSelfPermission(getApplicationContext(), READ_PHONE_STATE);
         int permisoOnce= ContextCompat.checkSelfPermission(getApplicationContext(), GET_ACCOUNTS);
         int permisoDoce= ContextCompat.checkSelfPermission(getApplicationContext(), WAKE_LOCK);
@@ -114,8 +114,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 permisoCinco == PackageManager.PERMISSION_GRANTED &&
                 permisoSeis == PackageManager.PERMISSION_GRANTED &&
                 permisoSiete == PackageManager.PERMISSION_GRANTED &&
-                permisoOcho == PackageManager.PERMISSION_GRANTED &&
-                permisoNueve == PackageManager.PERMISSION_GRANTED &&
+                /*permisoOcho == PackageManager.PERMISSION_GRANTED &&
+                permisoNueve == PackageManager.PERMISSION_GRANTED &&*/
                 permisoDiez == PackageManager.PERMISSION_GRANTED &&
                 permisoOnce == PackageManager.PERMISSION_GRANTED &&
                 permisoDoce == PackageManager.PERMISSION_GRANTED &&
@@ -128,7 +128,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         ActivityCompat.requestPermissions(Login.this, new String[]
                 {INTERNET, BLUETOOTH, BLUETOOTH_ADMIN, BLUETOOTH_SCAN, BLUETOOTH_CONNECT,  CALL_PHONE,
                         ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, CAMERA,
-                        READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, READ_PHONE_STATE,
+                        READ_PHONE_STATE,
                         GET_ACCOUNTS,WAKE_LOCK, VIBRATE
                 }, REQUEST_PERMISSION);
 
