@@ -440,6 +440,8 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         if(ImagenDAO.buscarImagenPorFk_parte(context,fk_parte)!=null) {
             arraylistImagenes.addAll(ImagenDAO.buscarImagenPorFk_parte(context, fk_parte));
             for (int i = 0; i < arraylistImagenes.size(); i++) {
+                if(arraylistImagenes.get(i).isEnviado())
+                    continue;
                 JSONObject jso = new JSONObject();
                 File f = new File(arraylistImagenes.get(i).getRuta_imagen());
                 Bitmap b;

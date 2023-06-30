@@ -108,8 +108,8 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         darValores();
     }
     private static void darValores()  {
-        btnSubir.setVisibility(View.INVISIBLE);
         arraylistImagenes.clear();
+        btnSubir.setVisibility(View.INVISIBLE);
         try {
             listaImagenes= ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
             if(listaImagenes.size()>0) {
