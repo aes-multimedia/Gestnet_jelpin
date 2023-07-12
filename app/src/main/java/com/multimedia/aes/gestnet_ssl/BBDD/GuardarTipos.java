@@ -46,9 +46,7 @@ public class GuardarTipos extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... voids) {
         try {
             guardarJsonParte();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (java.sql.SQLException e) {
+        } catch (JSONException | java.sql.SQLException e) {
             e.printStackTrace();
         }
         return null;

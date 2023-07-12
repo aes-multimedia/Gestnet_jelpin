@@ -531,7 +531,7 @@ public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
         }
 
         boolean bSubidaInmediataImagen;
-        if (jsonObject.getString("bSubidaInmediataImagen").equals("null")) {
+        if (!jsonObject.has("bSubidaInmediataImagen")) {
             bSubidaInmediataImagen = false;
         } else {
             if (jsonObject.getString("bSubidaInmediataImagen").equals("0")) {

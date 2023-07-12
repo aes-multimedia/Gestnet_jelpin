@@ -104,7 +104,7 @@ public class HiloListarImagenesIntervencion extends AsyncTask<Void,Void,Void> {
         URL urlws = null;
         HttpsURLConnection uc = null;
         try {
-            String url = "http://" + cliente.getIp_cliente() + URL;
+            String url = "https://" + cliente.getIp_cliente() + URL;
             urlws = new URL(url);
             uc = (HttpsURLConnection) urlws.openConnection();
             uc.setDoOutput(true);

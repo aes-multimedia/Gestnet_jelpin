@@ -17,6 +17,7 @@ import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
 import com.multimedia.aes.gestnet_ssl.entidades.Imagen;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.nucleo.FotosProtocoloAccion;
+import com.multimedia.aes.gestnet_ssl.nucleo.GaleriaV2;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,6 +85,7 @@ public class HiloSubirImagen extends AsyncTask<Void,Void,Void> {
                 JSONObject jsonObject = new JSONObject(mensaje);
                 if (jsonObject.getInt("estado")==0){
                     ImagenDAO.actualizarEnviado(context, id_imagen, true);
+                    GaleriaV2.darValores();
                 }else{
                     Toast.makeText(context, "Error al enviar una imagen.", Toast.LENGTH_SHORT).show();
                 }

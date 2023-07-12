@@ -263,13 +263,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                     boolean internet = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean bluetooth = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean bluetooth_admin = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean call_phone = grantResults[3] == PackageManager.PERMISSION_GRANTED;
-                    boolean access_fine_location = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+
+                    boolean call_phone = true;
+                    boolean access_fine_location = true;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+                        call_phone = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                        access_fine_location = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    }
+
+
                     boolean access_coarse_location = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                     boolean camera = grantResults[6] == PackageManager.PERMISSION_GRANTED;
                     //TODO: a partir de android 11 no se tiene acceso a estos permisos
                     boolean read_external_storage = true;
                     boolean write_external_storage = true;
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
+                        read_external_storage = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                        write_external_storage = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    }
 
                     boolean read_phone_state = grantResults[9] == PackageManager.PERMISSION_GRANTED;
                     boolean get_accounts = grantResults[10] == PackageManager.PERMISSION_GRANTED;

@@ -96,7 +96,6 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                                 }
                             }
                             Toast.makeText(GaleriaV2.this, "Imágenes enviadas correctamente.", Toast.LENGTH_SHORT).show();
-                            darValores();
                             dialog.dismiss();
                         })
                         .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
@@ -107,7 +106,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
         btnAñadirImagen.setOnClickListener(this);
         darValores();
     }
-    private static void darValores()  {
+    public static void darValores()  {
         arraylistImagenes.clear();
         btnSubir.setVisibility(View.INVISIBLE);
         try {
@@ -121,53 +120,11 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                 adaptadorListaImagenes = new AdaptadorListaImagenes(getAppContext(), R.layout.camp_adapter_list_view_imagenes, arraylistImagenes);
                 lvImagenes.setAdapter(adaptadorListaImagenes);
             }
-        } catch (OutOfMemoryError memoryError){
+        } catch (OutOfMemoryError | NullPointerException | SQLException memoryError){
             memoryError.printStackTrace();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public static Bitmap resizeImage(Bitmap bitmap) throws OutOfMemoryError{
-        Bitmap BitmapOrg = bitmap;
-        int width = BitmapOrg.getWidth();
-        int height = BitmapOrg.getHeight();
-        if(width>1000&&height>1000) {
-            int newWidth = (width * 50) / 100;
-            int newHeight = (height * 50) / 100;
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
-                    width, height, matrix, true);
-            return resizedBitmap;
-        }else if (width>1500&&height>1500) {
-            int newWidth = (width * 50) / 100;
-            int newHeight = (height * 50) / 100;
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
-                    width, height, matrix, true);
-            return resizedBitmap;
-        }else if (width>2000&&height>2000) {
-            int newWidth = (width * 50) / 100;
-            int newHeight = (height * 50) / 100;
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-            Bitmap resizedBitmap = Bitmap.createBitmap(BitmapOrg, 0, 0,
-                    width, height, matrix, true);
-            return resizedBitmap;
-        }else{
-            return bitmap;
-        }
-    }
     public static void borrarArrayImagenes(int position, Context context){
         new AlertDialog.Builder(thisContext)
                 .setTitle("Atención")
@@ -185,6 +142,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                 })
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss()).show();
     }
+
     public static void result(String path){
         try {
             String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
@@ -198,12 +156,11 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                     List<Imagen> a = ImagenDAO.buscarImagenPorFk_parte(context, parte.getId_parte());
                     new HiloSubirImagen(context, parte.getId_parte(), a.get(a.size() -1).getId_imagen()).execute();
                 }
-
-
-
+            } else {
+                darValores();
             }
 
-            darValores();
+
         } catch (OutOfMemoryError | SQLException memoryError){
             memoryError.printStackTrace();
             //Dialogo.dialogoError("No hay espacio suficiente en su telefono movil, es probable que las imagenes no puedan ser cargadas debido a esta falta de memoria, porfavor libere espacio",getAppContext());
