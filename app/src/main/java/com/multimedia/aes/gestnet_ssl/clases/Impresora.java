@@ -120,7 +120,7 @@ public class Impresora {
 	private void imprimirFirmaTecnicoSeitron(Ticket ticket,POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
 		int img[][] = null;
 		int ancho = 1;
-		Bitmap bit = ticket.loadFirmaTecnicoFromStorage(parte.getId_parte(),activity);
+		Bitmap bit = ticket.loadFirmaTecnicoFromStorage(activity);
 		if(bit!=null) {
 			img = new int[bit.getWidth()][bit.getHeight()];
 			ancho = bit.getWidth();

@@ -3,6 +3,8 @@ package com.multimedia.aes.gestnet_ssl.clases;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Base64;
 import android.util.Log;
 
 import com.multimedia.aes.gestnet_ssl.constantes.Constantes;
@@ -15,6 +17,7 @@ import com.multimedia.aes.gestnet_ssl.entidades.Configuracion;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,21 +45,17 @@ public void setCliente( Context context){
     public Bitmap loadFirmaClienteFromStorage(int id, Context context) throws SQLException {
 
         Bitmap b = null;
-        try {
-            File f = new File(Constantes.PATH, "firmaCliente" + id + ".png");
-            b = BitmapFactory.decodeStream(new FileInputStream(f));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Parte p = ParteDAO.buscarPartePorId(context, id);
+        b = BitmapFactory.decodeStream(new ByteArrayInputStream(Base64.decode(p.getFirma64(), Base64.DEFAULT)));
+
         return b;
     }
 
-    public Bitmap loadFirmaTecnicoFromStorage(int id, Context context) throws SQLException {
+    public Bitmap loadFirmaTecnicoFromStorage(Context context) throws SQLException {
         Bitmap b = null;
         try {
-            File f = new File(Constantes.PATH, "firmaTecnico.png");
+            File f = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "firmaTecnico.png");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
