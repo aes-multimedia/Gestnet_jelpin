@@ -54,6 +54,7 @@ public class Configuracion {
     public static final String DURACION_AUTOMATICA = "duracion_automatica";
     public static final String CONTADOR_KM = "contador_km";
     public static final String SUBIDA_INMEDIATA = "bSubidaInmediataImagen";
+    public static final String FOTO_INFORME = "bFotoInforme";
 
 
     @DatabaseField(id = true, columnName = ID_CONFIGURACION)    private int id_configuracion;
@@ -104,6 +105,7 @@ public class Configuracion {
     @DatabaseField(columnName = DURACION_AUTOMATICA)            private boolean duracion_automatica;
     @DatabaseField(columnName = CONTADOR_KM)                    private boolean contador_km;
     @DatabaseField(columnName = SUBIDA_INMEDIATA)               private boolean bSubidaInmediataImagen;
+    @DatabaseField(columnName = FOTO_INFORME)                   private boolean bFotoInforme;
 
     public Configuracion(){}
     public Configuracion(int id_configuracion, boolean horarios, boolean operarios, boolean definiciones,
@@ -120,7 +122,7 @@ public class Configuracion {
                          boolean menu_informar, boolean menu_datos_actualizados, boolean menu_presupuesto,
                          boolean requiere_firma, boolean usuario_conf, boolean pass_conf, boolean intersat,
                          boolean gas_natural, boolean jlsat, boolean duracion_automatica, boolean contador_km,
-                         boolean bSubidaInmediataImagen) {
+                         boolean bSubidaInmediataImagen, boolean bFotoInforme) {
         this.id_configuracion = id_configuracion;
         this.horarios = horarios;
         this.operarios = operarios;
@@ -169,6 +171,7 @@ public class Configuracion {
         this.duracion_automatica = duracion_automatica;
         this.contador_km = contador_km;
         this.bSubidaInmediataImagen = bSubidaInmediataImagen;
+        this.bFotoInforme = bFotoInforme;
     }
 
     public int getId_configuracion() {
@@ -453,12 +456,16 @@ public class Configuracion {
     public void setContador_km(boolean contador_km) {
         this.contador_km = contador_km;
     }
-
     public boolean isbSubidaInmediataImagen() {
         return bSubidaInmediataImagen;
     }
-
     public void setbSubidaInmediataImagen(boolean bSubidaInmediataImagen) {
         this.bSubidaInmediataImagen = bSubidaInmediataImagen;
+    }
+    public boolean isbFotoInforme() {
+        return bFotoInforme;
+    }
+    public void setbFotoInforme(boolean bFotoInforme) {
+        this.bFotoInforme = bFotoInforme;
     }
 }

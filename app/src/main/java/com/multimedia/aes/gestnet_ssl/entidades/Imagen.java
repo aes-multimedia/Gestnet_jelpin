@@ -13,6 +13,7 @@ public class Imagen {
     public static final String FK_ACCION_PROTOCOLO = "fk_accion_protocolo";
     public static final String GALERIA = "galeria";
     public static final String ENVIADO = "enviado";
+    public static final String INFORME = "bInforme";
 
     @DatabaseField(generatedId = true, columnName = ID_IMAGEN)  private int id_imagen;
     @DatabaseField(columnName = NOMBRE_IMAGEN)                  private String nombre_imagen;
@@ -21,16 +22,19 @@ public class Imagen {
     @DatabaseField(columnName = FK_ACCION_PROTOCOLO)            private int fk_accion_protocolo;
     @DatabaseField(columnName = GALERIA)                        private boolean galeria;
     @DatabaseField(columnName = ENVIADO)                        private boolean enviado;
+    @DatabaseField(columnName = INFORME)                        private boolean bInforme;
 
     public Imagen() {
     }
-    public Imagen(String nombre_imagen, String ruta_imagen, int fk_parte, int fk_accion_protocolo,boolean galeria,boolean enviado) {
+    public Imagen(String nombre_imagen, String ruta_imagen, int fk_parte, int fk_accion_protocolo,boolean galeria,boolean enviado,
+                  boolean bInforme) {
         this.nombre_imagen = nombre_imagen;
         this.ruta_imagen = ruta_imagen;
         this.fk_parte = fk_parte;
         this.fk_accion_protocolo = fk_accion_protocolo;
         this.galeria = galeria;
         this.enviado = enviado;
+        this.bInforme = bInforme;
     }
 
     public int getId_imagen() {
@@ -74,5 +78,11 @@ public class Imagen {
     }
     public void setEnviado(boolean enviado) {
         this.enviado = enviado;
+    }
+    public boolean isbInforme() {
+        return bInforme;
+    }
+    public void setbInforme(boolean bInforme) {
+        this.bInforme = bInforme;
     }
 }

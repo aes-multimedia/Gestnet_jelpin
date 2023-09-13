@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.multimedia.aes.gestnet_ssl.Utils.easyTakePhoto;
 import com.multimedia.aes.gestnet_ssl.constantes.Constantes;
 import com.multimedia.aes.gestnet_ssl.dao.AnalisisDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ArticuloDAO;
@@ -144,6 +145,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     ParteDAO.actualizarEstadoAndroid(context,fk_parte,3);
                     ((Index)context).recreate();
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -442,6 +444,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             for (int i = 0; i < arraylistImagenes.size(); i++) {
                 if(arraylistImagenes.get(i).isEnviado())
                     continue;
+
                 JSONObject jso = new JSONObject();
                 File f = new File(arraylistImagenes.get(i).getRuta_imagen());
                 Bitmap b;
@@ -457,6 +460,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
                     jso.put("base64", encodedImage);
                     jso.put("firma", "0");
+                    jso.put("bFotoInforme", (arraylistImagenes.get(i).isbInforme()) ? 1 : 0);
                     jsa.put(jso);
                 } catch (JSONException e) {
                     e.printStackTrace();

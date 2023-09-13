@@ -20,10 +20,18 @@ public class ImagenDAO extends DBHelperMOS {
 
 	//__________FUNCIONES DE CREACIÓN________________________//
 
-	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado) {
-		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado);
+	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,
+									boolean enviado, boolean bInforme) {
+		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme);
 		return crearImagen(i,context);
 	}
+
+	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,
+									boolean enviado) {
+		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, false);
+		return crearImagen(i,context);
+	}
+
 	public static boolean crearImagen(Imagen i, Context context) {
 		try {
 			cargarDao(context);
@@ -34,8 +42,9 @@ public class ImagenDAO extends DBHelperMOS {
 			return false;
 		}
 	}
-	public static Imagen montarImagen(String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado) {
-		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado);
+	public static Imagen montarImagen(String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado,
+	boolean bInforme) {
+		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme);
 		return i;
 	}
 

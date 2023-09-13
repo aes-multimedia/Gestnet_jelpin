@@ -131,7 +131,9 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){
-                    tab4.recalcular();
+                    if(tab4 != null){
+                        tab4.recalcular();
+                    }
                 }else if (tab.getPosition()==6){
 
                 }

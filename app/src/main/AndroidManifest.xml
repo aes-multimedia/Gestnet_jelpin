@@ -31,6 +31,7 @@
 
 
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,7 +39,6 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme.NoActionBar.FullScreen">
         <activity android:name="com.multimedia.aes.gestnet_ssl.nucleo.FotosProtocoloAccion"></activity>
         <activity

@@ -29,13 +29,16 @@ import android.widget.TextView;
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.Utils.Utils;
+import com.multimedia.aes.gestnet_ssl.Utils.easyTakePhoto;
 import com.multimedia.aes.gestnet_ssl.constantes.Constantes;
 import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ArticuloParteDAO;
+import com.multimedia.aes.gestnet_ssl.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_ssl.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_ssl.dao.DisposicionesDAO;
 import com.multimedia.aes.gestnet_ssl.dao.FormasPagoDAO;
+import com.multimedia.aes.gestnet_ssl.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.TiposOsDAO;
@@ -47,6 +50,7 @@ import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
 import com.multimedia.aes.gestnet_ssl.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_ssl.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_ssl.entidades.FormasPago;
+import com.multimedia.aes.gestnet_ssl.entidades.Imagen;
 import com.multimedia.aes.gestnet_ssl.entidades.ManoObra;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.entidades.TiposOs;
@@ -94,7 +98,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
 
     private boolean acepta_presupuesto = false, enviar_correo = false;
     private static DecimalFormat df2 = new DecimalFormat(",##");
-    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo;
+    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo, btnFirm;
     private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago,spTiposOS;
     private CheckBox cb_acepta_presupuesto, cb_enviar_por_correo;
     private View llTiposOs;
@@ -162,7 +166,39 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
         btnFinalizar = vista.findViewById(R.id.btnFinalizar);
         btnFirmar = vista.findViewById(R.id.btnFirmar);
         btn_calcular_tiempo = vista.findViewById(R.id.btn_calcular_tiempo);
+        btnFirm = vista.findViewById(R.id.btnDoc);
 
+        try {
+            if(ConfiguracionDAO.buscarConfiguracion(getContext()).isbFotoInforme()) {
+                boolean mostrar = true;
+                var listaimg = ImagenDAO.buscarImagenPorFk_parte(getContext(), parte.getId_parte());
+                if (listaimg != null){
+                    for (Imagen im:
+                            listaimg) {
+                        if(im.isbInforme()){
+                            mostrar = false;
+                        }
+                    }
+                }
+
+
+                if (mostrar){
+                    btnFirm.setVisibility(View.VISIBLE);
+                    btnFirm.setOnClickListener(v -> {
+                        var a = new easyTakePhoto(parte, getContext(), 2);
+                        a.takePhoto(getActivity());
+                        btnFirm.setEnabled(false);
+                    });
+                } else {
+                    btnFirm.setEnabled(false);
+                }
+
+            } else {
+                btnFirm.setVisibility(View.GONE);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         //ONCLICK
         btn_preeu_mano_de_obra.setOnClickListener(this);
@@ -744,6 +780,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                                     datos.setMatem_hora_salida(formattedDate1);
                                                     DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate1);
                                                     ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
+
                                                     new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
                                                 } catch (SQLException e) {
                                                     e.printStackTrace();
@@ -853,6 +890,7 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                                 datos.setMatem_hora_salida(formattedDate);
                                 DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);
                                 ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
+
                                 new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
                             } catch (SQLException e) {
                                 e.printStackTrace();

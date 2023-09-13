@@ -48,7 +48,7 @@ import java.sql.SQLException;
 public class BBDDConstantes {
 
 	public static final String DATABASE_NAME = "gestnet_ssl.db";
-	public static final int DATABASE_VERSION = 301;
+	public static final int DATABASE_VERSION = 302;
 
 	public static Dao<Cliente, Integer> clienteDao;
 	public static Dao<Usuario, Integer> usuarioDao;

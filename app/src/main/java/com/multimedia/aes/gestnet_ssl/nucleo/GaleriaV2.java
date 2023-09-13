@@ -86,7 +86,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                                 for (int i = 0; i < listaImagenes.size(); i++) {
                                     if(!listaImagenes.get(i).isEnviado()){
                                         if (hayConexion(context))
-                                            new HiloSubirImagen(context, parte.getId_parte(), listaImagenes.get(i).getId_imagen()).execute();
+                                            new HiloSubirImagen(context, parte.getId_parte(), listaImagenes.get(i).getId_imagen(), 1).execute();
                                         else
                                         {
                                             Toast.makeText(GaleriaV2.this, "No dispones de conexión a internet para poder subir las imágenes.", Toast.LENGTH_SHORT).show();
@@ -154,7 +154,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                     Toast.makeText(context, "No dispones de conexión para enviar la imagen en estos momentos.", Toast.LENGTH_LONG).show();
                 } else {
                     List<Imagen> a = ImagenDAO.buscarImagenPorFk_parte(context, parte.getId_parte());
-                    new HiloSubirImagen(context, parte.getId_parte(), a.get(a.size() -1).getId_imagen()).execute();
+                    new HiloSubirImagen(context, parte.getId_parte(), a.get(a.size() -1).getId_imagen(), 1).execute();
                 }
             } else {
                 darValores();

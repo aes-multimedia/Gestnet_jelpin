@@ -534,10 +534,21 @@ public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
         if (!jsonObject.has("bSubidaInmediataImagen")) {
             bSubidaInmediataImagen = false;
         } else {
-            if (jsonObject.getString("bSubidaInmediataImagen").equals("0")) {
+            if (jsonObject.getString("bSubidaInmediataImagen").equals("0") || jsonObject.getString("bSubidaInmediataImagen").equals("null")) {
                 bSubidaInmediataImagen = false;
             } else {
                 bSubidaInmediataImagen = true;
+            }
+        }
+
+        boolean bFotoInforme;
+        if (!jsonObject.has("bFotoInforme")) {
+            bFotoInforme = false;
+        } else {
+            if (jsonObject.getString("bFotoInforme").equals("0")) {
+                bFotoInforme = false;
+            } else {
+                bFotoInforme = true;
             }
         }
 
@@ -555,7 +566,7 @@ public class GuardarConfiguracion extends AsyncTask<Void,Void,Void>{
                 menu_informar,   menu_datos_actualizados,   menu_presupuesto,
                 requiere_firma,   usuario_conf,   pass_conf,   intersat,
                 gas_natural,   jlsat,   duracion_automatica,   contador_km,
-                bSubidaInmediataImagen)){
+                bSubidaInmediataImagen, bFotoInforme)){
             bien = true;
         }
     }

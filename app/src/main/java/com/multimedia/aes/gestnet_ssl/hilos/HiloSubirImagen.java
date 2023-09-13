@@ -43,14 +43,16 @@ public class HiloSubirImagen extends AsyncTask<Void,Void,Void> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje;
-    private int fk_parte, id_imagen;
+    private int fk_parte, id_imagen, tipo_imagen;
     private Cliente cliente;
     private Parte parte;
+    private boolean binforme;
 
-    public HiloSubirImagen(Context context, int fk_parte, int id_imagen) {
+    public HiloSubirImagen(Context context, int fk_parte, int id_imagen, int tipo_imagen) {
         this.context=context;
         this.fk_parte=fk_parte;
         this.id_imagen = id_imagen;
+        this.tipo_imagen = tipo_imagen;
         try {
             cliente= ClienteDAO.buscarCliente(context);
             parte = ParteDAO.buscarPartePorId(context, fk_parte);
@@ -99,6 +101,12 @@ public class HiloSubirImagen extends AsyncTask<Void,Void,Void> {
     }
     private String iniciar() throws JSONException, IOException, SQLException {
         JSONObject msg = new JSONObject();
+        switch (tipo_imagen){
+            case 2:
+                binforme = true;
+                break;
+        }
+
         msg.put("fk_parte", fk_parte);
         msg.put("imagenes", rellenarJsonImagenes(parte));
         String dataJsonMsg = msg.toString();
@@ -183,6 +191,7 @@ public class HiloSubirImagen extends AsyncTask<Void,Void,Void> {
                     jso.put("nombre", arraylistImagenes.get(i).getNombre_imagen());
                     jso.put("base64", encodedImage);
                     jso.put("firma", "0");
+                    jso.put("binforme", binforme);
                     jsa.put(jso);
                 } catch (JSONException e) {
                     e.printStackTrace();
