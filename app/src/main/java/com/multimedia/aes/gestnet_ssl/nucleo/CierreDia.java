@@ -169,8 +169,11 @@ public class CierreDia extends AppCompatActivity implements View.OnClickListener
         long comida = horComida*3600000+minComida*60000;
         long result = fin-inicio-comida;
         int minutes = (int) ((result / (1000*60)) % 60);
+        minutes = (minutes < 0) ? -minutes : minutes;
         int hours   = (int) ((result / (1000*60*60)) % 24);
-        String horas = hours < 10? "0"+String.valueOf(hours) : String.valueOf(hours);
+        hours = (hours < 0) ? -hours : hours;
+
+        String horas = Math.abs(hours) < 10 ? "0"+String.valueOf(hours) : String.valueOf(hours);
         String minutos = minutes < 10? "0"+String.valueOf(minutes) : String.valueOf(minutes);
         txtTotalHoras.setText(String.valueOf(horas)+":"+String.valueOf(minutos));
 

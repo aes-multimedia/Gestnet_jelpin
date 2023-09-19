@@ -15,10 +15,10 @@ android {
         applicationId 'com.multimedia.aes.gestnet_ssl_v2'
         minSdk 28
         targetSdkVersion 33
-        versionCode 31100
+        versionCode 31200
         // 3 primeros digitos = {MAYOR, MENOR, BUGFIXS }, otros dos digitos son el nº de compilacion
         multiDexEnabled true
-        versionName '3.1.1'
+        versionName '3.1.2'
     }
 
     buildTypes {
