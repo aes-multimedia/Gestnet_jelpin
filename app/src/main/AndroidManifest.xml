@@ -108,7 +108,9 @@
             android:screenOrientation="portrait" />
 
         <provider
-            android:name="androidx.core.content.FileProvider"
+
+            android:name="com.vansuita.pickimage.provider.PickImageFileProvider"
+
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"
             android:exported="false"
             android:grantUriPermissions="true"
