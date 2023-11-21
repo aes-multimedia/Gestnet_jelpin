@@ -4,6 +4,8 @@
         cleartextTrafficPermitted="true" >
         <trust-anchors>
             <certificates src="@raw/gestnet"/>
+            <certificates src="@raw/novsat"/>
+            <certificates src="@raw/aranda"/>
             <certificates src="system"/>
             <certificates src="user"
                 tools:ignore="AcceptsUserCertificates" />
