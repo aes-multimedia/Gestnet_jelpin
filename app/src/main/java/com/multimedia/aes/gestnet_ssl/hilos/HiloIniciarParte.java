@@ -29,7 +29,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
 
@@ -121,10 +121,10 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
         msg.put("sat_partes",jsonObject1);
         msg.put("sat_usuarios",jsonObject2);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            urlws = new URL("https://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE);
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -132,7 +132,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -140,7 +140,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -148,7 +148,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);
@@ -171,7 +171,7 @@ public class HiloIniciarParte extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_INICIAR_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);

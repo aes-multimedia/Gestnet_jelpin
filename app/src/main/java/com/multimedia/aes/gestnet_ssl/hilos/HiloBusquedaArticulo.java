@@ -26,7 +26,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 import static com.multimedia.aes.gestnet_ssl.fragments.TabFragment6_materiales.guardarArticulo;
 
@@ -98,11 +98,11 @@ public class HiloBusquedaArticulo extends AsyncTask<Void, Void, Void> {
         msg.put("entidad", tecnico.getFk_entidad());
 
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            String url = "https://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULO;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULO;
             urlws = new URL(url);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

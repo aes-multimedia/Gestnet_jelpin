@@ -22,7 +22,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class HiloArticulos extends AsyncTask<Void,Void,Void> {
 
@@ -65,10 +65,10 @@ public class HiloArticulos extends AsyncTask<Void,Void,Void> {
         JSONObject msg = new JSONObject();
         msg.put("entidad", fk_entidad);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            urlws = new URL("https://"+cliente.getIp_cliente()+Constantes.URL_ARTICULOS);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_ARTICULOS);
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

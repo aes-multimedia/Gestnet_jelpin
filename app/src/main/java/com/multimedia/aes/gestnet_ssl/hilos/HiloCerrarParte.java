@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -51,7 +52,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 
 public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
@@ -162,10 +163,10 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
         }
        /* Log.w("JSON_SUBIDA", String.valueOf(msg));*/
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            urlws = new URL("https://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE);
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -173,7 +174,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             uc.connect();
         } catch (MalformedURLException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 404);
@@ -181,7 +182,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (ProtocolException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 505);
@@ -189,7 +190,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             return error.toString();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 436);
@@ -212,7 +213,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
             osw.close();
         } catch (IOException e) {
             JSONArray jsonArray = new JSONArray();
-            EnvioDAO.newEnvio(context,msg.toString(),"https://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
+            EnvioDAO.newEnvio(context,msg.toString(),"http://"+cliente.getIp_cliente()+Constantes.URL_CIERRE_PARTE,jsonArray.toString());
             e.printStackTrace();
             JSONObject error = new JSONObject();
             error.put("estado", 5);

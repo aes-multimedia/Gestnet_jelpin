@@ -623,7 +623,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         } else if (view.getId() == R.id.txtVerPresupuesto) {
             try {
                 Cliente cliente = ClienteDAO.buscarCliente(getContext());
-                String url = "https://" + cliente.getIp_cliente() + "/perso_impresiones/" + cliente.getDir_documentos() + "/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto=" + parte.getFk_instalacion() + "&sendForEmail=0&tipo_imprimir=0";
+                String url = "http://" + cliente.getIp_cliente() + "/perso_impresiones/" + cliente.getDir_documentos() + "/presupuesto/imprimir_presupuesto_sat.php?id_presupuesto=" + parte.getFk_instalacion() + "&sendForEmail=0&tipo_imprimir=0";
                 Uri uri = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);

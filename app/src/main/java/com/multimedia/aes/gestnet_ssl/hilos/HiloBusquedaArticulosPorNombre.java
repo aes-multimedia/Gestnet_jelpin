@@ -24,7 +24,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 
 public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> {
@@ -78,11 +78,11 @@ public class HiloBusquedaArticulosPorNombre extends AsyncTask<Void, Void, Void> 
         JSONObject msg = new JSONObject();
         msg.put("cadena", cadena);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            String url = "https://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULOS_POR_NOMBRE;
+            String url = "http://"+cliente.getIp_cliente()+Constantes.URL_BUSCAR_ARTICULOS_POR_NOMBRE;
             urlws = new URL(url);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

@@ -22,7 +22,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
 
@@ -87,11 +87,11 @@ public class HiloDatosPresupuesto extends AsyncTask<Void,Void,Void> {
         msg.put("fk_tipo_presupuesto",0);
         msg.put("fk_usuario",0);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            String url = "https://"+cliente.getIp_cliente()+ Constantes.URL_DATOS_PRESUPUESTO;
+            String url = "http://"+cliente.getIp_cliente()+ Constantes.URL_DATOS_PRESUPUESTO;
             urlws = new URL(url);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

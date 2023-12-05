@@ -20,7 +20,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListener {
 
@@ -70,10 +70,10 @@ public class HiloLoc  extends AsyncTask<Void,Void,Void> implements LocationListe
         msg.put("long", lon);
         msg.put("lat", lat);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            urlws = new URL("https://"+cliente.getIp_cliente()+Constantes.URL_GEOPOS);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            urlws = new URL("http://"+cliente.getIp_cliente()+Constantes.URL_GEOPOS);
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

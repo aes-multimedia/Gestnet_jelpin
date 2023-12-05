@@ -23,7 +23,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 
 public class HiloNotific extends AsyncTask<Void,Void,Void> {
@@ -90,11 +90,11 @@ public class HiloNotific extends AsyncTask<Void,Void,Void> {
         msg.put("tokken",tokken);
         msg.put("deviceImei",imei);
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
-            String url = "https://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES;
+            String url = "http://"+ipCliente+Constantes.URL_ALTA_NOTIFICACIONES;
             urlws = new URL(url);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             uc.setRequestProperty("Content-Type","application/json; charset=UTF-8");

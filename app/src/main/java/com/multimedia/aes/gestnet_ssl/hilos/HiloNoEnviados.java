@@ -23,7 +23,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 public class HiloNoEnviados extends AsyncTask<Void,Void,Void> {
 
@@ -75,10 +75,10 @@ public class HiloNoEnviados extends AsyncTask<Void,Void,Void> {
     }
     private String iniciar() throws JSONException{
         URL urlws = null;
-        HttpsURLConnection uc = null;
+        HttpURLConnection uc = null;
         try {
             urlws = new URL(url);
-            uc = (HttpsURLConnection) urlws.openConnection();
+            uc = (HttpURLConnection) urlws.openConnection();
             uc.setDoOutput(true);
             uc.setDoInput(true);
             for (int i = 0; i < jsonArray.length(); i++) {
