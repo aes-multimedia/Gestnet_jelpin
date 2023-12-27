@@ -14,7 +14,7 @@ android {
     buildToolsVersion '34.0.0'
     namespace 'com.multimedia.aes.gestnet_ssl'
     defaultConfig {
-        applicationId 'com.multimedia.aes.gestnet_ssl_v2'
+        applicationId 'com.multimedia.aes.gestnet_nucleo'
         minSdk 28
         targetSdk 34
         versionCode 31300
