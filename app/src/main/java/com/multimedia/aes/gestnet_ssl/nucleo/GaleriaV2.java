@@ -113,7 +113,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
             listaImagenes= ImagenDAO.buscarImagenPorFk_parte(context,parte.getId_parte());
             if(listaImagenes.size()>0) {
                 for (Imagen img : listaImagenes) {
-                    if(!img.isEnviado())
+                    if(!img.isEnviado() && ConfiguracionDAO.buscarConfiguracion(context).isbSubidaInmediataImagen())
                         btnSubir.setVisibility(View.VISIBLE);
                     arraylistImagenes.add(new DataImagenes(img.getId_imagen(),img.getRuta_imagen(), img.getNombre_imagen(), decodeSampledBitmapFromResource(img.getRuta_imagen(),100,100), parte.getId_parte(),true,false));
                 }
