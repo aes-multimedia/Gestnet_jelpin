@@ -9,8 +9,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
 import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloConectarImpr;
 
@@ -72,8 +74,15 @@ public class Impresora {
 	/////IMPRESION SEITRON
 	public void realizarImpresionSeitron(Ticket ticket) {
 		POSPrinterService pps = new POSPrinterService();
+		Cliente cliente = null;
 		try {
-			//imprimirImagenEncabezadoSeitron(pps);
+			cliente = ClienteDAO.buscarCliente(activity.getApplicationContext());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		int clienteId;
+		clienteId = cliente.getId_cliente();
+		try {
 			imprimirSeitron(ticket.limpiarAcentos(ticket.encabezado()),pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.cuerpo(parte.getId_parte(),context)),pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.pie(parte.getId_parte(),context)),pps);
@@ -81,6 +90,15 @@ public class Impresora {
 			imprimirFirmaClienteSeitron(ticket,pps);
 			imprimirSeitron(ticket.limpiarAcentos(ticket.conformeTecnico(context)),pps);
 			imprimirFirmaTecnicoSeitron(ticket,pps);
+			if (clienteId == 23 && ticket instanceof ImpresionFacturaUruena){
+				ImpresionFacturaUruena tmpticket = (ImpresionFacturaUruena)ticket;
+
+				imprimirSeitron(ticket.limpiarAcentos(tmpticket.presupuestoAceptado(context)), pps);
+				imprimirFirmaClienteSeitron(ticket,pps);
+
+				imprimirSeitron(ticket.limpiarAcentos(tmpticket.renuncioPrespuesto()), pps);
+				imprimirFirmaClienteSeitron(ticket,pps);
+			}
 			imprimirSeitron(ticket.limpiarAcentos(ticket.proteccionDatos(context)),pps);
 			//bluetoothAdapter.disable();
 		} catch (IOException | InterruptedException e) {
@@ -114,7 +132,6 @@ public class Impresora {
 		} else {
 			String texto = "\n\n\n\n";
 			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
-			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
 	}
 	private void imprimirFirmaTecnicoSeitron(Ticket ticket,POSPrinterService pps) throws IOException, JposException, InterruptedException, SQLException {
@@ -134,34 +151,7 @@ public class Impresora {
 		} else {
 			String texto = "\n\n\n\n";
 			pps.printNormal(POSPrinterConst.PTR_S_RECEIPT, texto);
-			//Toast.makeText(this.context,"Necesitas la firma dek tecnico",Toast.LENGTH_SHORT).show();
 		}
 	}
-
-
-
-	/*private void imprimirImagenEncabezadoSeitron(POSPrinterService pps) throws IOException, JposException, InterruptedException {
-		InputStream bitmap = null;
-		int img[][] = null;
-		int ancho = 1;
-		try {
-			bitmap = activity.getAssets().open("logo.png");
-			Bitmap bit = BitmapFactory.decodeStream(bitmap);
-			img = new int[bit.getWidth()][bit.getHeight()];
-			ancho = bit.getWidth();
-			for (int i = 0; i < bit.getHeight(); i++) {
-				for (int j = 0; j < bit.getWidth(); j++) {
-					img[j][i] = bit.getPixel(j, i);
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			bitmap.close();
-		}
-		pps.printBitmap(POSPrinterConst.PTR_S_RECEIPT, img, ancho, POSPrinterConst.PTR_BM_LEFT);
-		Thread.sleep(2000);
-	}*/
 
 }

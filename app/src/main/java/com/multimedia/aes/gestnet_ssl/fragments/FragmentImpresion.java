@@ -36,14 +36,17 @@ import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 
 import com.multimedia.aes.gestnet_ssl.clases.ImpresionFactura;
+import com.multimedia.aes.gestnet_ssl.clases.ImpresionFacturaUruena;
 import com.multimedia.aes.gestnet_ssl.clases.ImpresionPresupuesto;
 import com.multimedia.aes.gestnet_ssl.clases.Impresora;
 import com.multimedia.aes.gestnet_ssl.clases.PrinterCommunicator;
 import com.multimedia.aes.gestnet_ssl.clases.Ticket;
+import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
+import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
 import com.multimedia.aes.gestnet_ssl.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
@@ -231,13 +234,24 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             e.printStackTrace();
         }
 
+        Cliente cliente = null;
+        try {
+            cliente = ClienteDAO.buscarCliente(getContext());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int clienteId;
+        clienteId = cliente.getId_cliente();
 
-        if (datosAdicionales.getBaceptapresupuesto())
-            ticket = new ImpresionFactura();
+        if(datosAdicionales.getBaceptapresupuesto())
+            if(clienteId == 23){
+                ticket = new ImpresionFacturaUruena();
+            }else{
+                ticket = new ImpresionFactura();
+            }
         else
             ticket = new ImpresionPresupuesto();
 
-        //
         ticket.setCliente(this.getContext());
 
 
@@ -252,6 +266,11 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
             impreso += (ticket.pie() != null) ? ticket.pie() : "";
             impreso += ticket.conformeCliente(parte.getId_parte(), getContext());
             impreso2 += ticket.conformeTecnico(getContext());
+            if (clienteId == 23 && ticket instanceof ImpresionFacturaUruena){
+                ImpresionFacturaUruena tmpticket = (ImpresionFacturaUruena)ticket;
+                impreso2 += tmpticket.presupuestoAceptado(getContext());
+                impreso2 += tmpticket.renuncioPrespuesto();
+            }
             impreso3 += ticket.proteccionDatos(getContext());
 
 
@@ -357,12 +376,27 @@ public class FragmentImpresion extends Fragment implements AdapterView.OnItemCli
         String impreso = "";
         String impreso2 = "";
         String impreso3 = "";
+
+        Cliente cliente = null;
+        try {
+            cliente = ClienteDAO.buscarCliente(getContext());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int clienteId;
+        clienteId = cliente.getId_cliente();
+
         try {
             impreso+= ticket.encabezado();
             impreso+= ticket.cuerpo(parte.getId_parte(),getContext());
             impreso+= ticket.pie();
             impreso+= ticket.conformeCliente(parte.getId_parte(),getContext());
             impreso2+= ticket.conformeTecnico(getContext());
+            if (clienteId == 23 && ticket instanceof ImpresionFacturaUruena){
+                ImpresionFacturaUruena tmpticket = (ImpresionFacturaUruena)ticket;
+                impreso2 += tmpticket.presupuestoAceptado(getContext());
+                impreso2 += tmpticket.renuncioPrespuesto();
+            }
             impreso3+= ticket.proteccionDatos(getContext());
         } catch (SQLException e) {
             e.printStackTrace();
