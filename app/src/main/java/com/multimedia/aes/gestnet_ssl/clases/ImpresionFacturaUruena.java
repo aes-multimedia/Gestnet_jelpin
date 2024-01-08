@@ -101,7 +101,7 @@ public class ImpresionFacturaUruena extends Ticket {
         result += "********************************" + "\n";
         result += "********DATOS DEL PARTE*********" + "\n";
         String numParte = String.valueOf(parte.getNum_parte());
-        result += format("Factura simplificada: ", numParte); //"Factura simplificada: " + numParte + "\n";
+        result += format("Albaran simplificado: ", numParte); //"Factura simplificada: " + numParte + "\n";
         result += format("Nombre tecnico: ", usuario.getNombreUsuario());//"Nombre tecnico: " + usuario.getNombreUsuario() + "\n";
         SimpleDateFormat dateformar = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         String fechadehoy = dateformar.format(new Date());
