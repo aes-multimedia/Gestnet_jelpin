@@ -190,11 +190,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
             u = UsuarioDAO.buscarUsuario(this);
             c = ClienteDAO.buscarCliente(this);
-            if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
+
+            // TODO: rehacer servicio de geolocalización
+            /*if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             } else {
                 startService(new Intent(this, ServicioLocalizacion.class));
-            }
+            }*/
             arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
                 arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
