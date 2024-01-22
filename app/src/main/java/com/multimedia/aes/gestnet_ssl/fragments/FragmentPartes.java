@@ -123,11 +123,14 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 }else if (tab.getPosition()==1){
 
                 }else if (tab.getPosition()==2){
-                    /*try {
-                        //tab3.guardarProtocolo();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }*/
+
+                    if (tab3 != null){
+                        try {
+                            tab3.guardarProtocolo();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } 
+                    }
                 }else if (tab.getPosition()==3){
 
                 }else if (tab.getPosition()==4){
