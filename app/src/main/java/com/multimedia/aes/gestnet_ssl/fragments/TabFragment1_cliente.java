@@ -417,11 +417,14 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         if (!parte.getProvincia_direccion().trim().equals("") && !parte.getProvincia_direccion().trim().equals("null")) {
             dir += parte.getProvincia_direccion() + ")";
         }
-        if (!datos.getMatem_hora_entrada().trim().equals("") && !datos.getMatem_hora_entrada().trim().equals("null")) {
-            horaInicio = datos.getMatem_hora_entrada();
+        try {
+            if (!datos.getMatem_hora_entrada().trim().equals("") && !datos.getMatem_hora_entrada().trim().equals("null")) {
+                horaInicio = datos.getMatem_hora_entrada();
+            }
+            txtHoraInicio.setText(horaInicio);
+        } catch (Exception e) {
 
         }
-        txtHoraInicio.setText(horaInicio);
         txtDierccionTitular.setText(dir);
         txtSintomas.setText(String.valueOf(parte.getOtros_sintomas()));
         txtSintomaLista.setText(String.valueOf(parte.getSintomas()));
