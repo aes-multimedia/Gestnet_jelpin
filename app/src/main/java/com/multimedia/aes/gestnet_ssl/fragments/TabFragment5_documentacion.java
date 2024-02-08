@@ -157,7 +157,7 @@ public class TabFragment5_documentacion extends Fragment implements View.OnClick
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
         bitmap = resizeImage(bitmap);
         String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
-        ImagenDAO.newImagen(context, nombre, path, parte.getId_parte(),-1,false,false);
+        ImagenDAO.newImagen(context, nombre, path, parte.getId_parte(),-1,false,false, 0);
         llenarLista();
     }
     public static void llenarLista(){

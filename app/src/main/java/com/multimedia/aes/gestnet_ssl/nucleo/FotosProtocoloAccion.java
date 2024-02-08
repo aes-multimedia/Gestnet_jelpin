@@ -172,7 +172,7 @@ public class FotosProtocoloAccion extends AppCompatActivity implements View.OnCl
     public static void result(String path) {
         try {
             String nombre = path.substring(path.lastIndexOf('/') + 1, path.length());
-            ImagenDAO.newImagen(context, nombre, path, -1, protocoloAccion.getId_protocolo_accion(), false, false);
+            ImagenDAO.newImagen(context, nombre, path, -1, protocoloAccion.getId_protocolo_accion(), false, false, 0);
             llenarLista();
         } catch (OutOfMemoryError memoryError) {
             memoryError.printStackTrace();

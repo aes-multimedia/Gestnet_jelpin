@@ -22,13 +22,13 @@ public class ImagenDAO extends DBHelperMOS {
 
 	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,
 									boolean enviado, boolean bInforme) {
-		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme);
+		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme, 0);
 		return crearImagen(i,context);
 	}
 
 	public static boolean newImagen(Context context, String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,
-									boolean enviado) {
-		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, false);
+									boolean enviado, int fk_tipo) {
+		Imagen i = montarImagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, false, fk_tipo);
 		return crearImagen(i,context);
 	}
 
@@ -43,8 +43,8 @@ public class ImagenDAO extends DBHelperMOS {
 		}
 	}
 	public static Imagen montarImagen(String nombre_imagen, String ruta_imagen, int fk_parte,int fk_accion_protocolo,boolean galeria,boolean enviado,
-	boolean bInforme) {
-		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme);
+	boolean bInforme, int fk_tipo) {
+		Imagen i =new Imagen(nombre_imagen, ruta_imagen, fk_parte,fk_accion_protocolo, galeria, enviado, bInforme, fk_tipo);
 		return i;
 	}
 

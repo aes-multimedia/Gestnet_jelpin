@@ -155,7 +155,7 @@ public class Galeria extends AppCompatActivity implements View.OnClickListener{
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
         bitmap = resizeImage(bitmap);
         String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
-        ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false);
+        ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true,false, 0);
         darValores();
 
     }

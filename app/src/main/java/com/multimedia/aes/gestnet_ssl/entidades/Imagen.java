@@ -14,6 +14,7 @@ public class Imagen {
     public static final String GALERIA = "galeria";
     public static final String ENVIADO = "enviado";
     public static final String INFORME = "bInforme";
+    public static final String FK_TIPO = "fk_tipo";
 
     @DatabaseField(generatedId = true, columnName = ID_IMAGEN)  private int id_imagen;
     @DatabaseField(columnName = NOMBRE_IMAGEN)                  private String nombre_imagen;
@@ -23,11 +24,12 @@ public class Imagen {
     @DatabaseField(columnName = GALERIA)                        private boolean galeria;
     @DatabaseField(columnName = ENVIADO)                        private boolean enviado;
     @DatabaseField(columnName = INFORME)                        private boolean bInforme;
+    @DatabaseField(columnName = FK_TIPO)                        private int fk_tipo;
 
     public Imagen() {
     }
     public Imagen(String nombre_imagen, String ruta_imagen, int fk_parte, int fk_accion_protocolo,boolean galeria,boolean enviado,
-                  boolean bInforme) {
+                  boolean bInforme, int fk_tipo) {
         this.nombre_imagen = nombre_imagen;
         this.ruta_imagen = ruta_imagen;
         this.fk_parte = fk_parte;
@@ -35,6 +37,7 @@ public class Imagen {
         this.galeria = galeria;
         this.enviado = enviado;
         this.bInforme = bInforme;
+        this.fk_tipo = fk_tipo;
     }
 
     public int getId_imagen() {
@@ -84,5 +87,13 @@ public class Imagen {
     }
     public void setbInforme(boolean bInforme) {
         this.bInforme = bInforme;
+    }
+
+    public int getFk_tipo() {
+        return fk_tipo;
+    }
+
+    public void setFk_tipo(int fk_tipo) {
+        this.fk_tipo = fk_tipo;
     }
 }

@@ -2,6 +2,7 @@ package com.multimedia.aes.gestnet_ssl.nucleo;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
     private static AdaptadorListaImagenes adaptadorListaImagenes;
     private static Context thisContext;
     static ImageButton btnSubir;
+    private static int fk_tipo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +150,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
             String nombre = path.substring(path.lastIndexOf('/')+1,path.length());
 
             boolean enviado = false;
-            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true, enviado);
+            ImagenDAO.newImagen(getAppContext(), nombre, path, parte.getId_parte(),-1,true, enviado, fk_tipo);
             if(ConfiguracionDAO.buscarConfiguracion(context).isbSubidaInmediataImagen()){
                 if(!hayConexion(context)){
                     Toast.makeText(context, "No dispones de conexión para enviar la imagen en estos momentos.", Toast.LENGTH_LONG).show();
@@ -166,7 +168,6 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
             //Dialogo.dialogoError("No hay espacio suficiente en su telefono movil, es probable que las imagenes no puedan ser cargadas debido a esta falta de memoria, porfavor libere espacio",getAppContext());
         }
     }
-
     public static boolean hayConexion(Context c) {
 
         boolean connected = false;
@@ -191,12 +192,35 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        PickImageDialog.build(new PickSetup()
-                .setTitle("Selecciona una opción")
-                .setCameraButtonText("Camara")
-                .setGalleryButtonText("Galeria")
-                .setCancelText("CANCELAR")
-                .setCancelTextColor(Color.RED)).show(this);
+        var tmp = this;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¿Es esta foto del antes o del después?");
+        builder.setPositiveButton("Antes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                fk_tipo = 1;
+                PickImageDialog.build(new PickSetup()
+                        .setTitle("Selecciona una opción")
+                        .setCameraButtonText("Camara")
+                        .setGalleryButtonText("Galeria")
+                        .setCancelText("CANCELAR")
+                        .setCancelTextColor(Color.RED)).show(tmp);
+            }
+        });
+        builder.setNegativeButton("Después", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                fk_tipo = 2;
+                PickImageDialog.build(new PickSetup()
+                        .setTitle("Selecciona una opción")
+                        .setCameraButtonText("Camara")
+                        .setGalleryButtonText("Galeria")
+                        .setCancelText("CANCELAR")
+                        .setCancelTextColor(Color.RED)).show(tmp);
+            }
+        });
+        builder.show();
+
     }
 
     @Override

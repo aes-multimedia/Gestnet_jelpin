@@ -322,7 +322,7 @@ public class Presupuestos extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onPickResult(PickResult r) {
         if (r.getError() == null) {
-            ImagenDAO.newImagen(this,"presupuesto_"+listaImagenes.size(),r.getPath(),idParte,-1,false,false);
+            ImagenDAO.newImagen(this,"presupuesto_"+listaImagenes.size(),r.getPath(),idParte,-1,false,false, 0);
             listaImagenes.add(r.getPath());
             tvNimagenesAdjuntas.setText(String.valueOf(listaImagenes.size()));
 
