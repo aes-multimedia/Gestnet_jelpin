@@ -1,65 +1,26 @@
 {
   "project_info": {
-    "project_number": "9973661664",
-    "project_id": "aesmultimedia-d805f",
-    "storage_bucket": "aesmultimedia-d805f.appspot.com"
+    "project_number": "996979545398",
+    "project_id": "gestnet-jelpin",
+    "storage_bucket": "gestnet-jelpin.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:9973661664:android:974cee12b47747bcec7585",
+        "mobilesdk_app_id": "1:996979545398:android:2006d6d8f2bd1986654f97",
         "android_client_info": {
-          "package_name": "com.multimedia.aes.gestnet_nucleo"
+          "package_name": "com.multimedia.aes.gestnet_jelpin"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAGCkVbT-9CazY_QsIfuwx0aaTPipidY8c"
+          "current_key": "AIzaSyAYNvywGdx6w0tBfQJ5LToj5f-HvATVQCY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:9973661664:android:e6f622e8c807cc47ec7585",
-        "android_client_info": {
-          "package_name": "com.multimedia.aes.gestnet_ssl_v2"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAGCkVbT-9CazY_QsIfuwx0aaTPipidY8c"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "9973661664-ib71nm9tr3trt12gkjh5vom99lgop0r1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
