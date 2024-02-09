@@ -101,7 +101,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                 // RECOGER LOS MATERIALES QUE VENGAN EN EL PARTE Y AÑADIRLOS A LOS ARTICULOS
 
                 // CLIMASAT Y TRENC
-                if(c.getId_cliente()==28 || c.getId_cliente()==21){
+                if(1==1){
                 JSONArray jsonArrayArticulos = jsonArray.getJSONObject(i).getJSONArray("daitems");
                 if (jsonArrayArticulos.length() != 0) {
                     for (int j = 0; j < jsonArrayArticulos.length(); j++) {
@@ -120,33 +120,15 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         if (!bExistente) {
                             //SI NO EXISTE YA SE CREO EL ARTÍCULO PARTE
                         int Proveedor = -1;
-                        Double iva = Double.parseDouble(materialParte.getString("fk_iva"));
-                        Double tarifa = Double.parseDouble(materialParte.getString("precio_tarifa"));
-                        Double undItem = Double.parseDouble(materialParte.getString("unidadesITEM"));
+                        Double iva = Double.parseDouble(materialParte.getString("iva"));
+                        Double tarifa = Double.parseDouble(materialParte.getString("precio"));
+                        Double undItem = Double.parseDouble(materialParte.getString("unidades"));
                         Double dto = 0.0;
                         Double coste = 0.0;
-                        String id_articuloJson = materialParte.getString("id_articulo");
+                        id_articulo = Integer.parseInt(materialParte.getString("fk_producto"));
+                        coste = Double.parseDouble(materialParte.getString("coste"));
 
 
-
-                        if (!id_articuloJson.isEmpty()) {
-
-                            id_articulo = Integer.valueOf(materialParte.getString("id_articulo"));
-
-                            if (!materialParte.getString("fk_proveedor").equals("null") && !materialParte.getString("fk_proveedor").isEmpty()) {
-                                Proveedor = Integer.valueOf(materialParte.getString("fk_proveedor"));
-                            }
-                            dto = Double.parseDouble(materialParte.getString("dto_prov"));
-                            coste = Double.parseDouble(materialParte.getString("coste_actual"));
-                        }
-
-                        String imagen = materialParte.getString("articulo_imagen");
-                        int bImg = 0;
-                        if (!imagen.isEmpty()) {
-                            bImg = 1;
-                        } else {
-                            bImg = 0;
-                        }
 
                           List<Articulo> a = null;
                           if(id_articulo != -1){
@@ -158,7 +140,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                             Articulo material = null;
 
                             if(a == null){
-                                material = ArticuloDAO.montarArticulo(id_item_gestnet, id_articulo, materialParte.getString("nombre"), undItem, materialParte.getString("referencia"), materialParte.getString("referencia_aux"), materialParte.getString("nombre_familia"), materialParte.getString("nombre_marca"), materialParte.getString("nombre_modelo"), Proveedor, iva, tarifa, dto, coste, materialParte.getString("ean"), bImg);
+                                material = ArticuloDAO.montarArticulo(id_item_gestnet, id_articulo, materialParte.getString("nombre_en_ese_momento"), undItem, "", "", "", "", "", Proveedor, iva, tarifa, dto, coste, "", 0);
                                 ArticuloDAO.crearArticulo(material, context);
                             }else{
 

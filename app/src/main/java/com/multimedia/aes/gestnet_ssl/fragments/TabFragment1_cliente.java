@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,16 +30,23 @@ import androidx.fragment.app.Fragment;
 import com.multimedia.aes.gestnet_ssl.Mapa;
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
+import com.multimedia.aes.gestnet_ssl.adaptador.AdaptadorListaMateriales;
+import com.multimedia.aes.gestnet_ssl.clases.DataArticulos;
 import com.multimedia.aes.gestnet_ssl.constantes.Constantes;
 
+import com.multimedia.aes.gestnet_ssl.dao.ArticuloDAO;
+import com.multimedia.aes.gestnet_ssl.dao.ArticuloParteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_ssl.dao.DatosAdicionalesDAO;
 import com.multimedia.aes.gestnet_ssl.dao.MaquinaDAO;
+import com.multimedia.aes.gestnet_ssl.dao.MarcaDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
 
+import com.multimedia.aes.gestnet_ssl.entidades.Articulo;
+import com.multimedia.aes.gestnet_ssl.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
 import com.multimedia.aes.gestnet_ssl.entidades.Configuracion;
 import com.multimedia.aes.gestnet_ssl.entidades.DatosAdicionales;
@@ -64,7 +72,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import kotlin.text.Charsets;
 
 public class TabFragment1_cliente extends Fragment implements View.OnClickListener {
@@ -75,7 +86,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Maquina maquina = null;
     private DatosAdicionales datos;
     private Switch swEdicion;
-    private TextView txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular, txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
+    private TextView txtGama, txtTipo, txtMarcaDatos, txtModeloDatos, txtNSerieDatos, txtAntiguoDatos, txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular, txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
     private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico,etmailFirmante;
     private Button btnIniciarParte, btnClienteAusente, btnImprimir,btnSendMail, btnVerDocumentos, btnImagenes,
             btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
@@ -84,6 +95,10 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private String horaInicio;
     private Configuracion configuracion;
     private Cliente c;
+
+    private static ListView lvMateriales;
+    private static AdaptadorListaMateriales adaptadorListaMateriales;
+    private static ArrayList<DataArticulos> dataArticulos = new ArrayList<>();
 
     //METODO
     private void inicializarVariables() {
@@ -106,7 +121,25 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtEstadoParte = vista.findViewById(R.id.txtEstadoParte);
         txtNumOrden = vista.findViewById(R.id.txtNumOrden);
         txtVerPresupuesto = vista.findViewById(R.id.txtVerPresupuesto);
+        lvMateriales = vista.findViewById(R.id.lvMateriales2);
 
+
+        txtGama = vista.findViewById(R.id.txtGama);
+        txtTipo = vista.findViewById(R.id.txtTipo);
+        txtMarcaDatos = vista.findViewById(R.id.txtMarcaDatos);
+        txtModeloDatos = vista.findViewById(R.id.txtModeloDatos);
+        txtNSerieDatos = vista.findViewById(R.id.txtNSerieDatos);
+        txtAntiguoDatos = vista.findViewById(R.id.txtAntiguoDatos);
+        try {
+            var maq = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(), parte.getFk_maquina());
+            txtGama.setText(maq.getGamaTxt());
+            txtTipo.setText(maq.getTipoGamaTxt());
+            txtMarcaDatos.setText(MarcaDAO.buscarNombreMarcaPorId(getContext(), maq.getFk_marca()));
+            txtModeloDatos.setText(maq.getModelo());
+            txtNSerieDatos.setText(maq.getNum_serie());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         //tvHoraInicio=vista.findViewById(R.id.txtHoraInicio);
 
         //EDIT TEXTS
@@ -361,7 +394,48 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
 
         });
 
+        try {
+            llenarMateriales();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public void llenarMateriales() throws SQLException {
+        if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+            ArrayList<Articulo> articulos = new ArrayList<>();
+            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+            articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
+            List<Articulo> articulos_prueba = ArticuloDAO.buscarTodosLosArticulos(getContext());
+            for (ArticuloParte articuloParte : articuloPartes) {
+                //Articulo a = ArticuloDAO.buscarArticuloPorID(context, articuloParte.getFk_articulo());
+
+                boolean esta = false;
+                for (Articulo articulo : articulos) {
+                    if (articulo.getId_articulo() == articuloParte.getFk_articulo()) {
+                        esta = true;
+                    }
+                }
+
+                if (!esta) {
+                    Articulo a = ArticuloDAO.buscarArticuloPorID(getContext(), articuloParte.getFk_articulo());
+                    ArticuloParte ap = ArticuloParteDAO.buscarArticuloPartePorID(getContext(),articuloParte.getId());
+                    a.setIva(ap.getIva());
+                    a.setCoste(ap.getCoste());
+                    a.setDescuento(ap.getDescuento());
+                    a.setTarifa(ap.getTarifa());
+                    articulos.add(a);
+                }
+            }
+
+            adaptadorListaMateriales = new AdaptadorListaMateriales(getContext(), R.layout.camp_adapter_list_view_material, articulos, getActivity(), parte.getId_parte());
+            lvMateriales.setAdapter(adaptadorListaMateriales);
+            lvMateriales.setVisibility(View.VISIBLE);
+        } else {
+            ArrayList<Articulo> articulos = new ArrayList<>();
+            adaptadorListaMateriales = new AdaptadorListaMateriales(getContext(), R.layout.camp_adapter_list_view_material, articulos, getActivity(), parte.getId_parte());
+            lvMateriales.setAdapter(adaptadorListaMateriales);
+        }
     }
 
     private void darValoresVariables() {

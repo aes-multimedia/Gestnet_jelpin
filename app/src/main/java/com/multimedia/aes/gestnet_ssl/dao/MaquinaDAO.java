@@ -30,7 +30,9 @@ public class MaquinaDAO extends DBHelperMOS {
 									 String garantia_extendida, String factura_compra, String refrigerante,
 									 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 									 String temperatura_max_acs, String caudal_acs, String potencia_util,
-									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt,String nombre_contr_man,String documento_modelo) {
+									 String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+									 String combustible_txt,String nombre_contr_man,String documento_modelo,
+									 String GamaTxt, String TipoGamaTxt) {
 		Maquina m = montarMaquina(fk_maquina,fk_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -40,7 +42,8 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,
+				nombre_contr_man,documento_modelo, GamaTxt, TipoGamaTxt);
 		return crearMaquina(m, context);
 	}
 	public static Maquina newMaquinaRet(Context context, int fk_maquina, int fk_parte, int fk_direccion, int fk_marca, String fk_tipo_combustion,
@@ -62,7 +65,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo, "", "");
 		return crearMaquinaRet(m, context);
 	}
 	public static boolean crearMaquina(Maquina m, Context context) {
@@ -95,7 +98,9 @@ public class MaquinaDAO extends DBHelperMOS {
 										String garantia_extendida, String factura_compra, String refrigerante,
 										boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 										String temperatura_max_acs, String caudal_acs, String potencia_util,
-										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,String combustible_txt,String nombre_contr_man,String documento_modelo ) {
+										String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+										String combustible_txt,String nombre_contr_man,String documento_modelo,
+										String GamaTxt, String tipoGamaTxt) {
 		Maquina m = new Maquina(fk_maquina,fk_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion,
 				fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion,
 				fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama,
@@ -105,7 +110,7 @@ public class MaquinaDAO extends DBHelperMOS {
 				garantia_extendida,   factura_compra,   refrigerante,
 				bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion,
 				temperatura_max_acs, caudal_acs, potencia_util,
-				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo);
+				temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo, GamaTxt, tipoGamaTxt);
 		return m;
 	}
 
@@ -185,7 +190,7 @@ public class MaquinaDAO extends DBHelperMOS {
 										 String garantia_extendida, String factura_compra, String refrigerante,
 										 boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
 										 String temperatura_max_acs, String caudal_acs, String potencia_util, String temperatura_agua_generador_calor_entrada,
-										 String temperatura_agua_generador_calor_salida) throws SQLException {
+										 String temperatura_agua_generador_calor_salida, String GamaTXT, String TipoGamaTXT) throws SQLException {
 		cargarDao(context);
 		UpdateBuilder<Maquina, Integer> updateBuilder = dao.updateBuilder();
 		updateBuilder.where().eq(Maquina.FK_MAQUINA,fk_maquina);
@@ -228,6 +233,8 @@ public class MaquinaDAO extends DBHelperMOS {
 		updateBuilder.updateColumnValue(Maquina.POTENCIA_UTIL,potencia_util);
 		updateBuilder.updateColumnValue(Maquina.TEMPERATURA_AGUA_GENERADOR_CALOR_ENTRADA,temperatura_agua_generador_calor_entrada);
 		updateBuilder.updateColumnValue(Maquina.TEMPERATURA_AGUA_GENERADOR_CALOR_SALIDA,temperatura_agua_generador_calor_salida);
+		updateBuilder.updateColumnValue(Maquina.GAMA_TXT,GamaTXT );
+		updateBuilder.updateColumnValue(Maquina.TIPO_GAMA_TXT,TipoGamaTXT);
 
 		updateBuilder.update();
 	}

@@ -49,6 +49,8 @@ public class Maquina {
     public static final String COMBUSTIBLE_TXT = "combustible_txt";
     public static final String NOMBRE_CONTR_MAN = "nombre_contr_man";
     public static final String DOCUMENTO_MODELO = "documento_modelo";
+    public static final String GAMA_TXT = "gama_txt";
+    public static final String TIPO_GAMA_TXT = "tipo_gama_txt";
 
 
     @DatabaseField(generatedId = true, columnName = ID_MAQUINA)             private int id_maquina;
@@ -94,6 +96,8 @@ public class Maquina {
     @DatabaseField(columnName = COMBUSTIBLE_TXT)                            private String combustible_txt;
     @DatabaseField(columnName = NOMBRE_CONTR_MAN)                           private String nombre_contr_man;
     @DatabaseField(columnName = DOCUMENTO_MODELO)                           private String documento_modelo;
+    @DatabaseField(columnName = GAMA_TXT)                           private String GamaTxt;
+    @DatabaseField(columnName = TIPO_GAMA_TXT)                           private String tipoGamaTxt;
 
 
     public Maquina(){}
@@ -108,7 +112,8 @@ public class Maquina {
                    String garantia_extendida, String factura_compra, String refrigerante,
                    boolean bEsInstalacion, String nombre_instalacion, String en_propiedad, String esPrincipal, String situacion,
                    String temperatura_max_acs, String caudal_acs, String potencia_util,
-                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida, String combustible_txt, String nombre_contr_man,String documento_modelo ) {
+                   String temperatura_agua_generador_calor_entrada, String temperatura_agua_generador_calor_salida,
+                   String combustible_txt, String nombre_contr_man,String documento_modelo, String GamaTxt, String tipoGamaTxt) {
         this.fk_maquina = fk_maquina;
         this.fk_parte = fk_parte;
         this.fk_direccion = fk_direccion;
@@ -151,7 +156,8 @@ public class Maquina {
         this.combustible_txt = combustible_txt;
         this.nombre_contr_man = nombre_contr_man;
         this.documento_modelo=documento_modelo;
-
+        this.tipoGamaTxt = tipoGamaTxt;
+        this.GamaTxt = GamaTxt;
 
     }
     public int getId_maquina() {
@@ -417,5 +423,21 @@ public class Maquina {
 
     public void setDocumento_modelo(String documento_modelo) {
         this.documento_modelo = documento_modelo;
+    }
+
+    public String getGamaTxt() {
+        return GamaTxt;
+    }
+
+    public void setGamaTxt(String gamaTxt) {
+        GamaTxt = gamaTxt;
+    }
+
+    public String getTipoGamaTxt() {
+        return tipoGamaTxt;
+    }
+
+    public void setTipoGamaTxt(String tipoGamaTxt) {
+        this.tipoGamaTxt = tipoGamaTxt;
     }
 }

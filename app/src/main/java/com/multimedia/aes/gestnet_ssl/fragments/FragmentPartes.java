@@ -27,11 +27,8 @@ import java.sql.SQLException;
 public class FragmentPartes extends Fragment implements View.OnClickListener {
     private View vista;
     private TabFragment1_cliente tab1;
-    private TabFragment2_equipo tab2;
-    private TabFragment3_operaciones tab3;
-    private TabFragment4_finalizacion tab4;
-    private TabFragment5_documentacion tab5;
-    private TabFragment6_materiales tab6;
+    private TabFragment2_datosSiniestro tab2;
+    private TabFragment3_finalizacion tab3;
 
     private Parte parte;
     @Nullable
@@ -55,11 +52,10 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         }
        if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
-            tabLayout.addTab(tabLayout.newTab().setText("Equipo"));
-            tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
-            tabLayout.addTab(tabLayout.newTab().setText("Materiales"));
+            tabLayout.addTab(tabLayout.newTab().setText("Datos Siniestro"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
-
+            /*tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
+            tabLayout.addTab(tabLayout.newTab().setText("Materiales"));*/
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -74,9 +70,15 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 if (parte.getEstado_android() != 0 && parte.getEstado_android() != 3) {
                     switch (position) {
                         case 0:
-                            tab.setText("Cliente");
+                            tab.setText("Dirección y Equipo");
                             break;
                         case 1:
+                            tab.setText("Datos Siniestro");
+                            break;
+                        case 2:
+                            tab.setText("Finalización");
+                            break;
+                        /*case 1:
                             tab.setText("Equipo");
                             break;
                         case 2:
@@ -84,21 +86,19 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                             break;
                         case 3:
                             tab.setText("Materiales");
-                            break;
-                        case 4:
-                            tab.setText("Finalización");
-                            break;
+                            break;*/
+
                     }
                 } else if(parte.getEstado_android() == 0) {
                     switch (position) {
                         case 0:
-                            tab.setText("Cliente");
+                            tab.setText("Dirección y Equipo");
                             break;
                     }
                 } else {
                     switch (position) {
                         case 0:
-                            tab.setText("Cliente");
+                            tab.setText("Dirección y Equipo");
                             break;
                     }
                 }
@@ -112,34 +112,11 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                 tab1 = adapter.getTab1();
                 tab2 = adapter.getTab2();
                 tab3 = adapter.getTab3();
-                tab4 = adapter.getTab4();
-                tab6 = adapter.getTab6();
             }
 
             @Override
             public void onTabUnselected(final TabLayout.Tab tab) {
-                if (tab.getPosition()==0){
 
-                }else if (tab.getPosition()==1){
-
-                }else if (tab.getPosition()==2){
-
-                    if (tab3 != null){
-                        try {
-                            tab3.guardarProtocolo();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        } 
-                    }
-                }else if (tab.getPosition()==3){
-
-                }else if (tab.getPosition()==4){
-                    if(tab4 != null){
-                        tab4.recalcular();
-                    }
-                }else if (tab.getPosition()==6){
-
-                }
             }
 
             @Override

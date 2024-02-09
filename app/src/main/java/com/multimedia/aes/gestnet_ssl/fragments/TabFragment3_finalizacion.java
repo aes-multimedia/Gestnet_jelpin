@@ -30,7 +30,6 @@ import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.Utils.Utils;
 import com.multimedia.aes.gestnet_ssl.Utils.easyTakePhoto;
-import com.multimedia.aes.gestnet_ssl.constantes.Constantes;
 import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ArticuloParteDAO;
@@ -78,7 +77,7 @@ import static java.lang.Math.round;
 import androidx.fragment.app.Fragment;
 
 
-public class TabFragment4_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
+public class TabFragment3_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
     private View vista;
     private double preeu_mano_de_obra_horas;
     private String tiempoDuracion;
@@ -665,6 +664,22 @@ public class TabFragment4_finalizacion extends Fragment implements View.OnClickL
                 mTimePicker.show();
             } else if (view.getId() == R.id.btnFinalizar) {
                 recalcular();
+
+                if (usuario.getFirma().equals("")) {
+
+                    try {
+                        usuario = UsuarioDAO.buscarUsuario(getContext());
+                    } catch (SQLException e) {
+                        Dialogo.dialogoError("Error al intentar acceder a los datos del técnico.", getContext());
+                        return;
+                    }
+
+                    if (usuario.getFirma().equals("")){
+                        Dialogo.dialogoError("Por favor, registra tu firma en el apartado 'Guardar mi firma'", getContext());
+                        return;
+                    }
+                }
+
                 if (spFormaPago.getSelectedItemPosition() != 0 && spTiposOS.getSelectedItemPosition() != 0) {
                     if (!acepta_presupuesto) {
                         new AlertDialog.Builder(getContext()).setMessage("No ha aceptado el presupuesto, si ha solicitado materiales no entrarán en el almacén.\n\n¿Desea continuar?")

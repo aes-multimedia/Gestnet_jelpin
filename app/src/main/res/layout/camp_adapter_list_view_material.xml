@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:cardBackgroundColor="#00FFFFFF">
 
         <LinearLayout
             android:id="@+id/llRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/fondo_linear_gris_claro"
+            android:background="#E1EAEF"
             android:orientation="vertical"
             android:transitionName="llRow"
             android:weightSum="5">
@@ -28,9 +29,9 @@
                 android:layout_height="45dp"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-                android:paddingBottom="1px"
                 android:paddingLeft="1px"
-                android:paddingTop="1px">
+                android:paddingTop="1px"
+                android:paddingBottom="1px">
 
 
                 <LinearLayout

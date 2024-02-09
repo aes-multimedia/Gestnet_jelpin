@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TabFragment2_equipo extends Fragment implements View.OnClickListener {
+public class TabFragment2_equipo_OLD extends Fragment implements View.OnClickListener {
 
     private View vista;
     private static ListView lvMaquinas;

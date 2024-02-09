@@ -35,7 +35,7 @@ import com.multimedia.aes.gestnet_ssl.entidades.Maquina;
 import com.multimedia.aes.gestnet_ssl.entidades.Marca;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
 import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
-import com.multimedia.aes.gestnet_ssl.fragments.TabFragment2_equipo;
+import com.multimedia.aes.gestnet_ssl.fragments.TabFragment2_equipo_OLD;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloActualizaMaquina;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloCrearMaquina;
 
@@ -457,7 +457,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                             garantia_extendida, factura_compra, refrigerante,
                                             bEsInstalacion, nombre_instalacion, en_propiedad, esPrincipal, situacion,
                                             temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
-                                            temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo
+                                            temperatura_agua_generador_calor_salida,combustible_txt,nombre_contr_man,documento_modelo,"", ""
                                     );
                                     new HiloCrearMaquina(fk_maquina, fk_parte, fk_direccion, fk_marca, fk_tipo_combustion,
                                             fk_protocolo, fk_instalador, fk_remoto_central, fk_tipo, fk_instalacion,
@@ -485,7 +485,7 @@ public class AnadirDatosMaquina extends AppCompatActivity implements View.OnClic
                                     Dialogo.dialogoError("Maquina modificada", AnadirDatosMaquina.this);
                                 }
 
-                                TabFragment2_equipo.añadirMaquina();
+                                TabFragment2_equipo_OLD.añadirMaquina();
                                 finish();
                             } catch (SQLException e) {
                                 e.printStackTrace();

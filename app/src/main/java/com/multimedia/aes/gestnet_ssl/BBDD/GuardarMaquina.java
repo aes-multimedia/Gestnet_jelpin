@@ -325,15 +325,30 @@ public class GuardarMaquina extends AsyncTask<Void,Void,Void> {
                 } else {
                     documento_modelo = jsonArray1.getJSONObject(j).getString("documento");
                 }
+                String GamaTXT = "";
+                if (jsonArray1.getJSONObject(j).has("nombre_gama") && !jsonArray1.getJSONObject(j).getString("nombre_gama").equals("null")){
+                    GamaTXT = jsonArray1.getJSONObject(j).getString("nombre_gama");
+                }
+
+                String TipoGamaTXT = "";
+                if (jsonArray1.getJSONObject(j).has("tipo_gama") && !jsonArray1.getJSONObject(j).getString("tipo_gama").equals("null")){
+                    TipoGamaTXT = jsonArray1.getJSONObject(j).getString("tipo_gama");
+                }
+
                 String temperatura_max_acs="", caudal_acs="", potencia_util="", temperatura_agua_generador_calor_entrada="", temperatura_agua_generador_calor_salida="";
                 if (!esta) {
-                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida, combustible_txt,nombre_contr_man,documento_modelo)) {
+                    if (MaquinaDAO.newMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,
+                            fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,
+                            modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,
+                            ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,
+                            esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada,
+                            temperatura_agua_generador_calor_salida, combustible_txt,nombre_contr_man,documento_modelo, GamaTXT, TipoGamaTXT)) {
                         bien = true;
                     } else {
                         bien = false;
                     }
                 }else{
-                    MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida);
+                    MaquinaDAO.actualizarMaquina(context,fk_maquina,id_parte,   fk_direccion,   fk_marca,   fk_tipo_combustion, fk_protocolo,   fk_instalador,   fk_remoto_central,   fk_tipo,   fk_instalacion, fk_estado,   fk_contrato_mantenimiento,   fk_gama,   fk_tipo_gama, fecha_creacion,   modelo,   num_serie,   num_producto,   aparato, puesta_marcha,   fecha_compra,   fecha_fin_garantia, mantenimiento_anual,   observaciones,   ubicacion,   tienda_compra, garantia_extendida,   factura_compra,   refrigerante, bEsInstalacion,   nombre_instalacion,   en_propiedad,   esPrincipal, situacion, temperatura_max_acs, caudal_acs, potencia_util, temperatura_agua_generador_calor_entrada, temperatura_agua_generador_calor_salida, GamaTXT, TipoGamaTXT);
                 }
                 maquinas.clear();
 

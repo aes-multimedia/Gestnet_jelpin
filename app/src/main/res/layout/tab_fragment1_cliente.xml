@@ -136,6 +136,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutNombreTitular">
@@ -218,10 +219,10 @@
                         android:id="@+id/linearLayoutTelefono3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono2">
@@ -252,9 +253,9 @@
                         android:id="@+id/linearLayoutTelefono4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutTelefono3">
@@ -326,9 +327,9 @@
                         android:id="@+id/linearLayoutObservaciones"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCorreo">
@@ -434,6 +435,7 @@
                         android:textAlignment="viewStart"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtEstadoParte"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -445,6 +447,7 @@
                         android:text="@string/tipo_contrato"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtNombreContrato"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -456,6 +459,7 @@
                         android:text="@string/detalle_averia"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtSintomas"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -467,6 +471,7 @@
                         android:text="@string/situacion_equipo"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtSituacionEquipo"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -478,6 +483,7 @@
                         android:text="@string/tipo_intervencion"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtTipoIntervencion"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -489,6 +495,7 @@
                         android:text="@string/maquina"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtMaquina"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -500,6 +507,7 @@
                         android:text="@string/creado_por"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtCreadoPor"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -511,6 +519,7 @@
                         android:text="@string/sintomas"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtSintomaLista"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -522,6 +531,7 @@
                         android:text="@string/hora_entrada"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="visible"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtHoraInicio"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -564,110 +574,121 @@
                         android:id="@+id/txtEstadoParte"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        tools:text="@string/texto_largo_prueba"
+                        android:layout_marginEnd="8dp"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/barrier2"
-                        app:layout_constraintTop_toBottomOf="@+id/txtNumOrden" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtNumOrden"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtCreadoPor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtEstadoParte"
                         app:layout_constraintStart_toStartOf="@+id/txtEstadoParte"
-                        app:layout_constraintTop_toBottomOf="@+id/txtEstadoParte" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtEstadoParte"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtMaquina"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtCreadoPor"
                         app:layout_constraintStart_toStartOf="@+id/txtCreadoPor"
-                        app:layout_constraintTop_toBottomOf="@+id/txtCreadoPor" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtCreadoPor"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtTipoIntervencion"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtMaquina"
                         app:layout_constraintStart_toStartOf="@+id/txtMaquina"
-                        app:layout_constraintTop_toBottomOf="@+id/txtMaquina" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtMaquina"
+                        tools:text="@string/texto_largo_prueba" />
+
                     <TextView
                         android:id="@+id/txtVerPresupuesto"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@color/wallet_link_text_light"
                         android:textSize="15sp"
                         android:textStyle="bold|italic"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txtTipoIntervencion" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtTipoIntervencion"
+                        tools:text="@string/texto_largo_prueba" />
+
                     <TextView
                         android:id="@+id/txtSituacionEquipo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtMaquina"
                         app:layout_constraintStart_toStartOf="@+id/txtMaquina"
-                        app:layout_constraintTop_toBottomOf="@+id/txtVerPresupuesto" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtVerPresupuesto"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtNombreContrato"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtSituacionEquipo"
                         app:layout_constraintStart_toStartOf="@+id/txtSituacionEquipo"
-                        app:layout_constraintTop_toBottomOf="@+id/txtSituacionEquipo" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtSituacionEquipo"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtSintomas"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtNombreContrato"
                         app:layout_constraintStart_toStartOf="@+id/txtNombreContrato"
-                        app:layout_constraintTop_toBottomOf="@+id/txtNombreContrato" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtNombreContrato"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtSintomaLista"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="@+id/txtSintomas"
                         app:layout_constraintStart_toStartOf="@+id/txtSintomas"
-                        app:layout_constraintTop_toBottomOf="@+id/txtSintomas" />
+                        app:layout_constraintTop_toBottomOf="@+id/txtSintomas"
+                        tools:text="@string/texto_largo_prueba" />
 
                     <TextView
                         android:id="@+id/txtHoraInicio"
@@ -677,12 +698,267 @@
                         tools:text="@string/texto_largo_prueba"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
-                        app:layout_constraintEnd_toEndOf="@+id/txtSintomaLista"
-                        app:layout_constraintStart_toStartOf="@+id/txtSintomaLista"
-                        app:layout_constraintTop_toBottomOf="@+id/txtSintomaLista" />
+                        app:layout_constraintEnd_toEndOf="@+id/txtNumOrden"
+                        app:layout_constraintStart_toStartOf="@+id/txtNumOrden"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNumOrden" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/fondo_linear_gris"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutBottom4"
+                app:layout_constraintStart_toStartOf="@+id/linearLayoutBottom4"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom4">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txtno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="Datos Aparato"
+                        android:textColor="@android:color/black"
+                        android:textSize="19sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout70"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:background="@android:color/black"
+                        android:orientation="horizontal"
+                        android:padding="0.5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtno">
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView49"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Gama: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtGama"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView51"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Tipo: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtTipo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="74dp" />
+
+                    <TextView
+                        android:id="@+id/textView53"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Marca: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtMarcaDatos"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView54"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Modelo: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtModeloDatos"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Nº Serie: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtNSerieDatos"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView56"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Antigüedad: "
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/txtAntiguoDatos"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        app:barrierDirection="end"
+                        app:constraint_referenced_ids="textView56, textView55, textView54, textView53, textView51" />
+
+                    <TextView
+                        android:id="@+id/txtGama"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtno"
+                        tools:text="@string/texto_largo_prueba" />
+
+                    <TextView
+                        android:id="@+id/txtTipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtGama"
+                        tools:text="@string/texto_largo_prueba" />
+
+                    <TextView
+                        android:id="@+id/txtMarcaDatos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTipo"
+                        tools:text="@string/texto_largo_prueba" />
+
+                    <TextView
+                        android:id="@+id/txtModeloDatos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtMarcaDatos"
+                        tools:text="@string/texto_largo_prueba" />
+
+                    <TextView
+                        android:id="@+id/txtNSerieDatos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtModeloDatos"
+                        tools:text="@string/texto_largo_prueba" />
+
+                    <TextView
+                        android:id="@+id/txtAntiguoDatos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/barrier3"
+                        app:layout_constraintTop_toBottomOf="@+id/txtNSerieDatos"
+                        tools:text="@string/texto_largo_prueba" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearlayout12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/fondo_linear_gris"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout11"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout11"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
+
+                <TextView
+                    android:id="@+id/textView48"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Equipo de Sustitución"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="19sp" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout69"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal"
+                    android:padding="0.5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtno">
+
+                </LinearLayout>
+
+                <ListView
+                    android:id="@+id/lvMateriales2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
@@ -691,15 +967,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
                 android:padding="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom4"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout4"
-                tools:layout_editor_absoluteY="457dp">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom4">
 
                 <TextView
                     android:id="@+id/textView26"
@@ -712,8 +988,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
                     android:padding="0.5dp">
@@ -723,8 +999,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -744,8 +1020,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -765,8 +1041,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
 
@@ -775,8 +1051,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:background="@drawable/botones"
                         android:gravity="center"
                         android:text="@string/intervenciones_anteriores" />
@@ -793,6 +1069,7 @@
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="vertical"
                 android:padding="10dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout4"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayoutBottom5">
@@ -808,8 +1085,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:background="@android:color/black"
                     android:orientation="horizontal"
                     android:padding="0.5dp">
@@ -819,8 +1096,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -855,13 +1132,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/fondo_linear_gris"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+                app:layout_constraintTop_toBottomOf="@+id/linearlayout12">
 
                 <Button
                     android:id="@+id/btnIniciarParte"

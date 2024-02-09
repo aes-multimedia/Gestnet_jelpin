@@ -19,7 +19,7 @@
     <string name="venta">Venta: </string>
     <string name="tipo_urgencia">Tipo urgencia: </string>
     <string name="contador_averias">Num. averías: </string>
-    <string name="num_orden_iberdrola">Num. orden: </string>
+    <string name="num_orden_iberdrola">Nº aviso: </string>
     <string name="telefonos">Teléfonos: </string>
     <string name="telefono_1">Teléfono 1</string>
     <string name="telefono_2">Teléfono 2</string>
@@ -50,7 +50,7 @@
     <string name="title_activity_mapa">Map</string>
     <string name="cierre_dia">Cierre del Día</string>
     <string name="mis_ajustes">Mis Ajustes</string>
-    <string name="num_parte">Num. Parte: </string>
+    <string name="num_parte">Nº Expediente: </string>
     <string name="creado_por">Creado Por:</string>
     <string name="maquina">Máquina:</string>
     <string name="tipo_intervencion">Tipo Intervención:</string>
@@ -157,5 +157,7 @@
     <string name="firmaTec">Firma del Técnico</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnBorrar">Borrar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 
