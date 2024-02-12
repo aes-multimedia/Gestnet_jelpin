@@ -442,10 +442,10 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         insistencia_endesa = jsonArray.getJSONObject(i).getInt("insistencia_endesa");
                     }
                     String contrato_endesa;
-                    if (jsonArray.getJSONObject(i).getString("contrato_endesa").equals("null")) {
+                    if (jsonArray.getJSONObject(i).getString("estado_endesa").equals("null")) {
                         contrato_endesa = "";
                     } else {
-                        contrato_endesa = jsonArray.getJSONObject(i).getString("contrato_endesa");
+                        contrato_endesa = jsonArray.getJSONObject(i).getString("estado_endesa");
                     }
                     String producto_endesa;
                     if (jsonArray.getJSONObject(i).getString("producto_endesa").equals("null")) {
@@ -965,6 +965,61 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                         }
                        // sintomas = jsonArray.getJSONObject(i).getString("sintomas");
                     }
+
+                    String externo = "";
+                    if( jsonArray.getJSONObject(i).has("externo") && !jsonArray.getJSONObject(i).getString("externo").equals("null"))
+                        externo = jsonArray.getJSONObject(i).getString("externo");
+
+                    boolean Asegurado_puede_cocina = false;
+                    if (jsonArray.getJSONObject(i).has("Asegurado_puede_cocina") && !jsonArray.getJSONObject(i).getString("Asegurado_puede_cocina").equals("null"))
+                        Asegurado_puede_cocina = jsonArray.getJSONObject(i).getString("Asegurado_puede_cocina").equals("1");
+
+                    boolean Funciona_fuego = false;
+                    if (jsonArray.getJSONObject(i).has("Funciona_fuego") && !jsonArray.getJSONObject(i).getString("Funciona_fuego").equals("null"))
+                        Funciona_fuego = jsonArray.getJSONObject(i).getString("Funciona_fuego").equals("1");
+
+                    boolean Defecto_de_fabricacion = false;
+                    if (jsonArray.getJSONObject(i).has("Defecto_de_fabricacion") && !jsonArray.getJSONObject(i).getString("Defecto_de_fabricacion").equals("null"))
+                        Defecto_de_fabricacion = jsonArray.getJSONObject(i).getString("Defecto_de_fabricacion").equals("1");
+
+                    boolean Otros_danos = false;
+                    if (jsonArray.getJSONObject(i).has("Otros_danos") && !jsonArray.getJSONObject(i).getString("Otros_danos").equals("null"))
+                        Otros_danos = jsonArray.getJSONObject(i).getString("Otros_danos").equals("1");
+
+                    boolean Retirada_aparato_taller = false;
+                    if (jsonArray.getJSONObject(i).has("Retirada_aparato_taller") && !jsonArray.getJSONObject(i).getString("Retirada_aparato_taller").equals("null"))
+                        Retirada_aparato_taller = jsonArray.getJSONObject(i).getString("Retirada_aparato_taller").equals("1");
+
+                    boolean Averia_propia_aparato = false;
+                    if (jsonArray.getJSONObject(i).has("Averia_propia_aparato") && !jsonArray.getJSONObject(i).getString("Averia_propia_aparato").equals("null"))
+                        Averia_propia_aparato = jsonArray.getJSONObject(i).getString("Averia_propia_aparato").equals("1");
+
+                    boolean Aparato_manipulado = false;
+                    if (jsonArray.getJSONObject(i).has("Aparato_manipulado") && !jsonArray.getJSONObject(i).getString("Aparato_manipulado").equals("null"))
+                        Aparato_manipulado = jsonArray.getJSONObject(i).getString("Aparato_manipulado").equals("1");
+
+                    boolean Asegurado_informado_no_cobertura = false;
+                    if (jsonArray.getJSONObject(i).has("Asegurado_informado_no_cobertura") && !jsonArray.getJSONObject(i).getString("Asegurado_informado_no_cobertura").equals("null"))
+                        Asegurado_informado_no_cobertura = jsonArray.getJSONObject(i).getString("Asegurado_informado_no_cobertura").equals("1");
+
+                    String otras_caracteristicas = "";
+                    if (jsonArray.getJSONObject(i).has("otras_caracteristicas") && !jsonArray.getJSONObject(i).getString("otras_caracteristicas").equals("null"))
+                        otras_caracteristicas = jsonArray.getJSONObject(i).getString("otras_caracteristicas");
+
+                    String Desglose = "";
+                    if (jsonArray.getJSONObject(i).has("Desglose") && !jsonArray.getJSONObject(i).getString("Desglose").equals("null"))
+                        Desglose = jsonArray.getJSONObject(i).getString("Desglose");
+
+                    String Aspecto_fisico = "";
+                    if (jsonArray.getJSONObject(i).has("Aspecto_fisico") && !jsonArray.getJSONObject(i).getString("Aspecto_fisico").equals("null"))
+                        Aspecto_fisico = jsonArray.getJSONObject(i).getString("Aspecto_fisico");
+
+                    int vitro_caracteristicas = 0;
+                    if (jsonArray.getJSONObject(i).has("vitro_caracteristicas") && !jsonArray.getJSONObject(i).getString("vitro_caracteristicas").equals("vitro_caracteristicas"))
+                        vitro_caracteristicas = Integer.parseInt(jsonArray.getJSONObject(i).getString("vitro_caracteristicas"));
+
+
+
                     String url_presupuesto ="";
                     if (esta){
                         ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
@@ -997,7 +1052,9 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 dni_cliente, telefono1_cliente, telefono2_cliente,
                                 telefono3_cliente, telefono4_cliente, email_cliente,
                                 observaciones_cliente,user_creador,tipo,dni_firmante,firma64,
-                                ticket,numero_cliente,estado_parte,url_presupuesto);
+                                ticket,numero_cliente,estado_parte,url_presupuesto, externo, Asegurado_puede_cocina, Funciona_fuego, Defecto_de_fabricacion,
+                                Otros_danos, Retirada_aparato_taller, Averia_propia_aparato, Aparato_manipulado, Asegurado_informado_no_cobertura, otras_caracteristicas, vitro_caracteristicas,
+                                Desglose, Aspecto_fisico);
                         bien=true;
                     }else{
                         if (ParteDAO.newParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
@@ -1031,7 +1088,9 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                                 telefono3_cliente, telefono4_cliente, email_cliente,
                                 observaciones_cliente,user_creador,tipo,dni_firmante,firma64,
                                 ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,
-                                sintomas,politicaPrivacidad,numero_cliente,estado_parte,url_presupuesto)) {
+                                sintomas,politicaPrivacidad,numero_cliente,estado_parte,url_presupuesto, externo, Asegurado_puede_cocina, Funciona_fuego, Defecto_de_fabricacion,
+                                Otros_danos, Retirada_aparato_taller, Averia_propia_aparato, Aparato_manipulado, Asegurado_informado_no_cobertura, otras_caracteristicas, vitro_caracteristicas,
+                                Desglose, Aspecto_fisico)) {
                             bien = true;
                         } else {
                             bien = false;

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Html;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_ssl.R;
 
@@ -18,7 +19,6 @@ public class Dialogo {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-
                     }
                 });
 

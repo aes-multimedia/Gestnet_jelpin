@@ -1,5 +1,6 @@
 package com.multimedia.aes.gestnet_ssl.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
@@ -7,14 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +27,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,22 +46,27 @@ import com.multimedia.aes.gestnet_ssl.dao.FormasPagoDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ImagenDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ManoObraDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ParteDAO;
+import com.multimedia.aes.gestnet_ssl.dao.ProtocoloAccionDAO;
 import com.multimedia.aes.gestnet_ssl.dao.TiposOsDAO;
 import com.multimedia.aes.gestnet_ssl.dao.UsuarioDAO;
 import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_ssl.entidades.Articulo;
 import com.multimedia.aes.gestnet_ssl.entidades.ArticuloParte;
 import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
+import com.multimedia.aes.gestnet_ssl.entidades.Configuracion;
 import com.multimedia.aes.gestnet_ssl.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_ssl.entidades.Disposiciones;
 import com.multimedia.aes.gestnet_ssl.entidades.FormasPago;
 import com.multimedia.aes.gestnet_ssl.entidades.Imagen;
 import com.multimedia.aes.gestnet_ssl.entidades.ManoObra;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
+import com.multimedia.aes.gestnet_ssl.entidades.ProtocoloAccion;
 import com.multimedia.aes.gestnet_ssl.entidades.TiposOs;
 import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloCerrarParte;
 import com.multimedia.aes.gestnet_ssl.nucleo.FirmaCliente;
+import com.multimedia.aes.gestnet_ssl.nucleo.FotosProtocoloAccion;
+import com.multimedia.aes.gestnet_ssl.nucleo.GaleriaV2;
 import com.multimedia.aes.gestnet_ssl.nucleo.GestionMateriales;
 
 import org.json.JSONException;
@@ -70,6 +81,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import static java.lang.Math.round;
@@ -78,6 +90,7 @@ import androidx.fragment.app.Fragment;
 
 
 public class TabFragment3_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
+    private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     private View vista;
     private double preeu_mano_de_obra_horas;
     private String tiempoDuracion;
@@ -97,7 +110,7 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
 
     private boolean acepta_presupuesto = false, enviar_correo = false;
     private static DecimalFormat df2 = new DecimalFormat(",##");
-    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo, btnFirm;
+    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo, btnFirm, btnVerFotos, btnspeech;
     private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago,spTiposOS;
     private CheckBox cb_acepta_presupuesto, cb_enviar_por_correo;
     private View llTiposOs;
@@ -110,11 +123,19 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
     private TextView etObsCliente;
     private Button BtnVerMateriales;
     private Utils u = new Utils();
+    private LinearLayout llPadre, llFotos, LLNserie;
+    private Configuracion configuracion;
+    private Spinner spProtocolos;
+    ProtocoloAccion[] arrayProtocolos;
+    private final ArrayList<ProtocoloAccion> protocoloAccionArrayList = new ArrayList<>();
+    private int posicion = 0;
 
     //METODO
+    @SuppressLint("ClickableViewAccessibility")
     private void inicializar() {
         try{
             c = ClienteDAO.buscarCliente(getContext());
+            configuracion = ConfiguracionDAO.buscarTodasLasConfiguraciones(getContext()).get(0);
         }catch( SQLException sqlE){
             sqlE.printStackTrace();
         }
@@ -159,6 +180,8 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
         etOperacionEfectuada = vista.findViewById(R.id.etOperacionEfectuada);
         etOperacionEfectuada.setOnFocusChangeListener(this);
         et_enviar_por_correo = vista.findViewById(R.id.et_enviar_por_correo);
+        btnVerFotos = vista.findViewById(R.id.button5);
+        btnspeech = vista.findViewById(R.id.button2);
 
         //BUTTON
         btn_preeu_mano_de_obra = vista.findViewById(R.id.btn_preeu_mano_de_obra);
@@ -249,6 +272,79 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                 try {
                     ParteDAO.actualizarCorreoEnvioDeFactura(getContext(), parte.getId_parte(), et_enviar_por_correo.getText().toString());
                 } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        spProtocolos = vista.findViewById(R.id.spProtocolos);
+        spProtocolos.setOnItemSelectedListener(this);
+        llPadre = vista.findViewById(R.id.llPadre);
+        llPadre.setOnTouchListener((v, event) -> {
+            try {
+                guardarProtocolo();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
+
+
+        try {
+            if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkParte(getContext(), parte.getId_parte()) != null) {
+                try {
+                    protocoloAccionArrayList.addAll(ProtocoloAccionDAO.buscarPrueba(getContext(), parte.getId_parte()));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                int indice = 0;
+                ArrayList<ProtocoloAccion> ordenadosNombre;
+                ordenadosNombre = ordenarArrayAccionProtocolosV2(protocoloAccionArrayList);
+                ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "--Seleccione un protocolo--", -1, false, "", -1));
+                arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
+                for (int i = 0; i < arrayProtocolos.length; i++) {
+                    arrayProtocolos[i] = ordenadosNombre.get(i);
+                }
+                spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));
+            } else {
+                /*ArrayList<ProtocoloAccion> ordenadosNombre = new ArrayList<>();
+                ordenadosNombre.add(0, new ProtocoloAccion(-1, "", -1, parte.getId_parte(), -1, "Sin Protocolos", -1, false , "", -1));
+                arrayProtocolos = new ProtocoloAccion[ordenadosNombre.size()];
+                for (int i = 0; i < arrayProtocolos.length; i++) {
+                    arrayProtocolos[i] = ordenadosNombre.get(i);
+                }
+                spProtocolos.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayProtocolos));*/
+                var llProtocolo = vista.findViewById(R.id.llProtocolo);
+                llProtocolo.setVisibility(View.GONE);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            spProtocolos.setSelection(1);
+        }catch (Exception ignored) {
+
+        }
+
+        btnVerFotos.setOnClickListener(v -> {
+            Intent i = new Intent(getContext(), GaleriaV2.class);
+            getContext().startActivity(i);
+        });
+
+        btnspeech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                        Locale.getDefault());
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "¡Habla!");
+
+                try {
+                    startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -348,6 +444,8 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                     /*arrayFormasPago[0] = "--Seleciones un valor--";
                     spFormaPago.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, arrayFormasPago));*/
                 }
+            } else{
+                spFormaPago.setSelection(1);
             }
         }
 
@@ -593,7 +691,12 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                 String[] tiempos = horaEntrada.split(":");
                 int hour = Integer.valueOf(tiempos[0]);
                 int minute = Integer.valueOf(tiempos[1]);
-                int second = Integer.valueOf(tiempos[2]);
+                int second = 0;
+                try {
+                    second = Integer.valueOf(tiempos[2]);
+                }catch (Exception e){
+
+                }
                 int segDesdeElInicio = hour * 60 * 60 + minute * 60 + second;
                 Calendar c2 = Calendar.getInstance();
                 SimpleDateFormat df2 = new SimpleDateFormat("HH:mm:ss");
@@ -679,244 +782,110 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                         return;
                     }
                 }
-
-                if (spFormaPago.getSelectedItemPosition() != 0 && spTiposOS.getSelectedItemPosition() != 0) {
-                    if (!acepta_presupuesto) {
-                        new AlertDialog.Builder(getContext()).setMessage("No ha aceptado el presupuesto, si ha solicitado materiales no entrarán en el almacén.\n\n¿Desea continuar?")
-                                .setCancelable(false)
-                                .setPositiveButton("Aceptar", (hi, dd) -> {
-                                            Calendar c1 = Calendar.getInstance();
-                                            SimpleDateFormat df1 = new SimpleDateFormat("HH:mm:ss");
-                                            String formattedDate1 = df1.format(c1.getTime());
-
-                                            Log.e("finaliza entra", "entro aqui");
-                                            if (parte.getFirma64() != null && !parte.getFirma64().equals("")) {
-                                                ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-                                                try {
-                                                    if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
-                                                        articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
-                                                    }
-                                                } catch (SQLException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                String operacionEfectuada = "";
-                                                if (!etOperacionEfectuada.getText().toString().equals("")) {
-                                                    operacionEfectuada = etOperacionEfectuada.getText().toString();
-                                                }
-                                                String preeu_otros_nombre = "";
-                                                if (!et_preeu_otros_nombre.getText().toString().equals("")) {
-                                                    preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
-                                                }
-                                                preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
-
-                                                if (!et_preeu_materiales.getText().toString().equals("")) {
-                                                    String str = et_preeu_materiales.getText().toString();
-                                                    str = str.replace(',', '.');
-                                                    //preeu_materiales = Double.parseDouble(et_preeu_materiales.getText().toString());
-                                                    preeu_materiales = Double.parseDouble(str);
-                                                }
-                                                if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
-                                                    preeu_puesta_marcha = Double.parseDouble(et_preeu_puesta_marcha.getText().toString());
-                                                }
-
-                                                if (!et_preeu_servicio_urgencia.getText().toString().equals("")) {
-                                                    preeu_servicio_urgencia = Double.parseDouble(et_preeu_servicio_urgencia.getText().toString());
-                                                }
-
-                                                if (!et_preeu_km.getText().toString().equals("")) {
-                                                    preeu_km = Double.parseDouble(et_preeu_km.getText().toString());
-                                                }
-
-                                                if (!et_preeu_km_precio.getText().toString().equals("")) {
-                                                    preeu_km_precio = Double.parseDouble(et_preeu_km_precio.getText().toString());
-                                                }
-                                                preeu_km_precio_total = preeu_km * preeu_km_precio;
-
-                                                if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
-                                                    preeu_analisis_combustion = Double.parseDouble(et_preeu_analisis_combustion.getText().toString());
-                                                }
-
-                                                if (!et_preeu_adicional.getText().toString().equals("")) {
-                                                    preeu_adicional = Double.parseDouble(et_preeu_adicional.getText().toString());
-                                                }
-                                                double SubTotal =
-                                                        preeu_adicional
-                                                                + preeu_analisis_combustion
-                                                                + preeu_km_precio_total
-                                                                + preeu_materiales
-                                                                + preeu_total_mano_de_obra_horas
-                                                                + preeu_disposicion_servicio
-                                                                + preeu_puesta_marcha
-                                                                + preeu_servicio_urgencia;
-                                                etSubTotal.setText(String.valueOf(SubTotal));
-                                                double preeu_iva_aplicado = SubTotal * 21 / 100;
-                                                et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
-                                                double total = SubTotal + preeu_iva_aplicado;
-                                                et_total.setText(String.format("%.2f", total));
-                                                double fact_materiales,
-                                                        fact_subtotal,
-                                                        fact_por_iva_aplicado,
-                                                        fact_total_con_iva;
-                                                fact_materiales = getPrecioTotalArticulosParteFacturar(articuloPartes);
-                                                fact_subtotal = preeu_adicional + preeu_analisis_combustion +
-                                                        preeu_km_precio_total + fact_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-
-                                                fact_por_iva_aplicado = fact_subtotal * 21 / 100;
-                                                fact_total_con_iva = fact_por_iva_aplicado + fact_subtotal;
-
-                                                try {
-                                                    DatosAdicionalesDAO.actualizarDatosAdicionalesParteFacturable(getContext(), datos.getId_rel(), fact_materiales, fact_por_iva_aplicado, fact_total_con_iva);
-                                                } catch (SQLException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                try {
-                                                    DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
-                                                            operacionEfectuada,
-                                                            preeu_materiales,
-                                                            preeu_disposicion_servicio,
-                                                            preeu_mano_de_obra_precio,
-                                                            preeu_mano_de_obra_horas,
-                                                            preeu_total_mano_de_obra_horas,
-                                                            preeu_puesta_marcha,
-                                                            preeu_servicio_urgencia,
-                                                            preeu_km,
-                                                            preeu_km_precio,
-                                                            preeu_km_precio_total,
-                                                            preeu_analisis_combustion,
-                                                            preeu_otros_nombre,
-                                                            preeu_adicional,
-                                                            SubTotal,
-                                                            21,
-                                                            total,
-                                                            acepta_presupuesto,
-                                                            forma_pago
-
-                                                    );
-                                                    datos.setMatem_hora_salida(formattedDate1);
-                                                    DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate1);
-                                                    ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
-
-                                                    new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
-                                                } catch (SQLException e) {
-                                                    e.printStackTrace();
-                                                }
-
-
-                                            } else {
-                                                Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)", getContext());
-                                            }
-
-
-                                        }
-                                )
-                                .setNegativeButton("Cancelar", (hi, dd) -> {
-
-                                        }
-                                ).show();
-                    } else {
-                        Log.e("finaliza entra", "entro aqui");
-                        if (parte.getFirma64() != null && !parte.getFirma64().equals("")) {
-                            ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
-                            try {
-                                if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
-                                    articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
+                    if (parte.getFirma64() != null && !parte.getFirma64().equals("")) {
+                        ArrayList<ArticuloParte> articuloPartes = new ArrayList<>();
+                        try {
+                            if (ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()) != null) {
+                                articuloPartes.addAll(ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()));
                             }
-                            String operacionEfectuada = "";
-                            if (!etOperacionEfectuada.getText().toString().equals("")) {
-                                operacionEfectuada = etOperacionEfectuada.getText().toString();
-                            }
-                            String preeu_otros_nombre = "";
-                            if (!et_preeu_otros_nombre.getText().toString().equals("")) {
-                                preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
-                            }
-                            preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
-                            if (!et_preeu_materiales.getText().toString().equals("")) {
-                                String str = et_preeu_materiales.getText().toString();
-                                str = str.replace(',', '.');
-                                preeu_materiales = Double.parseDouble(str);
-                            }
-                            if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
-                                preeu_puesta_marcha = Double.parseDouble(et_preeu_puesta_marcha.getText().toString());
-                            }
-
-                            if (!et_preeu_servicio_urgencia.getText().toString().equals("")) {
-                                preeu_servicio_urgencia = Double.parseDouble(et_preeu_servicio_urgencia.getText().toString());
-                            }
-                            if (!et_preeu_km.getText().toString().equals("")) {
-                                preeu_km = Double.parseDouble(et_preeu_km.getText().toString());
-                            }
-                            if (!et_preeu_km_precio.getText().toString().equals("")) {
-                                preeu_km_precio = Double.parseDouble(et_preeu_km_precio.getText().toString());
-                            }
-                            preeu_km_precio_total = preeu_km * preeu_km_precio;
-                            if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
-                                preeu_analisis_combustion = Double.parseDouble(et_preeu_analisis_combustion.getText().toString());
-                            }
-                            if (!et_preeu_adicional.getText().toString().equals("")) {
-                                preeu_adicional = Double.parseDouble(et_preeu_adicional.getText().toString());
-                            }
-                            double SubTotal = preeu_adicional + preeu_analisis_combustion +
-                                    preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-                            etSubTotal.setText(String.valueOf(SubTotal));
-                            double preeu_iva_aplicado = SubTotal * 21 / 100;
-                            et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
-                            double total = SubTotal + preeu_iva_aplicado;
-                            et_total.setText(String.format("%.2f", total));
-                            double fact_materiales,
-                                    fact_subtotal,
-                                    fact_por_iva_aplicado,
-                                    fact_total_con_iva;
-                            fact_materiales = getPrecioTotalArticulosParteFacturar(articuloPartes);
-                            fact_subtotal = preeu_adicional + preeu_analisis_combustion +
-                                    preeu_km_precio_total + fact_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
-
-                            fact_por_iva_aplicado = fact_subtotal * 21 / 100;
-                            fact_total_con_iva = fact_por_iva_aplicado + fact_subtotal;
-                            try {
-                                DatosAdicionalesDAO.actualizarDatosAdicionalesParteFacturable(getContext(), datos.getId_rel(), fact_materiales, fact_por_iva_aplicado, fact_total_con_iva);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
-                                        operacionEfectuada,
-                                        preeu_materiales,
-                                        preeu_disposicion_servicio,
-                                        preeu_mano_de_obra_precio,
-                                        preeu_mano_de_obra_horas,
-                                        preeu_total_mano_de_obra_horas,
-                                        preeu_puesta_marcha,
-                                        preeu_servicio_urgencia,
-                                        preeu_km,
-                                        preeu_km_precio,
-                                        preeu_km_precio_total,
-                                        preeu_analisis_combustion,
-                                        preeu_otros_nombre,
-                                        preeu_adicional,
-                                        SubTotal,
-                                        21,
-                                        total,
-                                        acepta_presupuesto,
-                                        forma_pago
-                                );
-                                datos.setMatem_hora_salida(formattedDate);
-                                DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);
-                                ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
-
-                                new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)\n\nGracias.", getContext());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
+                        String operacionEfectuada = "";
+                        if (!etOperacionEfectuada.getText().toString().equals("")) {
+                            operacionEfectuada = etOperacionEfectuada.getText().toString();
+                        }
+                        String preeu_otros_nombre = "";
+                        if (!et_preeu_otros_nombre.getText().toString().equals("")) {
+                            preeu_otros_nombre = et_preeu_otros_nombre.getText().toString();
+                        }
+                        preeu_total_mano_de_obra_horas = preeu_mano_de_obra_precio * preeu_mano_de_obra_horas;
+                        if (!et_preeu_materiales.getText().toString().equals("")) {
+                            String str = et_preeu_materiales.getText().toString();
+                            str = str.replace(',', '.');
+                            preeu_materiales = Double.parseDouble(str);
+                        }
+                        if (!et_preeu_puesta_marcha.getText().toString().equals("")) {
+                            preeu_puesta_marcha = Double.parseDouble(et_preeu_puesta_marcha.getText().toString());
+                        }
+
+                        if (!et_preeu_servicio_urgencia.getText().toString().equals("")) {
+                            preeu_servicio_urgencia = Double.parseDouble(et_preeu_servicio_urgencia.getText().toString());
+                        }
+                        if (!et_preeu_km.getText().toString().equals("")) {
+                            preeu_km = Double.parseDouble(et_preeu_km.getText().toString());
+                        }
+                        if (!et_preeu_km_precio.getText().toString().equals("")) {
+                            preeu_km_precio = Double.parseDouble(et_preeu_km_precio.getText().toString());
+                        }
+                        preeu_km_precio_total = preeu_km * preeu_km_precio;
+                        if (!et_preeu_analisis_combustion.getText().toString().equals("")) {
+                            preeu_analisis_combustion = Double.parseDouble(et_preeu_analisis_combustion.getText().toString());
+                        }
+                        if (!et_preeu_adicional.getText().toString().equals("")) {
+                            preeu_adicional = Double.parseDouble(et_preeu_adicional.getText().toString());
+                        }
+                        double SubTotal = preeu_adicional + preeu_analisis_combustion +
+                                preeu_km_precio_total + preeu_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
+                        etSubTotal.setText(String.valueOf(SubTotal));
+                        double preeu_iva_aplicado = SubTotal * 21 / 100;
+                        et_preeu_iva_aplicado.setText(String.format("%.2f", preeu_iva_aplicado));
+                        double total = SubTotal + preeu_iva_aplicado;
+                        et_total.setText(String.format("%.2f", total));
+                        double fact_materiales,
+                                fact_subtotal,
+                                fact_por_iva_aplicado,
+                                fact_total_con_iva;
+                        fact_materiales = getPrecioTotalArticulosParteFacturar(articuloPartes);
+                        fact_subtotal = preeu_adicional + preeu_analisis_combustion +
+                                preeu_km_precio_total + fact_materiales + preeu_total_mano_de_obra_horas + preeu_disposicion_servicio + preeu_puesta_marcha + preeu_servicio_urgencia;
+
+                        fact_por_iva_aplicado = fact_subtotal * 21 / 100;
+                        fact_total_con_iva = fact_por_iva_aplicado + fact_subtotal;
+                        try {
+                            DatosAdicionalesDAO.actualizarDatosAdicionalesParteFacturable(getContext(), datos.getId_rel(), fact_materiales, fact_por_iva_aplicado, fact_total_con_iva);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            DatosAdicionalesDAO.actualizarDatosAdicionales(getContext(), datos.getId_rel(),
+                                    operacionEfectuada,
+                                    preeu_materiales,
+                                    preeu_disposicion_servicio,
+                                    preeu_mano_de_obra_precio,
+                                    preeu_mano_de_obra_horas,
+                                    preeu_total_mano_de_obra_horas,
+                                    preeu_puesta_marcha,
+                                    preeu_servicio_urgencia,
+                                    preeu_km,
+                                    preeu_km_precio,
+                                    preeu_km_precio_total,
+                                    preeu_analisis_combustion,
+                                    preeu_otros_nombre,
+                                    preeu_adicional,
+                                    SubTotal,
+                                    21,
+                                    total,
+                                    acepta_presupuesto,
+                                    6
+                            );
+                            datos.setMatem_hora_salida(formattedDate);
+                            DatosAdicionalesDAO.actualizarHoraSalida(getContext(), datos.getId_rel(), formattedDate);
+                            ParteDAO.actualizarParteDuracion(getContext(), parte.getId_parte(), String.valueOf(preeu_mano_de_obra_horas));
+                            try {
+                                guardarProtocolo();
+                            } catch (Exception e) {
+
+                            }
+
+
+                            new HiloCerrarParte(getContext(), parte.getId_parte()).execute();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Dialogo.dialogoError("Es necesario la firma del cliente para finalizar.(Pestaña de Documentos)\n\nGracias.", getContext());
                     }
-                } else {
-                    Dialogo.dialogoError("Es necesario seleccionar una forma de pago y un Tipo de Orden de Servicio para poder finalizar el aviso\n\nGracias.", getContext());
-                }
             }
         }
     }
@@ -979,6 +948,22 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                 }
             }
 
+        } else if (parent.getId() == spProtocolos.getId()) {
+            if (llPadre.getChildCount() != 0) {
+                try {
+                    guardarProtocolo();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (position != 0) {
+                posicion = position;
+                crearLinearProtocolo((ProtocoloAccion) spProtocolos.getSelectedItem());
+            } else {
+                posicion = 0;
+                llPadre.removeAllViews();
+                llPadre.setVisibility(View.GONE);
+            }
         }
 
         try {
@@ -1031,6 +1016,16 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == Activity.RESULT_OK) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+            String msg = "";
+            if(!etOperacionEfectuada.getText().toString().equals(""))
+                msg += etOperacionEfectuada.getText() + "\n";
+            etOperacionEfectuada.setText(msg + result.get(0));
+        }
+
         if (requestCode == 99) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
@@ -1109,4 +1104,218 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
         }
 
     }
+
+    public void guardarProtocolo() throws SQLException {
+        ProtocoloAccion protocoloAccion = (ProtocoloAccion) spProtocolos.getItemAtPosition(posicion);
+        if (protocoloAccion.getFk_maquina() != 0 && protocoloAccion.getFk_maquina() != -1) {
+            final int childCount = llPadre.getChildCount();
+            int fk_maquina = protocoloAccion.getFk_maquina();
+            for (int i = 0; i < childCount; i++) {
+                View v = llPadre.getChildAt(i);
+                LinearLayout ll = (LinearLayout) v;
+                if (ll.getChildAt(0) instanceof TextView) {
+                    ll = (LinearLayout) ll.getChildAt(1);
+                } else {
+                    ll = (LinearLayout) ll.getChildAt(0);
+                }
+
+                if(ll == null)
+                    continue;
+
+                final int childCount1 = (ll.getChildCount());
+                for (int j = 0; j < childCount1; j++) {
+                    View view1 = ll.getChildAt(j);
+                    String valor = "";
+                    if (view1 instanceof EditText) {
+                        EditText et = (EditText) view1;
+                        valor = et.getText().toString();
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(), valor, id, fk_maquina);
+                        }
+                    } else if (view1 instanceof CheckBox) {
+                        CheckBox cb = (CheckBox) view1;
+                        if (cb.isChecked()) {
+                            valor = "1";
+                        } else {
+                            valor = "0";
+                        }
+
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkMaquinaIdAccion(getContext(), protocoloAccion.getFk_protocolo(), fk_maquina, Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloFkMaquina(getContext(), valor, id, fk_maquina);
+                        }
+                    }
+                }
+
+            }
+        } else {
+            final int childCount = llPadre.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View v = llPadre.getChildAt(i);
+                LinearLayout ll = (LinearLayout) v;
+                if (configuracion.isParte_galeria()) {
+                    if (ll.getChildAt(0) instanceof TextView) {
+                        ll = (LinearLayout) ll.getChildAt(1);
+                    } else {
+                        ll = (LinearLayout) ll.getChildAt(0);
+                    }
+                }
+                final int childCount1 = (ll.getChildCount());
+                for (int j = 0; j < childCount1; j++) {
+                    View view1 = ll.getChildAt(j);
+                    String valor = "";
+                    if (view1 instanceof EditText) {
+                        EditText et = (EditText) view1;
+                        valor = et.getText().toString();
+
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(), valor, id, parte.getId_parte());
+                        }
+                    } else if (view1 instanceof CheckBox) {
+                        CheckBox cb = (CheckBox) view1;
+                        if (cb.isChecked()) {
+                            valor = "1";
+                        } else {
+                            valor = "0";
+                        }
+                        if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())) != null) {
+                            int id = ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkParteIdAccion(getContext(), protocoloAccion.getFk_protocolo(), parte.getId_parte(), Integer.parseInt(ll.getTag().toString())).getId_protocolo_accion();
+                            ProtocoloAccionDAO.actualizarValorFkProtocoloIdParte(getContext(), valor, id, parte.getId_parte());
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    private ArrayList<ProtocoloAccion> ordenarArrayAccionProtocolosV2(ArrayList<ProtocoloAccion> protocoloAccionArrayList) {
+        ArrayList<ProtocoloAccion> arrayList = new ArrayList<>();
+        for (ProtocoloAccion p : protocoloAccionArrayList) {
+            if (!arrayListContieneProtocolo(arrayList, p))
+                arrayList.add(p);
+        }
+        return arrayList;
+    }
+
+    private boolean arrayListContieneProtocolo(ArrayList<ProtocoloAccion> arrayList, ProtocoloAccion p) {
+        boolean esta = false;
+        for (ProtocoloAccion pA : arrayList) {
+            if (p.getFk_maquina() == pA.getFk_maquina() && p.getFk_protocolo() == pA.getFk_protocolo()) {
+                esta = true;
+                break;
+            }
+        }
+        return esta;
+    }
+
+    private void crearLinearProtocolo(ProtocoloAccion protocolo) {
+        llPadre.removeAllViews();
+        llPadre.setVisibility(View.VISIBLE);
+        try {
+            ArrayList<ProtocoloAccion> protocolos = new ArrayList<>();
+            if (protocolo.getFk_maquina() != 0 && protocolo.getFk_maquina() != -1) {
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina(), protocolo.getFk_parte()) != null) {
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorFkProtocoloFkMaquina(getContext(), protocolo.getFk_protocolo(), protocolo.getFk_maquina(), protocolo.getFk_parte()));
+                }
+            }else{
+                if (ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(), protocolo.getNombre_protocolo(), parte.getId_parte()) != null) {
+                    protocolos.addAll(ProtocoloAccionDAO.buscarProtocoloAccionPorNombreProtocoloFkParte(getContext(), protocolo.getNombre_protocolo(), parte.getId_parte()));
+                }
+            }
+            for (int i = 0; i < protocolos.size(); i++) {
+                LinearLayout linearLayout = new LinearLayout(getContext());
+                linearLayout.setTag(protocolos.get(i).getId_accion());
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                linearLayout.setPadding(5, 5, 5, 5);
+                if (protocolos.get(i).isTipo_accion() == true) {
+                    LinearLayout linearLayout1 = new LinearLayout(getContext());
+                    linearLayout1.setTag(protocolos.get(i).getId_accion());
+                    linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(70, 70);
+                    if (configuracion.isParte_galeria()) {
+                        ImageButton imageButton = new ImageButton(getContext());
+                        imageButton.setLayoutParams(lp);
+                        imageButton.setBackgroundResource(R.drawable.ic_menu_camera);
+                        imageButton.setTag(protocolos.get(i).getId_protocolo_accion());
+                        imageButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent i = new Intent(getActivity(), FotosProtocoloAccion.class);
+                                i.putExtra("id", Integer.parseInt(String.valueOf(v.getTag())));
+                                getActivity().startActivity(i);
+                            }
+                        });
+                        linearLayout1.addView(imageButton);
+                    }
+                    CheckBox checkBox = new CheckBox(getContext());
+                    checkBox.setHintTextColor(Color.parseColor("#ff9002"));
+                    checkBox.setLinkTextColor(Color.parseColor("#ff9002"));
+                    checkBox.setText(protocolos.get(i).getDescripcion());
+                    if (protocolos.get(i).getValor().equals("1")) {
+                        checkBox.setChecked(true);
+                    } else {
+                        checkBox.setChecked(false);
+                    }
+                    linearLayout1.addView(checkBox);
+                    linearLayout.addView(linearLayout1);
+                } else if (protocolos.get(i).isTipo_accion() == false) {
+                    LinearLayout linearLayout1 = new LinearLayout(getContext());
+                    linearLayout1.setTag(protocolos.get(i).getId_accion());
+                    LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    linearLayout1.setLayoutParams(l);
+                    linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                    if (configuracion.isParte_galeria()) {
+                        ImageButton imageButton = new ImageButton(getContext());
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(70, 70);
+                        imageButton.setLayoutParams(lp);
+                        imageButton.setBackgroundResource(R.drawable.ic_menu_camera);
+                        imageButton.setTag(protocolos.get(i).getId_protocolo_accion());
+                        imageButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent i = new Intent(getActivity(), FotosProtocoloAccion.class);
+                                i.putExtra("id", Integer.parseInt(String.valueOf(v.getTag())));
+                                getActivity().startActivity(i);
+                            }
+                        });
+                        linearLayout1.addView(imageButton);
+                    }
+
+                    TextView textView = new TextView(getContext());
+                    //textView.setTextSize(14);
+                    //textView.setTextColor(Color.BLACK);
+                    textView.setText(protocolos.get(i).getDescripcion());
+                    linearLayout.addView(textView);
+                    EditText editText = new EditText(getContext());
+                    editText.setBackgroundResource(R.drawable.edit_texts_naranja);
+                    editText.setPadding(5, 5, 5, 5);
+                    LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    editText.setLayoutParams(lp2);
+                    editText.setText(protocolos.get(i).getValor());
+                    linearLayout1.addView(editText);
+                    linearLayout.addView(linearLayout1);
+                }/* else if (protocolos.get(i).isTipo_accion() == 2) {
+                    LinearLayout linearLayout1 = new LinearLayout(getContext());
+                    linearLayout1.setTag(protocolos.get(i).getId_accion());
+                    LinearLayout.LayoutParams l = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    linearLayout1.setLayoutParams(l);
+                    linearLayout1.setOrientation(LinearLayout.HORIZONTAL);
+                    TextView textView = new TextView(getContext());
+                    textView.setTextSize(18);
+                    textView.setTextColor(R.color.md_theme_dark_primaryContainer);
+                    textView.setText(protocolos.get(i).getDescripcion());
+                    textView.setPadding(0, 20, 0, 0);
+                    linearLayout.addView(textView);
+                    //linearLayout.addView(linearLayout1);
+                }*/
+                llPadre.addView(linearLayout);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

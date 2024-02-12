@@ -219,6 +219,18 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                         .setCancelTextColor(Color.RED)).show(tmp);
             }
         });
+        builder.setNeutralButton("Desperfectos", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fk_tipo = 3;
+                PickImageDialog.build(new PickSetup()
+                        .setTitle("Selecciona una opción")
+                        .setCameraButtonText("Camara")
+                        .setGalleryButtonText("Galeria")
+                        .setCancelText("CANCELAR")
+                        .setCancelTextColor(Color.RED)).show(tmp);
+            }
+        });
         builder.show();
 
     }

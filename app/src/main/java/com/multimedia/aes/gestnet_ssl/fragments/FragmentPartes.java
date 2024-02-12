@@ -76,7 +76,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
                             tab.setText("Datos Siniestro");
                             break;
                         case 2:
-                            tab.setText("Finalización");
+                            tab.setText("Visita Técnico");
                             break;
                         /*case 1:
                             tab.setText("Equipo");

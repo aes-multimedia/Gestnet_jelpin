@@ -63,7 +63,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Edición" />
+                            android:text="Edición"
+                            android:visibility="gone" />
                     </LinearLayout>
 
 
@@ -318,6 +319,7 @@
                         android:layout_marginBottom="8dp"
                         android:background="@drawable/botones"
                         android:text="Guardar Datos"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -408,18 +410,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/num_parte"
+                        android:text="@string/num_orden_iberdrola"
                         android:textAlignment="viewStart"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"
                         app:layout_constraintBaseline_toBaselineOf="@+id/txtNumParte"
                         app:layout_constraintStart_toStartOf="parent" />
+
                     <TextView
                         android:id="@+id/textView330"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/num_orden_iberdrola"
+                        android:text="@string/num_parte"
                         android:textAlignment="viewStart"
                         android:textColor="@android:color/black"
                         android:textSize="15sp"

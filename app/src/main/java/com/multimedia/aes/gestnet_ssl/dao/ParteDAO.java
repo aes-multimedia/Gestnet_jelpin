@@ -57,7 +57,11 @@ public class ParteDAO extends DBHelperMOS{
                                    String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
                                    String firma64,String ticket,String nombre_compania,String direccion,String CIF,
                                    String telefono1,String telefono2,String email,String sintomas,String politicaPrivacidad,
-                                   String numero_cliente,String estado_parte, String url_presupuesto) {
+                                   String numero_cliente,String estado_parte, String url_presupuesto,
+                                   String externo, boolean aseguradoPuedeCocina, boolean funcionaFuego,
+                                   boolean defectoDeFabricacion, boolean otrosDanos, boolean retiradaAparatoTaller,
+                                   boolean averiaPropiaAparato, boolean aparatoManipulado, boolean aseguradoInformadoNoCobertura,
+                                   String otrasCaracteristicas, int vitroCaracteristicas, String desglose, String aspectoFisico) {
         Parte p = montarParte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -90,7 +94,8 @@ public class ParteDAO extends DBHelperMOS{
                 observaciones_cliente,user_creador,tipo,dni_firmante,
                 firma64,ticket,nombre_compania,direccion,CIF,telefono1,
                 telefono2,email,sintomas,politicaPrivacidad,numero_cliente,
-                estado_parte, url_presupuesto);
+                estado_parte, url_presupuesto, externo, aseguradoPuedeCocina, funcionaFuego, defectoDeFabricacion, otrosDanos, retiradaAparatoTaller, averiaPropiaAparato,
+                aparatoManipulado, aseguradoInformadoNoCobertura, otrasCaracteristicas, vitroCaracteristicas, desglose, aspectoFisico);
         return crearParte(p,context);
     }
     public static boolean crearParte(Parte p,Context context) {
@@ -135,7 +140,11 @@ public class ParteDAO extends DBHelperMOS{
                                     String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
                                     String firma64,String ticket,String nombre_compania,String direccion,String CIF,
                                     String telefono1,String telefono2,String email,String sintomas,String politicaPrivacidad,
-                                    String numero_cliente, String estado_parte, String url_presupuesto) {
+                                    String numero_cliente, String estado_parte, String url_presupuesto,
+                                    String externo, boolean aseguradoPuedeCocina, boolean funcionaFuego,
+                                    boolean defectoDeFabricacion, boolean otrosDanos, boolean retiradaAparatoTaller,
+                                    boolean averiaPropiaAparato, boolean aparatoManipulado, boolean aseguradoInformadoNoCobertura,
+                                    String otrasCaracteristicas, int vitroCaracteristicas, String desglose, String aspectoFisico) {
         Parte p =new Parte(id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
@@ -167,7 +176,10 @@ public class ParteDAO extends DBHelperMOS{
                 telefono3_cliente, telefono4_cliente, email_cliente,
                 observaciones_cliente,user_creador,tipo,dni_firmante, firma64,
                 ticket,nombre_compania,direccion,CIF,telefono1,telefono2,email,
-                sintomas,politicaPrivacidad,numero_cliente,estado_parte,url_presupuesto);
+                sintomas,politicaPrivacidad,numero_cliente,estado_parte,url_presupuesto,
+                externo, aseguradoPuedeCocina, funcionaFuego, defectoDeFabricacion, otrosDanos,
+                retiradaAparatoTaller, averiaPropiaAparato, aparatoManipulado, aseguradoInformadoNoCobertura,
+                otrasCaracteristicas, vitroCaracteristicas, desglose, aspectoFisico);
         return p;
     }
 
@@ -462,7 +474,11 @@ public class ParteDAO extends DBHelperMOS{
                                        String dni_cliente, String telefono1_cliente, String telefono2_cliente,
                                        String telefono3_cliente, String telefono4_cliente, String email_cliente,
                                        String observaciones_cliente, String user_creador, String tipo,String dni_firmante,
-                                       String firma64,String ticket,String numero_cliente,String estado_parte, String url_presupuesto) throws SQLException
+                                       String firma64,String ticket,String numero_cliente,String estado_parte, String url_presupuesto,
+                                       String externo, boolean aseguradoPuedeCocina, boolean funcionaFuego,
+                                       boolean defectoDeFabricacion, boolean otrosDanos, boolean retiradaAparatoTaller,
+                                       boolean averiaPropiaAparato, boolean aparatoManipulado, boolean aseguradoInformadoNoCobertura,
+                                       String otrasCaracteristicas, int vitroCaracteristicas, String desglose, String aspectoFisico) throws SQLException
     {
 
         cargarDao(context);
@@ -583,6 +599,19 @@ public class ParteDAO extends DBHelperMOS{
         updateBuilder.updateColumnValue(Parte.NUMERO_CLIENTE, numero_cliente);
         updateBuilder.updateColumnValue(Parte.ESTADO_PARTE, estado_parte);
         updateBuilder.updateColumnValue(Parte.URL_PRESUPUESTO, url_presupuesto);
+        updateBuilder.updateColumnValue(Parte.EXTERNO, externo);
+        updateBuilder.updateColumnValue(Parte.ASEGURADO_PUEDE_COCINA, aseguradoPuedeCocina);
+        updateBuilder.updateColumnValue(Parte.FUNCIONA_FUEGO, funcionaFuego);
+        updateBuilder.updateColumnValue(Parte.DEFECTO_DE_FABRICACION, defectoDeFabricacion);
+        updateBuilder.updateColumnValue(Parte.OTROS_DANOS, otrosDanos);
+        updateBuilder.updateColumnValue(Parte.RETIRADA_APARATO_TALLER, retiradaAparatoTaller);
+        updateBuilder.updateColumnValue(Parte.AVERIA_PROPIA_APARATO, averiaPropiaAparato);
+        updateBuilder.updateColumnValue(Parte.APARATO_MANIPULADO, aparatoManipulado);
+        updateBuilder.updateColumnValue(Parte.ASEGURADO_INFORMADO_NO_COBERTURA, aseguradoInformadoNoCobertura);
+        updateBuilder.updateColumnValue(Parte.OTRAS_CARACTERISTICAS, otrasCaracteristicas);
+        updateBuilder.updateColumnValue(Parte.VITRO_CARACTERISTICAS, vitroCaracteristicas);
+        updateBuilder.updateColumnValue(Parte.DESGLOSE, desglose);
+        updateBuilder.updateColumnValue(Parte.ASPECTO_FISICO, aspectoFisico);
 
 
         updateBuilder.update();

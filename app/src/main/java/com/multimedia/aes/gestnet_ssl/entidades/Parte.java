@@ -132,6 +132,19 @@ public class Parte {
     public static final String EMAIL_ENVIAR_FACTURA = "email_enviar_factura";
     public static final String ESTADO_PARTE = "estado_parte";
     public static final String URL_PRESUPUESTO = "url_presupuesto";
+    public static final String EXTERNO = "externo";
+    public static final String ASEGURADO_PUEDE_COCINA = "Asegurado_puede_cocina";
+    public static final String FUNCIONA_FUEGO = "Funciona_fuego";
+    public static final String DEFECTO_DE_FABRICACION = "Defecto_de_fabricacion";
+    public static final String OTROS_DANOS = "Otros_danos";
+    public static final String RETIRADA_APARATO_TALLER = "Retirada_aparato_taller";
+    public static final String AVERIA_PROPIA_APARATO = "Averia_propia_aparato";
+    public static final String APARATO_MANIPULADO = "Aparato_manipulado";
+    public static final String ASEGURADO_INFORMADO_NO_COBERTURA = "Asegurado_informado_no_cobertura";
+    public static final String OTRAS_CARACTERISTICAS = "otras_caracteristicas";
+    public static final String VITRO_CARACTERISTICAS = "vitro_caracteristicas";
+    public static final String DESGLOSE = "Desglose";
+    public static final String ASPECTO_FISICO = "Aspecto_fisico";
 
 
 
@@ -269,9 +282,24 @@ public class Parte {
     @DatabaseField(columnName = TEXTO_DURACION)                 private String textoDuracion;
     @DatabaseField(columnName = ENVIAR_POR_CORREO)              private boolean enviarPorCorreo;
     @DatabaseField(columnName = EMAIL_ENVIAR_FACTURA)           private String emailEnviarFactura;
+    @DatabaseField(columnName = EXTERNO)                        private String externo;
+    @DatabaseField(columnName = ASEGURADO_PUEDE_COCINA)         boolean Asegurado_puede_cocina;
+    @DatabaseField(columnName = FUNCIONA_FUEGO)                 boolean Funciona_fuego;
+    @DatabaseField(columnName = DEFECTO_DE_FABRICACION)         boolean Defecto_de_fabricacion;
+    @DatabaseField(columnName = OTROS_DANOS)                    boolean Otros_danos;
+    @DatabaseField(columnName = RETIRADA_APARATO_TALLER)        boolean Retirada_aparato_taller;
+    @DatabaseField(columnName = AVERIA_PROPIA_APARATO)          boolean Averia_propia_aparato;
+    @DatabaseField(columnName = APARATO_MANIPULADO)             boolean Aparato_manipulado;
+    @DatabaseField(columnName = ASEGURADO_INFORMADO_NO_COBERTURA) boolean Asegurado_informado_no_cobertura;
+    @DatabaseField(columnName = OTRAS_CARACTERISTICAS)          private String otras_caracteristicas;
+    @DatabaseField(columnName = VITRO_CARACTERISTICAS)          private int vitro_caracteristicas;
+    @DatabaseField(columnName = DESGLOSE)                       private String Desglose;
+    @DatabaseField(columnName = ASPECTO_FISICO)                 private String Aspecto_fisico;
 
 
     public Parte(){}
+
+
 
     public String getSintomas() {
         return sintomas;
@@ -313,7 +341,11 @@ public class Parte {
                  String observaciones_cliente, String user_creador, String tipo, String dni_firmante,
                  String firma64, String ticket, String nombre_compania, String direccion, String CIF,
                  String telefono1, String telefono2, String email, String sintomas, String politicaPrivacidad,
-                 String numero_cliente,String estado_parte, String url_presupuesto) {
+                 String numero_cliente,String estado_parte, String url_presupuesto, String externo,
+                 boolean aseguradoPuedeCocina, boolean funcionaFuego, boolean defectoDeFabricacion,
+                 boolean otrosDanos, boolean retiradaAparatoTaller, boolean averiaPropiaAparato,
+                 boolean aparatoManipulado, boolean aseguradoInformadoNoCobertura, String otrasCaracteristicas,
+                 int vitroCaracteristicas, String desglose, String aspectoFisico) {
         this.id_parte = id_parte;
         this.fk_user_creador = fk_user_creador;
         this.fk_compania = fk_compania;
@@ -441,6 +473,162 @@ public class Parte {
         this.enviarPorCorreo=false;
         this.estado_parte=estado_parte;
         this.url_presupuesto=url_presupuesto;
+        this.externo = externo;
+        Asegurado_puede_cocina = aseguradoPuedeCocina;
+        Funciona_fuego = funcionaFuego;
+        Defecto_de_fabricacion = defectoDeFabricacion;
+        Otros_danos = otrosDanos;
+        Retirada_aparato_taller = retiradaAparatoTaller;
+        Averia_propia_aparato = averiaPropiaAparato;
+        Aparato_manipulado = aparatoManipulado;
+        Asegurado_informado_no_cobertura = aseguradoInformadoNoCobertura;
+        this.otras_caracteristicas = otras_caracteristicas;
+        this.vitro_caracteristicas = vitro_caracteristicas;
+        Desglose = desglose;
+        Aspecto_fisico = aspectoFisico;
+    }
+
+    public Parte(int id_parte, int fk_user_creador, int fk_compania, int fk_tecnico, int fk_usuario, int fk_direccion, int fk_maquina, String fecha_creacion, String fecha_aviso, String fecha_visita, boolean visita_duplicada, String fecha_reparacion, int num_parte, int fk_tipo, int fk_user_asignacion, int fk_horario, String horario, String duracion, String sobre, int franja_horaria, int fk_estado, int fk_estado_interno, String observaciones, String observacionesasignacion, int confirmado, String entregado_por, String recogido_por, String comentarios_entrega, int fk_fabricante, String aprobado_fabricante, boolean imprimir, String fecha_factura, String num_factura, String fecha_factura_rectificativa, String num_factura_rectificativa, int fk_pend_fact, String num_orden_endesa, String fecha_maxima_endesa, int fk_estado_endesa, int insistencia_endesa, String contrato_endesa, String producto_endesa, int fk_tipo_os0, int fk_tipo_producto, boolean pagado_endesa, String ciclo_liq_endesa, double importe_pago_endesa, String fecha_pagado_endesa, boolean pagado_operario, String fecha_anulado, String fecha_modificacion_tecnico, int fk_remoto_central, String fac_nombre, String fac_direccion, String fac_cp, String fac_poblacion, String fac_provincia, String fac_dni, String fac_email, String fac_telefonos, String otros_sintomas, String fecha_baja, boolean fac_baja_stock, int estado_android, boolean urgencias, String lote, boolean validar, boolean liquidado_a_proveedor, int fk_instalacion, int fk_emergencia, String motivo_cambio_fecha_maxima, boolean btodoslosequipos, int fk_tipo_instalacion, boolean parte_finalizado_android, String comercializadora, String persona_contacto, String tel_contacto, String cnae, int fk_compania_parte, String fecha_cierre, String num_presupuesto, String defectos, int fk_periocidad, double franquicia, String inspeccion_visual, String otros_mataux, boolean binspeccionvisual, boolean botrosmataux, String user_creador, String tipo, String sintomas, String estado_parte, String url_presupuesto, String nombre_firmante, String dni_firmante, String firma64, String ticket, String tipo_via, String via, String numero_direccion, String escalera_direccion, String piso_direccion, String puerta_direccion, String cp_direccion, String municipio_direccion, String provincia_direccion, String latitud_direccion, String longitud_direccion, String nombre_cliente, String dni_cliente, String telefono1_cliente, String telefono2_cliente, String telefono3_cliente, String telefono4_cliente, String email_cliente, String observaciones_cliente, String numero_cliente, String nombre_compania, String direccion, String cif, String telefono1, String telefono2, String email, String politicaPrivacidad, String textoDuracion, boolean enviarPorCorreo, String emailEnviarFactura, String externo, boolean asegurado_puede_cocina, boolean funciona_fuego, boolean defecto_de_fabricacion, boolean otros_danos, boolean retirada_aparato_taller, boolean averia_propia_aparato, boolean aparato_manipulado, boolean asegurado_informado_no_cobertura, String otras_caracteristicas, int vitro_caracteristicas, String desglose, String aspecto_fisico) {
+        this.id_parte = id_parte;
+        this.fk_user_creador = fk_user_creador;
+        this.fk_compania = fk_compania;
+        this.fk_tecnico = fk_tecnico;
+        this.fk_usuario = fk_usuario;
+        this.fk_direccion = fk_direccion;
+        this.fk_maquina = fk_maquina;
+        this.fecha_creacion = fecha_creacion;
+        this.fecha_aviso = fecha_aviso;
+        this.fecha_visita = fecha_visita;
+        this.visita_duplicada = visita_duplicada;
+        this.fecha_reparacion = fecha_reparacion;
+        this.num_parte = num_parte;
+        this.fk_tipo = fk_tipo;
+        this.fk_user_asignacion = fk_user_asignacion;
+        this.fk_horario = fk_horario;
+        this.horario = horario;
+        this.duracion = duracion;
+        this.sobre = sobre;
+        this.franja_horaria = franja_horaria;
+        this.fk_estado = fk_estado;
+        this.fk_estado_interno = fk_estado_interno;
+        this.observaciones = observaciones;
+        this.observacionesasignacion = observacionesasignacion;
+        this.confirmado = confirmado;
+        this.entregado_por = entregado_por;
+        this.recogido_por = recogido_por;
+        this.comentarios_entrega = comentarios_entrega;
+        this.fk_fabricante = fk_fabricante;
+        this.aprobado_fabricante = aprobado_fabricante;
+        this.imprimir = imprimir;
+        this.fecha_factura = fecha_factura;
+        this.num_factura = num_factura;
+        this.fecha_factura_rectificativa = fecha_factura_rectificativa;
+        this.num_factura_rectificativa = num_factura_rectificativa;
+        this.fk_pend_fact = fk_pend_fact;
+        this.num_orden_endesa = num_orden_endesa;
+        this.fecha_maxima_endesa = fecha_maxima_endesa;
+        this.fk_estado_endesa = fk_estado_endesa;
+        this.insistencia_endesa = insistencia_endesa;
+        this.contrato_endesa = contrato_endesa;
+        this.producto_endesa = producto_endesa;
+        this.fk_tipo_os0 = fk_tipo_os0;
+        this.fk_tipo_producto = fk_tipo_producto;
+        this.pagado_endesa = pagado_endesa;
+        this.ciclo_liq_endesa = ciclo_liq_endesa;
+        this.importe_pago_endesa = importe_pago_endesa;
+        this.fecha_pagado_endesa = fecha_pagado_endesa;
+        this.pagado_operario = pagado_operario;
+        this.fecha_anulado = fecha_anulado;
+        this.fecha_modificacion_tecnico = fecha_modificacion_tecnico;
+        this.fk_remoto_central = fk_remoto_central;
+        this.fac_nombre = fac_nombre;
+        this.fac_direccion = fac_direccion;
+        this.fac_cp = fac_cp;
+        this.fac_poblacion = fac_poblacion;
+        this.fac_provincia = fac_provincia;
+        this.fac_dni = fac_dni;
+        this.fac_email = fac_email;
+        this.fac_telefonos = fac_telefonos;
+        this.otros_sintomas = otros_sintomas;
+        this.fecha_baja = fecha_baja;
+        this.fac_baja_stock = fac_baja_stock;
+        this.estado_android = estado_android;
+        this.urgencias = urgencias;
+        this.lote = lote;
+        this.validar = validar;
+        this.liquidado_a_proveedor = liquidado_a_proveedor;
+        this.fk_instalacion = fk_instalacion;
+        this.fk_emergencia = fk_emergencia;
+        this.motivo_cambio_fecha_maxima = motivo_cambio_fecha_maxima;
+        this.btodoslosequipos = btodoslosequipos;
+        this.fk_tipo_instalacion = fk_tipo_instalacion;
+        this.parte_finalizado_android = parte_finalizado_android;
+        this.comercializadora = comercializadora;
+        this.persona_contacto = persona_contacto;
+        this.tel_contacto = tel_contacto;
+        this.cnae = cnae;
+        this.fk_compania_parte = fk_compania_parte;
+        this.fecha_cierre = fecha_cierre;
+        this.num_presupuesto = num_presupuesto;
+        this.defectos = defectos;
+        this.fk_periocidad = fk_periocidad;
+        this.franquicia = franquicia;
+        this.inspeccion_visual = inspeccion_visual;
+        this.otros_mataux = otros_mataux;
+        this.binspeccionvisual = binspeccionvisual;
+        this.botrosmataux = botrosmataux;
+        this.user_creador = user_creador;
+        this.tipo = tipo;
+        this.sintomas = sintomas;
+        this.estado_parte = estado_parte;
+        this.url_presupuesto = url_presupuesto;
+        this.nombre_firmante = nombre_firmante;
+        this.dni_firmante = dni_firmante;
+        this.firma64 = firma64;
+        this.ticket = ticket;
+        this.tipo_via = tipo_via;
+        this.via = via;
+        this.numero_direccion = numero_direccion;
+        this.escalera_direccion = escalera_direccion;
+        this.piso_direccion = piso_direccion;
+        this.puerta_direccion = puerta_direccion;
+        this.cp_direccion = cp_direccion;
+        this.municipio_direccion = municipio_direccion;
+        this.provincia_direccion = provincia_direccion;
+        this.latitud_direccion = latitud_direccion;
+        this.longitud_direccion = longitud_direccion;
+        this.nombre_cliente = nombre_cliente;
+        this.dni_cliente = dni_cliente;
+        this.telefono1_cliente = telefono1_cliente;
+        this.telefono2_cliente = telefono2_cliente;
+        this.telefono3_cliente = telefono3_cliente;
+        this.telefono4_cliente = telefono4_cliente;
+        this.email_cliente = email_cliente;
+        this.observaciones_cliente = observaciones_cliente;
+        this.numero_cliente = numero_cliente;
+        this.nombre_compania = nombre_compania;
+        this.direccion = direccion;
+        this.cif = cif;
+        this.telefono1 = telefono1;
+        this.telefono2 = telefono2;
+        this.email = email;
+        this.politicaPrivacidad = politicaPrivacidad;
+        this.textoDuracion = textoDuracion;
+        this.enviarPorCorreo = enviarPorCorreo;
+        this.emailEnviarFactura = emailEnviarFactura;
+        this.externo = externo;
+        Asegurado_puede_cocina = asegurado_puede_cocina;
+        Funciona_fuego = funciona_fuego;
+        Defecto_de_fabricacion = defecto_de_fabricacion;
+        Otros_danos = otros_danos;
+        Retirada_aparato_taller = retirada_aparato_taller;
+        Averia_propia_aparato = averia_propia_aparato;
+        Aparato_manipulado = aparato_manipulado;
+        Asegurado_informado_no_cobertura = asegurado_informado_no_cobertura;
+        this.otras_caracteristicas = otras_caracteristicas;
+        this.vitro_caracteristicas = vitro_caracteristicas;
+        Desglose = desglose;
+        Aspecto_fisico = aspecto_fisico;
     }
 
     public static String getIdParte() {
@@ -1230,5 +1418,109 @@ public class Parte {
 
     public void setUrl_presupuesto(String url_presupuesto) {
         this.url_presupuesto = url_presupuesto;
+    }
+
+    public String getExterno() {
+        return externo;
+    }
+
+    public void setExterno(String externo) {
+        this.externo = externo;
+    }
+
+    public boolean isAsegurado_puede_cocina() {
+        return Asegurado_puede_cocina;
+    }
+
+    public void setAsegurado_puede_cocina(boolean asegurado_puede_cocina) {
+        Asegurado_puede_cocina = asegurado_puede_cocina;
+    }
+
+    public boolean isFunciona_fuego() {
+        return Funciona_fuego;
+    }
+
+    public void setFunciona_fuego(boolean funciona_fuego) {
+        Funciona_fuego = funciona_fuego;
+    }
+
+    public boolean isDefecto_de_fabricacion() {
+        return Defecto_de_fabricacion;
+    }
+
+    public void setDefecto_de_fabricacion(boolean defecto_de_fabricacion) {
+        Defecto_de_fabricacion = defecto_de_fabricacion;
+    }
+
+    public boolean isOtros_danos() {
+        return Otros_danos;
+    }
+
+    public void setOtros_danos(boolean otros_danos) {
+        Otros_danos = otros_danos;
+    }
+
+    public boolean isRetirada_aparato_taller() {
+        return Retirada_aparato_taller;
+    }
+
+    public void setRetirada_aparato_taller(boolean retirada_aparato_taller) {
+        Retirada_aparato_taller = retirada_aparato_taller;
+    }
+
+    public boolean isAveria_propia_aparato() {
+        return Averia_propia_aparato;
+    }
+
+    public void setAveria_propia_aparato(boolean averia_propia_aparato) {
+        Averia_propia_aparato = averia_propia_aparato;
+    }
+
+    public boolean isAparato_manipulado() {
+        return Aparato_manipulado;
+    }
+
+    public void setAparato_manipulado(boolean aparato_manipulado) {
+        Aparato_manipulado = aparato_manipulado;
+    }
+
+    public boolean isAsegurado_informado_no_cobertura() {
+        return Asegurado_informado_no_cobertura;
+    }
+
+    public void setAsegurado_informado_no_cobertura(boolean asegurado_informado_no_cobertura) {
+        Asegurado_informado_no_cobertura = asegurado_informado_no_cobertura;
+    }
+
+    public String getOtras_caracteristicas() {
+        return otras_caracteristicas;
+    }
+
+    public void setOtras_caracteristicas(String otras_caracteristicas) {
+        this.otras_caracteristicas = otras_caracteristicas;
+    }
+
+    public int getVitro_caracteristicas() {
+        return vitro_caracteristicas;
+    }
+
+    public void setVitro_caracteristicas(int vitro_caracteristicas) {
+        this.vitro_caracteristicas = vitro_caracteristicas;
+    }
+
+    public String getDesglose() {
+        return Desglose;
+    }
+
+    public void setDesglose(String desglose) {
+        Desglose = desglose;
+    }
+
+    public String getAspecto_fisico() {
+        return Aspecto_fisico;
+    }
+
+    public void setAspecto_fisico(String aspecto_fisico) {
+        Aspecto_fisico = aspecto_fisico;
     }
 }

@@ -17,50 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/fondo_linear_gris"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/seleccion_protocolo"
-                    android:textColor="@color/cast_expanded_controller_background_color" />
-
-                <Spinner
-                    android:id="@+id/spProtocolos"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/caldera_spiners" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llPadre"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/fondo_linear_gris"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btnObra"

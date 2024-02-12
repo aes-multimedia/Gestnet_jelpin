@@ -35,7 +35,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView47"
@@ -74,11 +75,18 @@
                         <EditText
                             android:id="@+id/etOperacionEfectuada"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="161dp"
                             android:background="@drawable/edit_texts_naranja"
                             android:ems="10"
                             android:inputType="textMultiLine"
                             android:padding="5dp" />
+
+                        <Button
+                            android:id="@+id/button2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dictado por voz"
+                            app:icon="@drawable/micro" />
 
                         <TextView
                             android:id="@+id/textVie10"
@@ -88,7 +96,8 @@
                             android:padding="3dp"
                             android:text="@string/Obs_Cliente"
                             android:textColor="@color/cast_expanded_controller_background_color"
-                            android:textSize="18dp" />
+                            android:textSize="18dp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/etObsCliente"
@@ -102,14 +111,16 @@
                             android:textAlignment="gravity"
                             android:textColor="#000"
                             android:textSize="18sp"
-                            android:textStyle="normal" />
+                            android:textStyle="normal"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/tv_preeu_materiales"
@@ -126,6 +137,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:weightSum="2">
 
                         <EditText
@@ -153,7 +165,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView6"
@@ -169,7 +182,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <Spinner
                             android:id="@+id/sp_preeu_disposicion_servicio"
@@ -185,7 +199,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView101"
@@ -201,7 +216,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_total_disposicion_servicio"
@@ -217,7 +233,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView25"
@@ -234,7 +251,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <Spinner
                             android:id="@+id/sp_preeu_mano_de_obra_precio"
@@ -250,7 +268,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <TextView
                             android:id="@+id/textView3"
@@ -294,7 +313,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView79"
@@ -310,7 +330,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_total_mano_de_obra_horas"
@@ -326,7 +347,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView7"
@@ -342,7 +364,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_puesta_marcha"
@@ -358,7 +381,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView8"
@@ -374,7 +398,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_servicio_urgencia"
@@ -390,7 +415,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView9"
@@ -406,7 +432,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_km"
@@ -440,7 +467,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -455,7 +483,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_analisis_combustion"
@@ -478,13 +507,15 @@
                         android:text="@string/Otros"
                         android:textColor="@color/cast_expanded_controller_background_color"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/et_preeu_otros_nombre"
@@ -522,7 +553,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView4"
@@ -538,7 +570,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <Spinner
                             android:id="@+id/spFormaPago"
@@ -553,7 +586,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -580,7 +614,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -607,7 +642,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -634,7 +670,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <CheckBox
                             android:id="@+id/cb_acepta_presupuesto"
@@ -693,6 +730,64 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llProtocolo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/fondo_linear_gris"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/seleccion_protocolo"
+                            android:textColor="@color/cast_expanded_controller_background_color" />
+
+                        <Spinner
+                            android:id="@+id/spProtocolos"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/caldera_spiners" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPadre"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/fondo_linear_gris"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/botones"
+                        android:text="Ver imágenes" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -738,6 +833,7 @@
                         android:background="@drawable/botones"
                         android:text="Tomar foto del documento" />
                 </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

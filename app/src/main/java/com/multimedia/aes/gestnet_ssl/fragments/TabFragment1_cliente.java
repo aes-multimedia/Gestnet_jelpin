@@ -137,6 +137,7 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
             txtMarcaDatos.setText(MarcaDAO.buscarNombreMarcaPorId(getContext(), maq.getFk_marca()));
             txtModeloDatos.setText(maq.getModelo());
             txtNSerieDatos.setText(maq.getNum_serie());
+            txtAntiguoDatos.setText(maq.getPuesta_marcha());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
