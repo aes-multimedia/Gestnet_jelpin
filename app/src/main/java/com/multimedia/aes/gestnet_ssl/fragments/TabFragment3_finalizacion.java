@@ -689,13 +689,15 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
                 preeu_mano_de_obra_horas = 0;
                 String horaEntrada = datos.getMatem_hora_entrada();
                 String[] tiempos = horaEntrada.split(":");
-                int hour = Integer.valueOf(tiempos[0]);
-                int minute = Integer.valueOf(tiempos[1]);
+                int hour = 0;
+                int minute = 0;
                 int second = 0;
                 try {
+                    hour = Integer.valueOf(tiempos[0]);
+                    minute = Integer.valueOf(tiempos[1]);
                     second = Integer.valueOf(tiempos[2]);
                 }catch (Exception e){
-
+                    //Dialogo.dialogoError("No se ha podido establecer automaticamente la duración de la visita porque la hora de inicio ha sido borrada en gestnet.", getContext());
                 }
                 int segDesdeElInicio = hour * 60 * 60 + minute * 60 + second;
                 Calendar c2 = Calendar.getInstance();

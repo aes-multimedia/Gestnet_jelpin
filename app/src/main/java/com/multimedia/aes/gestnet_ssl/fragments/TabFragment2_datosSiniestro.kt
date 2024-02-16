@@ -95,6 +95,7 @@ class TabFragment2_datosSiniestro : Fragment() {
         txtTecnicoAsig.text = "Técnico asignado: " + usuario.nombreUsuario
         txtProfesional.text = "Profesional: " + parte.externo
         txtFechaVisitatab2.text = "Cita Concertada: " + parte.fecha_visita
+        txtDescripcionServicio.setText(parte.otros_sintomas)
         var franja = ""
         if (parte.franja_horaria.equals("0"))
             franja = "Todo el día"

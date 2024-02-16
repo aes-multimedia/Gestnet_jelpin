@@ -194,8 +194,8 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         var tmp = this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("¿Es esta foto del antes o del después?");
-        builder.setPositiveButton("Antes", new DialogInterface.OnClickListener() {
+        builder.setTitle("¿Es esta foto del antes, del después o de un desperfecto?");
+        builder.setNeutralButton("Antes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 fk_tipo = 1;
@@ -219,7 +219,7 @@ public class GaleriaV2 extends AppCompatActivity implements View.OnClickListener
                         .setCancelTextColor(Color.RED)).show(tmp);
             }
         });
-        builder.setNeutralButton("Desperfectos", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Desperfectos", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 fk_tipo = 3;
