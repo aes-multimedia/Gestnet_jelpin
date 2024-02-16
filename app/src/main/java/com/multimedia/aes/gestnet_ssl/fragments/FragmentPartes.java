@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 import java.sql.SQLException;
 
-public class FragmentPartes extends Fragment implements View.OnClickListener {
+public class FragmentPartes extends Fragment {
     private View vista;
     private TabFragment1_cliente tab1;
     private TabFragment2_datosSiniestro tab2;
@@ -37,6 +37,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         vista = inflater.inflate(R.layout.settings_main, container, false);
         TabLayout tabLayout = vista.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Cliente"));
+        tabLayout.addTab(tabLayout.newTab().setText("Datos Siniestro"));
         JSONObject jsonObject = null;
         int idParte = 0;
         try {
@@ -52,10 +53,7 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         }
        if (parte.getEstado_android()!=0&&parte.getEstado_android()!=3){
             //0: asignado (rojo) // 1: iniciado (ambar) // 2: falta material (azul) // 3: finalizado (verde)
-            tabLayout.addTab(tabLayout.newTab().setText("Datos Siniestro"));
             tabLayout.addTab(tabLayout.newTab().setText("Finalización"));
-            /*tabLayout.addTab(tabLayout.newTab().setText("Operaciones"));
-            tabLayout.addTab(tabLayout.newTab().setText("Materiales"));*/
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -69,30 +67,17 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 if (parte.getEstado_android() != 0 && parte.getEstado_android() != 3) {
                     switch (position) {
-                        case 0:
-                            tab.setText("Dirección y Equipo");
-                            break;
-                        case 1:
-                            tab.setText("Datos Siniestro");
-                            break;
-                        case 2:
-                            tab.setText("Visita Técnico");
-                            break;
-                        /*case 1:
-                            tab.setText("Equipo");
-                            break;
-                        case 2:
-                            tab.setText("Operaciones");
-                            break;
-                        case 3:
-                            tab.setText("Materiales");
-                            break;*/
-
+                        case 0 -> tab.setText("Dirección y Equipo");
+                        case 1 -> tab.setText("Datos Siniestro");
+                        case 2 -> tab.setText("Visita Técnico");
                     }
                 } else if(parte.getEstado_android() == 0) {
                     switch (position) {
                         case 0:
                             tab.setText("Dirección y Equipo");
+                            break;
+                        case 1:
+                            tab.setText("Datos Siniestro");
                             break;
                     }
                 } else {
@@ -125,13 +110,4 @@ public class FragmentPartes extends Fragment implements View.OnClickListener {
         });
         return vista;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-    @Override
-    public void onClick(View view) {
-    }
-
 }

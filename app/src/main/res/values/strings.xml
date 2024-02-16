@@ -23,7 +23,7 @@
     <string name="telefonos">Teléfonos: </string>
     <string name="telefono_1">Teléfono 1</string>
     <string name="telefono_2">Teléfono 2</string>
-    <string name="telefono_3">Teléfono 3</string>
+    <string name="telefono_3">Teléfono de contacto</string>
     <string name="telefono_4">Teléfono 4</string>
     <string name="otros_telefonos">Otros teléfonos</string>
     <string name="confirmar_telefono">ACTUALIZAR DATOS DEL USUARIO</string>
@@ -42,7 +42,7 @@
     <string name="dni_firmante">DNI Firmante</string>
     <string name="nombre_firmante">Nombre Firmante</string>
     <string name="nombre_titular">Nombre Titular</string>
-    <string name="dni_titular">DNI Titular</string>
+    <string name="dni_titular">Persona de contacto</string>
     <string name="no_firma_titular">No firma titular</string>
     <string name="añadir_analisis">Añadir Analisis</string>
     <string name="obtener_datos">Obteniendo datos del servidor</string>

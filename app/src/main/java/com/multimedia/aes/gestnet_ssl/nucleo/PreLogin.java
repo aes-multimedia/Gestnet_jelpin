@@ -46,6 +46,24 @@ public class PreLogin extends AppCompatActivity implements View.OnClickListener,
         try {
             if (ClienteDAO.buscarCliente(this)!=null) {
                 irLogin();
+            } else {
+                var json = "{\n" +
+                        "    \"estado\": 1,\n" +
+                        "    \"cliente\": {\n" +
+                        "        \"id_cliente\": \"76\",\n" +
+                        "        \"cliente\": null,\n" +
+                        "        \"logo\": null,\n" +
+                        "        \"color\": null,\n" +
+                        "        \"dir_documentos\": \"jelpin\",\n" +
+                        "        \"IP\": \"jelpin.gestnet.es\",\n" +
+                        "        \"bbdd\": null,\n" +
+                        "        \"user_bdd\": null,\n" +
+                        "        \"pass_bdd\": null,\n" +
+                        "        \"cod_cliente\": null,\n" +
+                        "        \"proteccion_datos\": null\n" +
+                        "    }\n" +
+                        "}";
+                new GuardarCliente(this, json).execute();
             }
         } catch (SQLException e) {
             e.printStackTrace();
