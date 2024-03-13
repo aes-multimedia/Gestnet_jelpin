@@ -816,7 +816,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/botones"
-                        android:text="Poner nº de serie" />
+                        android:text="Añadir num de serie" />
                 </LinearLayout>
 
                 <LinearLayout

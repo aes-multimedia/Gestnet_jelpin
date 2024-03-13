@@ -392,7 +392,7 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setView(container);
-                    builder.setTitle("Introducir número de serie");
+                    builder.setTitle("¿Añadir num de serie?");
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
