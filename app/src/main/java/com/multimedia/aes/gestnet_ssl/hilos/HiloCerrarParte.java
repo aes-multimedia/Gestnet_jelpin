@@ -292,6 +292,7 @@ public class HiloCerrarParte  extends AsyncTask<Void,Void,Void> {
                     obj.put("coste",articuloParte.getCoste());
                     obj.put("entregado",articuloParte.getEntregado());
                     obj.put("cantidad", articuloParte.getUsados());
+                    obj.put("n_serie", articuloParte.getN_serie());
                     if (datos_adicionales.getBaceptapresupuesto())  obj.put("presupuesto", 1);
                             else obj.put("presupuesto", 0);
                     if(datos_adicionales.getBaceptapresupuesto() && articuloParte.getEntregado()) obj.put("preparada_pieza", 1);

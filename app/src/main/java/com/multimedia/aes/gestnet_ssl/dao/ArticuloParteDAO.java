@@ -186,6 +186,15 @@ public static ArticuloParte buscarArticuloPartePorFkParteFkArticulo(Context cont
         updateBuilder.updateColumnValue(ArticuloParte.GARANTIA,garantia);
         updateBuilder.update();
     }
+
+    public static void actualizarN_Serie(Context context, int id_articulo_parte, String N_SERIE) throws SQLException {
+        cargarDao(context);
+        UpdateBuilder<ArticuloParte, Integer> updateBuilder = dao.updateBuilder();
+        updateBuilder.where().eq(ArticuloParte.ID,id_articulo_parte);
+        updateBuilder.updateColumnValue(ArticuloParte.N_SERIE,N_SERIE);
+        updateBuilder.update();
+    }
+
     public static void actualizarIdItemGestnet(Context context, int id_item_gestnet, int id_articulo_parte)throws SQLException {
 
         cargarDao(context);

@@ -104,10 +104,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         ivIncidencias = navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
         ivIncidencias.setOnClickListener(this);
         cuerpo = findViewById(R.id.cuerpo);
-
-
-
-
     }
 
     public void sacarMensaje(String msg) {

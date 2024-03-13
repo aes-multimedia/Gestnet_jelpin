@@ -20,6 +20,8 @@ public class ArticuloParte {
     public static final String TARIFA = "tarifa";
     public static final String DESCUENTO = "descuento";
     public static final String COSTE = "coste";
+    public static final String N_SERIE = "n_serie";
+
 
 
     @DatabaseField(generatedId = true, columnName = ID)     private int id;
@@ -35,6 +37,7 @@ public class ArticuloParte {
     @DatabaseField(columnName = TARIFA)                     private double tarifa;
     @DatabaseField(columnName = DESCUENTO)                  private double descuento;
     @DatabaseField(columnName = COSTE)                      private double coste;
+    @DatabaseField(columnName = N_SERIE)                    private String n_serie;
 
     public ArticuloParte(){}
     public ArticuloParte(int fk_articulo, int fk_parte,int fk_item_gestnet,double usados,boolean entregado,boolean garantia,double iva,double tarifa,double descuento,double coste) {
@@ -125,5 +128,13 @@ public class ArticuloParte {
     public double getTarifa() { return tarifa; }
     public void setTarifa(double tarifa) {
         this.tarifa = tarifa;
+    }
+
+    public String getN_serie() {
+        return n_serie;
+    }
+
+    public void setN_serie(String n_serie) {
+        this.n_serie = n_serie;
     }
 }

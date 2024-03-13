@@ -3,8 +3,10 @@ package com.multimedia.aes.gestnet_ssl.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
+import android.text.Html;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
@@ -21,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.multimedia.aes.gestnet_ssl.R;
 import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
@@ -68,6 +74,7 @@ import com.multimedia.aes.gestnet_ssl.nucleo.FirmaCliente;
 import com.multimedia.aes.gestnet_ssl.nucleo.FotosProtocoloAccion;
 import com.multimedia.aes.gestnet_ssl.nucleo.GaleriaV2;
 import com.multimedia.aes.gestnet_ssl.nucleo.GestionMateriales;
+import com.multimedia.aes.gestnet_ssl.nucleo.LectorBarrasActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -91,6 +98,7 @@ import androidx.fragment.app.Fragment;
 
 public class TabFragment3_finalizacion extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, View.OnFocusChangeListener {
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
+    private static final int REQUEST_CODE_SCAN = 69;
     private View vista;
     private double preeu_mano_de_obra_horas;
     private String tiempoDuracion;
@@ -110,7 +118,7 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
 
     private boolean acepta_presupuesto = false, enviar_correo = false;
     private static DecimalFormat df2 = new DecimalFormat(",##");
-    private Button btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo, btnFirm, btnVerFotos, btnspeech;
+    private Button btnDatosBarras, btnFinalizar, btn_preeu_mano_de_obra, btnFirmar, btn_calcular_tiempo, btnFirm, btnVerFotos, btnspeech;
     private Spinner sp_preeu_disposicion_servicio, sp_preeu_mano_de_obra_precio, spFormaPago,spTiposOS;
     private CheckBox cb_acepta_presupuesto, cb_enviar_por_correo;
     private View llTiposOs;
@@ -189,6 +197,7 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
         btnFirmar = vista.findViewById(R.id.btnFirmar);
         btn_calcular_tiempo = vista.findViewById(R.id.btn_calcular_tiempo);
         btnFirm = vista.findViewById(R.id.btnDoc);
+        btnDatosBarras = vista.findViewById(R.id.btnDatosBarras);
 
         try {
             if(ConfiguracionDAO.buscarConfiguracion(getContext()).isbFotoInforme()) {
@@ -355,6 +364,96 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
         }catch (SQLException e){
             e.printStackTrace();
         }
+
+        btnDatosBarras.setOnClickListener(v -> {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Selecciona un método de entrada");
+            builder.setPositiveButton("Introducir manualmente", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    LinearLayout container = new LinearLayout(getContext());
+                    EditText edittext = new EditText(getContext());
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                    container.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(30, 20, 30, 10);
+                    edittext.setPadding(10, 5, 10, 5);
+                    edittext.setGravity(android.view.Gravity.TOP | android.view.Gravity.LEFT);
+                    edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+
+                    edittext.setSingleLine(false);
+                    edittext.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+                    edittext.setLines(5);
+                    edittext.setMaxLines(10);
+                    container.addView(edittext, lp);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setView(container);
+                    builder.setTitle("Introducir número de serie");
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Obtener el número de serie introducido por el usuario
+                            String serialNumber = edittext.getText().toString().trim();
+                            // Aquí puedes realizar la lógica con el número de serie
+                            if (!serialNumber.isEmpty()) {
+                                Toast.makeText(getContext(), "Número de serie introducido: " + serialNumber, Toast.LENGTH_SHORT).show();
+                                ArticuloParte maq = null;
+                                try {
+                                    maq = ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()).get(0);
+                                    ArticuloParteDAO.actualizarN_Serie(getContext(), maq.getId(), serialNumber);
+                                    btnDatosBarras.setEnabled(false);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                            } else {
+                                Toast.makeText(getContext(), "Debes introducir un número de serie válido", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    // Mostrar el diálogo
+                    builder.show();
+                }
+            });
+            builder.setNegativeButton("Escanear", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent i = new Intent(getContext(), LectorBarrasActivity.class);
+                    startActivityForResult(i, REQUEST_CODE_SCAN);
+                }
+            });
+            builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+
+
+        });
+        try {
+            var maq = ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()).get(0);
+            if (maq != null && maq.getN_serie() != null){
+                btnDatosBarras.setEnabled(false);
+            } else if (maq == null) {
+                btnDatosBarras.setVisibility(View.GONE);
+            }
+        } catch (SQLException e) {
+            btnDatosBarras.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -1026,6 +1125,20 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
             if(!etOperacionEfectuada.getText().toString().equals(""))
                 msg += etOperacionEfectuada.getText() + "\n";
             etOperacionEfectuada.setText(msg + result.get(0));
+        }
+
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK){
+            var result = data.getStringExtra("scan_result");
+
+            try {
+                var maq = ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()).get(0);
+                ArticuloParteDAO.actualizarN_Serie(getContext(), maq.getId(), result);
+                btnDatosBarras.setEnabled(false);
+                Toast.makeText(getContext(), "Se ha guardado el nº de serie: " + result, Toast.LENGTH_LONG).show();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (requestCode == 99) {
