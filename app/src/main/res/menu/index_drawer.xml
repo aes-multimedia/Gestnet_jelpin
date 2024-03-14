@@ -6,6 +6,10 @@
             android:icon="@drawable/ic_averias"
             android:title="@string/averias" />
         <item
+            android:id="@+id/avisos_externos"
+            android:icon="@drawable/ic_averias"
+            android:title="Avisos sin asignar" />
+        <item
             android:id="@+id/cierre_dia"
             android:icon="@drawable/ic_cierre_dia"
             android:title="@string/cierre_dia" />

@@ -89,6 +89,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static java.lang.Math.round;
@@ -444,12 +445,20 @@ public class TabFragment3_finalizacion extends Fragment implements View.OnClickL
 
         });
         try {
-            var maq = ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte()).get(0);
-            if (maq != null && maq.getN_serie() != null){
-                btnDatosBarras.setEnabled(false);
-            } else if (maq == null) {
+            var maql = ArticuloParteDAO.buscarArticuloParteFkParte(getContext(), parte.getId_parte());
+
+            if (maql != null && maql.size() > 0 ){
+                var maq = maql.get(0);
+                if (maq != null && maq.getN_serie() != null){
+                    btnDatosBarras.setEnabled(false);
+                } else if (maq == null) {
+                    btnDatosBarras.setVisibility(View.GONE);
+                }
+            } else {
                 btnDatosBarras.setVisibility(View.GONE);
             }
+
+
         } catch (SQLException e) {
             btnDatosBarras.setVisibility(View.GONE);
         }

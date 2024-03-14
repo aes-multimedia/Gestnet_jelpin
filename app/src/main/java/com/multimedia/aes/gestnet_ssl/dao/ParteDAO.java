@@ -790,4 +790,28 @@ public class ParteDAO extends DBHelperMOS{
 
         return true;
     }
+
+    public static List<Parte> buscarTodosLosPartesTecnico(Context context, int fk_tecnico) throws SQLException {
+        cargarDao(context);
+        List<Parte> listadoPartes= dao.queryBuilder().orderBy(Parte.FECHA_VISITA, false).where().eq(Parte.FK_TECNICO, fk_tecnico).query();
+
+        if(listadoPartes.isEmpty()) {
+            return null;
+        }else{
+            return listadoPartes;
+        }
+    }
+
+    public static List<Parte> buscarTodosLosPartesExterno(Context context) throws SQLException {
+        cargarDao(context);
+        List<Parte> listadoPartes= dao.queryBuilder().orderBy(Parte.FECHA_VISITA,false).where()
+                .isNull(Parte.FK_TECNICO).or().eq(Parte.FK_TECNICO, "-1").query();
+
+        if(listadoPartes.isEmpty()) {
+            return null;
+        }else{
+            return listadoPartes;
+        }
+    }
+
 }

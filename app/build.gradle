@@ -17,10 +17,10 @@ android {
         applicationId 'com.multimedia.aes.gestnet_jelpin'
         minSdk 28
         targetSdk 34
-        versionCode 11000
+        versionCode 11100
         // 3 primeros digitos = {MAYOR, MENOR, BUGFIXS }, otros dos digitos son el nº de compilacion
         multiDexEnabled true
-        versionName '1.1.0'
+        versionName '1.1.1'
     }
 
     buildTypes {

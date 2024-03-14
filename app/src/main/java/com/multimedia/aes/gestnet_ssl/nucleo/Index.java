@@ -3,14 +3,18 @@ package com.multimedia.aes.gestnet_ssl.nucleo;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,7 +36,6 @@ import com.multimedia.aes.gestnet_ssl.SharedPreferences.GestorSharedPreferences;
 import com.multimedia.aes.gestnet_ssl.adaptador.AdaptadorPartes;
 import com.multimedia.aes.gestnet_ssl.adaptador.AdaptadorPartes_trenc;
 import com.multimedia.aes.gestnet_ssl.constantes.BBDDConstantes;
-import com.multimedia.aes.gestnet_ssl.dao.ArticuloDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ClienteDAO;
 import com.multimedia.aes.gestnet_ssl.dao.ConfiguracionDAO;
 import com.multimedia.aes.gestnet_ssl.dao.DatosAdicionalesDAO;
@@ -45,7 +48,6 @@ import com.multimedia.aes.gestnet_ssl.dialogo.Dialogo;
 import com.multimedia.aes.gestnet_ssl.dialogo.DialogoBuscarArticulo;
 import com.multimedia.aes.gestnet_ssl.dialogo.DialogoKilometros;
 import com.multimedia.aes.gestnet_ssl.entidades.Cliente;
-import com.multimedia.aes.gestnet_ssl.entidades.Configuracion;
 import com.multimedia.aes.gestnet_ssl.entidades.DatosAdicionales;
 import com.multimedia.aes.gestnet_ssl.entidades.Envio;
 import com.multimedia.aes.gestnet_ssl.entidades.Parte;
@@ -53,13 +55,13 @@ import com.multimedia.aes.gestnet_ssl.entidades.Usuario;
 import com.multimedia.aes.gestnet_ssl.fragments.FragmentImpresion;
 import com.multimedia.aes.gestnet_ssl.fragments.FragmentPartes;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloActualizarStock;
+import com.multimedia.aes.gestnet_ssl.hilos.HiloAsignarParte;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloIniciarParte;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloNoEnviados;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPartes;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPartesId;
 import com.multimedia.aes.gestnet_ssl.hilos.HiloPorFecha;
 import com.multimedia.aes.gestnet_ssl.notification.GcmIntentService;
-import com.multimedia.aes.gestnet_ssl.servicios.ServicioArticulos;
 import com.multimedia.aes.gestnet_ssl.servicios.ServicioLocalizacion;
 
 import org.json.JSONException;
@@ -85,6 +87,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
     private String fecha;
     private Usuario u;
     private Cliente c;
+    private boolean externos = false;
 
     //METODO
     private void inicializarVariables() {
@@ -92,7 +95,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -101,9 +104,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         srl.setOnRefreshListener(this);
         lvIndex = findViewById(R.id.lvIndex);
         lvIndex.setOnItemClickListener(this);
-        ivIncidencias = navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
-        ivIncidencias.setOnClickListener(this);
+        /*ivIncidencias = navigationView.getHeaderView(0).findViewById(R.id.ivIncidencias);
+        ivIncidencias.setOnClickListener(this);*/
         cuerpo = findViewById(R.id.cuerpo);
+
+        externos = getIntent().getBooleanExtra("externos", false);
+
+
     }
 
     public void sacarMensaje(String msg) {
@@ -112,13 +119,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         builder1.setMessage(msg);
         builder1.setCancelable(true);
         builder1.setPositiveButton(
-            "Aceptar",
-            new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                    finish();
-                }
-            });
+                "Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
         AlertDialog alert11 = builder1.create();
         alert11.setCanceledOnTouchOutside(false);
         alert11.setCanceledOnTouchOutside(false);
@@ -172,11 +179,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         return dateFormat.format(date);
     }
 
-    private void actualizarFecha(String fecha) {
-
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,8 +188,6 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         try {
             u = UsuarioDAO.buscarUsuario(this);
             c = ClienteDAO.buscarCliente(this);
-
-            // TODO: rehacer servicio de geolocalización
             /*if (ArticuloDAO.buscarTodosLosArticulos(this) == null) {
                 startService(new Intent(this, ServicioArticulos.class));
             } else {
@@ -195,7 +195,16 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             }*/
             arrayListParte.clear();
             if (ParteDAO.buscarTodosLosPartes(this) != null) {
-                arrayListParte.addAll(ParteDAO.buscarTodosLosPartes(this));
+                List<Parte> partes;
+                if(externos){
+                    partes = ParteDAO.buscarTodosLosPartesExterno(this);
+                } else {
+                    partes = ParteDAO.buscarTodosLosPartesTecnico(this, UsuarioDAO.buscarUsuario(getApplicationContext()).getFk_entidad());
+                }
+
+
+                if (partes != null)
+                    arrayListParte.addAll(partes);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -208,16 +217,11 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             fecha = dia;
             setTitle("Avisos" + " " + fecha);
         } catch (JSONException e) {
-            e.printStackTrace();
+
         }
-        
-        if(c.getId_cliente()==28){
-            adaptadorPartes_trenc = new AdaptadorPartes_trenc(this, R.layout.camp_adapter_list_view_parte_trenc, arrayListParte);
-            lvIndex.setAdapter(adaptadorPartes_trenc);
-        }else{
-            adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
-            lvIndex.setAdapter(adaptadorPartes);
-        }
+
+        adaptadorPartes = new AdaptadorPartes(this, R.layout.camp_adapter_list_view_parte, arrayListParte);
+        lvIndex.setAdapter(adaptadorPartes);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -272,7 +276,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                 GcmIntentService.cerrarNotificacion(notId);
             }
         }
-        
+
         try {
             //Configuracion co = ConfiguracionDAO.buscarTodasLasConfiguraciones(this).get(0);
             if (ConfiguracionDAO.buscarTodasLasConfiguraciones(this) != null && ConfiguracionDAO.buscarTodasLasConfiguraciones(this).get(0).isKms_finalizacion()) {
@@ -306,10 +310,15 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if(externos){
+            setTitle("Avisos sin Asignar");
+        }
     }
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -327,7 +336,8 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         int id = item.getItemId();
         if (id == R.id.averias) {
             finish();
-            startActivity(getIntent());
+            Intent i = new Intent(this, Index.class);
+            startActivity(i);
 
         } else if (id == R.id.mi_firma) {
             Intent i = new Intent(this, MiFirma.class);
@@ -335,7 +345,13 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         } else if (id == R.id.cierre_dia) {
             Intent i = new Intent(this, CierreDia.class);
             startActivity(i);
-        } else if (id == R.id.aviso_guardia) {
+        }
+        else if (id == R.id.avisos_externos){
+            Intent i = new Intent(this, Index.class);
+            i.putExtra("externos", true);
+            startActivity(i);
+        }
+        else if (id == R.id.aviso_guardia) {
             String ip = c.getIp_cliente();
             String fk_tecnico = u.getFk_entidad() + "";
             String url = "http://" + ip + "/webservices/webview/avisoGuardia.php?fk_tecnico=" + fk_tecnico;
@@ -393,43 +409,43 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
             builder1.setMessage("¿Se enviaran todos los cambios pendientes, desea continuar?");
             builder1.setCancelable(true);
             builder1.setPositiveButton(
-                "Enviar cambios.",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        try {
-                            if (EnvioDAO.buscarTodosLosEnvios(Index.this) != null) {
-                                List<Envio> envios = EnvioDAO.buscarTodosLosEnvios(Index.this);
-                                for (Envio envio : envios) {
-                                    new HiloNoEnviados(Index.this, envio.getId_envio()).execute();
+                    "Enviar cambios.",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            try {
+                                if (EnvioDAO.buscarTodosLosEnvios(Index.this) != null) {
+                                    List<Envio> envios = EnvioDAO.buscarTodosLosEnvios(Index.this);
+                                    for (Envio envio : envios) {
+                                        new HiloNoEnviados(Index.this, envio.getId_envio()).execute();
+                                    }
+                                } else {
+                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(Index.this);
+                                    builder1.setMessage("No hay Cambios pendientes.");
+                                    builder1.setCancelable(true);
+                                    builder1.setPositiveButton(
+                                            "Aceptar",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+                                    AlertDialog alert11 = builder1.create();
+                                    alert11.setCanceledOnTouchOutside(false);
+                                    alert11.show();
                                 }
-                            } else {
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(Index.this);
-                                builder1.setMessage("No hay Cambios pendientes.");
-                                builder1.setCancelable(true);
-                                builder1.setPositiveButton(
-                                    "Aceptar",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                                AlertDialog alert11 = builder1.create();
-                                alert11.setCanceledOnTouchOutside(false);
-                                alert11.show();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
                             }
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                            dialog.cancel();
                         }
-                        dialog.cancel();
-                    }
-                });
+                    });
             builder1.setNegativeButton(
-                "Cancelar",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                    "Cancelar",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
             AlertDialog alert11 = builder1.create();
             alert11.setCanceledOnTouchOutside(false);
             alert11.show();
@@ -474,6 +490,36 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, @NonNull View view , int i, long l) {
+
+        if (externos){
+            Context c = this;
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(c);
+            builder1.setMessage(Html.fromHtml("¿Quieres asignarte esta tarea?", Html.FROM_HTML_MODE_LEGACY));
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "Aceptar",
+                    (dialog, id) -> {
+
+                        dialog.dismiss();
+                        try {
+                            new HiloAsignarParte(c, ParteDAO.buscarPartePorId(c, Integer.parseInt(view.getTag().toString()))).execute();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+            builder1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alert11 = builder1.create();
+            alert11.setCanceledOnTouchOutside(false);
+            alert11.show();
+            return;
+        }
+
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", view.getTag());
@@ -506,9 +552,7 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
                     fragment = (Fragment) fragmentClass.newInstance();
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.cuerpo, fragment).commit();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
+                } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
@@ -555,24 +599,20 @@ public class Index extends AppCompatActivity implements NavigationView.OnNavigat
         if (envios != null && envios.size() > 0) {
 
             new AlertDialog.Builder(this).setMessage("Por favor, antes de continuar envie los cierres pendientes.")
-                .setCancelable(false)
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface hi, int dd) {
+                    .setCancelable(false)
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface hi, int dd) {
 
-                            srl.setRefreshing(false);
-                        }
-                    }
-                ).show();
+                                    srl.setRefreshing(false);
+                                }
+                            }
+                    ).show();
 
         } else {
 
 
             JSONObject js = new JSONObject();
-            try {
-                js.put("dia", fechar);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            //js.put("dia", fechar);
             GestorSharedPreferences.setJsonDia(GestorSharedPreferences.getSharedPreferencesDia(Index.this), js);
             try {
                 BBDDConstantes.borrarDatosTablasPorDia(this);

@@ -1,7 +1,9 @@
 package com.multimedia.aes.gestnet_ssl.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,10 +13,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -86,8 +90,8 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
     private Maquina maquina = null;
     private DatosAdicionales datos;
     private Switch swEdicion;
-    private TextView txtGama, txtTipo, txtMarcaDatos, txtModeloDatos, txtNSerieDatos, txtAntiguoDatos, txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular, txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
-    private EditText etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico,etmailFirmante;
+    private TextView txtNSerieDatos, txtGama, txtTipo, txtMarcaDatos, txtModeloDatos, txtAntiguoDatos, txtNumParte, txtCreadoPor, txtMaquina, txtTipoIntervencion, txtSituacionEquipo, txtDierccionTitular, txtSintomas, txtHoraInicio, txtSintomaLista, txtNombreContrato, txtEstadoParte, txtNumOrden, txtVerPresupuesto;
+    private EditText  etNombreTitular, etDni, etTelefono1, etTelefono2, etTelefono3, etTelefono4, etObservaciones, etCorreoElectronico,etmailFirmante;
     private Button btnIniciarParte, btnClienteAusente, btnImprimir,btnSendMail, btnVerDocumentos, btnImagenes,
             btnAñadirPresupuesto, btnVerPresupuesto, btnVerIntervenciones, btnGuardarDatos;
     private ImageButton ibLocation, ibIr;
@@ -130,6 +134,49 @@ public class TabFragment1_cliente extends Fragment implements View.OnClickListen
         txtModeloDatos = vista.findViewById(R.id.txtModeloDatos);
         txtNSerieDatos = vista.findViewById(R.id.txtNSerieDatos);
         txtAntiguoDatos = vista.findViewById(R.id.txtAntiguoDatos);
+        //txtNSerieDatos.setEnabled(false);
+        txtNSerieDatos.setOnClickListener(v -> {
+            LinearLayout container = new LinearLayout(getContext());
+            EditText edittext = new EditText(getContext());
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+            container.setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(30, 20, 30, 10);
+            edittext.setPadding(10, 5, 10, 5);
+            edittext.setGravity(android.view.Gravity.TOP | android.view.Gravity.LEFT);
+            edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+            edittext.setText(txtNSerieDatos.getText());
+            edittext.setSingleLine(false);
+            edittext.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            edittext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+            edittext.setLines(5);
+            edittext.setMaxLines(10);
+            container.addView(edittext, lp);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(container);
+            builder.setTitle("¿Añadir num de serie?");
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Obtener el número de serie introducido por el usuario
+                    String serialNumber = edittext.getText().toString().trim();
+                    // Aquí puedes realizar la lógica con el número de serie
+                    if (!serialNumber.isEmpty()) {
+
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            // Mostrar el diálogo
+            builder.show();
+        });
         try {
             var maq = MaquinaDAO.buscarMaquinaPorFkMaquina(getContext(), parte.getFk_maquina());
             txtGama.setText(maq.getGamaTxt());

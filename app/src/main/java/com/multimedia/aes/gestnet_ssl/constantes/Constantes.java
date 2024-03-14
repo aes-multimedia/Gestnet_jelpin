@@ -39,6 +39,6 @@ public class Constantes {
     public static final String URL_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/imagenAccion";
     public static final String URL_IMAGEN_PARTE = "/api-gestnet-datos/v1/partes/imagenParte";
     public static final String URL_BORRAR_IMAGENES_ACCIONES = "/api-gestnet-datos/v1/partes/borrarImagenAccion";
-    public static final String URL_VER_PPTO_PARTE = "";
+    public static final String URL_ASIGNAR_PARTE = "/api-gestnet-datos/v1/partes/AsignarParte";
     public static final String PATH = "/data/data/com.multimedia.aes.gestnet_ssl/app_imageDir";
 }
