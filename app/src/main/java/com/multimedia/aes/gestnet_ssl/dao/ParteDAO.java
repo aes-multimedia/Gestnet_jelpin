@@ -793,7 +793,8 @@ public class ParteDAO extends DBHelperMOS{
 
     public static List<Parte> buscarTodosLosPartesTecnico(Context context, int fk_tecnico) throws SQLException {
         cargarDao(context);
-        List<Parte> listadoPartes= dao.queryBuilder().orderBy(Parte.FECHA_VISITA, false).where().eq(Parte.FK_TECNICO, fk_tecnico).query();
+        List<Parte> listadoPartes= dao.queryBuilder().orderBy(Parte.FECHA_VISITA, false).
+                where().eq(Parte.FK_TECNICO, fk_tecnico).query();
 
         if(listadoPartes.isEmpty()) {
             return null;

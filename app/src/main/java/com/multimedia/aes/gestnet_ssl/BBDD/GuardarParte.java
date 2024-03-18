@@ -911,47 +911,52 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
                     String dni_firmante="";
                     String firma64="";
                     String ticket="";
-                    String nombre_compania;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania").equals("null")) {
-                        nombre_compania = "";
-                    } else {
-                        nombre_compania = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania");
-                    }
-                    String direccion;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion").equals("null")) {
-                        direccion = "";
-                    } else {
-                        direccion = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion");
-                    }
-                    String CIF;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF").equals("null")) {
-                        CIF = "";
-                    } else {
-                        CIF = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF");
-                    }
-                    String telefono1;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1").equals("null")) {
-                        telefono1 = "";
-                    } else {
-                        telefono1 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1");
-                    }
-                    String telefono2;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2").equals("null")) {
-                        telefono2 = "";
-                    } else {
-                        telefono2 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2");
-                    }
-                    String email;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email").equals("null")) {
-                        email = "";
-                    } else {
-                        email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
-                    }
-                    String politicaPrivacidad;
-                    if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad").equals("null")) {
-                        politicaPrivacidad = "";
-                    } else {
-                        politicaPrivacidad = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad");
+                    String nombre_compania = "";
+                    String direccion = "";
+                    String telefono1 = "";
+                    String telefono2 = "";
+                    String CIF = "";
+                    String email = "";
+                    String politicaPrivacidad = "";
+
+                    try {
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania").equals("null")) {
+                            nombre_compania = "";
+                        } else {
+                            nombre_compania = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("nombre_compania");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion").equals("null")) {
+                            direccion = "";
+                        } else {
+                            direccion = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("direccion");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF").equals("null")) {
+                            CIF = "";
+                        } else {
+                            CIF = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("CIF");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1").equals("null")) {
+                            telefono1 = "";
+                        } else {
+                            telefono1 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono1");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2").equals("null")) {
+                            telefono2 = "";
+                        } else {
+                            telefono2 = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("telefono2");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email").equals("null")) {
+                            email = "";
+                        } else {
+                            email = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("email");
+                        }
+                        if (jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad").equals("null")) {
+                            politicaPrivacidad = "";
+                        } else {
+                            politicaPrivacidad = jsonArray.getJSONObject(i).getJSONObject("empresa").getString("politicaPrivacidad");
+                        }
+                    }catch (Exception e) {
+
                     }
 
                     String sintomas = "";
@@ -1021,7 +1026,7 @@ public class GuardarParte extends AsyncTask<Void,Void,Void> {
 
 
                     String url_presupuesto ="";
-                    if (esta){
+                    if (esta) {
                         ParteDAO.actualizarParte(context, id_parte, fk_user_creador, fk_compania, fk_tecnico, fk_usuario,
                                 fk_direccion, fk_maquina, fecha_creacion, fecha_aviso,
                                 fecha_visita, visita_duplicada, fecha_reparacion, num_parte,
